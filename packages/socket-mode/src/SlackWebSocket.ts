@@ -47,7 +47,7 @@ export interface SlackWebSocketOptions {
    */
   serverPingTimeoutMS: number;
   /**
-   * @description How many milliseconds to wait between ping events from the server before deeming the connection
+   * @description How many milliseconds to wait for a pong response after sending a ping before deeming the connection
    * stale. Defaults to 5,000.
    */
   clientPingTimeoutMS: number;

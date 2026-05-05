@@ -46,7 +46,10 @@ export interface SocketModeOptions {
    */
   clientOptions?: Omit<WebClientOptions, 'logLevel' | 'logger'>;
   /**
-   * An undici `Dispatcher` used for both the WebSocket connection and HTTP API calls.
+   * An undici `Dispatcher` used for the WebSocket connection and, if no custom `fetch` is provided
+   * via `clientOptions`, also wrapped into a custom fetch for HTTP API calls.
+   * If `clientOptions.fetch` is already defined, the dispatcher is only used for the WebSocket connection.
+   *
    * Use this to configure proxies (e.g. `new ProxyAgent('http://proxy:3128')`) or custom TLS behavior.
    *
    * @see https://undici.nodejs.org/#/docs/api/ProxyAgent

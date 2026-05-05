@@ -1,7 +1,9 @@
 import assert from 'node:assert/strict';
 import { afterEach, beforeEach, describe, it } from 'node:test';
 import { ConsoleLogger } from '@slack/logger';
+import proxyquire from 'proxyquire';
 import sinon from 'sinon';
+import type { Dispatcher } from 'undici';
 
 import logModule from './logger';
 import { SocketModeClient } from './SocketModeClient';
@@ -29,7 +31,48 @@ describe('SocketModeClient', () => {
       new SocketModeClient({ appToken: 'xapp-' });
       assert.strictEqual(logFactory.called, true);
     });
+    describe('dispatcher option', () => {
+      let capturedWebClientOptions: Record<string, unknown>;
+      let ProxiedSocketModeClient: typeof SocketModeClient;
+
+      beforeEach(() => {
+        capturedWebClientOptions = {};
+        ProxiedSocketModeClient = proxyquire('./SocketModeClient', {
+          '@slack/web-api': {
+            WebClient: class {
+              constructor(_token: string, options: Record<string, unknown>) {
+                capturedWebClientOptions = options;
+              }
+            },
+            addAppMetadata: () => {},
+          },
+        }).SocketModeClient;
+      });
+
+      it('should wrap dispatcher into fetch when no custom fetch is provided', () => {
+        const fakeDispatcher = {} as unknown as Dispatcher;
+        new ProxiedSocketModeClient({ appToken: 'xapp-', dispatcher: fakeDispatcher });
+        assert.strictEqual(typeof capturedWebClientOptions.fetch, 'function');
+      });
+
+      it('should not overwrite fetch when a custom fetch is provided', () => {
+        const fakeDispatcher = {} as unknown as Dispatcher;
+        const customFetch = (() => {}) as unknown as typeof globalThis.fetch;
+        new ProxiedSocketModeClient({
+          appToken: 'xapp-',
+          dispatcher: fakeDispatcher,
+          clientOptions: { fetch: customFetch },
+        });
+        assert.strictEqual(capturedWebClientOptions.fetch, customFetch);
+      });
+
+      it('should leave fetch undefined when no dispatcher is provided', () => {
+        new ProxiedSocketModeClient({ appToken: 'xapp-' });
+        assert.strictEqual(capturedWebClientOptions.fetch, undefined);
+      });
+    });
   });
+  
   describe('start()', () => {
     it('should resolve once Connected state emitted');
     it('should reject once Disconnected state emitted');

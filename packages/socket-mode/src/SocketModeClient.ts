@@ -60,7 +60,8 @@ export class SocketModeClient extends EventEmitter {
   private webClientOptions: WebClientOptions;
 
   /**
-   * The undici Dispatcher used for both WebSocket and HTTP connections.
+   * The undici Dispatcher used for WebSocket connections. Also wrapped into a custom fetch for HTTP calls
+   * unless `clientOptions.fetch` was provided by the user.
    */
   private dispatcher?: Dispatcher;
 
@@ -126,10 +127,12 @@ export class SocketModeClient extends EventEmitter {
       this.logger = log.getLogger(SocketModeClient.loggerName, logLevel ?? LogLevel.INFO, logger);
     }
     this.webClientOptions = clientOptions;
-    if (this.dispatcher) {
+    if (dispatcher && this.webClientOptions.fetch === undefined) {
       const { dispatcher } = this;
-      this.webClientOptions.fetch = ((input: Parameters<typeof undiciFetch>[0], init?: Parameters<typeof undiciFetch>[1]) =>
-        undiciFetch(input, { ...init, dispatcher })) as unknown as typeof globalThis.fetch;
+      this.webClientOptions.fetch = ((
+        input: Parameters<typeof undiciFetch>[0],
+        init?: Parameters<typeof undiciFetch>[1],
+      ) => undiciFetch(input, { ...init, dispatcher })) as unknown as typeof globalThis.fetch;
     }
     if (this.webClientOptions.retryConfig === undefined) {
       // For faster retries of apps.connections.open API calls for reconnecting
