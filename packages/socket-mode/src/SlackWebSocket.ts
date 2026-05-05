@@ -235,8 +235,6 @@ export class SlackWebSocket {
    * Clean up any underlying intervals, timeouts and the WebSocket.
    */
   private cleanup(): void {
-    clearTimeout(this.serverPingTimeout);
-    clearInterval(this.clientPingTimeout);
     if (this.websocket) {
       if (this.openHandler) this.websocket.removeEventListener('open', this.openHandler);
       if (this.errorHandler) this.websocket.removeEventListener('error', this.errorHandler);
@@ -252,6 +250,8 @@ export class SlackWebSocket {
     this.pingHandler = null;
     this.pongHandler = null;
     this.websocket = null;
+    clearTimeout(this.serverPingTimeout);
+    clearInterval(this.clientPingTimeout);
     // Emit event back to client letting it know connection has closed (in case it needs to reconnect if
     // reconnecting is enabled)
     this.options.client.emit('close');
