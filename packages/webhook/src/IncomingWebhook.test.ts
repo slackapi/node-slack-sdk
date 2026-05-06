@@ -116,5 +116,25 @@ describe('IncomingWebhook', () => {
         }
       });
     });
+
+    describe('User-Agent header', () => {
+      it('should send the User-Agent header with every request', async () => {
+        const scope = nock('https://hooks.slack.com', {
+          reqheaders: {
+            'User-Agent': (value) => {
+              return /@slack:webhook/.test(value);
+            },
+          },
+        })
+          .post(/services/)
+          .reply(200, 'ok');
+        try {
+          const webhook = new IncomingWebhook(url);
+          await webhook.send('Hello');
+        } finally {
+          scope.done();
+        }
+      });
+    });
   });
 });
