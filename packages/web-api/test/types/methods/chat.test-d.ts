@@ -33,6 +33,10 @@ expectAssignable<Parameters<typeof web.chat.appendStream>>([
     ts: '1234.56',
     chunks: [
       {
+        type: 'blocks',
+        blocks: [{ type: 'section', text: { type: 'mrkdwn', text: 'Hello' } }],
+      },
+      {
         type: 'markdown_text',
         text: 'Hello world',
       },
@@ -790,6 +794,10 @@ expectAssignable<Parameters<typeof web.chat.startStream>>([
     thread_ts: '1234.56',
     chunks: [
       {
+        type: 'blocks',
+        blocks: [{ type: 'section', text: { type: 'mrkdwn', text: 'Hello' } }],
+      },
+      {
         type: 'markdown_text',
         text: 'Hello world',
       },
@@ -913,6 +921,10 @@ expectAssignable<Parameters<typeof web.chat.stopStream>>([
     channel: 'C1234',
     ts: '1234.56',
     chunks: [
+      {
+        type: 'blocks',
+        blocks: [{ type: 'section', text: { type: 'mrkdwn', text: 'Hello' } }],
+      },
       {
         type: 'markdown_text',
         text: 'Hello world',
