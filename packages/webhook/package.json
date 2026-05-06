@@ -43,7 +43,7 @@
   "dependencies": {
     "@slack/types": "^2.20.1",
     "@types/node": ">=18",
-    "axios": "^1.15.0"
+    "axios": "^1.16.0"
   },
   "devDependencies": {
     "nock": "^14.0.6"
