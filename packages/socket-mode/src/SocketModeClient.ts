@@ -302,7 +302,7 @@ export class SocketModeClient extends EventEmitter {
       this.logger.debug('Unexpected binary message received, ignoring.');
       return;
     }
-    const payload = data as string;
+    const payload = typeof data === 'string' ? data : new TextDecoder().decode(data);
     // TODO: should we redact things in here?
     this.logger.debug(`Received a message on the WebSocket: ${payload}`);
 
