@@ -113,7 +113,7 @@ export interface ActionsBlock extends Block {
 }
 
 /**
- * @description A prominent notice block for displaying warnings, status updates, or other important information.
+ * @description Displays alerts, warnings, and informational messages.
  * @see {@link https://docs.slack.dev/reference/block-kit/blocks/alert-block Alert block reference}.
  */
 export interface AlertBlock extends Block {
@@ -132,8 +132,7 @@ export interface AlertBlock extends Block {
 }
 
 /**
- * @description A rich display block for presenting structured content such as recommendations, results, or work items.
- * At least one of `hero_image`, `title`, `actions`, or `body` must be provided.
+ * @description Displays content in a card. At least one of `hero_image`, `title`, `actions`, or `body` must be provided.
  * @see {@link https://docs.slack.dev/reference/block-kit/blocks/card-block Card block reference}.
  */
 export interface CardBlock extends Block {
@@ -171,7 +170,7 @@ export interface CardBlock extends Block {
 }
 
 /**
- * @description A horizontally scrollable collection of {@link CardBlock} elements.
+ * @description Displays related card blocks in a horizontally-scrolling container.
  * @see {@link https://docs.slack.dev/reference/block-kit/blocks/carousel-block Carousel block reference}.
  */
 export interface CarouselBlock extends Block {
