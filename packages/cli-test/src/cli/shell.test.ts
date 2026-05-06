@@ -65,11 +65,12 @@ describe('shell module', () => {
       const fakeArgs = ['"hi there"'];
       shell.runCommandSync(fakeCmd, fakeArgs);
       sandbox.assert.calledOnce(assembleSpy);
+      const expectedShell = process.platform !== 'win32';
       sandbox.assert.calledWithMatch(
         runSpy,
         sinon.match.string,
         sinon.match.array,
-        sinon.match({ shell: true, env: fakeEnv }),
+        sinon.match({ shell: expectedShell, env: fakeEnv }),
       );
     });
     it('should return the command outputs unchanged', () => {
@@ -124,11 +125,12 @@ describe('shell module', () => {
       const fakeArgs = ['"hi there"'];
       shell.spawnProcess(fakeCmd, fakeArgs);
       sandbox.assert.calledOnce(assembleSpy);
+      const expectedShell = process.platform !== 'win32';
       sandbox.assert.calledWithMatch(
         spawnSpy,
         sinon.match.string,
         sinon.match.array,
-        sinon.match({ shell: true, env: fakeEnv }),
+        sinon.match({ shell: expectedShell, env: fakeEnv }),
       );
     });
     it('should return the command outputs unchanged', () => {
