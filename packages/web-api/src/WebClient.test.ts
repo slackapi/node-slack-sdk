@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import { afterEach, beforeEach, describe, it } from 'node:test';
+import zlib from 'node:zlib';
 import type { ContextActionsBlock } from '@slack/types';
 import axios, { type InternalAxiosRequestConfig } from 'axios';
 import nock, { type ReplyHeaders } from 'nock';
@@ -463,6 +464,44 @@ describe('WebClient', () => {
         assert.ok(error instanceof Error);
         assert.ok(e.original instanceof Error);
       }
+    });
+
+    it('should set error.body to the raw string when HTTP error response is not valid JSON', async () => {
+      const htmlBody = '<html><body><h1>502 Bad Gateway</h1></body></html>';
+      const scope = nock('https://slack.com').post(/api/).reply(502, htmlBody);
+      const client = new WebClient(token, { retryConfig: { retries: 0 } });
+      try {
+        await client.apiCall('method');
+        assert.fail('expected error to be thrown');
+      } catch (error) {
+        const e = error as WebAPIHTTPError;
+        assert.strictEqual(e.code, ErrorCode.HTTPError);
+        assert.strictEqual(e.statusCode, 502);
+        assert.strictEqual(e.body, htmlBody);
+      } finally {
+        scope.done();
+      }
+    });
+
+    describe('admin.analytics.getFile GZIP response', () => {
+      it('should decompress GZIP response and return file_data array', async () => {
+        const fileData = [
+          { date: '2024-01-01', user_id: 'U123', messages_posted: 5 },
+          { date: '2024-01-01', user_id: 'U456', messages_posted: 10 },
+        ];
+        const ndjson = fileData.map((d) => JSON.stringify(d)).join('\n');
+        const gzipped = zlib.gzipSync(Buffer.from(ndjson));
+        const scope = nock('https://slack.com')
+          .post('/api/admin.analytics.getFile')
+          .reply(200, gzipped, { 'content-type': 'application/gzip' });
+        try {
+          const client = new WebClient(token, { retryConfig: rapidRetryPolicy });
+          const result = await client.apiCall('admin.analytics.getFile', { type: 'member' });
+          assert.deepStrictEqual(result.file_data, fileData);
+        } finally {
+          scope.done();
+        }
+      });
     });
 
     it('should properly serialize simple API arguments', async () => {
