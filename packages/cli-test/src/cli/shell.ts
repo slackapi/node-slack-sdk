@@ -251,7 +251,7 @@ export const shell = {
 };
 
 /**
- * @description Returns arguments used to pass into child_process.spawn or spawnSync. Handles Windows-specifics.
+ * @description Returns arguments used to pass into child_process.spawn or spawnSync.
  */
 function getSpawnArguments(
   command: string,
@@ -259,20 +259,6 @@ function getSpawnArguments(
   env: ReturnType<typeof shell.assembleShellEnv>,
   shellOpts?: Partial<child.SpawnOptionsWithoutStdio>,
 ): [string, string[], child.SpawnOptionsWithoutStdio] {
-  if (process.platform === 'win32') {
-    // Spawn the CLI binary directly without cmd.exe. Using cmd.exe or shell:true
-    // causes processes to hang in Windows Docker containers due to pipe handle
-    // inheritance from the Docker entrypoint.
-    return [
-      command,
-      args,
-      {
-        shell: false,
-        env,
-        ...shellOpts,
-      },
-    ];
-  }
   return [
     command,
     args,
