@@ -78,21 +78,6 @@ describe('IncomingWebhook', () => {
       });
     });
 
-    describe('User-Agent header', () => {
-      it('should send the User-Agent header with every request', async () => {
-        let capturedHeaders: HeadersInit | undefined;
-        const capturingFetch: typeof globalThis.fetch = async (_input, init) => {
-          capturedHeaders = init?.headers;
-          return new Response('ok', { status: 200 });
-        };
-        const webhook = new IncomingWebhook(url, { fetch: capturingFetch });
-        await webhook.send('Hello');
-        assert.ok(capturedHeaders);
-        const headers = capturedHeaders as Record<string, string>;
-        assert.strictEqual(headers['User-Agent'], getUserAgent());
-      });
-    });
-
     describe('when the call fails', () => {
       let statusCode: number;
       let scope: nock.Scope;
@@ -149,7 +134,8 @@ describe('IncomingWebhook', () => {
         const scope = nock('https://hooks.slack.com', {
           reqheaders: {
             'User-Agent': (value) => {
-              return /@slack:webhook/.test(value);
+              assert.strictEqual(value, getUserAgent());
+              return true;
             },
           },
         })
