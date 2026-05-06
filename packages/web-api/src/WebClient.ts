@@ -581,6 +581,7 @@ export class WebClient extends Methods {
     const task = () =>
       this.requestQueue.add(async () => {
         // apps.event.authorizations.list will reject HTTP requests that send token in the body
+        // TODO: consider applying this change to all methods - though that will require thorough integration testing
         if (url.endsWith('apps.event.authorizations.list')) {
           body.token = undefined;
         }
@@ -614,11 +615,21 @@ export class WebClient extends Methods {
                 throw new AbortError(rateLimitedErrorWithDelay(retrySec));
               }
               this.logger.info(`API Call failed due to rate limiting. Will retry in ${retrySec} seconds.`);
+              // pause the request queue and then delay the rejection by the amount of time in the retry header
               this.requestQueue.pause();
+              // NOTE: if there was a way to introspect the current RetryOperation and know what the next timeout
+              // would be, then we could subtract that time from the following delay, knowing that the next
+              // attempt still wouldn't occur until after the rate-limit header has specified. An even better
+              // solution would be to subtract the time from only the timeout of this next attempt of the
+              // RetryOperation. This would result in staying paused for the entire duration specified in the
+              // header, yet this operation not having to pay the timeout cost in addition to that.
               await delay(retrySec * 1000);
+              // resume the request queue and throw a non-abort error to signal a retry
               this.requestQueue.start();
+              // TODO: We may want to have more detailed info such as team_id, params except tokens, and so on.
               throw new Error(`A rate limit was exceeded (url: ${url}, retry-after: ${retrySec})`);
             }
+            // TODO: turn this into some CodedError
             throw new AbortError(
               new Error(
                 `Retry header did not contain a valid timeout (url: ${url}, retry-after header: ${response.headers.get('retry-after')})`,
@@ -670,7 +681,8 @@ export class WebClient extends Methods {
 
   /**
    * Transforms a key-value object into a serialized body suitable for fetch.
-   * Returns either a FormData (for binary uploads) or a URL-encoded string,
+   * Flattens complex objects into JSON-encoded strings, detects binary content,
+   * and returns either a FormData (for binary uploads) or a URL-encoded string,
    * along with any content-type headers that should be set.
    */
   private serializeBody(data: Record<string, unknown>): {
@@ -697,6 +709,7 @@ export class WebClient extends Methods {
       return [key, serializedValue];
     });
 
+    // A body with binary content should be serialized as multipart/form-data
     if (containsBinaryData) {
       this.logger.debug('Request arguments contain binary data');
       const form = new FormData();
@@ -705,6 +718,8 @@ export class WebClient extends Methods {
         if (Buffer.isBuffer(value)) {
           // biome-ignore lint/suspicious/noExplicitAny: form values can be anything
           const streamOrBuffer: any = value as any;
+          // attempt to find filename from `value`
+          // formidable and the browser add a name property; fs streams have a path property
           let filename = defaultFilename;
           if (typeof streamOrBuffer.name === 'string') {
             filename = basename(streamOrBuffer.name);
@@ -720,6 +735,7 @@ export class WebClient extends Methods {
       return { serializedBody: form, contentHeaders: {} };
     }
 
+    // Otherwise, serialize as url-encoded key-value pairs
     // biome-ignore lint/suspicious/noExplicitAny: form values can be anything
     const initialValue: { [key: string]: any } = {};
     const encoded = qsStringify(
@@ -748,7 +764,7 @@ export class WebClient extends Methods {
     // biome-ignore lint/suspicious/noExplicitAny: HTTP response data can be anything
     let data: any;
 
-    // Check for GZIP response - if so, it is a successful response from admin.analytics.getFile
+    // admin.analytics.getFile returns a gzip binary response that can be unzipped
     if (isGzipResponse) {
       try {
         const buffer = Buffer.from(await response.arrayBuffer());
@@ -784,6 +800,7 @@ export class WebClient extends Methods {
       try {
         data = JSON.parse(text);
       } catch (_) {
+        // failed to parse the response body as JSON
         data = { ok: false, error: text };
       }
     }
