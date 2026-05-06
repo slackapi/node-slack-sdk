@@ -51,10 +51,10 @@
   },
   "dependencies": {
     "@slack/logger": "^4.0.1",
-    "@slack/web-api": "^8.0.0",
+    "@slack/web-api": "^8.0.0-rc.1",
     "@types/node": ">=20",
     "eventemitter3": "^5",
-    "undici": "^8"
+    "undici": "^7.25.0"
   },
   "devDependencies": {
     "@types/proxyquire": "^1.3.31",

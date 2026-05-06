@@ -689,6 +689,8 @@ export class WebClient extends Methods {
       if (Buffer.isBuffer(value)) {
         containsBinaryData = true;
       } else if (typeof value !== 'string' && typeof value !== 'number' && typeof value !== 'boolean') {
+        // if value is anything other than string, number, boolean, binary data, a Stream, or a Buffer, then encode it
+        // as a JSON string.
         serializedValue = JSON.stringify(value);
       }
 

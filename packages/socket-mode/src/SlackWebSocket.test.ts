@@ -4,6 +4,7 @@ import { ConsoleLogger } from '@slack/logger';
 import EventEmitter from 'eventemitter3';
 import proxyquire from 'proxyquire';
 import sinon from 'sinon';
+import { CloseEvent, ErrorEvent, MessageEvent } from 'undici';
 
 proxyquire.noPreserveCache();
 
