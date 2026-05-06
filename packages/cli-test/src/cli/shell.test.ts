@@ -65,7 +65,7 @@ describe('shell module', () => {
       const fakeArgs = ['"hi there"'];
       shell.runCommandSync(fakeCmd, fakeArgs);
       sandbox.assert.calledOnce(assembleSpy);
-      const expectedShell = process.platform === 'win32' ? false : true;
+      const expectedShell = process.platform !== 'win32';
       sandbox.assert.calledWithMatch(
         runSpy,
         sinon.match.string,
@@ -92,7 +92,7 @@ describe('shell module', () => {
       const fakeCmd = 'echo';
       const fakeArgs = ['"hi there"'];
       shell.runCommandSync(fakeCmd, fakeArgs);
-      const expectedShell = process.platform === 'win32' ? false : true;
+      const expectedShell = process.platform !== 'win32';
       sandbox.assert.calledWithMatch(
         runSpy,
         fakeCmd,
@@ -110,7 +110,7 @@ describe('shell module', () => {
       const fakeArgs = ['"hi there"'];
       shell.spawnProcess(fakeCmd, fakeArgs);
       sandbox.assert.calledOnce(assembleSpy);
-      const expectedShell = process.platform === 'win32' ? false : true;
+      const expectedShell = process.platform !== 'win32';
       sandbox.assert.calledWithMatch(
         spawnSpy,
         sinon.match.string,
@@ -139,7 +139,7 @@ describe('shell module', () => {
       const fakeCmd = 'echo';
       const fakeArgs = ['"hi there"'];
       shell.spawnProcess(fakeCmd, fakeArgs);
-      const expectedShell = process.platform === 'win32' ? false : true;
+      const expectedShell = process.platform !== 'win32';
       sandbox.assert.calledWithMatch(
         spawnSpy,
         fakeCmd,
