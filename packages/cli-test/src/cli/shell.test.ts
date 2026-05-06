@@ -86,7 +86,7 @@ describe('shell module', () => {
       }, /this is bat country/);
     });
     if (process.platform === 'win32') {
-      it('on Windows, should wrap command to shell out in a `cmd /s /c` wrapper process', () => {
+      it('on Windows, should spawn the command directly without cmd.exe', () => {
         const fakeEnv = { HEY: 'yo' };
         sandbox.stub(shell, 'assembleShellEnv').returns(fakeEnv);
         const fakeCmd = 'echo';
@@ -94,9 +94,9 @@ describe('shell module', () => {
         shell.runCommandSync(fakeCmd, fakeArgs);
         sandbox.assert.calledWithMatch(
           runSpy,
-          'cmd',
-          sinon.match.array.contains(['/s', '/c', fakeCmd, ...fakeArgs]),
-          sinon.match({ shell: true, env: fakeEnv }),
+          fakeCmd,
+          sinon.match.array.contains(fakeArgs),
+          sinon.match({ shell: false, env: fakeEnv }),
         );
       });
     } else {
@@ -147,7 +147,7 @@ describe('shell module', () => {
       }, /this is bat country/);
     });
     if (process.platform === 'win32') {
-      it('on Windows, should wrap command to shell out in a `cmd /s /c` wrapper process', () => {
+      it('on Windows, should spawn the command directly without cmd.exe', () => {
         const fakeEnv = { HEY: 'yo' };
         sandbox.stub(shell, 'assembleShellEnv').returns(fakeEnv);
         const fakeCmd = 'echo';
@@ -155,9 +155,9 @@ describe('shell module', () => {
         shell.spawnProcess(fakeCmd, fakeArgs);
         sandbox.assert.calledWithMatch(
           spawnSpy,
-          'cmd',
-          sinon.match.array.contains(['/s', '/c', fakeCmd, ...fakeArgs]),
-          sinon.match({ shell: true, env: fakeEnv }),
+          fakeCmd,
+          sinon.match.array.contains(fakeArgs),
+          sinon.match({ shell: false, env: fakeEnv }),
         );
       });
     } else {

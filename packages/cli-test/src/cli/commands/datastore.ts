@@ -15,10 +15,10 @@ export interface DatastoreCommandArguments {
 }
 
 /**
- * Used to escape double quotes in JSON strings; this is needed when JSON is passed as a command line argument, which for the datastore commands, it is.
+ * Serializes an object to a JSON string for passing as a command line argument.
  */
 function escapeJSON(obj: Record<string, unknown>): string {
-  return `"${JSON.stringify(obj).replace(/"/g, '\\"')}"`;
+  return JSON.stringify(obj);
 }
 
 /**
