@@ -20,7 +20,7 @@ import {
 import { addAppMetadata } from './instrument';
 import { type Logger, LogLevel } from './logger';
 import { rapidRetryPolicy } from './retry-policies';
-import { buildThreadTsWarningMessage, type WebAPICallResult, WebClient, WebClientEvent } from './WebClient';
+import { buildThreadTsWarningMessage, type FetchFunction, type WebAPICallResult, WebClient, WebClientEvent } from './WebClient';
 
 const token = 'xoxb-faketoken';
 
@@ -117,7 +117,7 @@ describe('WebClient', () => {
     it('should throw error if timeout exceeded', async () => {
       const timeoutOverride = 1; // ms, guaranteed failure
 
-      const slowFetch: typeof globalThis.fetch = (_input, init) =>
+      const slowFetch: FetchFunction = (_input, init) =>
         new Promise((_resolve, reject) => {
           const timer = setTimeout(() => reject(new Error('should have been aborted')), 5000);
           init?.signal?.addEventListener('abort', () => {
@@ -141,7 +141,7 @@ describe('WebClient', () => {
     });
 
     it('should produce a WebAPIRequestError with original when timeout fires', async () => {
-      const slowFetch: typeof globalThis.fetch = (_input, init) =>
+      const slowFetch: FetchFunction = (_input, init) =>
         new Promise((_resolve, reject) => {
           const timer = setTimeout(() => reject(new Error('should have been aborted')), 5000);
           init?.signal?.addEventListener('abort', () => {
@@ -1118,7 +1118,7 @@ describe('WebClient', () => {
   describe('custom fetch', () => {
     it('should use a custom fetch function when provided via constructor', async () => {
       let fetchCalled = false;
-      const customFetch: typeof globalThis.fetch = async () => {
+      const customFetch: FetchFunction = async () => {
         fetchCalled = true;
         return new Response(JSON.stringify({ ok: true }), {
           status: 200,

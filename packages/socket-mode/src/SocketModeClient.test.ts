@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { afterEach, beforeEach, describe, it } from 'node:test';
 import { ConsoleLogger } from '@slack/logger';
+import type { FetchFunction } from '@slack/web-api';
 import proxyquire from 'proxyquire';
 import sinon from 'sinon';
 import type { Dispatcher } from 'undici';
@@ -57,7 +58,7 @@ describe('SocketModeClient', () => {
 
       it('should not overwrite fetch when a custom fetch is provided', () => {
         const fakeDispatcher = {} as unknown as Dispatcher;
-        const customFetch = (() => {}) as unknown as typeof globalThis.fetch;
+        const customFetch = (() => {}) as unknown as FetchFunction;
         new ProxiedSocketModeClient({
           appToken: 'xapp-',
           dispatcher: fakeDispatcher,

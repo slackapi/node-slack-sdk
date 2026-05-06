@@ -4,7 +4,7 @@ import nock from 'nock';
 
 import type { CodedError } from './errors';
 import { ErrorCode } from './errors';
-import { IncomingWebhook } from './IncomingWebhook';
+import { type FetchFunction, IncomingWebhook } from './IncomingWebhook';
 import { getUserAgent } from './instrument';
 
 const url = 'https://hooks.slack.com/services/FAKEWEBHOOK';
@@ -35,7 +35,7 @@ describe('IncomingWebhook', () => {
 
     it('should use a custom fetch function when provided', async () => {
       let fetchCalled = false;
-      const customFetch: typeof globalThis.fetch = async () => {
+      const customFetch: FetchFunction = async () => {
         fetchCalled = true;
         return new Response('ok', { status: 200 });
       };

@@ -4,7 +4,7 @@ import type { CodedError } from './errors';
 import { httpErrorWithOriginal, requestErrorWithOriginal } from './errors';
 import { getUserAgent } from './instrument';
 
-type FetchFunction = typeof globalThis.fetch;
+export type FetchFunction = typeof globalThis.fetch;
 
 /**
  * A client for Slack's Incoming Webhooks
