@@ -277,7 +277,7 @@ function getSpawnArguments(
     command,
     args,
     {
-      shell: true,
+      shell: false,
       env,
       ...shellOpts,
     },

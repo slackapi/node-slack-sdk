@@ -65,7 +65,7 @@ describe('shell module', () => {
       const fakeArgs = ['"hi there"'];
       shell.runCommandSync(fakeCmd, fakeArgs);
       sandbox.assert.calledOnce(assembleSpy);
-      const expectedShell = process.platform !== 'win32';
+      const expectedShell = false;
       sandbox.assert.calledWithMatch(
         runSpy,
         sinon.match.string,
@@ -86,35 +86,19 @@ describe('shell module', () => {
         shell.runCommandSync('about to explode', []);
       }, /this is bat country/);
     });
-    if (process.platform === 'win32') {
-      it('on Windows, should spawn the command directly without cmd.exe', () => {
-        const fakeEnv = { HEY: 'yo' };
-        sandbox.stub(shell, 'assembleShellEnv').returns(fakeEnv);
-        const fakeCmd = 'echo';
-        const fakeArgs = ['"hi there"'];
-        shell.runCommandSync(fakeCmd, fakeArgs);
-        sandbox.assert.calledWithMatch(
-          runSpy,
-          fakeCmd,
-          sinon.match.array.contains(fakeArgs),
-          sinon.match({ shell: false, env: fakeEnv }),
-        );
-      });
-    } else {
-      it('on non-Windows, should shell out to provided command directly', () => {
-        const fakeEnv = { HEY: 'yo' };
-        sandbox.stub(shell, 'assembleShellEnv').returns(fakeEnv);
-        const fakeCmd = 'echo';
-        const fakeArgs = ['"hi there"'];
-        shell.runCommandSync(fakeCmd, fakeArgs);
-        sandbox.assert.calledWithMatch(
-          runSpy,
-          fakeCmd,
-          sinon.match.array.contains(fakeArgs),
-          sinon.match({ shell: true, env: fakeEnv }),
-        );
-      });
-    }
+    it('should spawn the command directly without a shell', () => {
+      const fakeEnv = { HEY: 'yo' };
+      sandbox.stub(shell, 'assembleShellEnv').returns(fakeEnv);
+      const fakeCmd = 'echo';
+      const fakeArgs = ['"hi there"'];
+      shell.runCommandSync(fakeCmd, fakeArgs);
+      sandbox.assert.calledWithMatch(
+        runSpy,
+        fakeCmd,
+        sinon.match.array.contains(fakeArgs),
+        sinon.match({ shell: false, env: fakeEnv }),
+      );
+    });
   });
 
   describe('spawnProcess method', () => {
@@ -125,7 +109,7 @@ describe('shell module', () => {
       const fakeArgs = ['"hi there"'];
       shell.spawnProcess(fakeCmd, fakeArgs);
       sandbox.assert.calledOnce(assembleSpy);
-      const expectedShell = process.platform !== 'win32';
+      const expectedShell = false;
       sandbox.assert.calledWithMatch(
         spawnSpy,
         sinon.match.string,
@@ -148,35 +132,19 @@ describe('shell module', () => {
         shell.spawnProcess('about to explode', []);
       }, /this is bat country/);
     });
-    if (process.platform === 'win32') {
-      it('on Windows, should spawn the command directly without cmd.exe', () => {
-        const fakeEnv = { HEY: 'yo' };
-        sandbox.stub(shell, 'assembleShellEnv').returns(fakeEnv);
-        const fakeCmd = 'echo';
-        const fakeArgs = ['"hi there"'];
-        shell.spawnProcess(fakeCmd, fakeArgs);
-        sandbox.assert.calledWithMatch(
-          spawnSpy,
-          fakeCmd,
-          sinon.match.array.contains(fakeArgs),
-          sinon.match({ shell: false, env: fakeEnv }),
-        );
-      });
-    } else {
-      it('on non-Windows, should shell out to provided command directly', () => {
-        const fakeEnv = { HEY: 'yo' };
-        sandbox.stub(shell, 'assembleShellEnv').returns(fakeEnv);
-        const fakeCmd = 'echo';
-        const fakeArgs = ['"hi there"'];
-        shell.spawnProcess(fakeCmd, fakeArgs);
-        sandbox.assert.calledWithMatch(
-          spawnSpy,
-          fakeCmd,
-          sinon.match.array.contains(fakeArgs),
-          sinon.match({ shell: true, env: fakeEnv }),
-        );
-      });
-    }
+    it('should spawn the command directly without a shell', () => {
+      const fakeEnv = { HEY: 'yo' };
+      sandbox.stub(shell, 'assembleShellEnv').returns(fakeEnv);
+      const fakeCmd = 'echo';
+      const fakeArgs = ['"hi there"'];
+      shell.spawnProcess(fakeCmd, fakeArgs);
+      sandbox.assert.calledWithMatch(
+        spawnSpy,
+        fakeCmd,
+        sinon.match.array.contains(fakeArgs),
+        sinon.match({ shell: false, env: fakeEnv }),
+      );
+    });
   });
 
   describe('waitForOutput method', () => {
