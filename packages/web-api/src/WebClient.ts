@@ -231,7 +231,7 @@ export class WebClient extends Methods {
 
     this.fetchFn = fetch ?? globalThis.fetch;
     this.timeout = timeout;
-    this.defaultHeaders = { 'User-Agent': getUserAgent(), ...headers };
+    this.defaultHeaders = { 'User-Agent': getUserAgent(), Accept: 'application/json', ...headers };
 
     this.logger.debug('initialized');
   }

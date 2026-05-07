@@ -20,7 +20,13 @@ import {
 import { addAppMetadata } from './instrument';
 import { type Logger, LogLevel } from './logger';
 import { rapidRetryPolicy } from './retry-policies';
-import { buildThreadTsWarningMessage, type FetchFunction, type WebAPICallResult, WebClient, WebClientEvent } from './WebClient';
+import {
+  buildThreadTsWarningMessage,
+  type FetchFunction,
+  type WebAPICallResult,
+  WebClient,
+  WebClientEvent,
+} from './WebClient';
 
 const token = 'xoxb-faketoken';
 
@@ -686,6 +692,32 @@ describe('WebClient', () => {
         .post(/api/)
         .reply(200, { ok: true });
       await client.apiCall('method', { token: 'xoxp-superfake' });
+      scope.done();
+    });
+  });
+
+  describe('apiCall() - default Accept header', () => {
+    it('should include Accept: application/json header by default', async () => {
+      const scope = nock('https://slack.com', {
+        reqheaders: {
+          Accept: 'application/json',
+        },
+      })
+        .post(/api/)
+        .reply(200, { ok: true });
+      await client.apiCall('method');
+      scope.done();
+    });
+    it('should allow overriding Accept header via constructor options', async () => {
+      const customClient = new WebClient(token, { headers: { Accept: 'text/plain' } });
+      const scope = nock('https://slack.com', {
+        reqheaders: {
+          Accept: 'text/plain',
+        },
+      })
+        .post(/api/)
+        .reply(200, { ok: true });
+      await customClient.apiCall('method');
       scope.done();
     });
   });
