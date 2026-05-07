@@ -2,12 +2,9 @@ import 'dotenv/config';
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 import { WebClient } from '@slack/web-api';
-import winston from 'winston';
+import { FileLogger } from '../logger.js';
 
-const logger = winston.createLogger({
-  level: 'debug',
-  transports: [new winston.transports.File({ filename: 'logs/console.log' })],
-});
+const logger = new FileLogger('logs/console.log');
 
 describe('admin.roles.*', () => {
   it('should work', async () => {

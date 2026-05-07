@@ -17,8 +17,7 @@
   "dependencies": {
     "@slack/socket-mode": "file:../packages/socket-mode",
     "@slack/web-api": "file:../packages/web-api",
-    "dotenv": "^16",
-    "winston": "^3.3.3"
+    "dotenv": "^16"
   },
   "devDependencies": {}
 }
