@@ -9,14 +9,13 @@ import { FileLogger } from '../logger.js';
 const logger = new FileLogger('logs/console.log');
 
 describe('admin.* Web APIs', () => {
-  const teamAdminClient = new WebClient(process.env.SLACK_SDK_TEST_GRID_ORG_ADMIN_USER_TOKEN, { logger });
   const primaryTeamId = process.env.SLACK_SDK_TEST_GRID_WORKSPACE_ID;
   const secondaryTeamId = process.env.SLACK_SDK_TEST_GRID_SECONDARY_WORKSPACE_ID;
   const orgAdminClient = new WebClient(process.env.SLACK_SDK_TEST_GRID_ORG_ADMIN_USER_TOKEN, { logger });
 
   describe('admin.conversations.bulk{Archive|Move|Delete}', () => {
     it('should bulk archive conversations using admin.conversations.bulkArchive', async () => {
-      const testChannel = await teamAdminClient.conversations.create({
+      const testChannel = await orgAdminClient.conversations.create({
         name: `test-bulk-archive-${Date.now()}`,
         team_id: primaryTeamId,
       });
@@ -55,7 +54,7 @@ describe('admin.* Web APIs', () => {
     });
 
     it('should bulk delete conversations using admin.conversations.bulkDelete', async () => {
-      const testChannel = await teamAdminClient.conversations.create({
+      const testChannel = await orgAdminClient.conversations.create({
         name: `test-bulk-delete-${Date.now()}`,
         team_id: primaryTeamId,
       });
@@ -87,7 +86,7 @@ describe('admin.* Web APIs', () => {
     });
 
     it('should bulk move conversations using admin.conversations.bulkMove', async () => {
-      const testChannel = await teamAdminClient.conversations.create({
+      const testChannel = await orgAdminClient.conversations.create({
         name: `test-bulk-move-${Date.now()}`,
         team_id: primaryTeamId,
       });

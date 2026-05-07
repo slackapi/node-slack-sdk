@@ -7,13 +7,12 @@ import { FileLogger } from '../logger.js';
 const logger = new FileLogger('logs/console.log');
 
 describe('admin.* Web APIs', () => {
-  const teamAdminClient = new WebClient(process.env.SLACK_SDK_TEST_GRID_ORG_ADMIN_USER_TOKEN, { logger });
   const primaryTeamId = process.env.SLACK_SDK_TEST_GRID_WORKSPACE_ID;
   const orgAdminClient = new WebClient(process.env.SLACK_SDK_TEST_GRID_ORG_ADMIN_USER_TOKEN, { logger });
 
   describe('admin.conversations.{get|set|remove}CustomRetention', () => {
     it('should work', async () => {
-      const creation = await teamAdminClient.conversations.create({
+      const creation = await orgAdminClient.conversations.create({
         name: `test-channel-${Date.now()}`,
         team_id: primaryTeamId,
       });

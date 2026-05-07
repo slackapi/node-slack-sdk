@@ -7,13 +7,12 @@ import { FileLogger } from '../logger.js';
 const logger = new FileLogger('logs/console.log');
 
 describe('admin.users.session.* Web APIs', () => {
-  const teamAdminClient = new WebClient(process.env.SLACK_SDK_TEST_GRID_ORG_ADMIN_USER_TOKEN, { logger });
   const primaryTeamId = process.env.SLACK_SDK_TEST_GRID_WORKSPACE_ID;
   const orgAdminClient = new WebClient(process.env.SLACK_SDK_TEST_GRID_ORG_ADMIN_USER_TOKEN, { logger });
 
   describe('admin.users.session.reset/resetBulk', () => {
     it('should work', async () => {
-      const users = await teamAdminClient.users.list({
+      const users = await orgAdminClient.users.list({
         exclude_archived: true,
         limit: 100,
         team_id: primaryTeamId,

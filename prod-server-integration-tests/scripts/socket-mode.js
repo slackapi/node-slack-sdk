@@ -4,22 +4,26 @@ import { SocketModeClient } from '@slack/socket-mode';
 const appToken = process.env.SLACK_SDK_TEST_SOCKET_MODE_APP_TOKEN;
 const socketModeClient = new SocketModeClient({ appToken, logLevel: 'debug' });
 
-socketModeClient.on('app_mention', async (args) => { // events_api event
+// events_api event
+socketModeClient.on('app_mention', async (args) => {
   console.log(args);
   await args.ack();
 });
 
-socketModeClient.on('interactive', async (args) => { // block_actions, shortcuts, etc.
+// block_actions, shortcuts, etc.
+socketModeClient.on('interactive', async (args) => {
   console.log(args);
   await args.ack();
 });
 
-socketModeClient.on('slash_commands', async (args) => { // slash command invocations
+// slash command invocations
+socketModeClient.on('slash_commands', async (args) => {
   console.log(args);
   await args.ack();
 });
 
-socketModeClient.on('slack_event', async (args) => { // all events (used by bolt-js)
+// all events (used by bolt-js)
+socketModeClient.on('slack_event', async (args) => {
   console.log(args);
   await args.ack();
 });
