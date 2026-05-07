@@ -29,10 +29,10 @@ describe('admin.* Web APIs', () => {
             .bulkArchive({
               channel_ids: [channelId],
             })
-            .catch((error) => {
+            .catch(async (error) => {
               if (error.data.error === 'action_already_in_progress') {
                 isInProgress = true;
-                new Promise((r) => setTimeout(r, 3000));
+                await new Promise((r) => setTimeout(r, 3000));
               } else {
                 throw error;
               }
@@ -67,10 +67,10 @@ describe('admin.* Web APIs', () => {
           .bulkDelete({
             channel_ids: [channelId],
           })
-          .catch((error) => {
+          .catch(async (error) => {
             if (error.data.error === 'action_already_in_progress') {
               isInProgress = true;
-              new Promise((r) => setTimeout(r, 3000));
+              await new Promise((r) => setTimeout(r, 3000));
             } else {
               throw error;
             }
@@ -100,10 +100,10 @@ describe('admin.* Web APIs', () => {
             channel_ids: [channelId],
             target_team_id: secondaryTeamId,
           })
-          .catch((error) => {
+          .catch(async (error) => {
             if (error.data.error === 'action_already_in_progress') {
               isInProgress = true;
-              new Promise((r) => setTimeout(r, 3000));
+              await new Promise((r) => setTimeout(r, 3000));
             } else {
               throw error;
             }
