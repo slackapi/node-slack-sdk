@@ -1,5 +1,12 @@
 # @slack/types
 
+## 2.21.1
+
+### Patch Changes
+
+- 5bc7685: Add `BlocksChunk` type for passing Block Kit blocks within streaming messages
+- 9fa2921: Align Alert, Card, and Carousel block type descriptions with official documentation
+
 ## 2.21.0
 
 ### Minor Changes

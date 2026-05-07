@@ -1,5 +1,27 @@
 # @slack/cli-test
 
+## 3.0.2
+
+### Patch Changes
+
+- 3c4e927: fix: invoke commands without shell intermediate
+
+  Behind the scenes commands are now spawned direct to avoid unexpected input and output redirection or odd argument parsings. This is what happens and what changed:
+
+  Linux:
+
+  ```diff
+  - /bin/sh -c "slack trigger run --workflow #/workflows/give_kudos_workflow"
+  + execvp("slack", ["trigger", "run", "--workflow", "#/workflows/give_kudos_workflow"])
+  ```
+
+  Windows:
+
+  ```diff
+  - cmd.exe /s /c "slack trigger run --workflow #/workflows/give_kudos_workflow"
+  + CreateProcessW("slack", ["trigger", "run", "--workflow", "#/workflows/give_kudos_workflow"])
+  ```
+
 ## 3.0.1
 
 ### Patch Changes

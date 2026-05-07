@@ -2,7 +2,7 @@
 
 # Interface: VideoBlock
 
-Defined in: [block-kit/blocks.ts:553](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L553)
+Defined in: [block-kit/blocks.ts:552](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L552)
 
 ## Description
 
@@ -26,7 +26,7 @@ must have the [\`links.embed:write\` scope](https://docs.slack.dev/reference/sco
 alt_text: string;
 ```
 
-Defined in: [block-kit/blocks.ts:571](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L571)
+Defined in: [block-kit/blocks.ts:570](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L570)
 
 #### Description
 
@@ -40,7 +40,7 @@ A tooltip for the video. Required for accessibility.
 optional author_name: string;
 ```
 
-Defined in: [block-kit/blocks.ts:584](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L584)
+Defined in: [block-kit/blocks.ts:583](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L583)
 
 #### Description
 
@@ -76,7 +76,7 @@ a message. If a message is updated, use a new `block_id`.
 optional description: PlainTextElement;
 ```
 
-Defined in: [block-kit/blocks.ts:596](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L596)
+Defined in: [block-kit/blocks.ts:595](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L595)
 
 #### Description
 
@@ -90,7 +90,7 @@ Description for video using a [PlainTextElement](PlainTextElement.md) object.
 optional provider_icon_url: string;
 ```
 
-Defined in: [block-kit/blocks.ts:592](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L592)
+Defined in: [block-kit/blocks.ts:591](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L591)
 
 #### Description
 
@@ -104,7 +104,7 @@ Icon for the video provider, e.g. YouTube icon.
 optional provider_name: string;
 ```
 
-Defined in: [block-kit/blocks.ts:588](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L588)
+Defined in: [block-kit/blocks.ts:587](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L587)
 
 #### Description
 
@@ -118,7 +118,7 @@ The originating application or domain of the video, e.g. YouTube.
 thumbnail_url: string;
 ```
 
-Defined in: [block-kit/blocks.ts:567](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L567)
+Defined in: [block-kit/blocks.ts:566](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L566)
 
 #### Description
 
@@ -132,7 +132,7 @@ The thumbnail image URL.
 title: PlainTextElement;
 ```
 
-Defined in: [block-kit/blocks.ts:575](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L575)
+Defined in: [block-kit/blocks.ts:574](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L574)
 
 #### Description
 
@@ -146,7 +146,7 @@ Video title as a [PlainTextElement](PlainTextElement.md) object. `text` within m
 optional title_url: string;
 ```
 
-Defined in: [block-kit/blocks.ts:580](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L580)
+Defined in: [block-kit/blocks.ts:579](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L579)
 
 #### Description
 
@@ -161,7 +161,7 @@ Must go to an HTTPS URL.
 type: "video";
 ```
 
-Defined in: [block-kit/blocks.ts:557](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L557)
+Defined in: [block-kit/blocks.ts:556](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L556)
 
 #### Description
 
@@ -179,7 +179,7 @@ The type of block. For a video block, `type` is always `video`.
 video_url: string;
 ```
 
-Defined in: [block-kit/blocks.ts:563](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L563)
+Defined in: [block-kit/blocks.ts:562](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L562)
 
 #### Description
 

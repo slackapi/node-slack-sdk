@@ -2,7 +2,7 @@
 
 # Interface: RichTextBlock
 
-Defined in: [block-kit/blocks.ts:391](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L391)
+Defined in: [block-kit/blocks.ts:390](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L390)
 
 ## Description
 
@@ -51,7 +51,7 @@ a message. If a message is updated, use a new `block_id`.
 elements: RichTextBlockElement[];
 ```
 
-Defined in: [block-kit/blocks.ts:396](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L396)
+Defined in: [block-kit/blocks.ts:395](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L395)
 
 ***
 
@@ -61,7 +61,7 @@ Defined in: [block-kit/blocks.ts:396](https://github.com/slackapi/node-slack-sdk
 type: "rich_text";
 ```
 
-Defined in: [block-kit/blocks.ts:395](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L395)
+Defined in: [block-kit/blocks.ts:394](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L394)
 
 #### Description
 
