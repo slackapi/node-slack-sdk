@@ -65,6 +65,8 @@ export class SocketModeClient extends EventEmitter {
    */
   private dispatcher?: Dispatcher;
 
+  private connectionResponse?: AppsConnectionsOpenResponse;
+
   public websocket?: SlackWebSocket;
 
   /**
@@ -266,6 +268,7 @@ export class SocketModeClient extends EventEmitter {
         throw new Error(msg);
       }
       this.numOfConsecutiveReconnectionFailures = 0;
+      this.connectionResponse = resp;
       this.emit(State.Authenticated, resp);
       return resp.url;
     } catch (error) {
@@ -328,7 +331,7 @@ export class SocketModeClient extends EventEmitter {
 
     // Slack has finalized the handshake with a hello message; we are good to go.
     if (event.type === 'hello') {
-      this.emit(State.Connected);
+      this.emit(State.Connected, this.connectionResponse);
       return;
     }
 

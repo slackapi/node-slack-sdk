@@ -69,6 +69,12 @@ describe('Integration tests with a WebSocket server', { timeout: 30000 }, () => 
       await client.start();
       await client.disconnect();
     });
+    it('start() resolves with the apps.connections.open API response', async () => {
+      const result = await client.start();
+      assert.equal(result.ok, true);
+      assert.equal(result.url, `ws://localhost:${WSS_PORT}/`);
+      await client.disconnect();
+    });
     it('can call `disconnect()` even if already disconnected without issue', async () => {
       await client.disconnect();
     });
