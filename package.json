@@ -20,6 +20,7 @@
   ],
   "scripts": {
     "changeset": "npx @changesets/cli",
+    "clean": "npm run build:clean --workspaces --if-present && git clean -xdf node_modules packages/**/node_modules && git clean -xf '**/package-lock.json'",
     "docs": "npm run docs --workspaces --if-present",
     "lint": "npx @biomejs/biome check packages",
     "lint:fix": "npx @biomejs/biome check --write packages",
