@@ -50,6 +50,9 @@ describe('Web APIs', () => {
     });
   });
 
+  // Prerequisites: two workspace-level bot tokens are needed — one for the sending workspace
+  // (list and send invites) and another for the receiving workspace (accept and approve invites).
+  // A Slack Connect shared channel must be manually created with both bots added as members first.
   describe('Slack Connect conversations.* methods', () => {
     const sender = new WebClient(process.env.SLACK_SDK_TEST_CONNECT_INVITE_SENDER_BOT_TOKEN);
     const receiver = new WebClient(process.env.SLACK_SDK_TEST_CONNECT_INVITE_RECEIVER_BOT_TOKEN);

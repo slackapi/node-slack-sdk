@@ -89,21 +89,7 @@ node scripts/admin/usersSessionSettings.js
 
 ## Environment Variables
 
-See [`.env.sample`](./.env.sample) for the complete list with descriptions. Summary:
-
-| Variable | Source App | Used By |
-|---|---|---|
-| `SLACK_SDK_TEST_BOT_TOKEN` | main-bot-app | web-api, bookmarks, conversations_invite, auth_test, pagination |
-| `SLACK_SDK_TEST_USER_TOKEN` | main-bot-app (user OAuth) | web-api |
-| `SLACK_SDK_TEST_WEB_TEST_CHANNEL_ID` | — (channel in workspace) | chat.scheduleMessage test |
-| `SLACK_SDK_TEST_CONNECT_INVITE_SENDER_BOT_TOKEN` | slack-connect-sender | Slack Connect tests |
-| `SLACK_SDK_TEST_CONNECT_INVITE_RECEIVER_BOT_TOKEN` | slack-connect-receiver | Slack Connect tests |
-| `SLACK_SDK_TEST_CONNECT_INVITE_RECEIVER_BOT_USER_ID` | — (user ID) | Slack Connect tests |
-| `SLACK_SDK_TEST_GRID_ORG_ADMIN_USER_TOKEN` | admin-app (user OAuth) | all admin tests |
-| `SLACK_SDK_TEST_GRID_SECONDARY_WORKSPACE_ID` | — (team ID) | admin bulk move test |
-| `SLACK_SDK_TEST_GRID_USER_ID` | — (user ID, optional) | admin auth policy test |
-| `SLACK_SDK_TEST_SOCKET_MODE_APP_TOKEN` | socket-mode-app | Socket Mode script |
-| `SLACK_TOOLING_TOKEN` | — (configuration token) | apps_manifest_test script |
+See [`.env.sample`](./.env.sample) for the complete list with descriptions.
 
 ## App Manifests
 

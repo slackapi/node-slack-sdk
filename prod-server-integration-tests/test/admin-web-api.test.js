@@ -64,6 +64,8 @@ describe('admin.* Web APIs', () => {
     });
   });
 
+  // Prerequisites: requires an email_password auth policy enabled on the Enterprise Org,
+  // which means having SSO enabled. SLACK_SDK_TEST_GRID_USER_ID must be a user managed by the IDP.
   describe('admin.auth.policy.{assign|get|remove}Entities', () => {
     it('should assign an entity', async () => {
       const res = await orgAdminClient.admin.auth.policy.assignEntities({

@@ -6,6 +6,7 @@ import { FileLogger } from '../logger.js';
 
 const logger = new FileLogger('logs/console.log');
 
+// Bot token must have bookmarks:read, bookmarks:write, and channels:manage scopes.
 describe('bookmarks.* Web APIs', () => {
   const client = new WebClient(process.env.SLACK_SDK_TEST_BOT_TOKEN, { logger });
 
