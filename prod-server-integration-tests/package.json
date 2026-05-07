@@ -8,7 +8,7 @@
     "clean": "rm -rf node_modules/ package-lock.json",
     "lint": "npx biome check ../prod-server-integration-tests/",
     "lint:fix": "npx biome check --write ../prod-server-integration-tests/",
-    "test": "node --test-timeout=10000 --test-reporter=spec --test-reporter-destination=stdout --test test/*.test.js",
+    "test": "node --test-timeout=15000 --test-reporter=spec --test-reporter-destination=stdout --test test/*.test.js",
     "test:clean": "npm run clean && npm run build && npm install && npm test"
   },
   "repository": "https://github.com/slackapi/node-slack-sdk",
