@@ -252,8 +252,6 @@ export const shell = {
 
 /**
  * @description Returns arguments used to pass into child_process.spawn or spawnSync.
- * On Windows, shell is set to false to avoid Docker pipe handle inheritance hangs.
- * On other platforms, shell is set to true for compatibility with Go CLI flag parsing.
  */
 function getSpawnArguments(
   command: string,
@@ -261,35 +259,13 @@ function getSpawnArguments(
   env: ReturnType<typeof shell.assembleShellEnv>,
   shellOpts?: Partial<child.SpawnOptionsWithoutStdio>,
 ): [string, string[], child.SpawnOptionsWithoutStdio] {
-  if (process.platform === 'win32') {
-    return [
-      command,
-      args,
-      {
-        shell: false,
-        env,
-        ...shellOpts,
-      },
-    ];
-  }
-  // Shell-quote each argument to protect special characters (e.g. #) and spaces
   return [
     command,
-    args.map(shellQuote),
+    args,
     {
-      shell: true,
+      shell: false,
       env,
       ...shellOpts,
     },
   ];
-}
-
-/**
- * @description Wraps a string in single quotes for safe shell interpolation.
- * Single quotes prevent all shell interpretation; embedded single quotes are
- * handled by ending the quoted segment, adding an escaped single quote, and
- * restarting the quoted segment.
- */
-function shellQuote(arg: string): string {
-  return `'${arg.replace(/'/g, "'\\''")}'`;
 }
