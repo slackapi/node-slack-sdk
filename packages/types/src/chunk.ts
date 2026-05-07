@@ -1,10 +1,22 @@
 import type { URLSourceElement } from './block-kit/block-elements';
+import type { AnyBlock } from './block-kit/blocks';
+
 /**
  * Base interface for streaming message chunks.
  * https://docs.slack.dev/messaging/sending-and-scheduling-messages#text-streaming
  */
 export interface Chunk {
   type: string;
+}
+
+/**
+ * Used for passing an array of blocks within a streaming message.
+ * https://docs.slack.dev/changelog/2026/04/16/block-kit-new-blocks/
+ */
+export interface BlocksChunk extends Chunk {
+  type: 'blocks';
+  /** @description An array of {@link AnyBlock} objects. Maximum of 50 blocks. */
+  blocks: AnyBlock[];
 }
 
 /**
@@ -42,4 +54,4 @@ export interface TaskUpdateChunk extends Chunk {
 /**
  * Union type of all possible chunk types
  */
-export type AnyChunk = MarkdownTextChunk | PlanUpdateChunk | TaskUpdateChunk;
+export type AnyChunk = BlocksChunk | MarkdownTextChunk | PlanUpdateChunk | TaskUpdateChunk;
