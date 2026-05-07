@@ -2,7 +2,7 @@
 
 # Interface: SectionBlock
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:312
+Defined in: packages/types/dist/block-kit/blocks.d.ts:311
 
 ## Description
 
@@ -26,7 +26,7 @@ combination with text fields, or side-by-side with certain
 optional accessory: SectionBlockAccessory;
 ```
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:333
+Defined in: packages/types/dist/block-kit/blocks.d.ts:332
 
 #### Description
 
@@ -62,7 +62,7 @@ a message. If a message is updated, use a new `block_id`.
 optional expand: boolean;
 ```
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:337
+Defined in: packages/types/dist/block-kit/blocks.d.ts:336
 
 Whether or not this section block's text should always expand when rendered. If false or not provided, it may be rendered with a 'see more' option to expand and show the full text. For AI Assistant apps, this allows the app to post long messages without users needing to click 'see more' to expand the message.
 
@@ -74,7 +74,7 @@ Whether or not this section block's text should always expand when rendered. If 
 optional fields: TextObject[];
 ```
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:329
+Defined in: packages/types/dist/block-kit/blocks.d.ts:328
 
 #### Description
 
@@ -91,7 +91,7 @@ Maximum length for the text in each item is 2000 characters.
 optional text: TextObject;
 ```
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:322
+Defined in: packages/types/dist/block-kit/blocks.d.ts:321
 
 #### Description
 
@@ -107,7 +107,7 @@ is provided instead.
 type: "section";
 ```
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:316
+Defined in: packages/types/dist/block-kit/blocks.d.ts:315
 
 #### Description
 

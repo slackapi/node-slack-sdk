@@ -6,7 +6,7 @@ Defined in: [block-kit/blocks.ts:119](https://github.com/slackapi/node-slack-sdk
 
 ## Description
 
-A prominent notice block for displaying warnings, status updates, or other important information.
+Displays alerts, warnings, and informational messages.
 
 ## See
 

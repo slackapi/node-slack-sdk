@@ -120,6 +120,7 @@
 - [AssistantThreadsSetTitleArguments](interfaces/AssistantThreadsSetTitleArguments.md)
 - [AssistantThreadStartedEvent](interfaces/AssistantThreadStartedEvent.md)
 - [Block](interfaces/Block.md)
+- [BlocksChunk](interfaces/BlocksChunk.md)
 - [BookmarksAddArguments](interfaces/BookmarksAddArguments.md)
 - [BookmarksEditArguments](interfaces/BookmarksEditArguments.md)
 - [BookmarksListArguments](interfaces/BookmarksListArguments.md)

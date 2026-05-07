@@ -2,12 +2,11 @@
 
 # Interface: CardBlock
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:70
+Defined in: packages/types/dist/block-kit/blocks.d.ts:69
 
 ## Description
 
-A rich display block for presenting structured content such as recommendations, results, or work items.
-At least one of `hero_image`, `title`, `actions`, or `body` must be provided.
+Displays content in a card. At least one of `hero_image`, `title`, `actions`, or `body` must be provided.
 
 ## See
 
@@ -25,7 +24,7 @@ At least one of `hero_image`, `title`, `actions`, or `body` must be provided.
 optional actions: Button[];
 ```
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:101
+Defined in: packages/types/dist/block-kit/blocks.d.ts:100
 
 #### Description
 
@@ -61,7 +60,7 @@ a message. If a message is updated, use a new `block_id`.
 optional body: MrkdwnElement;
 ```
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:97
+Defined in: packages/types/dist/block-kit/blocks.d.ts:96
 
 #### Description
 
@@ -76,7 +75,7 @@ Maximum length for the text in this field is 200 characters.
 optional hero_image: ImageElement;
 ```
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:78
+Defined in: packages/types/dist/block-kit/blocks.d.ts:77
 
 #### Description
 
@@ -90,7 +89,7 @@ A top banner image for the card in the form of an [ImageElement](../type-aliases
 optional icon: ImageElement;
 ```
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:82
+Defined in: packages/types/dist/block-kit/blocks.d.ts:81
 
 #### Description
 
@@ -104,7 +103,7 @@ A small icon displayed next to the title and subtitle in the form of an [ImageEl
 optional subtitle: MrkdwnElement;
 ```
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:92
+Defined in: packages/types/dist/block-kit/blocks.d.ts:91
 
 #### Description
 
@@ -119,7 +118,7 @@ Maximum length for the text in this field is 150 characters.
 optional title: MrkdwnElement;
 ```
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:87
+Defined in: packages/types/dist/block-kit/blocks.d.ts:86
 
 #### Description
 
@@ -134,7 +133,7 @@ Maximum length for the text in this field is 150 characters.
 type: "card";
 ```
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:74
+Defined in: packages/types/dist/block-kit/blocks.d.ts:73
 
 #### Description
 
