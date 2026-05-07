@@ -2,7 +2,7 @@
 "@slack/cli-test": patch
 ---
 
-fix(cli-test): invoke commands without shell intermediate
+fix: invoke commands without shell intermediate
 
 Behind the scenes commands are now spawned direct to avoid unexpected input and output redirection or odd argument parsings. This is what happens and what changed:
 
