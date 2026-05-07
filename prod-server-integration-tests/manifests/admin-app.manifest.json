@@ -15,11 +15,7 @@
   },
   "oauth_config": {
     "scopes": {
-      "bot": [
-        "channels:manage",
-        "channels:read",
-        "users:read"
-      ],
+      "bot": ["channels:manage", "channels:read", "users:read"],
       "user": [
         "admin.analytics:read",
         "admin.conversations:read",
@@ -27,7 +23,12 @@
         "admin.roles:read",
         "admin.roles:write",
         "admin.users:read",
-        "admin.users:write"
+        "admin.users:write",
+        "channels:write",
+        "groups:write",
+        "mpim:write",
+        "im:write",
+        "users:read"
       ]
     }
   },

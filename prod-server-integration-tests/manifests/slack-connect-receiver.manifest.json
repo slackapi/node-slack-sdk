@@ -15,10 +15,7 @@
   },
   "oauth_config": {
     "scopes": {
-      "bot": [
-        "conversations.connect:manage",
-        "conversations.connect:read"
-      ]
+      "bot": ["conversations.connect:manage", "conversations.connect:write", "conversations.connect:read"]
     }
   },
   "settings": {

@@ -33,11 +33,7 @@
         "team.preferences:read",
         "users:read"
       ],
-      "user": [
-        "channels:history",
-        "channels:read",
-        "users:read"
-      ]
+      "user": ["channels:history", "channels:read", "users:read"]
     }
   },
   "settings": {

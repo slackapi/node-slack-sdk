@@ -11,7 +11,7 @@ to run the production integration tests.
 | `slack-connect-sender.manifest.json` | Slack Connect sender workspace bot | `SLACK_SDK_TEST_CONNECT_INVITE_SENDER_BOT_TOKEN` |
 | `slack-connect-receiver.manifest.json` | Slack Connect receiver workspace bot | `SLACK_SDK_TEST_CONNECT_INVITE_RECEIVER_BOT_TOKEN` |
 | `socket-mode-app.manifest.json` | Socket Mode listener | `SLACK_SDK_TEST_SOCKET_MODE_APP_TOKEN` |
-| `admin-app.manifest.json` | Enterprise Grid admin operations | `SLACK_SDK_TEST_GRID_WORKSPACE_ADMIN_USER_TOKEN`, `SLACK_SDK_TEST_GRID_ORG_ADMIN_USER_TOKEN` |
+| `admin-app.manifest.json` | Enterprise Grid admin operations | `SLACK_SDK_TEST_GRID_ORG_ADMIN_USER_TOKEN` |
 
 ## How to Use These Manifests
 
