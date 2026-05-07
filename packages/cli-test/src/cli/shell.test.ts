@@ -69,7 +69,7 @@ describe('shell module', () => {
         runSpy,
         sinon.match.string,
         sinon.match.array,
-        sinon.match({ shell: true, env: fakeEnv }),
+        sinon.match({ shell: false, env: fakeEnv }),
       );
     });
     it('should return the command outputs unchanged', () => {
@@ -85,35 +85,19 @@ describe('shell module', () => {
         shell.runCommandSync('about to explode', []);
       }, /this is bat country/);
     });
-    if (process.platform === 'win32') {
-      it('on Windows, should wrap command to shell out in a `cmd /s /c` wrapper process', () => {
-        const fakeEnv = { HEY: 'yo' };
-        sandbox.stub(shell, 'assembleShellEnv').returns(fakeEnv);
-        const fakeCmd = 'echo';
-        const fakeArgs = ['"hi there"'];
-        shell.runCommandSync(fakeCmd, fakeArgs);
-        sandbox.assert.calledWithMatch(
-          runSpy,
-          'cmd',
-          sinon.match.array.contains(['/s', '/c', fakeCmd, ...fakeArgs]),
-          sinon.match({ shell: true, env: fakeEnv }),
-        );
-      });
-    } else {
-      it('on non-Windows, should shell out to provided command directly', () => {
-        const fakeEnv = { HEY: 'yo' };
-        sandbox.stub(shell, 'assembleShellEnv').returns(fakeEnv);
-        const fakeCmd = 'echo';
-        const fakeArgs = ['"hi there"'];
-        shell.runCommandSync(fakeCmd, fakeArgs);
-        sandbox.assert.calledWithMatch(
-          runSpy,
-          fakeCmd,
-          sinon.match.array.contains(fakeArgs),
-          sinon.match({ shell: true, env: fakeEnv }),
-        );
-      });
-    }
+    it('should spawn without a shell', () => {
+      const fakeEnv = { HEY: 'yo' };
+      sandbox.stub(shell, 'assembleShellEnv').returns(fakeEnv);
+      const fakeCmd = 'echo';
+      const fakeArgs = ['"hi there"'];
+      shell.runCommandSync(fakeCmd, fakeArgs);
+      sandbox.assert.calledWithMatch(
+        runSpy,
+        fakeCmd,
+        sinon.match.array.contains(fakeArgs),
+        sinon.match({ shell: false, env: fakeEnv }),
+      );
+    });
   });
 
   describe('spawnProcess method', () => {
@@ -128,7 +112,7 @@ describe('shell module', () => {
         spawnSpy,
         sinon.match.string,
         sinon.match.array,
-        sinon.match({ shell: true, env: fakeEnv }),
+        sinon.match({ shell: false, env: fakeEnv }),
       );
     });
     it('should return the command outputs unchanged', () => {
@@ -146,35 +130,19 @@ describe('shell module', () => {
         shell.spawnProcess('about to explode', []);
       }, /this is bat country/);
     });
-    if (process.platform === 'win32') {
-      it('on Windows, should wrap command to shell out in a `cmd /s /c` wrapper process', () => {
-        const fakeEnv = { HEY: 'yo' };
-        sandbox.stub(shell, 'assembleShellEnv').returns(fakeEnv);
-        const fakeCmd = 'echo';
-        const fakeArgs = ['"hi there"'];
-        shell.spawnProcess(fakeCmd, fakeArgs);
-        sandbox.assert.calledWithMatch(
-          spawnSpy,
-          'cmd',
-          sinon.match.array.contains(['/s', '/c', fakeCmd, ...fakeArgs]),
-          sinon.match({ shell: true, env: fakeEnv }),
-        );
-      });
-    } else {
-      it('on non-Windows, should shell out to provided command directly', () => {
-        const fakeEnv = { HEY: 'yo' };
-        sandbox.stub(shell, 'assembleShellEnv').returns(fakeEnv);
-        const fakeCmd = 'echo';
-        const fakeArgs = ['"hi there"'];
-        shell.spawnProcess(fakeCmd, fakeArgs);
-        sandbox.assert.calledWithMatch(
-          spawnSpy,
-          fakeCmd,
-          sinon.match.array.contains(fakeArgs),
-          sinon.match({ shell: true, env: fakeEnv }),
-        );
-      });
-    }
+    it('should spawn without a shell', () => {
+      const fakeEnv = { HEY: 'yo' };
+      sandbox.stub(shell, 'assembleShellEnv').returns(fakeEnv);
+      const fakeCmd = 'echo';
+      const fakeArgs = ['"hi there"'];
+      shell.spawnProcess(fakeCmd, fakeArgs);
+      sandbox.assert.calledWithMatch(
+        spawnSpy,
+        fakeCmd,
+        sinon.match.array.contains(fakeArgs),
+        sinon.match({ shell: false, env: fakeEnv }),
+      );
+    });
   });
 
   describe('waitForOutput method', () => {

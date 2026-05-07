@@ -7,6 +7,7 @@ lcov.info
 test-results.xml
 tmp/
 .env*
+!.env.sample
 
 # npm pack outputs
 *.tgz

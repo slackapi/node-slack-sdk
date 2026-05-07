@@ -2,7 +2,7 @@
 
 # Interface: DividerBlock
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:160
+Defined in: packages/types/dist/block-kit/blocks.d.ts:159
 
 ## Description
 
@@ -47,7 +47,7 @@ a message. If a message is updated, use a new `block_id`.
 type: "divider";
 ```
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:164
+Defined in: packages/types/dist/block-kit/blocks.d.ts:163
 
 #### Description
 

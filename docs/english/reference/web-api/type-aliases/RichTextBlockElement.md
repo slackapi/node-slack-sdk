@@ -10,7 +10,7 @@ type RichTextBlockElement =
   | RichTextPreformatted;
 ```
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:284
+Defined in: packages/types/dist/block-kit/blocks.d.ts:283
 
 A helper union type of all Block Elements that can be used in a [RichTextBlock](../interfaces/RichTextBlock.md).
 

@@ -2,13 +2,14 @@
 
 # Interface: Chunk
 
-Defined in: [chunk.ts:6](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/chunk.ts#L6)
+Defined in: [chunk.ts:8](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/chunk.ts#L8)
 
 Base interface for streaming message chunks.
 https://docs.slack.dev/messaging/sending-and-scheduling-messages#text-streaming
 
 ## Extended by
 
+- [`BlocksChunk`](BlocksChunk.md)
 - [`MarkdownTextChunk`](MarkdownTextChunk.md)
 - [`PlanUpdateChunk`](PlanUpdateChunk.md)
 - [`TaskUpdateChunk`](TaskUpdateChunk.md)
@@ -21,4 +22,4 @@ https://docs.slack.dev/messaging/sending-and-scheduling-messages#text-streaming
 type: string;
 ```
 
-Defined in: [chunk.ts:7](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/chunk.ts#L7)
+Defined in: [chunk.ts:9](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/chunk.ts#L9)

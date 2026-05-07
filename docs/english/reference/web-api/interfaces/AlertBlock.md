@@ -6,7 +6,7 @@ Defined in: packages/types/dist/block-kit/blocks.d.ts:51
 
 ## Description
 
-A prominent notice block for displaying warnings, status updates, or other important information.
+Displays alerts, warnings, and informational messages.
 
 ## See
 

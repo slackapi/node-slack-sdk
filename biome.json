@@ -10,6 +10,7 @@
   "files": {
     "includes": [
       "packages/**",
+      "prod-server-integration-tests/**",
       "!!packages/client",
       "!!packages/events-api",
       "!!packages/interactive-messages"
