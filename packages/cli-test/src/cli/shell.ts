@@ -251,7 +251,7 @@ export const shell = {
 };
 
 /**
- * @description Returns arguments used to pass into child_process.spawn or spawnSync. Handles Windows-specifics hacks.
+ * @description Returns arguments used to pass into child_process.spawn or spawnSync.
  */
 function getSpawnArguments(
   command: string,
@@ -259,32 +259,11 @@ function getSpawnArguments(
   env: ReturnType<typeof shell.assembleShellEnv>,
   shellOpts?: Partial<child.SpawnOptionsWithoutStdio>,
 ): [string, string[], child.SpawnOptionsWithoutStdio] {
-  if (process.platform === 'win32') {
-    // In windows, we actually spawn a command prompt and tell it to invoke the CLI command.
-    // The combination of windows and node's child_process spawning is complicated: on windows, child_process strips quotes from arguments. This makes passing JSON difficult.
-    // As a workaround, we:
-    // 1. Wrap the CLI command with a Windows Command Prompt (cmd.exe) process, and
-    // 2. Execute the command to completion (via the /c option), and
-    // 3. Leave spaces intact (via the /s option), and
-    // 4. Feed the arguments as an argument array into `child_process.spawn`.
-    // End-result is a process that looks like:
-    // cmd.exe "/s" "/c" "slack" "app" "list"
-    const windowsArgs = ['/s', '/c'].concat([command]).concat(args);
-    return [
-      'cmd',
-      windowsArgs,
-      {
-        shell: true,
-        env,
-        ...shellOpts,
-      },
-    ];
-  }
   return [
     command,
     args,
     {
-      shell: true,
+      shell: false,
       env,
       ...shellOpts,
     },

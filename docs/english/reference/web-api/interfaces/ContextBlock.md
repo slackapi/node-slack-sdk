@@ -2,7 +2,7 @@
 
 # Interface: ContextBlock
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:126
+Defined in: packages/types/dist/block-kit/blocks.d.ts:125
 
 ## Description
 
@@ -46,7 +46,7 @@ a message. If a message is updated, use a new `block_id`.
 elements: ContextBlockElement[];
 ```
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:135
+Defined in: packages/types/dist/block-kit/blocks.d.ts:134
 
 #### Description
 
@@ -61,7 +61,7 @@ Maximum number of items is 10.
 type: "context";
 ```
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:130
+Defined in: packages/types/dist/block-kit/blocks.d.ts:129
 
 #### Description
 

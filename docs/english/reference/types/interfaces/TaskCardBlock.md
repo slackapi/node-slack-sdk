@@ -2,7 +2,7 @@
 
 # Interface: TaskCardBlock
 
-Defined in: [block-kit/blocks.ts:489](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L489)
+Defined in: [block-kit/blocks.ts:488](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L488)
 
 ## Description
 
@@ -46,7 +46,7 @@ a message. If a message is updated, use a new `block_id`.
 optional details: RichTextBlock;
 ```
 
-Defined in: [block-kit/blocks.ts:508](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L508)
+Defined in: [block-kit/blocks.ts:507](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L507)
 
 #### Description
 
@@ -60,7 +60,7 @@ Details of the task in the form of a single "rich_text" entity.
 optional output: RichTextBlock;
 ```
 
-Defined in: [block-kit/blocks.ts:513](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L513)
+Defined in: [block-kit/blocks.ts:512](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L512)
 
 #### Description
 
@@ -74,7 +74,7 @@ Output of the task in the form of a single "rich_text" entity.
 optional sources: URLSourceElement[];
 ```
 
-Defined in: [block-kit/blocks.ts:518](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L518)
+Defined in: [block-kit/blocks.ts:517](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L517)
 
 #### Description
 
@@ -88,7 +88,7 @@ Array of URL source elements used to generate a response.
 status: "error" | "pending" | "in_progress" | "complete";
 ```
 
-Defined in: [block-kit/blocks.ts:523](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L523)
+Defined in: [block-kit/blocks.ts:522](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L522)
 
 #### Description
 
@@ -102,7 +102,7 @@ The state of a task. Can be "pending", "in_progress", "complete", or "error".
 task_id: string;
 ```
 
-Defined in: [block-kit/blocks.ts:498](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L498)
+Defined in: [block-kit/blocks.ts:497](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L497)
 
 #### Description
 
@@ -116,7 +116,7 @@ ID for the task.
 title: string;
 ```
 
-Defined in: [block-kit/blocks.ts:503](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L503)
+Defined in: [block-kit/blocks.ts:502](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L502)
 
 #### Description
 
@@ -130,7 +130,7 @@ Title of the task in plain text.
 type: "task_card";
 ```
 
-Defined in: [block-kit/blocks.ts:493](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L493)
+Defined in: [block-kit/blocks.ts:492](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L492)
 
 #### Description
 
