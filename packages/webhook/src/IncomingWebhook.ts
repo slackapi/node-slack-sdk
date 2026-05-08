@@ -4,7 +4,31 @@ import type { CodedError } from './errors';
 import { httpErrorWithOriginal, requestErrorWithOriginal } from './errors';
 import { getUserAgent } from './instrument';
 
-export type FetchFunction = typeof globalThis.fetch;
+export interface FetchHeaders {
+  get(name: string): string | null;
+  entries(): Iterable<[string, string]>;
+}
+
+export interface FetchResponse {
+  readonly ok: boolean;
+  readonly status: number;
+  readonly statusText: string;
+  readonly url: string;
+  readonly headers: FetchHeaders;
+  arrayBuffer(): Promise<ArrayBuffer>;
+  json(): Promise<unknown>;
+  text(): Promise<string>;
+}
+
+export interface FetchRequestInit {
+  method?: string;
+  headers?: Record<string, string>;
+  body?: string | FormData;
+  redirect?: 'error' | 'follow' | 'manual';
+  signal?: AbortSignal | null;
+}
+
+export type FetchFunction = (url: string | URL, init?: FetchRequestInit) => Promise<FetchResponse>;
 
 /**
  * A client for Slack's Incoming Webhooks
@@ -105,7 +129,7 @@ export class IncomingWebhook {
   /**
    * Processes an HTTP response into an IncomingWebhookResult.
    */
-  private async buildResult(response: Response): Promise<IncomingWebhookResult> {
+  private async buildResult(response: FetchResponse): Promise<IncomingWebhookResult> {
     return {
       text: await response.text(),
     };

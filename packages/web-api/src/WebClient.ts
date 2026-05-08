@@ -116,7 +116,31 @@ export type PageAccumulator<R extends PageReducer> = R extends (
   ? A
   : never;
 
-export type FetchFunction = typeof globalThis.fetch;
+export interface FetchHeaders {
+  get(name: string): string | null;
+  entries(): Iterable<[string, string]>;
+}
+
+export interface FetchResponse {
+  readonly ok: boolean;
+  readonly status: number;
+  readonly statusText: string;
+  readonly url: string;
+  readonly headers: FetchHeaders;
+  arrayBuffer(): Promise<ArrayBuffer>;
+  json(): Promise<unknown>;
+  text(): Promise<string>;
+}
+
+export interface FetchRequestInit {
+  method?: string;
+  headers?: Record<string, string>;
+  body?: string | FormData;
+  redirect?: 'error' | 'follow' | 'manual';
+  signal?: AbortSignal | null;
+}
+
+export type FetchFunction = (url: string | URL, init?: FetchRequestInit) => Promise<FetchResponse>;
 
 /**
  * A client for Slack's Web API
@@ -577,7 +601,7 @@ export class WebClient extends Methods {
     url: string,
     body: Record<string, unknown>,
     headers: Record<string, string> = {},
-  ): Promise<Response> {
+  ): Promise<FetchResponse> {
     const task = () =>
       this.requestQueue.add(async () => {
         // apps.event.authorizations.list will reject HTTP requests that send token in the body
@@ -664,7 +688,7 @@ export class WebClient extends Methods {
           if (timer) clearTimeout(timer);
         }
       });
-    return pRetry(task, this.retryConfig) as Promise<Response>;
+    return pRetry(task, this.retryConfig) as Promise<FetchResponse>;
   }
 
   /**
@@ -757,7 +781,7 @@ export class WebClient extends Methods {
    * HTTP headers into the object.
    * @param response - an http response
    */
-  private async buildResult(response: Response): Promise<WebAPICallResult> {
+  private async buildResult(response: FetchResponse): Promise<WebAPICallResult> {
     const contentType = response.headers.get('content-type');
     const isGzipResponse = contentType === 'application/gzip';
 
@@ -858,7 +882,7 @@ function paginationOptionsForNextPage(
  * Extract the amount of time (in seconds) the platform has recommended this client wait before sending another request
  * from a rate-limited HTTP response (statusCode = 429).
  */
-function parseRetryHeaders(response: Response): number | undefined {
+function parseRetryHeaders(response: FetchResponse): number | undefined {
   const retryAfterHeader = response.headers.get('retry-after');
   if (retryAfterHeader !== null) {
     const retryAfter = Number.parseInt(retryAfterHeader, 10);
