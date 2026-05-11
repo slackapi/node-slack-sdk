@@ -674,16 +674,15 @@ export class WebClient extends Methods {
 
           return response;
         } catch (error) {
-          // biome-ignore lint/suspicious/noExplicitAny: errors can be anything
-          const e = error as any;
           if (error instanceof AbortError) {
             throw error;
           }
-          if (e.code !== undefined && typeof e.code === 'string') {
+          if (error instanceof Error && 'code' in error && typeof error.code === 'string') {
             throw error;
           }
-          this.logger.warn('http request failed', e.message);
-          throw requestErrorWithOriginal(e instanceof Error ? e : new Error(String(e)));
+          const message = error instanceof Error ? error.message : String(error);
+          this.logger.warn('http request failed', message);
+          throw requestErrorWithOriginal(error instanceof Error ? error : new Error(String(error)));
         } finally {
           if (timer) clearTimeout(timer);
         }
@@ -740,10 +739,7 @@ export class WebClient extends Methods {
       for (const [key, value] of flattened) {
         if (key === undefined || value === undefined) continue;
         if (Buffer.isBuffer(value)) {
-          // biome-ignore lint/suspicious/noExplicitAny: form values can be anything
-          const streamOrBuffer: any = value as any;
-          // attempt to find filename from `value`
-          // formidable and the browser add a name property; fs streams have a path property
+          const streamOrBuffer = value as Buffer & { name?: string; path?: string };
           let filename = defaultFilename;
           if (typeof streamOrBuffer.name === 'string') {
             filename = basename(streamOrBuffer.name);

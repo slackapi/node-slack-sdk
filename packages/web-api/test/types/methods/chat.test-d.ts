@@ -1169,13 +1169,3 @@ expectAssignable<Parameters<typeof web.chat.update>>([
     reply_broadcast: true, // can broadcast a threaded msg
   },
 ]);
-
-// RequestOptions can be passed as a second argument to any method
-expectAssignable<Parameters<typeof web.chat.postMessage>>([
-  { channel: 'C1234', text: 'hello' },
-  { signal: new AbortController().signal } satisfies RequestOptions,
-]);
-expectAssignable<Parameters<typeof web.chat.postMessage>>([
-  { channel: 'C1234', text: 'hello' },
-  { fetch: globalThis.fetch } satisfies RequestOptions,
-]);

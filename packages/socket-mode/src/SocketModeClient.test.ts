@@ -58,7 +58,7 @@ describe('SocketModeClient', () => {
 
       it('should not overwrite fetch when a custom fetch is provided', () => {
         const fakeDispatcher: SocketModeDispatcher = { dispatch: () => true };
-        const customFetch = (() => {}) as unknown as FetchFunction;
+        const customFetch: FetchFunction = async () => new Response();
         new ProxiedSocketModeClient({
           appToken: 'xapp-',
           dispatcher: fakeDispatcher,

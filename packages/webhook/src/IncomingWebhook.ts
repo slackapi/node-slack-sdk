@@ -1,6 +1,5 @@
 import type { Block, KnownBlock, MessageAttachment } from '@slack/types'; // TODO: Block and KnownBlock will be merged into AnyBlock in upcoming types release
 
-import type { CodedError } from './errors';
 import { httpErrorWithOriginal, requestErrorWithOriginal } from './errors';
 import { getUserAgent } from './instrument';
 
@@ -117,7 +116,7 @@ export class IncomingWebhook {
 
       return await this.buildResult(response);
     } catch (error) {
-      if (error instanceof Error && 'code' in error && typeof (error as CodedError).code === 'string') {
+      if (error instanceof Error && 'code' in error && typeof error.code === 'string') {
         throw error;
       }
       throw requestErrorWithOriginal(error instanceof Error ? error : new Error(String(error)));
