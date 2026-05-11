@@ -2,7 +2,7 @@
 
 # Interface: TaskUpdateChunk
 
-Defined in: packages/types/dist/chunk.d.ts:29
+Defined in: packages/types/dist/chunk.d.ts:39
 
 Used for displaying task progress in a timeline-style UI.
 https://docs.slack.dev/messaging/sending-and-scheduling-messages#text-streaming
@@ -19,7 +19,7 @@ https://docs.slack.dev/messaging/sending-and-scheduling-messages#text-streaming
 optional details: string;
 ```
 
-Defined in: packages/types/dist/chunk.d.ts:34
+Defined in: packages/types/dist/chunk.d.ts:44
 
 ***
 
@@ -29,7 +29,7 @@ Defined in: packages/types/dist/chunk.d.ts:34
 id: string;
 ```
 
-Defined in: packages/types/dist/chunk.d.ts:31
+Defined in: packages/types/dist/chunk.d.ts:41
 
 ***
 
@@ -39,7 +39,7 @@ Defined in: packages/types/dist/chunk.d.ts:31
 optional output: string;
 ```
 
-Defined in: packages/types/dist/chunk.d.ts:35
+Defined in: packages/types/dist/chunk.d.ts:45
 
 ***
 
@@ -49,7 +49,7 @@ Defined in: packages/types/dist/chunk.d.ts:35
 optional sources: URLSourceElement[];
 ```
 
-Defined in: packages/types/dist/chunk.d.ts:36
+Defined in: packages/types/dist/chunk.d.ts:46
 
 ***
 
@@ -59,7 +59,7 @@ Defined in: packages/types/dist/chunk.d.ts:36
 status: "error" | "pending" | "in_progress" | "complete";
 ```
 
-Defined in: packages/types/dist/chunk.d.ts:33
+Defined in: packages/types/dist/chunk.d.ts:43
 
 ***
 
@@ -69,7 +69,7 @@ Defined in: packages/types/dist/chunk.d.ts:33
 title: string;
 ```
 
-Defined in: packages/types/dist/chunk.d.ts:32
+Defined in: packages/types/dist/chunk.d.ts:42
 
 ***
 
@@ -79,7 +79,7 @@ Defined in: packages/types/dist/chunk.d.ts:32
 type: "task_update";
 ```
 
-Defined in: packages/types/dist/chunk.d.ts:30
+Defined in: packages/types/dist/chunk.d.ts:40
 
 #### Overrides
 

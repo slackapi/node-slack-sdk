@@ -1,0 +1,31 @@
+{
+  "_metadata": {
+    "major_version": 1,
+    "minor_version": 1
+  },
+  "display_information": {
+    "name": "Node SDK Connect Sender",
+    "description": "Slack Connect sender bot for integration tests - installed in the SENDING workspace"
+  },
+  "features": {
+    "bot_user": {
+      "display_name": "SDK Connect Sender",
+      "always_online": false
+    }
+  },
+  "oauth_config": {
+    "scopes": {
+      "bot": [
+        "channels:manage",
+        "conversations.connect:manage",
+        "conversations.connect:read",
+        "conversations.connect:write"
+      ]
+    }
+  },
+  "settings": {
+    "org_deploy_enabled": false,
+    "socket_mode_enabled": false,
+    "token_rotation_enabled": false
+  }
+}

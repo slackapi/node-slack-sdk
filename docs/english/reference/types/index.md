@@ -1,4 +1,4 @@
-# @slack/types v2.21.0
+# @slack/types v2.21.1
 
 ## Enumerations
 
@@ -22,6 +22,7 @@
 - [AssistantThreadContextChangedEvent](interfaces/AssistantThreadContextChangedEvent.md)
 - [AssistantThreadStartedEvent](interfaces/AssistantThreadStartedEvent.md)
 - [Block](interfaces/Block.md)
+- [BlocksChunk](interfaces/BlocksChunk.md)
 - [BotMessageEvent](interfaces/BotMessageEvent.md)
 - [Button](interfaces/Button.md)
 - [CallRejectedEvent](interfaces/CallRejectedEvent.md)

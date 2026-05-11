@@ -2,7 +2,7 @@
 
 # Interface: TaskUpdateChunk
 
-Defined in: [chunk.ts:32](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/chunk.ts#L32)
+Defined in: [chunk.ts:44](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/chunk.ts#L44)
 
 Used for displaying task progress in a timeline-style UI.
 https://docs.slack.dev/messaging/sending-and-scheduling-messages#text-streaming
@@ -19,7 +19,7 @@ https://docs.slack.dev/messaging/sending-and-scheduling-messages#text-streaming
 optional details: string;
 ```
 
-Defined in: [chunk.ts:37](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/chunk.ts#L37)
+Defined in: [chunk.ts:49](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/chunk.ts#L49)
 
 ***
 
@@ -29,7 +29,7 @@ Defined in: [chunk.ts:37](https://github.com/slackapi/node-slack-sdk/blob/main/p
 id: string;
 ```
 
-Defined in: [chunk.ts:34](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/chunk.ts#L34)
+Defined in: [chunk.ts:46](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/chunk.ts#L46)
 
 ***
 
@@ -39,7 +39,7 @@ Defined in: [chunk.ts:34](https://github.com/slackapi/node-slack-sdk/blob/main/p
 optional output: string;
 ```
 
-Defined in: [chunk.ts:38](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/chunk.ts#L38)
+Defined in: [chunk.ts:50](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/chunk.ts#L50)
 
 ***
 
@@ -49,7 +49,7 @@ Defined in: [chunk.ts:38](https://github.com/slackapi/node-slack-sdk/blob/main/p
 optional sources: URLSourceElement[];
 ```
 
-Defined in: [chunk.ts:39](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/chunk.ts#L39)
+Defined in: [chunk.ts:51](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/chunk.ts#L51)
 
 ***
 
@@ -59,7 +59,7 @@ Defined in: [chunk.ts:39](https://github.com/slackapi/node-slack-sdk/blob/main/p
 status: "error" | "pending" | "in_progress" | "complete";
 ```
 
-Defined in: [chunk.ts:36](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/chunk.ts#L36)
+Defined in: [chunk.ts:48](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/chunk.ts#L48)
 
 ***
 
@@ -69,7 +69,7 @@ Defined in: [chunk.ts:36](https://github.com/slackapi/node-slack-sdk/blob/main/p
 title: string;
 ```
 
-Defined in: [chunk.ts:35](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/chunk.ts#L35)
+Defined in: [chunk.ts:47](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/chunk.ts#L47)
 
 ***
 
@@ -79,7 +79,7 @@ Defined in: [chunk.ts:35](https://github.com/slackapi/node-slack-sdk/blob/main/p
 type: "task_update";
 ```
 
-Defined in: [chunk.ts:33](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/chunk.ts#L33)
+Defined in: [chunk.ts:45](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/chunk.ts#L45)
 
 #### Overrides
 

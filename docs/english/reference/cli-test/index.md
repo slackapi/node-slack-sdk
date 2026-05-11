@@ -1,4 +1,4 @@
-# @slack/cli-test v3.0.1
+# @slack/cli-test v3.0.2
 
 ## Classes
 

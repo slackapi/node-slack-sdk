@@ -8,6 +8,6 @@ type ContextActionsBlockElement =
   | IconButton;
 ```
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:140
+Defined in: packages/types/dist/block-kit/blocks.d.ts:139
 
 A helper union type of all Block Elements that can be used in a [ContextActionsBlock](../interfaces/ContextActionsBlock.md).
