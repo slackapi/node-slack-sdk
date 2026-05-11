@@ -1,6 +1,17 @@
 import type { WebClientOptions } from '@slack/web-api';
-import type { Dispatcher } from 'undici';
 import type { Logger, LogLevel } from './logger';
+
+/**
+ * A structural type representing an HTTP dispatcher compatible with undici's fetch and WebSocket.
+ * Any undici `Agent`, `ProxyAgent`, `Client`, or custom `Dispatcher` subclass satisfies this interface.
+ *
+ * Defining this structurally allows consumers to use different compatible undici versions
+ * without type conflicts.
+ */
+export interface SocketModeDispatcher {
+  // biome-ignore lint/suspicious/noExplicitAny: structural compatibility with any undici Dispatcher version
+  dispatch(options: any, handler: any): boolean;
+}
 
 export interface SocketModeOptions {
   /**
@@ -54,5 +65,5 @@ export interface SocketModeOptions {
    *
    * @see https://undici.nodejs.org/#/docs/api/ProxyAgent
    */
-  dispatcher?: Dispatcher;
+  dispatcher?: SocketModeDispatcher;
 }

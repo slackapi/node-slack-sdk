@@ -14,7 +14,7 @@ import packageJson from '../package.json';
 import { sendWhileDisconnectedError, sendWhileNotReadyError, websocketErrorWithOriginal } from './errors';
 import log, { type Logger, LogLevel } from './logger';
 import { SlackWebSocket, WS_READY_STATES } from './SlackWebSocket';
-import type { SocketModeOptions } from './SocketModeOptions';
+import type { SocketModeDispatcher, SocketModeOptions } from './SocketModeOptions';
 import { UnrecoverableSocketModeStartError } from './UnrecoverableSocketModeStartError';
 
 // Lifecycle events as described in the README
@@ -63,7 +63,7 @@ export class SocketModeClient extends EventEmitter {
    * The undici Dispatcher used for WebSocket connections. Also wrapped into a custom fetch for HTTP calls
    * unless `clientOptions.fetch` was provided by the user.
    */
-  private dispatcher?: Dispatcher;
+  private dispatcher?: SocketModeDispatcher;
 
   private connectionResponse?: AppsConnectionsOpenResponse;
 
@@ -130,7 +130,8 @@ export class SocketModeClient extends EventEmitter {
     }
     this.webClientOptions = clientOptions;
     if (dispatcher && this.webClientOptions.fetch === undefined) {
-      this.webClientOptions.fetch = (url, init) => undiciFetch(url, { ...init, dispatcher } as RequestInit);
+      this.webClientOptions.fetch = (url, init) =>
+        undiciFetch(url, { ...init, dispatcher: dispatcher as Dispatcher } as RequestInit);
     }
     if (this.webClientOptions.retryConfig === undefined) {
       // For faster retries of apps.connections.open API calls for reconnecting

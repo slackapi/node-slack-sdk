@@ -5,6 +5,7 @@ import { CloseEvent, type Dispatcher, ErrorEvent, MessageEvent, ping, WebSocket 
 
 import { websocketErrorWithOriginal } from './errors';
 import log, { type Logger, LogLevel } from './logger';
+import type { SocketModeDispatcher } from './SocketModeOptions';
 
 export const WS_READY_STATES = ['CONNECTING', 'OPEN', 'CLOSING', 'CLOSED'];
 
@@ -38,7 +39,7 @@ export interface SlackWebSocketOptions {
   /** @description Delay between this client sending a `ping` message, in milliseconds. */
   pingInterval?: number;
   /** @description An undici Dispatcher used to establish the WebSocket connection (e.g. ProxyAgent). */
-  dispatcher?: Dispatcher;
+  dispatcher?: SocketModeDispatcher;
   /** @description Whether this WebSocket should DEBUG log ping and pong events. `false` by default. */
   pingPongLoggingEnabled?: boolean;
   /**
@@ -135,7 +136,7 @@ export class SlackWebSocket {
   public connect(): void {
     this.logger.debug('Initiating new WebSocket connection.');
 
-    this.websocket = new WebSocket(this.options.url, { dispatcher: this.options.dispatcher });
+    this.websocket = new WebSocket(this.options.url, { dispatcher: this.options.dispatcher as Dispatcher });
 
     this.openHandler = () => {
       this.logger.debug('WebSocket open event received (connection established)!');
