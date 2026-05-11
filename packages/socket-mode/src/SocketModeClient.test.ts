@@ -4,10 +4,10 @@ import { ConsoleLogger } from '@slack/logger';
 import type { FetchFunction } from '@slack/web-api';
 import proxyquire from 'proxyquire';
 import sinon from 'sinon';
-import type { Dispatcher } from 'undici';
 
 import logModule from './logger';
 import { SocketModeClient } from './SocketModeClient';
+import type { SocketModeDispatcher } from './SocketModeOptions';
 
 describe('SocketModeClient', () => {
   const sandbox = sinon.createSandbox();
@@ -51,13 +51,13 @@ describe('SocketModeClient', () => {
       });
 
       it('should wrap dispatcher into fetch when no custom fetch is provided', () => {
-        const fakeDispatcher = {} as unknown as Dispatcher;
+        const fakeDispatcher: SocketModeDispatcher = { dispatch: () => true };
         new ProxiedSocketModeClient({ appToken: 'xapp-', dispatcher: fakeDispatcher });
         assert.strictEqual(typeof capturedWebClientOptions.fetch, 'function');
       });
 
       it('should not overwrite fetch when a custom fetch is provided', () => {
-        const fakeDispatcher = {} as unknown as Dispatcher;
+        const fakeDispatcher: SocketModeDispatcher = { dispatch: () => true };
         const customFetch = (() => {}) as unknown as FetchFunction;
         new ProxiedSocketModeClient({
           appToken: 'xapp-',
