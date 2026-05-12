@@ -3,7 +3,11 @@
 export {
   CodedError,
   ErrorCode,
+  SlackError,
   WebAPICallError,
+  WebAPIFileUploadInvalidArgumentsError,
+  WebAPIFileUploadReadFileDataError,
+  WebAPIFilesUploadError,
   WebAPIHTTPError,
   WebAPIPlatformError,
   WebAPIRateLimitedError,

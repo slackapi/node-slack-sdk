@@ -7,10 +7,11 @@ import nock, { type ReplyHeaders } from 'nock';
 import sinon from 'sinon';
 import {
   ErrorCode,
-  type WebAPIHTTPError,
-  type WebAPIPlatformError,
-  type WebAPIRateLimitedError,
-  type WebAPIRequestError,
+  SlackError,
+  WebAPIHTTPError,
+  WebAPIPlatformError,
+  WebAPIRateLimitedError,
+  WebAPIRequestError,
 } from './errors';
 import {
   buildGeneralFilesUploadWarning,
@@ -166,9 +167,11 @@ describe('WebClient', () => {
         await client.apiCall('users.list');
         assert.fail('expected error to be thrown');
       } catch (error) {
-        const e = error as WebAPIRequestError;
-        assert.strictEqual(e.code, ErrorCode.RequestError);
-        assert.ok(e.original instanceof Error);
+        assert.ok(error instanceof WebAPIRequestError);
+        assert.ok(error instanceof SlackError);
+        assert.strictEqual(error.code, ErrorCode.RequestError);
+        assert.ok(error.original instanceof Error);
+        assert.strictEqual(error.cause, error.original);
       }
     });
   });
@@ -456,11 +459,11 @@ describe('WebClient', () => {
         await client.apiCall('method');
         assert.fail('expected thrown exception');
       } catch (error) {
-        assert.ok(error instanceof Error);
-        const e = error as WebAPIPlatformError;
-        assert.strictEqual(e.code, ErrorCode.PlatformError);
-        assert.strictEqual(e.data.ok, false);
-        assert.strictEqual(e.data.error, 'bad error');
+        assert.ok(error instanceof WebAPIPlatformError);
+        assert.ok(error instanceof SlackError);
+        assert.strictEqual(error.code, ErrorCode.PlatformError);
+        assert.strictEqual(error.data.ok, false);
+        assert.strictEqual(error.data.error, 'bad error');
         scope.done();
       }
     });
@@ -473,12 +476,12 @@ describe('WebClient', () => {
         await client.apiCall('method');
         assert.fail('expected error to be thrown');
       } catch (error) {
-        const e = error as WebAPIHTTPError;
-        assert.strictEqual(e.code, ErrorCode.HTTPError);
-        assert.strictEqual(e.statusCode, 500);
-        assert.ok(e.headers);
-        assert.deepStrictEqual(e.body, body);
-        assert.ok(error instanceof Error);
+        assert.ok(error instanceof WebAPIHTTPError);
+        assert.ok(error instanceof SlackError);
+        assert.strictEqual(error.code, ErrorCode.HTTPError);
+        assert.strictEqual(error.statusCode, 500);
+        assert.ok(error.headers);
+        assert.deepStrictEqual(error.body, body);
         scope.done();
       }
     });
@@ -491,10 +494,11 @@ describe('WebClient', () => {
         await client.apiCall('method');
         assert.fail('expected error to be thrown');
       } catch (error) {
-        const e = error as WebAPIRequestError;
-        assert.strictEqual(e.code, ErrorCode.RequestError);
-        assert.ok(error instanceof Error);
-        assert.ok(e.original instanceof Error);
+        assert.ok(error instanceof WebAPIRequestError);
+        assert.ok(error instanceof SlackError);
+        assert.strictEqual(error.code, ErrorCode.RequestError);
+        assert.ok(error.original instanceof Error);
+        assert.strictEqual(error.cause, error.original);
       }
     });
 
@@ -506,10 +510,10 @@ describe('WebClient', () => {
         await client.apiCall('method');
         assert.fail('expected error to be thrown');
       } catch (error) {
-        const e = error as WebAPIHTTPError;
-        assert.strictEqual(e.code, ErrorCode.HTTPError);
-        assert.strictEqual(e.statusCode, 502);
-        assert.strictEqual(e.body, htmlBody);
+        assert.ok(error instanceof WebAPIHTTPError);
+        assert.strictEqual(error.code, ErrorCode.HTTPError);
+        assert.strictEqual(error.statusCode, 502);
+        assert.strictEqual(error.body, htmlBody);
       } finally {
         scope.done();
       }
@@ -1065,10 +1069,10 @@ describe('WebClient', () => {
           await client.apiCall('method');
           assert.fail('expected error to be thrown');
         } catch (error) {
-          const e = error as WebAPIRateLimitedError;
-          assert.strictEqual(e.code, ErrorCode.RateLimitedError);
-          assert.strictEqual(e.retryAfter, retryAfter);
-          assert.ok(error instanceof Error);
+          assert.ok(error instanceof WebAPIRateLimitedError);
+          assert.ok(error instanceof SlackError);
+          assert.strictEqual(error.code, ErrorCode.RateLimitedError);
+          assert.strictEqual(error.retryAfter, retryAfter);
           scope.done();
         }
       });
@@ -1979,10 +1983,10 @@ describe('WebClient', () => {
         await client.apiCall('conversations/list');
         assert.fail('Should have thrown');
       } catch (error) {
-        const e = error as WebAPIRequestError;
-        assert.strictEqual(e.code, ErrorCode.RequestError);
-        assert.ok(Object.hasOwn(error, 'original'));
-        assert.ok(e.original instanceof Error);
+        assert.ok(error instanceof WebAPIRequestError);
+        assert.strictEqual(error.code, ErrorCode.RequestError);
+        assert.ok(error.original instanceof Error);
+        assert.strictEqual(error.cause, error.original);
         scope.done();
       }
     });

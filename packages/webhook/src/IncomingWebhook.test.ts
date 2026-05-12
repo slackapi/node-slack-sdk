@@ -2,8 +2,7 @@ import assert from 'node:assert/strict';
 import { afterEach, beforeEach, describe, it } from 'node:test';
 import nock from 'nock';
 
-import type { CodedError } from './errors';
-import { ErrorCode } from './errors';
+import { ErrorCode, IncomingWebhookHTTPError, IncomingWebhookRequestError, SlackWebhookError } from './errors';
 import { type FetchFunction, IncomingWebhook } from './IncomingWebhook';
 import { getUserAgent } from './instrument';
 
@@ -93,9 +92,11 @@ describe('IncomingWebhook', () => {
           await webhook.send('Hello');
           assert.fail('expected rejection');
         } catch (error) {
-          assert.ok(error);
-          assert.ok(error instanceof Error);
-          assert.match((error as Error).message, new RegExp(String(statusCode)));
+          assert.ok(error instanceof IncomingWebhookHTTPError);
+          assert.ok(error instanceof SlackWebhookError);
+          assert.strictEqual(error.code, ErrorCode.HTTPError);
+          assert.strictEqual(error.statusCode, statusCode);
+          assert.match(error.message, new RegExp(String(statusCode)));
           scope.done();
         }
       });
@@ -108,8 +109,11 @@ describe('IncomingWebhook', () => {
           await webhook.send('Hello');
           assert.fail('expected rejection');
         } catch (error) {
-          assert.ok(error instanceof Error);
-          assert.strictEqual((error as CodedError).code, ErrorCode.RequestError);
+          assert.ok(error instanceof IncomingWebhookRequestError);
+          assert.ok(error instanceof SlackWebhookError);
+          assert.strictEqual(error.code, ErrorCode.RequestError);
+          assert.ok(error.original instanceof Error);
+          assert.strictEqual(error.cause, error.original);
         }
       });
     });

@@ -6,6 +6,7 @@ export {
   IncomingWebhookHTTPError,
   IncomingWebhookRequestError,
   IncomingWebhookSendError,
+  SlackWebhookError,
 } from './errors';
 
 export {

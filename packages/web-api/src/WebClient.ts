@@ -6,12 +6,7 @@ import zlib from 'node:zlib';
 import pQueue from 'p-queue';
 import pRetry, { AbortError } from 'p-retry';
 import { ChatStreamer, type ChatStreamerOptions } from './chat-stream';
-import {
-  httpErrorFromResponse,
-  platformErrorFromResult,
-  rateLimitedErrorWithDelay,
-  requestErrorWithOriginal,
-} from './errors';
+import { SlackError, WebAPIHTTPError, WebAPIPlatformError, WebAPIRateLimitedError, WebAPIRequestError } from './errors';
 import {
   getAllFileUploadsToComplete,
   getFileUploadJob,
@@ -88,7 +83,6 @@ export enum WebClientEvent {
 
 export interface WebAPICallResult {
   ok: boolean;
-  error?: string;
   response_metadata?: {
     warnings?: string[];
     next_cursor?: string; // is this too specific to be encoded into this type?
@@ -324,10 +318,10 @@ export class WebClient extends Methods {
     // TODO: look into simplifying this code block to only check for the second condition
     // if an { ok: false } body applies for all API errors
     if (!result.ok && response.headers.get('content-type') !== 'application/gzip') {
-      throw platformErrorFromResult(result as WebAPICallResult & { error: string });
+      throw new WebAPIPlatformError(result as WebAPICallResult & { error: string });
     }
     if ('ok' in result && result.ok === false) {
-      throw platformErrorFromResult(result as WebAPICallResult & { error: string });
+      throw new WebAPIPlatformError(result as WebAPICallResult & { error: string });
     }
     this.logger.debug(`apiCall('${method}') end`);
     return result;
@@ -636,7 +630,7 @@ export class WebClient extends Methods {
             if (retrySec !== undefined) {
               this.emit(WebClientEvent.RATE_LIMITED, retrySec, { url, body });
               if (this.rejectRateLimitedCalls) {
-                throw new AbortError(rateLimitedErrorWithDelay(retrySec));
+                throw new AbortError(new WebAPIRateLimitedError(retrySec));
               }
               this.logger.info(`API Call failed due to rate limiting. Will retry in ${retrySec} seconds.`);
               // pause the request queue and then delay the rejection by the amount of time in the retry header
@@ -664,7 +658,7 @@ export class WebClient extends Methods {
           // Slack's Web API doesn't use meaningful status codes besides 429 and 200
           if (response.status !== 200) {
             const responseBody = await response.text();
-            throw httpErrorFromResponse(
+            throw new WebAPIHTTPError(
               response.status,
               response.statusText,
               Object.fromEntries(response.headers.entries()),
@@ -677,12 +671,12 @@ export class WebClient extends Methods {
           if (error instanceof AbortError) {
             throw error;
           }
-          if (error instanceof Error && 'code' in error && typeof error.code === 'string') {
+          if (error instanceof SlackError) {
             throw error;
           }
           const message = error instanceof Error ? error.message : String(error);
           this.logger.warn('http request failed', message);
-          throw requestErrorWithOriginal(error instanceof Error ? error : new Error(String(error)));
+          throw new WebAPIRequestError(error instanceof Error ? error : new Error(String(error)));
         } finally {
           if (timer) clearTimeout(timer);
         }
