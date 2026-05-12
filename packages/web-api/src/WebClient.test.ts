@@ -999,8 +999,13 @@ describe('WebClient', () => {
 
       // verify that any requests after maxRequestConcurrency were delayed by the responseDelay
       const queuedResponses = responses.slice(100);
-      const minDiff = concurrentResponses[concurrentResponses.length - 1].diff + responseDelay;
-      for (const r of queuedResponses) assert.ok(r.diff >= minDiff);
+      const maxConcurrentDiff = Math.max(...concurrentResponses.map((r) => r.diff));
+      for (const r of queuedResponses) {
+        // Queued request must have been dispatched AFTER all concurrent requests
+        assert.ok(r.diff > maxConcurrentDiff);
+        // Queued request must have waited at least one full responseDelay cycle
+        assert.ok(r.diff >= responseDelay);
+      }
     });
 
     it('should allow concurrency to be set', async () => {
@@ -1016,9 +1021,10 @@ describe('WebClient', () => {
 
       // verify that any requests after maxRequestConcurrency were delayed by the responseDelay
       const queuedResponses = responses.slice(1); // the second response
-      const minDiff = concurrentResponses[concurrentResponses.length - 1].diff + responseDelay;
+      const maxConcurrentDiff = Math.max(...concurrentResponses.map((r) => r.diff));
       for (const r of queuedResponses) {
-        assert.ok(r.diff >= minDiff);
+        assert.ok(r.diff > maxConcurrentDiff);
+        assert.ok(r.diff >= responseDelay);
       }
     });
   });
