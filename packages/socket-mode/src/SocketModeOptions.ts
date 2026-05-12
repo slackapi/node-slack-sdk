@@ -9,6 +9,11 @@ import type { Logger, LogLevel } from './logger';
  * without type conflicts.
  */
 export interface SocketModeDispatcher {
+  /**
+   * Dispatches an HTTP request through this dispatcher.
+   * @param options - The request options (method, path, headers, body, etc.)
+   * @param handler - The response handler that processes incoming data and events
+   */
   // biome-ignore lint/suspicious/noExplicitAny: structural compatibility with any undici Dispatcher version
   dispatch(options: any, handler: any): boolean;
 }
@@ -57,13 +62,18 @@ export interface SocketModeOptions {
    */
   clientOptions?: Omit<WebClientOptions, 'logLevel' | 'logger'>;
   /**
-   * An undici `Dispatcher` used for the WebSocket connection and, if no custom `fetch` is provided
+   * A {@link SocketModeDispatcher} used for the WebSocket connection and, if no custom `fetch` is provided
    * via `clientOptions`, also wrapped into a custom fetch for HTTP API calls.
    * If `clientOptions.fetch` is already defined, the dispatcher is only used for the WebSocket connection.
    *
-   * Use this to configure proxies (e.g. `new ProxyAgent('http://proxy:3128')`) or custom TLS behavior.
+   * Use this to configure proxies or custom TLS behavior.
    *
-   * @see https://undici.nodejs.org/#/docs/api/ProxyAgent
+   * @example
+   * ```js
+   * // Using undici's ProxyAgent as the dispatcher
+   * import { ProxyAgent } from 'undici';
+   * const dispatcher = new ProxyAgent('http://proxy:3128');
+   * ```
    */
   dispatcher?: SocketModeDispatcher;
 }

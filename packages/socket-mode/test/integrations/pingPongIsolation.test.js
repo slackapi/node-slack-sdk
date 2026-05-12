@@ -28,7 +28,6 @@ describe('Multi-connection ping/pong isolation (diagnostics_channel)', { timeout
 			pingPongLoggingEnabled: false,
 			...options,
 		});
-		clients.push(client);
 		return client;
 	}
 

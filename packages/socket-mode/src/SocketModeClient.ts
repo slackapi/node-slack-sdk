@@ -65,6 +65,7 @@ export class SocketModeClient extends EventEmitter {
    */
   private dispatcher?: SocketModeDispatcher;
 
+  /** The most recent response from `apps.connections.open`, used to establish the WebSocket URL. */
   private connectionResponse?: AppsConnectionsOpenResponse;
 
   public websocket?: SlackWebSocket;
@@ -97,6 +98,9 @@ export class SocketModeClient extends EventEmitter {
    */
   private shuttingDown = false;
 
+  /**
+   * Timer handle for scheduling automatic reconnection attempts after a disconnect.
+   */
   private reconnectionTimer: ReturnType<typeof setTimeout> | undefined;
 
   public constructor(
