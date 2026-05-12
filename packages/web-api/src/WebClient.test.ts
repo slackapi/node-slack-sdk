@@ -1073,6 +1073,8 @@ describe('WebClient', () => {
           assert.ok(error instanceof SlackError);
           assert.strictEqual(error.code, ErrorCode.RateLimitedError);
           assert.strictEqual(error.retryAfter, retryAfter);
+          assert.strictEqual(error.name, 'WebAPIRateLimitedError');
+          assert.ok(error.message.includes(String(retryAfter)), 'message includes retry-after seconds');
           scope.done();
         }
       });
