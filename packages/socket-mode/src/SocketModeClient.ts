@@ -136,8 +136,7 @@ export class SocketModeClient extends EventEmitter {
     }
     this.webClientOptions = clientOptions;
     if (dispatcher && this.webClientOptions.fetch === undefined) {
-      this.webClientOptions.fetch = (url, init) =>
-        undiciFetch(url, { ...init, dispatcher: dispatcher } as RequestInit);
+      this.webClientOptions.fetch = (url, init) => undiciFetch(url, { ...init, dispatcher: dispatcher } as RequestInit);
     }
     if (this.webClientOptions.retryConfig === undefined) {
       // For faster retries of apps.connections.open API calls for reconnecting
