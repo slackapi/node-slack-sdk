@@ -986,7 +986,7 @@ function redact(body: Record<string, unknown>): Record<string, unknown> {
       serializedValue = '[[REDACTED]]';
     }
 
-    // when value is buffer or stream we can avoid logging it
+    // when value is buffer we can avoid logging it
     if (Buffer.isBuffer(value)) {
       serializedValue = '[[BINARY VALUE OMITTED]]';
     } else if (typeof value !== 'string' && typeof value !== 'number' && typeof value !== 'boolean') {
