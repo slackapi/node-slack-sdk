@@ -8,13 +8,13 @@ import {
 } from '@slack/web-api';
 
 import { EventEmitter } from 'eventemitter3';
-import type WebSocket from 'ws';
+import { type RequestInit, fetch as undiciFetch } from 'undici';
 
 import packageJson from '../package.json';
 import { sendWhileDisconnectedError, sendWhileNotReadyError, websocketErrorWithOriginal } from './errors';
 import log, { type Logger, LogLevel } from './logger';
 import { SlackWebSocket, WS_READY_STATES } from './SlackWebSocket';
-import type { SocketModeOptions } from './SocketModeOptions';
+import type { SocketModeDispatcher, SocketModeOptions } from './SocketModeOptions';
 import { UnrecoverableSocketModeStartError } from './UnrecoverableSocketModeStartError';
 
 // Lifecycle events as described in the README
@@ -55,14 +55,19 @@ export class SocketModeClient extends EventEmitter {
   private webClient: WebClient;
 
   /**
-   * WebClient options we pass to our WebClient instance
-   * We also reuse agent and tls for our WebSocket connection
+   * WebClient options we pass to our WebClient instance.
    */
   private webClientOptions: WebClientOptions;
 
   /**
-   * The underlying WebSocket client instance
+   * The undici Dispatcher used for WebSocket connections. Also wrapped into a custom fetch for HTTP calls
+   * unless `clientOptions.fetch` was provided by the user.
    */
+  private dispatcher?: SocketModeDispatcher;
+
+  /** The most recent response from `apps.connections.open`, used to establish the WebSocket URL. */
+  private connectionResponse?: AppsConnectionsOpenResponse;
+
   public websocket?: SlackWebSocket;
 
   /**
@@ -93,6 +98,11 @@ export class SocketModeClient extends EventEmitter {
    */
   private shuttingDown = false;
 
+  /**
+   * Timer handle for scheduling automatic reconnection attempts after a disconnect.
+   */
+  private reconnectionTimer: ReturnType<typeof setTimeout> | undefined;
+
   public constructor(
     {
       logger = undefined,
@@ -103,6 +113,7 @@ export class SocketModeClient extends EventEmitter {
       serverPingTimeout = 30000,
       appToken = '',
       clientOptions = {},
+      dispatcher = undefined,
     }: SocketModeOptions = { appToken: '' },
   ) {
     super();
@@ -112,6 +123,7 @@ export class SocketModeClient extends EventEmitter {
     this.pingPongLoggingEnabled = pingPongLoggingEnabled;
     this.clientPingTimeoutMS = clientPingTimeout;
     this.serverPingTimeoutMS = serverPingTimeout;
+    this.dispatcher = dispatcher;
     // Setup the logger
     if (typeof logger !== 'undefined') {
       this.customLoggerProvided = true;
@@ -123,6 +135,9 @@ export class SocketModeClient extends EventEmitter {
       this.logger = log.getLogger(SocketModeClient.loggerName, logLevel ?? LogLevel.INFO, logger);
     }
     this.webClientOptions = clientOptions;
+    if (dispatcher && this.webClientOptions.fetch === undefined) {
+      this.webClientOptions.fetch = (url, init) => undiciFetch(url, { ...init, dispatcher: dispatcher } as RequestInit);
+    }
     if (this.webClientOptions.retryConfig === undefined) {
       // For faster retries of apps.connections.open API calls for reconnecting
       this.webClientOptions.retryConfig = { retries: 100, factor: 1.3 };
@@ -131,7 +146,7 @@ export class SocketModeClient extends EventEmitter {
       logger,
       logLevel: this.logger.getLevel(),
       headers: { Authorization: `Bearer ${appToken}` },
-      ...clientOptions,
+      ...this.webClientOptions,
     });
     this.autoReconnectEnabled = autoReconnectEnabled;
 
@@ -171,7 +186,7 @@ export class SocketModeClient extends EventEmitter {
       client: this,
       logLevel: this.logger.getLevel(),
       logger: this.customLoggerProvided ? this.logger : undefined,
-      httpAgent: this.webClientOptions.agent,
+      dispatcher: this.dispatcher,
       clientPingTimeoutMS: this.clientPingTimeoutMS,
       serverPingTimeoutMS: this.serverPingTimeoutMS,
       pingPongLoggingEnabled: this.pingPongLoggingEnabled,
@@ -204,6 +219,8 @@ export class SocketModeClient extends EventEmitter {
    */
   public disconnect(): Promise<void> {
     this.shuttingDown = true;
+    clearTimeout(this.reconnectionTimer);
+    this.reconnectionTimer = undefined;
     this.logger.debug('Manually disconnecting this Socket Mode client');
     this.emit(State.Disconnecting);
     return new Promise((resolve, _reject) => {
@@ -229,7 +246,8 @@ export class SocketModeClient extends EventEmitter {
     const msBeforeRetry = this.clientPingTimeoutMS * this.numOfConsecutiveReconnectionFailures;
     this.logger.debug(`Before trying to reconnect, this client will wait for ${msBeforeRetry} milliseconds`);
     return new Promise((res, _rej) => {
-      setTimeout(() => {
+      this.reconnectionTimer = setTimeout(() => {
+        this.reconnectionTimer = undefined;
         if (this.shuttingDown) {
           this.logger.debug('Client shutting down, will not attempt reconnect.');
         } else {
@@ -255,6 +273,7 @@ export class SocketModeClient extends EventEmitter {
         throw new Error(msg);
       }
       this.numOfConsecutiveReconnectionFailures = 0;
+      this.connectionResponse = resp;
       this.emit(State.Authenticated, resp);
       return resp.url;
     } catch (error) {
@@ -286,12 +305,12 @@ export class SocketModeClient extends EventEmitter {
    * - raising the State.Connected event (when Slack sends a type:hello message)
    * - disconnecting the underlying socket (when Slack sends a type:disconnect message)
    */
-  protected async onWebSocketMessage(data: WebSocket.RawData, isBinary: boolean): Promise<void> {
+  protected async onWebSocketMessage(data: string | ArrayBuffer, isBinary: boolean): Promise<void> {
     if (isBinary) {
       this.logger.debug('Unexpected binary message received, ignoring.');
       return;
     }
-    const payload = data.toString();
+    const payload = typeof data === 'string' ? data : new TextDecoder().decode(data);
     // TODO: should we redact things in here?
     this.logger.debug(`Received a message on the WebSocket: ${payload}`);
 
@@ -317,7 +336,7 @@ export class SocketModeClient extends EventEmitter {
 
     // Slack has finalized the handshake with a hello message; we are good to go.
     if (event.type === 'hello') {
-      this.emit(State.Connected);
+      this.emit(State.Connected, this.connectionResponse);
       return;
     }
 

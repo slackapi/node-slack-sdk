@@ -1,7 +1,3 @@
-import type { IncomingHttpHeaders } from 'node:http';
-
-import type { AxiosResponse } from 'axios';
-
 import type { WebAPICallResult } from './WebClient';
 
 /**
@@ -52,7 +48,7 @@ export interface WebAPIHTTPError extends CodedError {
   code: ErrorCode.HTTPError;
   statusCode: number;
   statusMessage: string;
-  headers: IncomingHttpHeaders;
+  headers: Record<string, string>;
   // biome-ignore lint/suspicious/noExplicitAny: HTTP response bodies might be anything
   body?: any;
 }
@@ -75,38 +71,46 @@ export function errorWithCode(error: Error, code: ErrorCode): CodedError {
 /**
  * A factory to create WebAPIRequestError objects
  * @param original - original error
- * @param attachOriginal - config indicating if 'original' property should be added on the error object
  */
-export function requestErrorWithOriginal(original: Error, attachOriginal: boolean): WebAPIRequestError {
+export function requestErrorWithOriginal(original: Error): WebAPIRequestError {
   const error = errorWithCode(
     new Error(`A request error occurred: ${original.message}`),
     ErrorCode.RequestError,
   ) as Partial<WebAPIRequestError>;
-  if (attachOriginal) {
-    error.original = original;
-  }
+  error.original = original;
   return error as WebAPIRequestError;
 }
 
 /**
  * A factory to create WebAPIHTTPError objects
- * @param response - original error
+ * @param status - HTTP status code
+ * @param statusText - HTTP status text
+ * @param headers - response headers
+ * @param body - response body
  */
-export function httpErrorFromResponse(response: AxiosResponse): WebAPIHTTPError {
+export function httpErrorFromResponse(
+  status: number,
+  statusText: string,
+  headers: Record<string, string>,
+  // biome-ignore lint/suspicious/noExplicitAny: HTTP response bodies might be anything
+  body?: any,
+): WebAPIHTTPError {
   const error = errorWithCode(
-    new Error(`An HTTP protocol error occurred: statusCode = ${response.status}`),
+    new Error(`An HTTP protocol error occurred: statusCode = ${status}`),
     ErrorCode.HTTPError,
   ) as Partial<WebAPIHTTPError>;
-  error.statusCode = response.status;
-  error.statusMessage = response.statusText;
-  const nonNullHeaders: Record<string, string> = {};
-  for (const k of Object.keys(response.headers)) {
-    if (k && response.headers[k]) {
-      nonNullHeaders[k] = response.headers[k];
+  error.statusCode = status;
+  error.statusMessage = statusText;
+  error.headers = headers;
+  if (typeof body === 'string') {
+    try {
+      error.body = JSON.parse(body);
+    } catch {
+      error.body = body;
     }
+  } else {
+    error.body = body;
   }
-  error.headers = nonNullHeaders;
-  error.body = response.data;
   return error as WebAPIHTTPError;
 }
 
