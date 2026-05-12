@@ -97,6 +97,8 @@ export class SocketModeClient extends EventEmitter {
    */
   private shuttingDown = false;
 
+  private reconnectionTimer: ReturnType<typeof setTimeout> | undefined;
+
   public constructor(
     {
       logger = undefined,
@@ -214,6 +216,8 @@ export class SocketModeClient extends EventEmitter {
    */
   public disconnect(): Promise<void> {
     this.shuttingDown = true;
+    clearTimeout(this.reconnectionTimer);
+    this.reconnectionTimer = undefined;
     this.logger.debug('Manually disconnecting this Socket Mode client');
     this.emit(State.Disconnecting);
     return new Promise((resolve, _reject) => {
@@ -239,7 +243,8 @@ export class SocketModeClient extends EventEmitter {
     const msBeforeRetry = this.clientPingTimeoutMS * this.numOfConsecutiveReconnectionFailures;
     this.logger.debug(`Before trying to reconnect, this client will wait for ${msBeforeRetry} milliseconds`);
     return new Promise((res, _rej) => {
-      setTimeout(() => {
+      this.reconnectionTimer = setTimeout(() => {
+        this.reconnectionTimer = undefined;
         if (this.shuttingDown) {
           this.logger.debug('Client shutting down, will not attempt reconnect.');
         } else {

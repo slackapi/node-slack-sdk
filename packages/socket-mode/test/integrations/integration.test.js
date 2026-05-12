@@ -1,7 +1,7 @@
 const assert = require('node:assert/strict');
 const { describe, it, beforeEach, afterEach } = require('node:test');
-const { SocketModeClient } = require('../src/SocketModeClient');
-const { LogLevel } = require('../src/logger');
+const { SocketModeClient } = require('../../src/SocketModeClient');
+const { LogLevel } = require('../../src/logger');
 const { WebSocketServer } = require('ws');
 const { createServer } = require('node:http');
 const sinon = require('sinon');
@@ -139,7 +139,7 @@ describe('Integration tests with a WebSocket server', { timeout: 30000 }, () => 
   });
   describe('unexpected socket messages sent to client', () => {
     const debugLoggerSpy = sinon.stub(); // add the following to expose further logging: .callsFake(console.log);
-    const noop = () => {};
+    const noop = () => { };
     beforeEach(() => {
       client = new SocketModeClient({
         appToken: 'whatever',
@@ -219,7 +219,7 @@ describe('Integration tests with a WebSocket server', { timeout: 30000 }, () => 
       const startTime = Date.now();
 
       // do not use await here, since `start()` won't return until the connection is established. we are intentionally testing connection establishment failure, so that will never finish. so, let's run this in a rogue "thread", e.g. fire off an async method and let it do its thing!
-      client.start().catch(() => {});
+      client.start().catch(() => { });
       do {
         await sleep(5);
         retries = closed;
@@ -422,7 +422,7 @@ describe('Integration tests with a WebSocket server', { timeout: 30000 }, () => 
           unresponsiveWsServer.on('upgrade', (req, socket, head) => {
             rawSocket = socket;
             wss.handleUpgrade(req, socket, head, (ws) => {
-              ws.on('error', () => {});
+              ws.on('error', () => { });
               ws.send(JSON.stringify({ type: 'hello' }));
               exposed_ws_connection = ws;
               // Make the server completely unresponsive: it won't process any incoming
@@ -443,7 +443,7 @@ describe('Integration tests with a WebSocket server', { timeout: 30000 }, () => 
             wss.close();
             wss = new WebSocketServer({ port: WSS_PORT });
             wss.on('connection', (ws) => {
-              ws.on('error', () => {});
+              ws.on('error', () => { });
               ws.send(JSON.stringify({ type: 'hello' }));
               exposed_ws_connection = ws;
             });
