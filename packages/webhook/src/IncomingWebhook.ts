@@ -24,7 +24,7 @@ export interface FetchRequestInit {
   headers?: Record<string, string>;
   body?: string | FormData;
   redirect?: 'error' | 'follow' | 'manual';
-  signal?: AbortSignal | null;
+  signal?: AbortSignal;
 }
 
 export type FetchFunction = (url: string | URL, init?: FetchRequestInit) => Promise<FetchResponse>;

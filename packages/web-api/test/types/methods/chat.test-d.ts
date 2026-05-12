@@ -1,6 +1,6 @@
 import { CustomFieldType, type EntityMetadata } from '@slack/types';
 import { expectAssignable, expectError } from 'tsd';
-import { type RequestOptions, WebClient } from '../../../src/WebClient';
+import { WebClient } from '../../../src/WebClient';
 
 const web = new WebClient('TOKEN');
 

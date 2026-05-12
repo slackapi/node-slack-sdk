@@ -8,7 +8,7 @@ import {
 } from '@slack/web-api';
 
 import { EventEmitter } from 'eventemitter3';
-import { type Dispatcher, type RequestInit, fetch as undiciFetch } from 'undici';
+import { type RequestInit, fetch as undiciFetch } from 'undici';
 
 import packageJson from '../package.json';
 import { sendWhileDisconnectedError, sendWhileNotReadyError, websocketErrorWithOriginal } from './errors';
@@ -137,7 +137,7 @@ export class SocketModeClient extends EventEmitter {
     this.webClientOptions = clientOptions;
     if (dispatcher && this.webClientOptions.fetch === undefined) {
       this.webClientOptions.fetch = (url, init) =>
-        undiciFetch(url, { ...init, dispatcher: dispatcher as Dispatcher } as RequestInit);
+        undiciFetch(url, { ...init, dispatcher: dispatcher } as RequestInit);
     }
     if (this.webClientOptions.retryConfig === undefined) {
       // For faster retries of apps.connections.open API calls for reconnecting
