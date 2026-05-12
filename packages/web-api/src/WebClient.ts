@@ -810,7 +810,7 @@ export class WebClient extends Methods {
       } catch (err) {
         data = { ok: false, error: err };
       }
-    } else if (!isGzipResponse && response.url.endsWith('admin.analytics.getFile')) {
+    } else if (!isGzipResponse && response.url.endsWith('/admin.analytics.getFile')) {
       // if it isn't a Gzip response but is from the admin.analytics.getFile request,
       // decode the ArrayBuffer to JSON read the error
       const buffer = await response.arrayBuffer();
