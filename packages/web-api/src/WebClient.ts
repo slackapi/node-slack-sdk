@@ -606,7 +606,7 @@ export class WebClient extends Methods {
       this.requestQueue.add(async () => {
         // apps.event.authorizations.list will reject HTTP requests that send token in the body
         // TODO: consider applying this change to all methods - though that will require thorough integration testing
-        if (url.endsWith('apps.event.authorizations.list')) {
+        if (url.endsWith('/apps.event.authorizations.list')) {
           body.token = undefined;
         }
 
