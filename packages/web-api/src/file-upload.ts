@@ -264,19 +264,6 @@ export function getAllFileUploadsToComplete(
 
 // Validation
 /**
- * Advise to use the files.uploadV2 method over legacy files.upload method and over
- * lower-level utilities.
- * @param method
- * @param logger
- */
-export function warnIfNotUsingFilesUploadV2(method: string, logger: Logger): void {
-  const targetMethods = ['files.upload'];
-  const isTargetMethod = targetMethods.includes(method);
-  if (method === 'files.upload') logger.warn(buildLegacyMethodWarning(method));
-  if (isTargetMethod) logger.info(buildGeneralFilesUploadWarning());
-}
-
-/**
  * `channels` param is supported but only when a single channel is specified.
  * @param options
  * @param logger
@@ -386,17 +373,6 @@ export function buildMissingFileNameWarning(): string {
 
 export function buildMissingExtensionWarning(filename: string): string {
   return `filename supplied '${filename}' may be missing a proper extension. Missing extenions may result in unexpected unfurl behavior when shared`;
-}
-
-export function buildLegacyMethodWarning(method: string): string {
-  return `${method} may cause some issues like timeouts for relatively large files.`;
-}
-
-export function buildGeneralFilesUploadWarning(): string {
-  return (
-    'Our latest recommendation is to use client.files.uploadV2() method, ' +
-    'which is mostly compatible and much stabler, instead.'
-  );
 }
 
 export function buildFilesUploadMissingMessage(): string {
