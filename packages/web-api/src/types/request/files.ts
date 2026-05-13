@@ -72,7 +72,7 @@ export type FilesCompleteUploadExternalArguments = FileDestinationArgument &
     files: [FileUploadComplete, ...FileUploadComplete[]];
     /**
      * @description Syntax type of the snippet being uploaded. E.g. `python`.
-     * @see {@link https://docs.slack.dev/reference/methods/files.completeUploadExternal#arg_highlight_type}
+     * @see {@link https://docs.slack.dev/reference/methods/files.completeUploadExternal}
      */
     highlight_type?: string;
     /** @description The message text introducing the file in the specified channel. */
@@ -175,7 +175,7 @@ export type FileUploadV2 = FileUpload & {
   channels?: string;
   /**
    * @description Syntax type of the snippet being uploaded. E.g. `python`.
-   * @see {@link https://docs.slack.dev/reference/methods/files.completeUploadExternal#arg_highlight_type}
+   * @see {@link https://docs.slack.dev/reference/methods/files.completeUploadExternal}
    */
   highlight_type?: string;
   /** @description Syntax type of the snippet being uploaded. E.g. `python`. */
