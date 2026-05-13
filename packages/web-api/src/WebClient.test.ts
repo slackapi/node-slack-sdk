@@ -12,11 +12,7 @@ import {
   type WebAPIRateLimitedError,
   type WebAPIRequestError,
 } from './errors';
-import {
-  buildGeneralFilesUploadWarning,
-  buildInvalidFilesUploadParamError,
-  buildLegacyMethodWarning,
-} from './file-upload';
+import { buildInvalidFilesUploadParamError } from './file-upload';
 import { addAppMetadata } from './instrument';
 import { type Logger, LogLevel } from './logger';
 import { rapidRetryPolicy } from './retry-policies';
@@ -304,7 +300,6 @@ describe('WebClient', () => {
         { method: 'chat.postEphemeral' },
         { method: 'chat.postMessage' },
         { method: 'chat.scheduleMessage' },
-        { method: 'files.upload' },
       ];
 
       const threadPatterns = threadTsTestPatterns.reduce((acc, { method }) => {
@@ -353,40 +348,15 @@ describe('WebClient', () => {
         });
       }
 
-      it('warns when user is accessing the files.upload (legacy) method', async () => {
-        const client = new WebClient(token, { logLevel: LogLevel.INFO, logger });
-        await client.apiCall('files.upload', {});
-
-        // both must be true to pass this test
-        let warnedAboutLegacyFilesUpload = false;
-        let infoAboutRecommendedFilesUploadV2 = false;
-
-        // check the warn spy for whether it was called with the correct warning
-        for (const call of (logger.warn as sinon.SinonStub).getCalls()) {
-          if (call.args[0] === buildLegacyMethodWarning('files.upload')) {
-            warnedAboutLegacyFilesUpload = true;
-          }
-        }
-        // check the info spy for whether it was called with the correct warning
-        for (const call of (logger.info as sinon.SinonStub).getCalls()) {
-          if (call.args[0] === buildGeneralFilesUploadWarning()) {
-            infoAboutRecommendedFilesUploadV2 = true;
-          }
-        }
-        if (!warnedAboutLegacyFilesUpload || !infoAboutRecommendedFilesUploadV2) {
-          assert.fail('Should have logged a warning and info when files.upload is used');
-        }
-      });
-
       it('warns when user is accessing a deprecated method', async () => {
         const client = new WebClient(token, { logLevel: LogLevel.INFO, logger });
-        await client.apiCall('workflows.stepCompleted', {});
+        await client.apiCall('oauth.access', {});
 
         let warnedAboutDeprecatedMethod = false;
         for (const call of (logger.warn as sinon.SinonStub).getCalls()) {
           if (
             call.args[0] ===
-            'workflows.stepCompleted is deprecated. Please check on https://docs.slack.dev/reference/methods for an alternative.'
+            'oauth.access is deprecated. Please check on https://docs.slack.dev/reference/methods for an alternative.'
           ) {
             warnedAboutDeprecatedMethod = true;
           }

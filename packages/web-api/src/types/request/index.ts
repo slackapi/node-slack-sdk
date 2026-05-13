@@ -232,7 +232,6 @@ export type {
   FilesRemoteUpdateArguments,
   FilesRevokePublicURLArguments,
   FilesSharedPublicURLArguments,
-  FilesUploadArguments,
   FilesUploadV2Arguments,
 } from './files';
 export type {
@@ -267,10 +266,7 @@ export type {
   RemindersInfoArguments,
   RemindersListArguments,
 } from './reminders';
-export type {
-  RTMConnectArguments,
-  RTMStartArguments,
-} from './rtm';
+export type { RTMConnectArguments } from './rtm';
 export type {
   SearchAllArguments,
   SearchFilesArguments,
@@ -340,7 +336,4 @@ export type {
   WorkflowsFeaturedListArguments,
   WorkflowsFeaturedRemoveArguments,
   WorkflowsFeaturedSetArguments,
-  WorkflowsStepCompletedArguments,
-  WorkflowsStepFailedArguments,
-  WorkflowsUpdateStepArguments,
 } from './workflows';

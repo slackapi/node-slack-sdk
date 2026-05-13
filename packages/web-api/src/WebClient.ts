@@ -12,12 +12,7 @@ import {
   rateLimitedErrorWithDelay,
   requestErrorWithOriginal,
 } from './errors';
-import {
-  getAllFileUploadsToComplete,
-  getFileUploadJob,
-  getMultipleFileUploadJobs,
-  warnIfNotUsingFilesUploadV2,
-} from './file-upload';
+import { getAllFileUploadsToComplete, getFileUploadJob, getMultipleFileUploadJobs } from './file-upload';
 import delay from './helpers';
 import { getUserAgent } from './instrument';
 import { getLogger, type Logger, LogLevel } from './logger';
@@ -276,7 +271,6 @@ export class WebClient extends Methods {
       throw new TypeError(`Expected an options argument but instead received a ${typeof options}`);
     }
 
-    warnIfNotUsingFilesUploadV2(method, this.logger);
     // @ts-expect-error insufficient overlap between Record and FilesUploadV2Arguments
     if (method === 'files.uploadV2') return this.filesUploadV2(options as FilesUploadV2Arguments);
 
@@ -896,7 +890,7 @@ function parseRetryHeaders(response: FetchResponse): number | undefined {
  * @param logger instance of web clients logger
  */
 function warnDeprecations(method: string, logger: Logger): void {
-  const deprecatedMethods = ['workflows.stepCompleted', 'workflows.stepFailed', 'workflows.updateStep'];
+  const deprecatedMethods = ['oauth.access'];
 
   const isDeprecated = deprecatedMethods.some((depMethod) => {
     const re = new RegExp(`^${depMethod}`);
@@ -954,7 +948,7 @@ function warnIfFallbackIsMissing(method: string, logger: Logger, options?: Recor
  * @param options arguments for the Web API method
  */
 function warnIfThreadTsIsNotString(method: string, logger: Logger, options?: Record<string, unknown>): void {
-  const targetMethods = ['chat.postEphemeral', 'chat.postMessage', 'chat.scheduleMessage', 'files.upload'];
+  const targetMethods = ['chat.postEphemeral', 'chat.postMessage', 'chat.scheduleMessage'];
   const isTargetMethod = targetMethods.includes(method);
 
   if (isTargetMethod && options?.thread_ts !== undefined && typeof options?.thread_ts !== 'string') {
