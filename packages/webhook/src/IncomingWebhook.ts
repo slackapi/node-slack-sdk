@@ -1,6 +1,6 @@
 import type { Block, KnownBlock, MessageAttachment } from '@slack/types'; // TODO: Block and KnownBlock will be merged into AnyBlock in upcoming types release
 
-import { httpErrorWithOriginal, requestErrorWithOriginal } from './errors';
+import { IncomingWebhookHTTPError, IncomingWebhookRequestError, SlackWebhookError } from './errors';
 import { getUserAgent } from './instrument';
 
 export interface FetchHeaders {
@@ -111,15 +111,15 @@ export class IncomingWebhook {
 
       if (!response.ok) {
         const body = await response.text();
-        throw httpErrorWithOriginal(response.status, body);
+        throw new IncomingWebhookHTTPError(response.status, response.statusText, body);
       }
 
       return await this.buildResult(response);
     } catch (error) {
-      if (error instanceof Error && 'code' in error && typeof error.code === 'string') {
+      if (error instanceof SlackWebhookError) {
         throw error;
       }
-      throw requestErrorWithOriginal(error instanceof Error ? error : new Error(String(error)));
+      throw new IncomingWebhookRequestError(error instanceof Error ? error : new Error(String(error)));
     } finally {
       if (timer) clearTimeout(timer);
     }

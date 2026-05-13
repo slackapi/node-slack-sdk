@@ -3,7 +3,7 @@ import { Readable } from 'node:stream';
 
 import type { Logger } from '@slack/logger';
 
-import { ErrorCode, errorWithCode } from './errors';
+import { WebAPIFileUploadInvalidArgumentsError, WebAPIFileUploadReadFileDataError } from './errors';
 import type {
   FilesCompleteUploadExternalArguments,
   FilesUploadV2Arguments,
@@ -55,9 +55,8 @@ export async function getFileUploadJob(
       ...fileUploadJob,
     };
   }
-  throw errorWithCode(
-    new Error('Either a file or content field is required for valid file upload. You must supply one'),
-    ErrorCode.FileUploadInvalidArgumentsError,
+  throw new WebAPIFileUploadInvalidArgumentsError(
+    'Either a file or content field is required for valid file upload. You must supply one',
   );
 }
 
@@ -99,10 +98,7 @@ export async function getMultipleFileUploadJobs(
         // inside file_uploads.
         const { blocks, channel_id, channels, initial_comment, thread_ts } = upload as FileUploadV2;
         if (blocks || channel_id || channels || initial_comment || thread_ts) {
-          throw errorWithCode(
-            new Error(buildInvalidFilesUploadParamError()),
-            ErrorCode.FileUploadInvalidArgumentsError,
-          );
+          throw new WebAPIFileUploadInvalidArgumentsError(buildInvalidFilesUploadParamError());
         }
         // takes any channel_id, initial_comment and thread_ts
         // supplied at the top level.
@@ -137,9 +133,8 @@ export async function getMultipleFileUploadJobs(
             logger,
           );
         }
-        throw errorWithCode(
-          new Error('Either a file or content field is required for valid file upload. You must supply one'),
-          ErrorCode.FileUploadInvalidArgumentsError,
+        throw new WebAPIFileUploadInvalidArgumentsError(
+          'Either a file or content field is required for valid file upload. You must supply one',
         );
       }),
     );
@@ -169,11 +164,8 @@ export async function getFileData(options: FilesUploadV2Arguments | FileUploadV2
         const dataBuffer = readFileSync(file);
         return dataBuffer;
       } catch (_err) {
-        throw errorWithCode(
-          new Error(
-            `Unable to resolve file data for ${file}. Please supply a filepath string, or binary data Buffer or String directly.`,
-          ),
-          ErrorCode.FileUploadInvalidArgumentsError,
+        throw new WebAPIFileUploadInvalidArgumentsError(
+          `Unable to resolve file data for ${file}. Please supply a filepath string, or binary data Buffer or String directly.`,
         );
       }
     }
@@ -185,9 +177,8 @@ export async function getFileData(options: FilesUploadV2Arguments | FileUploadV2
   if ('content' in options) return Buffer.from(options.content);
 
   // general catch-all error
-  throw errorWithCode(
-    new Error('There was an issue getting the file data for the file or content supplied'),
-    ErrorCode.FileUploadReadFileDataError,
+  throw new WebAPIFileUploadReadFileDataError(
+    'There was an issue getting the file data for the file or content supplied',
   );
 }
 
@@ -195,7 +186,7 @@ export function getFileDataLength(data: Buffer): number {
   if (data) {
     return Buffer.byteLength(data, 'utf8');
   }
-  throw errorWithCode(new Error(buildFileSizeErrorMsg()), ErrorCode.FileUploadReadFileDataError);
+  throw new WebAPIFileUploadReadFileDataError(buildFileSizeErrorMsg());
 }
 
 export async function getFileDataAsStream(readable: Readable): Promise<Buffer> {
@@ -291,7 +282,7 @@ export function warnIfChannels(options: FilesUploadV2Arguments | FileUploadV2, l
 export function errorIfChannelsCsv(options: FilesUploadV2Arguments | FileUploadV2): void {
   const channels = options.channels ? options.channels.split(',') : [];
   if (channels.length > 1) {
-    throw errorWithCode(new Error(buildMultipleChannelsErrorMsg()), ErrorCode.FileUploadInvalidArgumentsError);
+    throw new WebAPIFileUploadInvalidArgumentsError(buildMultipleChannelsErrorMsg());
   }
 }
 
@@ -304,22 +295,18 @@ export function errorIfInvalidOrMissingFileData(options: FilesUploadV2Arguments 
   const hasContent = 'content' in options;
 
   if (!(hasFile || hasContent) || (hasFile && hasContent)) {
-    throw errorWithCode(
-      new Error('Either a file or content field is required for valid file upload. You cannot supply both'),
-      ErrorCode.FileUploadInvalidArgumentsError,
+    throw new WebAPIFileUploadInvalidArgumentsError(
+      'Either a file or content field is required for valid file upload. You cannot supply both',
     );
   }
   if ('file' in options) {
     const { file } = options;
     if (file && !(typeof file === 'string' || Buffer.isBuffer(file) || file instanceof Readable)) {
-      throw errorWithCode(
-        new Error('file must be a valid string path, buffer or Readable'),
-        ErrorCode.FileUploadInvalidArgumentsError,
-      );
+      throw new WebAPIFileUploadInvalidArgumentsError('file must be a valid string path, buffer or Readable');
     }
   }
   if ('content' in options && options.content && typeof options.content !== 'string') {
-    throw errorWithCode(new Error('content must be a string'), ErrorCode.FileUploadInvalidArgumentsError);
+    throw new WebAPIFileUploadInvalidArgumentsError('content must be a string');
   }
 }
 

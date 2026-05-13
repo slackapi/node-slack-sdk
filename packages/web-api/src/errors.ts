@@ -1,7 +1,7 @@
 import type { WebAPICallResult } from './WebClient';
 
 /**
- * All errors produced by this package adhere to this interface
+ * @deprecated Use `instanceof` checks with specific error classes (e.g. `WebAPIPlatformError`) or the `SlackError` base class instead.
  */
 export interface CodedError extends NodeJS.ErrnoException {
   code: ErrorCode;
@@ -23,119 +23,83 @@ export enum ErrorCode {
 }
 
 export type WebAPICallError = WebAPIPlatformError | WebAPIRequestError | WebAPIHTTPError | WebAPIRateLimitedError;
-export type WebAPIFilesUploadError = WebAPIFileUploadInvalidArgumentsError;
+export type WebAPIFilesUploadError = WebAPIFileUploadInvalidArgumentsError | WebAPIFileUploadReadFileDataError;
 
-export interface WebAPIFileUploadInvalidArgumentsError extends CodedError {
-  code: ErrorCode.FileUploadInvalidArgumentsError;
-  data: WebAPICallResult & {
-    error: string;
-  };
-}
+export abstract class SlackError extends Error {
+  abstract readonly code: ErrorCode;
 
-export interface WebAPIPlatformError extends CodedError {
-  code: ErrorCode.PlatformError;
-  data: WebAPICallResult & {
-    error: string;
-  };
-}
-
-export interface WebAPIRequestError extends CodedError {
-  code: ErrorCode.RequestError;
-  original: Error;
-}
-
-export interface WebAPIHTTPError extends CodedError {
-  code: ErrorCode.HTTPError;
-  statusCode: number;
-  statusMessage: string;
-  headers: Record<string, string>;
-  // biome-ignore lint/suspicious/noExplicitAny: HTTP response bodies might be anything
-  body?: any;
-}
-
-export interface WebAPIRateLimitedError extends CodedError {
-  code: ErrorCode.RateLimitedError;
-  retryAfter: number;
-}
-
-/**
- * Factory for producing a {@link CodedError} from a generic error
- */
-export function errorWithCode(error: Error, code: ErrorCode): CodedError {
-  // NOTE: might be able to return something more specific than a CodedError with conditional typing
-  const codedError = error as Partial<CodedError>;
-  codedError.code = code;
-  return codedError as CodedError;
-}
-
-/**
- * A factory to create WebAPIRequestError objects
- * @param original - original error
- */
-export function requestErrorWithOriginal(original: Error): WebAPIRequestError {
-  const error = errorWithCode(
-    new Error(`A request error occurred: ${original.message}`),
-    ErrorCode.RequestError,
-  ) as Partial<WebAPIRequestError>;
-  error.original = original;
-  return error as WebAPIRequestError;
-}
-
-/**
- * A factory to create WebAPIHTTPError objects
- * @param status - HTTP status code
- * @param statusText - HTTP status text
- * @param headers - response headers
- * @param body - response body
- */
-export function httpErrorFromResponse(
-  status: number,
-  statusText: string,
-  headers: Record<string, string>,
-  // biome-ignore lint/suspicious/noExplicitAny: HTTP response bodies might be anything
-  body?: any,
-): WebAPIHTTPError {
-  const error = errorWithCode(
-    new Error(`An HTTP protocol error occurred: statusCode = ${status}`),
-    ErrorCode.HTTPError,
-  ) as Partial<WebAPIHTTPError>;
-  error.statusCode = status;
-  error.statusMessage = statusText;
-  error.headers = headers;
-  if (typeof body === 'string') {
-    try {
-      error.body = JSON.parse(body);
-    } catch {
-      error.body = body;
-    }
-  } else {
-    error.body = body;
+  constructor(message: string, options?: ErrorOptions) {
+    super(message, options);
+    this.name = this.constructor.name;
+    Object.setPrototypeOf(this, new.target.prototype);
   }
-  return error as WebAPIHTTPError;
 }
 
-/**
- * A factory to create WebAPIPlatformError objects
- * @param result - Web API call result
- */
-export function platformErrorFromResult(result: WebAPICallResult & { error: string }): WebAPIPlatformError {
-  const error = errorWithCode(
-    new Error(`An API error occurred: ${result.error}`),
-    ErrorCode.PlatformError,
-  ) as Partial<WebAPIPlatformError>;
-  error.data = result;
-  return error as WebAPIPlatformError;
+export class WebAPIPlatformError extends SlackError {
+  readonly code = ErrorCode.PlatformError;
+  readonly data: WebAPICallResult & { error: string };
+
+  constructor(result: WebAPICallResult & { error: string }) {
+    super(`An API error occurred: ${result.error}`);
+    this.data = result;
+  }
 }
 
-/**
- * A factory to create WebAPIRateLimitedError objects
- * @param retrySec - Number of seconds that the request can be retried in
- */
-export function rateLimitedErrorWithDelay(retrySec: number): WebAPIRateLimitedError {
-  const error = errorWithCode(
-    new Error(`A rate-limit has been reached, you may retry this request in ${retrySec} seconds`),
-    ErrorCode.RateLimitedError,
-  ) as Partial<WebAPIRateLimitedError>;
-  error.retryAfter = retrySec;
-  return error as WebAPIRateLimitedError;
+export class WebAPIRequestError extends SlackError {
+  readonly code = ErrorCode.RequestError;
+  readonly original: Error;
+
+  constructor(original: Error) {
+    super(`A request error occurred: ${original.message}`, { cause: original });
+    this.original = original;
+  }
+}
+
+export class WebAPIHTTPError extends SlackError {
+  readonly code = ErrorCode.HTTPError;
+  readonly statusCode: number;
+  readonly statusMessage: string;
+  readonly headers: Record<string, string>;
+  // biome-ignore lint/suspicious/noExplicitAny: HTTP response bodies might be anything
+  readonly body?: any;
+
+  constructor(
+    statusCode: number,
+    statusMessage: string,
+    headers: Record<string, string>,
+    // biome-ignore lint/suspicious/noExplicitAny: HTTP response bodies might be anything
+    body?: any,
+  ) {
+    super(`An HTTP protocol error occurred: statusCode = ${statusCode}`);
+    this.statusCode = statusCode;
+    this.statusMessage = statusMessage;
+    this.headers = headers;
+    if (typeof body === 'string') {
+      try {
+        this.body = JSON.parse(body);
+      } catch {
+        this.body = body;
+      }
+    } else {
+      this.body = body;
+    }
+  }
+}
+
+export class WebAPIRateLimitedError extends SlackError {
+  readonly code = ErrorCode.RateLimitedError;
+  readonly retryAfter: number;
+
+  constructor(retryAfter: number) {
+    super(`A rate-limit has been reached, you may retry this request in ${retryAfter} seconds`);
+    this.retryAfter = retryAfter;
+  }
+}
+
+export class WebAPIFileUploadInvalidArgumentsError extends SlackError {
+  readonly code = ErrorCode.FileUploadInvalidArgumentsError;
+}
+
+export class WebAPIFileUploadReadFileDataError extends SlackError {
+  readonly code = ErrorCode.FileUploadReadFileDataError;
 }
