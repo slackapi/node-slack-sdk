@@ -174,7 +174,7 @@ export type FileUploadV2 = FileUpload & {
   /** @deprecated use channel_id instead */
   channels?: string;
   /**
-   * @description Syntax type of the snippet being uploaded. E.g. `python`.
+   * @description Optional highlight type hint for the file. The upload processing job may overwrite this value.
    * @see {@link https://docs.slack.dev/reference/methods/files.completeUploadExternal}
    */
   highlight_type?: string;
