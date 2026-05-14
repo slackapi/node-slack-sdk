@@ -3,7 +3,7 @@ import { channel } from 'node:diagnostics_channel';
 import type { EventEmitter } from 'eventemitter3';
 import { CloseEvent, type Dispatcher, ErrorEvent, MessageEvent, ping, WebSocket } from 'undici';
 
-import { websocketErrorWithOriginal } from './errors';
+import { SMWebsocketError } from './errors';
 import log, { type Logger, LogLevel } from './logger';
 import type { SocketModeDispatcher } from './SocketModeOptions';
 
@@ -151,7 +151,7 @@ export class SlackWebSocket {
       }
       this.logger.error(`WebSocket error occurred: ${event.message}`);
       this.disconnect();
-      this.options.client.emit('error', websocketErrorWithOriginal(event.error ?? new Error(event.message)));
+      this.options.client.emit('error', new SMWebsocketError(event.error ?? new Error(event.message)));
     };
     this.websocket.addEventListener('error', this.errorHandler);
 

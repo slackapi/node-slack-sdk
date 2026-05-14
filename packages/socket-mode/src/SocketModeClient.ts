@@ -1,8 +1,9 @@
 import {
-  ErrorCode as APICallErrorCode,
   type AppsConnectionsOpenResponse,
   addAppMetadata,
-  type WebAPICallError,
+  WebAPIHTTPError,
+  WebAPIPlatformError,
+  WebAPIRequestError,
   WebClient,
   type WebClientOptions,
 } from '@slack/web-api';
@@ -11,7 +12,7 @@ import { EventEmitter } from 'eventemitter3';
 import { type RequestInit, fetch as undiciFetch } from 'undici';
 
 import packageJson from '../package.json';
-import { sendWhileDisconnectedError, sendWhileNotReadyError, websocketErrorWithOriginal } from './errors';
+import { SMSendWhileDisconnectedError, SMSendWhileNotReadyError, SMWebsocketError } from './errors';
 import log, { type Logger, LogLevel } from './logger';
 import { SlackWebSocket, WS_READY_STATES } from './SlackWebSocket';
 import type { SocketModeDispatcher, SocketModeOptions } from './SocketModeOptions';
@@ -279,16 +280,15 @@ export class SocketModeClient extends EventEmitter {
     } catch (error) {
       // TODO: Python catches rate limit errors when interacting with this API: https://github.com/slackapi/python-slack-sdk/blob/main/slack_sdk/socket_mode/client.py#L51
       this.logger.error(`Failed to retrieve a new WSS URL (error: ${error})`);
-      const err = error as WebAPICallError;
       let isRecoverable = true;
       if (
-        err.code === APICallErrorCode.PlatformError &&
-        (Object.values(UnrecoverableSocketModeStartError) as string[]).includes(err.data.error)
+        error instanceof WebAPIPlatformError &&
+        (Object.values(UnrecoverableSocketModeStartError) as string[]).includes(error.data.error)
       ) {
         isRecoverable = false;
-      } else if (err.code === APICallErrorCode.RequestError) {
+      } else if (error instanceof WebAPIRequestError) {
         isRecoverable = false;
-      } else if (err.code === APICallErrorCode.HTTPError) {
+      } else if (error instanceof WebAPIHTTPError) {
         isRecoverable = false;
       }
       if (this.autoReconnectEnabled && isRecoverable) {
@@ -410,10 +410,10 @@ export class SocketModeClient extends EventEmitter {
       );
       if (this.websocket === undefined) {
         this.logger.error('Failed to send a message as the client is not connected');
-        reject(sendWhileDisconnectedError());
+        reject(new SMSendWhileDisconnectedError());
       } else if (!this.websocket.isActive()) {
         this.logger.error('Failed to send a message as the client has no active connection');
-        reject(sendWhileNotReadyError());
+        reject(new SMSendWhileNotReadyError());
       } else {
         this.emit('outgoing_message', message);
 
@@ -422,7 +422,7 @@ export class SocketModeClient extends EventEmitter {
         this.websocket.send(flatMessage, (error) => {
           if (error) {
             this.logger.error(`Failed to send a WebSocket message (error: ${error})`);
-            return reject(websocketErrorWithOriginal(error));
+            return reject(new SMWebsocketError(error));
           }
           return resolve();
         });
