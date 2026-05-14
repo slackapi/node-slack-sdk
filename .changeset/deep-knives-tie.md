@@ -11,9 +11,9 @@ const client = new WebClient(process.env.SLACK_BOT_TOKEN);
 
 await client.filesUploadV2({
   channel_id: "C0123456789",
-  file: "app.js",
-  filename: "app.js",
-  title: "Example Snippet",
-  highlight_type: "javascript",
+  file: "./image.png",
+  filename: "image.png",
+  title: "Image Upload",
+  highlight_type: "png",
 });
 ```
