@@ -335,7 +335,7 @@ describe('file-upload', () => {
       assert.strictEqual(job.channel_id, 'C123');
       assert.strictEqual(job.thread_ts, '1.0');
       assert.strictEqual(job.initial_comment, 'Here is a snippet');
-      assert.strictEqual(job.highlight_type, 'python');
+      assert.strictEqual(job.files[0].highlight_type, 'python');
       assert.deepStrictEqual(job.blocks, fileUploadJob1.blocks);
     });
     describe('when channel_id is the same', () => {

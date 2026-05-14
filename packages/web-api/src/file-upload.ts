@@ -241,10 +241,9 @@ export function getAllFileUploadsToComplete(
       // biome-ignore lint/suspicious/noPrototypeBuiltins: TODO use hasOwn instead of hasOwnProperty
       if (!Object.prototype.hasOwnProperty.call(toComplete, compareString)) {
         toComplete[compareString] = {
-          files: [{ id: file_id, title }],
+          files: [{ id: file_id, title, highlight_type }],
           channel_id,
           blocks,
-          highlight_type,
           initial_comment,
         };
         if (thread_ts && channel_id) {
@@ -264,6 +263,7 @@ export function getAllFileUploadsToComplete(
         toComplete[compareString].files.push({
           id: file_id,
           title,
+          highlight_type,
         });
       }
     } else {

@@ -34,6 +34,11 @@ export interface FileType {
 export interface FileUploadComplete {
   /** @description Encoded file ID. */
   id: string;
+  /**
+   * @description Optional highlight type hint for the file. The upload processing job may overwrite this value.
+   * @see {@link https://docs.slack.dev/reference/methods/files.completeUploadExternal}
+   */
+  highlight_type?: string;
   /** @description File title. */
   title?: string;
 }
@@ -70,11 +75,6 @@ export type FilesCompleteUploadExternalArguments = FileDestinationArgument &
      * @example [{"id":"F044GKUHN9Z", "title":"slack-test"}]
      **/
     files: [FileUploadComplete, ...FileUploadComplete[]];
-    /**
-     * @description Syntax type of the snippet being uploaded. E.g. `python`.
-     * @see {@link https://docs.slack.dev/reference/methods/files.completeUploadExternal}
-     */
-    highlight_type?: string;
     /** @description The message text introducing the file in the specified channel. */
     initial_comment?: string;
     /**
