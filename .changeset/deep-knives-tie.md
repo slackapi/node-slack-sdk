@@ -1,5 +1,5 @@
 ---
-"@slack/web-api": patch
+"@slack/web-api": minor
 ---
 
 feat: add `highlight_type` to [`files.completeUploadExternal`](https://docs.slack.dev/reference/methods/files.completeUploadExternal) and [`filesUploadV2`](https://docs.slack.dev/tools/node-slack-sdk/web-api#upload-a-file) for optimistic rendering
