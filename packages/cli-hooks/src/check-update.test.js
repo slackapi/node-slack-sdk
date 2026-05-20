@@ -78,7 +78,7 @@ describe('check-update implementation', async () => {
             update: true,
             message: undefined,
             breaking: false,
-            url: 'https://github.com/slackapi/bolt-js/releases/tag/v',
+            url: 'https://github.com/slackapi/bolt-js/releases/tag/v4.7.2',
           },
           {
             name: '@slack/cli-hooks',
