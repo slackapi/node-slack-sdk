@@ -30,6 +30,7 @@ export async function getFileUploadJob(
     blocks: options.blocks,
     channel_id: options.channels ?? options.channel_id,
     filename: options.filename ?? fileName,
+    highlight_type: options.highlight_type,
     initial_comment: options.initial_comment,
     snippet_type: options.snippet_type,
     title: options.title ?? options.filename ?? fileName, // default title to filename unless otherwise specified
@@ -234,13 +235,13 @@ export function getAllFileUploadsToComplete(
 ): Record<string, FilesCompleteUploadExternalArguments> {
   const toComplete: Record<string, FilesCompleteUploadExternalArguments> = {};
   for (const upload of fileUploads) {
-    const { blocks, channel_id, thread_ts, initial_comment, file_id, title } = upload;
+    const { blocks, channel_id, thread_ts, highlight_type, initial_comment, file_id, title } = upload;
     if (file_id) {
       const compareString = `:::${channel_id}:::${thread_ts}:::${initial_comment}:::${JSON.stringify(blocks)}`;
       // biome-ignore lint/suspicious/noPrototypeBuiltins: TODO use hasOwn instead of hasOwnProperty
       if (!Object.prototype.hasOwnProperty.call(toComplete, compareString)) {
         toComplete[compareString] = {
-          files: [{ id: file_id, title }],
+          files: [{ id: file_id, title, highlight_type }],
           channel_id,
           blocks,
           initial_comment,
@@ -262,6 +263,7 @@ export function getAllFileUploadsToComplete(
         toComplete[compareString].files.push({
           id: file_id,
           title,
+          highlight_type,
         });
       }
     } else {

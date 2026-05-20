@@ -316,6 +316,28 @@ describe('file-upload', () => {
     });
   });
   describe('getAllFileUploadsToComplete', () => {
+    it('should pass all expected properties through to the completion job', () => {
+      const fileUploadJob1 = {
+        file: Buffer.from('test'),
+        filename: 'image.png',
+        file_id: 'id1',
+        title: 'test1',
+        channel_id: 'C123',
+        thread_ts: '1.0',
+        initial_comment: 'Here is an image',
+        highlight_type: 'png',
+        blocks: [{ type: 'section', text: { type: 'plain_text', text: 'hello' } }],
+      };
+      const toComplete = getAllFileUploadsToComplete([fileUploadJob1]);
+      const job = Object.values(toComplete)[0];
+      assert.strictEqual(job.files[0].id, 'id1');
+      assert.strictEqual(job.files[0].title, 'test1');
+      assert.strictEqual(job.channel_id, 'C123');
+      assert.strictEqual(job.thread_ts, '1.0');
+      assert.strictEqual(job.initial_comment, 'Here is an image');
+      assert.strictEqual(job.files[0].highlight_type, 'png');
+      assert.deepStrictEqual(job.blocks, fileUploadJob1.blocks);
+    });
     describe('when channel_id is the same', () => {
       it('should group uploads with matching thread_ts and initial_comment together', () => {
         const fileUploadJob1 = {

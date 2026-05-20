@@ -34,6 +34,11 @@ export interface FileType {
 export interface FileUploadComplete {
   /** @description Encoded file ID. */
   id: string;
+  /**
+   * @description Optional highlight type hint for the file. The upload processing job may overwrite this value.
+   * @see {@link https://docs.slack.dev/reference/methods/files.completeUploadExternal}
+   */
+  highlight_type?: string;
   /** @description File title. */
   title?: string;
 }
@@ -168,6 +173,11 @@ export type FileUploadV2 = FileUpload & {
   channel_id?: string;
   /** @deprecated use channel_id instead */
   channels?: string;
+  /**
+   * @description Optional highlight type hint for the file. The upload processing job may overwrite this value.
+   * @see {@link https://docs.slack.dev/reference/methods/files.completeUploadExternal}
+   */
+  highlight_type?: string;
   /** @description Syntax type of the snippet being uploaded. E.g. `python`. */
   snippet_type?: string;
 };
