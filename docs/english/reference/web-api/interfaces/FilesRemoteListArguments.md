@@ -2,7 +2,7 @@
 
 # Interface: FilesRemoteListArguments
 
-Defined in: [packages/web-api/src/types/request/files.ts:221](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/files.ts#L221)
+Defined in: [packages/web-api/src/types/request/files.ts:231](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/files.ts#L231)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [packages/web-api/src/types/request/files.ts:221](https://github.com
 optional channel: string;
 ```
 
-Defined in: [packages/web-api/src/types/request/files.ts:223](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/files.ts#L223)
+Defined in: [packages/web-api/src/types/request/files.ts:233](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/files.ts#L233)
 
 #### Description
 
@@ -97,7 +97,7 @@ TokenOverridable.token
 optional ts_from: string;
 ```
 
-Defined in: [packages/web-api/src/types/request/files.ts:225](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/files.ts#L225)
+Defined in: [packages/web-api/src/types/request/files.ts:235](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/files.ts#L235)
 
 #### Description
 
@@ -111,7 +111,7 @@ Filter files created after this timestamp (inclusive).
 optional ts_to: string;
 ```
 
-Defined in: [packages/web-api/src/types/request/files.ts:227](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/files.ts#L227)
+Defined in: [packages/web-api/src/types/request/files.ts:237](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/files.ts#L237)
 
 #### Description
 

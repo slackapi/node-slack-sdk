@@ -2,7 +2,7 @@
 
 # Interface: FilesRevokePublicURLArguments
 
-Defined in: [packages/web-api/src/types/request/files.ts:126](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/files.ts#L126)
+Defined in: [packages/web-api/src/types/request/files.ts:131](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/files.ts#L131)
 
 ## Extends
 

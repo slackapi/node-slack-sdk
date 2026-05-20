@@ -2,7 +2,7 @@
 
 # Interface: FilesSharedPublicURLArguments
 
-Defined in: [packages/web-api/src/types/request/files.ts:128](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/files.ts#L128)
+Defined in: [packages/web-api/src/types/request/files.ts:133](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/files.ts#L133)
 
 ## Extends
 
