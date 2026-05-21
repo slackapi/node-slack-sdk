@@ -2,7 +2,8 @@
 
 The Node Slack SDK exists as a single repo containing a confederation of independent packages (`@slack/web-api`, `@slack/webhook`, `@slack/socket-mode`, etc.). Each package can be upgraded independently on its own schedule.
 
-:::tip [For information about how long each Node version is supported, see the [support schedule](/tools/node-slack-sdk/support-schedule).]
+:::tip[For info on how long each Node version is supported, see the [support schedule](/tools/node-slack-sdk/support-schedule).]
+:::
 
 ## Legacy migration guides
 
