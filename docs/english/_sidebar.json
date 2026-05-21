@@ -18,10 +18,10 @@
     "label": "Migration",
     "link": {
       "type": "doc",
-      "id": "tools/node-slack-sdk/migration"
+      "id": "tools/node-slack-sdk/migration/migration"
     },
     "items": [
-      "tools/node-slack-sdk/migration",
+      "tools/node-slack-sdk/migration/migration",
       {
         "type": "category",
         "label": "Socket Mode",
