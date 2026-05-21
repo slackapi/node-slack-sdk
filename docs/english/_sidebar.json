@@ -21,7 +21,10 @@
       "tools/node-slack-sdk/migration/migrating-to-v5",
       "tools/node-slack-sdk/migration/migrating-to-v6",
       "tools/node-slack-sdk/migration/migrating-socket-mode-package-to-v2",
-      "tools/node-slack-sdk/migration/migrating-web-api-package-to-v7"
+      "tools/node-slack-sdk/migration/migrating-web-api-package-to-v7",
+      "tools/node-slack-sdk/migration/migrating-web-api-package-to-v8",
+      "tools/node-slack-sdk/migration/migrating-webhook-package-to-v8",
+      "tools/node-slack-sdk/migration/migrating-socket-mode-package-to-v3"
     ]
   },
   {
