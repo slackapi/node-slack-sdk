@@ -17,14 +17,38 @@
     "type": "category",
     "label": "Migration",
     "items": [
-      "tools/node-slack-sdk/migration/migrating-to-v4",
-      "tools/node-slack-sdk/migration/migrating-to-v5",
-      "tools/node-slack-sdk/migration/migrating-to-v6",
-      "tools/node-slack-sdk/migration/migrating-socket-mode-package-to-v2",
-      "tools/node-slack-sdk/migration/migrating-web-api-package-to-v7",
-      "tools/node-slack-sdk/migration/migrating-web-api-package-to-v8",
-      "tools/node-slack-sdk/migration/migrating-webhook-package-to-v8",
-      "tools/node-slack-sdk/migration/migrating-socket-mode-package-to-v3"
+      {
+        "type": "category",
+        "label": "Legacy",
+        "items": [
+          "tools/node-slack-sdk/migration/legacy-migration-guides/migrating-to-v4",
+          "tools/node-slack-sdk/migration/legacy-migration-guides/migrating-to-v5",
+          "tools/node-slack-sdk/migration/legacy-migration-guides/migrating-to-v6"
+        ]
+      },
+      {
+        "type": "category",
+        "label": "Web API",
+        "items": [
+          "tools/node-slack-sdk/migration/web-api/migrating-web-api-package-to-v7",
+          "tools/node-slack-sdk/migration/web-api/migrating-web-api-package-to-v8"
+        ]
+      },
+      {
+        "type": "category",
+        "label": "Webhook",
+        "items": [
+          "tools/node-slack-sdk/migration/webhook/migrating-webhook-package-to-v8"
+        ]
+      },
+      {
+        "type": "category",
+        "label": "Socket Mode",
+        "items": [
+          "tools/node-slack-sdk/migration/socket-mode/migrating-socket-mode-package-to-v2",
+          "tools/node-slack-sdk/migration/socket-mode/migrating-socket-mode-package-to-v3"
+        ]
+      }
     ]
   },
   {
