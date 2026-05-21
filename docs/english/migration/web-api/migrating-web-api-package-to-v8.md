@@ -1,4 +1,8 @@
-# Migrating @slack/web-api from v7 to v8
+---
+sidebar_label: Migrating to v8
+---
+
+# Migrating the `web-api` package from v7 to v8
 
 _Minimum Node.js version: 20_
 

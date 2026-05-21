@@ -1,4 +1,8 @@
-# Migrating @slack/socket-mode from v2 to v3
+---
+sidebar_label: Migrating to v3
+---
+
+# Migrating the `socket-mode` from v2 to v3
 
 _Minimum Node.js version: 20_
 

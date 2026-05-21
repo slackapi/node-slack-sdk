@@ -16,14 +16,18 @@
   {
     "type": "category",
     "label": "Migration",
+    "link": {
+      "type": "doc",
+      "id": "tools/node-slack-sdk/migration"
+    },
     "items": [
+      "tools/node-slack-sdk/migration",
       {
         "type": "category",
-        "label": "Legacy",
+        "label": "Socket Mode",
         "items": [
-          "tools/node-slack-sdk/migration/legacy-migration-guides/migrating-to-v4",
-          "tools/node-slack-sdk/migration/legacy-migration-guides/migrating-to-v5",
-          "tools/node-slack-sdk/migration/legacy-migration-guides/migrating-to-v6"
+          "tools/node-slack-sdk/migration/socket-mode/migrating-socket-mode-package-to-v2",
+          "tools/node-slack-sdk/migration/socket-mode/migrating-socket-mode-package-to-v3"
         ]
       },
       {
@@ -43,10 +47,11 @@
       },
       {
         "type": "category",
-        "label": "Socket Mode",
+        "label": "Legacy",
         "items": [
-          "tools/node-slack-sdk/migration/socket-mode/migrating-socket-mode-package-to-v2",
-          "tools/node-slack-sdk/migration/socket-mode/migrating-socket-mode-package-to-v3"
+          "tools/node-slack-sdk/migration/legacy/migrating-to-v4",
+          "tools/node-slack-sdk/migration/legacy/migrating-to-v5",
+          "tools/node-slack-sdk/migration/legacy/migrating-to-v6"
         ]
       }
     ]
