@@ -1,6 +1,6 @@
 # Migrating @slack/socket-mode from v2 to v3
 
-_Minimum Node.js version: **20**_
+_Minimum Node.js version: 20_
 
 This major release switches from the [`ws`](https://www.npmjs.com/package/ws) library to the [`undici`](https://undici.nodejs.org/) library's [WebSocket](https://developer.mozilla.org/en-US/docs/Web/API/WebSocket) implementation. 
 
@@ -9,6 +9,12 @@ If you're not using a proxy or custom TLS, no action is needed beyond bumping th
 The main thing you'll notice: `httpAgent` is gone. You'll use a `dispatcher` option instead, which handles both WebSocket connections and HTTP API calls in one place. Or, if you're on a recent Node.js version, you can set an environment variable and skip manual proxy config entirely.
 
 The `undici` library is a **peer dependency**.
+
+## Installation
+
+```
+npm i @slack/socket-mode
+```
 
 ## Breaking changes
 

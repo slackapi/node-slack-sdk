@@ -1,16 +1,22 @@
 # Migrating @slack/web-api from v7 to v8
 
-_Minimum Node.js version: **20**_
+_Minimum Node.js version: 20_
 
-This major release replaces [axios](https://www.npmjs.com/package/axios) with the native [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) (`globalThis.fetch`). This drops 4 dependencies (`axios`, `form-data`, `is-electron`, `is-stream`) and gets rid of the recurring axios CVE cycle ([CVE-2023-45857](https://nvd.nist.gov/vuln/detail/cve-2023-45857), [CVE-2024-39338](https://nvd.nist.gov/vuln/detail/cve-2024-39338), [CVE-2025-27152](https://nvd.nist.gov/vuln/detail/CVE-2025-27152), [CVE-2025-7783](https://nvd.nist.gov/vuln/detail/CVE-2025-7783)).
+This major release replaces [axios](https://www.npmjs.com/package/axios) with the native [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) (`globalThis.fetch`). This drops 4 dependencies (`axios`, `form-data`, `is-electron`, `is-stream`) and gets rid of the recurring axios vulnerability cycle ([CVE-2023-45857](https://nvd.nist.gov/vuln/detail/cve-2023-45857), [CVE-2024-39338](https://nvd.nist.gov/vuln/detail/cve-2024-39338), [CVE-2025-27152](https://nvd.nist.gov/vuln/detail/CVE-2025-27152), [CVE-2025-7783](https://nvd.nist.gov/vuln/detail/CVE-2025-7783)).
 
 There is now a `fetch` option that replaces several transport options (`agent`, `tls`, `requestInterceptor`, `adapter`). Pass in your own fetch function to configure proxies, TLS, or whatever transport behavior you need. If you don't need any of that, the SDK uses `globalThis.fetch` and requires no configuration. 
 
 As a result, the SDK works across runtimes (Node.js, Deno, Bun, Cloudflare Workers).
 
-## Breaking changes
+## Installation
 
-### We've removed the `agent` option
+```
+npm i @slack/web-api
+```
+
+Read on to learn how to address breaking changes as a result of this release.
+
+## We've removed the `agent` option
 
 **Before (v7):**
 
@@ -25,7 +31,7 @@ const client = new WebClient(token, {
 });
 ```
 
-#### Preferred: Built-in proxy support
+### Preferred: Built-in proxy support
 
 Node.js can read your proxy environment variables natively via [`http.setGlobalProxyFromEnv()`](https://nodejs.org/docs/latest/api/http.html#httpsetglobalproxyfromenvproxyenv). Call it once at startup and `globalThis.fetch` routes through your proxy automatically without the need for any extra packages.
 
@@ -54,7 +60,7 @@ http.setGlobalProxyFromEnv();
 const client = new WebClient(token);
 ```
 
-#### Alternative: undici dispatcher
+### Alternative: undici dispatcher
 
 If you need per-client proxy config, or want combined proxy and TLS, use the `fetch` option with an [undici](https://undici.nodejs.org/) dispatcher:
 
@@ -71,7 +77,7 @@ const client = new WebClient(token, {
 
 ---
 
-### We've removed the `tls` option and `TLSOptions` export
+## We've removed the `tls` option and `TLSOptions` export
 
 You should configure TLS through a custom `fetch` with an undici dispatcher instead.
 
@@ -112,7 +118,7 @@ const client = new WebClient(token, {
 
 ---
 
-### We've removed the `requestInterceptor` and `RequestInterceptor` types
+## We've removed the `requestInterceptor` and `RequestInterceptor` types
 
 You should wrap the `fetch` function to intercept or modify requests.
 
@@ -146,7 +152,7 @@ const client = new WebClient(token, {
 
 ---
 
-### We've removed the `adapter` and `AdapterConfig` types
+## We've removed the `adapter` and `AdapterConfig` types
 
 You should provide a custom `fetch` function instead.
 
@@ -183,7 +189,7 @@ const client = new WebClient(token, { fetch: mockFetch });
 
 ---
 
-### We've removed the `attachOriginalToWebAPIRequestError` option
+## We've removed the `attachOriginalToWebAPIRequestError` option
 
 The original error is now **always** attached to `WebAPIRequestError`.
 
@@ -199,7 +205,7 @@ If you were setting it to `false` to suppress the original error, note that `err
 
 ---
 
-### We've removed access to deprecated API methods
+## We've removed access to deprecated API methods
 
 Five methods that were deprecated in v7 have been removed entirely ([#2592](https://github.com/slackapi/node-slack-sdk/pull/2592)):
 
@@ -213,13 +219,13 @@ Five methods that were deprecated in v7 have been removed entirely ([#2592](http
 
 ---
 
-### We've overhauled error handling
+## We've overhauled error handling
 
 Errors are now proper `Error` subclasses instead of interfaces with factory functions ([#2593](https://github.com/slackapi/node-slack-sdk/pull/2593)). This means `instanceof` checks work, TypeScript narrows types correctly, and error names are descriptive.
 
 The `ErrorCode` enum values are unchanged, so existing `error.code` checks will still work. That being said, we recommend using `instanceof`. 
 
-#### New error class hierarchy
+### New error class hierarchy
 
 ```
 SlackError (abstract)
@@ -230,7 +236,7 @@ SlackError (abstract)
 └── WebAPIFileUploadReadFileDataError — file read failure during upload
 ```
 
-#### `instanceof` checks now available
+### `instanceof` checks now available
 
 **Before (v7):**
 
@@ -281,7 +287,7 @@ try {
 ```
 :::
 
-#### Changed `error.name` values
+### Changed `error.name` values
 
 | Error class | v7 `error.name` | v8 `error.name` |
 | --- | --- | --- |
@@ -292,7 +298,7 @@ try {
 
 You will need to update any filters on `error.name` by your logging or error monitoring tools (Sentry, Datadog, etc.) 
 
-#### `WebAPIRequestError` uses standard `Error.cause`
+### `WebAPIRequestError` uses standard `Error.cause`
 
 Request errors now populate the standard [`Error.cause`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/cause) property with the underlying network error. The `original` property is still present for backward compatibility.
 
@@ -303,7 +309,7 @@ if (error instanceof WebAPIRequestError) {
 }
 ```
 
-#### `WebAPIHTTPError.headers` type changed
+### `WebAPIHTTPError.headers` type changed
 
 `headers` is now `Record<string, string>` instead of Node.js's `IncomingHttpHeaders`. Values are always plain strings — no more `string | string[] | undefined`.
 
@@ -332,7 +338,7 @@ function handleError(error: WebAPIHTTPError) {
 
 ---
 
-### We've removed the `RequestConfig` type
+## We've removed the `RequestConfig` type
 
 The `RequestConfig` type was an alias for axios's `InternalAxiosRequestConfig`. If you were importing it for `requestInterceptor`, [that has also been removed](requestinterceptor-and-requestinterceptor-type-removed). Use a fetch wrapper instead as described above.
 
@@ -342,7 +348,7 @@ The `RequestConfig` type was an alias for axios's `InternalAxiosRequestConfig`. 
 
 ---
 
-### We've raised the minimum Node.js version raised to 20
+## We've raised the minimum Node.js version raised to 20
 
 We've dropped support for Node.js 18. Node.js 20 or later is required.
 
@@ -367,7 +373,7 @@ const instrumented: FetchFunction = async (url, init) => {
 const client = new WebClient(token, { fetch: instrumented });
 ```
 
-## We've added exported `fetch` types
+### We've added exported `fetch` types
 
 You can now use these new types for implementing custom fetch functions with full TypeScript support:
 

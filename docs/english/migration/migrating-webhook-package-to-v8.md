@@ -1,11 +1,16 @@
 # Migrating @slack/webhook from v7 to v8
 
-_Minimum Node.js version: **20**_
+_Minimum Node.js version: 20_
 
 This major release drops the [axios](https://www.npmjs.com/package/axios) library and uses the native [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) (`globalThis.fetch`) instead.
 
 The `agent` option is replaced by a `fetch` option. Pass in your own fetch function to configure proxies or TLS. If you're not using proxies or custom agents, no action is needed beyond bumping the version number.
 
+## Installation
+
+```
+npm i @slack/webhook
+```
 
 ## Breaking changes
 
