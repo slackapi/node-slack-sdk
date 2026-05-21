@@ -25,22 +25,35 @@
       {
         "type": "category",
         "label": "Socket Mode",
+        "link": {
+          "type": "doc",
+          "id": "tools/node-slack-sdk/migration/socket-mode/migrating-socket-mode-package-to-v3"
+        },
         "items": [
-          "tools/node-slack-sdk/migration/socket-mode/migrating-socket-mode-package-to-v2",
-          "tools/node-slack-sdk/migration/socket-mode/migrating-socket-mode-package-to-v3"
+          "tools/node-slack-sdk/migration/socket-mode/migrating-socket-mode-package-to-v3",
+          "tools/node-slack-sdk/migration/socket-mode/migrating-socket-mode-package-to-v2"
+
         ]
       },
       {
         "type": "category",
         "label": "Web API",
+        "link": {
+          "type": "doc",
+          "id": "tools/node-slack-sdk/migration/web-api/migrating-web-api-package-to-v8"
+        },
         "items": [
-          "tools/node-slack-sdk/migration/web-api/migrating-web-api-package-to-v7",
-          "tools/node-slack-sdk/migration/web-api/migrating-web-api-package-to-v8"
+          "tools/node-slack-sdk/migration/web-api/migrating-web-api-package-to-v8",
+          "tools/node-slack-sdk/migration/web-api/migrating-web-api-package-to-v7"
         ]
       },
       {
         "type": "category",
         "label": "Webhook",
+        "link": {
+          "type": "doc",
+          "id": "tools/node-slack-sdk/migration/webhook/migrating-webhook-package-to-v8"
+        },
         "items": [
           "tools/node-slack-sdk/migration/webhook/migrating-webhook-package-to-v8"
         ]
@@ -48,10 +61,14 @@
       {
         "type": "category",
         "label": "Legacy",
+        "link": {
+          "type": "doc",
+          "id": "tools/node-slack-sdk/migration/legacy/migrating-to-v6"
+        },
         "items": [
-          "tools/node-slack-sdk/migration/legacy/migrating-to-v4",
+          "tools/node-slack-sdk/migration/legacy/migrating-to-v6",
           "tools/node-slack-sdk/migration/legacy/migrating-to-v5",
-          "tools/node-slack-sdk/migration/legacy/migrating-to-v6"
+          "tools/node-slack-sdk/migration/legacy/migrating-to-v4"
         ]
       }
     ]
