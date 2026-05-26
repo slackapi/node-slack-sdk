@@ -2,7 +2,7 @@
 sidebar_label: Migrating to v2
 ---
 
-# Migrating the `socket‐mode` package from v1 sto v2
+# Migrating the `socket‐mode` package from v1 to v2
 
 This migration guide helps you transition an application written using the `v1.x` series of the `@slack/socket-mode` package to the `v2.x` series. This guide focuses specifically on the breaking changes to help get your existing projects up and running as quickly as possible.
 

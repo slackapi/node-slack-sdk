@@ -39,7 +39,19 @@ const webhook = new IncomingWebhook(webhookUrl, {
 
 Node.js can read your proxy environment variables natively via [`http.setGlobalProxyFromEnv()`](https://nodejs.org/docs/latest/api/http.html#httpsetglobalproxyfromenvproxyenv). Call it once at startup and `globalThis.fetch` routes through your proxy automatically without a need for extra packages.
 
-**Option A — environment variable:**
+##### Option A: programmatically call once at startup
+
+```typescript
+import http from 'node:http';
+import { IncomingWebhook } from '@slack/webhook';
+
+http.setGlobalProxyFromEnv();
+
+// All webhook requests now route through HTTP_PROXY/HTTPS_PROXY automatically
+const webhook = new IncomingWebhook(webhookUrl);
+```
+
+##### Option B: use an environment variable
 
 ```bash
 NODE_USE_ENV_PROXY=1 HTTPS_PROXY=http://corporate.proxy:8080 node app.js
@@ -49,18 +61,6 @@ NODE_USE_ENV_PROXY=1 HTTPS_PROXY=http://corporate.proxy:8080 node app.js
 import { IncomingWebhook } from '@slack/webhook';
 
 // No proxy configuration needed — globalThis.fetch respects the environment
-const webhook = new IncomingWebhook(webhookUrl);
-```
-
-**Option B — programmatic (call once at startup):**
-
-```typescript
-import http from 'node:http';
-import { IncomingWebhook } from '@slack/webhook';
-
-http.setGlobalProxyFromEnv();
-
-// All webhook requests now route through HTTP_PROXY/HTTPS_PROXY automatically
 const webhook = new IncomingWebhook(webhookUrl);
 ```
 

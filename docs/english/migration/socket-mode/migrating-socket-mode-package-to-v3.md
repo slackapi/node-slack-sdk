@@ -2,7 +2,7 @@
 sidebar_label: Migrating to v3
 ---
 
-# Migrating the `socket-mode` from v2 to v3
+# Migrating the `socket-mode` package from v2 to v3
 
 _Minimum Node.js version: 20_
 
@@ -42,7 +42,21 @@ const client = new SocketModeClient({
 
 Node.js can read your proxy environment variables (`HTTP_PROXY`, `HTTPS_PROXY`, `NO_PROXY`) and route traffic automatically via [`http.setGlobalProxyFromEnv()`](https://nodejs.org/docs/latest/api/http.html#httpsetglobalproxyfromenvproxyenv). Both WebSocket and HTTP traffic respect this.
 
-##### Option A: use environment variable
+##### Option A: programmatically call once at startup
+
+```typescript
+import http from 'node:http';
+import { SocketModeClient } from '@slack/socket-mode';
+
+http.setGlobalProxyFromEnv();
+
+// Both WebSocket and HTTP API calls route through the proxy automatically
+const client = new SocketModeClient({
+  appToken: process.env.SLACK_APP_TOKEN,
+});
+```
+
+##### Option B: use an environment variable
 
 ```bash
 NODE_USE_ENV_PROXY=1 HTTPS_PROXY=http://corporate.proxy:8080 node app.js
@@ -52,20 +66,6 @@ NODE_USE_ENV_PROXY=1 HTTPS_PROXY=http://corporate.proxy:8080 node app.js
 import { SocketModeClient } from '@slack/socket-mode';
 
 // No proxy configuration needed — both WebSocket and HTTP use the proxy
-const client = new SocketModeClient({
-  appToken: process.env.SLACK_APP_TOKEN,
-});
-```
-
-##### Option B: programmatically call once at startup
-
-```typescript
-import http from 'node:http';
-import { SocketModeClient } from '@slack/socket-mode';
-
-http.setGlobalProxyFromEnv();
-
-// Both WebSocket and HTTP API calls route through the proxy automatically
 const client = new SocketModeClient({
   appToken: process.env.SLACK_APP_TOKEN,
 });

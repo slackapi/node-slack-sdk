@@ -6,7 +6,7 @@ sidebar_label: Migrating to v8
 
 _Minimum Node.js version: 20_
 
-This major release replaces [axios](https://www.npmjs.com/package/axios) with the native [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) (`globalThis.fetch`). This drops 4 dependencies (`axios`, `form-data`, `is-electron`, `is-stream`) and gets rid of the recurring axios vulnerability cycle ([CVE-2023-45857](https://nvd.nist.gov/vuln/detail/cve-2023-45857), [CVE-2024-39338](https://nvd.nist.gov/vuln/detail/cve-2024-39338), [CVE-2025-27152](https://nvd.nist.gov/vuln/detail/CVE-2025-27152), [CVE-2025-7783](https://nvd.nist.gov/vuln/detail/CVE-2025-7783)).
+This major release replaces [axios](https://www.npmjs.com/package/axios) with the native [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) (`globalThis.fetch`). This drops 4 dependencies (`axios`, `form-data`, `is-electron`, `is-stream`).
 
 There is now a `fetch` option that replaces several transport options (`agent`, `tls`, `requestInterceptor`, `adapter`). Pass in your own fetch function to configure proxies, TLS, or whatever transport behavior you need. If you don't need any of that, the SDK uses `globalThis.fetch` and requires no configuration. 
 
@@ -43,7 +43,19 @@ const client = new WebClient(token, {
 
 Node.js can read your proxy environment variables natively via [`http.setGlobalProxyFromEnv()`](https://nodejs.org/docs/latest/api/http.html#httpsetglobalproxyfromenvproxyenv). Call it once at startup and `globalThis.fetch` routes through your proxy automatically without the need for any extra packages.
 
-**Option A — environment variable:**
+##### Option A: programmatically call once at startup
+
+```javascript
+import http from 'node:http';
+import { WebClient } from '@slack/web-api';
+
+http.setGlobalProxyFromEnv();
+
+// All WebClient instances now route through HTTP_PROXY/HTTPS_PROXY automatically
+const client = new WebClient(token);
+```
+
+##### Option B: use an environment variable
 
 ```bash
 NODE_USE_ENV_PROXY=1 HTTPS_PROXY=http://corporate.proxy:8080 node app.js
@@ -53,18 +65,6 @@ NODE_USE_ENV_PROXY=1 HTTPS_PROXY=http://corporate.proxy:8080 node app.js
 import { WebClient } from '@slack/web-api';
 
 // No proxy configuration needed — globalThis.fetch respects the environment
-const client = new WebClient(token);
-```
-
-**Option B — programmatic (call once at startup):**
-
-```javascript
-import http from 'node:http';
-import { WebClient } from '@slack/web-api';
-
-http.setGlobalProxyFromEnv();
-
-// All WebClient instances now route through HTTP_PROXY/HTTPS_PROXY automatically
 const client = new WebClient(token);
 ```
 
