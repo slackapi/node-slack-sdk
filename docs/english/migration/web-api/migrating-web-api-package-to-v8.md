@@ -6,11 +6,10 @@ sidebar_label: Migrating to v8
 
 _Minimum Node.js version: 20_
 
-This major release replaces [axios](https://www.npmjs.com/package/axios) with the native [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) (`globalThis.fetch`). This drops 4 dependencies (`axios`, `form-data`, `is-electron`, `is-stream`) and gets rid of the recurring axios vulnerability cycle ([CVE-2023-45857](https://nvd.nist.gov/vuln/detail/cve-2023-45857), [CVE-2024-39338](https://nvd.nist.gov/vuln/detail/cve-2024-39338), [CVE-2025-27152](https://nvd.nist.gov/vuln/detail/CVE-2025-27152), [CVE-2025-7783](https://nvd.nist.gov/vuln/detail/CVE-2025-7783)).
+This major release replaces [axios](https://www.npmjs.com/package/axios) with the native [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) (`globalThis.fetch`). This drops 4 dependencies (`axios`, `form-data`, `is-electron`, `is-stream`).
 
 There is now a `fetch` option that replaces several transport options (`agent`, `tls`, `requestInterceptor`, `adapter`). Pass in your own fetch function to configure proxies, TLS, or whatever transport behavior you need. If you don't need any of that, the SDK uses `globalThis.fetch` and requires no configuration. 
 
-As a result, the SDK works across runtimes (Node.js, Deno, Bun, Cloudflare Workers).
 
 ## Installation
 
@@ -87,7 +86,7 @@ const client = new WebClient(token, {
 
 ### We've removed the `tls` option and `TLSOptions` export
 
-You should configure TLS through a custom `fetch` with an undici dispatcher instead.
+You should configure TLS through a custom `fetch` instead.
 
 **Before (v7):**
 
@@ -229,20 +228,10 @@ Five methods that were deprecated in v7 have been removed entirely ([#2592](http
 
 ### We've overhauled error handling
 
-Errors are now proper `Error` subclasses instead of interfaces with factory functions ([#2593](https://github.com/slackapi/node-slack-sdk/pull/2593)). This means `instanceof` checks work, TypeScript narrows types correctly, and error names are descriptive.
+Errors are now proper `Error` subclasses instead of interfaces. This means `instanceof` checks work, TypeScript narrows types correctly, and error names are descriptive.
 
 The `ErrorCode` enum values are unchanged, so existing `error.code` checks will still work. That being said, we recommend using `instanceof`. 
 
-#### New error class hierarchy
-
-```
-SlackError (abstract)
-├── WebAPIPlatformError    — Slack API returned ok: false
-├── WebAPIHTTPError        — non-200 HTTP status
-├── WebAPIRequestError     — network/fetch failure
-├── WebAPIRateLimitedError — 429 rate limited
-└── WebAPIFileUploadReadFileDataError — file read failure during upload
-```
 
 #### Available `instanceof` checks
 

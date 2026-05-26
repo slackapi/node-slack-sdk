@@ -8,11 +8,10 @@ _Minimum Node.js version: 20_
 
 This major release switches from the [`ws`](https://www.npmjs.com/package/ws) library to the [`undici`](https://undici.nodejs.org/) library's [WebSocket](https://developer.mozilla.org/en-US/docs/Web/API/WebSocket) implementation. 
 
-If you're not using a proxy or custom TLS, no action is needed beyond bumping the version number.
+If you're not using a proxy or custom TLS, we hope no action is needed beyond bumping the version number.
 
 The main thing you'll notice: `httpAgent` is gone. You'll use a `dispatcher` option instead, which handles both WebSocket connections and HTTP API calls in one place. Or, if you're on a recent Node.js version, you can set an environment variable and skip manual proxy config entirely.
 
-The `undici` library is a **peer dependency**.
 
 ## Installation
 
@@ -110,7 +109,7 @@ This package now uses `@slack/web-api@^8` internally. If you're passing `clientO
 
 ---
 
-### We've removed the `ws` library and added `undici@^7` as a peer dependency
+### We've removed the `ws` library and added the `undici@^7` library.
 
 Learn more about the `undici` library [here](https://www.npmjs.com/package/undici).
 
@@ -124,7 +123,7 @@ We've dropped support for Node.js 18. Node.js 20 or later is required.
 
 ### We've overhauled error handling
 
-Errors are now proper `Error` subclasses instead of interfaces with factory functions ([#2596](https://github.com/slackapi/node-slack-sdk/pull/2596)). This means `instanceof` checks work, TypeScript narrows types correctly, and error names are descriptive.
+Errors are now proper `Error` subclasses instead of interfaces. This means `instanceof` checks work, TypeScript narrows types correctly, and error names are descriptive.
 
 **Your existing `error.code` checks still work.** The `ErrorCode` enum values are unchanged. But `instanceof` is now the recommended pattern.
 
@@ -257,7 +256,3 @@ const client = new SocketModeClient({
 ```
 
 When you provide `clientOptions.fetch`, the `dispatcher` only handles WebSocket connections; HTTP calls go through your custom fetch instead.
-
-### Spec-compliant WebSocket implementation
-
-Under the hood, the WebSocket implementation is now spec-compliant (aligned with browser WebSocket APIs). This shouldn't affect your code — event listeners and message handling work the same as before.
