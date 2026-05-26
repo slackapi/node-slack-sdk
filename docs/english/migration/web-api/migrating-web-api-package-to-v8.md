@@ -10,7 +10,6 @@ This major release replaces [axios](https://www.npmjs.com/package/axios) with th
 
 There is now a `fetch` option that replaces several transport options (`agent`, `tls`, `requestInterceptor`, `adapter`). Pass in your own fetch function to configure proxies, TLS, or whatever transport behavior you need. If you don't need any of that, the SDK uses `globalThis.fetch` and requires no configuration. 
 
-As a result, the SDK works across runtimes (Node.js, Deno, Bun, Cloudflare Workers).
 
 ## Installation
 
@@ -87,7 +86,7 @@ const client = new WebClient(token, {
 
 ### We've removed the `tls` option and `TLSOptions` export
 
-You should configure TLS through a custom `fetch` with an undici dispatcher instead.
+You should configure TLS through a custom `fetch` instead.
 
 **Before (v7):**
 
@@ -229,20 +228,10 @@ Five methods that were deprecated in v7 have been removed entirely ([#2592](http
 
 ### We've overhauled error handling
 
-Errors are now proper `Error` subclasses instead of interfaces with factory functions ([#2593](https://github.com/slackapi/node-slack-sdk/pull/2593)). This means `instanceof` checks work, TypeScript narrows types correctly, and error names are descriptive.
+Errors are now proper `Error` subclasses instead of interfaces. This means `instanceof` checks work, TypeScript narrows types correctly, and error names are descriptive.
 
 The `ErrorCode` enum values are unchanged, so existing `error.code` checks will still work. That being said, we recommend using `instanceof`. 
 
-#### New error class hierarchy
-
-```
-SlackError (abstract)
-├── WebAPIPlatformError    — Slack API returned ok: false
-├── WebAPIHTTPError        — non-200 HTTP status
-├── WebAPIRequestError     — network/fetch failure
-├── WebAPIRateLimitedError — 429 rate limited
-└── WebAPIFileUploadReadFileDataError — file read failure during upload
-```
 
 #### Available `instanceof` checks
 
@@ -380,12 +369,3 @@ const instrumented: FetchFunction = async (url, init) => {
 
 const client = new WebClient(token, { fetch: instrumented });
 ```
-
-### We've added exported `fetch` types
-
-You can now use these new types for implementing custom fetch functions with full TypeScript support:
-
-- `FetchFunction` — the function signature
-- `FetchResponse` — response interface
-- `FetchRequestInit` — request options interface
-- `FetchHeaders` — headers interface
