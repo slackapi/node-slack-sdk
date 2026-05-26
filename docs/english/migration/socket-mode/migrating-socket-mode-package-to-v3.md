@@ -88,7 +88,6 @@ const client = new SocketModeClient({
 });
 ```
 
-No separate proxy setup needed as one dispatcher covers everything.
 
 ---
 

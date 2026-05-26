@@ -369,12 +369,3 @@ const instrumented: FetchFunction = async (url, init) => {
 
 const client = new WebClient(token, { fetch: instrumented });
 ```
-
-### We've added exported `fetch` types
-
-You can now use these new types for implementing custom fetch functions with full TypeScript support:
-
-- `FetchFunction` — the function signature
-- `FetchResponse` — response interface
-- `FetchRequestInit` — request options interface
-- `FetchHeaders` — headers interface
