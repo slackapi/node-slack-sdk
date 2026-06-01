@@ -56,8 +56,7 @@ export class ChatStreamer {
 
   /**
    * @description The message timestamp of the stream. Returns `undefined` until the first flush
-   * (when `chat.startStream` is called). Can be used with `chat.update` as a fallback if the
-   * stream expires server-side.
+   * (when `chat.startStream` is called).
    * @see {@link https://docs.slack.dev/reference/methods/chat.update}
    */
   get ts(): string | undefined {
