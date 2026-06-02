@@ -96,7 +96,7 @@ export interface WebhookTriggerDefaultArguments {
 }
 
 export interface WebhookTriggerSendArguments {
-  [key: string]: unknown;
+  [key: string]: string;
 }
 
 export interface WebhookTriggerResult {
