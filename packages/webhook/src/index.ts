@@ -14,3 +14,10 @@ export {
   IncomingWebhookResult,
   IncomingWebhookSendArguments,
 } from './IncomingWebhook';
+
+export {
+  WebhookTrigger,
+  WebhookTriggerDefaultArguments,
+  WebhookTriggerResult,
+  WebhookTriggerSendArguments,
+} from './WebhookTrigger';
