@@ -7,7 +7,7 @@ import { getUserAgent } from './instrument';
 
 /**
  * A client for Slack's Workflow Builder webhook triggers
- * @see {@link https://docs.slack.dev/workflows/triggers/webhook}
+ * @see {@link https://slack.com/help/articles/360041352714-Build-a-workflow--Create-a-workflow-that-starts-outside-of-Slack}
  */
 export class WebhookTrigger {
   /**
