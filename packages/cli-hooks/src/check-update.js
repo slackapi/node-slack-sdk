@@ -216,7 +216,7 @@ async function fetchLatestPackageVersion(packageName) {
  */
 function getReleaseNotesUrl(packageName, latestVersion) {
   if (packageName === SLACK_BOLT_SDK) {
-    return `https://github.com/slackapi/bolt-js/releases/tag/@slack/bolt@${latestVersion}`;
+    return `https://github.com/slackapi/bolt-js/releases/tag/v${latestVersion}`;
   }
   if (packageName === SLACK_CLI_HOOKS) {
     return `https://github.com/slackapi/node-slack-sdk/releases/tag/@slack/cli-hooks@${latestVersion}`;
