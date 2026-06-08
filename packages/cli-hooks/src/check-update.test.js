@@ -18,7 +18,7 @@ import checkForSDKUpdates, {
 const packageJSON = {
   name: 'Example application',
   dependencies: {
-    '@slack/bolt': '^3.0.0',
+    '@slack/bolt': '^4.0.0',
   },
   devDependencies: {
     '@slack/cli-hooks': '^0.0.1',
@@ -32,13 +32,13 @@ const packageJSON = {
  */
 function mockNPM(command) {
   if (command === 'npm info @slack/bolt version --tag latest') {
-    return '3.1.4';
+    return '4.7.2';
   }
   if (command === 'npm info @slack/cli-hooks version --tag latest') {
     return '1.0.1';
   }
   if (command === 'npm list @slack/bolt --depth=0 --json') {
-    return '{"dependencies":{"@slack/bolt":{"version":"3.0.0"}}}';
+    return '{"dependencies":{"@slack/bolt":{"version":"4.0.0"}}}';
   }
   if (command === 'npm list @slack/cli-hooks --depth=0 --json') {
     return '{"dependencies":{"@slack/cli-hooks":{"version":"0.0.1"}}}';
@@ -72,13 +72,13 @@ describe('check-update implementation', async () => {
         releases: [
           {
             name: '@slack/bolt',
-            current: '3.0.0',
-            latest: '3.1.4',
+            current: '4.0.0',
+            latest: '4.7.2',
             error: undefined,
             update: true,
             message: undefined,
             breaking: false,
-            url: 'https://github.com/slackapi/bolt-js/releases/tag/@slack/bolt@3.1.4',
+            url: 'https://github.com/slackapi/bolt-js/releases/tag/v4.7.2',
           },
           {
             name: '@slack/cli-hooks',

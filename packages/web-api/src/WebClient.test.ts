@@ -1238,6 +1238,34 @@ describe('WebClient', () => {
       scope.done();
     });
 
+    it('ts is undefined before flush and set after', async () => {
+      const scope = nock('https://slack.com')
+        .post('/api/chat.startStream')
+        .reply(200, {
+          ok: true,
+          ts: '123.123',
+        })
+        .post('/api/chat.stopStream')
+        .reply(200, {
+          ok: true,
+        });
+      const streamer = client.chatStream({
+        buffer_size: 5,
+        channel: 'C0123456789',
+        thread_ts: '123.000',
+        recipient_team_id: 'T0123456789',
+        recipient_user_id: 'U0123456789',
+      });
+      assert.strictEqual(streamer.ts, undefined);
+
+      await streamer.append({ markdown_text: 'hello!' });
+      assert.strictEqual(streamer.ts, '123.123');
+
+      await streamer.stop();
+      assert.strictEqual(streamer.ts, '123.123');
+      scope.done();
+    });
+
     it('streams a long message', async () => {
       const contextActionsBlock: ContextActionsBlock = {
         type: 'context_actions',
