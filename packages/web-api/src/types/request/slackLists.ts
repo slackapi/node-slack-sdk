@@ -57,12 +57,20 @@ export interface SlackListsItemFieldLink {
   }>;
 }
 
+export interface SlackListsItemMessage {
+  text?: string;
+  ts?: string;
+  user?: string;
+  team?: string;
+  type?: string;
+}
+
 /**
- * @description Message field with message URLs.
+ * @description Message field with one or more message objects.
  */
 export interface SlackListsItemFieldMessage {
   column_id: string;
-  message: string[];
+  message: SlackListsItemMessage | SlackListsItemMessage[];
 }
 
 /**
