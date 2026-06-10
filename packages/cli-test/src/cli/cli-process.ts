@@ -131,13 +131,9 @@ export class SlackCLIProcess {
       if (opts.team) {
         cmd = cmd.concat(['--team', opts.team]);
       }
-      // App instance; defaults to `deployed` - TODO(semver:major): remove fallback to "deployed" app
-      if (this.command[0] !== 'create') {
-        if (opts.app) {
-          cmd = cmd.concat(['--app', opts.app]);
-        } else {
-          cmd = cmd.concat(['--app', 'deployed']);
-        }
+      // App instance - TODO(semver:major): remove fallback to "deployed" app
+      if (opts.app) {
+        cmd = cmd.concat(['--app', opts.app]);
       }
       // Ignore warnings via --force; defaults to true
       if (opts.force || typeof opts.force === 'undefined') {
@@ -152,9 +148,6 @@ export class SlackCLIProcess {
       }
     } else {
       cmd = cmd.concat(['--skip-update', '--force']);
-      if (this.command[0] !== 'create') {
-        cmd = cmd.concat(['--app', 'deployed']);
-      }
     }
     cmd = cmd.concat(this.command);
 
