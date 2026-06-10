@@ -101,11 +101,7 @@ describe('SlackCLIProcess class', () => {
       it('should only pass `--app` when explicitly provided via the `app` parameter', async () => {
         let cmd = new SlackCLIProcess(['help']);
         await cmd.execAsync();
-        sandbox.assert.neverCalledWith(
-          spawnProcessSpy,
-          sinon.match.string,
-          sinon.match.array.contains(['--app']),
-        );
+        sandbox.assert.neverCalledWith(spawnProcessSpy, sinon.match.string, sinon.match.array.contains(['--app']));
         spawnProcessSpy.resetHistory();
         cmd = new SlackCLIProcess(['help'], { app: 'local' });
         await cmd.execAsync();
@@ -113,7 +109,11 @@ describe('SlackCLIProcess class', () => {
         spawnProcessSpy.resetHistory();
         cmd = new SlackCLIProcess(['help'], { app: 'deployed' });
         await cmd.execAsync();
-        sandbox.assert.calledWith(spawnProcessSpy, sinon.match.string, sinon.match.array.contains(['--app', 'deployed']));
+        sandbox.assert.calledWith(
+          spawnProcessSpy,
+          sinon.match.string,
+          sinon.match.array.contains(['--app', 'deployed']),
+        );
       });
       it('should default to `--force` but allow overriding that via the `force` parameter', async () => {
         let cmd = new SlackCLIProcess(['help']);
