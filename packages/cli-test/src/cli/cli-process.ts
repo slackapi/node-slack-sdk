@@ -131,7 +131,7 @@ export class SlackCLIProcess {
       if (opts.team) {
         cmd = cmd.concat(['--team', opts.team]);
       }
-      // App instance - TODO(semver:major): remove fallback to "deployed" app
+      // App instance
       if (opts.app) {
         cmd = cmd.concat(['--app', opts.app]);
       }
