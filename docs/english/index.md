@@ -59,3 +59,7 @@ These docs live within the [Node Slack SDK](https://github.com/slackapi/node-sla
 
 We welcome contributions from everyone! Please check out our
 [Contributor's Guide](https://github.com/slackapi/node-slack-sdk/blob/main/.github/contributing.md) for how to contribute in a helpful and collaborative way.
+
+## Release notes
+
+Check out the [Node Slack SDK release notes](https://github.com/slackapi/node-slack-sdk/releases) for all the latest happenings.
