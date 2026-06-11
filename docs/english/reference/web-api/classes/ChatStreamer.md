@@ -70,6 +70,31 @@ await streamer.stop();
  - [https://docs.slack.dev/reference/methods/chat.appendStream](https://docs.slack.dev/reference/methods/chat.appendStream)
  - [https://docs.slack.dev/reference/methods/chat.stopStream](https://docs.slack.dev/reference/methods/chat.stopStream)
 
+## Accessors
+
+### ts
+
+#### Get Signature
+
+```ts
+get ts(): string | undefined;
+```
+
+Defined in: [packages/web-api/src/chat-stream.ts:62](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/chat-stream.ts#L62)
+
+##### Description
+
+The message timestamp of the stream. Returns `undefined` until the first flush
+(when `chat.startStream` is called).
+
+##### See
+
+[https://docs.slack.dev/reference/methods/chat.update](https://docs.slack.dev/reference/methods/chat.update)
+
+##### Returns
+
+`string` \| `undefined`
+
 ## Methods
 
 ### append()
@@ -81,7 +106,7 @@ append(args): Promise<
 | null>;
 ```
 
-Defined in: [packages/web-api/src/chat-stream.ts:77](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/chat-stream.ts#L77)
+Defined in: [packages/web-api/src/chat-stream.ts:86](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/chat-stream.ts#L86)
 
 Append to the stream.
 
@@ -132,7 +157,7 @@ await streamer.stop();
 stop(args?): Promise<ChatStopStreamResponse>;
 ```
 
-Defined in: [packages/web-api/src/chat-stream.ts:123](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/chat-stream.ts#L123)
+Defined in: [packages/web-api/src/chat-stream.ts:132](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/chat-stream.ts#L132)
 
 Stop the stream and finalize the message.
 
