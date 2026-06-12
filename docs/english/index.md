@@ -53,13 +53,13 @@ If you otherwise get stuck, we're here to help. The following are the best ways 
 * [Issue Tracker](http://github.com/slackapi/node-slack-sdk/issues) for questions, bug reports, feature requests, and general discussion related to the Node Slack SDK. Try searching for an existing issue before creating a new one.
 * [Email](mailto:support@slack.com) our developer support team: `support@slack.com`.
 
+## Release notes
+
+Check out the [Node Slack SDK release notes](https://github.com/slackapi/node-slack-sdk/releases) for all the latest happenings.
+
 ## Contributing
 
 These docs live within the [Node Slack SDK](https://github.com/slackapi/node-slack-sdk) repository and are open source.
 
 We welcome contributions from everyone! Please check out our
 [Contributor's Guide](https://github.com/slackapi/node-slack-sdk/blob/main/.github/contributing.md) for how to contribute in a helpful and collaborative way.
-
-## Release notes
-
-Check out the [Node Slack SDK release notes](https://github.com/slackapi/node-slack-sdk/releases) for all the latest happenings.
