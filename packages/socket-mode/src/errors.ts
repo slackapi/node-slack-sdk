@@ -24,33 +24,45 @@ export type SMCallError =
   | SMSendWhileDisconnectedError
   | SMSendWhileNotReadyError;
 
-export class SMPlatformError extends Error {
-  readonly code = ErrorCode.SendMessagePlatformError;
-  // biome-ignore lint/suspicious/noExplicitAny: errors can be anything
-  readonly data: any;
+/**
+ * The shape of a Slack platform error event that backs an {@link SMPlatformError}.
+ */
+export interface SMPlatformErrorEvent {
+  error: { msg: string };
+  [key: string]: unknown;
+}
 
-  // biome-ignore lint/suspicious/noExplicitAny: errors can be anything
-  constructor(event: any & { error: { msg: string } }) {
-    super(`An API error occurred: ${event.error.msg}`);
-    this.name = 'SMPlatformError';
+export abstract class SlackSocketModeError extends Error {
+  abstract readonly code: ErrorCode;
+
+  constructor(message: string, options?: ErrorOptions) {
+    super(message, options);
+    this.name = this.constructor.name;
     Object.setPrototypeOf(this, new.target.prototype);
+  }
+}
+
+export class SMPlatformError extends SlackSocketModeError {
+  readonly code = ErrorCode.SendMessagePlatformError;
+  readonly data: SMPlatformErrorEvent;
+
+  constructor(event: SMPlatformErrorEvent) {
+    super(`An API error occurred: ${event.error.msg}`);
     this.data = event;
   }
 }
 
-export class SMWebsocketError extends Error {
+export class SMWebsocketError extends SlackSocketModeError {
   readonly code = ErrorCode.WebsocketError;
   readonly original: Error;
 
   constructor(original: Error) {
     super(original.message, { cause: original });
-    this.name = 'SMWebsocketError';
-    Object.setPrototypeOf(this, new.target.prototype);
     this.original = original;
   }
 }
 
-export class SMNoReplyReceivedError extends Error {
+export class SMNoReplyReceivedError extends SlackSocketModeError {
   readonly code = ErrorCode.NoReplyReceivedError;
 
   constructor() {
@@ -58,27 +70,21 @@ export class SMNoReplyReceivedError extends Error {
       'Message sent but no server acknowledgement was received. This may be caused by the client ' +
         'changing connection state rather than any issue with the specific message. Check before resending.',
     );
-    this.name = 'SMNoReplyReceivedError';
-    Object.setPrototypeOf(this, new.target.prototype);
   }
 }
 
-export class SMSendWhileDisconnectedError extends Error {
+export class SMSendWhileDisconnectedError extends SlackSocketModeError {
   readonly code = ErrorCode.SendWhileDisconnectedError;
 
   constructor() {
     super('Failed to send a WebSocket message as the client is not connected');
-    this.name = 'SMSendWhileDisconnectedError';
-    Object.setPrototypeOf(this, new.target.prototype);
   }
 }
 
-export class SMSendWhileNotReadyError extends Error {
+export class SMSendWhileNotReadyError extends SlackSocketModeError {
   readonly code = ErrorCode.SendWhileNotReadyError;
 
   constructor() {
     super('Failed to send a WebSocket message as the client is not ready');
-    this.name = 'SMSendWhileNotReadyError';
-    Object.setPrototypeOf(this, new.target.prototype);
   }
 }
