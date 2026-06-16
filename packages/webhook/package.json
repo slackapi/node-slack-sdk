@@ -37,8 +37,8 @@
     "build:clean": "shx rm -rf ./dist",
     "docs": "npx typedoc --plugin typedoc-plugin-markdown",
     "prepack": "npm run build",
-    "test": "npm run build && node --test-reporter=spec --test-reporter-destination=stdout --test-reporter=junit --test-reporter-destination=test-results.xml --import tsx --test src/*.test.ts",
-    "test:coverage": "npm run build && node --experimental-test-coverage --test-reporter=spec --test-reporter-destination=stdout --test-reporter=lcov --test-reporter-destination=lcov.info --test-reporter=junit --test-reporter-destination=test-results.xml --import tsx --test src/*.test.ts"
+    "test": "npm run build && node --test-reporter=spec --test-reporter-destination=stdout --test-reporter=junit --test-reporter-destination=test-results.xml --import tsx --test src/IncomingWebhook.test.ts src/instrument.test.ts",
+    "test:coverage": "npm run build && node --experimental-test-coverage --test-reporter=spec --test-reporter-destination=stdout --test-reporter=lcov --test-reporter-destination=lcov.info --test-reporter=junit --test-reporter-destination=test-results.xml --import tsx --test src/IncomingWebhook.test.ts src/instrument.test.ts"
   },
   "dependencies": {
     "@slack/types": "^2.20.1",
