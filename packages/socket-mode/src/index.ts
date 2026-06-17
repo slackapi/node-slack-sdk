@@ -2,9 +2,11 @@
 
 export {
   ErrorCode,
+  SlackSocketModeError,
   SMCallError,
   SMNoReplyReceivedError,
   SMPlatformError,
+  SMPlatformErrorEvent,
   SMSendWhileDisconnectedError,
   SMSendWhileNotReadyError,
   SMWebsocketError,
@@ -12,5 +14,5 @@ export {
 
 export { Logger, LogLevel } from './logger';
 export { SocketModeClient } from './SocketModeClient';
-export { SocketModeOptions } from './SocketModeOptions';
+export { SocketModeDispatcher, SocketModeOptions } from './SocketModeOptions';
 export { UnrecoverableSocketModeStartError } from './UnrecoverableSocketModeStartError';

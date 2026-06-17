@@ -1,6 +1,6 @@
 {
   "name": "@slack/cli-test",
-  "version": "3.0.2",
+  "version": "5.0.0-rc.1",
   "description": "Node.js bindings for the Slack CLI for use in automated testing",
   "author": "Salesforce, Inc.",
   "license": "MIT",
@@ -15,7 +15,8 @@
     "dist/**/*"
   ],
   "engines": {
-    "node": ">=18.15.5"
+    "node": ">=20",
+    "npm": ">=9.6.4"
   },
   "repository": {
     "type": "git",

@@ -99,20 +99,5 @@
     ]
   },
   { "type": "html", "value": "<hr>" },
-  "tools/node-slack-sdk/support-schedule",
-  {
-    "type": "link",
-    "label": "Release notes",
-    "href": "https://github.com/slackapi/node-slack-sdk/releases"
-  },
-  {
-    "type": "link",
-    "label": "Code on GitHub",
-    "href": "https://github.com/slackapi/node-slack-sdk"
-  },
-  {
-    "type": "link",
-    "label": "Contributors Guide",
-    "href": "https://github.com/slackapi/node-slack-sdk/blob/main/.github/contributing.md"
-  }
+  "tools/node-slack-sdk/support-schedule"
 ]
