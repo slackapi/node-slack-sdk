@@ -138,7 +138,7 @@ jobs:
         id: release
         run: |
           echo "message=$(echo "$PUBLISHED_PACKAGES" | jq -r '[.[] | "\(.name)@\(.version)"] | join(", ")')" >> "$GITHUB_OUTPUT"
-          echo "action_url=$(echo "$PUBLISHED_PACKAGES" | jq -r '[.[] | "https://github.com/${{ github.repository }}/releases/tag/\(.name)@\(.version)"] | join("\n")')" >> "$GITHUB_OUTPUT"
+          echo "action_url=$(echo "$PUBLISHED_PACKAGES" | jq -r '[.[] | "https://github.com/${{ github.repository }}/releases/tag/\(.name)@\(.version)"] | join(", ")')" >> "$GITHUB_OUTPUT"
         env:
           PUBLISHED_PACKAGES: ${{ steps.changesets.outputs.publishedPackages }}
 
