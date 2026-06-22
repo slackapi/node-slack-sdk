@@ -9,6 +9,8 @@
 
 import type { WebAPICallResult } from '../../WebClient';
 export type ConversationsListResponse = WebAPICallResult & {
+  arg?: string;
+  callstack?: string;
   channels?: Channel[];
   error?: string;
   needed?: string;
@@ -59,16 +61,30 @@ export interface Channel {
 
 export interface Properties {
   canvas?: Canvas;
+  channel_workflows?: ChannelWorkflow[];
+  is_dormant?: boolean;
+  meeting_notes?: MeetingNotes;
   posting_restricted_to?: RestrictedTo;
   tabs?: Tab[];
   tabz?: Tab[];
   threads_restricted_to?: RestrictedTo;
+  use_case?: string;
 }
 
 export interface Canvas {
   file_id?: string;
   is_empty?: boolean;
+  is_migrated?: boolean;
   quip_thread_id?: string;
+}
+
+export interface ChannelWorkflow {
+  title?: string;
+  workflow_trigger_id?: string;
+}
+
+export interface MeetingNotes {
+  file_id?: string;
 }
 
 export interface RestrictedTo {
@@ -77,9 +93,17 @@ export interface RestrictedTo {
 }
 
 export interface Tab {
+  data?: Data;
   id?: string;
+  is_disabled?: boolean;
   label?: string;
   type?: string;
+}
+
+export interface Data {
+  file_id?: string;
+  folder_bookmark_id?: string;
+  shared_ts?: string;
 }
 
 export interface Purpose {

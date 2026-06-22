@@ -9,6 +9,7 @@
 
 import type { WebAPICallResult } from '../../WebClient';
 export type RtmConnectResponse = WebAPICallResult & {
+  context?: string;
   error?: string;
   needed?: string;
   ok?: boolean;

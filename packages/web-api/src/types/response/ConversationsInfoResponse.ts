@@ -52,11 +52,28 @@ export interface Channel {
   pending_connected_team_ids?: string[];
   pending_shared?: string[];
   previous_names?: string[];
+  properties?: Properties;
   purpose?: Purpose;
   shared_team_ids?: string[];
   topic?: Purpose;
   unlinked?: number;
   updated?: number;
+}
+
+export interface Properties {
+  is_dormant?: boolean;
+  tabs?: Tab[];
+  tabz?: Tabz[];
+}
+
+export interface Tab {
+  id?: string;
+  label?: string;
+  type?: string;
+}
+
+export interface Tabz {
+  type?: string;
 }
 
 export interface Purpose {
