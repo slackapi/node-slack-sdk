@@ -1991,6 +1991,78 @@ describe('WebClient', () => {
       }
     });
   });
+
+  describe('accepts an AbortSignal to cancel requests', () => {
+    // fixme: use nock when https://github.com/nock/nock/issues/2949 is resolved
+    const slowFetch: FetchFunction = (_input, init) =>
+      new Promise((resolve, reject) => {
+        const timer = setTimeout(
+          () =>
+            resolve({
+              ok: true,
+              status: 200,
+              statusText: 'OK',
+              url: 'https://slack.com/api/conversations.list',
+              headers: { get: () => null, entries: () => [][Symbol.iterator]() },
+              arrayBuffer: () => Promise.resolve(new ArrayBuffer(0)),
+              json: () => Promise.resolve({ ok: true }),
+              text: () => Promise.resolve('{"ok":true}'),
+            }),
+          50,
+        );
+        init?.signal?.addEventListener('abort', () => {
+          clearTimeout(timer);
+          reject(init.signal?.reason);
+        });
+      });
+
+    it('cancels the request when the signal is aborted', async () => {
+      const client = new WebClient(token, { fetch: slowFetch });
+      const controller = new AbortController();
+      const { signal } = controller;
+
+      setTimeout(() => {
+        controller.abort();
+      }, 1);
+
+      try {
+        await client.conversations.list({}, { signal });
+        assert.fail('Expected error to be thrown');
+      } catch (error) {
+        assert.ok(error instanceof Error);
+      }
+    });
+
+    it('completes the request when the signal is not aborted', async () => {
+      const client = new WebClient(token, { fetch: slowFetch });
+      const controller = new AbortController();
+      const { signal } = controller;
+
+      try {
+        const response = await client.conversations.list({}, { signal });
+        assert.equal(response.ok, true);
+      } catch (error) {
+        assert.fail(`Did not expect an error to be thrown: ${(error as Error).message}`);
+      }
+    });
+
+    it('uses the AbortSignal reason', async () => {
+      const client = new WebClient(token, { fetch: slowFetch });
+      const controller = new AbortController();
+      const { signal } = controller;
+      const abortReason = new Error('Abort reason');
+      setTimeout(() => {
+        controller.abort(abortReason);
+      }, 1);
+
+      try {
+        await client.conversations.list({}, { signal });
+        assert.fail('Expected error to be thrown');
+      } catch (error) {
+        assert.equal(error, abortReason);
+      }
+    });
+  });
 });
 
 // Helpers

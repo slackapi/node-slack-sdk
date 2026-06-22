@@ -254,7 +254,11 @@ export class WebClient extends Methods {
    * @param method - the Web API method to call {@link https://docs.slack.dev/reference/methods}
    * @param options - arguments for the Web API method
    */
-  public async apiCall(method: string, options: Record<string, unknown> = {}): Promise<WebAPICallResult> {
+  public async apiCall(
+    method: string,
+    options: Record<string, unknown> = {},
+    config?: { signal?: AbortSignal },
+  ): Promise<WebAPICallResult> {
     this.logger.debug(`apiCall('${method}') start`);
 
     warnDeprecations(method, this.logger);
@@ -279,6 +283,7 @@ export class WebClient extends Methods {
         ...options,
       },
       headers,
+      config,
     );
     const result = await this.buildResult(response);
     this.logger.debug(`http request result: ${JSON.stringify(result)}`);
@@ -589,6 +594,7 @@ export class WebClient extends Methods {
     url: string,
     body: Record<string, unknown>,
     headers: Record<string, string> = {},
+    options?: { signal?: AbortSignal },
   ): Promise<FetchResponse> {
     const task = () =>
       this.requestQueue.add(async () => {
@@ -607,7 +613,11 @@ export class WebClient extends Methods {
 
         const controller = new AbortController();
         const timer = this.timeout > 0 ? setTimeout(() => controller.abort(), this.timeout) : undefined;
-        const signal = timer ? controller.signal : undefined;
+        const userSignal = options?.signal;
+        const signals: AbortSignal[] = [];
+        if (timer) signals.push(controller.signal);
+        if (userSignal) signals.push(userSignal);
+        const signal = signals.length > 0 ? AbortSignal.any(signals) : undefined;
 
         try {
           const response = await this.fetchFn(url, {
@@ -667,6 +677,9 @@ export class WebClient extends Methods {
           }
           if (error instanceof SlackError) {
             throw error;
+          }
+          if (userSignal?.aborted && error === userSignal.reason) {
+            throw new AbortError(userSignal.reason);
           }
           const message = error instanceof Error ? error.message : String(error);
           this.logger.warn('http request failed', message);
