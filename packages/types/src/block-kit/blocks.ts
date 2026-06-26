@@ -60,6 +60,7 @@ export type KnownBlock =
   | CarouselBlock
   | ContextBlock
   | ContextActionsBlock
+  | DataVisualizationBlock
   | DividerBlock
   | FileBlock
   | HeaderBlock
@@ -224,6 +225,131 @@ export interface ContextActionsBlock extends Block {
    * @description An array of {@link FeedbackButtons} or {@link IconButton} block elements. Maximum number of items is 5.
    */
   elements: ContextActionsBlockElement[];
+}
+
+/**
+ * @description A single slice of a {@link DataVisualizationPieChart}.
+ * @see {@link https://docs.slack.dev/reference/block-kit/blocks/data-visualization-block Data visualization block reference}.
+ */
+export interface DataVisualizationPieSegment {
+  /**
+   * @description The label for the segment. Maximum length is 20 characters.
+   */
+  label: string;
+  /**
+   * @description The value for the segment. Must be greater than 0.
+   */
+  value: number;
+}
+
+/**
+ * @description A single data point within a {@link DataVisualizationSeries}.
+ * @see {@link https://docs.slack.dev/reference/block-kit/blocks/data-visualization-block Data visualization block reference}.
+ */
+export interface DataVisualizationDataPoint {
+  /**
+   * @description The label for the data point. Maximum length is 20 characters. Must match a category defined in
+   * the chart's {@link DataVisualizationAxisConfig}.
+   */
+  label: string;
+  /**
+   * @description The value for the data point. Negative values are permitted.
+   */
+  value: number;
+}
+
+/**
+ * @description A series of data points displayed in a bar, area, or line {@link DataVisualizationBlock} chart.
+ * @see {@link https://docs.slack.dev/reference/block-kit/blocks/data-visualization-block Data visualization block reference}.
+ */
+export interface DataVisualizationSeries {
+  /**
+   * @description The name of the series. Maximum length is 20 characters. Must be unique within the chart.
+   */
+  name: string;
+  /**
+   * @description An array of {@link DataVisualizationDataPoint} objects. Minimum 1, maximum 20 data points.
+   */
+  data: DataVisualizationDataPoint[];
+}
+
+/**
+ * @description Axis configuration for a bar, area, or line {@link DataVisualizationBlock} chart.
+ * @see {@link https://docs.slack.dev/reference/block-kit/blocks/data-visualization-block Data visualization block reference}.
+ */
+export interface DataVisualizationAxisConfig {
+  /**
+   * @description The x-axis category labels. The order of categories determines the x-axis display sequence. Maximum
+   * length for each category is 20 characters.
+   */
+  categories: string[];
+  /**
+   * @description An optional label for the x-axis. Maximum length is 50 characters.
+   */
+  x_label?: string;
+  /**
+   * @description An optional label for the y-axis. Maximum length is 50 characters.
+   */
+  y_label?: string;
+}
+
+/**
+ * @description A pie chart for a {@link DataVisualizationBlock}.
+ * @see {@link https://docs.slack.dev/reference/block-kit/blocks/data-visualization-block Data visualization block reference}.
+ */
+export interface DataVisualizationPieChart {
+  /**
+   * @description The type of chart. For a pie chart, `type` is always `pie`.
+   */
+  type: 'pie';
+  /**
+   * @description An array of {@link DataVisualizationPieSegment} objects. Minimum 1, maximum 6 segments.
+   */
+  segments: DataVisualizationPieSegment[];
+}
+
+/**
+ * @description A bar, area, or line chart for a {@link DataVisualizationBlock}.
+ * @see {@link https://docs.slack.dev/reference/block-kit/blocks/data-visualization-block Data visualization block reference}.
+ */
+export interface DataVisualizationSeriesChart {
+  /**
+   * @description The type of chart. One of `bar`, `area`, or `line`.
+   */
+  type: 'bar' | 'area' | 'line';
+  /**
+   * @description An array of {@link DataVisualizationSeries} objects. Minimum 1, maximum 6 series.
+   */
+  series: DataVisualizationSeries[];
+  /**
+   * @description The {@link DataVisualizationAxisConfig} describing the chart axes.
+   */
+  axis_config: DataVisualizationAxisConfig;
+}
+
+/**
+ * @description A helper union type of all chart shapes supported by a {@link DataVisualizationBlock}.
+ * @see {@link https://docs.slack.dev/reference/block-kit/blocks/data-visualization-block Data visualization block reference}.
+ */
+export type DataVisualizationChart = DataVisualizationPieChart | DataVisualizationSeriesChart;
+
+/**
+ * @description Displays a chart visualizing a dataset, such as a pie, bar, area, or line chart.
+ * @see {@link https://docs.slack.dev/reference/block-kit/blocks/data-visualization-block Data visualization block reference}.
+ */
+export interface DataVisualizationBlock extends Block {
+  /**
+   * @description The type of block. For a data visualization block, `type` is always `data_visualization`.
+   */
+  type: 'data_visualization';
+  /**
+   * @description The title of the chart. Maximum length is 50 characters.
+   */
+  title: string;
+  /**
+   * @description The {@link DataVisualizationChart} to render. One of a pie, bar, area, or line chart.
+   */
+  chart: DataVisualizationChart;
 }
 
 /**
