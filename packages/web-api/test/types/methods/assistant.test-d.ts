@@ -73,14 +73,10 @@ expectError(
     channel_id: 'C1234', // missing prompts and thread_ts
   }),
   web.assistant.threads.setSuggestedPrompts({
-    prompts: [], // missing channel_id and thread_ts
+    prompts: [], // missing channel_id
   }),
   web.assistant.threads.setSuggestedPrompts({
     thread_ts: '123.123', // missing channel_id and prompts
-  }),
-  web.assistant.threads.setSuggestedPrompts({
-    channel_id: 'C1234', // missing thread_ts
-    prompts: [],
   }),
   web.assistant.threads.setSuggestedPrompts({
     channel_id: 'C1234', // missing prompts
@@ -102,6 +98,12 @@ expectError(
   }),
 );
 // -- happy path
+expectAssignable<Parameters<typeof web.assistant.threads.setSuggestedPrompts>>([
+  {
+    channel_id: 'C1234',
+    prompts: [], // thread_ts is optional
+  },
+]);
 expectAssignable<Parameters<typeof web.assistant.threads.setSuggestedPrompts>>([
   {
     channel_id: 'C1234',
