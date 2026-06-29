@@ -101,14 +101,14 @@ expectError(
 expectAssignable<Parameters<typeof web.assistant.threads.setSuggestedPrompts>>([
   {
     channel_id: 'C1234',
-    prompts: [], // thread_ts is optional
+    prompts: [],
   },
 ]);
 expectAssignable<Parameters<typeof web.assistant.threads.setSuggestedPrompts>>([
   {
     channel_id: 'C1234',
     prompts: [{ title: 'Summarize this channel', message: 'Summarize the recent activity in this channel.' }],
-    title: 'Suggested Prompts', // thread_ts is optional alongside the other arguments
+    title: 'Suggested Prompts',
   },
 ]);
 expectAssignable<Parameters<typeof web.assistant.threads.setSuggestedPrompts>>([
