@@ -107,7 +107,14 @@ expectAssignable<Parameters<typeof web.assistant.threads.setSuggestedPrompts>>([
 expectAssignable<Parameters<typeof web.assistant.threads.setSuggestedPrompts>>([
   {
     channel_id: 'C1234',
-    thread_ts: '123.123',
+    prompts: [{ title: 'placeholder', message: 'example' }],
+    title: 'what is up?', // thread_ts is optional alongside the other arguments
+  },
+]);
+expectAssignable<Parameters<typeof web.assistant.threads.setSuggestedPrompts>>([
+  {
+    channel_id: 'C1234',
+    thread_ts: '123.123', // thread_ts is still accepted when provided
     prompts: [],
   },
 ]);
