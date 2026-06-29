@@ -73,6 +73,7 @@ updates:
           - "23.x"
           - "24.x"
           - "25.x"
+          - "26.x"
     labels:
       - "dependencies"
       - "javascript"
@@ -111,6 +112,7 @@ updates:
           - "23.x"
           - "24.x"
           - "25.x"
+          - "26.x"
     labels:
       - "dependencies"
       - "javascript"
@@ -149,6 +151,7 @@ updates:
           - "23.x"
           - "24.x"
           - "25.x"
+          - "26.x"
     labels:
       - "dependencies"
       - "javascript"
@@ -198,6 +201,7 @@ updates:
           - "23.x"
           - "24.x"
           - "25.x"
+          - "26.x"
     labels:
       - "dependencies"
       - "javascript"
@@ -228,6 +232,7 @@ updates:
           - "23.x"
           - "24.x"
           - "25.x"
+          - "26.x"
     labels:
       - "dependencies"
       - "javascript"
@@ -242,6 +247,11 @@ updates:
       slack:
         patterns:
           - "@slack/*"
+    ignore:
+      - dependency-name: "@types/node"
+        versions:
+          - "25.x"
+          - "26.x"
     labels:
       - "area:examples"
       - "dependencies"
@@ -269,6 +279,7 @@ updates:
           - "23.x"
           - "24.x"
           - "25.x"
+          - "26.x"
     labels:
       - "dependencies"
       - "javascript"

@@ -16,3 +16,5 @@ export {
   IncomingWebhookResult,
   IncomingWebhookSendArguments,
 } from './IncomingWebhook';
+
+export { addAppMetadata } from './instrument';
