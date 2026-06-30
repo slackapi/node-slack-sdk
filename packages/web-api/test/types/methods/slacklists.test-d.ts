@@ -3,6 +3,8 @@ import { expectAssignable, expectError } from 'tsd';
 import { WebClient } from '../../../src/WebClient';
 
 const web = new WebClient('TOKEN');
+type SlackListsItemsListResponse = Awaited<ReturnType<typeof web.slackLists.items.list>>;
+type SlackListsItemField = NonNullable<SlackListsItemsListResponse['items']>[number]['fields'][number];
 
 // slackLists.access.delete
 // -- sad path
@@ -77,8 +79,34 @@ expectError(web.slackLists.items.create({})); // missing list_id
 expectAssignable<Parameters<typeof web.slackLists.items.create>>([
   {
     list_id: 'L1234567890',
+    initial_fields: [
+      {
+        column_id: 'Col1234567890',
+        message: ['https://example.slack.com/archives/C1234567890/p1234567890123456'],
+      },
+    ],
   },
 ]);
+
+expectAssignable<SlackListsItemField>({
+  column_id: 'Col1234567890',
+  message: {
+    text: 'hello',
+    ts: '123.456',
+    user: 'U0123456789',
+  },
+});
+
+expectAssignable<SlackListsItemField>({
+  column_id: 'Col1234567890',
+  message: [
+    {
+      value: 'https://example.slack.com/archives/C1234567890/p1234567890123456',
+      channel_id: 'C1234567890',
+      ts: '1234567890.123456',
+    },
+  ],
+});
 
 // slackLists.items.delete
 // -- sad path

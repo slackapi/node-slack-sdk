@@ -58,23 +58,49 @@ export interface SlackListsItemFieldLink {
 }
 
 /**
- * @description A single message object returned by the Slack API.
+ * @description Message metadata returned for Slack Lists message fields.
  */
 export interface SlackListsItemMessage {
-  text?: string;
+  /**
+   * @description URL value for the referenced message.
+   */
+  value?: string;
+  /**
+   * @description Channel containing the referenced message.
+   */
+  channel_id?: string;
+  /**
+   * @description Timestamp of the referenced message.
+   */
   ts?: string;
+  /**
+   * @description Thread timestamp of the referenced message.
+   */
+  thread_ts?: string;
+  /**
+   * @description Plain text fallback returned by some message field responses.
+   */
+  text?: string;
+  /**
+   * @description User ID associated with the referenced message.
+   */
   user?: string;
+  /**
+   * @description Team ID associated with the referenced message.
+   */
   team?: string;
+  /**
+   * @description Message type returned by the API.
+   */
   type?: string;
 }
 
 /**
- * @description Message field. The API may return either a single message object
- * or an array of message objects.
+ * @description Message field with request message URLs or returned message metadata.
  */
 export interface SlackListsItemFieldMessage {
   column_id: string;
-  message: SlackListsItemMessage | SlackListsItemMessage[];
+  message: string[] | SlackListsItemMessage | SlackListsItemMessage[];
 }
 
 /**
