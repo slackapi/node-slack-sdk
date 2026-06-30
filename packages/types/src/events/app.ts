@@ -222,7 +222,7 @@ export interface AppContextChangedEvent {
   channel: string;
   user: string;
   context: {
-    entities: ((
+    entities?: ((
       | {
           type: 'slack#/types/channel_id';
           value: string;
@@ -240,7 +240,6 @@ export interface AppContextChangedEvent {
           value: {
             message_ts: string;
             channel_id?: string;
-            user_id?: string;
           };
         }
     ) & {
