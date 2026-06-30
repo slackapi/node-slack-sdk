@@ -1,5 +1,11 @@
 # @slack/webhook
 
+## 7.1.0
+
+### Minor Changes
+
+- 59124ef: feat: export `addAppMetadata` for external instrumentation use
+
 ## 7.0.9
 
 ### Patch Changes
