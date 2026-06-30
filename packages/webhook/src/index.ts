@@ -16,3 +16,10 @@ export {
 } from './IncomingWebhook';
 
 export { addAppMetadata } from './instrument';
+
+export {
+  WebhookTrigger,
+  WebhookTriggerDefaultArguments,
+  WebhookTriggerResult,
+  WebhookTriggerSendArguments,
+} from './WebhookTrigger';
