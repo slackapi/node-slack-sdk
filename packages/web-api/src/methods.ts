@@ -193,7 +193,6 @@ import type {
   FilesRemoteUpdateArguments,
   FilesRevokePublicURLArguments,
   FilesSharedPublicURLArguments,
-  FilesUploadArguments,
   FilesUploadV2Arguments,
   FunctionsCompleteErrorArguments,
   FunctionsCompleteSuccessArguments,
@@ -216,7 +215,6 @@ import type {
   RemindersInfoArguments,
   RemindersListArguments,
   RTMConnectArguments,
-  RTMStartArguments,
   SearchAllArguments,
   SearchFilesArguments,
   SearchMessagesArguments,
@@ -271,9 +269,6 @@ import type {
   WorkflowsFeaturedListArguments,
   WorkflowsFeaturedRemoveArguments,
   WorkflowsFeaturedSetArguments,
-  WorkflowsStepCompletedArguments,
-  WorkflowsStepFailedArguments,
-  WorkflowsUpdateStepArguments,
 } from './types/request/index';
 import type {
   AdminAnalyticsGetFileResponse,
@@ -467,7 +462,6 @@ import type {
   FilesRemoteUpdateResponse,
   FilesRevokePublicURLResponse,
   FilesSharedPublicURLResponse,
-  FilesUploadResponse,
   FunctionsCompleteErrorResponse,
   FunctionsCompleteSuccessResponse,
   MigrationExchangeResponse,
@@ -489,7 +483,6 @@ import type {
   RemindersInfoResponse,
   RemindersListResponse,
   RtmConnectResponse,
-  RtmStartResponse,
   SearchAllResponse,
   SearchFilesResponse,
   SearchMessagesResponse,
@@ -545,9 +538,6 @@ import type {
   WorkflowsFeaturedListResponse,
   WorkflowsFeaturedRemoveResponse,
   WorkflowsFeaturedSetResponse,
-  WorkflowsStepCompletedResponse,
-  WorkflowsStepFailedResponse,
-  WorkflowsUpdateStepResponse,
 } from './types/response/index';
 
 import { type WebAPICallResult, WebClient, type WebClientEvent } from './WebClient';
@@ -1982,12 +1972,6 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
       'files.sharedPublicURL',
     ),
     /**
-     * @description Uploads or creates a file.
-     * @deprecated Use `uploadV2` instead. See {@link https://docs.slack.dev/changelog/2024-04-a-better-way-to-upload-files-is-here-to-stay our post on retiring `files.upload`}.
-     * @see {@link https://docs.slack.dev/reference/methods/files.upload `files.upload` API reference}.
-     */
-    upload: bindApiCall<FilesUploadArguments, FilesUploadResponse>(this, 'files.upload'),
-    /**
      * @description Custom method to support a new way of uploading files to Slack.
      * Supports a single file upload
      * Supply:
@@ -2185,12 +2169,6 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
      * @see {@link https://docs.slack.dev/reference/methods/rtm.connect `rtm.connect` API reference}.
      */
     connect: bindApiCallWithOptionalArgument<RTMConnectArguments, RtmConnectResponse>(this, 'rtm.connect'),
-    /**
-     * @description Starts a Real Time Messaging session.
-     * @deprecated Use `rtm.connect` instead. See {@link https://docs.slack.dev/changelog/2021-10-rtm-start-to-stop our post on retiring `rtm.start`}.
-     * @see {@link https://docs.slack.dev/reference/methods/rtm.start `rtm.start` API reference}.
-     */
-    start: bindApiCallWithOptionalArgument<RTMStartArguments, RtmStartResponse>(this, 'rtm.start'),
   };
 
   public readonly search = {
@@ -2520,7 +2498,6 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
   // ------------------
   // TODO: breaking changes for future majors:
   // - stars.* methods are marked as deprecated; once Later has APIs, these will see an official sunsetting timeline
-  // - workflows.* methods, Sep 12 2024: https://docs.slack.dev/changelog/2023-08-workflow-steps-from-apps-step-back
 
   public readonly stars = {
     /**
@@ -2572,33 +2549,6 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
        */
       set: bindApiCall<WorkflowsFeaturedSetArguments, WorkflowsFeaturedSetResponse>(this, 'workflows.featured.set'),
     },
-    /**
-     * @description Indicate that an app's step in a workflow completed execution.
-     * @deprecated Steps from Apps is deprecated.
-     * We're retiring all Slack app functionality around Steps from Apps in September 2024.
-     * See {@link https://docs.slack.dev/changelog/2023-08-workflow-steps-from-apps-step-back our post on deprecating Steps from Apps}.
-     * @see {@link https://docs.slack.dev/legacy/legacy-steps-from-apps/legacy-steps-from-apps-workflow_step-object `workflows.stepCompleted` API reference}.
-     */
-    stepCompleted: bindApiCall<WorkflowsStepCompletedArguments, WorkflowsStepCompletedResponse>(
-      this,
-      'workflows.stepCompleted',
-    ),
-    /**
-     * @description Indicate that an app's step in a workflow failed to execute.
-     * @deprecated Steps from Apps is deprecated.
-     * We're retiring all Slack app functionality around Steps from Apps in September 2024.
-     * See {@link https://docs.slack.dev/changelog/2023-08-workflow-steps-from-apps-step-back our post on deprecating Steps from Apps}.
-     * @see {@link https://docs.slack.dev/legacy/legacy-steps-from-apps/legacy-steps-from-apps-workflow_step-object `workflows.stepFailed` API reference}.
-     */
-    stepFailed: bindApiCall<WorkflowsStepFailedArguments, WorkflowsStepFailedResponse>(this, 'workflows.stepFailed'),
-    /**
-     * @description Update the configuration for a workflow step.
-     * @deprecated Steps from Apps is deprecated.
-     * We're retiring all Slack app functionality around Steps from Apps in September 2024.
-     * See {@link https://docs.slack.dev/changelog/2023-08-workflow-steps-from-apps-step-back our post on deprecating Steps from Apps}.
-     * @see {@link https://docs.slack.dev/legacy/legacy-steps-from-apps/legacy-steps-from-apps-workflow_step-object `workflows.updateStep` API reference}.
-     */
-    updateStep: bindApiCall<WorkflowsUpdateStepArguments, WorkflowsUpdateStepResponse>(this, 'workflows.updateStep'),
   };
 }
 

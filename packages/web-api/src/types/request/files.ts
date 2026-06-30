@@ -157,9 +157,6 @@ type FileUpload = FileUploadContents &
     /** @description File title. */
     title?: string;
   };
-// https://docs.slack.dev/reference/methods/files.upload
-export type FilesUploadArguments = FileUpload & TokenOverridable;
-
 export type FileUploadV2 = FileUpload & {
   /** @description Description of image for screen-reader. */
   alt_text?: string;

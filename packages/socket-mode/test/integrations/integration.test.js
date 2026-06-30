@@ -1,7 +1,7 @@
 const assert = require('node:assert/strict');
 const { describe, it, beforeEach, afterEach } = require('node:test');
-const { SocketModeClient } = require('../src/SocketModeClient');
-const { LogLevel } = require('../src/logger');
+const { SocketModeClient } = require('../../src/SocketModeClient');
+const { LogLevel } = require('../../src/logger');
 const { WebSocketServer } = require('ws');
 const { createServer } = require('node:http');
 const sinon = require('sinon');
@@ -67,6 +67,12 @@ describe('Integration tests with a WebSocket server', { timeout: 30000 }, () => 
     });
     it('connects to a server via `start()` and gracefully disconnects via `disconnect()`', async () => {
       await client.start();
+      await client.disconnect();
+    });
+    it('start() resolves with the apps.connections.open API response', async () => {
+      const result = await client.start();
+      assert.equal(result.ok, true);
+      assert.equal(result.url, `ws://localhost:${WSS_PORT}/`);
       await client.disconnect();
     });
     it('can call `disconnect()` even if already disconnected without issue', async () => {

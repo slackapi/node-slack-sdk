@@ -1,6 +1,6 @@
 {
   "name": "@slack/logger",
-  "version": "4.0.1",
+  "version": "5.0.0-rc.1",
   "description": "Logging utility used by Node Slack SDK",
   "author": "Slack Technologies, LLC",
   "license": "MIT",
@@ -14,8 +14,8 @@
     "dist/**/*"
   ],
   "engines": {
-    "node": ">= 18",
-    "npm": ">= 8.6.0"
+    "node": ">= 20",
+    "npm": ">=9.6.4"
   },
   "repository": {
     "type": "git",
@@ -37,6 +37,6 @@
     "test:coverage": "npm run build && node --experimental-test-coverage --test-reporter=spec --test-reporter-destination=stdout --test-reporter=lcov --test-reporter-destination=lcov.info --test-reporter=junit --test-reporter-destination=test-results.xml --import tsx --test src/index.test.ts"
   },
   "dependencies": {
-    "@types/node": ">=18"
+    "@types/node": ">=20"
   }
 }
