@@ -239,7 +239,7 @@ export interface AppContextChangedEvent {
           type: 'slack#/types/message_context';
           value: {
             message_ts: string;
-            channel_id?: string;
+            channel_id: string;
           };
         }
     ) & {
