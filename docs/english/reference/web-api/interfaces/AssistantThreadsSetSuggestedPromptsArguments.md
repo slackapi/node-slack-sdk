@@ -38,10 +38,10 @@ Prompt suggestions that appear when opening assistant thread.
 
 ***
 
-### thread\_ts
+### thread\_ts?
 
 ```ts
-thread_ts: string;
+optional thread_ts: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/assistant.ts:37](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/assistant.ts#L37)
