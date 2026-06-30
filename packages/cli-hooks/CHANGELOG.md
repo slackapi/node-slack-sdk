@@ -1,5 +1,11 @@
 # @slack/cli-hooks
 
+## 1.3.3
+
+### Patch Changes
+
+- f430ae8: fix: use correct bolt-js release notes tag format
+
 ## 1.3.2
 
 ### Patch Changes

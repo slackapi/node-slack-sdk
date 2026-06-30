@@ -23,6 +23,7 @@ jobs:
           - "20.x"
           - "22.x"
           - "24.x"
+          - "26.x"
     runs-on: ${{ matrix.os }}
     permissions:
       contents: read
@@ -32,7 +33,7 @@ jobs:
         run: |
           git config --global core.autocrlf false
           git config --global core.eol lf
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
           persist-credentials: false
       - name: Use Node.js ${{ matrix.node-version }}
@@ -60,7 +61,7 @@ jobs:
         run: npm run test:coverage
       - name: Upload code coverage
         if: matrix.node-version == env.LATEST_SUPPORTED_NODE && matrix.os == 'ubuntu-latest'
-        uses: codecov/codecov-action@e79a6962e0d4c0c17b229090214935d2e33f8354 # v6.0.1
+        uses: codecov/codecov-action@fb8b3582c8e4def4969c97caa2f19720cb33a72f # v7.0.0
         with:
           fail_ci_if_error: true
           files: packages/*/lcov.info
@@ -70,7 +71,7 @@ jobs:
           verbose: true
       - name: Upload test results
         if: ${{ !cancelled() }}
-        uses: codecov/codecov-action@e79a6962e0d4c0c17b229090214935d2e33f8354 # v6.0.1
+        uses: codecov/codecov-action@fb8b3582c8e4def4969c97caa2f19720cb33a72f # v7.0.0
         with:
           fail_ci_if_error: true
           files: packages/cli-hooks/test-results.xml,packages/cli-test/test-results.xml,packages/logger/test-results.xml,packages/oauth/test-results.xml,packages/socket-mode/test-results.xml,packages/web-api/test-results.xml,packages/webhook/test-results.xml
