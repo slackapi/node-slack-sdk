@@ -15,6 +15,8 @@ export {
   IncomingWebhookSendArguments,
 } from './IncomingWebhook';
 
+export { addAppMetadata } from './instrument';
+
 export {
   WebhookTrigger,
   WebhookTriggerDefaultArguments,

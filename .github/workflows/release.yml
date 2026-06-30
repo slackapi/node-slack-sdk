@@ -20,7 +20,7 @@ jobs:
       pull-requests: write
     steps:
       - name: Checkout repo
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
           persist-credentials: true
 
@@ -49,9 +49,10 @@ jobs:
 
       - name: Create or update release PR
         id: changesets
-        uses: changesets/action@6a0a831ff30acef54f2c6aa1cbbc1096b066edaf # v1.7.0
+        uses: changesets/action@a45c4d594aa4e2c509dc14a9f2b3b67ba3780d0d # v1.9.0
         with:
           commit: "chore: release"
+          prDraft: create
           title: "chore: release"
           version: npm run version
         env:
@@ -85,7 +86,7 @@ jobs:
     steps:
       - name: Gather credentials
         id: credentials
-        uses: actions/create-github-app-token@1b10c78c7865c340bc4f6099eb2f838309f1e8c3 # v3.1.1
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
         with:
           client-id: ${{ secrets.GH_APP_CLIENT_ID }}
           private-key: ${{ secrets.GH_APP_PRIVATE_KEY }}
@@ -94,7 +95,7 @@ jobs:
           permission-contents: write
 
       - name: Checkout repo
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
           persist-credentials: true
           token: ${{ steps.credentials.outputs.token }}
@@ -125,7 +126,7 @@ jobs:
 
       - name: Publish to npm and create GitHub releases
         id: changesets
-        uses: changesets/action@6a0a831ff30acef54f2c6aa1cbbc1096b066edaf # v1.7.0
+        uses: changesets/action@a45c4d594aa4e2c509dc14a9f2b3b67ba3780d0d # v1.9.0
         with:
           createGithubReleases: true
           publish: npm run changeset -- publish
@@ -137,7 +138,7 @@ jobs:
         id: release
         run: |
           echo "message=$(echo "$PUBLISHED_PACKAGES" | jq -r '[.[] | "\(.name)@\(.version)"] | join(", ")')" >> "$GITHUB_OUTPUT"
-          echo "action_url=$(echo "$PUBLISHED_PACKAGES" | jq -r '[.[] | "https://github.com/${{ github.repository }}/releases/tag/\(.name)@\(.version)"] | join("\n")')" >> "$GITHUB_OUTPUT"
+          echo "action_url=$(echo "$PUBLISHED_PACKAGES" | jq -r '[.[] | "https://github.com/${{ github.repository }}/releases/tag/\(.name)@\(.version)"] | join(", ")')" >> "$GITHUB_OUTPUT"
         env:
           PUBLISHED_PACKAGES: ${{ steps.changesets.outputs.publishedPackages }}
 
