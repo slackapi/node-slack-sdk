@@ -1,8 +1,10 @@
-# Migrating the `web-api` package to v7.x
+---
+sidebar_label: Migrating to v7
+---
 
-This migration guide helps you transition an application written using the `v6.x` series of the `@slack/web-api` package to the `v7.x`
-series. This guide focuses specifically on the breaking changes to help get your existing app up and running as
-quickly as possible.
+# Migrating the `web-api` package from v6 to v7
+
+This migration guide helps you transition an application written using the `v6.x` series of the `@slack/web-api` package to the `v7.x` series. This guide focuses specifically on the breaking changes to help get your existing app up and running as quickly as possible.
 
 ## Installation
 
