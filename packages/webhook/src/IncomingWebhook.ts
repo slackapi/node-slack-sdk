@@ -2,9 +2,11 @@ import type { Agent } from 'node:http';
 
 import type { Block, KnownBlock, MessageAttachment } from '@slack/types'; // TODO: Block and KnownBlock will be merged into AnyBlock in upcoming types release
 import axios, { type AxiosInstance, type AxiosResponse } from 'axios';
+import pRetry, { AbortError } from 'p-retry';
 
 import { httpErrorWithOriginal, requestErrorWithOriginal } from './errors';
 import { getUserAgent } from './instrument';
+import type { RetryOptions } from './retry-policies';
 
 /**
  * A client for Slack's Incoming Webhooks
@@ -25,6 +27,11 @@ export class IncomingWebhook {
    */
   private axios: AxiosInstance;
 
+  /**
+   * Retry policy applied to each send. Defaults to no retries.
+   */
+  private retryConfig: RetryOptions;
+
   public constructor(
     url: string,
     defaults: IncomingWebhookDefaultArguments = {
@@ -37,6 +44,7 @@ export class IncomingWebhook {
 
     this.url = url;
     this.defaults = defaults;
+    this.retryConfig = defaults.retryConfig ?? { retries: 0 };
 
     this.axios = axios.create({
       baseURL: url,
@@ -50,7 +58,9 @@ export class IncomingWebhook {
       },
     });
 
+    // Strip transport-only options so they do not leak into the posted payload.
     this.defaults.agent = undefined;
+    this.defaults.retryConfig = undefined;
   }
 
   /**
@@ -67,20 +77,29 @@ export class IncomingWebhook {
       payload = Object.assign(payload, message);
     }
 
-    try {
-      const response = await this.axios.post(this.url, payload);
-      return this.buildResult(response);
-      // biome-ignore lint/suspicious/noExplicitAny: errors can be anything
-    } catch (error: any) {
-      // Wrap errors in this packages own error types (abstract the implementation details' types)
-      if (error.response !== undefined) {
-        throw httpErrorWithOriginal(error);
+    // Retries are limited to transient failures: rate limits (429), server
+    // errors (5xx), and network errors with no response. Client errors (other
+    // 4xx) abort immediately since they will not succeed on retry.
+    return pRetry(async () => {
+      try {
+        const response = await this.axios.post(this.url, payload);
+        return this.buildResult(response);
+        // biome-ignore lint/suspicious/noExplicitAny: errors can be anything
+      } catch (error: any) {
+        // Wrap errors in this packages own error types (abstract the implementation details' types)
+        if (error.response !== undefined) {
+          const status: number = error.response.status;
+          const retryable = status === 429 || status >= 500;
+          const wrapped = httpErrorWithOriginal(error);
+          throw retryable ? wrapped : new AbortError(wrapped);
+        }
+        if (error.request !== undefined) {
+          // No response received (network/timeout): retryable.
+          throw requestErrorWithOriginal(error);
+        }
+        throw new AbortError(error);
       }
-      if (error.request !== undefined) {
-        throw requestErrorWithOriginal(error);
-      }
-      throw error;
-    }
+    }, this.retryConfig);
   }
 
   /**
@@ -106,6 +125,7 @@ export interface IncomingWebhookDefaultArguments {
   link_names?: boolean;
   agent?: Agent;
   timeout?: number;
+  retryConfig?: RetryOptions;
 }
 
 export interface IncomingWebhookSendArguments extends IncomingWebhookDefaultArguments {
