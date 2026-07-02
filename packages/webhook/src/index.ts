@@ -18,6 +18,13 @@ export {
 export { addAppMetadata } from './instrument';
 
 export {
+  fiveRetriesInFiveMinutes,
+  RetryOptions,
+  rapidRetryPolicy,
+  tenRetriesInAboutThirtyMinutes,
+} from './retry-policies';
+
+export {
   WebhookTrigger,
   WebhookTriggerDefaultArguments,
   WebhookTriggerResult,
