@@ -1,4 +1,4 @@
-# @slack/webhook v7.0.9
+# @slack/webhook v7.1.0
 
 ## Enumerations
 
@@ -20,3 +20,7 @@
 ## Type Aliases
 
 - [IncomingWebhookSendError](type-aliases/IncomingWebhookSendError.md)
+
+## Functions
+
+- [addAppMetadata](functions/addAppMetadata.md)
