@@ -70,6 +70,7 @@ export interface AppHomeOpenedEvent {
   channel: string;
   tab?: 'home' | 'messages';
   view?: View;
+  context?: AppContextChangedEvent['context'];
   event_ts: string;
 }
 
@@ -243,7 +244,6 @@ export interface AppContextChangedEvent {
           };
         }
     ) & {
-      score?: number;
       team_id?: string;
       enterprise_id?: string;
     })[];

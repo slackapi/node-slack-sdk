@@ -1,5 +1,5 @@
 import { expectAssignable, expectError } from 'tsd';
-import type { AppContextChangedEvent, SlackEvent } from '../../src/index';
+import type { AppContextChangedEvent, AppHomeOpenedEvent, SlackEvent } from '../../src/index';
 
 // a channel_id context entity
 const channelContextChangedEvent: AppContextChangedEvent = {
@@ -12,7 +12,6 @@ const channelContextChangedEvent: AppContextChangedEvent = {
         type: 'slack#/types/channel_id',
         value: 'C0123456789',
         team_id: 'T0123456789',
-        score: 75,
         enterprise_id: 'E0123456789',
       },
     ],
@@ -46,7 +45,6 @@ expectAssignable<AppContextChangedEvent>({
         type: 'slack#/types/message_context',
         value: { message_ts: '1234567890.123456', channel_id: 'C0123456789' },
         team_id: 'T0123456789',
-        score: 75,
         enterprise_id: 'E0123456789',
       },
     ],
@@ -71,5 +69,26 @@ expectError<AppContextChangedEvent>({
   context: {
     entities: [{ type: 'slack#/types/message_context', value: { message_ts: '1234567890.123456' } }],
   },
+  event_ts: '1234567890.123456',
+});
+
+// app_home_opened carries the same optional `context` alongside the tab being opened
+expectAssignable<AppHomeOpenedEvent>({
+  type: 'app_home_opened',
+  channel: 'D0123456789',
+  user: 'U0123456789',
+  tab: 'messages',
+  context: {
+    entities: [{ type: 'slack#/types/channel_id', value: 'C0123456789', team_id: 'T0123456789' }],
+  },
+  event_ts: '1234567890.123456',
+});
+
+// the `context` on app_home_opened is optional
+expectAssignable<AppHomeOpenedEvent>({
+  type: 'app_home_opened',
+  channel: 'D0123456789',
+  user: 'U0123456789',
+  tab: 'home',
   event_ts: '1234567890.123456',
 });

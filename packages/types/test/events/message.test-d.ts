@@ -40,7 +40,6 @@ const messageWithAppContext: GenericMessageEvent = {
         type: 'slack#/types/channel_id',
         value: 'C0123456789',
         team_id: 'T0123456789',
-        score: 75,
         enterprise_id: 'E0123456789',
       },
     ],
