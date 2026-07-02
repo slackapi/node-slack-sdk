@@ -4,6 +4,7 @@
 
 ```ts
 type SlackEvent = 
+  | AppContextChangedEvent
   | AppDeletedEvent
   | AppHomeOpenedEvent
   | AppInstalledEvent
