@@ -124,8 +124,8 @@ export interface IncomingWebhookDefaultArguments {
   text?: string;
   link_names?: boolean;
   agent?: Agent;
-  timeout?: number;
   retryConfig?: RetryOptions;
+  timeout?: number;
 }
 
 export interface IncomingWebhookSendArguments extends IncomingWebhookDefaultArguments {

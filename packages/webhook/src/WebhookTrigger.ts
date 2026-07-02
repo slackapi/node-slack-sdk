@@ -109,8 +109,8 @@ export class WebhookTrigger {
 
 export interface WebhookTriggerDefaultArguments {
   agent?: Agent;
-  timeout?: number;
   retryConfig?: RetryOptions;
+  timeout?: number;
 }
 
 export interface WebhookTriggerSendArguments {
