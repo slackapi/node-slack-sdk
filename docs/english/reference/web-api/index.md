@@ -98,6 +98,7 @@
 - [AdminWorkflowsPermissionsLookupArguments](interfaces/AdminWorkflowsPermissionsLookupArguments.md)
 - [AdminWorkflowsUnpublishArguments](interfaces/AdminWorkflowsUnpublishArguments.md)
 - [AlertBlock](interfaces/AlertBlock.md)
+- [AppContextChangedEvent](interfaces/AppContextChangedEvent.md)
 - [AppDeletedEvent](interfaces/AppDeletedEvent.md)
 - [AppHomeOpenedEvent](interfaces/AppHomeOpenedEvent.md)
 - [AppInstalledEvent](interfaces/AppInstalledEvent.md)

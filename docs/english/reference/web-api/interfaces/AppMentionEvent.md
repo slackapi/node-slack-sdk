@@ -2,7 +2,7 @@
 
 # Interface: AppMentionEvent
 
-Defined in: packages/types/dist/events/app.d.ts:102
+Defined in: packages/types/dist/events/app.d.ts:103
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: packages/types/dist/events/app.d.ts:102
 optional attachments: MessageAttachment[];
 ```
 
-Defined in: packages/types/dist/events/app.d.ts:124
+Defined in: packages/types/dist/events/app.d.ts:125
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: packages/types/dist/events/app.d.ts:124
 optional blocks: (Block | KnownBlock)[];
 ```
 
-Defined in: packages/types/dist/events/app.d.ts:125
+Defined in: packages/types/dist/events/app.d.ts:126
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: packages/types/dist/events/app.d.ts:125
 optional bot_id: string;
 ```
 
-Defined in: packages/types/dist/events/app.d.ts:105
+Defined in: packages/types/dist/events/app.d.ts:106
 
 ***
 
@@ -42,7 +42,7 @@ Defined in: packages/types/dist/events/app.d.ts:105
 optional bot_profile: BotProfile;
 ```
 
-Defined in: packages/types/dist/events/app.d.ts:106
+Defined in: packages/types/dist/events/app.d.ts:107
 
 ***
 
@@ -52,7 +52,7 @@ Defined in: packages/types/dist/events/app.d.ts:106
 channel: string;
 ```
 
-Defined in: packages/types/dist/events/app.d.ts:189
+Defined in: packages/types/dist/events/app.d.ts:190
 
 ***
 
@@ -62,7 +62,7 @@ Defined in: packages/types/dist/events/app.d.ts:189
 optional client_msg_id: string;
 ```
 
-Defined in: packages/types/dist/events/app.d.ts:192
+Defined in: packages/types/dist/events/app.d.ts:193
 
 ***
 
@@ -72,7 +72,7 @@ Defined in: packages/types/dist/events/app.d.ts:192
 optional display_as_bot: boolean;
 ```
 
-Defined in: packages/types/dist/events/app.d.ts:183
+Defined in: packages/types/dist/events/app.d.ts:184
 
 ***
 
@@ -82,7 +82,7 @@ Defined in: packages/types/dist/events/app.d.ts:183
 optional edited: object;
 ```
 
-Defined in: packages/types/dist/events/app.d.ts:184
+Defined in: packages/types/dist/events/app.d.ts:185
 
 #### ts
 
@@ -104,7 +104,7 @@ user: string;
 event_ts: string;
 ```
 
-Defined in: packages/types/dist/events/app.d.ts:190
+Defined in: packages/types/dist/events/app.d.ts:191
 
 ***
 
@@ -114,7 +114,7 @@ Defined in: packages/types/dist/events/app.d.ts:190
 optional files: object[];
 ```
 
-Defined in: packages/types/dist/events/app.d.ts:126
+Defined in: packages/types/dist/events/app.d.ts:127
 
 #### created
 
@@ -448,7 +448,7 @@ username: string;
 optional source_team: string;
 ```
 
-Defined in: packages/types/dist/events/app.d.ts:110
+Defined in: packages/types/dist/events/app.d.ts:111
 
 ***
 
@@ -458,7 +458,7 @@ Defined in: packages/types/dist/events/app.d.ts:110
 optional subtype: string;
 ```
 
-Defined in: packages/types/dist/events/app.d.ts:104
+Defined in: packages/types/dist/events/app.d.ts:105
 
 ***
 
@@ -468,7 +468,7 @@ Defined in: packages/types/dist/events/app.d.ts:104
 optional team: string;
 ```
 
-Defined in: packages/types/dist/events/app.d.ts:108
+Defined in: packages/types/dist/events/app.d.ts:109
 
 ***
 
@@ -478,7 +478,7 @@ Defined in: packages/types/dist/events/app.d.ts:108
 text: string;
 ```
 
-Defined in: packages/types/dist/events/app.d.ts:123
+Defined in: packages/types/dist/events/app.d.ts:124
 
 ***
 
@@ -488,7 +488,7 @@ Defined in: packages/types/dist/events/app.d.ts:123
 optional thread_ts: string;
 ```
 
-Defined in: packages/types/dist/events/app.d.ts:191
+Defined in: packages/types/dist/events/app.d.ts:192
 
 ***
 
@@ -498,7 +498,7 @@ Defined in: packages/types/dist/events/app.d.ts:191
 ts: string;
 ```
 
-Defined in: packages/types/dist/events/app.d.ts:188
+Defined in: packages/types/dist/events/app.d.ts:189
 
 ***
 
@@ -508,7 +508,7 @@ Defined in: packages/types/dist/events/app.d.ts:188
 type: "app_mention";
 ```
 
-Defined in: packages/types/dist/events/app.d.ts:103
+Defined in: packages/types/dist/events/app.d.ts:104
 
 ***
 
@@ -518,7 +518,7 @@ Defined in: packages/types/dist/events/app.d.ts:103
 optional upload: boolean;
 ```
 
-Defined in: packages/types/dist/events/app.d.ts:182
+Defined in: packages/types/dist/events/app.d.ts:183
 
 ***
 
@@ -528,7 +528,7 @@ Defined in: packages/types/dist/events/app.d.ts:182
 optional user: string;
 ```
 
-Defined in: packages/types/dist/events/app.d.ts:122
+Defined in: packages/types/dist/events/app.d.ts:123
 
 ***
 
@@ -538,7 +538,7 @@ Defined in: packages/types/dist/events/app.d.ts:122
 optional user_profile: object;
 ```
 
-Defined in: packages/types/dist/events/app.d.ts:111
+Defined in: packages/types/dist/events/app.d.ts:112
 
 #### avatar\_hash?
 
@@ -602,7 +602,7 @@ team: string;
 optional user_team: string;
 ```
 
-Defined in: packages/types/dist/events/app.d.ts:109
+Defined in: packages/types/dist/events/app.d.ts:110
 
 ***
 
@@ -612,4 +612,4 @@ Defined in: packages/types/dist/events/app.d.ts:109
 optional username: string;
 ```
 
-Defined in: packages/types/dist/events/app.d.ts:107
+Defined in: packages/types/dist/events/app.d.ts:108
