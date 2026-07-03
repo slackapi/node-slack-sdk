@@ -45,24 +45,18 @@ describe('WebhookTrigger', () => {
       trigger = new WebhookTrigger(url);
     });
 
-    describe('when making a successful call', () => {
-      let scope: nock.Scope;
-      beforeEach(() => {
-        scope = nock('https://hooks.slack.com')
+    describe('on success', () => {
+      it('should return results in a Promise', async () => {
+        const scope = nock('https://hooks.slack.com')
           .post(/triggers/)
           .reply(200, { ok: true });
-      });
-
-      it('should return results in a Promise', async () => {
         const result = await trigger.send({ key: 'value' });
         assert.strictEqual(result.ok, true);
         assert.deepStrictEqual(result.body, { ok: true });
         scope.done();
       });
-    });
 
-    describe('when called without a payload', () => {
-      it('should send an empty body and resolve', async () => {
+      it('should send an empty body and resolve when called without a payload', async () => {
         const scope = nock('https://hooks.slack.com')
           .post(/triggers/, (body) => {
             assert.deepStrictEqual(body, {});
@@ -75,26 +69,20 @@ describe('WebhookTrigger', () => {
       });
     });
 
-    describe('when the call fails', () => {
-      let statusCode: number;
-      let scope: nock.Scope;
-      beforeEach(() => {
-        statusCode = 500;
-        scope = nock('https://hooks.slack.com')
+    describe('on failure', () => {
+      it('should reject on an HTTP error status', async () => {
+        const statusCode = 500;
+        const scope = nock('https://hooks.slack.com')
           .post(/triggers/)
           .reply(statusCode);
-      });
-
-      it('should return a Promise which rejects on error', async () => {
         try {
           await trigger.send({ key: 'value' });
           assert.fail('expected rejection');
         } catch (error) {
-          assert.ok(error);
           assert.ok(error instanceof Error);
           assert.match((error as Error).message, new RegExp(String(statusCode)));
-          scope.done();
         }
+        scope.done();
       });
 
       it('should fail with RequestError when the API request fails', async () => {
@@ -107,9 +95,7 @@ describe('WebhookTrigger', () => {
           assert.strictEqual((error as CodedError).code, ErrorCode.RequestError);
         }
       });
-    });
 
-    describe('when the response is an application-level failure', () => {
       it('should reject with an HTTPError carrying the response body on a 401', async () => {
         const scope = nock('https://hooks.slack.com')
           .post(/triggers/)
