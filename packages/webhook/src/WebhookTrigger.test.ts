@@ -31,6 +31,12 @@ describe('WebhookTrigger', () => {
       // biome-ignore lint/suspicious/noExplicitAny: accessing private property for test assertion
       assert.strictEqual((trigger as any).axios.defaults.timeout, givenTimeout);
     });
+
+    it('should throw when the URL is missing or empty', () => {
+      // biome-ignore lint/suspicious/noExplicitAny: exercising the runtime guard with invalid input
+      assert.throws(() => new WebhookTrigger(undefined as any), /URL is required/);
+      assert.throws(() => new WebhookTrigger(''), /URL is required/);
+    });
   });
 
   describe('send()', () => {

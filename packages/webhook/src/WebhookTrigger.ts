@@ -31,7 +31,7 @@ export class WebhookTrigger {
       timeout: 0,
     },
   ) {
-    if (url === undefined) {
+    if (!url) {
       throw new Error('Webhook trigger URL is required');
     }
 
