@@ -2,10 +2,10 @@
 
 [![codecov](https://codecov.io/gh/slackapi/node-slack-sdk/graph/badge.svg?token=OcQREPvC7r&flag=webhook)](https://codecov.io/gh/slackapi/node-slack-sdk)
 
-The `@slack/webhook` package contains a helper for making requests to Slack's [Incoming
-Webhooks](https://docs.slack.dev/messaging/sending-messages-using-incoming-webhooks). Use it in your app to send a notification to a channel.
+The `@slack/webhook` package contains a helper for making requests to Slack's [Incoming Webhooks](https://docs.slack.dev/messaging/sending-messages-using-incoming-webhooks) or [Workflow Builder](https://slack.com/features/workflow-automation). Use it in your app to send a notification to a channel or start a workflow.
 
 ## Requirements
+
 This package supports Node v18 and higher. It's highly recommended to use [the latest LTS version of
 node](https://github.com/nodejs/Release#release-schedule), and the documentation is written using syntax and features
 from that version.
