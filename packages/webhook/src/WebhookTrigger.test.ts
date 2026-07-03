@@ -48,7 +48,10 @@ describe('WebhookTrigger', () => {
     describe('on success', () => {
       it('should return results in a Promise', async () => {
         const scope = nock('https://hooks.slack.com')
-          .post(/triggers/)
+          .post(/triggers/, (body) => {
+            assert.deepStrictEqual(body, { key: 'value' });
+            return true;
+          })
           .reply(200, { ok: true });
         const result = await trigger.send({ key: 'value' });
         assert.strictEqual(result.ok, true);
