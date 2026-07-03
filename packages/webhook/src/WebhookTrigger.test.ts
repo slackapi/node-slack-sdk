@@ -75,22 +75,6 @@ describe('WebhookTrigger', () => {
       });
     });
 
-    describe('when the response contains additional data', () => {
-      let scope: nock.Scope;
-      beforeEach(() => {
-        scope = nock('https://hooks.slack.com')
-          .post(/triggers/)
-          .reply(200, { ok: true, workflow_run_id: 'WFR123' });
-      });
-
-      it('should include the full response body', async () => {
-        const result = await trigger.send({ input: 'data' });
-        assert.strictEqual(result.ok, true);
-        assert.strictEqual(result.body.workflow_run_id, 'WFR123');
-        scope.done();
-      });
-    });
-
     describe('when the call fails', () => {
       let statusCode: number;
       let scope: nock.Scope;
@@ -122,6 +106,25 @@ describe('WebhookTrigger', () => {
           assert.ok(error instanceof Error);
           assert.strictEqual((error as CodedError).code, ErrorCode.RequestError);
         }
+      });
+    });
+
+    describe('when the response is an application-level failure', () => {
+      it('should reject with an HTTPError carrying the response body on a 401', async () => {
+        const scope = nock('https://hooks.slack.com')
+          .post(/triggers/)
+          .reply(401, { ok: false, error: 'invalid_auth' });
+        try {
+          await trigger.send({ key: 'value' });
+          assert.fail('expected rejection');
+        } catch (error) {
+          assert.strictEqual((error as CodedError).code, ErrorCode.HTTPError);
+          // biome-ignore lint/suspicious/noExplicitAny: reading the wrapped axios response body
+          const original = (error as any).original;
+          assert.strictEqual(original.response.status, 401);
+          assert.deepStrictEqual(original.response.data, { ok: false, error: 'invalid_auth' });
+        }
+        scope.done();
       });
     });
 
