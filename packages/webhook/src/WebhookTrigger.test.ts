@@ -55,6 +55,20 @@ describe('WebhookTrigger', () => {
       });
     });
 
+    describe('when called without a payload', () => {
+      it('should send an empty body and resolve', async () => {
+        const scope = nock('https://hooks.slack.com')
+          .post(/triggers/, (body) => {
+            assert.deepStrictEqual(body, {});
+            return true;
+          })
+          .reply(200, { ok: true });
+        const result = await trigger.send();
+        assert.strictEqual(result.ok, true);
+        scope.done();
+      });
+    });
+
     describe('when the response contains additional data', () => {
       let scope: nock.Scope;
       beforeEach(() => {

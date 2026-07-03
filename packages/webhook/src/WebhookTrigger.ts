@@ -58,7 +58,7 @@ export class WebhookTrigger {
    * Send a payload to the webhook trigger
    * @param payload - arbitrary key-value data to send to the trigger
    */
-  public async send(payload: WebhookTriggerSendArguments): Promise<WebhookTriggerResult> {
+  public async send(payload: WebhookTriggerSendArguments = {}): Promise<WebhookTriggerResult> {
     try {
       const response = await this.axios.post(this.url, payload);
       return this.buildResult(response);
