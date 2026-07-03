@@ -24,12 +24,85 @@ expectAssignable<Parameters<typeof web.apps.event.authorizations.list>>([
 // -- sad path
 expectError(web.apps.manifest.create()); // lacking argument
 expectError(web.apps.manifest.create({})); // empty argument
+expectError(
+  web.apps.manifest.create({
+    manifest: {
+      display_information: { name: 'Agent' },
+      features: {
+        // assistant_view requires assistant_description
+        assistant_view: {},
+      },
+    },
+  }),
+);
+expectError(
+  web.apps.manifest.create({
+    manifest: {
+      display_information: { name: 'Agent' },
+      features: {
+        agent_view: {
+          // a suggested prompt requires both title and message
+          suggested_prompts: [{ title: 'Summarize' }],
+        },
+      },
+    },
+  }),
+);
 // -- happy path
 expectAssignable<Parameters<typeof web.apps.manifest.create>>([
   {
     manifest: {
       display_information: {
         name: 'Bare Minimum',
+      },
+    },
+  },
+]);
+// -- happy path: agent_view (all fields optional) and assistant_view
+expectAssignable<Parameters<typeof web.apps.manifest.create>>([
+  {
+    manifest: {
+      display_information: { name: 'Agent' },
+      features: {
+        agent_view: {
+          agent_description: 'Helps you get things done',
+          suggested_prompts: [{ title: 'Summarize', message: 'Summarize this channel' }],
+          actions: [{ name: 'summarize', description: 'Summarize the current view' }],
+        },
+        assistant_view: {
+          assistant_description: 'An AI assistant',
+          suggested_prompts: [{ title: 'Help', message: 'What can you do?' }],
+        },
+      },
+    },
+  },
+]);
+// -- happy path: agent_view with no properties is valid (all optional)
+expectAssignable<Parameters<typeof web.apps.manifest.create>>([
+  {
+    manifest: {
+      display_information: { name: 'Agent' },
+      features: { agent_view: {} },
+    },
+  },
+]);
+// -- happy path: recent agent events, optional scopes, and metadata subscriptions
+expectAssignable<Parameters<typeof web.apps.manifest.create>>([
+  {
+    manifest: {
+      display_information: { name: 'Agent' },
+      oauth_config: {
+        scopes: {
+          bot: ['chat:write'],
+          bot_optional: ['channels:history'],
+          user_optional: ['search:read'],
+        },
+      },
+      settings: {
+        event_subscriptions: {
+          bot_events: ['app_context_changed', 'assistant_thread_started', 'assistant_thread_context_changed'],
+          metadata_subscriptions: [{ app_id: 'A1234', event_type: 'my_metadata_event' }],
+        },
       },
     },
   },
