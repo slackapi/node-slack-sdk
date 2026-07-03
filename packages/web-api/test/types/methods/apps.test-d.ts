@@ -29,17 +29,6 @@ expectError(
     manifest: {
       display_information: { name: 'Agent' },
       features: {
-        // assistant_view requires assistant_description
-        assistant_view: {},
-      },
-    },
-  }),
-);
-expectError(
-  web.apps.manifest.create({
-    manifest: {
-      display_information: { name: 'Agent' },
-      features: {
         agent_view: {
           // a suggested prompt requires both title and message
           suggested_prompts: [{ title: 'Summarize' }],
@@ -58,7 +47,7 @@ expectAssignable<Parameters<typeof web.apps.manifest.create>>([
     },
   },
 ]);
-// -- happy path: agent_view (all fields optional)
+// -- happy path: agent_view, optional scopes, agent events, and metadata subscriptions
 expectAssignable<Parameters<typeof web.apps.manifest.create>>([
   {
     manifest: {
@@ -70,14 +59,6 @@ expectAssignable<Parameters<typeof web.apps.manifest.create>>([
           actions: [{ name: 'summarize', description: 'Summarize the current view' }],
         },
       },
-    },
-  },
-]);
-// -- happy path: recent agent events, optional scopes, and metadata subscriptions
-expectAssignable<Parameters<typeof web.apps.manifest.create>>([
-  {
-    manifest: {
-      display_information: { name: 'Agent' },
       oauth_config: {
         scopes: {
           bot: ['chat:write'],
@@ -87,7 +68,7 @@ expectAssignable<Parameters<typeof web.apps.manifest.create>>([
       },
       settings: {
         event_subscriptions: {
-          bot_events: ['app_context_changed', 'assistant_thread_started', 'assistant_thread_context_changed'],
+          bot_events: ['app_context_changed'],
           metadata_subscriptions: [{ app_id: 'A1234', event_type: 'my_metadata_event' }],
         },
       },
