@@ -82,6 +82,35 @@ const webhook = new IncomingWebhook(url);
 
 ---
 
+### Trigger a Workflow Builder workflow
+
+The package also exports a `WebhookTrigger` class for [Workflow Builder webhook
+triggers](https://slack.com/help/articles/360041352714-Build-a-workflow--Create-a-workflow-that-starts-outside-of-Slack).
+Unlike incoming webhooks, triggers accept arbitrary JSON payloads and return a JSON response. Initialize it with the
+trigger URL, then call `.send(payload)`. The payload is optional; calling `.send()` with no argument posts an empty body.
+The returned `Promise` resolves to `{ ok, body }`.
+
+```javascript
+const { WebhookTrigger } = require('@slack/webhook');
+
+// Read the trigger URL from the environment variables
+const url = process.env.SLACK_WEBHOOK_TRIGGER_URL;
+
+const trigger = new WebhookTrigger(url);
+
+(async () => {
+  // Keys should match the variables your workflow expects
+  const result = await trigger.send({
+    customer_name: 'Ada Lovelace',
+    order_id: '1024',
+  });
+
+  console.log(result.ok, result.body);
+})();
+```
+
+---
+
 ### Proxy requests with a custom agent
 
 The webhook allows you to customize the HTTP
