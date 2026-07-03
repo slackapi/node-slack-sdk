@@ -6,6 +6,9 @@ export {
   IncomingWebhookHTTPError,
   IncomingWebhookRequestError,
   IncomingWebhookSendError,
+  WebhookTriggerHTTPError,
+  WebhookTriggerRequestError,
+  WebhookTriggerSendError,
 } from './errors';
 
 export {

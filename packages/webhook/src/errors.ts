@@ -27,6 +27,12 @@ export interface IncomingWebhookHTTPError extends CodedError {
   original: Error;
 }
 
+// WebhookTrigger throws the same coded errors as IncomingWebhook; these aliases
+// give consumers of WebhookTrigger correctly-named types to catch.
+export type WebhookTriggerRequestError = IncomingWebhookRequestError;
+export type WebhookTriggerHTTPError = IncomingWebhookHTTPError;
+export type WebhookTriggerSendError = WebhookTriggerRequestError | WebhookTriggerHTTPError;
+
 /**
  * Factory for producing a {@link CodedError} from a generic error
  */

@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { afterEach, beforeEach, describe, it } from 'node:test';
 import nock from 'nock';
 
-import type { CodedError } from './errors';
+import type { CodedError, WebhookTriggerHTTPError } from './errors';
 import { ErrorCode } from './errors';
 import { WebhookTrigger } from './WebhookTrigger';
 
@@ -118,11 +118,12 @@ describe('WebhookTrigger', () => {
           await trigger.send({ key: 'value' });
           assert.fail('expected rejection');
         } catch (error) {
-          assert.strictEqual((error as CodedError).code, ErrorCode.HTTPError);
+          const httpError = error as WebhookTriggerHTTPError;
+          assert.strictEqual(httpError.code, ErrorCode.HTTPError);
           // biome-ignore lint/suspicious/noExplicitAny: reading the wrapped axios response body
-          const original = (error as any).original;
-          assert.strictEqual(original.response.status, 401);
-          assert.deepStrictEqual(original.response.data, { ok: false, error: 'invalid_auth' });
+          const response = (httpError.original as any).response;
+          assert.strictEqual(response.status, 401);
+          assert.deepStrictEqual(response.data, { ok: false, error: 'invalid_auth' });
         }
         scope.done();
       });
