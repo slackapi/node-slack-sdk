@@ -77,9 +77,6 @@ export class IncomingWebhook {
       payload = Object.assign(payload, message);
     }
 
-    // Retries are limited to transient failures: rate limits (429), server
-    // errors (5xx), and network errors with no response. Client errors (other
-    // 4xx) abort immediately since they will not succeed on retry.
     return pRetry(async () => {
       try {
         const response = await this.axios.post(this.url, payload);
