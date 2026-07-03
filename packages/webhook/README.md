@@ -2,10 +2,10 @@
 
 [![codecov](https://codecov.io/gh/slackapi/node-slack-sdk/graph/badge.svg?token=OcQREPvC7r&flag=webhook)](https://codecov.io/gh/slackapi/node-slack-sdk)
 
-The `@slack/webhook` package contains a helper for making requests to Slack's [Incoming
-Webhooks](https://docs.slack.dev/messaging/sending-messages-using-incoming-webhooks). Use it in your app to send a notification to a channel.
+The `@slack/webhook` package contains a helper for making requests to Slack's [Incoming Webhooks](https://docs.slack.dev/messaging/sending-messages-using-incoming-webhooks) or [Workflow Builder](https://slack.com/features/workflow-automation). Use it in your app to send a notification to a channel or start a workflow.
 
 ## Requirements
+
 This package supports Node v18 and higher. It's highly recommended to use [the latest LTS version of
 node](https://github.com/nodejs/Release#release-schedule), and the documentation is written using syntax and features
 from that version.
@@ -76,6 +76,27 @@ const webhook = new IncomingWebhook(url);
 (async () => {
   await webhook.send({
     text: 'I\'ve got news for you...',
+  });
+})();
+```
+
+---
+
+### Trigger a Workflow Builder workflow
+
+The package also exports a `WebhookTrigger` class for [Workflow Builder webhook triggers](https://slack.com/help/articles/360041352714-Build-a-workflow--Create-a-workflow-that-starts-outside-of-Slack) which accepts an optional, flattened, stringified JSON payload sent to start a workflow.
+
+```javascript
+const { WebhookTrigger } = require('@slack/webhook');
+const url = process.env.SLACK_WEBHOOK_TRIGGER_URL;
+
+const trigger = new WebhookTrigger(url);
+
+(async () => {
+  // Keys should match the variables your workflow expects
+  await trigger.send({
+    customer_name: 'Ada Lovelace',
+    order_id: '1024',
   });
 })();
 ```

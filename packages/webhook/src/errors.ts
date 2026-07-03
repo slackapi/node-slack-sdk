@@ -16,16 +16,19 @@ export enum ErrorCode {
 }
 
 export type IncomingWebhookSendError = IncomingWebhookRequestError | IncomingWebhookHTTPError;
+export type WebhookTriggerSendError = WebhookTriggerRequestError | WebhookTriggerHTTPError;
 
 export interface IncomingWebhookRequestError extends CodedError {
   code: ErrorCode.RequestError;
   original: Error;
 }
+export type WebhookTriggerRequestError = IncomingWebhookRequestError;
 
 export interface IncomingWebhookHTTPError extends CodedError {
   code: ErrorCode.HTTPError;
   original: Error;
 }
+export type WebhookTriggerHTTPError = IncomingWebhookHTTPError;
 
 /**
  * Factory for producing a {@link CodedError} from a generic error

@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { afterEach, beforeEach, describe, it } from 'node:test';
 import nock from 'nock';
 
-import type { CodedError } from './errors';
+import type { CodedError, WebhookTriggerHTTPError } from './errors';
 import { ErrorCode } from './errors';
 import { rapidRetryPolicy } from './retry-policies';
 import { WebhookTrigger } from './WebhookTrigger';
@@ -46,24 +46,21 @@ describe('WebhookTrigger', () => {
       trigger = new WebhookTrigger(url);
     });
 
-    describe('when making a successful call', () => {
-      let scope: nock.Scope;
-      beforeEach(() => {
-        scope = nock('https://hooks.slack.com')
-          .post(/triggers/)
-          .reply(200, { ok: true });
-      });
-
+    describe('on success', () => {
       it('should return results in a Promise', async () => {
+        const scope = nock('https://hooks.slack.com')
+          .post(/triggers/, (body) => {
+            assert.deepStrictEqual(body, { key: 'value' });
+            return true;
+          })
+          .reply(200, { ok: true });
         const result = await trigger.send({ key: 'value' });
         assert.strictEqual(result.ok, true);
         assert.deepStrictEqual(result.body, { ok: true });
         scope.done();
       });
-    });
 
-    describe('when called without a payload', () => {
-      it('should send an empty body and resolve', async () => {
+      it('should send an empty body and resolve when called without a payload', async () => {
         const scope = nock('https://hooks.slack.com')
           .post(/triggers/, (body) => {
             assert.deepStrictEqual(body, {});
@@ -76,42 +73,20 @@ describe('WebhookTrigger', () => {
       });
     });
 
-    describe('when the response contains additional data', () => {
-      let scope: nock.Scope;
-      beforeEach(() => {
-        scope = nock('https://hooks.slack.com')
-          .post(/triggers/)
-          .reply(200, { ok: true, workflow_run_id: 'WFR123' });
-      });
-
-      it('should include the full response body', async () => {
-        const result = await trigger.send({ input: 'data' });
-        assert.strictEqual(result.ok, true);
-        assert.strictEqual(result.body.workflow_run_id, 'WFR123');
-        scope.done();
-      });
-    });
-
-    describe('when the call fails', () => {
-      let statusCode: number;
-      let scope: nock.Scope;
-      beforeEach(() => {
-        statusCode = 500;
-        scope = nock('https://hooks.slack.com')
+    describe('on failure', () => {
+      it('should reject on an HTTP error status', async () => {
+        const statusCode = 500;
+        const scope = nock('https://hooks.slack.com')
           .post(/triggers/)
           .reply(statusCode);
-      });
-
-      it('should return a Promise which rejects on error', async () => {
         try {
           await trigger.send({ key: 'value' });
           assert.fail('expected rejection');
         } catch (error) {
-          assert.ok(error);
           assert.ok(error instanceof Error);
           assert.match((error as Error).message, new RegExp(String(statusCode)));
-          scope.done();
         }
+        scope.done();
       });
 
       it('should fail with RequestError when the API request fails', async () => {
@@ -123,6 +98,24 @@ describe('WebhookTrigger', () => {
           assert.ok(error instanceof Error);
           assert.strictEqual((error as CodedError).code, ErrorCode.RequestError);
         }
+      });
+
+      it('should reject with an HTTPError carrying the response body on a 401', async () => {
+        const scope = nock('https://hooks.slack.com')
+          .post(/triggers/)
+          .reply(401, { ok: false, error: 'invalid_auth' });
+        try {
+          await trigger.send({ key: 'value' });
+          assert.fail('expected rejection');
+        } catch (error) {
+          const httpError = error as WebhookTriggerHTTPError;
+          assert.strictEqual(httpError.code, ErrorCode.HTTPError);
+          // biome-ignore lint/suspicious/noExplicitAny: reading the wrapped axios response body
+          const response = (httpError.original as any).response;
+          assert.strictEqual(response.status, 401);
+          assert.deepStrictEqual(response.data, { ok: false, error: 'invalid_auth' });
+        }
+        scope.done();
       });
     });
 

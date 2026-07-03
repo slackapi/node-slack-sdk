@@ -1,5 +1,11 @@
 # @slack/web-api
 
+## 7.18.0
+
+### Minor Changes
+
+- 07744de: feat: make `thread_ts` optional for `assistant.threads.setSuggestedPrompts`
+
 ## 7.17.0
 
 ### Minor Changes

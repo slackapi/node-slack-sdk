@@ -94,7 +94,7 @@ export class WebhookTrigger {
   private buildResult(response: AxiosResponse): WebhookTriggerResult {
     const body = typeof response.data === 'string' ? JSON.parse(response.data) : response.data;
     return {
-      ok: body.ok ?? true,
+      ok: body.ok === true,
       body,
     };
   }
