@@ -44,33 +44,22 @@ interface ManifestDisplayInformation {
   background_color?: string;
 }
 
-// An app can expose either an `agent_view` or an `assistant_view`, but not both.
-type ManifestFeatures = ManifestFeaturesBase &
-  (
-    | {
-        /**
-         * @description A subgroup of settings that describe {@link https://docs.slack.dev/ai/developing-ai-apps agent} configuration.
-         * @see {@link https://docs.slack.dev/ai/developing-ai-apps Developing AI apps}.
-         */
-        agent_view?: ManifestAgentView;
-        assistant_view?: never;
-      }
-    | {
-        agent_view?: never;
-        /**
-         * @description A subgroup of settings that describe {@link https://docs.slack.dev/ai/developing-ai-apps assistant} configuration.
-         * @see {@link https://docs.slack.dev/ai/developing-ai-apps Developing AI apps}.
-         */
-        assistant_view?: ManifestAssistantView;
-      }
-  );
-
-interface ManifestFeaturesBase {
+interface ManifestFeatures {
+  /**
+   * @description A subgroup of settings that describe {@link https://docs.slack.dev/ai/developing-ai-apps agent} configuration.
+   * @see {@link https://docs.slack.dev/ai/developing-ai-apps Developing AI apps}.
+   */
+  agent_view?: ManifestAgentView;
   /**
    * @description A subgroup of settings that describe {@link https://docs.slack.dev/surfaces/app-home App Home} configuration.
    * @see {@link https://docs.slack.dev/surfaces/app-home App Home}.
    */
   app_home?: ManifestAppHome;
+  /**
+   * @description A subgroup of settings that describe {@link https://docs.slack.dev/ai/developing-ai-apps assistant} configuration.
+   * @see {@link https://docs.slack.dev/ai/developing-ai-apps Developing AI apps}.
+   */
+  assistant_view?: ManifestAssistantView;
   /**
    * @description A subgroup of settings that describe {@link https://docs.slack.dev/legacy/legacy-bot-users bot user} configuration.
    * @see {@link https://docs.slack.dev/legacy/legacy-bot-users Legacy bots}.

@@ -48,18 +48,6 @@ expectError(
     },
   }),
 );
-expectError(
-  web.apps.manifest.create({
-    manifest: {
-      display_information: { name: 'Agent' },
-      features: {
-        // agent_view and assistant_view are mutually exclusive
-        agent_view: {},
-        assistant_view: { assistant_description: 'An AI assistant' },
-      },
-    },
-  }),
-);
 // -- happy path
 expectAssignable<Parameters<typeof web.apps.manifest.create>>([
   {
