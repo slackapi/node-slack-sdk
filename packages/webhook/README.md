@@ -94,7 +94,7 @@ const trigger = new WebhookTrigger(url);
 
 (async () => {
   // Keys should match the variables your workflow expects
-  const result = await trigger.send({
+  await trigger.send({
     customer_name: 'Ada Lovelace',
     order_id: '1024',
   });
