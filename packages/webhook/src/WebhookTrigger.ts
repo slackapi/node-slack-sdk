@@ -64,7 +64,7 @@ export class WebhookTrigger {
 
   /**
    * Send a payload to the webhook trigger
-   * @param payload - arbitrary key-value data to send to the trigger; defaults to an empty object
+   * @param payload - arbitrary key-value data to send to the trigger
    */
   public async send(payload: WebhookTriggerSendArguments = {}): Promise<WebhookTriggerResult> {
     // Retries are limited to transient failures: rate limits (429), server
