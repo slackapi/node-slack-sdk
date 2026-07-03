@@ -1,5 +1,11 @@
 # @slack/types
 
+## 2.22.0
+
+### Minor Changes
+
+- 50828f5: feat: add the `app_context_changed` event type for agent [active view context](https://docs.slack.dev/ai/agent-context-management/#active-view-context)
+
 ## 2.21.1
 
 ### Patch Changes
