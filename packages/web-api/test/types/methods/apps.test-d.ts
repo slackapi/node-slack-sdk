@@ -48,6 +48,18 @@ expectError(
     },
   }),
 );
+expectError(
+  web.apps.manifest.create({
+    manifest: {
+      display_information: { name: 'Agent' },
+      features: {
+        // agent_view and assistant_view are mutually exclusive
+        agent_view: {},
+        assistant_view: { assistant_description: 'An AI assistant' },
+      },
+    },
+  }),
+);
 // -- happy path
 expectAssignable<Parameters<typeof web.apps.manifest.create>>([
   {
@@ -58,7 +70,7 @@ expectAssignable<Parameters<typeof web.apps.manifest.create>>([
     },
   },
 ]);
-// -- happy path: agent_view (all fields optional) and assistant_view
+// -- happy path: agent_view (all fields optional)
 expectAssignable<Parameters<typeof web.apps.manifest.create>>([
   {
     manifest: {
@@ -69,20 +81,7 @@ expectAssignable<Parameters<typeof web.apps.manifest.create>>([
           suggested_prompts: [{ title: 'Summarize', message: 'Summarize this channel' }],
           actions: [{ name: 'summarize', description: 'Summarize the current view' }],
         },
-        assistant_view: {
-          assistant_description: 'An AI assistant',
-          suggested_prompts: [{ title: 'Help', message: 'What can you do?' }],
-        },
       },
-    },
-  },
-]);
-// -- happy path: agent_view with no properties is valid (all optional)
-expectAssignable<Parameters<typeof web.apps.manifest.create>>([
-  {
-    manifest: {
-      display_information: { name: 'Agent' },
-      features: { agent_view: {} },
     },
   },
 ]);
