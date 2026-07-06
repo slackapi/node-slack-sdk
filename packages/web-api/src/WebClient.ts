@@ -598,16 +598,15 @@ export class WebClient extends Methods {
           body.token = undefined;
         }
 
+        this.logger.debug(`http request url: ${url}`);
+        this.logger.debug(`http request body: ${JSON.stringify(redact(body))}`);
+        
         const { serializedBody, contentHeaders } = this.serializeBody(body);
         const allHeaders: Record<string, string> = { ...this.defaultHeaders, ...contentHeaders, ...headers };
 
-        this.logger.debug(`http request url: ${url}`);
-        this.logger.debug(`http request body: ${JSON.stringify(redact(body))}`);
         this.logger.debug(`http request headers: ${JSON.stringify(redact(allHeaders))}`);
 
-        const controller = new AbortController();
-        const timer = this.timeout > 0 ? setTimeout(() => controller.abort(), this.timeout) : undefined;
-        const signal = timer ? controller.signal : undefined;
+        const signal = this.timeout > 0 ? AbortSignal.timeout(this.timeout) : undefined;
 
         try {
           const response = await this.fetchFn(url, {
@@ -615,7 +614,7 @@ export class WebClient extends Methods {
             headers: allHeaders,
             body: serializedBody,
             redirect: 'error',
-            ...(signal ? { signal } : {}),
+            signal,
           });
           this.logger.debug('http response received');
 
@@ -671,8 +670,6 @@ export class WebClient extends Methods {
           const message = error instanceof Error ? error.message : String(error);
           this.logger.warn('http request failed', message);
           throw new WebAPIRequestError(error instanceof Error ? error : new Error(String(error)));
-        } finally {
-          if (timer) clearTimeout(timer);
         }
       });
     return pRetry(task, this.retryConfig) as Promise<FetchResponse>;
