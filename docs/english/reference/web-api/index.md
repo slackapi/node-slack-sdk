@@ -1,4 +1,4 @@
-# @slack/web-api v7.18.0
+# @slack/web-api v7.19.0
 
 ## Enumerations
 
