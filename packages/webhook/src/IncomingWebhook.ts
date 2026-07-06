@@ -93,9 +93,7 @@ export class IncomingWebhook {
       payload = Object.assign(payload, message);
     }
 
-    const controller = new AbortController();
-    const timer = this.timeout > 0 ? setTimeout(() => controller.abort(), this.timeout) : undefined;
-    const signal = timer ? controller.signal : undefined;
+    const signal = this.timeout > 0 ? AbortSignal.timeout(this.timeout) : undefined;
 
     try {
       const response = await this.fetchFn(this.url, {
@@ -106,7 +104,7 @@ export class IncomingWebhook {
         },
         body: JSON.stringify(payload),
         redirect: 'error',
-        ...(signal ? { signal } : {}),
+        signal,
       });
 
       if (!response.ok) {
@@ -120,8 +118,6 @@ export class IncomingWebhook {
         throw error;
       }
       throw new IncomingWebhookRequestError(error instanceof Error ? error : new Error(String(error)));
-    } finally {
-      if (timer) clearTimeout(timer);
     }
   }
 

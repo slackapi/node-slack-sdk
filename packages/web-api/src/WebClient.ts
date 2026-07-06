@@ -600,7 +600,7 @@ export class WebClient extends Methods {
 
         this.logger.debug(`http request url: ${url}`);
         this.logger.debug(`http request body: ${JSON.stringify(redact(body))}`);
-        
+
         const { serializedBody, contentHeaders } = this.serializeBody(body);
         const allHeaders: Record<string, string> = { ...this.defaultHeaders, ...contentHeaders, ...headers };
 
