@@ -165,6 +165,22 @@ describe('IncomingWebhook', () => {
         scope.done();
       });
 
+      it('does not retry a 429 even when a retry policy is set', async () => {
+        // Only one interceptor is registered; a retry would leave it unmatched
+        // and scope.done() would throw.
+        const scope = nock('https://hooks.slack.com')
+          .post(/services/)
+          .reply(429);
+        const webhook = new IncomingWebhook(url, { retryConfig: rapidRetryPolicy });
+        try {
+          await webhook.send('hello');
+          assert.fail('expected rejection');
+        } catch (error) {
+          assert.strictEqual((error as CodedError).code, ErrorCode.HTTPError);
+        }
+        scope.done();
+      });
+
       it('does not retry by default (no retryConfig)', async () => {
         const scope = nock('https://hooks.slack.com')
           .post(/services/)

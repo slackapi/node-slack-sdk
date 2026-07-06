@@ -86,9 +86,8 @@ export class IncomingWebhook {
         // Wrap errors in this packages own error types (abstract the implementation details' types)
         if (error.response !== undefined) {
           const status: number = error.response.status;
-          const retryable = status === 429 || status >= 500;
           const wrapped = httpErrorWithOriginal(error);
-          throw retryable ? wrapped : new AbortError(wrapped);
+          throw status >= 500 ? wrapped : new AbortError(wrapped);
         }
         if (error.request !== undefined) {
           // No response received (network/timeout): retryable.
