@@ -16,13 +16,48 @@ Defined in: packages/types/dist/events/app.d.ts:68
 
 ***
 
+### context?
+
+```ts
+optional context: object;
+```
+
+Defined in: packages/types/dist/events/app.d.ts:71
+
+#### entities?
+
+```ts
+optional entities: 
+  | {
+  type: "slack#/types/channel_id";
+  value: string;
+}
+  | {
+  type: "slack#/types/canvas_id";
+  value: string;
+}
+  | {
+  type: "slack#/types/list_id";
+  value: string;
+}
+  | {
+  type: "slack#/types/message_context";
+  value: {
+     channel_id: string;
+     message_ts: string;
+  };
+} & object[];
+```
+
+***
+
 ### event\_ts
 
 ```ts
 event_ts: string;
 ```
 
-Defined in: packages/types/dist/events/app.d.ts:71
+Defined in: packages/types/dist/events/app.d.ts:72
 
 ***
 

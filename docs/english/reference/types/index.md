@@ -1,4 +1,4 @@
-# @slack/types v2.21.1
+# @slack/types v2.22.0
 
 ## Enumerations
 
@@ -11,6 +11,7 @@
 - [~~Actionable~~](interfaces/Actionable.md)
 - [ActionsBlock](interfaces/ActionsBlock.md)
 - [AlertBlock](interfaces/AlertBlock.md)
+- [AppContextChangedEvent](interfaces/AppContextChangedEvent.md)
 - [AppDeletedEvent](interfaces/AppDeletedEvent.md)
 - [AppHomeOpenedEvent](interfaces/AppHomeOpenedEvent.md)
 - [AppInstalledEvent](interfaces/AppInstalledEvent.md)

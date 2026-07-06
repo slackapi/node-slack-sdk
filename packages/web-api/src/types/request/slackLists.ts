@@ -58,23 +58,11 @@ export interface SlackListsItemFieldLink {
 }
 
 /**
- * @description A single message object returned by the Slack API.
- */
-export interface SlackListsItemMessage {
-  text?: string;
-  ts?: string;
-  user?: string;
-  team?: string;
-  type?: string;
-}
-
-/**
- * @description Message field. The API may return either a single message object
- * or an array of message objects.
+ * @description Message field with message URLs.
  */
 export interface SlackListsItemFieldMessage {
   column_id: string;
-  message: SlackListsItemMessage | SlackListsItemMessage[];
+  message: string[];
 }
 
 /**
