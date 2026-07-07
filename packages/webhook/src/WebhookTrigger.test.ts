@@ -55,8 +55,7 @@ describe('WebhookTrigger', () => {
           })
           .reply(200, { ok: true });
         const result = await trigger.send({ key: 'value' });
-        assert.strictEqual(result.ok, true);
-        assert.deepStrictEqual(result.body, { ok: true });
+        assert.deepStrictEqual(result, { ok: true });
         scope.done();
       });
 

@@ -91,11 +91,7 @@ export class WebhookTrigger {
    * Processes an HTTP response into a WebhookTriggerResult.
    */
   private buildResult(response: AxiosResponse): WebhookTriggerResult {
-    const body = typeof response.data === 'string' ? JSON.parse(response.data) : response.data;
-    return {
-      ok: body.ok === true,
-      body,
-    };
+    return typeof response.data === 'string' ? JSON.parse(response.data) : response.data;
   }
 }
 
@@ -114,7 +110,8 @@ export interface WebhookTriggerSendArguments {
 }
 
 export interface WebhookTriggerResult {
-  ok: boolean;
-  // biome-ignore lint/suspicious/noExplicitAny: webhook trigger responses are untyped
-  body: Record<string, any>;
+  ok?: boolean;
+  error?: string;
+  // biome-ignore lint/suspicious/noExplicitAny: webhook trigger responses are otherwise untyped
+  [key: string]: any;
 }
