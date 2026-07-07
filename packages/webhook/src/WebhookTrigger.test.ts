@@ -4,6 +4,7 @@ import nock from 'nock';
 
 import type { CodedError, WebhookTriggerHTTPError } from './errors';
 import { ErrorCode } from './errors';
+import { addAppMetadata } from './instrument';
 import { WebhookTrigger } from './WebhookTrigger';
 
 const url = 'https://hooks.slack.com/triggers/FAKETRIGGER';
@@ -129,6 +130,25 @@ describe('WebhookTrigger', () => {
           .post(/triggers/)
           .reply(200, { ok: true });
         try {
+          const trigger = new WebhookTrigger(url);
+          await trigger.send({ key: 'value' });
+        } finally {
+          scope.done();
+        }
+      });
+
+      it('should send app metadata added via addAppMetadata in the User-Agent header', async () => {
+        const scope = nock('https://hooks.slack.com', {
+          reqheaders: {
+            'User-Agent': (value) => value.includes('my-tool/1.2.3') && /@slack:webhook/.test(value),
+          },
+        })
+          .post(/triggers/)
+          .reply(200, { ok: true });
+        try {
+          // addAppMetadata mutates module state read by getUserAgent(), which the
+          // client captures at construction, so it must be added before the client.
+          addAppMetadata({ name: 'my-tool', version: '1.2.3' });
           const trigger = new WebhookTrigger(url);
           await trigger.send({ key: 'value' });
         } finally {
