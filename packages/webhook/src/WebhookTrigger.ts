@@ -1,6 +1,6 @@
 import type { Agent } from 'node:http';
 
-import axios, { type AxiosInstance, type AxiosResponse } from 'axios';
+import axios, { type AxiosInstance } from 'axios';
 import pRetry, { AbortError } from 'p-retry';
 
 import { httpErrorWithOriginal, requestErrorWithOriginal } from './errors';
@@ -70,7 +70,7 @@ export class WebhookTrigger {
     return pRetry(async () => {
       try {
         const response = await this.axios.post(this.url, payload);
-        return this.buildResult(response);
+        return response.data;
         // biome-ignore lint/suspicious/noExplicitAny: errors can be anything
       } catch (error: any) {
         if (error.response !== undefined) {
@@ -85,13 +85,6 @@ export class WebhookTrigger {
         throw new AbortError(error);
       }
     }, this.retryConfig);
-  }
-
-  /**
-   * Processes an HTTP response into a WebhookTriggerResult.
-   */
-  private buildResult(response: AxiosResponse): WebhookTriggerResult {
-    return typeof response.data === 'string' ? JSON.parse(response.data) : response.data;
   }
 }
 
@@ -110,8 +103,6 @@ export interface WebhookTriggerSendArguments {
 }
 
 export interface WebhookTriggerResult {
-  ok?: boolean;
+  ok: boolean;
   error?: string;
-  // biome-ignore lint/suspicious/noExplicitAny: webhook trigger responses are otherwise untyped
-  [key: string]: any;
 }
