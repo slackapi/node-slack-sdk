@@ -1,6 +1,6 @@
 import type { Agent } from 'node:http';
 
-import axios, { type AxiosInstance, type AxiosResponse } from 'axios';
+import axios, { type AxiosInstance } from 'axios';
 
 import { httpErrorWithOriginal, requestErrorWithOriginal } from './errors';
 import { getUserAgent } from './instrument';
@@ -61,7 +61,7 @@ export class WebhookTrigger {
   public async send(payload: WebhookTriggerSendArguments = {}): Promise<WebhookTriggerResult> {
     try {
       const response = await this.axios.post(this.url, payload);
-      return this.buildResult(response);
+      return response.data;
       // biome-ignore lint/suspicious/noExplicitAny: errors can be anything
     } catch (error: any) {
       if (error.response !== undefined) {
@@ -72,13 +72,6 @@ export class WebhookTrigger {
       }
       throw error;
     }
-  }
-
-  /**
-   * Processes an HTTP response into a WebhookTriggerResult.
-   */
-  private buildResult(response: AxiosResponse): WebhookTriggerResult {
-    return typeof response.data === 'string' ? JSON.parse(response.data) : response.data;
   }
 }
 
