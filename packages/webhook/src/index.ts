@@ -20,12 +20,7 @@ export {
 
 export { addAppMetadata } from './instrument';
 
-export {
-  fiveRetriesInFiveMinutes,
-  RetryOptions,
-  rapidRetryPolicy,
-  tenRetriesInAboutThirtyMinutes,
-} from './retry-policies';
+export { default as retryPolicies, RetryOptions } from './retry-policies';
 
 export {
   WebhookTrigger,

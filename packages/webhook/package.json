@@ -45,7 +45,7 @@
     "@types/node": ">=18",
     "@types/retry": "0.12.0",
     "axios": "^1.16.0",
-    "p-retry": "^4",
+    "p-retry": "^4.6.2",
     "retry": "^0.13.1"
   },
   "devDependencies": {
