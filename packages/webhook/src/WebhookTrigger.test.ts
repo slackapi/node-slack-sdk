@@ -4,6 +4,7 @@ import nock from 'nock';
 
 import type { CodedError, WebhookTriggerHTTPError } from './errors';
 import { ErrorCode } from './errors';
+import { addAppMetadata } from './instrument';
 import { rapidRetryPolicy } from './retry-policies';
 import { WebhookTrigger } from './WebhookTrigger';
 
@@ -130,6 +131,23 @@ describe('WebhookTrigger', () => {
           .post(/triggers/)
           .reply(200, { ok: true });
         try {
+          const trigger = new WebhookTrigger(url);
+          await trigger.send({ key: 'value' });
+        } finally {
+          scope.done();
+        }
+      });
+
+      it('should send app metadata added via addAppMetadata in the User-Agent header', async () => {
+        const scope = nock('https://hooks.slack.com', {
+          reqheaders: {
+            'User-Agent': (value) => value.includes('my-tool/1.2.3') && /@slack:webhook/.test(value),
+          },
+        })
+          .post(/triggers/)
+          .reply(200, { ok: true });
+        try {
+          addAppMetadata({ name: 'my-tool', version: '1.2.3' });
           const trigger = new WebhookTrigger(url);
           await trigger.send({ key: 'value' });
         } finally {
