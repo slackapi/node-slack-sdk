@@ -89,8 +89,6 @@ export interface WebhookTriggerSendArguments {
 }
 
 export interface WebhookTriggerResult {
-  ok?: boolean;
+  ok: boolean;
   error?: string;
-  // biome-ignore lint/suspicious/noExplicitAny: webhook trigger responses are otherwise untyped
-  [key: string]: any;
 }
