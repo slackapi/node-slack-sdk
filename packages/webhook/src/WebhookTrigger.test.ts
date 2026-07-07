@@ -146,8 +146,6 @@ describe('WebhookTrigger', () => {
           .post(/triggers/)
           .reply(200, { ok: true });
         try {
-          // addAppMetadata mutates module state read by getUserAgent(), which the
-          // client captures at construction, so it must be added before the client.
           addAppMetadata({ name: 'my-tool', version: '1.2.3' });
           const trigger = new WebhookTrigger(url);
           await trigger.send({ key: 'value' });
