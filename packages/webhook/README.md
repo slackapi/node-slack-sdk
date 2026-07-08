@@ -1,4 +1,4 @@
-# Slack Incoming Webhooks
+# Slack Webhook
 
 [![codecov](https://codecov.io/gh/slackapi/node-slack-sdk/graph/badge.svg?token=OcQREPvC7r&flag=webhook)](https://codecov.io/gh/slackapi/node-slack-sdk)
 
