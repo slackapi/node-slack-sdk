@@ -103,6 +103,23 @@ const trigger = new WebhookTrigger(url);
 
 ---
 
+### Retry failed requests
+
+Both `IncomingWebhook` and `WebhookTrigger` can retry failed requests. Retries are **off by default**; pass a `retryConfig` to opt in. The package re-exports the same named policies as `@slack/web-api` on `retryPolicies`, or you can supply your own [`retry`](https://github.com/tim-kos/node-retry) options.
+
+```javascript
+const { IncomingWebhook, retryPolicies } = require('@slack/webhook');
+const url = process.env.SLACK_WEBHOOK_URL;
+
+const webhook = new IncomingWebhook(url, {
+  retryConfig: retryPolicies.fiveRetriesInFiveMinutes,
+});
+```
+
+Only transient failures are retried: server errors (`5xx`) and network errors with no response. Client errors (`4xx`), including rate limits (`429`), fail immediately without a retry.
+
+---
+
 ### Proxy requests with a custom agent
 
 The webhook allows you to customize the HTTP

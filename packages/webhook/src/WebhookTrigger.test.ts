@@ -5,6 +5,7 @@ import nock from 'nock';
 import type { CodedError, WebhookTriggerHTTPError } from './errors';
 import { ErrorCode } from './errors';
 import { addAppMetadata } from './instrument';
+import { rapidRetryPolicy } from './retry-policies';
 import { WebhookTrigger } from './WebhookTrigger';
 
 const url = 'https://hooks.slack.com/triggers/FAKETRIGGER';
@@ -152,6 +153,84 @@ describe('WebhookTrigger', () => {
         } finally {
           scope.done();
         }
+      });
+    });
+
+    describe('retries', () => {
+      it('retries a 5xx then succeeds when a retry policy is set', async () => {
+        const scope = nock('https://hooks.slack.com')
+          .post(/triggers/)
+          .reply(503)
+          .post(/triggers/)
+          .reply(200, { ok: true });
+        const trigger = new WebhookTrigger(url, { retryConfig: rapidRetryPolicy });
+        const result = await trigger.send({ key: 'value' });
+        assert.strictEqual(result.ok, true);
+        scope.done();
+      });
+
+      it('does not retry a 4xx even when a retry policy is set', async () => {
+        const scope = nock('https://hooks.slack.com')
+          .post(/triggers/)
+          .reply(400);
+        const trigger = new WebhookTrigger(url, { retryConfig: rapidRetryPolicy });
+        try {
+          await trigger.send({ key: 'value' });
+          assert.fail('expected rejection');
+        } catch (error) {
+          assert.strictEqual((error as CodedError).code, ErrorCode.HTTPError);
+        }
+        // Only one interceptor is registered; a retry would leave it unmatched
+        // and scope.done() would throw.
+        scope.done();
+      });
+
+      it('does not retry a 429 even when a retry policy is set', async () => {
+        const scope = nock('https://hooks.slack.com')
+          .post(/triggers/)
+          .reply(429);
+        const trigger = new WebhookTrigger(url, { retryConfig: rapidRetryPolicy });
+        try {
+          await trigger.send({ key: 'value' });
+          assert.fail('expected rejection');
+        } catch (error) {
+          assert.strictEqual((error as CodedError).code, ErrorCode.HTTPError);
+        }
+        // Only one interceptor is registered; a retry would leave it unmatched
+        // and scope.done() would throw.
+        scope.done();
+      });
+
+      it('gives up with the HTTP error after exhausting retries', async () => {
+        const scope = nock('https://hooks.slack.com')
+          .post(/triggers/)
+          .reply(500)
+          .post(/triggers/)
+          .reply(500);
+        const trigger = new WebhookTrigger(url, {
+          retryConfig: { retries: 1, minTimeout: 0, maxTimeout: 1 },
+        });
+        try {
+          await trigger.send({ key: 'value' });
+          assert.fail('expected rejection');
+        } catch (error) {
+          assert.strictEqual((error as CodedError).code, ErrorCode.HTTPError);
+        }
+        scope.done();
+      });
+
+      it('does not retry by default (no retryConfig)', async () => {
+        const scope = nock('https://hooks.slack.com')
+          .post(/triggers/)
+          .reply(503);
+        const trigger = new WebhookTrigger(url);
+        try {
+          await trigger.send({ key: 'value' });
+          assert.fail('expected rejection');
+        } catch (error) {
+          assert.strictEqual((error as CodedError).code, ErrorCode.HTTPError);
+        }
+        scope.done();
       });
     });
   });

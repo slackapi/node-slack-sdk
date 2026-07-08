@@ -5,6 +5,7 @@ import nock from 'nock';
 import type { CodedError } from './errors';
 import { ErrorCode } from './errors';
 import { IncomingWebhook } from './IncomingWebhook';
+import { rapidRetryPolicy } from './retry-policies';
 
 const url = 'https://hooks.slack.com/services/FAKEWEBHOOK';
 
@@ -134,6 +135,79 @@ describe('IncomingWebhook', () => {
         } finally {
           scope.done();
         }
+      });
+    });
+
+    describe('retries', () => {
+      it('retries a 5xx then succeeds when a retry policy is set', async () => {
+        const scope = nock('https://hooks.slack.com')
+          .post(/services/)
+          .reply(503)
+          .post(/services/)
+          .reply(200, 'ok');
+        const webhook = new IncomingWebhook(url, { retryConfig: rapidRetryPolicy });
+        const result = await webhook.send('hello');
+        assert.strictEqual(result.text, 'ok');
+        scope.done();
+      });
+
+      it('does not retry a 4xx even when a retry policy is set', async () => {
+        const scope = nock('https://hooks.slack.com')
+          .post(/services/)
+          .reply(400);
+        const webhook = new IncomingWebhook(url, { retryConfig: rapidRetryPolicy });
+        try {
+          await webhook.send('hello');
+          assert.fail('expected rejection');
+        } catch (error) {
+          assert.strictEqual((error as CodedError).code, ErrorCode.HTTPError);
+        }
+        scope.done();
+      });
+
+      it('does not retry a 429 even when a retry policy is set', async () => {
+        // Only one interceptor is registered; a retry would leave it unmatched
+        // and scope.done() would throw.
+        const scope = nock('https://hooks.slack.com')
+          .post(/services/)
+          .reply(429);
+        const webhook = new IncomingWebhook(url, { retryConfig: rapidRetryPolicy });
+        try {
+          await webhook.send('hello');
+          assert.fail('expected rejection');
+        } catch (error) {
+          assert.strictEqual((error as CodedError).code, ErrorCode.HTTPError);
+        }
+        scope.done();
+      });
+
+      it('does not retry by default (no retryConfig)', async () => {
+        const scope = nock('https://hooks.slack.com')
+          .post(/services/)
+          .reply(503);
+        const webhook = new IncomingWebhook(url);
+        try {
+          await webhook.send('hello');
+          assert.fail('expected rejection');
+        } catch (error) {
+          assert.strictEqual((error as CodedError).code, ErrorCode.HTTPError);
+        }
+        scope.done();
+      });
+
+      it('does not leak retryConfig into the posted payload', async () => {
+        let posted: unknown;
+        const scope = nock('https://hooks.slack.com')
+          .post(/services/, (body) => {
+            posted = body;
+            return true;
+          })
+          .reply(200, 'ok');
+        const webhook = new IncomingWebhook(url, { retryConfig: rapidRetryPolicy });
+        await webhook.send('hello');
+        assert.ok(posted && typeof posted === 'object');
+        assert.ok(!('retryConfig' in (posted as Record<string, unknown>)));
+        scope.done();
       });
     });
   });
