@@ -371,7 +371,7 @@ export class WebClient extends Methods {
       headers,
     );
     const result = await this.buildResult(response);
-    this.logger.debug(`http request result: ${JSON.stringify(result)}`);
+    this.logger.debug(`http request result: ${JSON.stringify(redact(result))}`);
 
     // log warnings in response metadata
     if (result.response_metadata !== undefined && result.response_metadata.warnings !== undefined) {
@@ -1072,7 +1072,7 @@ export function buildThreadTsWarningMessage(method: string): string {
  * @param body
  * @returns
  */
-function redact(body: Record<string, unknown>): Record<string, unknown> {
+function redact(body: object): Record<string, unknown> {
   // biome-ignore lint/suspicious/noExplicitAny: objects can be anything
   const flattened = Object.entries(body).map<[string, any] | []>(([key, value]) => {
     // no value provided
