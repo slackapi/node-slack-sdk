@@ -1,9 +1,11 @@
 import type { Agent } from 'node:http';
 
 import axios, { type AxiosInstance } from 'axios';
+import pRetry, { AbortError } from 'p-retry';
 
 import { httpErrorWithOriginal, requestErrorWithOriginal } from './errors';
 import { getUserAgent } from './instrument';
+import type { RetryOptions } from './retry-policies';
 
 /**
  * A client for Slack's Workflow Builder webhook triggers
@@ -25,6 +27,11 @@ export class WebhookTrigger {
    */
   private axios: AxiosInstance;
 
+  /**
+   * Retry policy applied to each send. Defaults to no retries.
+   */
+  private retryConfig: RetryOptions;
+
   public constructor(
     url: string,
     defaults: WebhookTriggerDefaultArguments = {
@@ -37,6 +44,7 @@ export class WebhookTrigger {
 
     this.url = url;
     this.defaults = defaults;
+    this.retryConfig = defaults.retryConfig ?? { retries: 0 };
 
     this.axios = axios.create({
       baseURL: url,
@@ -59,19 +67,24 @@ export class WebhookTrigger {
    * @param payload - arbitrary key-value data to send to the trigger
    */
   public async send(payload: WebhookTriggerSendArguments = {}): Promise<WebhookTriggerResult> {
-    try {
-      const response = await this.axios.post(this.url, payload);
-      return response.data;
-      // biome-ignore lint/suspicious/noExplicitAny: errors can be anything
-    } catch (error: any) {
-      if (error.response !== undefined) {
-        throw httpErrorWithOriginal(error);
+    return pRetry(async () => {
+      try {
+        const response = await this.axios.post(this.url, payload);
+        return response.data;
+        // biome-ignore lint/suspicious/noExplicitAny: errors can be anything
+      } catch (error: any) {
+        if (error.response !== undefined) {
+          const status: number = error.response.status;
+          const wrapped = httpErrorWithOriginal(error);
+          throw status >= 500 ? wrapped : new AbortError(wrapped);
+        }
+        if (error.request !== undefined) {
+          // No response received (network/timeout): retryable.
+          throw requestErrorWithOriginal(error);
+        }
+        throw new AbortError(error);
       }
-      if (error.request !== undefined) {
-        throw requestErrorWithOriginal(error);
-      }
-      throw error;
-    }
+    }, this.retryConfig);
   }
 }
 
@@ -81,6 +94,7 @@ export class WebhookTrigger {
 
 export interface WebhookTriggerDefaultArguments {
   agent?: Agent;
+  retryConfig?: RetryOptions;
   timeout?: number;
 }
 

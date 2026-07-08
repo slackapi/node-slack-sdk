@@ -20,6 +20,8 @@ export {
 
 export { addAppMetadata } from './instrument';
 
+export { default as retryPolicies, RetryOptions } from './retry-policies';
+
 export {
   WebhookTrigger,
   WebhookTriggerDefaultArguments,
