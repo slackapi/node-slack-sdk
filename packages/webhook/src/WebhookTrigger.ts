@@ -1,0 +1,94 @@
+import type { Agent } from 'node:http';
+
+import axios, { type AxiosInstance } from 'axios';
+
+import { httpErrorWithOriginal, requestErrorWithOriginal } from './errors';
+import { getUserAgent } from './instrument';
+
+/**
+ * A client for Slack's Workflow Builder webhook triggers
+ * @see {@link https://slack.com/help/articles/360041352714-Build-a-workflow--Create-a-workflow-that-starts-outside-of-Slack}
+ */
+export class WebhookTrigger {
+  /**
+   * The webhook trigger URL
+   */
+  private url: string;
+
+  /**
+   * Default arguments for sending to this webhook trigger
+   */
+  private defaults: WebhookTriggerDefaultArguments;
+
+  /**
+   * Axios HTTP client instance used by this client
+   */
+  private axios: AxiosInstance;
+
+  public constructor(
+    url: string,
+    defaults: WebhookTriggerDefaultArguments = {
+      timeout: 0,
+    },
+  ) {
+    if (!url) {
+      throw new Error('Webhook trigger URL is required');
+    }
+
+    this.url = url;
+    this.defaults = defaults;
+
+    this.axios = axios.create({
+      baseURL: url,
+      httpAgent: defaults.agent,
+      httpsAgent: defaults.agent,
+      maxRedirects: 0,
+      proxy: false,
+      timeout: defaults.timeout,
+      headers: {
+        'Content-Type': 'application/json',
+        'User-Agent': getUserAgent(),
+      },
+    });
+
+    this.defaults.agent = undefined;
+  }
+
+  /**
+   * Send a payload to the webhook trigger
+   * @param payload - arbitrary key-value data to send to the trigger
+   */
+  public async send(payload: WebhookTriggerSendArguments = {}): Promise<WebhookTriggerResult> {
+    try {
+      const response = await this.axios.post(this.url, payload);
+      return response.data;
+      // biome-ignore lint/suspicious/noExplicitAny: errors can be anything
+    } catch (error: any) {
+      if (error.response !== undefined) {
+        throw httpErrorWithOriginal(error);
+      }
+      if (error.request !== undefined) {
+        throw requestErrorWithOriginal(error);
+      }
+      throw error;
+    }
+  }
+}
+
+/*
+ * Exported types
+ */
+
+export interface WebhookTriggerDefaultArguments {
+  agent?: Agent;
+  timeout?: number;
+}
+
+export interface WebhookTriggerSendArguments {
+  [key: string]: string;
+}
+
+export interface WebhookTriggerResult {
+  ok: boolean;
+  error?: string;
+}

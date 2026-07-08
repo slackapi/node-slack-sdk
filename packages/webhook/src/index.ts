@@ -6,6 +6,9 @@ export {
   IncomingWebhookHTTPError,
   IncomingWebhookRequestError,
   IncomingWebhookSendError,
+  WebhookTriggerHTTPError,
+  WebhookTriggerRequestError,
+  WebhookTriggerSendError,
 } from './errors';
 
 export {
@@ -16,3 +19,10 @@ export {
 } from './IncomingWebhook';
 
 export { addAppMetadata } from './instrument';
+
+export {
+  WebhookTrigger,
+  WebhookTriggerDefaultArguments,
+  WebhookTriggerResult,
+  WebhookTriggerSendArguments,
+} from './WebhookTrigger';
