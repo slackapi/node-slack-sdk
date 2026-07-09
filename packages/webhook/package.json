@@ -37,12 +37,15 @@
     "build:clean": "shx rm -rf ./dist",
     "docs": "npx typedoc --plugin typedoc-plugin-markdown",
     "prepack": "npm run build",
-    "test": "npm run build && node --test-reporter=spec --test-reporter-destination=stdout --test-reporter=junit --test-reporter-destination=test-results.xml --import tsx --test src/IncomingWebhook.test.ts src/instrument.test.ts",
-    "test:coverage": "npm run build && node --experimental-test-coverage --test-reporter=spec --test-reporter-destination=stdout --test-reporter=lcov --test-reporter-destination=lcov.info --test-reporter=junit --test-reporter-destination=test-results.xml --import tsx --test src/IncomingWebhook.test.ts src/instrument.test.ts"
+    "test": "npm run build && node --test-reporter=spec --test-reporter-destination=stdout --test-reporter=junit --test-reporter-destination=test-results.xml --import tsx --test src/IncomingWebhook.test.ts src/WebhookTrigger.test.ts src/instrument.test.ts src/retry-policies.test.ts",
+    "test:coverage": "npm run build && node --experimental-test-coverage --test-reporter=spec --test-reporter-destination=stdout --test-reporter=lcov --test-reporter-destination=lcov.info --test-reporter=junit --test-reporter-destination=test-results.xml --import tsx --test src/IncomingWebhook.test.ts src/WebhookTrigger.test.ts src/instrument.test.ts src/retry-policies.test.ts"
   },
   "dependencies": {
     "@slack/types": "^3.0.0-rc.1",
-    "@types/node": ">=20"
+    "@types/node": ">=20",
+    "@types/retry": "0.12.0",
+    "p-retry": "^4",
+    "retry": "^0.13.1"
   },
   "devDependencies": {
     "nock": "^14.0.6"

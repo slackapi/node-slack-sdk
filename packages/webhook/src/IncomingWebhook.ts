@@ -1,7 +1,9 @@
 import type { Block, KnownBlock, MessageAttachment } from '@slack/types'; // TODO: Block and KnownBlock will be merged into AnyBlock in upcoming types release
+import pRetry, { AbortError } from 'p-retry';
 
 import { IncomingWebhookHTTPError, IncomingWebhookRequestError, SlackWebhookError } from './errors';
 import { getUserAgent } from './instrument';
+import type { RetryOptions } from './retry-policies';
 
 export interface FetchHeaders {
   get(name: string): string | null;
@@ -58,6 +60,11 @@ export class IncomingWebhook {
    */
   private headers: Record<string, string>;
 
+  /**
+   * Retry policy applied to each send. Defaults to no retries.
+   */
+  private retryConfig: RetryOptions;
+
   public constructor(
     url: string,
     defaults: IncomingWebhookDefaultArguments = {
@@ -71,12 +78,13 @@ export class IncomingWebhook {
     this.url = url;
     this.fetchFn = defaults.fetch ?? globalThis.fetch;
     this.timeout = defaults.timeout ?? 0;
+    this.retryConfig = defaults.retryConfig ?? { retries: 0 };
     this.headers = {
       'User-Agent': getUserAgent(),
     };
 
     // Remove transport options so they don't leak into payloads
-    const { fetch: _fetch, timeout: _timeout, ...messageDefaults } = defaults;
+    const { fetch: _fetch, timeout: _timeout, retryConfig: _retryConfig, ...messageDefaults } = defaults;
     this.defaults = messageDefaults;
   }
 
@@ -93,32 +101,38 @@ export class IncomingWebhook {
       payload = Object.assign(payload, message);
     }
 
-    const signal = this.timeout > 0 ? AbortSignal.timeout(this.timeout) : undefined;
+    return pRetry(async () => {
+      const signal = this.timeout > 0 ? AbortSignal.timeout(this.timeout) : undefined;
 
-    try {
-      const response = await this.fetchFn(this.url, {
-        method: 'POST',
-        headers: {
-          ...this.headers,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(payload),
-        redirect: 'error',
-        signal,
-      });
+      try {
+        const response = await this.fetchFn(this.url, {
+          method: 'POST',
+          headers: {
+            ...this.headers,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(payload),
+          redirect: 'error',
+          signal,
+        });
 
-      if (!response.ok) {
-        const body = await response.text();
-        throw new IncomingWebhookHTTPError(response.status, response.statusText, body);
+        if (!response.ok) {
+          const body = await response.text();
+          const httpError = new IncomingWebhookHTTPError(response.status, response.statusText, body);
+          // Only server errors (5xx) are transient; client errors (4xx), including rate limits (429), fail immediately.
+          throw response.status >= 500 ? httpError : new AbortError(httpError);
+        }
+
+        return await this.buildResult(response);
+      } catch (error) {
+        // Non-retryable signals (AbortError) and already-wrapped errors pass through untouched.
+        if (error instanceof AbortError || error instanceof SlackWebhookError) {
+          throw error;
+        }
+        // No response received (network/timeout): retryable.
+        throw new IncomingWebhookRequestError(error instanceof Error ? error : new Error(String(error)));
       }
-
-      return await this.buildResult(response);
-    } catch (error) {
-      if (error instanceof SlackWebhookError) {
-        throw error;
-      }
-      throw new IncomingWebhookRequestError(error instanceof Error ? error : new Error(String(error)));
-    }
+    }, this.retryConfig);
   }
 
   /**
@@ -144,6 +158,7 @@ export interface IncomingWebhookDefaultArguments {
   link_names?: boolean;
   fetch?: FetchFunction;
   timeout?: number;
+  retryConfig?: RetryOptions;
 }
 
 export interface IncomingWebhookSendArguments extends IncomingWebhookDefaultArguments {

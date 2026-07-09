@@ -7,6 +7,9 @@ export {
   IncomingWebhookRequestError,
   IncomingWebhookSendError,
   SlackWebhookError,
+  WebhookTriggerHTTPError,
+  WebhookTriggerRequestError,
+  WebhookTriggerSendError,
 } from './errors';
 
 export {
@@ -18,3 +21,12 @@ export {
 } from './IncomingWebhook';
 
 export { addAppMetadata } from './instrument';
+
+export { default as retryPolicies, RetryOptions } from './retry-policies';
+
+export {
+  WebhookTrigger,
+  WebhookTriggerDefaultArguments,
+  WebhookTriggerResult,
+  WebhookTriggerSendArguments,
+} from './WebhookTrigger';

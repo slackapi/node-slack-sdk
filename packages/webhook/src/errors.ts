@@ -45,3 +45,8 @@ export class IncomingWebhookHTTPError extends SlackWebhookError {
     this.body = body;
   }
 }
+
+// `WebhookTrigger` surfaces the same error shapes as `IncomingWebhook`, exposed under trigger-specific names.
+export type WebhookTriggerRequestError = IncomingWebhookRequestError;
+export type WebhookTriggerHTTPError = IncomingWebhookHTTPError;
+export type WebhookTriggerSendError = WebhookTriggerRequestError | WebhookTriggerHTTPError;
