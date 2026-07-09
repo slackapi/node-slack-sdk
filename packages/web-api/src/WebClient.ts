@@ -1090,8 +1090,8 @@ function redact(body: object): Record<string, unknown> {
     // when value is buffer or stream we can avoid logging it
     if (Buffer.isBuffer(value) || isStream(value)) {
       serializedValue = '[[BINARY VALUE OMITTED]]';
-    } else if (typeof value !== 'string' && typeof value !== 'number' && typeof value !== 'boolean') {
-      serializedValue = JSON.stringify(value);
+    } else if (typeof value === 'object') {
+      serializedValue = redact(value);
     }
     return [key, serializedValue];
   });
