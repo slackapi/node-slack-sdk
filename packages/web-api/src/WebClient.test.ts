@@ -156,7 +156,10 @@ describe('WebClient', () => {
       const resultLog = debugCalls.find((call) => call.args[0].includes('http request result'));
       assert.ok(resultLog, 'expected a debug log for the http request result');
       assert.ok(resultLog.args[0].includes('[[REDACTED]]'), 'expected access_token to be redacted');
-      assert.ok(!resultLog.args[0].includes('xoxb-secret-token'), 'expected raw token to not appear in logs');
+      assert.ok(!resultLog.args[0].includes('xoxb-secret-token'), 'expected raw bot token to not appear in logs');
+      assert.ok(!resultLog.args[0].includes('xoxe-secret-token'), 'expected raw refresh token to not appear in logs');
+       assert.ok(!resultLog.args[0].includes('xoxe.xoxp-secret-token'), 'expected raw user token to not appear in logs');
+      assert.ok(!resultLog.args[0].includes('xoxe-secret-token'), 'expected raw user token to not appear in logs');
     });
   });
 
