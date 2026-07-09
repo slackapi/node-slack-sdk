@@ -2,7 +2,14 @@ import assert from 'node:assert/strict';
 import { afterEach, beforeEach, describe, it } from 'node:test';
 import nock from 'nock';
 
-import { type CodedError, ErrorCode, type WebhookTriggerHTTPError } from './errors';
+import {
+  type CodedError,
+  ErrorCode,
+  IncomingWebhookHTTPError,
+  SlackWebhookError,
+  WebhookTriggerHTTPError,
+  WebhookTriggerRequestError,
+} from './errors';
 import { addAppMetadata } from './instrument';
 import { rapidRetryPolicy } from './retry-policies';
 import { WebhookTrigger } from './WebhookTrigger';
@@ -82,8 +89,10 @@ describe('WebhookTrigger', () => {
           await trigger.send({ key: 'value' });
           assert.fail('expected rejection');
         } catch (error) {
-          assert.ok(error instanceof Error);
-          assert.match((error as Error).message, new RegExp(String(statusCode)));
+          assert.ok(error instanceof WebhookTriggerHTTPError);
+          assert.ok(error instanceof SlackWebhookError);
+          assert.ok(!(error instanceof IncomingWebhookHTTPError));
+          assert.match(error.message, new RegExp(String(statusCode)));
         }
         scope.done();
       });
@@ -94,8 +103,11 @@ describe('WebhookTrigger', () => {
           await trigger.send({ key: 'value' });
           assert.fail('expected rejection');
         } catch (error) {
-          assert.ok(error instanceof Error);
-          assert.strictEqual((error as CodedError).code, ErrorCode.RequestError);
+          assert.ok(error instanceof WebhookTriggerRequestError);
+          assert.ok(error instanceof SlackWebhookError);
+          assert.strictEqual(error.code, ErrorCode.RequestError);
+          assert.ok(error.original instanceof Error);
+          assert.strictEqual(error.cause, error.original);
         }
       });
 
@@ -107,10 +119,11 @@ describe('WebhookTrigger', () => {
           await trigger.send({ key: 'value' });
           assert.fail('expected rejection');
         } catch (error) {
-          const httpError = error as WebhookTriggerHTTPError;
-          assert.strictEqual(httpError.code, ErrorCode.HTTPError);
-          assert.strictEqual(httpError.statusCode, 401);
-          assert.deepStrictEqual(JSON.parse(httpError.body), { ok: false, error: 'invalid_auth' });
+          assert.ok(error instanceof WebhookTriggerHTTPError);
+          assert.ok(!(error instanceof IncomingWebhookHTTPError));
+          assert.strictEqual(error.code, ErrorCode.HTTPError);
+          assert.strictEqual(error.statusCode, 401);
+          assert.deepStrictEqual(JSON.parse(error.body), { ok: false, error: 'invalid_auth' });
         }
         scope.done();
       });

@@ -1,6 +1,6 @@
 import pRetry, { AbortError } from 'p-retry';
 
-import { IncomingWebhookHTTPError, IncomingWebhookRequestError, SlackWebhookError } from './errors';
+import { SlackWebhookError, WebhookTriggerHTTPError, WebhookTriggerRequestError } from './errors';
 import type { FetchFunction } from './IncomingWebhook';
 import { getUserAgent } from './instrument';
 import type { RetryOptions } from './retry-policies';
@@ -76,7 +76,7 @@ export class WebhookTrigger {
 
         if (!response.ok) {
           const body = await response.text();
-          const httpError = new IncomingWebhookHTTPError(response.status, response.statusText, body);
+          const httpError = new WebhookTriggerHTTPError(response.status, response.statusText, body);
           // Only server errors (5xx) are transient; client errors (4xx), including rate limits (429), fail immediately.
           throw response.status >= 500 ? httpError : new AbortError(httpError);
         }
@@ -88,7 +88,7 @@ export class WebhookTrigger {
           throw error;
         }
         // No response received (network/timeout): retryable.
-        throw new IncomingWebhookRequestError(error instanceof Error ? error : new Error(String(error)));
+        throw new WebhookTriggerRequestError(error instanceof Error ? error : new Error(String(error)));
       }
     }, this.retryConfig);
   }

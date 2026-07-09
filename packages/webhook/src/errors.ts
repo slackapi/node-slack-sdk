@@ -46,7 +46,28 @@ export class IncomingWebhookHTTPError extends SlackWebhookError {
   }
 }
 
-// `WebhookTrigger` surfaces the same error shapes as `IncomingWebhook`, exposed under trigger-specific names.
-export type WebhookTriggerRequestError = IncomingWebhookRequestError;
-export type WebhookTriggerHTTPError = IncomingWebhookHTTPError;
+export class WebhookTriggerRequestError extends SlackWebhookError {
+  readonly code = ErrorCode.RequestError;
+  readonly original: Error;
+
+  constructor(original: Error) {
+    super(`A request error occurred: ${original.message}`, { cause: original });
+    this.original = original;
+  }
+}
+
+export class WebhookTriggerHTTPError extends SlackWebhookError {
+  readonly code = ErrorCode.HTTPError;
+  readonly statusCode: number;
+  readonly statusMessage: string;
+  readonly body: string;
+
+  constructor(statusCode: number, statusMessage: string, body: string) {
+    super(`An HTTP protocol error occurred: statusCode = ${statusCode}`);
+    this.statusCode = statusCode;
+    this.statusMessage = statusMessage;
+    this.body = body;
+  }
+}
+
 export type WebhookTriggerSendError = WebhookTriggerRequestError | WebhookTriggerHTTPError;
