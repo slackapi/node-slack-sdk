@@ -28,6 +28,7 @@ import type {
 import type {
   MrkdwnElement,
   PlainTextElement,
+  RawNumberElement,
   RawTextElement,
   SlackFileImageObject,
   TextObject,
@@ -60,6 +61,7 @@ export type KnownBlock =
   | CarouselBlock
   | ContextBlock
   | ContextActionsBlock
+  | DataTableBlock
   | DividerBlock
   | FileBlock
   | HeaderBlock
@@ -224,6 +226,42 @@ export interface ContextActionsBlock extends Block {
    * @description An array of {@link FeedbackButtons} or {@link IconButton} block elements. Maximum number of items is 5.
    */
   elements: ContextActionsBlockElement[];
+}
+
+/**
+ * A helper union type of all cell types that can be used in a {@link DataTableBlock} row. Cells can be of type
+ * `raw_text`, `raw_number`, or `rich_text`. Note that `rich_text` cells are not allowed in the header row.
+ */
+export type DataTableCell = RawTextElement | RawNumberElement | RichTextBlock;
+
+/**
+ * @description Displays structured, sortable, and paginated data in a table.
+ * @see {@link https://docs.slack.dev/reference/block-kit/blocks/data-table-block Data table block reference}.
+ */
+export interface DataTableBlock extends Block {
+  /**
+   * @description The type of block. For a data table block, `type` is always `data_table`.
+   */
+  type: 'data_table';
+  /**
+   * @description An array consisting of table rows, where the first row is the header row. Each row is an array of
+   * cells of type `raw_text`, `raw_number`, or `rich_text`. Minimum 2 rows (a header and one data row) and maximum 101
+   * rows (a header and 100 data rows). Each row must contain the same number of cells, with a minimum of 1 and a maximum
+   * of 20 columns. The `rich_text` cell type is not allowed in the header row.
+   */
+  rows: DataTableCell[][];
+  /**
+   * @description A description of the table used for the underlying HTML element.
+   */
+  caption: string;
+  /**
+   * @description The number of rows to display per page. Minimum 1, maximum 100. Defaults to 5 if not provided.
+   */
+  page_size?: number;
+  /**
+   * @description The zero-based index of the column used as the row identifier. Defaults to 0 if not provided.
+   */
+  row_header_column_index?: number;
 }
 
 /**
