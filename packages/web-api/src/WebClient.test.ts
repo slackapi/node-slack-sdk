@@ -123,31 +123,31 @@ describe('WebClient', () => {
       const scope = nock('https://slack.com')
         .post('/api/oauth.v2.access')
         .reply(200, {
-            "ok": true,
-            "access_token": "xoxb-secret-token",
-            "token_type": "bot",
-            "scope": "commands,incoming-webhook",
-            "bot_user_id": "U0KRQLJ9H",
-            "app_id": "A0KRD7HC3",
-            "expires_in": 43200,
-            "refresh_token": "xoxe-secret-token",
-            "team": {
-                "name": "Slack Softball Team",
-                "id": "T9TK3CUKW"
-             },
-             "enterprise": {
-               "name": "slack-sports",
-                "id": "E12345678"
-              },
-              "authed_user": {
-                "id": "U1234",
-                "scope": "chat:write",
-                "access_token": "xoxe.xoxp-secret-token",
-                "expires_in": 43200,
-                "refresh_token": "xoxe-secret-token",
-                "token_type": "user"
-              }
-            });
+          ok: true,
+          access_token: 'xoxb-secret-token',
+          token_type: 'bot',
+          scope: 'commands,incoming-webhook',
+          bot_user_id: 'U0KRQLJ9H',
+          app_id: 'A0KRD7HC3',
+          expires_in: 43200,
+          refresh_token: 'xoxe-secret-token',
+          team: {
+            name: 'Slack Softball Team',
+            id: 'T9TK3CUKW',
+          },
+          enterprise: {
+            name: 'slack-sports',
+            id: 'E12345678',
+          },
+          authed_user: {
+            id: 'U1234',
+            scope: 'chat:write',
+            access_token: 'xoxe.xoxp-secret-token',
+            expires_in: 43200,
+            refresh_token: 'xoxe-secret-token',
+            token_type: 'user',
+          },
+        });
       const client = new WebClient(undefined, { logLevel: LogLevel.DEBUG, logger });
       await client.apiCall('oauth.v2.access', { code: 'test-code' });
       scope.done();
@@ -158,7 +158,7 @@ describe('WebClient', () => {
       assert.ok(resultLog.args[0].includes('[[REDACTED]]'), 'expected access_token to be redacted');
       assert.ok(!resultLog.args[0].includes('xoxb-secret-token'), 'expected raw bot token to not appear in logs');
       assert.ok(!resultLog.args[0].includes('xoxe-secret-token'), 'expected raw refresh token to not appear in logs');
-       assert.ok(!resultLog.args[0].includes('xoxe.xoxp-secret-token'), 'expected raw user token to not appear in logs');
+      assert.ok(!resultLog.args[0].includes('xoxe.xoxp-secret-token'), 'expected raw user token to not appear in logs');
       assert.ok(!resultLog.args[0].includes('xoxe-secret-token'), 'expected raw user token to not appear in logs');
     });
   });
