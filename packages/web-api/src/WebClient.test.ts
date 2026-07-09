@@ -118,6 +118,21 @@ describe('WebClient', () => {
       // Calling #setName of the given logger is destructive
       assert.strictEqual((logger.setName as sinon.SinonStub).called, false);
     });
+
+    it('should redact tokens in API response bodies in debug logs', async () => {
+      const scope = nock('https://slack.com')
+        .post('/api/oauth.v2.access')
+        .reply(200, { ok: true, access_token: 'xoxb-secret-token', token_type: 'bot' });
+      const client = new WebClient(undefined, { logLevel: LogLevel.DEBUG, logger });
+      await client.apiCall('oauth.v2.access', { code: 'test-code' });
+      scope.done();
+
+      const debugCalls = (logger.debug as sinon.SinonStub).getCalls();
+      const resultLog = debugCalls.find((call) => call.args[0].includes('http request result'));
+      assert.ok(resultLog, 'expected a debug log for the http request result');
+      assert.ok(resultLog.args[0].includes('[[REDACTED]]'), 'expected access_token to be redacted');
+      assert.ok(!resultLog.args[0].includes('xoxb-secret-token'), 'expected raw token to not appear in logs');
+    });
   });
 
   describe('has an option to override the Axios timeout value', () => {
