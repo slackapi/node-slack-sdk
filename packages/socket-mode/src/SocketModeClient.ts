@@ -158,7 +158,11 @@ export class SocketModeClient extends EventEmitter {
     this.on('close', () => {
       // Underlying WebSocket connection was closed, possibly reconnect.
       if (!this.shuttingDown && this.autoReconnectEnabled) {
-        this.delayReconnectAttempt(this.start);
+        void this.delayReconnectAttempt(this.start).catch((error) => {
+          if (!this.shuttingDown) {
+            this.logger.error(`Failed to reconnect Socket Mode client: ${error}`);
+          }
+        });
       } else {
         // If reconnect is disabled or user explicitly called `disconnect()`, emit a disconnected state.
         this.emit(State.Disconnected);
@@ -246,15 +250,16 @@ export class SocketModeClient extends EventEmitter {
     this.numOfConsecutiveReconnectionFailures += 1;
     const msBeforeRetry = this.clientPingTimeoutMS * this.numOfConsecutiveReconnectionFailures;
     this.logger.debug(`Before trying to reconnect, this client will wait for ${msBeforeRetry} milliseconds`);
-    return new Promise((res, _rej) => {
+    return new Promise((resolve, reject) => {
       this.reconnectionTimer = setTimeout(() => {
         this.reconnectionTimer = undefined;
         if (this.shuttingDown) {
           this.logger.debug('Client shutting down, will not attempt reconnect.');
+          resolve(undefined as T);
         } else {
           this.logger.debug('Continuing with reconnect...');
           this.emit(State.Reconnecting);
-          cb.apply(this).then(res);
+          cb.apply(this).then(resolve, reject);
         }
       }, msBeforeRetry);
     });

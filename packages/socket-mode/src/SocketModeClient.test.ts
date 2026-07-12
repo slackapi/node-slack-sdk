@@ -83,6 +83,24 @@ describe('SocketModeClient', () => {
     it('should resolve once Disconnected state emitted');
   });
 
+  describe('reconnect', () => {
+    it('should observe a rejected reconnect attempt', async () => {
+      const logger = new ConsoleLogger();
+      const errorLog = sandbox.stub(logger, 'error');
+      const client = new SocketModeClient({
+        appToken: 'xapp-',
+        clientPingTimeout: 1,
+        logger,
+      });
+      sandbox.stub(client, 'start').rejects(new Error('reconnect failed'));
+
+      client.emit('close');
+      await sleep(10);
+
+      sinon.assert.calledWith(errorLog, 'Failed to reconnect Socket Mode client: Error: reconnect failed');
+    });
+  });
+
   describe('onWebSocketMessage', () => {
     // While this method is protected and cannot be invoked directly, emitting the 'message' event directly invokes it
     describe('slash_commands messages', () => {
