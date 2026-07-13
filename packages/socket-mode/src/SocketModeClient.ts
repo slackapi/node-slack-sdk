@@ -18,6 +18,8 @@ import { SlackWebSocket, WS_READY_STATES } from './SlackWebSocket';
 import type { SocketModeDispatcher, SocketModeOptions } from './SocketModeOptions';
 import { UnrecoverableSocketModeStartError } from './UnrecoverableSocketModeStartError';
 
+class SocketModeClientShuttingDownError extends Error {}
+
 // Lifecycle events as described in the README
 enum State {
   Connecting = 'connecting',
@@ -159,7 +161,7 @@ export class SocketModeClient extends EventEmitter {
       // Underlying WebSocket connection was closed, possibly reconnect.
       if (!this.shuttingDown && this.autoReconnectEnabled) {
         void this.delayReconnectAttempt(this.start).catch((error) => {
-          if (!this.shuttingDown) {
+          if (!(error instanceof SocketModeClientShuttingDownError)) {
             this.logger.error(`Failed to reconnect Socket Mode client: ${error}`);
           }
         });
@@ -255,7 +257,7 @@ export class SocketModeClient extends EventEmitter {
         this.reconnectionTimer = undefined;
         if (this.shuttingDown) {
           this.logger.debug('Client shutting down, will not attempt reconnect.');
-          resolve(undefined as T);
+          reject(new SocketModeClientShuttingDownError('Socket Mode client is shutting down'));
         } else {
           this.logger.debug('Continuing with reconnect...');
           this.emit(State.Reconnecting);

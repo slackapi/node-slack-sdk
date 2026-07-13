@@ -99,6 +99,24 @@ describe('SocketModeClient', () => {
 
       sinon.assert.calledWith(errorLog, 'Failed to reconnect Socket Mode client: Error: reconnect failed');
     });
+
+    it('should not reconnect or log an error while shutting down', async () => {
+      const logger = new ConsoleLogger();
+      const errorLog = sandbox.stub(logger, 'error');
+      const client = new SocketModeClient({
+        appToken: 'xapp-',
+        clientPingTimeout: 1,
+        logger,
+      });
+      const start = sandbox.stub(client, 'start').resolves({});
+
+      client.emit('close');
+      await client.disconnect();
+      await sleep(10);
+
+      sinon.assert.notCalled(start);
+      sinon.assert.notCalled(errorLog);
+    });
   });
 
   describe('onWebSocketMessage', () => {
