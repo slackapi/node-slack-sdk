@@ -1,6 +1,6 @@
 {
   "name": "@slack/oauth",
-  "version": "4.0.0-rc.1",
+  "version": "4.0.0-rc.2",
   "description": "Official library for interacting with Slack's Oauth endpoints",
   "author": "Slack Technologies, LLC",
   "license": "MIT",
