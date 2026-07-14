@@ -1,6 +1,6 @@
 {
   "name": "@slack/socket-mode",
-  "version": "3.0.0-rc.3",
+  "version": "3.0.0",
   "description": "Official library for using the Slack Platform's Socket Mode API",
   "author": "Slack Technologies, LLC",
   "license": "MIT",
@@ -51,8 +51,8 @@
     "watch": "npx nodemon --watch 'src' --ext 'ts' --exec npm test"
   },
   "dependencies": {
-    "@slack/logger": "^5.0.0-rc.1",
-    "@slack/web-api": "^8.0.0-rc.1",
+    "@slack/logger": "^5.0.0",
+    "@slack/web-api": "^8.0.0",
     "@types/node": ">=20",
     "eventemitter3": "^5"
   },

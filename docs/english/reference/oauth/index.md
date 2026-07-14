@@ -1,4 +1,4 @@
-# @slack/oauth v3.0.5
+# @slack/oauth v4.0.0
 
 ## Enumerations
 
@@ -18,6 +18,7 @@
 - [MemoryInstallationStore](classes/MemoryInstallationStore.md)
 - [MissingCodeError](classes/MissingCodeError.md)
 - [MissingStateError](classes/MissingStateError.md)
+- [SlackOAuthError](classes/SlackOAuthError.md)
 - [UnknownError](classes/UnknownError.md)
 
 ## Interfaces

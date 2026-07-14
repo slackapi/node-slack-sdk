@@ -1,4 +1,4 @@
-# @slack/types v2.22.0
+# @slack/types v3.0.0
 
 ## Enumerations
 

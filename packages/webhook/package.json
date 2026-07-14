@@ -1,6 +1,6 @@
 {
   "name": "@slack/webhook",
-  "version": "8.0.0-rc.2",
+  "version": "8.0.0",
   "description": "Official library for using the Slack Platform's Incoming Webhooks",
   "author": "Slack Technologies, LLC",
   "license": "MIT",
@@ -41,7 +41,7 @@
     "test:coverage": "npm run build && node --experimental-test-coverage --test-reporter=spec --test-reporter-destination=stdout --test-reporter=lcov --test-reporter-destination=lcov.info --test-reporter=junit --test-reporter-destination=test-results.xml --import tsx --test src/IncomingWebhook.test.ts src/WebhookTrigger.test.ts src/instrument.test.ts src/retry-policies.test.ts"
   },
   "dependencies": {
-    "@slack/types": "^3.0.0-rc.1",
+    "@slack/types": "^3.0.0",
     "@types/node": ">=20",
     "@types/retry": "0.12.0",
     "p-retry": "^4",

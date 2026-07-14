@@ -101,22 +101,6 @@ Defined in: [packages/oauth/src/install-provider.ts:781](https://github.com/slac
 
 ***
 
-### error?
-
-```ts
-optional error: string;
-```
-
-Defined in: packages/web-api/dist/WebClient.d.ts:66
-
-#### Inherited from
-
-```ts
-WebAPICallResult.error
-```
-
-***
-
 ### expires\_in?
 
 ```ts
@@ -177,7 +161,7 @@ Defined in: [packages/oauth/src/install-provider.ts:782](https://github.com/slac
 ok: boolean;
 ```
 
-Defined in: packages/web-api/dist/WebClient.d.ts:65
+Defined in: packages/web-api/dist/WebClient.d.ts:42
 
 #### Inherited from
 
@@ -203,7 +187,7 @@ Defined in: [packages/oauth/src/install-provider.ts:777](https://github.com/slac
 optional response_metadata: object;
 ```
 
-Defined in: packages/web-api/dist/WebClient.d.ts:67
+Defined in: packages/web-api/dist/WebClient.d.ts:43
 
 #### acceptedScopes?
 

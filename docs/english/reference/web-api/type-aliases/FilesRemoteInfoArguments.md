@@ -6,4 +6,4 @@
 type FilesRemoteInfoArguments = FileOrExternalID & TokenOverridable;
 ```
 
-Defined in: [packages/web-api/src/types/request/files.ts:229](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/files.ts#L229)
+Defined in: [packages/web-api/src/types/request/files.ts:226](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/files.ts#L226)

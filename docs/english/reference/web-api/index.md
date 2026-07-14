@@ -1,4 +1,4 @@
-# @slack/web-api v7.18.0
+# @slack/web-api v8.0.0
 
 ## Enumerations
 
@@ -12,6 +12,13 @@
 
 - [ChatStreamer](classes/ChatStreamer.md)
 - [Methods](classes/Methods.md)
+- [SlackError](classes/SlackError.md)
+- [WebAPIFileUploadInvalidArgumentsError](classes/WebAPIFileUploadInvalidArgumentsError.md)
+- [WebAPIFileUploadReadFileDataError](classes/WebAPIFileUploadReadFileDataError.md)
+- [WebAPIHTTPError](classes/WebAPIHTTPError.md)
+- [WebAPIPlatformError](classes/WebAPIPlatformError.md)
+- [WebAPIRateLimitedError](classes/WebAPIRateLimitedError.md)
+- [WebAPIRequestError](classes/WebAPIRequestError.md)
 - [WebClient](classes/WebClient.md)
 
 ## Interfaces
@@ -172,7 +179,7 @@
 - [ChatStreamerOptions](interfaces/ChatStreamerOptions.md)
 - [Checkboxes](interfaces/Checkboxes.md)
 - [Chunk](interfaces/Chunk.md)
-- [CodedError](interfaces/CodedError.md)
+- [~~CodedError~~](interfaces/CodedError.md)
 - [~~Confirm~~](interfaces/Confirm.md)
 - [Confirmable](interfaces/Confirmable.md)
 - [Confirmation](interfaces/Confirmation.md)
@@ -433,10 +440,6 @@
 - [VideoBlock](interfaces/VideoBlock.md)
 - [ViewsPublishArguments](interfaces/ViewsPublishArguments.md)
 - [WebAPICallResult](interfaces/WebAPICallResult.md)
-- [WebAPIHTTPError](interfaces/WebAPIHTTPError.md)
-- [WebAPIPlatformError](interfaces/WebAPIPlatformError.md)
-- [WebAPIRateLimitedError](interfaces/WebAPIRateLimitedError.md)
-- [WebAPIRequestError](interfaces/WebAPIRequestError.md)
 - [WebClientOptions](interfaces/WebClientOptions.md)
 - [WorkflowButton](interfaces/WorkflowButton.md)
 - [WorkflowDeletedEvent](interfaces/WorkflowDeletedEvent.md)
@@ -445,12 +448,9 @@
 - [WorkflowsFeaturedListArguments](interfaces/WorkflowsFeaturedListArguments.md)
 - [WorkflowsFeaturedRemoveArguments](interfaces/WorkflowsFeaturedRemoveArguments.md)
 - [WorkflowsFeaturedSetArguments](interfaces/WorkflowsFeaturedSetArguments.md)
-- [WorkflowsStepCompletedArguments](interfaces/WorkflowsStepCompletedArguments.md)
-- [WorkflowsStepFailedArguments](interfaces/WorkflowsStepFailedArguments.md)
 - [WorkflowStepDeletedEvent](interfaces/WorkflowStepDeletedEvent.md)
 - [WorkflowStepExecuteEvent](interfaces/WorkflowStepExecuteEvent.md)
 - [~~WorkflowStepView~~](interfaces/WorkflowStepView.md)
-- [WorkflowsUpdateStepArguments](interfaces/WorkflowsUpdateStepArguments.md)
 - [WorkflowUnpublishedEvent](interfaces/WorkflowUnpublishedEvent.md)
 
 ## Type Aliases
@@ -712,6 +712,7 @@
 - [EmojiListResponse](type-aliases/EmojiListResponse.md)
 - [EntityPresentDetailsArguments](type-aliases/EntityPresentDetailsArguments.md)
 - [EntityPresentDetailsResponse](type-aliases/EntityPresentDetailsResponse.md)
+- [FetchFunction](type-aliases/FetchFunction.md)
 - [FilesCommentsAddResponse](type-aliases/FilesCommentsAddResponse.md)
 - [FilesCommentsDeleteResponse](type-aliases/FilesCommentsDeleteResponse.md)
 - [FilesCommentsEditResponse](type-aliases/FilesCommentsEditResponse.md)
@@ -733,7 +734,6 @@
 - [FilesRemoteUpdateResponse](type-aliases/FilesRemoteUpdateResponse.md)
 - [FilesRevokePublicURLResponse](type-aliases/FilesRevokePublicURLResponse.md)
 - [FilesSharedPublicURLResponse](type-aliases/FilesSharedPublicURLResponse.md)
-- [FilesUploadArguments](type-aliases/FilesUploadArguments.md)
 - [FilesUploadResponse](type-aliases/FilesUploadResponse.md)
 - [FilesUploadV2Arguments](type-aliases/FilesUploadV2Arguments.md)
 - [FunctionsCompleteErrorResponse](type-aliases/FunctionsCompleteErrorResponse.md)
@@ -806,7 +806,6 @@
 - [RichTextElement](type-aliases/RichTextElement.md)
 - [RTMConnectArguments](type-aliases/RTMConnectArguments.md)
 - [RtmConnectResponse](type-aliases/RtmConnectResponse.md)
-- [RTMStartArguments](type-aliases/RTMStartArguments.md)
 - [RtmStartResponse](type-aliases/RtmStartResponse.md)
 - [SearchAllResponse](type-aliases/SearchAllResponse.md)
 - [SearchFilesResponse](type-aliases/SearchFilesResponse.md)
@@ -856,7 +855,6 @@
 - [TeamProfileGetArguments](type-aliases/TeamProfileGetArguments.md)
 - [TeamProfileGetResponse](type-aliases/TeamProfileGetResponse.md)
 - [TextObject](type-aliases/TextObject.md)
-- [TLSOptions](type-aliases/TLSOptions.md)
 - [ToolingTokensRotateResponse](type-aliases/ToolingTokensRotateResponse.md)
 - [UsergroupsCreateResponse](type-aliases/UsergroupsCreateResponse.md)
 - [UsergroupsDisableResponse](type-aliases/UsergroupsDisableResponse.md)
@@ -888,6 +886,7 @@
 - [ViewsUpdateArguments](type-aliases/ViewsUpdateArguments.md)
 - [ViewsUpdateResponse](type-aliases/ViewsUpdateResponse.md)
 - [WebAPICallError](type-aliases/WebAPICallError.md)
+- [WebAPIFilesUploadError](type-aliases/WebAPIFilesUploadError.md)
 - [WorkflowsFeaturedAddResponse](type-aliases/WorkflowsFeaturedAddResponse.md)
 - [WorkflowsFeaturedListResponse](type-aliases/WorkflowsFeaturedListResponse.md)
 - [WorkflowsFeaturedRemoveResponse](type-aliases/WorkflowsFeaturedRemoveResponse.md)

@@ -1,4 +1,4 @@
-# @slack/socket-mode v2.0.7
+# @slack/socket-mode v3.0.0
 
 ## Enumerations
 
@@ -8,16 +8,19 @@
 
 ## Classes
 
+- [SlackSocketModeError](classes/SlackSocketModeError.md)
+- [SMNoReplyReceivedError](classes/SMNoReplyReceivedError.md)
+- [SMPlatformError](classes/SMPlatformError.md)
+- [SMSendWhileDisconnectedError](classes/SMSendWhileDisconnectedError.md)
+- [SMSendWhileNotReadyError](classes/SMSendWhileNotReadyError.md)
+- [SMWebsocketError](classes/SMWebsocketError.md)
 - [SocketModeClient](classes/SocketModeClient.md)
 
 ## Interfaces
 
 - [Logger](interfaces/Logger.md)
-- [SMNoReplyReceivedError](interfaces/SMNoReplyReceivedError.md)
-- [SMPlatformError](interfaces/SMPlatformError.md)
-- [SMSendWhileDisconnectedError](interfaces/SMSendWhileDisconnectedError.md)
-- [SMSendWhileNotReadyError](interfaces/SMSendWhileNotReadyError.md)
-- [SMWebsocketError](interfaces/SMWebsocketError.md)
+- [SMPlatformErrorEvent](interfaces/SMPlatformErrorEvent.md)
+- [SocketModeDispatcher](interfaces/SocketModeDispatcher.md)
 - [SocketModeOptions](interfaces/SocketModeOptions.md)
 
 ## Type Aliases
