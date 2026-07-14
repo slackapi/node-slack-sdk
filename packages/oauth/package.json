@@ -1,6 +1,6 @@
 {
   "name": "@slack/oauth",
-  "version": "4.0.0-rc.2",
+  "version": "4.0.0",
   "description": "Official library for interacting with Slack's Oauth endpoints",
   "author": "Slack Technologies, LLC",
   "license": "MIT",
@@ -40,8 +40,8 @@
     "watch": "npx nodemon --watch 'src' --ext 'ts' --exec npm run build"
   },
   "dependencies": {
-    "@slack/logger": "^5.0.0-rc.1",
-    "@slack/web-api": "^8.0.0-rc.1",
+    "@slack/logger": "^5.0.0",
+    "@slack/web-api": "^8.0.0",
     "@types/jsonwebtoken": "^9",
     "@types/node": ">=20",
     "jsonwebtoken": "^9"

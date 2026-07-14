@@ -1,5 +1,79 @@
 # @slack/web-api
 
+## 8.0.0
+
+### Major Changes
+
+- fc98c8c: Drop Node.js 18 support. The minimum supported Node.js version is now 20.
+- fc98c8c: Redesigned error handling to use proper `Error` subclasses instead of plain objects with a `code` property.
+
+  **Migration:** Replace `if (error.code === ErrorCode.PlatformError)` with `if (error instanceof WebAPIPlatformError)`. All error classes extend a common `SlackError` base class (which extends `Error`), so you can also catch all SDK errors with `if (error instanceof SlackError)`.
+
+  **New error class hierarchy:**
+
+  - `SlackError` (abstract base)
+    - `WebAPIPlatformError` — Slack API returned `ok: false`
+    - `WebAPIRequestError` — Network/transport failure (original error in `cause`)
+    - `WebAPIHTTPError` — Non-200 HTTP status from Slack
+    - `WebAPIRateLimitedError` — HTTP 429 with `retryAfter` seconds
+    - `WebAPIFileUploadInvalidArgumentsError` — Invalid file upload arguments
+    - `WebAPIFileUploadReadFileDataError` — Failed to read file data for upload
+
+  **Removed factory functions** (these were internal but exported — use `new` with the corresponding class instead):
+
+  - `errorWithCode()`
+  - `platformErrorFromResult()` → `new WebAPIPlatformError(...)`
+  - `requestErrorWithOriginal()` → `new WebAPIRequestError(...)`
+  - `httpErrorFromResponse()` → `new WebAPIHTTPError(...)`
+  - `rateLimitedErrorWithDelay()` → `new WebAPIRateLimitedError(...)`
+
+  **Other breaking type changes:**
+
+  - `WebAPIHTTPError.headers` type changed from `IncomingHttpHeaders` to `Record<string, string>`.
+  - The `CodedError` interface is deprecated — use `instanceof` checks with specific error classes instead.
+  - Error `.name` values changed from generic `'Error'` to descriptive class names (e.g., `'WebAPIPlatformError'`).
+
+- fc98c8c: Replaced `axios` with the standard Fetch API for all HTTP transport. The following options and types have been removed from `WebClientOptions`:
+
+  - **`agent`** — Use the new `fetch` option to provide a custom fetch implementation with proxy or keep-alive support. For proxies, prefer the built-in `http.setGlobalProxyFromEnv()` or `NODE_USE_ENV_PROXY=1` (Node.js 24+). For advanced use cases:
+    ```ts
+    import { fetch, Agent } from "undici";
+    const client = new WebClient(token, {
+      fetch: (url, init) =>
+        fetch(url, {
+          ...init,
+          dispatcher: new Agent({ keepAliveTimeout: 60_000 }),
+        }),
+    });
+    ```
+  - **`tls`** and **`TLSOptions`** — Configure TLS via a custom `fetch` implementation with an undici `Agent`, or use the `NODE_EXTRA_CA_CERTS` environment variable.
+  - **`requestInterceptor`** and **`RequestInterceptor`** type — Wrap the `fetch` function to intercept or modify requests before they are sent.
+  - **`adapter`** and **`AdapterConfig`** type — Use the `fetch` option instead.
+  - **`RequestConfig`** type (was an alias for Axios' `InternalAxiosRequestConfig`) — Removed entirely.
+  - **`attachOriginalToWebAPIRequestError`** option — Removed. The original error is now always available via the standard `cause` property on `WebAPIRequestError`.
+
+  The dependencies `axios`, `form-data`, `is-electron`, and `is-stream` have been removed. The default `fetch` implementation is `globalThis.fetch` (available in Node.js 20+).
+
+  New exported types for custom fetch implementations: `FetchFunction`, `FetchResponse`, `FetchRequestInit`, `FetchHeaders`.
+
+- fc98c8c: Removed previously-deprecated API methods and their associated request/response types:
+
+  - **`files.upload`** — Use `filesUploadV2` instead (available since v6.7). The `filesUploadV2` method handles the multi-step upload process automatically.
+  - **`rtm.start`** — Use `rtm.connect` instead. The `rtm.start` method was deprecated by Slack in favor of the lighter-weight `rtm.connect`.
+  - **`workflows.stepCompleted`**, **`workflows.stepFailed`**, **`workflows.updateStep`** — These methods supported the retired [Steps from Apps](https://api.slack.com/changelog/2023-08-workflow-steps-from-apps-step-back) feature (deprecated August 2023, retired September 2024). The `workflows.featured.*` and `admin.workflows.*` methods for the current Workflow Builder remain available.
+
+### Minor Changes
+
+- fc98c8c: feat: expand app manifest types — add `agent_view` and `assistant_view` features, recent agent events (`app_context_changed`, `assistant_thread_started`, `assistant_thread_context_changed`), optional OAuth scopes (`bot_optional`/`user_optional`), and event `metadata_subscriptions`
+
+### Patch Changes
+
+- bb49d99: fix: apply redact() to API response bodies in debug logs and recurse into nested objects, preventing tokens from leaking into logs when debug logging is enabled
+- Updated dependencies [fc98c8c]
+- Updated dependencies [fc98c8c]
+  - @slack/logger@5.0.0
+  - @slack/types@3.0.0
+
 ## 7.18.0
 
 ### Minor Changes

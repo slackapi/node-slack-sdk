@@ -6,4 +6,4 @@
 type FilesRemoteUpdateArguments = Partial<SharedFile> & FileOrExternalID & FileType & TokenOverridable;
 ```
 
-Defined in: [packages/web-api/src/types/request/files.ts:244](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/files.ts#L244)
+Defined in: [packages/web-api/src/types/request/files.ts:241](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/files.ts#L241)
