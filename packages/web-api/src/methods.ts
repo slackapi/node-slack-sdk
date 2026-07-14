@@ -113,6 +113,7 @@ import type {
   AuthRevokeArguments,
   AuthTeamsListArguments,
   AuthTestArguments,
+  BlocksValidateArguments,
   BookmarksAddArguments,
   BookmarksEditArguments,
   BookmarksListArguments,
@@ -382,6 +383,7 @@ import type {
   AuthRevokeResponse,
   AuthTeamsListResponse,
   AuthTestResponse,
+  BlocksValidateResponse,
   BookmarksAddResponse,
   BookmarksEditResponse,
   BookmarksListResponse,
@@ -1512,6 +1514,14 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
      * @see {@link https://docs.slack.dev/reference/methods/bookmarks.remove `bookmarks.remove` API reference}.
      */
     remove: bindApiCall<BookmarksRemoveArguments, BookmarksRemoveResponse>(this, 'bookmarks.remove'),
+  };
+
+  public readonly blocks = {
+    /**
+     * @description Validates an array of blocks, or a message or view payload.
+     * @see {@link https://docs.slack.dev/reference/methods/blocks.validate `blocks.validate` API reference}.
+     */
+    validate: bindApiCallWithOptionalArgument<BlocksValidateArguments, BlocksValidateResponse>(this, 'blocks.validate'),
   };
 
   public readonly bots = {
