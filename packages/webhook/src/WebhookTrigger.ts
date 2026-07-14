@@ -1,9 +1,7 @@
-import type { Agent } from 'node:http';
-
-import axios, { type AxiosInstance } from 'axios';
 import pRetry, { AbortError } from 'p-retry';
 
-import { httpErrorWithOriginal, requestErrorWithOriginal } from './errors';
+import { SlackWebhookError, WebhookTriggerHTTPError, WebhookTriggerRequestError } from './errors';
+import type { FetchFunction } from './IncomingWebhook';
 import { getUserAgent } from './instrument';
 import type { RetryOptions } from './retry-policies';
 
@@ -18,14 +16,19 @@ export class WebhookTrigger {
   private url: string;
 
   /**
-   * Default arguments for sending to this webhook trigger
+   * The fetch function used for HTTP requests
    */
-  private defaults: WebhookTriggerDefaultArguments;
+  private fetchFn: FetchFunction;
 
   /**
-   * Axios HTTP client instance used by this client
+   * Request timeout in milliseconds
    */
-  private axios: AxiosInstance;
+  private timeout: number;
+
+  /**
+   * Default headers sent with every request
+   */
+  private headers: Record<string, string>;
 
   /**
    * Retry policy applied to each send. Defaults to no retries.
@@ -43,23 +46,12 @@ export class WebhookTrigger {
     }
 
     this.url = url;
-    this.defaults = defaults;
+    this.fetchFn = defaults.fetch ?? globalThis.fetch;
+    this.timeout = defaults.timeout ?? 0;
     this.retryConfig = defaults.retryConfig ?? { retries: 0 };
-
-    this.axios = axios.create({
-      baseURL: url,
-      httpAgent: defaults.agent,
-      httpsAgent: defaults.agent,
-      maxRedirects: 0,
-      proxy: false,
-      timeout: defaults.timeout,
-      headers: {
-        'Content-Type': 'application/json',
-        'User-Agent': getUserAgent(),
-      },
-    });
-
-    this.defaults.agent = undefined;
+    this.headers = {
+      'User-Agent': getUserAgent(),
+    };
   }
 
   /**
@@ -68,21 +60,35 @@ export class WebhookTrigger {
    */
   public async send(payload: WebhookTriggerSendArguments = {}): Promise<WebhookTriggerResult> {
     return pRetry(async () => {
+      const signal = this.timeout > 0 ? AbortSignal.timeout(this.timeout) : undefined;
+
       try {
-        const response = await this.axios.post(this.url, payload);
-        return response.data;
-        // biome-ignore lint/suspicious/noExplicitAny: errors can be anything
-      } catch (error: any) {
-        if (error.response !== undefined) {
-          const status: number = error.response.status;
-          const wrapped = httpErrorWithOriginal(error);
-          throw status >= 500 ? wrapped : new AbortError(wrapped);
+        const response = await this.fetchFn(this.url, {
+          method: 'POST',
+          headers: {
+            ...this.headers,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(payload),
+          redirect: 'error',
+          signal,
+        });
+
+        if (!response.ok) {
+          const body = await response.text();
+          const httpError = new WebhookTriggerHTTPError(response.status, response.statusText, body);
+          // Only server errors (5xx) are transient; client errors (4xx), including rate limits (429), fail immediately.
+          throw response.status >= 500 ? httpError : new AbortError(httpError);
         }
-        if (error.request !== undefined) {
-          // No response received (network/timeout): retryable.
-          throw requestErrorWithOriginal(error);
+
+        return (await response.json()) as WebhookTriggerResult;
+      } catch (error) {
+        // Non-retryable signals (AbortError) and already-wrapped errors pass through untouched.
+        if (error instanceof AbortError || error instanceof SlackWebhookError) {
+          throw error;
         }
-        throw new AbortError(error);
+        // No response received (network/timeout): retryable.
+        throw new WebhookTriggerRequestError(error instanceof Error ? error : new Error(String(error)));
       }
     }, this.retryConfig);
   }
@@ -93,9 +99,9 @@ export class WebhookTrigger {
  */
 
 export interface WebhookTriggerDefaultArguments {
-  agent?: Agent;
-  retryConfig?: RetryOptions;
+  fetch?: FetchFunction;
   timeout?: number;
+  retryConfig?: RetryOptions;
 }
 
 export interface WebhookTriggerSendArguments {

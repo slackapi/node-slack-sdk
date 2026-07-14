@@ -2,7 +2,7 @@
 
 # Interface: IncomingWebhookHTTPError
 
-Defined in: [packages/webhook/src/errors.ts:27](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/errors.ts#L27)
+Defined in: [packages/webhook/src/errors.ts:25](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/errors.ts#L25)
 
 All errors produced by this package adhere to this interface
 
@@ -18,7 +18,7 @@ All errors produced by this package adhere to this interface
 code: HTTPError;
 ```
 
-Defined in: [packages/webhook/src/errors.ts:28](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/errors.ts#L28)
+Defined in: [packages/webhook/src/errors.ts:26](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/errors.ts#L26)
 
 #### Overrides
 
@@ -74,7 +74,7 @@ Defined in: node\_modules/typescript/lib/lib.es5.d.ts:1076
 original: Error;
 ```
 
-Defined in: [packages/webhook/src/errors.ts:29](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/errors.ts#L29)
+Defined in: [packages/webhook/src/errors.ts:27](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/errors.ts#L27)
 
 ***
 

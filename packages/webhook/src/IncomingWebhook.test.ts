@@ -2,9 +2,15 @@ import assert from 'node:assert/strict';
 import { afterEach, beforeEach, describe, it } from 'node:test';
 import nock from 'nock';
 
-import type { CodedError } from './errors';
-import { ErrorCode } from './errors';
-import { IncomingWebhook } from './IncomingWebhook';
+import {
+  type CodedError,
+  ErrorCode,
+  IncomingWebhookHTTPError,
+  IncomingWebhookRequestError,
+  SlackWebhookError,
+} from './errors';
+import { type FetchFunction, IncomingWebhook } from './IncomingWebhook';
+import { getUserAgent } from './instrument';
 import { rapidRetryPolicy } from './retry-policies';
 
 const url = 'https://hooks.slack.com/services/FAKEWEBHOOK';
@@ -23,14 +29,25 @@ describe('IncomingWebhook', () => {
     it('should create a default webhook with a default timeout', () => {
       const webhook = new IncomingWebhook(url);
       // biome-ignore lint/suspicious/noExplicitAny: accessing private property for test assertion
-      assert.strictEqual((webhook as any).defaults.timeout, 0);
+      assert.strictEqual((webhook as any).timeout, 0);
     });
 
-    it('should create an axios instance that has the timeout passed by the user', () => {
+    it('should store the timeout passed by the user', () => {
       const givenTimeout = 100;
       const webhook = new IncomingWebhook(url, { timeout: givenTimeout });
       // biome-ignore lint/suspicious/noExplicitAny: accessing private property for test assertion
-      assert.strictEqual((webhook as any).axios.defaults.timeout, givenTimeout);
+      assert.strictEqual((webhook as any).timeout, givenTimeout);
+    });
+
+    it('should use a custom fetch function when provided', async () => {
+      let fetchCalled = false;
+      const customFetch: FetchFunction = async () => {
+        fetchCalled = true;
+        return new Response('ok', { status: 200 });
+      };
+      const webhook = new IncomingWebhook(url, { fetch: customFetch });
+      await webhook.send('Hello');
+      assert.ok(fetchCalled);
     });
   });
 
@@ -82,9 +99,11 @@ describe('IncomingWebhook', () => {
           await webhook.send('Hello');
           assert.fail('expected rejection');
         } catch (error) {
-          assert.ok(error);
-          assert.ok(error instanceof Error);
-          assert.match((error as Error).message, new RegExp(String(statusCode)));
+          assert.ok(error instanceof IncomingWebhookHTTPError);
+          assert.ok(error instanceof SlackWebhookError);
+          assert.strictEqual(error.code, ErrorCode.HTTPError);
+          assert.strictEqual(error.statusCode, statusCode);
+          assert.match(error.message, new RegExp(String(statusCode)));
           scope.done();
         }
       });
@@ -97,8 +116,11 @@ describe('IncomingWebhook', () => {
           await webhook.send('Hello');
           assert.fail('expected rejection');
         } catch (error) {
-          assert.ok(error instanceof Error);
-          assert.strictEqual((error as CodedError).code, ErrorCode.RequestError);
+          assert.ok(error instanceof IncomingWebhookRequestError);
+          assert.ok(error instanceof SlackWebhookError);
+          assert.strictEqual(error.code, ErrorCode.RequestError);
+          assert.ok(error.original instanceof Error);
+          assert.strictEqual(error.cause, error.original);
         }
       });
     });
@@ -123,7 +145,8 @@ describe('IncomingWebhook', () => {
         const scope = nock('https://hooks.slack.com', {
           reqheaders: {
             'User-Agent': (value) => {
-              return /@slack:webhook/.test(value);
+              assert.strictEqual(value, getUserAgent());
+              return true;
             },
           },
         })

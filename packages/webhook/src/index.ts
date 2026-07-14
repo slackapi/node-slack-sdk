@@ -6,12 +6,14 @@ export {
   IncomingWebhookHTTPError,
   IncomingWebhookRequestError,
   IncomingWebhookSendError,
+  SlackWebhookError,
   WebhookTriggerHTTPError,
   WebhookTriggerRequestError,
   WebhookTriggerSendError,
 } from './errors';
 
 export {
+  FetchFunction,
   IncomingWebhook,
   IncomingWebhookDefaultArguments,
   IncomingWebhookResult,

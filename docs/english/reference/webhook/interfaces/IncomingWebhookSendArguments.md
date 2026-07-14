@@ -2,7 +2,7 @@
 
 # Interface: IncomingWebhookSendArguments
 
-Defined in: [packages/webhook/src/IncomingWebhook.ts:127](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/IncomingWebhook.ts#L127)
+Defined in: [packages/webhook/src/IncomingWebhook.ts:111](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/IncomingWebhook.ts#L111)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [packages/webhook/src/IncomingWebhook.ts:127](https://github.com/sla
 optional agent: Agent;
 ```
 
-Defined in: [packages/webhook/src/IncomingWebhook.ts:122](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/IncomingWebhook.ts#L122)
+Defined in: [packages/webhook/src/IncomingWebhook.ts:107](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/IncomingWebhook.ts#L107)
 
 #### Inherited from
 
@@ -30,7 +30,7 @@ Defined in: [packages/webhook/src/IncomingWebhook.ts:122](https://github.com/sla
 optional attachments: MessageAttachment[];
 ```
 
-Defined in: [packages/webhook/src/IncomingWebhook.ts:128](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/IncomingWebhook.ts#L128)
+Defined in: [packages/webhook/src/IncomingWebhook.ts:112](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/IncomingWebhook.ts#L112)
 
 ***
 
@@ -40,7 +40,7 @@ Defined in: [packages/webhook/src/IncomingWebhook.ts:128](https://github.com/sla
 optional blocks: (Block | KnownBlock)[];
 ```
 
-Defined in: [packages/webhook/src/IncomingWebhook.ts:129](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/IncomingWebhook.ts#L129)
+Defined in: [packages/webhook/src/IncomingWebhook.ts:113](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/IncomingWebhook.ts#L113)
 
 ***
 
@@ -50,7 +50,7 @@ Defined in: [packages/webhook/src/IncomingWebhook.ts:129](https://github.com/sla
 optional channel: string;
 ```
 
-Defined in: [packages/webhook/src/IncomingWebhook.ts:119](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/IncomingWebhook.ts#L119)
+Defined in: [packages/webhook/src/IncomingWebhook.ts:104](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/IncomingWebhook.ts#L104)
 
 #### Inherited from
 
@@ -64,7 +64,7 @@ Defined in: [packages/webhook/src/IncomingWebhook.ts:119](https://github.com/sla
 optional icon_emoji: string;
 ```
 
-Defined in: [packages/webhook/src/IncomingWebhook.ts:117](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/IncomingWebhook.ts#L117)
+Defined in: [packages/webhook/src/IncomingWebhook.ts:102](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/IncomingWebhook.ts#L102)
 
 #### Inherited from
 
@@ -78,7 +78,7 @@ Defined in: [packages/webhook/src/IncomingWebhook.ts:117](https://github.com/sla
 optional icon_url: string;
 ```
 
-Defined in: [packages/webhook/src/IncomingWebhook.ts:118](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/IncomingWebhook.ts#L118)
+Defined in: [packages/webhook/src/IncomingWebhook.ts:103](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/IncomingWebhook.ts#L103)
 
 #### Inherited from
 
@@ -92,7 +92,7 @@ Defined in: [packages/webhook/src/IncomingWebhook.ts:118](https://github.com/sla
 optional link_names: boolean;
 ```
 
-Defined in: [packages/webhook/src/IncomingWebhook.ts:121](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/IncomingWebhook.ts#L121)
+Defined in: [packages/webhook/src/IncomingWebhook.ts:106](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/IncomingWebhook.ts#L106)
 
 #### Inherited from
 
@@ -106,7 +106,7 @@ Defined in: [packages/webhook/src/IncomingWebhook.ts:121](https://github.com/sla
 optional metadata: object;
 ```
 
-Defined in: [packages/webhook/src/IncomingWebhook.ts:132](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/IncomingWebhook.ts#L132)
+Defined in: [packages/webhook/src/IncomingWebhook.ts:116](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/IncomingWebhook.ts#L116)
 
 #### event\_payload
 
@@ -122,27 +122,13 @@ event_type: string;
 
 ***
 
-### retryConfig?
-
-```ts
-optional retryConfig: RetryOptions;
-```
-
-Defined in: [packages/webhook/src/IncomingWebhook.ts:123](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/IncomingWebhook.ts#L123)
-
-#### Inherited from
-
-[`IncomingWebhookDefaultArguments`](IncomingWebhookDefaultArguments.md).[`retryConfig`](IncomingWebhookDefaultArguments.md#retryconfig)
-
-***
-
 ### text?
 
 ```ts
 optional text: string;
 ```
 
-Defined in: [packages/webhook/src/IncomingWebhook.ts:120](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/IncomingWebhook.ts#L120)
+Defined in: [packages/webhook/src/IncomingWebhook.ts:105](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/IncomingWebhook.ts#L105)
 
 #### Inherited from
 
@@ -156,7 +142,7 @@ Defined in: [packages/webhook/src/IncomingWebhook.ts:120](https://github.com/sla
 optional timeout: number;
 ```
 
-Defined in: [packages/webhook/src/IncomingWebhook.ts:124](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/IncomingWebhook.ts#L124)
+Defined in: [packages/webhook/src/IncomingWebhook.ts:108](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/IncomingWebhook.ts#L108)
 
 #### Inherited from
 
@@ -170,7 +156,7 @@ Defined in: [packages/webhook/src/IncomingWebhook.ts:124](https://github.com/sla
 optional unfurl_links: boolean;
 ```
 
-Defined in: [packages/webhook/src/IncomingWebhook.ts:130](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/IncomingWebhook.ts#L130)
+Defined in: [packages/webhook/src/IncomingWebhook.ts:114](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/IncomingWebhook.ts#L114)
 
 ***
 
@@ -180,7 +166,7 @@ Defined in: [packages/webhook/src/IncomingWebhook.ts:130](https://github.com/sla
 optional unfurl_media: boolean;
 ```
 
-Defined in: [packages/webhook/src/IncomingWebhook.ts:131](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/IncomingWebhook.ts#L131)
+Defined in: [packages/webhook/src/IncomingWebhook.ts:115](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/IncomingWebhook.ts#L115)
 
 ***
 
@@ -190,7 +176,7 @@ Defined in: [packages/webhook/src/IncomingWebhook.ts:131](https://github.com/sla
 optional username: string;
 ```
 
-Defined in: [packages/webhook/src/IncomingWebhook.ts:116](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/IncomingWebhook.ts#L116)
+Defined in: [packages/webhook/src/IncomingWebhook.ts:101](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/IncomingWebhook.ts#L101)
 
 #### Inherited from
 

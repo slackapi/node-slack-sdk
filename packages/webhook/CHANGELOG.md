@@ -1,12 +1,5 @@
 # @slack/webhook
 
-## 7.2.0
-
-### Minor Changes
-
-- a2f6e77: feat: add opt-in retries to `IncomingWebhook` and `WebhookTrigger`
-- a5bd5c8: feat: add `WebhookTrigger` class for Workflow Builder webhook triggers
-
 ## 7.1.0
 
 ### Minor Changes

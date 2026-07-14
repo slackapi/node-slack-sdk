@@ -1,11 +1,5 @@
 # @slack/web-api
 
-## 7.19.0
-
-### Minor Changes
-
-- a795b86: feat: expand app manifest types — add `agent_view` and `assistant_view` features, recent agent events (`app_context_changed`, `assistant_thread_started`, `assistant_thread_context_changed`), optional OAuth scopes (`bot_optional`/`user_optional`), and event `metadata_subscriptions`
-
 ## 7.18.0
 
 ### Minor Changes

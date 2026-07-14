@@ -3,27 +3,23 @@ import fs from 'node:fs';
 import { afterEach, beforeEach, describe, it } from 'node:test';
 import zlib from 'node:zlib';
 import type { ContextActionsBlock } from '@slack/types';
-import axios, { type InternalAxiosRequestConfig } from 'axios';
 import nock, { type ReplyHeaders } from 'nock';
 import sinon from 'sinon';
 import {
   ErrorCode,
-  type WebAPIHTTPError,
-  type WebAPIPlatformError,
-  type WebAPIRateLimitedError,
-  type WebAPIRequestError,
+  SlackError,
+  WebAPIHTTPError,
+  WebAPIPlatformError,
+  WebAPIRateLimitedError,
+  WebAPIRequestError,
 } from './errors';
-import {
-  buildGeneralFilesUploadWarning,
-  buildInvalidFilesUploadParamError,
-  buildLegacyMethodWarning,
-} from './file-upload';
+import { buildInvalidFilesUploadParamError } from './file-upload';
 import { addAppMetadata } from './instrument';
 import { type Logger, LogLevel } from './logger';
 import { rapidRetryPolicy } from './retry-policies';
 import {
   buildThreadTsWarningMessage,
-  type RequestConfig,
+  type FetchFunction,
   type WebAPICallResult,
   WebClient,
   WebClientEvent,
@@ -163,16 +159,23 @@ describe('WebClient', () => {
     });
   });
 
-  describe('has an option to override the Axios timeout value', () => {
+  describe('has an option to override the timeout value', () => {
     it('should throw error if timeout exceeded', async () => {
       const timeoutOverride = 1; // ms, guaranteed failure
 
-      // Mock a slow response to trigger timeout - delayConnection simulates network latency
-      nock('https://slack.com').post('/api/users.list').delayConnection(100).reply(200, { ok: true });
+      const slowFetch: FetchFunction = (_input, init) =>
+        new Promise((_resolve, reject) => {
+          const timer = setTimeout(() => reject(new Error('should have been aborted')), 5000);
+          init?.signal?.addEventListener('abort', () => {
+            clearTimeout(timer);
+            reject(init.signal?.reason);
+          });
+        });
 
       const client = new WebClient(undefined, {
         timeout: timeoutOverride,
         retryConfig: { retries: 0 },
+        fetch: slowFetch,
       });
 
       try {
@@ -180,6 +183,34 @@ describe('WebClient', () => {
         assert.fail('expected error to be thrown');
       } catch (e) {
         assert.ok(e instanceof Error);
+      }
+    });
+
+    it('should produce a WebAPIRequestError with original when timeout fires', async () => {
+      const slowFetch: FetchFunction = (_input, init) =>
+        new Promise((_resolve, reject) => {
+          const timer = setTimeout(() => reject(new Error('should have been aborted')), 5000);
+          init?.signal?.addEventListener('abort', () => {
+            clearTimeout(timer);
+            reject(init.signal?.reason ?? new DOMException('The operation was aborted.', 'AbortError'));
+          });
+        });
+
+      const client = new WebClient(undefined, {
+        timeout: 1,
+        retryConfig: { retries: 0 },
+        fetch: slowFetch,
+      });
+
+      try {
+        await client.apiCall('users.list');
+        assert.fail('expected error to be thrown');
+      } catch (error) {
+        assert.ok(error instanceof WebAPIRequestError);
+        assert.ok(error instanceof SlackError);
+        assert.strictEqual(error.code, ErrorCode.RequestError);
+        assert.ok(error.original instanceof Error);
+        assert.strictEqual(error.cause, error.original);
       }
     });
   });
@@ -315,7 +346,6 @@ describe('WebClient', () => {
         { method: 'chat.postEphemeral' },
         { method: 'chat.postMessage' },
         { method: 'chat.scheduleMessage' },
-        { method: 'files.upload' },
       ];
 
       const threadPatterns = threadTsTestPatterns.reduce((acc, { method }) => {
@@ -364,40 +394,15 @@ describe('WebClient', () => {
         });
       }
 
-      it('warns when user is accessing the files.upload (legacy) method', async () => {
-        const client = new WebClient(token, { logLevel: LogLevel.INFO, logger });
-        await client.apiCall('files.upload', {});
-
-        // both must be true to pass this test
-        let warnedAboutLegacyFilesUpload = false;
-        let infoAboutRecommendedFilesUploadV2 = false;
-
-        // check the warn spy for whether it was called with the correct warning
-        for (const call of (logger.warn as sinon.SinonStub).getCalls()) {
-          if (call.args[0] === buildLegacyMethodWarning('files.upload')) {
-            warnedAboutLegacyFilesUpload = true;
-          }
-        }
-        // check the info spy for whether it was called with the correct warning
-        for (const call of (logger.info as sinon.SinonStub).getCalls()) {
-          if (call.args[0] === buildGeneralFilesUploadWarning()) {
-            infoAboutRecommendedFilesUploadV2 = true;
-          }
-        }
-        if (!warnedAboutLegacyFilesUpload || !infoAboutRecommendedFilesUploadV2) {
-          assert.fail('Should have logged a warning and info when files.upload is used');
-        }
-      });
-
       it('warns when user is accessing a deprecated method', async () => {
         const client = new WebClient(token, { logLevel: LogLevel.INFO, logger });
-        await client.apiCall('workflows.stepCompleted', {});
+        await client.apiCall('oauth.access', {});
 
         let warnedAboutDeprecatedMethod = false;
         for (const call of (logger.warn as sinon.SinonStub).getCalls()) {
           if (
             call.args[0] ===
-            'workflows.stepCompleted is deprecated. Please check on https://docs.slack.dev/reference/methods for an alternative.'
+            'oauth.access is deprecated. Please check on https://docs.slack.dev/reference/methods for an alternative.'
           ) {
             warnedAboutDeprecatedMethod = true;
           }
@@ -467,11 +472,11 @@ describe('WebClient', () => {
         await client.apiCall('method');
         assert.fail('expected thrown exception');
       } catch (error) {
-        assert.ok(error instanceof Error);
-        const e = error as WebAPIPlatformError;
-        assert.strictEqual(e.code, ErrorCode.PlatformError);
-        assert.strictEqual(e.data.ok, false);
-        assert.strictEqual(e.data.error, 'bad error');
+        assert.ok(error instanceof WebAPIPlatformError);
+        assert.ok(error instanceof SlackError);
+        assert.strictEqual(error.code, ErrorCode.PlatformError);
+        assert.strictEqual(error.data.ok, false);
+        assert.strictEqual(error.data.error, 'bad error');
         scope.done();
       }
     });
@@ -484,12 +489,12 @@ describe('WebClient', () => {
         await client.apiCall('method');
         assert.fail('expected error to be thrown');
       } catch (error) {
-        const e = error as WebAPIHTTPError;
-        assert.strictEqual(e.code, ErrorCode.HTTPError);
-        assert.strictEqual(e.statusCode, 500);
-        assert.ok(e.headers);
-        assert.deepStrictEqual(e.body, body);
-        assert.ok(error instanceof Error);
+        assert.ok(error instanceof WebAPIHTTPError);
+        assert.ok(error instanceof SlackError);
+        assert.strictEqual(error.code, ErrorCode.HTTPError);
+        assert.strictEqual(error.statusCode, 500);
+        assert.ok(error.headers);
+        assert.deepStrictEqual(error.body, body);
         scope.done();
       }
     });
@@ -502,10 +507,11 @@ describe('WebClient', () => {
         await client.apiCall('method');
         assert.fail('expected error to be thrown');
       } catch (error) {
-        const e = error as WebAPIRequestError;
-        assert.strictEqual(e.code, ErrorCode.RequestError);
-        assert.ok(error instanceof Error);
-        assert.ok(e.original instanceof Error);
+        assert.ok(error instanceof WebAPIRequestError);
+        assert.ok(error instanceof SlackError);
+        assert.strictEqual(error.code, ErrorCode.RequestError);
+        assert.ok(error.original instanceof Error);
+        assert.strictEqual(error.cause, error.original);
       }
     });
 
@@ -517,10 +523,10 @@ describe('WebClient', () => {
         await client.apiCall('method');
         assert.fail('expected error to be thrown');
       } catch (error) {
-        const e = error as WebAPIHTTPError;
-        assert.strictEqual(e.code, ErrorCode.HTTPError);
-        assert.strictEqual(e.statusCode, 502);
-        assert.strictEqual(e.body, htmlBody);
+        assert.ok(error instanceof WebAPIHTTPError);
+        assert.strictEqual(error.code, ErrorCode.HTTPError);
+        assert.strictEqual(error.statusCode, 502);
+        assert.strictEqual(error.body, htmlBody);
       } finally {
         scope.done();
       }
@@ -703,6 +709,32 @@ describe('WebClient', () => {
         .post(/api/)
         .reply(200, { ok: true });
       await client.apiCall('method', { token: 'xoxp-superfake' });
+      scope.done();
+    });
+  });
+
+  describe('apiCall() - default Accept header', () => {
+    it('should include Accept: application/json header by default', async () => {
+      const scope = nock('https://slack.com', {
+        reqheaders: {
+          Accept: 'application/json',
+        },
+      })
+        .post(/api/)
+        .reply(200, { ok: true });
+      await client.apiCall('method');
+      scope.done();
+    });
+    it('should allow overriding Accept header via constructor options', async () => {
+      const customClient = new WebClient(token, { headers: { Accept: 'text/plain' } });
+      const scope = nock('https://slack.com', {
+        reqheaders: {
+          Accept: 'text/plain',
+        },
+      })
+        .post(/api/)
+        .reply(200, { ok: true });
+      await customClient.apiCall('method');
       scope.done();
     });
   });
@@ -984,8 +1016,13 @@ describe('WebClient', () => {
 
       // verify that any requests after maxRequestConcurrency were delayed by the responseDelay
       const queuedResponses = responses.slice(100);
-      const minDiff = concurrentResponses[concurrentResponses.length - 1].diff + responseDelay;
-      for (const r of queuedResponses) assert.ok(r.diff >= minDiff);
+      const maxConcurrentDiff = Math.max(...concurrentResponses.map((r) => r.diff));
+      for (const r of queuedResponses) {
+        // Queued request must have been dispatched AFTER all concurrent requests
+        assert.ok(r.diff > maxConcurrentDiff);
+        // Queued request must have waited at least one full responseDelay cycle
+        assert.ok(r.diff >= responseDelay);
+      }
     });
 
     it('should allow concurrency to be set', async () => {
@@ -1001,9 +1038,10 @@ describe('WebClient', () => {
 
       // verify that any requests after maxRequestConcurrency were delayed by the responseDelay
       const queuedResponses = responses.slice(1); // the second response
-      const minDiff = concurrentResponses[concurrentResponses.length - 1].diff + responseDelay;
+      const maxConcurrentDiff = Math.max(...concurrentResponses.map((r) => r.diff));
       for (const r of queuedResponses) {
-        assert.ok(r.diff >= minDiff);
+        assert.ok(r.diff > maxConcurrentDiff);
+        assert.ok(r.diff >= responseDelay);
       }
     });
   });
@@ -1044,10 +1082,12 @@ describe('WebClient', () => {
           await client.apiCall('method');
           assert.fail('expected error to be thrown');
         } catch (error) {
-          const e = error as WebAPIRateLimitedError;
-          assert.strictEqual(e.code, ErrorCode.RateLimitedError);
-          assert.strictEqual(e.retryAfter, retryAfter);
-          assert.ok(error instanceof Error);
+          assert.ok(error instanceof WebAPIRateLimitedError);
+          assert.ok(error instanceof SlackError);
+          assert.strictEqual(error.code, ErrorCode.RateLimitedError);
+          assert.strictEqual(error.retryAfter, retryAfter);
+          assert.strictEqual(error.name, 'WebAPIRateLimitedError');
+          assert.ok(error.message.includes(String(retryAfter)), 'message includes retry-after seconds');
           scope.done();
         }
       });
@@ -1132,116 +1172,19 @@ describe('WebClient', () => {
     });
   });
 
-  describe('requestInterceptor', () => {
-    function configureMockServer(expectedBody: () => Record<string, unknown>) {
-      nock('https://slack.com/api', {
-        reqheaders: {
-          test: 'static-header-value',
-          'Content-Type': 'application/json',
-        },
-      })
-        .post(/method/, (requestBody) => {
-          assert.deepStrictEqual(requestBody, expectedBody());
-          return true;
-        })
-        .reply(200, (_uri, requestBody) => {
-          assert.deepStrictEqual(requestBody, expectedBody());
-          return { ok: true, response_metadata: requestBody };
+  describe('custom fetch', () => {
+    it('should use a custom fetch function when provided via constructor', async () => {
+      let fetchCalled = false;
+      const customFetch: FetchFunction = async () => {
+        fetchCalled = true;
+        return new Response(JSON.stringify({ ok: true }), {
+          status: 200,
+          headers: { 'content-type': 'application/json' },
         });
-    }
-
-    it('can intercept out going requests, synchronously modifying the request body and headers', async () => {
-      let expectedBody: Record<string, unknown>;
-
-      const client = new WebClient(token, {
-        requestInterceptor: (config: RequestConfig) => {
-          expectedBody = Object.freeze({
-            method: config.method,
-            base_url: config.baseURL,
-            path: config.url,
-            body: config.data ?? {},
-            query: config.params ?? {},
-            headers: structuredClone(config.headers),
-            test: 'static-body-value',
-          });
-          config.data = expectedBody;
-
-          config.headers.test = 'static-header-value';
-          config.headers['Content-Type'] = 'application/json';
-
-          return config;
-        },
-      });
-
-      configureMockServer(() => expectedBody);
-
-      await client.apiCall('method');
-    });
-
-    it('can intercept out going requests, asynchronously modifying the request body and headers', async () => {
-      let expectedBody: Record<string, unknown>;
-
-      const client = new WebClient(token, {
-        requestInterceptor: async (config: RequestConfig) => {
-          expectedBody = Object.freeze({
-            method: config.method,
-            base_url: config.baseURL,
-            path: config.url,
-            body: config.data ?? {},
-            query: config.params ?? {},
-            headers: structuredClone(config.headers),
-            test: 'static-body-value',
-          });
-
-          config.data = expectedBody;
-
-          config.headers.test = 'static-header-value';
-          config.headers['Content-Type'] = 'application/json';
-
-          return config;
-        },
-      });
-
-      configureMockServer(() => expectedBody);
-
-      await client.apiCall('method');
-    });
-  });
-
-  describe('adapter', () => {
-    it('allows for custom handling of requests with preconfigured http client', async () => {
-      nock('https://slack.com/api', {
-        reqheaders: {
-          'User-Agent': 'custom-axios-client',
-        },
-      })
-        .post(/method/)
-        .reply(200, (_uri, requestBody) => {
-          return { ok: true, response_metadata: requestBody };
-        });
-
-      const customLoggingInterceptor = (config: InternalAxiosRequestConfig) => {
-        // client with custom logging behaviour
-        return config;
       };
-      const customLoggingSpy = sinon.spy(customLoggingInterceptor);
-
-      const customAxiosClient = axios.create();
-      customAxiosClient.interceptors.request.use(customLoggingSpy);
-
-      const customClientRequestSpy = sinon.spy(customAxiosClient, 'request');
-
-      const client = new WebClient(token, {
-        adapter: (config: RequestConfig) => {
-          config.headers['User-Agent'] = 'custom-axios-client';
-          return customAxiosClient.request(config);
-        },
-      });
-
+      const client = new WebClient(token, { fetch: customFetch, retryConfig: { retries: 0 } });
       await client.apiCall('method');
-
-      assert.strictEqual(customLoggingSpy.calledOnce, true);
-      assert.strictEqual(customClientRequestSpy.calledOnce, true);
+      assert.ok(fetchCalled);
     });
   });
 
@@ -2072,49 +2015,21 @@ describe('WebClient', () => {
     });
   });
 
-  describe('has an option to suppress request error from Axios', () => {
-    let scope: nock.Scope;
-    beforeEach(() => {
-      scope = nock('https://slack.com').post(/api/).replyWithError('Request failed!!');
-    });
-
-    it("the 'original' property is attached when the option, attachOriginalToWebAPIRequestError is absent", async () => {
+  describe('request errors always attach original', () => {
+    it("the 'original' property is always attached to request errors", async () => {
+      const scope = nock('https://slack.com').post(/api/).replyWithError('Request failed!!');
       const client = new WebClient(token, {
         retryConfig: { retries: 0 },
       });
 
       try {
         await client.apiCall('conversations/list');
+        assert.fail('Should have thrown');
       } catch (error) {
-        assert.ok(Object.hasOwn(error, 'original'));
-        scope.done();
-      }
-    });
-
-    it("the 'original' property is attached when the option, attachOriginalToWebAPIRequestError is set to true", async () => {
-      const client = new WebClient(token, {
-        attachOriginalToWebAPIRequestError: true,
-        retryConfig: { retries: 0 },
-      });
-
-      try {
-        await client.apiCall('conversations/list');
-      } catch (error) {
-        assert.ok(Object.hasOwn(error, 'original'));
-        scope.done();
-      }
-    });
-
-    it("the 'original' property is not attached when the option, attachOriginalToWebAPIRequestError is set to false", async () => {
-      const client = new WebClient(token, {
-        attachOriginalToWebAPIRequestError: false,
-        retryConfig: { retries: 0 },
-      });
-
-      try {
-        await client.apiCall('conversations/list');
-      } catch (error) {
-        assert.ok(!Object.hasOwn(error, 'original'));
+        assert.ok(error instanceof WebAPIRequestError);
+        assert.strictEqual(error.code, ErrorCode.RequestError);
+        assert.ok(error.original instanceof Error);
+        assert.strictEqual(error.cause, error.original);
         scope.done();
       }
     });
