@@ -107,6 +107,10 @@ Individual packages have their own `AGENTS.md` with package-specific guidance:
 
 Block Kit types are defined in the `@slack/types` package. See `packages/types/AGENTS.md` for detailed steps covering interface definition, discriminated union registration, barrel exports, and type tests.
 
+## Pull Requests
+
+When opening a pull request, use the repository's PR template at `.github/pull_request_template.md` as the PR body — the `gh` CLI does not populate it automatically, so pass the filled-in template explicitly (e.g. via `gh pr create --body-file`). Fill in every section.
+
 ## Common Pitfalls
 
 - **Build in dependency order** — see the dependency graph above.
