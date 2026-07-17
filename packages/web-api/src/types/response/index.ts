@@ -123,6 +123,7 @@ export { AssistantThreadsSetTitleResponse } from './AssistantThreadsSetTitleResp
 export { AuthRevokeResponse } from './AuthRevokeResponse';
 export { AuthTeamsListResponse } from './AuthTeamsListResponse';
 export { AuthTestResponse } from './AuthTestResponse';
+export { BlocksValidateResponse } from './BlocksValidateResponse';
 export { BookmarksAddResponse } from './BookmarksAddResponse';
 export { BookmarksEditResponse } from './BookmarksEditResponse';
 export { BookmarksListResponse } from './BookmarksListResponse';
