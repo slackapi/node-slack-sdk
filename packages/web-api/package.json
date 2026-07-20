@@ -59,10 +59,10 @@
   },
   "devDependencies": {
     "@types/busboy": "^1.5.4",
-    "@types/sinon": "^21",
+    "@types/sinon": "^22",
     "busboy": "^1",
     "nock": "^14",
-    "sinon": "^21",
+    "sinon": "^22",
     "tsd": "^0.33.0"
   },
   "tsd": {
