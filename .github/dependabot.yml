@@ -66,8 +66,6 @@ updates:
     ignore:
       - dependency-name: "@types/node"
         versions:
-          - "19.x"
-          - "20.x"
           - "21.x"
           - "22.x"
           - "23.x"
@@ -105,8 +103,6 @@ updates:
     ignore:
       - dependency-name: "@types/node"
         versions:
-          - "19.x"
-          - "20.x"
           - "21.x"
           - "22.x"
           - "23.x"
@@ -144,8 +140,6 @@ updates:
     ignore:
       - dependency-name: "@types/node"
         versions:
-          - "19.x"
-          - "20.x"
           - "21.x"
           - "22.x"
           - "23.x"
@@ -194,8 +188,6 @@ updates:
     ignore:
       - dependency-name: "@types/node"
         versions:
-          - "19.x"
-          - "20.x"
           - "21.x"
           - "22.x"
           - "23.x"
@@ -225,8 +217,6 @@ updates:
     ignore:
       - dependency-name: "@types/node"
         versions:
-          - "19.x"
-          - "20.x"
           - "21.x"
           - "22.x"
           - "23.x"
@@ -272,8 +262,6 @@ updates:
     ignore:
       - dependency-name: "@types/node"
         versions:
-          - "19.x"
-          - "20.x"
           - "21.x"
           - "22.x"
           - "23.x"
