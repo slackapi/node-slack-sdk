@@ -54,7 +54,7 @@
   "devDependencies": {
     "@types/minimist": "^1.2.5",
     "@types/semver": "^7.5.6",
-    "@types/sinon": "^21.0.0",
-    "sinon": "^21.0.0"
+    "@types/sinon": "^22.0.0",
+    "sinon": "^22.0.0"
   }
 }
