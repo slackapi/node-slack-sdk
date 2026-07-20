@@ -2,7 +2,7 @@
 
 # Interface: CallsUpdateArguments
 
-Defined in: [src/types/request/calls.ts:57](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/calls.ts#L57)
+Defined in: [packages/web-api/src/types/request/calls.ts:57](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/calls.ts#L57)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [src/types/request/calls.ts:57](https://github.com/slackapi/node-sla
 optional desktop_app_join_url: string;
 ```
 
-Defined in: [src/types/request/calls.ts:22](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/calls.ts#L22)
+Defined in: [packages/web-api/src/types/request/calls.ts:22](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/calls.ts#L22)
 
 #### Description
 
@@ -35,7 +35,7 @@ with this URL.
 id: string;
 ```
 
-Defined in: [src/types/request/calls.ts:6](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/calls.ts#L6)
+Defined in: [packages/web-api/src/types/request/calls.ts:6](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/calls.ts#L6)
 
 #### Description
 
@@ -55,7 +55,7 @@ ID.id
 optional join_url: string;
 ```
 
-Defined in: [src/types/request/calls.ts:17](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/calls.ts#L17)
+Defined in: [packages/web-api/src/types/request/calls.ts:17](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/calls.ts#L17)
 
 #### Description
 
@@ -73,7 +73,7 @@ The URL required for a client to join the Call.
 optional title: string;
 ```
 
-Defined in: [src/types/request/calls.ts:24](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/calls.ts#L24)
+Defined in: [packages/web-api/src/types/request/calls.ts:24](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/calls.ts#L24)
 
 #### Description
 
@@ -91,7 +91,7 @@ The name of the Call.
 optional token: string;
 ```
 
-Defined in: [src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
+Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
 
 #### Description
 

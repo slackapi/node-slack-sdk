@@ -2,7 +2,7 @@
 
 # Interface: DndSetSnoozeArguments
 
-Defined in: [src/types/request/dnd.ts:17](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/dnd.ts#L17)
+Defined in: [packages/web-api/src/types/request/dnd.ts:17](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/dnd.ts#L17)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [src/types/request/dnd.ts:17](https://github.com/slackapi/node-slack
 num_minutes: number;
 ```
 
-Defined in: [src/types/request/dnd.ts:19](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/dnd.ts#L19)
+Defined in: [packages/web-api/src/types/request/dnd.ts:19](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/dnd.ts#L19)
 
 #### Description
 
@@ -30,7 +30,7 @@ Number of minutes, from now, to snooze until.
 optional token: string;
 ```
 
-Defined in: [src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
+Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
 
 #### Description
 

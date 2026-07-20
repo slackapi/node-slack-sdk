@@ -2,7 +2,7 @@
 
 # Interface: OAuthAccessArguments
 
-Defined in: [src/types/request/oauth.ts:4](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/oauth.ts#L4)
+Defined in: [packages/web-api/src/types/request/oauth.ts:4](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/oauth.ts#L4)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [src/types/request/oauth.ts:4](https://github.com/slackapi/node-slac
 client_id: string;
 ```
 
-Defined in: [src/types/request/common.ts:138](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L138)
+Defined in: [packages/web-api/src/types/request/common.ts:138](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L138)
 
 #### Description
 
@@ -36,7 +36,7 @@ OAuthCredentials.client_id
 client_secret: string;
 ```
 
-Defined in: [src/types/request/common.ts:140](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L140)
+Defined in: [packages/web-api/src/types/request/common.ts:140](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L140)
 
 #### Description
 
@@ -56,7 +56,7 @@ OAuthCredentials.client_secret
 optional code: string;
 ```
 
-Defined in: [src/types/request/common.ts:142](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L142)
+Defined in: [packages/web-api/src/types/request/common.ts:142](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L142)
 
 #### Description
 
@@ -76,7 +76,7 @@ OAuthCredentials.code
 optional redirect_uri: string;
 ```
 
-Defined in: [src/types/request/common.ts:147](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L147)
+Defined in: [packages/web-api/src/types/request/common.ts:147](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L147)
 
 #### Description
 
@@ -97,7 +97,7 @@ OAuthCredentials.redirect_uri
 optional single_channel: boolean;
 ```
 
-Defined in: [src/types/request/oauth.ts:6](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/oauth.ts#L6)
+Defined in: [packages/web-api/src/types/request/oauth.ts:6](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/oauth.ts#L6)
 
 #### Description
 

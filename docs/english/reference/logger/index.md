@@ -1,4 +1,4 @@
-# @slack/logger v4.0.0
+# @slack/logger v5.0.0
 
 ## Enumerations
 

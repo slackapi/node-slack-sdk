@@ -2,7 +2,7 @@
 
 # Interface: ConversationsRenameArguments
 
-Defined in: [src/types/request/conversations.ts:181](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/conversations.ts#L181)
+Defined in: [packages/web-api/src/types/request/conversations.ts:181](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/conversations.ts#L181)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [src/types/request/conversations.ts:181](https://github.com/slackapi
 channel: string;
 ```
 
-Defined in: [src/types/request/conversations.ts:15](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/conversations.ts#L15)
+Defined in: [packages/web-api/src/types/request/conversations.ts:15](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/conversations.ts#L15)
 
 #### Description
 
@@ -36,7 +36,7 @@ Channel.channel
 name: string;
 ```
 
-Defined in: [src/types/request/conversations.ts:183](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/conversations.ts#L183)
+Defined in: [packages/web-api/src/types/request/conversations.ts:183](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/conversations.ts#L183)
 
 #### Description
 
@@ -50,7 +50,7 @@ New name for conversation.
 optional token: string;
 ```
 
-Defined in: [src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
+Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
 
 #### Description
 

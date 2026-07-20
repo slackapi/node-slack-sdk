@@ -2,7 +2,7 @@
 
 # Interface: UsersProfileGetArguments
 
-Defined in: [src/types/request/users.ts:66](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/users.ts#L66)
+Defined in: [packages/web-api/src/types/request/users.ts:66](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/users.ts#L66)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [src/types/request/users.ts:66](https://github.com/slackapi/node-sla
 optional include_labels: boolean;
 ```
 
-Defined in: [src/types/request/users.ts:71](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/users.ts#L71)
+Defined in: [packages/web-api/src/types/request/users.ts:71](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/users.ts#L71)
 
 #### Description
 
@@ -31,7 +31,7 @@ Using this parameter will heavily rate-limit your requests and is not recommende
 optional token: string;
 ```
 
-Defined in: [src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
+Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
 
 #### Description
 
@@ -51,7 +51,7 @@ TokenOverridable.token
 optional user: string;
 ```
 
-Defined in: [src/types/request/users.ts:73](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/users.ts#L73)
+Defined in: [packages/web-api/src/types/request/users.ts:73](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/users.ts#L73)
 
 #### Description
 

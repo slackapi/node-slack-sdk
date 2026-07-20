@@ -2,7 +2,7 @@
 
 # Interface: AdminAnalyticsPublicChannelMetadataDetails
 
-Defined in: [src/types/response/AdminAnalyticsGetFileResponse.ts:69](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts#L69)
+Defined in: [packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts:69](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts#L69)
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: [src/types/response/AdminAnalyticsGetFileResponse.ts:69](https://git
 channel_id: string;
 ```
 
-Defined in: [src/types/response/AdminAnalyticsGetFileResponse.ts:70](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts#L70)
+Defined in: [packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts:70](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts#L70)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [src/types/response/AdminAnalyticsGetFileResponse.ts:70](https://git
 date: string;
 ```
 
-Defined in: [src/types/response/AdminAnalyticsGetFileResponse.ts:74](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts#L74)
+Defined in: [packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts:74](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts#L74)
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: [src/types/response/AdminAnalyticsGetFileResponse.ts:74](https://git
 description: string;
 ```
 
-Defined in: [src/types/response/AdminAnalyticsGetFileResponse.ts:73](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts#L73)
+Defined in: [packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts:73](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts#L73)
 
 ***
 
@@ -42,7 +42,7 @@ Defined in: [src/types/response/AdminAnalyticsGetFileResponse.ts:73](https://git
 name: string;
 ```
 
-Defined in: [src/types/response/AdminAnalyticsGetFileResponse.ts:71](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts#L71)
+Defined in: [packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts:71](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts#L71)
 
 ***
 
@@ -52,4 +52,4 @@ Defined in: [src/types/response/AdminAnalyticsGetFileResponse.ts:71](https://git
 topic: string;
 ```
 
-Defined in: [src/types/response/AdminAnalyticsGetFileResponse.ts:72](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts#L72)
+Defined in: [packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts:72](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts#L72)

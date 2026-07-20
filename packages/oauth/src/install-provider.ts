@@ -286,8 +286,8 @@ export class InstallProvider {
 
       return authResult;
     } catch (error) {
-      // biome-ignore lint/suspicious/noExplicitAny: errors can be any
-      throw new AuthorizationError((error as any).message);
+      const original = error instanceof Error ? error : new Error(String(error));
+      throw new AuthorizationError(original.message, original);
     } finally {
       this.logger.debug(`Completed authorize() execution (source: ${sourceForLogging})`);
     }

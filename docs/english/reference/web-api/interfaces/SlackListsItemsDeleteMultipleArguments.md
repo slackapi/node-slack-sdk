@@ -2,7 +2,7 @@
 
 # Interface: SlackListsItemsDeleteMultipleArguments
 
-Defined in: [src/types/request/slackLists.ts:466](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/slackLists.ts#L466)
+Defined in: [packages/web-api/src/types/request/slackLists.ts:466](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/slackLists.ts#L466)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [src/types/request/slackLists.ts:466](https://github.com/slackapi/no
 ids: string[];
 ```
 
-Defined in: [src/types/request/slackLists.ts:475](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/slackLists.ts#L475)
+Defined in: [packages/web-api/src/types/request/slackLists.ts:475](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/slackLists.ts#L475)
 
 #### Description
 
@@ -30,7 +30,7 @@ IDs of the items to delete.
 list_id: string;
 ```
 
-Defined in: [src/types/request/slackLists.ts:470](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/slackLists.ts#L470)
+Defined in: [packages/web-api/src/types/request/slackLists.ts:470](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/slackLists.ts#L470)
 
 #### Description
 
@@ -44,7 +44,7 @@ Encoded ID of the List.
 optional token: string;
 ```
 
-Defined in: [src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
+Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
 
 #### Description
 

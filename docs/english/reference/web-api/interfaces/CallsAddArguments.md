@@ -2,7 +2,7 @@
 
 # Interface: CallsAddArguments
 
-Defined in: [src/types/request/calls.ts:28](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/calls.ts#L28)
+Defined in: [packages/web-api/src/types/request/calls.ts:28](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/calls.ts#L28)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [src/types/request/calls.ts:28](https://github.com/slackapi/node-sla
 optional created_by: string;
 ```
 
-Defined in: [src/types/request/calls.ts:37](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/calls.ts#L37)
+Defined in: [packages/web-api/src/types/request/calls.ts:37](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/calls.ts#L37)
 
 #### Description
 
@@ -31,7 +31,7 @@ this field is optional and defaults to the authed user of the token. Otherwise, 
 optional date_start: number;
 ```
 
-Defined in: [src/types/request/calls.ts:39](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/calls.ts#L39)
+Defined in: [packages/web-api/src/types/request/calls.ts:39](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/calls.ts#L39)
 
 #### Description
 
@@ -45,7 +45,7 @@ Unix timestamp of the call start time.
 optional desktop_app_join_url: string;
 ```
 
-Defined in: [src/types/request/calls.ts:22](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/calls.ts#L22)
+Defined in: [packages/web-api/src/types/request/calls.ts:22](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/calls.ts#L22)
 
 #### Description
 
@@ -66,7 +66,7 @@ CallDetails.desktop_app_join_url
 optional external_display_id: string;
 ```
 
-Defined in: [src/types/request/calls.ts:44](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/calls.ts#L44)
+Defined in: [packages/web-api/src/types/request/calls.ts:44](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/calls.ts#L44)
 
 #### Description
 
@@ -81,7 +81,7 @@ If supplied, this ID will be displayed in the Call object.
 external_unique_id: string;
 ```
 
-Defined in: [src/types/request/calls.ts:32](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/calls.ts#L32)
+Defined in: [packages/web-api/src/types/request/calls.ts:32](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/calls.ts#L32)
 
 #### Description
 
@@ -95,7 +95,7 @@ An ID supplied by the 3rd-party Call provider. It must be unique across all Call
 join_url: string;
 ```
 
-Defined in: [src/types/request/calls.ts:17](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/calls.ts#L17)
+Defined in: [packages/web-api/src/types/request/calls.ts:17](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/calls.ts#L17)
 
 #### Description
 
@@ -115,7 +115,7 @@ CallDetails.join_url
 optional title: string;
 ```
 
-Defined in: [src/types/request/calls.ts:24](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/calls.ts#L24)
+Defined in: [packages/web-api/src/types/request/calls.ts:24](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/calls.ts#L24)
 
 #### Description
 
@@ -135,7 +135,7 @@ CallDetails.title
 optional token: string;
 ```
 
-Defined in: [src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
+Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
 
 #### Description
 
@@ -155,7 +155,7 @@ TokenOverridable.token
 optional users: CallUser[];
 ```
 
-Defined in: [src/types/request/calls.ts:13](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/calls.ts#L13)
+Defined in: [packages/web-api/src/types/request/calls.ts:13](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/calls.ts#L13)
 
 #### Description
 

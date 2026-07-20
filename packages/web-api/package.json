@@ -1,6 +1,6 @@
 {
   "name": "@slack/web-api",
-  "version": "7.13.0",
+  "version": "8.0.0",
   "description": "Official library for using the Slack Platform's Web API",
   "author": "Slack Technologies, LLC",
   "license": "MIT",
@@ -21,10 +21,13 @@
     "dist/**/*"
   ],
   "engines": {
-    "node": ">= 18",
-    "npm": ">= 8.6.0"
+    "node": ">= 20",
+    "npm": ">=9.6.4"
   },
-  "repository": "slackapi/node-slack-sdk",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/slackapi/node-slack-sdk.git"
+  },
   "homepage": "https://docs.slack.dev/tools/node-slack-sdk/web-api/",
   "publishConfig": {
     "access": "public"
@@ -34,52 +37,33 @@
   },
   "scripts": {
     "build": "npm run build:clean && tsc",
-    "build:clean": "shx rm -rf ./dist ./coverage",
+    "build:clean": "shx rm -rf ./dist",
     "docs": "npx typedoc --plugin typedoc-plugin-markdown",
-    "mocha": "mocha --config ./test/.mocharc.json \"./src/**/*.spec.ts\"",
     "prepack": "npm run build",
-    "test": "npm run test:types && npm run test:integration && npm run test:unit",
+    "test": "npm run build && bash -c 'node --test-reporter=spec --test-reporter-destination=stdout --test-reporter=junit --test-reporter-destination=test-results.xml --import tsx --test src/*.test.ts'",
+    "test:coverage": "npm run build && node --experimental-test-coverage --test-reporter=spec --test-reporter-destination=stdout --test-reporter=lcov --test-reporter-destination=lcov.info --test-reporter=junit --test-reporter-destination=test-results.xml --import tsx --test src/*.test.ts",
     "test:integration": "npm run build && node test/integration/commonjs-project/index.js && node test/integration/esm-project/index.mjs && npm run test:integration:ts",
     "test:integration:ts": "cd test/integration/ts-4.7-project && npm i && npm run build",
     "test:types": "tsd",
-    "test:unit": "npm run build && c8 --config ./test/.c8rc.json npm run mocha",
     "watch": "npx nodemon --watch 'src' --ext 'ts' --exec npm run build"
   },
   "dependencies": {
-    "@slack/logger": "^4.0.0",
-    "@slack/types": "^2.18.0",
-    "@types/node": ">=18.0.0",
+    "@slack/logger": "^5.0.0",
+    "@slack/types": "^3.0.0",
+    "@types/node": ">=20",
     "@types/retry": "0.12.0",
-    "axios": "^1.11.0",
     "eventemitter3": "^5.0.1",
-    "form-data": "^4.0.4",
-    "is-electron": "2.2.2",
-    "is-stream": "^2",
     "p-queue": "^6",
     "p-retry": "^7",
     "retry": "^0.13.1"
   },
   "devDependencies": {
-    "@tsconfig/recommended": "^1",
     "@types/busboy": "^1.5.4",
-    "@types/chai": "^4",
-    "@types/mocha": "^10",
-    "@types/sinon": "^21",
+    "@types/sinon": "^22",
     "busboy": "^1",
-    "c8": "^10.1.2",
-    "chai": "^4",
-    "mocha": "^11",
-    "mocha-junit-reporter": "^2.2.1",
-    "mocha-multi-reporters": "^1.5.1",
     "nock": "^14",
-    "shx": "^0.4.0",
-    "sinon": "^21",
-    "source-map-support": "^0.5.21",
-    "ts-node": "^10",
-    "tsd": "^0.33.0",
-    "typedoc": "^0.28.7",
-    "typedoc-plugin-markdown": "^4.7.1",
-    "typescript": "5.9.3"
+    "sinon": "^22",
+    "tsd": "^0.33.0"
   },
   "tsd": {
     "directory": "test/types"

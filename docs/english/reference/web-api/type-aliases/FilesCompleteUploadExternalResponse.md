@@ -6,7 +6,7 @@
 type FilesCompleteUploadExternalResponse = WebAPICallResult & object;
 ```
 
-Defined in: [src/types/response/FilesCompleteUploadExternalResponse.ts:11](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/FilesCompleteUploadExternalResponse.ts#L11)
+Defined in: [packages/web-api/src/types/response/FilesCompleteUploadExternalResponse.ts:11](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/FilesCompleteUploadExternalResponse.ts#L11)
 
 ## Type Declaration
 

@@ -2,7 +2,7 @@
 
 # Interface: SlackListsDownloadGetArguments
 
-Defined in: [src/types/request/slackLists.ts:404](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/slackLists.ts#L404)
+Defined in: [packages/web-api/src/types/request/slackLists.ts:404](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/slackLists.ts#L404)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [src/types/request/slackLists.ts:404](https://github.com/slackapi/no
 job_id: string;
 ```
 
-Defined in: [src/types/request/slackLists.ts:413](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/slackLists.ts#L413)
+Defined in: [packages/web-api/src/types/request/slackLists.ts:413](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/slackLists.ts#L413)
 
 #### Description
 
@@ -30,7 +30,7 @@ The ID of the recently started job to export the List.
 list_id: string;
 ```
 
-Defined in: [src/types/request/slackLists.ts:408](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/slackLists.ts#L408)
+Defined in: [packages/web-api/src/types/request/slackLists.ts:408](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/slackLists.ts#L408)
 
 #### Description
 
@@ -44,7 +44,7 @@ Encoded ID of the List.
 optional token: string;
 ```
 
-Defined in: [src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
+Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
 
 #### Description
 

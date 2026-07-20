@@ -1,6 +1,8 @@
 # Interactive messages
 
-:::warning[`@slack/interactive-messages` officially reached EOL on May 31st, 2021. Development has fully stopped for this package and all remaining open issues and pull requests have been closed.]
+:::danger[`@slack/interactive-messages` officially reached EOL on May 31st, 2021.]
+
+Development has fully stopped for this package and all remaining open issues and pull requests have been closed. The package was removed from the project in [PR #2517](https://github.com/slackapi/node-slack-sdk/pull/2517).
 
 At this time, we recommend migrating to [Bolt for JavaScript](https://github.com/slackapi/bolt-js), a framework that offers all of the functionality available in those packages (and more). To help with that process, we've provided some [migration samples](/tools/node-slack-sdk/migration/migrating-to-v6) for those looking to convert their existing apps.
 

@@ -2,7 +2,7 @@
 
 # Interface: RichTextText
 
-Defined in: [block-kit/block-elements.ts:915](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L915)
+Defined in: [block-kit/block-elements.ts:937](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L937)
 
 ## Description
 
@@ -88,7 +88,7 @@ A limited style object for styling rich text `text` elements.
 text: string;
 ```
 
-Defined in: [block-kit/block-elements.ts:923](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L923)
+Defined in: [block-kit/block-elements.ts:945](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L945)
 
 #### Description
 
@@ -102,7 +102,7 @@ The text to render.
 type: "text";
 ```
 
-Defined in: [block-kit/block-elements.ts:919](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L919)
+Defined in: [block-kit/block-elements.ts:941](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L941)
 
 #### Description
 

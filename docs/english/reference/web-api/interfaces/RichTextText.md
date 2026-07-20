@@ -2,7 +2,7 @@
 
 # Interface: RichTextText
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:816
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:838
 
 ## Description
 
@@ -20,7 +20,7 @@ A generic text element for use in a rich text message.
 optional style: object;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:75
+Defined in: packages/types/dist/block-kit/extensions.d.ts:75
 
 #### bold?
 
@@ -62,6 +62,16 @@ optional strike: boolean;
 
 When `true`, strikes through the text in this element. Defaults to `false`.
 
+#### underline?
+
+```ts
+optional underline: boolean;
+```
+
+##### Description
+
+When `true`, underlines the text in this element. Defaults to `false`.
+
 #### Description
 
 A limited style object for styling rich text `text` elements.
@@ -78,7 +88,7 @@ A limited style object for styling rich text `text` elements.
 text: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:824
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:846
 
 #### Description
 
@@ -92,7 +102,7 @@ The text to render.
 type: "text";
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:820
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:842
 
 #### Description
 

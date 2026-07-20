@@ -6,7 +6,7 @@
 type BotsInfoResponse = WebAPICallResult & object;
 ```
 
-Defined in: [src/types/response/BotsInfoResponse.ts:11](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/BotsInfoResponse.ts#L11)
+Defined in: [packages/web-api/src/types/response/BotsInfoResponse.ts:11](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/BotsInfoResponse.ts#L11)
 
 ## Type Declaration
 

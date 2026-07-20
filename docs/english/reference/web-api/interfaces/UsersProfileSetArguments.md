@@ -2,7 +2,7 @@
 
 # Interface: UsersProfileSetArguments
 
-Defined in: [src/types/request/users.ts:76](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/users.ts#L76)
+Defined in: [packages/web-api/src/types/request/users.ts:76](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/users.ts#L76)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [src/types/request/users.ts:76](https://github.com/slackapi/node-sla
 optional name: string;
 ```
 
-Defined in: [src/types/request/users.ts:90](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/users.ts#L90)
+Defined in: [packages/web-api/src/types/request/users.ts:90](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/users.ts#L90)
 
 #### Description
 
@@ -34,7 +34,7 @@ Name of a single profile field to set. If both `name` and `profile` are set, `na
 optional profile: Record<string, unknown>;
 ```
 
-Defined in: [src/types/request/users.ts:83](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/users.ts#L83)
+Defined in: [packages/web-api/src/types/request/users.ts:83](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/users.ts#L83)
 
 #### Description
 
@@ -54,7 +54,7 @@ At most 50 fields may be set. Each field name is limited to 255 characters.
 optional token: string;
 ```
 
-Defined in: [src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
+Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
 
 #### Description
 
@@ -74,7 +74,7 @@ TokenOverridable.token
 optional user: string;
 ```
 
-Defined in: [src/types/request/users.ts:85](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/users.ts#L85)
+Defined in: [packages/web-api/src/types/request/users.ts:85](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/users.ts#L85)
 
 #### Description
 
@@ -88,7 +88,7 @@ ID of user to change. This argument may only be specified by admins on paid team
 optional value: string;
 ```
 
-Defined in: [src/types/request/users.ts:95](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/users.ts#L95)
+Defined in: [packages/web-api/src/types/request/users.ts:95](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/users.ts#L95)
 
 #### Description
 

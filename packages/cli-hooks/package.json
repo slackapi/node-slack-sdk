@@ -1,6 +1,6 @@
 {
   "name": "@slack/cli-hooks",
-  "version": "1.2.1",
+  "version": "2.0.0",
   "description": "Node implementation of the contract between the Slack CLI and Bolt for JavaScript",
   "author": "Slack Technologies, LLC",
   "license": "MIT",
@@ -20,8 +20,8 @@
     "src/start.js"
   ],
   "engines": {
-    "node": ">= 18",
-    "npm": ">= 8.6.0"
+    "node": ">= 20",
+    "npm": ">=9.6.4"
   },
   "repository": {
     "type": "git",
@@ -36,9 +36,9 @@
   },
   "scripts": {
     "build": "shx chmod +x src/*.js",
-    "prebuild": "shx rm -rf ./coverage",
     "prelint": "tsc --noemit --module es2022 --maxNodeModuleJsDepth 0 --project ./jsconfig.json",
-    "test": "c8 --config ./test/.c8rc.json mocha --config ./test/.mocharc.json src/*.spec.js"
+    "test": "bash -c 'node --test-reporter=spec --test-reporter-destination=stdout --test-reporter=junit --test-reporter-destination=test-results.xml --test src/*.test.js'",
+    "test:coverage": "node --experimental-test-coverage --test-reporter=spec --test-reporter-destination=stdout --test-reporter=lcov --test-reporter-destination=lcov.info --test-reporter=junit --test-reporter-destination=test-results.xml --test src/*.test.js"
   },
   "bin": {
     "slack-cli-check-update": "src/check-update.js",
@@ -53,16 +53,8 @@
   },
   "devDependencies": {
     "@types/minimist": "^1.2.5",
-    "@types/mocha": "^10.0.6",
-    "@types/node": "^25.0.3",
     "@types/semver": "^7.5.6",
-    "@types/sinon": "^21.0.0",
-    "c8": "^10.1.2",
-    "mocha": "^11.0.1",
-    "mocha-junit-reporter": "^2.2.1",
-    "mocha-multi-reporters": "^1.5.1",
-    "shx": "^0.4.0",
-    "sinon": "^21.0.0",
-    "typescript": "5.9.3"
+    "@types/sinon": "^22.0.0",
+    "sinon": "^22.0.0"
   }
 }

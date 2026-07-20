@@ -1,5 +1,0 @@
-# node / npm stuff
-.env
-/node_modules
-/package-lock.json
-/storage
