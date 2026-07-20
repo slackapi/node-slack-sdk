@@ -2,7 +2,7 @@
 
 # Interface: OAuthV2ExchangeArguments
 
-Defined in: [src/types/request/oauth.ts:11](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/oauth.ts#L11)
+Defined in: [packages/web-api/src/types/request/oauth.ts:11](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/oauth.ts#L11)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [src/types/request/oauth.ts:11](https://github.com/slackapi/node-sla
 client_id: string;
 ```
 
-Defined in: [src/types/request/common.ts:138](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L138)
+Defined in: [packages/web-api/src/types/request/common.ts:138](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L138)
 
 #### Description
 
@@ -34,7 +34,7 @@ Issued when you created your application.
 client_secret: string;
 ```
 
-Defined in: [src/types/request/common.ts:140](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L140)
+Defined in: [packages/web-api/src/types/request/common.ts:140](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L140)
 
 #### Description
 
@@ -52,7 +52,7 @@ Issued when you created your application.
 token: string;
 ```
 
-Defined in: [src/types/request/oauth.ts:13](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/oauth.ts#L13)
+Defined in: [packages/web-api/src/types/request/oauth.ts:13](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/oauth.ts#L13)
 
 #### Description
 

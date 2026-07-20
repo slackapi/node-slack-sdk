@@ -6,7 +6,7 @@
 type PinsRemoveResponse = WebAPICallResult & object;
 ```
 
-Defined in: [src/types/response/PinsRemoveResponse.ts:11](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/PinsRemoveResponse.ts#L11)
+Defined in: [packages/web-api/src/types/response/PinsRemoveResponse.ts:11](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/PinsRemoveResponse.ts#L11)
 
 ## Type Declaration
 

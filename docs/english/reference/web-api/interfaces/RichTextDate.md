@@ -2,7 +2,7 @@
 
 # Interface: RichTextDate
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:716
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:738
 
 ## Description
 
@@ -20,7 +20,7 @@ A date element for use in a rich text message.
 optional fallback: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:756
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:778
 
 #### Description
 
@@ -34,7 +34,7 @@ Text to display in place of the date should parsing, formatting or displaying fa
 format: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:748
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:770
 
 #### Description
 
@@ -68,7 +68,7 @@ TODO: test/document `{member_local_time}`, `{status_expiration}` and `{calendar_
 optional style: object;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:75
+Defined in: packages/types/dist/block-kit/extensions.d.ts:75
 
 #### bold?
 
@@ -110,6 +110,16 @@ optional strike: boolean;
 
 When `true`, strikes through the text in this element. Defaults to `false`.
 
+#### underline?
+
+```ts
+optional underline: boolean;
+```
+
+##### Description
+
+When `true`, underlines the text in this element. Defaults to `false`.
+
 #### Description
 
 A limited style object for styling rich text `text` elements.
@@ -126,7 +136,7 @@ A limited style object for styling rich text `text` elements.
 timestamp: number;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:724
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:746
 
 #### Description
 
@@ -140,7 +150,7 @@ A UNIX timestamp for the date to be displayed in seconds.
 type: "date";
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:720
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:742
 
 #### Description
 
@@ -154,7 +164,7 @@ The type of element. In this case `type` is always `date`.
 optional url: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:752
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:774
 
 #### Description
 

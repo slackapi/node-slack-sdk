@@ -131,11 +131,9 @@ export class SlackCLIProcess {
       if (opts.team) {
         cmd = cmd.concat(['--team', opts.team]);
       }
-      // App instance; defaults to `deployed`
+      // App instance
       if (opts.app) {
         cmd = cmd.concat(['--app', opts.app]);
-      } else {
-        cmd = cmd.concat(['--app', 'deployed']);
       }
       // Ignore warnings via --force; defaults to true
       if (opts.force || typeof opts.force === 'undefined') {
@@ -149,9 +147,10 @@ export class SlackCLIProcess {
         cmd = cmd.concat(['--verbose']);
       }
     } else {
-      cmd = cmd.concat(['--skip-update', '--force', '--app', 'deployed']);
+      cmd = cmd.concat(['--skip-update', '--force']);
     }
     cmd = cmd.concat(this.command);
+
     if (this.commandOptions) {
       for (const [key, value] of Object.entries(this.commandOptions)) {
         if (key && value) {

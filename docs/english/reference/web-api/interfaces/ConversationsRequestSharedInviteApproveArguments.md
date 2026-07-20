@@ -2,7 +2,7 @@
 
 # Interface: ConversationsRequestSharedInviteApproveArguments
 
-Defined in: [src/types/request/conversations.ts:195](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/conversations.ts#L195)
+Defined in: [packages/web-api/src/types/request/conversations.ts:195](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/conversations.ts#L195)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [src/types/request/conversations.ts:195](https://github.com/slackapi
 optional channel_id: string;
 ```
 
-Defined in: [src/types/request/common.ts:85](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L85)
+Defined in: [packages/web-api/src/types/request/common.ts:85](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L85)
 
 #### Description
 
@@ -34,7 +34,7 @@ Encoded channel ID.
 invite_id: string;
 ```
 
-Defined in: [src/types/request/conversations.ts:28](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/conversations.ts#L28)
+Defined in: [packages/web-api/src/types/request/conversations.ts:28](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/conversations.ts#L28)
 
 #### Description
 
@@ -54,7 +54,7 @@ InviteID.invite_id
 optional is_external_limited: boolean;
 ```
 
-Defined in: [src/types/request/conversations.ts:203](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/conversations.ts#L203)
+Defined in: [packages/web-api/src/types/request/conversations.ts:203](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/conversations.ts#L203)
 
 #### Description
 
@@ -69,7 +69,7 @@ Will override the value on the requested invite.
 optional message: object;
 ```
 
-Defined in: [src/types/request/conversations.ts:205](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/conversations.ts#L205)
+Defined in: [packages/web-api/src/types/request/conversations.ts:205](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/conversations.ts#L205)
 
 #### is\_override
 
@@ -104,7 +104,7 @@ Optional additional messaging to attach to the invite approval message.
 optional token: string;
 ```
 
-Defined in: [src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
+Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
 
 #### Description
 

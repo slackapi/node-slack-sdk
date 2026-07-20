@@ -1,0 +1,90 @@
+name: SDK Bug
+description: Report an SDK bug
+labels: ["untriaged"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for taking the time to fill out this bug report!
+
+  - type: dropdown
+    id: package
+    attributes:
+      label: Package
+      description: Which package(s) are affected?
+      multiple: true
+      options:
+        - "@slack/web-api"
+        - "@slack/socket-mode"
+        - "@slack/oauth"
+        - "@slack/webhook"
+        - "@slack/types"
+        - "@slack/logger"
+        - "@slack/cli-hooks"
+        - "@slack/cli-test"
+        - I don't know
+    validations:
+      required: true
+
+  - type: input
+    id: sdk-version
+    attributes:
+      label: SDK Version
+      description: |
+        Run `npm ls | grep slack` or check your `package.json`
+      placeholder: e.g., @slack/web-api@7.0.0
+    validations:
+      required: true
+
+  - type: input
+    id: node-version
+    attributes:
+      label: Node.js Version
+      description: Run `node --version`
+      placeholder: e.g., v20.10.0
+    validations:
+      required: true
+
+  - type: input
+    id: os
+    attributes:
+      label: Operating System
+      description: |
+        macOS/Linux: `sw_vers && uname -v` or Windows: `ver`
+      placeholder: e.g., macOS 14.0, Ubuntu 22.04, Windows 11
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to Reproduce
+      description: Share commands, source code, and project settings
+      placeholder: |
+        1. Initialize client with...
+        2. Call method...
+        3. See error...
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Result
+      description: What did you expect to happen?
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual Result
+      description: What actually happened? Include logs, screenshots, or error messages.
+    validations:
+      required: true
+
+  - type: markdown
+    attributes:
+      value: |
+        ---
+        For general questions about the Slack API platform, please [contact Slack support](https://slack.com/help/requests/new).
+
+        By submitting this issue, you agree to follow our [Contributing Guidelines](https://github.com/slackapi/node-slack-sdk/blob/main/.github/contributing.md) and [Code of Conduct](https://slackhq.github.io/code-of-conduct).

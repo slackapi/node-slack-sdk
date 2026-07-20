@@ -2,7 +2,7 @@
 
 # Interface: AppRateLimitedEvent
 
-Defined in: node\_modules/@slack/types/dist/events/app.d.ts:141
+Defined in: packages/types/dist/events/app.d.ts:195
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: node\_modules/@slack/types/dist/events/app.d.ts:141
 api_app_id: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/app.d.ts:146
+Defined in: packages/types/dist/events/app.d.ts:200
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: node\_modules/@slack/types/dist/events/app.d.ts:146
 minute_rate_limited: number;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/app.d.ts:145
+Defined in: packages/types/dist/events/app.d.ts:199
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: node\_modules/@slack/types/dist/events/app.d.ts:145
 team_id: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/app.d.ts:144
+Defined in: packages/types/dist/events/app.d.ts:198
 
 ***
 
@@ -42,7 +42,7 @@ Defined in: node\_modules/@slack/types/dist/events/app.d.ts:144
 token: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/app.d.ts:143
+Defined in: packages/types/dist/events/app.d.ts:197
 
 ***
 
@@ -52,4 +52,4 @@ Defined in: node\_modules/@slack/types/dist/events/app.d.ts:143
 type: "app_rate_limited";
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/app.d.ts:142
+Defined in: packages/types/dist/events/app.d.ts:196

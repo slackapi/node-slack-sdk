@@ -2,19 +2,9 @@
 
 # Interface: WebAPICallResult
 
-Defined in: [src/WebClient.ts:136](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/WebClient.ts#L136)
+Defined in: [packages/web-api/src/WebClient.ts:79](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/WebClient.ts#L79)
 
 ## Properties
-
-### error?
-
-```ts
-optional error: string;
-```
-
-Defined in: [src/WebClient.ts:138](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/WebClient.ts#L138)
-
-***
 
 ### ok
 
@@ -22,7 +12,7 @@ Defined in: [src/WebClient.ts:138](https://github.com/slackapi/node-slack-sdk/bl
 ok: boolean;
 ```
 
-Defined in: [src/WebClient.ts:137](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/WebClient.ts#L137)
+Defined in: [packages/web-api/src/WebClient.ts:80](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/WebClient.ts#L80)
 
 ***
 
@@ -32,7 +22,7 @@ Defined in: [src/WebClient.ts:137](https://github.com/slackapi/node-slack-sdk/bl
 optional response_metadata: object;
 ```
 
-Defined in: [src/WebClient.ts:139](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/WebClient.ts#L139)
+Defined in: [packages/web-api/src/WebClient.ts:81](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/WebClient.ts#L81)
 
 #### acceptedScopes?
 

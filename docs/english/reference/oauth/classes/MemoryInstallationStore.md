@@ -2,7 +2,7 @@
 
 # Class: MemoryInstallationStore
 
-Defined in: [src/installation-stores/memory-store.ts:11](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/installation-stores/memory-store.ts#L11)
+Defined in: [packages/oauth/src/installation-stores/memory-store.ts:11](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/installation-stores/memory-store.ts#L11)
 
 ## Implements
 
@@ -28,7 +28,7 @@ new MemoryInstallationStore(): MemoryInstallationStore;
 devDB: DevDatabase = {};
 ```
 
-Defined in: [src/installation-stores/memory-store.ts:12](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/installation-stores/memory-store.ts#L12)
+Defined in: [packages/oauth/src/installation-stores/memory-store.ts:12](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/installation-stores/memory-store.ts#L12)
 
 ## Methods
 
@@ -38,7 +38,7 @@ Defined in: [src/installation-stores/memory-store.ts:12](https://github.com/slac
 deleteInstallation(query, logger?): Promise<void>;
 ```
 
-Defined in: [src/installation-stores/memory-store.ts:62](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/installation-stores/memory-store.ts#L62)
+Defined in: [packages/oauth/src/installation-stores/memory-store.ts:62](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/installation-stores/memory-store.ts#L62)
 
 #### Parameters
 
@@ -66,7 +66,7 @@ Defined in: [src/installation-stores/memory-store.ts:62](https://github.com/slac
 fetchInstallation(query, logger?): Promise<Installation<"v1" | "v2", boolean>>;
 ```
 
-Defined in: [src/installation-stores/memory-store.ts:38](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/installation-stores/memory-store.ts#L38)
+Defined in: [packages/oauth/src/installation-stores/memory-store.ts:38](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/installation-stores/memory-store.ts#L38)
 
 #### Parameters
 
@@ -94,7 +94,7 @@ Defined in: [src/installation-stores/memory-store.ts:38](https://github.com/slac
 storeInstallation(installation, logger?): Promise<void>;
 ```
 
-Defined in: [src/installation-stores/memory-store.ts:14](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/installation-stores/memory-store.ts#L14)
+Defined in: [packages/oauth/src/installation-stores/memory-store.ts:14](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/installation-stores/memory-store.ts#L14)
 
 #### Parameters
 

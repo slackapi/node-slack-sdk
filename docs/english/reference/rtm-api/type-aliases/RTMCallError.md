@@ -11,4 +11,4 @@ type RTMCallError =
   | RTMSendWhileNotReadyError;
 ```
 
-Defined in: [src/errors.ts:26](https://github.com/slackapi/node-slack-sdk/blob/main/packages/rtm-api/src/errors.ts#L26)
+Defined in: [packages/rtm-api/src/errors.ts:26](https://github.com/slackapi/node-slack-sdk/blob/main/packages/rtm-api/src/errors.ts#L26)

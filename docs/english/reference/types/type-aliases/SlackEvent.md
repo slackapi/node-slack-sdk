@@ -4,6 +4,7 @@
 
 ```ts
 type SlackEvent = 
+  | AppContextChangedEvent
   | AppDeletedEvent
   | AppHomeOpenedEvent
   | AppInstalledEvent
@@ -91,7 +92,7 @@ type SlackEvent =
   | WorkflowStepExecuteEvent;
 ```
 
-Defined in: [events/index.ts:122](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/index.ts#L122)
+Defined in: [events/index.ts:123](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/index.ts#L123)
 
 All known event types in Slack's Events API
 Please refer to https://docs.slack.dev/reference/events for more details

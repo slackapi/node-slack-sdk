@@ -2,7 +2,7 @@
 
 # Interface: OAuthV2AccessArguments
 
-Defined in: [src/types/request/oauth.ts:9](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/oauth.ts#L9)
+Defined in: [packages/web-api/src/types/request/oauth.ts:9](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/oauth.ts#L9)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [src/types/request/oauth.ts:9](https://github.com/slackapi/node-slac
 client_id: string;
 ```
 
-Defined in: [src/types/request/common.ts:138](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L138)
+Defined in: [packages/web-api/src/types/request/common.ts:138](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L138)
 
 #### Description
 
@@ -36,7 +36,7 @@ OAuthCredentials.client_id
 client_secret: string;
 ```
 
-Defined in: [src/types/request/common.ts:140](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L140)
+Defined in: [packages/web-api/src/types/request/common.ts:140](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L140)
 
 #### Description
 
@@ -56,7 +56,7 @@ OAuthCredentials.client_secret
 optional code: string;
 ```
 
-Defined in: [src/types/request/common.ts:142](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L142)
+Defined in: [packages/web-api/src/types/request/common.ts:142](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L142)
 
 #### Description
 
@@ -76,7 +76,7 @@ OAuthCredentials.code
 optional grant_type: "authorization_code" | "refresh_token";
 ```
 
-Defined in: [src/types/request/common.ts:152](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L152)
+Defined in: [packages/web-api/src/types/request/common.ts:152](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L152)
 
 #### Description
 
@@ -96,7 +96,7 @@ OAuthGrantRefresh.grant_type
 optional redirect_uri: string;
 ```
 
-Defined in: [src/types/request/common.ts:147](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L147)
+Defined in: [packages/web-api/src/types/request/common.ts:147](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L147)
 
 #### Description
 
@@ -117,7 +117,7 @@ OAuthCredentials.redirect_uri
 optional refresh_token: string;
 ```
 
-Defined in: [src/types/request/common.ts:154](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L154)
+Defined in: [packages/web-api/src/types/request/common.ts:154](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L154)
 
 #### Description
 

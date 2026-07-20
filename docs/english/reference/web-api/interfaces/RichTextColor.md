@@ -2,7 +2,7 @@
 
 # Interface: RichTextColor
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:690
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:712
 
 ## Description
 
@@ -20,7 +20,7 @@ A hex color element for use in a rich text message.
 optional style: object;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:75
+Defined in: packages/types/dist/block-kit/extensions.d.ts:75
 
 #### bold?
 
@@ -62,6 +62,16 @@ optional strike: boolean;
 
 When `true`, strikes through the text in this element. Defaults to `false`.
 
+#### underline?
+
+```ts
+optional underline: boolean;
+```
+
+##### Description
+
+When `true`, underlines the text in this element. Defaults to `false`.
+
 #### Description
 
 A limited style object for styling rich text `text` elements.
@@ -78,7 +88,7 @@ A limited style object for styling rich text `text` elements.
 type: "color";
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:694
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:716
 
 #### Description
 
@@ -92,7 +102,7 @@ The type of element. In this case `type` is always `color`.
 value: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:698
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:720
 
 #### Description
 

@@ -6,7 +6,7 @@
 type AdminConversationsRestrictAccessAddGroupResponse = WebAPICallResult & object;
 ```
 
-Defined in: [src/types/response/AdminConversationsRestrictAccessAddGroupResponse.ts:11](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/AdminConversationsRestrictAccessAddGroupResponse.ts#L11)
+Defined in: [packages/web-api/src/types/response/AdminConversationsRestrictAccessAddGroupResponse.ts:11](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/AdminConversationsRestrictAccessAddGroupResponse.ts#L11)
 
 ## Type Declaration
 

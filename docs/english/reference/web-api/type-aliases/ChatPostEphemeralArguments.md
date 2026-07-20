@@ -6,7 +6,7 @@
 type ChatPostEphemeralArguments = TokenOverridable & MessageContents & object & Authorship & Parse & LinkNames & Partial<ThreadTS>;
 ```
 
-Defined in: [src/types/request/chat.ts:189](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L189)
+Defined in: [packages/web-api/src/types/request/chat.ts:196](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L196)
 
 ## Type Declaration
 

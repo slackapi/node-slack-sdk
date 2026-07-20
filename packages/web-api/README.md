@@ -3,12 +3,12 @@
 [![codecov](https://codecov.io/gh/slackapi/node-slack-sdk/graph/badge.svg?token=OcQREPvC7r&flag=web-api)](https://codecov.io/gh/slackapi/node-slack-sdk)
 
 The `@slack/web-api` package contains a simple, convenient, and configurable HTTP client for making requests to Slack's
-[Web API](https://docs.slack.dev/apis/web-api). Use it in your app to call any of the over 130
+[Web API](https://docs.slack.dev/apis/web-api). Use it in your app to call any of the over 270
 [methods](https://docs.slack.dev/reference/methods), and let it handle formatting, queuing, retrying, pagination, and more.
 
 ## Requirements
 
-This package supports Node v18 and higher. It's highly recommended to use [the latest LTS version of
+This package supports Node v20 and higher. It's highly recommended to use [the latest LTS version of
 node](https://github.com/nodejs/Release#release-schedule), and the documentation is written using syntax and features
 from that version.
 
@@ -37,7 +37,7 @@ begins with `xoxb` or `xoxp`. You get them from each workspace an app is install
 help you get your first token for your development workspace.
 
 ```javascript
-const { WebClient } = require('@slack/web-api');
+import { WebClient } from '@slack/web-api';
 
 // Read a token from the environment variables
 const token = process.env.SLACK_TOKEN;
@@ -55,7 +55,7 @@ Alternatively, you can create a client without a token, and use it with multiple
 `token` when you call a method.
 
 ```javascript
-const { WebClient } = require('@slack/web-api');
+import { WebClient } from '@slack/web-api';
 
 // Initialize a single instance for the whole app
 const web = new WebClient();
@@ -137,13 +137,13 @@ call a method, maybe it's been revoked by a user, or maybe you just used a bad a
 `Promise` will reject with an `Error`. You should catch the error and use the information it contains to decide how your
 app can proceed.
 
-Each error contains a `code` property, which you can check against the `ErrorCode` export to understand the kind of
-error you're dealing with. For example, when Slack responds to your app with an error, that is an
-`ErrorCode.PlatformError`. These types of errors provide Slack's response body as the `data` property.
+Each kind of error is its own class, all extending the `SlackError` base class. Use an `instanceof` check to understand
+what kind of error you're dealing with. For example, when Slack responds to your app with an error, that's a
+`WebAPIPlatformError`, which provides Slack's response body as the `data` property.
 
 ```javascript
-// Import ErrorCode from the package
-const { WebClient, ErrorCode } = require('@slack/web-api');
+// Import the error classes from the package
+import { WebClient, WebAPIPlatformError } from '@slack/web-api';
 
 (async () => {
 
@@ -151,8 +151,8 @@ const { WebClient, ErrorCode } = require('@slack/web-api');
     // This method call should fail because we're giving it a bogus user ID to lookup.
     const response = await web.users.info({ user: '...' });
   } catch (error) {
-    // Check the code property, and when it's a PlatformError, log the whole response.
-    if (error.code === ErrorCode.PlatformError) {
+    // When it's a platform error, log the response Slack sent back.
+    if (error instanceof WebAPIPlatformError) {
       console.log(error.data);
     } else {
       // Some other error, oh no!
@@ -167,20 +167,14 @@ const { WebClient, ErrorCode } = require('@slack/web-api');
 <strong><i>More error types</i></strong>
 </summary>
 
-There are a few more types of errors that you might encounter, each with one of these `code`s:
+Other error classes you might encounter include the following, though this isn't a complete list. They all extend `SlackError`, so an `instanceof SlackError` check catches any error this package throws.
 
-* `ErrorCode.RequestError`: A request could not be sent. A common reason for this is that your network connection is
-  not available, or `api.slack.com` could not be reached. This error has an `original` property with more details.
+* `WebAPIRequestError`: A request could not be sent. A common reason for this is that your network connection is not available, or `api.slack.com` could not be reached. The underlying error is available on both the standard [`cause`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/cause) property and the `original` property.
 
-* `ErrorCode.RateLimitedError`: The Web API cannot fulfill the API method call because your app has made too many
-  requests too quickly. This error has a `retryAfter` property with the number of seconds you should wait before trying
-  again. See [the documentation on rate limit handling](https://docs.slack.dev/tools/node-slack-sdk/web-api/#rate-limits) to
-  understand how the client will automatically deal with these problems for you.
+* `WebAPIRateLimitedError`: The Web API cannot fulfill the API method call because your app has made too many requests too quickly. This error has a `retryAfter` property with the number of seconds you should wait before trying again. See [the documentation on rate limit handling](https://docs.slack.dev/tools/node-slack-sdk/web-api/#rate-limits) to understand how the client will automatically deal with these problems for you.
 
-* `ErrorCode.HTTPError`: The HTTP response contained an unfamiliar status code. The Web API only responds with `200`
-  (yes, even for errors) or `429` (rate limiting). If you receive this error, it's likely due to a problem with a proxy,
-  a custom TLS configuration, or a custom API URL. This error has the `statusCode`, `statusMessage`, `headers`, and
-  `body` properties containing more details.
+* `WebAPIHTTPError`: The HTTP response contained an unfamiliar status code. The Web API only responds with `200` (yes, even for errors) or `429` (rate limiting). If you receive this error, it's likely due to a problem with a custom `fetch` implementation or a custom API URL. This error has the `statusCode`, `statusMessage`, `headers`, and `body` properties containing more details.
+
 </details>
 
 ---
@@ -262,7 +256,7 @@ in development, it's sometimes helpful to set this to the most verbose: `LogLeve
 
 ```javascript
 // Import LogLevel from the package
-const { WebClient, LogLevel } = require('@slack/web-api');
+import { WebClient, LogLevel } from '@slack/web-api';
 
 // Log level is one of the options you can set in the constructor
 const web = new WebClient(token, {
@@ -292,7 +286,7 @@ specific methods (known as the `Logger` interface):
 A very simple custom logger might ignore the name and level, and write all messages to a file.
 
 ```javascript
-const { createWriteStream } = require('fs');
+import { createWriteStream } from 'node:fs';
 const logWritable = createWriteStream('/var/my_log_file'); // Not shown: close this stream
 
 const web = new WebClient(token, {
@@ -321,7 +315,7 @@ You can observe each of the retries in your logs by [setting the log level to DE
 following code with your network disconnected, and then re-connect after you see a couple of log messages:
 
 ```javascript
-const { WebClient, LogLevel } = require('@slack/web-api');
+import { WebClient, LogLevel } from '@slack/web-api';
 
 const web = new WebClient('bogus token');
 
@@ -343,7 +337,7 @@ one that works better for you. The `retryPolicies` export contains a few well kn
 your own.
 
 ```javascript
-const { WebClient, retryPolicies } = require('@slack/web-api');
+import { WebClient, retryPolicies } from '@slack/web-api';
 
 const web = new WebClient(token, {
   retryConfig: retryPolicies.fiveRetriesInFiveMinutes,
@@ -370,10 +364,8 @@ The [documentation website](https://docs.slack.dev/tools/node-slack-sdk/web-api/
 the `WebClient`:
 
 *  Upload a file with a `Buffer` or a `ReadableStream`.
-*  Using a custom agent for proxying
 *  Rate limit handling
 *  Request concurrency
-*  Custom TLS configuration
 *  Custom API URL
 *  Exchange an OAuth grant for a token
 

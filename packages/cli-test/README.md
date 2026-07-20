@@ -6,7 +6,7 @@ This library is designed to automate the [Slack Platform Command Line Interface]
 
 # Requirements
 
-1. Ensure the [Slack CLI][cli] is installed on your system.
+1. Ensure the [Slack CLI][cli] (version 4.0.0 or higher) is installed on your system.
 2. Export the path to the CLI binary as a `SLACK_CLI_PATH` environment variable.
 
 # Quickstart
@@ -18,8 +18,8 @@ npm install @slack/cli-test
 ```
 
 2. Set the path to the CLI executable using the environment variable `SLACK_CLI_PATH`
-    - supply a link to a binary on the global path, like `slack-cli`
-    - it will default to using `slack` otherwise
+   - supply a link to a binary on the global path, like `slack-cli`
+   - it will default to using `slack` otherwise
 3. Import and use `SlackCLI` to automate the CLI!
 
 ```ts
@@ -33,11 +33,11 @@ const createOutput = await SlackCLI.createAppFromTemplate('slackapi/deno-hello-w
 This package exports the following:
 
 1. `SlackCLI` - an object containing a variety of methods to interact with the CLI
-  - methods are named after [Slack CLI commands][commands], e.g. `SlackCLI.deploy()`
+   - methods are named after [Slack CLI commands][commands], e.g. `SlackCLI.deploy()`
 2. `SlackCLIProcess` - a class that can be instantiated that exposes the ability to run arbitrary commands, with optional global flags as well as command-specific flags.
 3. `SlackTracerId` - trace IDs to verify CLI command output
-  - see available exported IDs on `SlackTracerId` object
-  - to enable the CLI to show this output, any CLI commands executed by this library are invoked with the environment variable set: `SLACK_TEST_TRACE=true`
+   - see available exported IDs on `SlackTracerId` object
+   - to enable the CLI to show this output, any CLI commands executed by this library are invoked with the environment variable set: `SLACK_TEST_TRACE=true`
 
 ```ts
 // Import available objects from the package

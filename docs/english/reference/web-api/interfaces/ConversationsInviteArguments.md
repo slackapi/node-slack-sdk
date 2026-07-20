@@ -2,7 +2,7 @@
 
 # Interface: ConversationsInviteArguments
 
-Defined in: [src/types/request/conversations.ts:109](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/conversations.ts#L109)
+Defined in: [packages/web-api/src/types/request/conversations.ts:109](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/conversations.ts#L109)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [src/types/request/conversations.ts:109](https://github.com/slackapi
 channel: string;
 ```
 
-Defined in: [src/types/request/conversations.ts:15](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/conversations.ts#L15)
+Defined in: [packages/web-api/src/types/request/conversations.ts:15](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/conversations.ts#L15)
 
 #### Description
 
@@ -36,7 +36,7 @@ Channel.channel
 optional force: boolean;
 ```
 
-Defined in: [src/types/request/conversations.ts:114](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/conversations.ts#L114)
+Defined in: [packages/web-api/src/types/request/conversations.ts:114](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/conversations.ts#L114)
 
 #### Description
 
@@ -51,7 +51,7 @@ disregarding invalid IDs. Defaults to `false`.
 optional token: string;
 ```
 
-Defined in: [src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
+Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
 
 #### Description
 
@@ -71,7 +71,7 @@ TokenOverridable.token
 users: string;
 ```
 
-Defined in: [src/types/request/conversations.ts:49](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/conversations.ts#L49)
+Defined in: [packages/web-api/src/types/request/conversations.ts:49](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/conversations.ts#L49)
 
 #### Description
 

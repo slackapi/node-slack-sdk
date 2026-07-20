@@ -6,7 +6,7 @@
 const retryPolicies: object;
 ```
 
-Defined in: [src/retry-policies.ts:35](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/retry-policies.ts#L35)
+Defined in: [packages/web-api/src/retry-policies.ts:35](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/retry-policies.ts#L35)
 
 ## Type Declaration
 

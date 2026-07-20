@@ -2,7 +2,7 @@
 
 # Interface: InstallPathOptions
 
-Defined in: [src/install-path-options.ts:9](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/install-path-options.ts#L9)
+Defined in: [packages/oauth/src/install-path-options.ts:9](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/install-path-options.ts#L9)
 
 Customizable callbacks that are supposed to be called
 inside InstallProvider#handleInstallPath() method.
@@ -15,7 +15,7 @@ inside InstallProvider#handleInstallPath() method.
 optional beforeRedirection: (request, response, options?) => Promise<boolean>;
 ```
 
-Defined in: [src/install-path-options.ts:21](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/install-path-options.ts#L21)
+Defined in: [packages/oauth/src/install-path-options.ts:21](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/install-path-options.ts#L21)
 
 Customize the response headers and body data for
 additional user-specific data handling such as acccount mapping and activity tracking.
