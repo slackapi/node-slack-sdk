@@ -35,10 +35,12 @@ export interface Activity {
 export interface Payload {
   action?: string;
   actor?: string;
+  app_id?: string;
   billing_reason?: string[];
   bot_user_id?: string;
   bundle_size_kb?: number;
   channel_id?: string;
+  code?: string;
   current_step?: number;
   datastore_name?: string;
   details?: string;
@@ -51,6 +53,7 @@ export interface Payload {
   inputs?: Inputs;
   is_billing_excluded?: boolean;
   log?: string;
+  outputs?: Outputs;
   request_type?: string;
   team_id?: string;
   total_steps?: number;
@@ -61,6 +64,11 @@ export interface Payload {
 }
 
 export type Inputs = {};
+
+export interface Outputs {
+  channel_id?: string;
+  message_ts?: string;
+}
 
 export interface Trigger {
   config?: Config;

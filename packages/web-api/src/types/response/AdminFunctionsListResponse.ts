@@ -31,6 +31,7 @@ export interface Function {
   id?: string;
   input_parameters?: PutParameter[];
   output_parameters?: PutParameter[];
+  product_level_availability?: ProductLevelAvailability;
   title?: string;
   type?: string;
 }
@@ -41,6 +42,11 @@ export interface PutParameter {
   name?: string;
   title?: string;
   type?: string;
+}
+
+export interface ProductLevelAvailability {
+  available_to?: string;
+  is_available?: boolean;
 }
 
 export interface ResponseMetadata {
