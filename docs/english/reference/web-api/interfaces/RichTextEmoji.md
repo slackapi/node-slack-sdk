@@ -2,7 +2,7 @@
 
 # Interface: RichTextEmoji
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:761
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:783
 
 ## Description
 
@@ -20,7 +20,7 @@ An emoji element for use in a rich text message.
 name: string;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:769
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:791
 
 #### Description
 
@@ -34,7 +34,7 @@ Name of emoji, without colons or skin tones, e.g. `wave`
 optional style: object;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/extensions.d.ts:75
+Defined in: packages/types/dist/block-kit/extensions.d.ts:75
 
 #### bold?
 
@@ -76,6 +76,16 @@ optional strike: boolean;
 
 When `true`, strikes through the text in this element. Defaults to `false`.
 
+#### underline?
+
+```ts
+optional underline: boolean;
+```
+
+##### Description
+
+When `true`, underlines the text in this element. Defaults to `false`.
+
 #### Description
 
 A limited style object for styling rich text `text` elements.
@@ -92,7 +102,7 @@ A limited style object for styling rich text `text` elements.
 type: "emoji";
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:765
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:787
 
 #### Description
 
@@ -106,7 +116,7 @@ The type of element. In this case `type` is always `emoji`.
 optional unicode: string;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:773
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:795
 
 #### Description
 
@@ -120,7 +130,7 @@ Lowercase hexadecimal Unicode representation of a standard emoji (not for use wi
 optional url: string;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:777
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:799
 
 #### Description
 

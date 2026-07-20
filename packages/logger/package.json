@@ -1,6 +1,6 @@
 {
   "name": "@slack/logger",
-  "version": "4.0.0",
+  "version": "5.0.0",
   "description": "Logging utility used by Node Slack SDK",
   "author": "Slack Technologies, LLC",
   "license": "MIT",
@@ -14,8 +14,8 @@
     "dist/**/*"
   ],
   "engines": {
-    "node": ">= 18",
-    "npm": ">= 8.6.0"
+    "node": ">= 20",
+    "npm": ">=9.6.4"
   },
   "repository": {
     "type": "git",
@@ -30,21 +30,13 @@
   },
   "scripts": {
     "build": "npm run build:clean && tsc",
-    "build:clean": "shx rm -rf ./dist ./coverage",
+    "build:clean": "shx rm -rf ./dist",
     "docs": "npx typedoc --plugin typedoc-plugin-markdown",
     "prepack": "npm run build",
-    "test": "npm run test:unit",
-    "test:unit": "npm run build && node --import tsx --test src/index.test.ts"
+    "test": "npm run build && node --test-reporter=spec --test-reporter-destination=stdout --test-reporter=junit --test-reporter-destination=test-results.xml --import tsx --test src/index.test.ts",
+    "test:coverage": "npm run build && node --experimental-test-coverage --test-reporter=spec --test-reporter-destination=stdout --test-reporter=lcov --test-reporter-destination=lcov.info --test-reporter=junit --test-reporter-destination=test-results.xml --import tsx --test src/index.test.ts"
   },
   "dependencies": {
-    "@types/node": ">=18.0.0"
-  },
-  "devDependencies": {
-    "shx": "^0.4.0",
-    "source-map-support": "^0.5.21",
-    "tsx": "^4.20.6",
-    "typedoc": "^0.28.7",
-    "typedoc-plugin-markdown": "^4.7.1",
-    "typescript": "^5.5.4"
+    "@types/node": ">=20"
   }
 }

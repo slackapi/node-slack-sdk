@@ -2,7 +2,7 @@
 
 # Interface: GroupOpenEvent
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/group.d.ts:32
+Defined in: packages/types/dist/events/group.d.ts:32
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/group.d.ts:3
 channel: string;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/group.d.ts:35
+Defined in: packages/types/dist/events/group.d.ts:35
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/group.d.ts:3
 type: "group_open";
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/group.d.ts:33
+Defined in: packages/types/dist/events/group.d.ts:33
 
 ***
 
@@ -32,4 +32,4 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/group.d.ts:3
 user: string;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/group.d.ts:34
+Defined in: packages/types/dist/events/group.d.ts:34

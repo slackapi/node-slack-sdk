@@ -20,6 +20,22 @@ All errors produced by this package adhere to this interface
 
 ## Properties
 
+### cause?
+
+```ts
+optional cause: unknown;
+```
+
+Defined in: node\_modules/typescript/lib/lib.es2022.error.d.ts:26
+
+#### Inherited from
+
+```ts
+NodeJS.ErrnoException.cause
+```
+
+***
+
 ### code
 
 ```ts
@@ -42,7 +58,7 @@ NodeJS.ErrnoException.code
 optional errno: number;
 ```
 
-Defined in: packages/rtm-api/node\_modules/@types/node/globals.d.ts:196
+Defined in: packages/rtm-api/node\_modules/@types/node/globals.d.ts:101
 
 #### Inherited from
 
@@ -90,7 +106,7 @@ NodeJS.ErrnoException.name
 optional path: string;
 ```
 
-Defined in: packages/rtm-api/node\_modules/@types/node/globals.d.ts:198
+Defined in: packages/rtm-api/node\_modules/@types/node/globals.d.ts:103
 
 #### Inherited from
 
@@ -122,7 +138,7 @@ NodeJS.ErrnoException.stack
 optional syscall: string;
 ```
 
-Defined in: packages/rtm-api/node\_modules/@types/node/globals.d.ts:199
+Defined in: packages/rtm-api/node\_modules/@types/node/globals.d.ts:104
 
 #### Inherited from
 

@@ -2,7 +2,7 @@
 
 # Interface: SubteamUpdatedEvent
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/subteam.d.ts:60
+Defined in: packages/types/dist/events/subteam.d.ts:60
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/subteam.d.ts
 event_ts: string;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/subteam.d.ts:63
+Defined in: packages/types/dist/events/subteam.d.ts:63
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/subteam.d.ts
 subteam: Subteam;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/subteam.d.ts:62
+Defined in: packages/types/dist/events/subteam.d.ts:62
 
 ***
 
@@ -32,4 +32,4 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/subteam.d.ts
 type: "subteam_updated";
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/subteam.d.ts:61
+Defined in: packages/types/dist/events/subteam.d.ts:61

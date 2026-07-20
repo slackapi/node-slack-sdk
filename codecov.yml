@@ -6,6 +6,10 @@ flags:
     paths:
       - packages/cli-hooks/**
     carryforward: true
+  cli-test:
+    paths:
+      - packages/cli-test/**
+    carryforward: true
   logger:
     paths:
       - packages/logger/**

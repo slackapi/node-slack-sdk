@@ -2,7 +2,7 @@
 
 # Interface: AssistantThreadStartedEvent
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/assistant.d.ts:1
+Defined in: packages/types/dist/events/assistant.d.ts:1
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/assistant.d.
 assistant_thread: object;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/assistant.d.ts:3
+Defined in: packages/types/dist/events/assistant.d.ts:3
 
 #### channel\_id
 
@@ -64,7 +64,7 @@ user_id: string;
 event_ts: string;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/assistant.d.ts:13
+Defined in: packages/types/dist/events/assistant.d.ts:13
 
 ***
 
@@ -74,4 +74,4 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/assistant.d.
 type: "assistant_thread_started";
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/assistant.d.ts:2
+Defined in: packages/types/dist/events/assistant.d.ts:2

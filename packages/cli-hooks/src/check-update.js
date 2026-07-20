@@ -191,7 +191,7 @@ async function collectVersionInfo(packageName) {
 async function getProjectPackageVersion(packageName) {
   const stdout = await execWrapper(`npm list ${packageName} --depth=0 --json`);
   const currentVersionOutput = JSON.parse(stdout);
-  if (!currentVersionOutput.dependencies || !currentVersionOutput.dependencies[packageName]) {
+  if (!currentVersionOutput.dependencies?.[packageName]) {
     throw new Error(`Failed to gather project information about ${packageName}`);
   }
   return currentVersionOutput.dependencies[packageName].version;
@@ -216,7 +216,7 @@ async function fetchLatestPackageVersion(packageName) {
  */
 function getReleaseNotesUrl(packageName, latestVersion) {
   if (packageName === SLACK_BOLT_SDK) {
-    return `https://github.com/slackapi/bolt-js/releases/tag/@slack/bolt@${latestVersion}`;
+    return `https://github.com/slackapi/bolt-js/releases/tag/v${latestVersion}`;
   }
   if (packageName === SLACK_CLI_HOOKS) {
     return `https://github.com/slackapi/node-slack-sdk/releases/tag/@slack/cli-hooks@${latestVersion}`;

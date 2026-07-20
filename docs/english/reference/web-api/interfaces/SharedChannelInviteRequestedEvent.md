@@ -2,7 +2,7 @@
 
 # Interface: SharedChannelInviteRequestedEvent
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/shared-channel.d.ts:94
+Defined in: packages/types/dist/events/shared-channel.d.ts:94
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/shared-chann
 actor: object;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/shared-channel.d.ts:96
+Defined in: packages/types/dist/events/shared-channel.d.ts:96
 
 #### display\_name
 
@@ -64,7 +64,7 @@ timezone: string;
 channel_date_created: number;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/shared-channel.d.ts:129
+Defined in: packages/types/dist/events/shared-channel.d.ts:129
 
 ***
 
@@ -74,7 +74,7 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/shared-chann
 channel_id: string;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/shared-channel.d.ts:105
+Defined in: packages/types/dist/events/shared-channel.d.ts:105
 
 ***
 
@@ -84,7 +84,7 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/shared-chann
 channel_message_latest_counted_timestamp: number;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/shared-channel.d.ts:130
+Defined in: packages/types/dist/events/shared-channel.d.ts:130
 
 ***
 
@@ -94,7 +94,7 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/shared-chann
 channel_name: string;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/shared-channel.d.ts:107
+Defined in: packages/types/dist/events/shared-channel.d.ts:107
 
 ***
 
@@ -104,7 +104,7 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/shared-chann
 channel_type: "private" | "public";
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/shared-channel.d.ts:108
+Defined in: packages/types/dist/events/shared-channel.d.ts:108
 
 ***
 
@@ -114,7 +114,7 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/shared-chann
 event_ts: string;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/shared-channel.d.ts:131
+Defined in: packages/types/dist/events/shared-channel.d.ts:131
 
 ***
 
@@ -124,7 +124,7 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/shared-chann
 event_type: "slack#/events/shared_channel_invite_requested";
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/shared-channel.d.ts:106
+Defined in: packages/types/dist/events/shared-channel.d.ts:106
 
 ***
 
@@ -134,7 +134,7 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/shared-chann
 is_external_limited: boolean;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/shared-channel.d.ts:128
+Defined in: packages/types/dist/events/shared-channel.d.ts:128
 
 ***
 
@@ -147,7 +147,7 @@ target_users: [{
 }];
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/shared-channel.d.ts:109
+Defined in: packages/types/dist/events/shared-channel.d.ts:109
 
 ***
 
@@ -169,7 +169,7 @@ teams_in_channel: [{
 }];
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/shared-channel.d.ts:113
+Defined in: packages/types/dist/events/shared-channel.d.ts:113
 
 ***
 
@@ -179,4 +179,4 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/shared-chann
 type: "shared_channel_invite_requested";
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/shared-channel.d.ts:95
+Defined in: packages/types/dist/events/shared-channel.d.ts:95

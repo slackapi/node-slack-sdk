@@ -2,7 +2,7 @@
 
 # Interface: ChannelDeletedEvent
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/channel.d.ts:32
+Defined in: packages/types/dist/events/channel.d.ts:32
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/channel.d.ts
 channel: string;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/channel.d.ts:34
+Defined in: packages/types/dist/events/channel.d.ts:34
 
 ***
 
@@ -22,4 +22,4 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/channel.d.ts
 type: "channel_deleted";
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/channel.d.ts:33
+Defined in: packages/types/dist/events/channel.d.ts:33

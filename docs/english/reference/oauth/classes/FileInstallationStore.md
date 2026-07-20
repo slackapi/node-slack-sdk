@@ -13,14 +13,14 @@ Defined in: [packages/oauth/src/installation-stores/file-store.ts:14](https://gi
 ### Constructor
 
 ```ts
-new FileInstallationStore(__namedParameters): FileInstallationStore;
+new FileInstallationStore(__namedParameters?): FileInstallationStore;
 ```
 
 Defined in: [packages/oauth/src/installation-stores/file-store.ts:19](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/installation-stores/file-store.ts#L19)
 
 #### Parameters
 
-##### \_\_namedParameters
+##### \_\_namedParameters?
 
 `FileInstallationOptions` = `{}`
 

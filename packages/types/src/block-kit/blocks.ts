@@ -22,9 +22,11 @@ import type {
   Select,
   Timepicker,
   URLInput,
+  URLSourceElement,
   WorkflowButton,
 } from './block-elements';
 import type {
+  MrkdwnElement,
   PlainTextElement,
   RawTextElement,
   SlackFileImageObject,
@@ -53,6 +55,9 @@ export interface Block {
  */
 export type KnownBlock =
   | ActionsBlock
+  | AlertBlock
+  | CardBlock
+  | CarouselBlock
   | ContextBlock
   | ContextActionsBlock
   | DividerBlock
@@ -64,6 +69,8 @@ export type KnownBlock =
   | RichTextBlock
   | SectionBlock
   | TableBlock
+  | TaskCardBlock
+  | PlanBlock
   | VideoBlock;
 
 /**
@@ -103,6 +110,78 @@ export interface ActionsBlock extends Block {
    * There is a maximum of 25 elements in each action block.
    */
   elements: ActionsBlockElement[]; // TODO: breaking change: min 1 item
+}
+
+/**
+ * @description Displays alerts, warnings, and informational messages.
+ * @see {@link https://docs.slack.dev/reference/block-kit/blocks/alert-block Alert block reference}.
+ */
+export interface AlertBlock extends Block {
+  /**
+   * @description The type of block. For an alert block, `type` is always `alert`.
+   */
+  type: 'alert';
+  /**
+   * @description The alert message content in the form of a {@link TextObject}.
+   */
+  text: TextObject;
+  /**
+   * @description The severity level of the alert. Defaults to `"default"` if omitted.
+   */
+  level?: 'default' | 'info' | 'warning' | 'error' | 'success';
+}
+
+/**
+ * @description Displays content in a card. At least one of `hero_image`, `title`, `actions`, or `body` must be provided.
+ * @see {@link https://docs.slack.dev/reference/block-kit/blocks/card-block Card block reference}.
+ */
+export interface CardBlock extends Block {
+  /**
+   * @description The type of block. For a card block, `type` is always `card`.
+   */
+  type: 'card';
+  /**
+   * @description A top banner image for the card in the form of an {@link ImageElement}.
+   */
+  hero_image?: ImageElement;
+  /**
+   * @description A small icon displayed next to the title and subtitle in the form of an {@link ImageElement}.
+   */
+  icon?: ImageElement;
+  /**
+   * @description The title of the card in the form of a {@link MrkdwnElement}.
+   * Maximum length for the text in this field is 150 characters.
+   */
+  title?: MrkdwnElement;
+  /**
+   * @description The subtitle of the card in the form of a {@link MrkdwnElement}.
+   * Maximum length for the text in this field is 150 characters.
+   */
+  subtitle?: MrkdwnElement;
+  /**
+   * @description The body text of the card in the form of a {@link MrkdwnElement}.
+   * Maximum length for the text in this field is 200 characters.
+   */
+  body?: MrkdwnElement;
+  /**
+   * @description An array of {@link Button} elements displayed at the bottom of the card.
+   */
+  actions?: Button[];
+}
+
+/**
+ * @description Displays related card blocks in a horizontally-scrolling container.
+ * @see {@link https://docs.slack.dev/reference/block-kit/blocks/carousel-block Carousel block reference}.
+ */
+export interface CarouselBlock extends Block {
+  /**
+   * @description The type of block. For a carousel block, `type` is always `carousel`.
+   */
+  type: 'carousel';
+  /**
+   * @description An array of {@link CardBlock} elements. Minimum 1, maximum 10 cards.
+   */
+  elements: CardBlock[];
 }
 
 /**
@@ -400,6 +479,68 @@ interface TableBlockColumnSettings {
    * @description Whether the contents of this column should be wrapped or not. Defaults to false if not defined.
    */
   is_wrapped?: boolean;
+}
+
+/**
+ * @description A discrete task or tool call.
+ * @see https://docs.slack.dev/reference/block-kit/blocks/task-card-block/
+ */
+export interface TaskCardBlock extends Block {
+  /**
+   * @description The type of block. For this block, type will always be `task_card`.
+   */
+  type: 'task_card';
+
+  /**
+   * @description ID for the task.
+   */
+  task_id: string;
+
+  /**
+   * @description Title of the task in plain text.
+   */
+  title: string;
+
+  /**
+   * @description Details of the task in the form of a single "rich_text" entity.
+   */
+  details?: RichTextBlock;
+
+  /**
+   * @description Output of the task in the form of a single "rich_text" entity.
+   */
+  output?: RichTextBlock;
+
+  /**
+   * @description Array of URL source elements used to generate a response.
+   */
+  sources?: URLSourceElement[];
+
+  /**
+   * @description The state of a task. Can be "pending", "in_progress", "complete", or "error".
+   */
+  status: 'pending' | 'in_progress' | 'complete' | 'error';
+}
+
+/**
+ * @description A collection of related tasks.
+ * @see https://docs.slack.dev/reference/block-kit/blocks/plan-block/
+ */
+export interface PlanBlock extends Block {
+  /**
+   * @description The type of block. In this case `type` is always `plan`.
+   */
+  type: 'plan';
+
+  /**
+   * @description Title of the plan in plain text.
+   */
+  title: string;
+
+  /**
+   * @description A sequence of task card blocks. Each task represents a single action within the plan.
+   */
+  tasks?: (TaskCardBlock | Record<string, unknown>)[];
 }
 
 /**

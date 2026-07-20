@@ -8,7 +8,7 @@ type ImageElement = object &
   | SlackFileImageObject;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:219
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:223
 
 ## Type Declaration
 

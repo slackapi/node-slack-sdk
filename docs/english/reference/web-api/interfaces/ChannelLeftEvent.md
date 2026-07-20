@@ -2,7 +2,7 @@
 
 # Interface: ChannelLeftEvent
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/channel.d.ts:48
+Defined in: packages/types/dist/events/channel.d.ts:48
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/channel.d.ts
 actor_id: string;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/channel.d.ts:51
+Defined in: packages/types/dist/events/channel.d.ts:51
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/channel.d.ts
 channel: string;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/channel.d.ts:50
+Defined in: packages/types/dist/events/channel.d.ts:50
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/channel.d.ts
 event_ts: string;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/channel.d.ts:52
+Defined in: packages/types/dist/events/channel.d.ts:52
 
 ***
 
@@ -42,4 +42,4 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/channel.d.ts
 type: "channel_left";
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/channel.d.ts:49
+Defined in: packages/types/dist/events/channel.d.ts:49

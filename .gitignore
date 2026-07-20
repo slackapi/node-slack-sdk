@@ -1,16 +1,16 @@
 node_modules
-/package-lock.json
 scripts/package-lock.json
 examples/*/package-lock.json
 
 npm-debug.log
-lerna-debug.log
+lcov.info
+test-results.xml
 tmp/
 .env*
+!.env.sample
 
 # npm pack outputs
 *.tgz
 *.bk
 
 .DS_Store
-.nyc_output/

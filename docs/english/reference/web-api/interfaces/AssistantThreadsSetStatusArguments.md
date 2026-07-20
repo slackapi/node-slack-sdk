@@ -24,6 +24,46 @@ Channel ID containing the assistant thread.
 
 ***
 
+### icon\_emoji?
+
+```ts
+optional icon_emoji: string;
+```
+
+Defined in: [packages/web-api/src/types/request/assistant.ts:17](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/assistant.ts#L17)
+
+#### Description
+
+Emoji to use as the icon for this message. Overrides `icon_url`.
+
+#### Example
+
+```ts
+:chart_with_upwards_trend:
+```
+
+***
+
+### icon\_url?
+
+```ts
+optional icon_url: string;
+```
+
+Defined in: [packages/web-api/src/types/request/assistant.ts:22](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/assistant.ts#L22)
+
+#### Description
+
+Image URL to use as the icon for this message.
+
+#### Example
+
+```ts
+http://lorempixel.com/48/48
+```
+
+***
+
 ### loading\_messages?
 
 ```ts
@@ -82,4 +122,24 @@ Overridable authentication token bearing required scopes.
 
 ```ts
 TokenOverridable.token
+```
+
+***
+
+### username?
+
+```ts
+optional username: string;
+```
+
+Defined in: [packages/web-api/src/types/request/assistant.ts:27](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/assistant.ts#L27)
+
+#### Description
+
+The bot's username to display.
+
+#### Example
+
+```ts
+My Bot
 ```

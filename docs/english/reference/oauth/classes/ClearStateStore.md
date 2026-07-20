@@ -18,7 +18,7 @@ it can transfer the given InstallURLOptions value to the Redirect URL handler
 ### Constructor
 
 ```ts
-new ClearStateStore(stateSecret, stateExpirationSeconds): ClearStateStore;
+new ClearStateStore(stateSecret, stateExpirationSeconds?): ClearStateStore;
 ```
 
 Defined in: [packages/oauth/src/state-stores/clear-state-store.ts:13](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/state-stores/clear-state-store.ts#L13)
@@ -29,7 +29,7 @@ Defined in: [packages/oauth/src/state-stores/clear-state-store.ts:13](https://gi
 
 `string`
 
-##### stateExpirationSeconds
+##### stateExpirationSeconds?
 
 `number` = `600`
 

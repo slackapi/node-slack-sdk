@@ -2,7 +2,7 @@
 
 # Interface: ChannelIDChangedEvent
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/channel.d.ts:42
+Defined in: packages/types/dist/events/channel.d.ts:42
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/channel.d.ts
 event_ts: string;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/channel.d.ts:46
+Defined in: packages/types/dist/events/channel.d.ts:46
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/channel.d.ts
 new_channel_id: string;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/channel.d.ts:45
+Defined in: packages/types/dist/events/channel.d.ts:45
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/channel.d.ts
 old_channel_id: string;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/channel.d.ts:44
+Defined in: packages/types/dist/events/channel.d.ts:44
 
 ***
 
@@ -42,4 +42,4 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/channel.d.ts
 type: "channel_id_changed";
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/channel.d.ts:43
+Defined in: packages/types/dist/events/channel.d.ts:43

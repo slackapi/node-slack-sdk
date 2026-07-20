@@ -2,7 +2,7 @@
 
 # Interface: CanvasesEditArguments
 
-Defined in: [packages/web-api/src/types/request/canvas.ts:86](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/canvas.ts#L86)
+Defined in: [packages/web-api/src/types/request/canvas.ts:87](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/canvas.ts#L87)
 
 ## Extends
 
@@ -36,7 +36,7 @@ CanvasID.canvas_id
 changes: [Change, ...Change[]];
 ```
 
-Defined in: [packages/web-api/src/types/request/canvas.ts:88](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/canvas.ts#L88)
+Defined in: [packages/web-api/src/types/request/canvas.ts:89](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/canvas.ts#L89)
 
 #### Description
 

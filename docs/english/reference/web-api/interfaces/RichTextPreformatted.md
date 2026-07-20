@@ -2,7 +2,7 @@
 
 # Interface: RichTextPreformatted
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:905
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:927
 
 ## Description
 
@@ -20,7 +20,7 @@ A block of preformatted text within a rich text field.
 optional border: 0 | 1;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/extensions.d.ts:66
+Defined in: packages/types/dist/block-kit/extensions.d.ts:66
 
 #### Description
 
@@ -39,7 +39,7 @@ while `1` renders a border.
 elements: (RichTextLink | RichTextText)[];
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:913
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:935
 
 #### Description
 
@@ -53,7 +53,7 @@ An array of either [RichTextLink](RichTextLink.md) or [RichTextText](RichTextTex
 type: "rich_text_preformatted";
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:909
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:931
 
 #### Description
 

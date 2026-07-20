@@ -2,7 +2,7 @@
 
 # Interface: AssistantThreadsSetTitleArguments
 
-Defined in: [packages/web-api/src/types/request/assistant.ts:35](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/assistant.ts#L35)
+Defined in: [packages/web-api/src/types/request/assistant.ts:50](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/assistant.ts#L50)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [packages/web-api/src/types/request/assistant.ts:35](https://github.
 channel_id: string;
 ```
 
-Defined in: [packages/web-api/src/types/request/assistant.ts:37](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/assistant.ts#L37)
+Defined in: [packages/web-api/src/types/request/assistant.ts:52](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/assistant.ts#L52)
 
 #### Description
 
@@ -30,7 +30,7 @@ Channel ID containing the assistant thread.
 thread_ts: string;
 ```
 
-Defined in: [packages/web-api/src/types/request/assistant.ts:39](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/assistant.ts#L39)
+Defined in: [packages/web-api/src/types/request/assistant.ts:54](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/assistant.ts#L54)
 
 #### Description
 
@@ -44,7 +44,7 @@ Message timestamp of the thread.
 title: string;
 ```
 
-Defined in: [packages/web-api/src/types/request/assistant.ts:41](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/assistant.ts#L41)
+Defined in: [packages/web-api/src/types/request/assistant.ts:56](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/assistant.ts#L56)
 
 #### Description
 

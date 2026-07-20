@@ -1,0 +1,26 @@
+{
+  "_metadata": {
+    "major_version": 1,
+    "minor_version": 1
+  },
+  "display_information": {
+    "name": "Node SDK Connect Receiver",
+    "description": "Slack Connect receiver bot for integration tests - installed in the RECEIVING workspace"
+  },
+  "features": {
+    "bot_user": {
+      "display_name": "SDK Connect Receiver",
+      "always_online": false
+    }
+  },
+  "oauth_config": {
+    "scopes": {
+      "bot": ["conversations.connect:manage", "conversations.connect:write", "conversations.connect:read"]
+    }
+  },
+  "settings": {
+    "org_deploy_enabled": false,
+    "socket_mode_enabled": false,
+    "token_rotation_enabled": false
+  }
+}

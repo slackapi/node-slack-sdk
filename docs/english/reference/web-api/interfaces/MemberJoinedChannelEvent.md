@@ -2,7 +2,7 @@
 
 # Interface: MemberJoinedChannelEvent
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/member.d.ts:1
+Defined in: packages/types/dist/events/member.d.ts:1
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/member.d.ts:
 channel: string;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/member.d.ts:4
+Defined in: packages/types/dist/events/member.d.ts:4
 
 ***
 
@@ -22,7 +22,17 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/member.d.ts:
 channel_type: string;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/member.d.ts:5
+Defined in: packages/types/dist/events/member.d.ts:5
+
+***
+
+### enterprise?
+
+```ts
+optional enterprise: string;
+```
+
+Defined in: packages/types/dist/events/member.d.ts:8
 
 ***
 
@@ -32,7 +42,7 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/member.d.ts:
 event_ts: string;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/member.d.ts:8
+Defined in: packages/types/dist/events/member.d.ts:9
 
 ***
 
@@ -42,7 +52,7 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/member.d.ts:
 optional inviter: string;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/member.d.ts:7
+Defined in: packages/types/dist/events/member.d.ts:7
 
 ***
 
@@ -52,7 +62,7 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/member.d.ts:
 team: string;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/member.d.ts:6
+Defined in: packages/types/dist/events/member.d.ts:6
 
 ***
 
@@ -62,7 +72,7 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/member.d.ts:
 type: "member_joined_channel";
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/member.d.ts:2
+Defined in: packages/types/dist/events/member.d.ts:2
 
 ***
 
@@ -72,4 +82,4 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/member.d.ts:
 user: string;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/member.d.ts:3
+Defined in: packages/types/dist/events/member.d.ts:3

@@ -2,7 +2,7 @@
 
 # Interface: CanvasesSectionsLookupArguments
 
-Defined in: [packages/web-api/src/types/request/canvas.ts:77](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/canvas.ts#L77)
+Defined in: [packages/web-api/src/types/request/canvas.ts:78](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/canvas.ts#L78)
 
 ## Extends
 
@@ -36,7 +36,7 @@ CanvasID.canvas_id
 criteria: Criteria;
 ```
 
-Defined in: [packages/web-api/src/types/request/canvas.ts:79](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/canvas.ts#L79)
+Defined in: [packages/web-api/src/types/request/canvas.ts:80](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/canvas.ts#L80)
 
 #### Description
 

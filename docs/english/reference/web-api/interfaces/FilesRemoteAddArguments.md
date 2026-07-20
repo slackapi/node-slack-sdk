@@ -2,7 +2,7 @@
 
 # Interface: FilesRemoteAddArguments
 
-Defined in: [packages/web-api/src/types/request/files.ts:215](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/files.ts#L215)
+Defined in: [packages/web-api/src/types/request/files.ts:222](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/files.ts#L222)
 
 ## Extends
 
@@ -36,7 +36,7 @@ ExternalIDArgument.external_id
 external_url: string;
 ```
 
-Defined in: [packages/web-api/src/types/request/files.ts:204](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/files.ts#L204)
+Defined in: [packages/web-api/src/types/request/files.ts:211](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/files.ts#L211)
 
 #### Description
 
@@ -80,7 +80,7 @@ FileType.filetype
 optional indexable_file_contents: Buffer<ArrayBufferLike> | Stream;
 ```
 
-Defined in: [packages/web-api/src/types/request/files.ts:211](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/files.ts#L211)
+Defined in: [packages/web-api/src/types/request/files.ts:218](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/files.ts#L218)
 
 #### Description
 
@@ -101,7 +101,7 @@ SharedFile.indexable_file_contents
 optional preview_image: Buffer<ArrayBufferLike> | Stream;
 ```
 
-Defined in: [packages/web-api/src/types/request/files.ts:206](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/files.ts#L206)
+Defined in: [packages/web-api/src/types/request/files.ts:213](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/files.ts#L213)
 
 #### Description
 
@@ -121,7 +121,7 @@ SharedFile.preview_image
 title: string;
 ```
 
-Defined in: [packages/web-api/src/types/request/files.ts:202](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/files.ts#L202)
+Defined in: [packages/web-api/src/types/request/files.ts:209](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/files.ts#L209)
 
 #### Description
 

@@ -2,7 +2,7 @@
 
 # Interface: FunctionExecutedEvent
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/function.d.ts:11
+Defined in: packages/types/dist/events/function.d.ts:11
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/function.d.t
 bot_access_token: string;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/function.d.ts:30
+Defined in: packages/types/dist/events/function.d.ts:30
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/function.d.t
 event_ts: string;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/function.d.ts:29
+Defined in: packages/types/dist/events/function.d.ts:29
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/function.d.t
 function: object;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/function.d.ts:13
+Defined in: packages/types/dist/events/function.d.ts:13
 
 #### app\_id
 
@@ -108,7 +108,7 @@ type: string;
 function_execution_id: string;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/function.d.ts:27
+Defined in: packages/types/dist/events/function.d.ts:27
 
 ***
 
@@ -118,7 +118,7 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/function.d.t
 inputs: FunctionInputs;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/function.d.ts:26
+Defined in: packages/types/dist/events/function.d.ts:26
 
 ***
 
@@ -128,7 +128,7 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/function.d.t
 type: "function_executed";
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/function.d.ts:12
+Defined in: packages/types/dist/events/function.d.ts:12
 
 ***
 
@@ -138,4 +138,4 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/function.d.t
 workflow_execution_id: string;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/function.d.ts:28
+Defined in: packages/types/dist/events/function.d.ts:28

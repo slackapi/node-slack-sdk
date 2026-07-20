@@ -2,7 +2,7 @@
 
 # Interface: SubteamSelfRemovedEvent
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/subteam.d.ts:55
+Defined in: packages/types/dist/events/subteam.d.ts:55
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/subteam.d.ts
 event_ts: string;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/subteam.d.ts:58
+Defined in: packages/types/dist/events/subteam.d.ts:58
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/subteam.d.ts
 subteam_id: string;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/subteam.d.ts:57
+Defined in: packages/types/dist/events/subteam.d.ts:57
 
 ***
 
@@ -32,4 +32,4 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/subteam.d.ts
 type: "subteam_self_removed";
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/subteam.d.ts:56
+Defined in: packages/types/dist/events/subteam.d.ts:56

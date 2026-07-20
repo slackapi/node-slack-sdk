@@ -2,7 +2,7 @@
 
 # Interface: MemberLeftChannelEvent
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/member.d.ts:10
+Defined in: packages/types/dist/events/member.d.ts:11
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/member.d.ts:
 channel: string;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/member.d.ts:13
+Defined in: packages/types/dist/events/member.d.ts:14
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/member.d.ts:
 channel_type: string;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/member.d.ts:14
+Defined in: packages/types/dist/events/member.d.ts:15
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/member.d.ts:
 event_ts: string;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/member.d.ts:16
+Defined in: packages/types/dist/events/member.d.ts:17
 
 ***
 
@@ -42,7 +42,7 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/member.d.ts:
 team: string;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/member.d.ts:15
+Defined in: packages/types/dist/events/member.d.ts:16
 
 ***
 
@@ -52,7 +52,7 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/member.d.ts:
 type: "member_left_channel";
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/member.d.ts:11
+Defined in: packages/types/dist/events/member.d.ts:12
 
 ***
 
@@ -62,4 +62,4 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/member.d.ts:
 user: string;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/member.d.ts:12
+Defined in: packages/types/dist/events/member.d.ts:13

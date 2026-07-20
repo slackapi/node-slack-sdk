@@ -1,29 +1,42 @@
 [@slack/webhook](../index.md) / CodedError
 
-# Interface: CodedError
+# ~~Interface: CodedError~~
 
-Defined in: [packages/webhook/src/errors.ts:6](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/errors.ts#L6)
+Defined in: [packages/webhook/src/errors.ts:4](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/errors.ts#L4)
 
-All errors produced by this package adhere to this interface
+## Deprecated
+
+Use `instanceof` checks with specific error classes (e.g. `IncomingWebhookRequestError`) or the `SlackWebhookError` base class instead.
 
 ## Extends
 
 - `ErrnoException`
 
-## Extended by
-
-- [`IncomingWebhookHTTPError`](IncomingWebhookHTTPError.md)
-- [`IncomingWebhookRequestError`](IncomingWebhookRequestError.md)
-
 ## Properties
 
-### code
+### ~~cause?~~
+
+```ts
+optional cause: unknown;
+```
+
+Defined in: node\_modules/typescript/lib/lib.es2022.error.d.ts:26
+
+#### Inherited from
+
+```ts
+NodeJS.ErrnoException.cause
+```
+
+***
+
+### ~~code~~
 
 ```ts
 code: ErrorCode;
 ```
 
-Defined in: [packages/webhook/src/errors.ts:7](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/errors.ts#L7)
+Defined in: [packages/webhook/src/errors.ts:5](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/errors.ts#L5)
 
 #### Overrides
 
@@ -33,13 +46,13 @@ NodeJS.ErrnoException.code
 
 ***
 
-### errno?
+### ~~errno?~~
 
 ```ts
 optional errno: number;
 ```
 
-Defined in: packages/webhook/node\_modules/@types/node/globals.d.ts:196
+Defined in: packages/webhook/node\_modules/@types/node/globals.d.ts:101
 
 #### Inherited from
 
@@ -49,7 +62,7 @@ NodeJS.ErrnoException.errno
 
 ***
 
-### message
+### ~~message~~
 
 ```ts
 message: string;
@@ -65,7 +78,7 @@ NodeJS.ErrnoException.message
 
 ***
 
-### name
+### ~~name~~
 
 ```ts
 name: string;
@@ -81,13 +94,13 @@ NodeJS.ErrnoException.name
 
 ***
 
-### path?
+### ~~path?~~
 
 ```ts
 optional path: string;
 ```
 
-Defined in: packages/webhook/node\_modules/@types/node/globals.d.ts:198
+Defined in: packages/webhook/node\_modules/@types/node/globals.d.ts:103
 
 #### Inherited from
 
@@ -97,7 +110,7 @@ NodeJS.ErrnoException.path
 
 ***
 
-### stack?
+### ~~stack?~~
 
 ```ts
 optional stack: string;
@@ -113,13 +126,13 @@ NodeJS.ErrnoException.stack
 
 ***
 
-### syscall?
+### ~~syscall?~~
 
 ```ts
 optional syscall: string;
 ```
 
-Defined in: packages/webhook/node\_modules/@types/node/globals.d.ts:199
+Defined in: packages/webhook/node\_modules/@types/node/globals.d.ts:104
 
 #### Inherited from
 

@@ -2,7 +2,7 @@
 
 # Interface: AssistantThreadContextChangedEvent
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/assistant.d.ts:15
+Defined in: packages/types/dist/events/assistant.d.ts:15
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/assistant.d.
 assistant_thread: object;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/assistant.d.ts:17
+Defined in: packages/types/dist/events/assistant.d.ts:17
 
 #### channel\_id
 
@@ -64,7 +64,7 @@ user_id: string;
 event_ts: string;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/assistant.d.ts:27
+Defined in: packages/types/dist/events/assistant.d.ts:27
 
 ***
 
@@ -74,4 +74,4 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/assistant.d.
 type: "assistant_thread_context_changed";
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/assistant.d.ts:16
+Defined in: packages/types/dist/events/assistant.d.ts:16

@@ -46,10 +46,20 @@ interface ManifestDisplayInformation {
 
 interface ManifestFeatures {
   /**
+   * @description A subgroup of settings that describe {@link https://docs.slack.dev/ai/developing-ai-apps agent} configuration.
+   * @see {@link https://docs.slack.dev/ai/developing-ai-apps Developing AI apps}.
+   */
+  agent_view?: ManifestAgentView;
+  /**
    * @description A subgroup of settings that describe {@link https://docs.slack.dev/surfaces/app-home App Home} configuration.
    * @see {@link https://docs.slack.dev/surfaces/app-home App Home}.
    */
   app_home?: ManifestAppHome;
+  /**
+   * @description A subgroup of settings that describe {@link https://docs.slack.dev/ai/developing-ai-apps assistant} configuration.
+   * @see {@link https://docs.slack.dev/ai/developing-ai-apps Developing AI apps}.
+   */
+  assistant_view?: ManifestAssistantView;
   /**
    * @description A subgroup of settings that describe {@link https://docs.slack.dev/legacy/legacy-bot-users bot user} configuration.
    * @see {@link https://docs.slack.dev/legacy/legacy-bot-users Legacy bots}.
@@ -73,6 +83,44 @@ interface ManifestFeatures {
    * @see {@link https://docs.slack.dev/messaging/unfurling-links-in-messages Link unfurling: configuring domains}.
    */
   unfurl_domains?: string[];
+}
+
+interface ManifestAgentView {
+  /**
+   * @description A description specific to the agent, used to communicate to end users what agent functionality the
+   * app provides. Maximum length is 300 characters.
+   */
+  agent_description?: string;
+  /**
+   * @description An array of pre-written prompts designed to guide users when interacting with the agent. A maximum of
+   * 4 suggested prompts can be included in this array.
+   */
+  suggested_prompts?: ManifestSuggestedPrompt[];
+  /** @description Quick actions surfaced in the agent UI. */
+  actions?: ManifestAgentAction[];
+}
+
+interface ManifestAssistantView {
+  /** @description A string that describes the app assistant. */
+  assistant_description: string;
+  /**
+   * @description An array of pre-written prompts designed to guide users when interacting with the app assistant.
+   */
+  suggested_prompts?: ManifestSuggestedPrompt[];
+}
+
+interface ManifestSuggestedPrompt {
+  /** @description The prompt title. */
+  title: string;
+  /** @description The prompt content. */
+  message: string;
+}
+
+interface ManifestAgentAction {
+  /** @description The action name. */
+  name: string;
+  /** @description A short description of what the action does. */
+  description: string;
 }
 
 interface ManifestAppHome {
@@ -163,6 +211,16 @@ interface ManifestOAuthScopes {
    * to request upon app installation. A maximum of 255 scopes can included in this array.
    */
   user?: UserScope[];
+  /**
+   * @description An array of strings containing optional {@link https://docs.slack.dev/reference/scopes?token_types=Bot granular bot scopes}
+   * to request upon app installation. A maximum of 255 scopes can included in this array.
+   */
+  bot_optional?: BotScope[];
+  /**
+   * @description An array of strings containing optional {@link https://docs.slack.dev/reference/scopes?token_types=User user scopes}
+   * to request upon app installation. A maximum of 255 scopes can included in this array.
+   */
+  user_optional?: UserScope[];
 }
 
 interface ManifestSettings {
@@ -205,6 +263,18 @@ interface ManifestEventSubscriptions {
    * If set, you'll need to manually verify the Request URL in the App Manifest section of App Management.
    */
   request_url?: string; // can be absent when enabling Socket Mode
+  /**
+   * @description An array describing {@link https://docs.slack.dev/messaging/message-metadata message metadata} event
+   * types the app subscribes to. Between 1 and 20 subscriptions can be included in this array.
+   */
+  metadata_subscriptions?: ManifestMetadataSubscription[];
+}
+
+interface ManifestMetadataSubscription {
+  /** @description The ID of the app publishing the message metadata event. */
+  app_id: string;
+  /** @description The event type of the message metadata to subscribe to. */
+  event_type: string;
 }
 
 interface ManifestIncomingWebhooks {
@@ -447,11 +517,14 @@ export type AppManifestLevelScopes = 'authorizations:read' | 'connections:write'
 // var events = [].slice.call(document.getElementsByClassName('apiReferenceFilterableList__listItemLink'))
 // .map(e => '"' + e.innerText + '"').join(' | '); console.log("export type AnyMafifestEvent = " + events + ";");
 type ManifestEvent =
+  | 'app_context_changed'
   | 'app_home_opened'
   | 'app_mention'
   | 'app_rate_limited'
   | 'app_requested'
   | 'app_uninstalled'
+  | 'assistant_thread_context_changed'
+  | 'assistant_thread_started'
   | 'call_rejected'
   | 'channel_archive'
   | 'channel_created'

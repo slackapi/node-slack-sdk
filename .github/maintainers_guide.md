@@ -8,6 +8,29 @@ Maintaining this project requires installing [Node.js](https://nodejs.org). All 
 
 ## ✅ Tasks
 
+### 🔧 Git hooks (optional)
+
+#### Pre-commit lint hook
+
+We provide an opt-in Git hook that runs `npm run lint` from the repository root before a commit is created.
+
+Enable it once per clone:
+
+```sh
+git config core.hooksPath .githooks
+```
+
+Disable it:
+
+```sh
+git config --unset core.hooksPath
+```
+
+Notes:
+
+- The hook runs `npm run lint` from the repository root.
+- You can skip it with `git commit --no-verify` if needed.
+
 ### ⚗️ Testing and Linting
 
 The Node SDK is made up of multiple, individual packages, each with their own tests. As such, tests are run on a per-package basis. However, the top-level directory contains some development dependencies applicable to all packages. As a result, to run tests for any package, first run `npm install` from the top-level directory. Then run `npm test --workspace packages/<package-name>` to run that package's tests. To run linting across all packages, run `npm run lint` from the root directory.
@@ -15,10 +38,11 @@ The Node SDK is made up of multiple, individual packages, each with their own te
 ```sh
 npm install
 npm run lint
+npm test
 npm test --workspace packages/web-api
 ```
 
-This project has tests for individual packages as `*.spec.js` files and inside of each package's `src` directory. Also, for verifying the behavior with the real Slack server-side and developer experience with installed packages, you can run the tests amd scripts under `prod-server-integration-tests`. Refer to the README file in the directory for details. These tests are supposed to be run in the project maintainers' manual execution. They are not part of CI builds for now.
+This project has tests for individual packages as `*.test.ts` (or `*.test.js`) files inside of each package's `src` directory. Tests use `node:test` as the test runner and `node:assert/strict` for assertions. Also, for verifying the behavior with the real Slack server-side and developer experience with installed packages, you can run the tests and scripts under `prod-server-integration-tests`. Refer to the README file in the directory for details. These tests are supposed to be run in the project maintainers' manual execution. They are not part of CI builds for now.
 
 Upon opening a PR, tests are executed by GitHub Actions, our continuous integration system. GitHub Actions runs several, more granular builds in order to report on success and failure in a more targeted way.
 
@@ -54,7 +78,13 @@ Remove cached project dependencies with `rm -r node_modules package-lock.json` b
 
 The reference docs for each package is independent of the others. They're generated using the `typedoc` and `typedoc-plugin-markdown` packages with the configurations of the package's `typedoc.json` file.
 
-Each package has a script to these generate reference docs. For example:
+Generate reference docs for all packages:
+
+```sh
+npm run docs
+```
+
+Or generate docs for a specific package. For example:
 
 ```sh
 npm run docs --workspace packages/web-api
@@ -86,9 +116,9 @@ New official package versions are published when the release PR created from cha
 
 1. **Check GitHub Milestones**: Before merging the release PR please check the relevant [Milestones](https://github.com/slackapi/node-slack-sdk/milestones). If issues or pull requests are still open either decide to postpone the release or save those changes for a future update.
 
-2. **Review the release PR**: Verify that version bumps match expectations, `CHANGELOG` entries are clear, and CI checks pass.
+2. **Review the release PR**: Verify that version bumps match expectations, `CHANGELOG` entries are clear, and CI checks pass on the `main` branch.
 
-3. **Merge and approve**: Merge the release PR, then approve the publish workflow to release packages to npm.
+3. **Merge and approve**: Merge the release PR, then approve the [publish](https://github.com/slackapi/node-slack-sdk/actions/workflows/release.yml) workflow to release packages to npm.
 
 4. **Update Milestones**: Close the relevant [Milestones](https://github.com/slackapi/node-slack-sdk/milestones) and rename these to match the released package versions. Open a new Milestone for the next version, e.g. `@slack/web-api@next`.
 

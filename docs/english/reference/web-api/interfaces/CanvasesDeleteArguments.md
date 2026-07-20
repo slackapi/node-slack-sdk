@@ -2,7 +2,7 @@
 
 # Interface: CanvasesDeleteArguments
 
-Defined in: [packages/web-api/src/types/request/canvas.ts:83](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/canvas.ts#L83)
+Defined in: [packages/web-api/src/types/request/canvas.ts:84](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/canvas.ts#L84)
 
 ## Extends
 

@@ -19,12 +19,24 @@
     "packages/webhook"
   ],
   "scripts": {
+    "build": "bash scripts/build.sh",
     "changeset": "npx @changesets/cli",
+    "clean": "npm run build:clean --workspaces --if-present && git clean -xdf node_modules packages/**/node_modules && git clean -xf '**/package-lock.json'",
+    "docs": "npm run docs --workspaces --if-present",
     "lint": "npx @biomejs/biome check packages",
-    "lint:fix": "npx @biomejs/biome check --write packages"
+    "lint:fix": "npx @biomejs/biome check --write packages",
+    "test": "npm test --workspaces --if-present",
+    "test:coverage": "npm run test:coverage --workspaces --if-present",
+    "version": "npm run changeset version && npm install && npm run docs"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.0.5",
-    "@changesets/cli": "^2.29.8"
+    "@changesets/cli": "^2.29.8",
+    "@types/node": "^18.19.130",
+    "shx": "^0.4.0",
+    "tsx": "^4.20.6",
+    "typedoc": "^0.28.7",
+    "typedoc-plugin-markdown": "^4.7.1",
+    "typescript": "5.9.3"
   }
 }

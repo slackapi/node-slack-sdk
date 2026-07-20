@@ -2,7 +2,7 @@
 
 # Interface: AppDeletedEvent
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/app.d.ts:83
+Defined in: packages/types/dist/events/app.d.ts:84
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/app.d.ts:83
 app_id: string;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/app.d.ts:85
+Defined in: packages/types/dist/events/app.d.ts:86
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/app.d.ts:85
 app_name: string;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/app.d.ts:86
+Defined in: packages/types/dist/events/app.d.ts:87
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/app.d.ts:86
 app_owner_id: string;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/app.d.ts:87
+Defined in: packages/types/dist/events/app.d.ts:88
 
 ***
 
@@ -42,7 +42,7 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/app.d.ts:87
 event_ts: string;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/app.d.ts:90
+Defined in: packages/types/dist/events/app.d.ts:91
 
 ***
 
@@ -52,7 +52,7 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/app.d.ts:90
 team_domain: string;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/app.d.ts:89
+Defined in: packages/types/dist/events/app.d.ts:90
 
 ***
 
@@ -62,7 +62,7 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/app.d.ts:89
 team_id: string;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/app.d.ts:88
+Defined in: packages/types/dist/events/app.d.ts:89
 
 ***
 
@@ -72,4 +72,4 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/app.d.ts:88
 type: "app_deleted";
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/app.d.ts:84
+Defined in: packages/types/dist/events/app.d.ts:85

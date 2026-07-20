@@ -75,7 +75,7 @@ Fetches data from the installationStore
 ```ts
 generateInstallUrl(
    options, 
-   stateVerification, 
+   stateVerification?, 
 state?): Promise<string>;
 ```
 
@@ -90,7 +90,7 @@ Uses stateStore to generate a value for the state query param.
 
 [`InstallURLOptions`](../interfaces/InstallURLOptions.md)
 
-##### stateVerification
+##### stateVerification?
 
 `boolean` = `true`
 

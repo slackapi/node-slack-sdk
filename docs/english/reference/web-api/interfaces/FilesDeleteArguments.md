@@ -2,7 +2,7 @@
 
 # Interface: FilesDeleteArguments
 
-Defined in: [packages/web-api/src/types/request/files.ts:84](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/files.ts#L84)
+Defined in: [packages/web-api/src/types/request/files.ts:89](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/files.ts#L89)
 
 ## Extends
 

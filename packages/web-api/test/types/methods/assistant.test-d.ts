@@ -46,6 +46,23 @@ expectAssignable<Parameters<typeof web.assistant.threads.setStatus>>([
     loading_messages: ['counting sheep...', 'moving bricks...'],
   },
 ]);
+expectAssignable<Parameters<typeof web.assistant.threads.setStatus>>([
+  {
+    channel_id: 'C1234',
+    thread_ts: '123.123',
+    status: 'counting...',
+    username: 'Abacus',
+    icon_emoji: 'abacus',
+  },
+]);
+expectAssignable<Parameters<typeof web.assistant.threads.setStatus>>([
+  {
+    channel_id: 'C1234',
+    thread_ts: '123.123',
+    status: 'dreaming...',
+    icon_url: 'https://example.com/clouds-square.png',
+  },
+]);
 
 // assistant.threads.setSuggestedPrompts
 // -- sad path
@@ -56,14 +73,10 @@ expectError(
     channel_id: 'C1234', // missing prompts and thread_ts
   }),
   web.assistant.threads.setSuggestedPrompts({
-    prompts: [], // missing channel_id and thread_ts
+    prompts: [], // missing channel_id
   }),
   web.assistant.threads.setSuggestedPrompts({
     thread_ts: '123.123', // missing channel_id and prompts
-  }),
-  web.assistant.threads.setSuggestedPrompts({
-    channel_id: 'C1234', // missing thread_ts
-    prompts: [],
   }),
   web.assistant.threads.setSuggestedPrompts({
     channel_id: 'C1234', // missing prompts
@@ -88,6 +101,19 @@ expectError(
 expectAssignable<Parameters<typeof web.assistant.threads.setSuggestedPrompts>>([
   {
     channel_id: 'C1234',
+    prompts: [],
+  },
+]);
+expectAssignable<Parameters<typeof web.assistant.threads.setSuggestedPrompts>>([
+  {
+    channel_id: 'C1234',
+    prompts: [{ title: 'Summarize this channel', message: 'Summarize the recent activity in this channel.' }],
+    title: 'Suggested Prompts',
+  },
+]);
+expectAssignable<Parameters<typeof web.assistant.threads.setSuggestedPrompts>>([
+  {
+    channel_id: 'C1234',
     thread_ts: '123.123',
     prompts: [],
   },
@@ -96,15 +122,15 @@ expectAssignable<Parameters<typeof web.assistant.threads.setSuggestedPrompts>>([
   {
     channel_id: 'C1234',
     thread_ts: '123.123',
-    prompts: [{ title: 'placeholder', message: 'example' }],
+    prompts: [{ title: 'Summarize this channel', message: 'Summarize the recent activity in this channel.' }],
   },
 ]);
 expectAssignable<Parameters<typeof web.assistant.threads.setSuggestedPrompts>>([
   {
     channel_id: 'C1234',
     thread_ts: '123.123',
-    prompts: [{ title: 'placeholder', message: 'example' }],
-    title: 'what is up?',
+    prompts: [{ title: 'Draft a reply', message: 'Draft a reply to the latest message in this thread.' }],
+    title: 'Suggested Prompts',
   },
 ]);
 

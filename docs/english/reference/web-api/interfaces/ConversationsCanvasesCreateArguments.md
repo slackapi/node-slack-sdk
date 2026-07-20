@@ -2,7 +2,7 @@
 
 # Interface: ConversationsCanvasesCreateArguments
 
-Defined in: [packages/web-api/src/types/request/canvas.ts:92](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/canvas.ts#L92)
+Defined in: [packages/web-api/src/types/request/canvas.ts:93](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/canvas.ts#L93)
 
 ## Extends
 
@@ -36,7 +36,7 @@ ChannelID.channel_id
 optional document_content: DocumentContent;
 ```
 
-Defined in: [packages/web-api/src/types/request/canvas.ts:94](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/canvas.ts#L94)
+Defined in: [packages/web-api/src/types/request/canvas.ts:95](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/canvas.ts#L95)
 
 #### Description
 
@@ -50,7 +50,7 @@ Structure describing the type and contents of the Canvas being created.
 optional title: string;
 ```
 
-Defined in: [packages/web-api/src/types/request/canvas.ts:96](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/canvas.ts#L96)
+Defined in: [packages/web-api/src/types/request/canvas.ts:97](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/canvas.ts#L97)
 
 #### Description
 
