@@ -53,7 +53,7 @@
     "@types/node": ">=20",
     "@types/retry": "0.12.5",
     "eventemitter3": "^5.0.1",
-    "p-queue": "^9",
+    "p-queue": "^9.3.3",
     "p-retry": "^7",
     "retry": "^0.13.1"
   },
