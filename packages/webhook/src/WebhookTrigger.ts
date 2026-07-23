@@ -1,7 +1,7 @@
 import pRetry, { AbortError } from 'p-retry';
 
 import { SlackWebhookError, WebhookTriggerHTTPError, WebhookTriggerRequestError } from './errors';
-import type { FetchFunction } from './IncomingWebhook';
+import type { FetchFunction, FetchResponse } from './IncomingWebhook';
 import { getUserAgent } from './instrument';
 import type { RetryOptions } from './retry-policies';
 
@@ -81,7 +81,7 @@ export class WebhookTrigger {
           throw response.status >= 500 ? httpError : new AbortError(httpError);
         }
 
-        return (await response.json()) as WebhookTriggerResult;
+        return await this.buildResult(response);
       } catch (error) {
         // Non-retryable signals (AbortError) and already-wrapped errors pass through untouched.
         if (error instanceof AbortError || error instanceof SlackWebhookError) {
@@ -91,6 +91,15 @@ export class WebhookTrigger {
         throw new WebhookTriggerRequestError(error instanceof Error ? error : new Error(String(error)));
       }
     }, this.retryConfig);
+  }
+
+  private async buildResult(response: FetchResponse): Promise<WebhookTriggerResult> {
+    const text = await response.text();
+    try {
+      return text ? (JSON.parse(text) as WebhookTriggerResult) : { ok: true };
+    } catch {
+      return { ok: true };
+    }
   }
 }
 
