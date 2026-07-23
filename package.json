@@ -37,6 +37,6 @@
     "tsx": "^4.23.1",
     "typedoc": "^0.28.7",
     "typedoc-plugin-markdown": "^4.7.1",
-    "typescript": "5.9.3"
+    "typescript": "7.0.2"
   }
 }
