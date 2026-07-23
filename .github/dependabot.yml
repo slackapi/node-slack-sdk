@@ -215,6 +215,10 @@ updates:
           - "@types/mocha"
           - "mocha"
     ignore:
+      # p-retry is pure ESM and raises its minimum Node.js version each major
+      # (v7 requires Node >= 20, v8 requires Node >= 22). Bumping it can force a
+      # change to this package's own supported Node floor.
+      - dependency-name: "p-retry"
       - dependency-name: "@types/node"
         versions:
           - "21.x"

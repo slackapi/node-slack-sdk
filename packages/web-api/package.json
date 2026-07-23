@@ -51,17 +51,17 @@
     "@slack/logger": "^5.0.0",
     "@slack/types": "^3.0.0",
     "@types/node": ">=20",
-    "@types/retry": "0.12.0",
+    "@types/retry": "0.12.5",
     "eventemitter3": "^5.0.1",
     "p-queue": "^9",
-    "p-retry": "^4",
+    "p-retry": "^7",
     "retry": "^0.13.1"
   },
   "devDependencies": {
     "@types/busboy": "^1.5.4",
     "@types/sinon": "^22",
     "busboy": "^1",
-    "nock": "^14",
+    "nock": "^14.0.16",
     "sinon": "^22",
     "tsd": "^0.33.0"
   },
