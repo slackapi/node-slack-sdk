@@ -51,7 +51,7 @@
     "eventemitter3": "^5",
     "finity": "^0.5.4",
     "p-cancelable": "^2",
-    "p-queue": "^6",
+    "p-queue": "^9",
     "ws": "^8"
   },
   "devDependencies": {
