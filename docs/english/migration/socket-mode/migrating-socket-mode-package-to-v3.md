@@ -93,7 +93,7 @@ const client = new SocketModeClient({
 
 ### We've updated the dependency on `@slack/web-api@^8`
 
-This package now uses `@slack/web-api@^8` internally. If you're passing `clientOptions`, the web-api breaking changes apply there too. Check the [web-api v8 migration guide](./web-api-v8-migration.md) for details.
+This package now uses `@slack/web-api@^8` internally. If you're passing `clientOptions`, the web-api breaking changes apply there too. Check the [web-api v8 migration guide](../web-api/migrating-web-api-package-to-v8.md) for details.
 
 ```diff
  const client = new SocketModeClient({
