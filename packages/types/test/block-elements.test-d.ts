@@ -22,7 +22,7 @@ expectAssignable<RichTextInput>({
 // RichTextInput — sad paths
 expectError<RichTextInput>({
   type: 'rich_text_input',
-  min_lines: '3',
+  min_lines: '3', // Minimum should be integer
 });
 expectError<RichTextInput>({
   type: 'rich_text_input',
