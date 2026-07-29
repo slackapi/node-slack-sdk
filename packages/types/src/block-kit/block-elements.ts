@@ -1066,4 +1066,13 @@ export interface RichTextInput extends Actionable, Dispatchable, Focusable, Plac
    * @description Initial contents of the input when it is loaded.
    */
   initial_value?: RichTextBlock;
+  /**
+   * @description The minimum number of lines of text shown in the input. Must be between 1 and 100.
+   */
+  min_lines?: number;
+  /**
+   * @description The maximum number of lines of text shown in the input before it scrolls. Must be between 1 and 100.
+   * Defaults to `8` when not specified.
+   */
+  max_lines?: number;
 }
