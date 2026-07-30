@@ -30,7 +30,7 @@
     "version": "npm run changeset version && npm install && npm run docs"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.0.5",
+    "@biomejs/biome": "^2.5.5",
     "@changesets/cli": "^2.31.1",
     "@types/node": "^18.19.130",
     "shx": "^0.4.0",
