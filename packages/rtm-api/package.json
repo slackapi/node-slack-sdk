@@ -55,8 +55,8 @@
     "ws": "^8"
   },
   "devDependencies": {
-    "@types/sinon": "^17",
+    "@types/sinon": "^22",
     "@types/ws": "^8",
-    "sinon": "^21"
+    "sinon": "^22"
   }
 }

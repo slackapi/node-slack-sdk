@@ -43,6 +43,6 @@
   "devDependencies": {
     "@types/sinon": "^22.0.0",
     "cross-env": "^10.0.0",
-    "sinon": "^22.0.0"
+    "sinon": "^22.1.0"
   }
 }
