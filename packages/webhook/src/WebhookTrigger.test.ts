@@ -77,6 +77,33 @@ describe('WebhookTrigger', () => {
         assert.strictEqual(result.ok, true);
         scope.done();
       });
+
+      it('should resolve to { ok: true } on an empty 2xx body', async () => {
+        const scope = nock('https://hooks.slack.com')
+          .post(/triggers/)
+          .reply(200);
+        const result = await trigger.send({ key: 'value' });
+        assert.deepStrictEqual(result, { ok: true });
+        scope.done();
+      });
+
+      it('should resolve to { ok: true } on a non-JSON 2xx body', async () => {
+        const scope = nock('https://hooks.slack.com')
+          .post(/triggers/)
+          .reply(200, 'ok');
+        const result = await trigger.send({ key: 'value' });
+        assert.deepStrictEqual(result, { ok: true });
+        scope.done();
+      });
+
+      it('should surface a valid { ok: false } JSON body', async () => {
+        const scope = nock('https://hooks.slack.com')
+          .post(/triggers/)
+          .reply(200, { ok: false, error: 'trigger_error' });
+        const result = await trigger.send({ key: 'value' });
+        assert.deepStrictEqual(result, { ok: false, error: 'trigger_error' });
+        scope.done();
+      });
     });
 
     describe('on failure', () => {
@@ -208,6 +235,16 @@ describe('WebhookTrigger', () => {
         }
         // Only one interceptor is registered; a retry would leave it unmatched
         // and scope.done() would throw.
+        scope.done();
+      });
+
+      it('does not retry an empty 2xx body even when a retry policy is set', async () => {
+        const scope = nock('https://hooks.slack.com')
+          .post(/triggers/)
+          .reply(200);
+        const trigger = new WebhookTrigger(url, { retryConfig: rapidRetryPolicy });
+        const result = await trigger.send({ key: 'value' });
+        assert.deepStrictEqual(result, { ok: true });
         scope.done();
       });
 
