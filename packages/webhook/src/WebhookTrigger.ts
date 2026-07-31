@@ -96,7 +96,10 @@ export class WebhookTrigger {
   private async buildResult(response: FetchResponse): Promise<WebhookTriggerResult> {
     const text = await response.text();
     try {
-      return text ? (JSON.parse(text) as WebhookTriggerResult) : { ok: true };
+      if (!text) {
+        return { ok: true };
+      }
+      return JSON.parse(text) as WebhookTriggerResult;
     } catch {
       return { ok: true };
     }
