@@ -49,7 +49,7 @@
   },
   "dependencies": {
     "minimist": "^1.2.8",
-    "semver": "^7.5.4"
+    "semver": "^7.8.5"
   },
   "devDependencies": {
     "@types/minimist": "^1.2.5",
