@@ -124,10 +124,10 @@ export class WebhookTrigger {
 
 export interface WebhookTriggerDefaultArguments {
   fetch?: FetchFunction;
-  timeout?: number;
-  retryConfig?: RetryOptions;
-  logger?: Logger;
   logLevel?: LogLevel;
+  logger?: Logger;
+  retryConfig?: RetryOptions;
+  timeout?: number;
 }
 
 export interface WebhookTriggerSendArguments {

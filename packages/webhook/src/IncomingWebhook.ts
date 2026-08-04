@@ -169,17 +169,17 @@ export class IncomingWebhook {
  */
 
 export interface IncomingWebhookDefaultArguments {
-  username?: string;
+  channel?: string;
+  fetch?: FetchFunction;
   icon_emoji?: string;
   icon_url?: string;
-  channel?: string;
-  text?: string;
   link_names?: boolean;
-  fetch?: FetchFunction;
-  timeout?: number;
-  retryConfig?: RetryOptions;
-  logger?: Logger;
   logLevel?: LogLevel;
+  logger?: Logger;
+  retryConfig?: RetryOptions;
+  text?: string;
+  timeout?: number;
+  username?: string;
 }
 
 export interface IncomingWebhookSendArguments extends IncomingWebhookDefaultArguments {
