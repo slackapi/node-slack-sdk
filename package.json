@@ -32,7 +32,7 @@
   "devDependencies": {
     "@biomejs/biome": "^2.5.5",
     "@changesets/cli": "^2.31.1",
-    "@types/node": "^18.19.130",
+    "@types/node": "^20.19.43",
     "shx": "^0.4.0",
     "tsx": "^4.23.1",
     "typedoc": "^0.28.20",
