@@ -51,11 +51,7 @@ jobs:
           npm --version
       - name: Install dependencies
         run: npm ci --verbose
-      # Force the socket-mode workspace onto the undici major paired with this Node
-      # version in the matrix above. A plain workspace `npm install` (no --no-save /
-      # --no-package-lock) is required: those flags make npm ignore the requested
-      # version and keep whatever the committed devDependency range already allows.
-      # The mutation is ephemeral — CI checks out fresh and never commits it.
+      # Force socket-mode onto the matrix's undici major (plain install — --no-save/--no-package-lock make npm ignore the requested version).
       - name: Install undici v${{ matrix.versions.undici }} for socket-mode
         run: npm install undici@^${{ matrix.versions.undici }} --workspace=packages/socket-mode
       - name: Build packages
