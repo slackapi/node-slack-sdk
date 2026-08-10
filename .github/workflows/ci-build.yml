@@ -31,7 +31,7 @@ jobs:
     permissions:
       contents: read
     env:
-      SOCKET_MODE_EXPECT_UNDICI_MAJOR: ${{ matrix.versions.undici }}
+      SOCKET_MODE_UNDICI_VERSION: ${{ matrix.versions.undici }}
     steps:
       - name: Configure git settings (Windows)
         if: matrix.os == 'windows-latest'

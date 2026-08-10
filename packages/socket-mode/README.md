@@ -9,14 +9,10 @@ This package is designed to support [**Socket Mode**][socket-mode], which allows
 This package supports Node v20 and higher. It's highly recommended to use [the latest LTS version of
 node](https://github.com/nodejs/Release#release-schedule), and the documentation is written using syntax and features from that version.
 
-[`undici`](https://www.npmjs.com/package/undici) is a required peer dependency and must be installed alongside this
-package. Both `undici@^7` and `undici@^8` are supported. Note that `undici@^8` requires Node v22.19 or higher; if you're
-on Node v20, use `undici@^7`.
-
 ## Installation
 
 ```shell
-$ npm install @slack/socket-mode undici
+$ npm install @slack/socket-mode
 ```
 
 ## Usage
