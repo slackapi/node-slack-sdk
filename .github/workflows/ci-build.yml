@@ -51,7 +51,7 @@ jobs:
           npm --version
       - name: Install dependencies
         run: npm ci --verbose
-      # Force socket-mode onto the matrix's undici major (plain install — --no-save/--no-package-lock make npm ignore the requested version).
+      # Force socket-mode onto the matrix's undici major.
       - name: Install undici v${{ matrix.versions.undici }} for socket-mode
         run: npm install undici@^${{ matrix.versions.undici }} --workspace=packages/socket-mode
       - name: Build packages
