@@ -18,14 +18,20 @@ jobs:
         os:
           - "ubuntu-latest"
           - "windows-latest"
-        node-version:
-          - "20.x"
-          - "22.x"
-          - "24.x"
-          - "26.x"
+        versions:
+          - node: "20.x"
+            undici: "7" # undici v8 requires Node >=22.19, so 20.x tests against v7
+          - node: "22.x"
+            undici: "8"
+          - node: "24.x"
+            undici: "8"
+          - node: "26.x"
+            undici: "8"
     runs-on: ${{ matrix.os }}
     permissions:
       contents: read
+    env:
+      SOCKET_MODE_EXPECT_UNDICI_MAJOR: ${{ matrix.versions.undici }}
     steps:
       - name: Configure git settings (Windows)
         if: matrix.os == 'windows-latest'
@@ -35,31 +41,38 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Use Node.js ${{ matrix.versions.node }}
         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: ${{ matrix.versions.node }}
       - name: Check versions
         run: |
           node --version
           npm --version
       - name: Install dependencies
         run: npm ci --verbose
+      # Force the socket-mode workspace onto the undici major paired with this Node
+      # version in the matrix above. A plain workspace `npm install` (no --no-save /
+      # --no-package-lock) is required: those flags make npm ignore the requested
+      # version and keep whatever the committed devDependency range already allows.
+      # The mutation is ephemeral — CI checks out fresh and never commits it.
+      - name: Install undici v${{ matrix.versions.undici }} for socket-mode
+        run: npm install undici@^${{ matrix.versions.undici }} --workspace=packages/socket-mode
       - name: Build packages
         run: npm run build
       - name: Lint
         run: npm run lint
       - name: Build docs
-        if: matrix.node-version == env.LATEST_SUPPORTED_NODE
+        if: matrix.versions.node == env.LATEST_SUPPORTED_NODE
         run: npm run docs
       - name: Run tests
-        if: matrix.node-version != env.LATEST_SUPPORTED_NODE
+        if: matrix.versions.node != env.LATEST_SUPPORTED_NODE
         run: npm test
       - name: Run test coverage
-        if: matrix.node-version == env.LATEST_SUPPORTED_NODE
+        if: matrix.versions.node == env.LATEST_SUPPORTED_NODE
         run: npm run test:coverage
       - name: Upload code coverage
-        if: matrix.node-version == env.LATEST_SUPPORTED_NODE && matrix.os == 'ubuntu-latest'
+        if: matrix.versions.node == env.LATEST_SUPPORTED_NODE && matrix.os == 'ubuntu-latest'
         uses: codecov/codecov-action@fb8b3582c8e4def4969c97caa2f19720cb33a72f # v7.0.0
         with:
           fail_ci_if_error: true
@@ -74,7 +87,7 @@ jobs:
         with:
           fail_ci_if_error: true
           files: packages/cli-hooks/test-results.xml,packages/cli-test/test-results.xml,packages/logger/test-results.xml,packages/oauth/test-results.xml,packages/socket-mode/test-results.xml,packages/web-api/test-results.xml,packages/webhook/test-results.xml
-          flags: ${{ matrix.node-version }},${{ matrix.os }}
+          flags: ${{ matrix.versions.node }},${{ matrix.os }}
           report_type: test_results
           token: ${{ secrets.CODECOV_TOKEN }}
           verbose: true
