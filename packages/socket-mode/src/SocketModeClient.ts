@@ -13,6 +13,7 @@ import { type RequestInit, fetch as undiciFetch } from 'undici';
 
 import packageJson from '../package.json';
 import { SMSendWhileDisconnectedError, SMSendWhileNotReadyError, SMWebsocketError } from './errors';
+import type { HelloMessage } from './HelloMessage';
 import log, { type Logger, LogLevel } from './logger';
 import { SlackWebSocket, WS_READY_STATES } from './SlackWebSocket';
 import type { SocketModeDispatcher, SocketModeOptions } from './SocketModeOptions';
@@ -336,6 +337,9 @@ export class SocketModeClient extends EventEmitter {
 
     // Slack has finalized the handshake with a hello message; we are good to go.
     if (event.type === 'hello') {
+      // Emitted ahead of the connected state, since `start()` resolves on that state and listeners would otherwise
+      // miss the handshake details of the first connection.
+      this.emit('hello', event as unknown as HelloMessage);
       this.emit(State.Connected, this.connectionResponse);
       return;
     }

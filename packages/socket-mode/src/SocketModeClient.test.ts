@@ -5,6 +5,7 @@ import type { FetchFunction } from '@slack/web-api';
 import proxyquire from 'proxyquire';
 import sinon from 'sinon';
 
+import type { HelloMessage } from './HelloMessage';
 import logModule from './logger';
 import { SocketModeClient } from './SocketModeClient';
 import type { SocketModeDispatcher } from './SocketModeOptions';
@@ -85,6 +86,54 @@ describe('SocketModeClient', () => {
 
   describe('onWebSocketMessage', () => {
     // While this method is protected and cannot be invoked directly, emitting the 'message' event directly invokes it
+    describe('hello messages', () => {
+      const message = JSON.stringify({
+        type: 'hello',
+        num_connections: 2,
+        debug_info: {
+          host: 'applink-1',
+          build_number: 111,
+          approximate_connection_time: 18060,
+        },
+        connection_info: { app_id: 'A111' },
+      });
+
+      it('should pass the hello payload to hello listeners', async () => {
+        const client = new SocketModeClient({ appToken: 'xapp-' });
+        let helloArgs: HelloMessage | undefined;
+        client.on('hello', (args: HelloMessage) => {
+          helloArgs = args;
+        });
+        client.emit('ws_message', message, false /* isBinary */);
+        await sleep(30);
+        assert.deepStrictEqual(helloArgs, JSON.parse(message));
+      });
+
+      it('should emit hello before transitioning to the connected state', async () => {
+        const client = new SocketModeClient({ appToken: 'xapp-' });
+        const observed: string[] = [];
+        client.on('hello', () => {
+          observed.push('hello');
+        });
+        client.on('connected', () => {
+          observed.push('connected');
+        });
+        client.emit('ws_message', message, false /* isBinary */);
+        await sleep(30);
+        assert.deepStrictEqual(observed, ['hello', 'connected']);
+      });
+
+      it('should not be sent to slack_event listeners', async () => {
+        const client = new SocketModeClient({ appToken: 'xapp-' });
+        let slackEventListenerCalled = false;
+        client.on('slack_event', async () => {
+          slackEventListenerCalled = true;
+        });
+        client.emit('ws_message', message, false /* isBinary */);
+        await sleep(30);
+        assert.strictEqual(slackEventListenerCalled, false);
+      });
+    });
     describe('slash_commands messages', () => {
       const envelopeId = '1d3c79ab-0ffb-41f3-a080-d19e85f53649';
       const message = JSON.stringify({

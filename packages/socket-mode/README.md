@@ -140,7 +140,20 @@ The client also emits events that are part of its lifecycle, but aren't states. 
 | Event Name      | Arguments | Description |
 |-----------------|-----------|-------------|
 | `error`         | `(error)` | An error has occurred. |
+| `hello`         | `(message)` | Slack has finalized the connection handshake. Emitted just before `connected`. |
 | `slack_event`   | `(eventType, event)` | An incoming Slack event has been received. |
+
+The `hello` message reports how many connections are currently open for your app-level token, which is one way to notice that a second instance of your app is running:
+
+```javascript
+socketModeClient.on('hello', ({ num_connections }) => {
+  if (num_connections > 1) {
+    console.warn(`This app token has ${num_connections} open connections.`);
+  }
+});
+```
+
+It also carries `debug_info` and `connection_info`, including `debug_info.approximate_connection_time`, an estimate in seconds of how long Slack will keep this connection before refreshing it.
 
 ---
 
