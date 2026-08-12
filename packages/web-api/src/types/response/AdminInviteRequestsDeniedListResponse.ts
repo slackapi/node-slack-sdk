@@ -15,6 +15,7 @@ export type AdminInviteRequestsDeniedListResponse = WebAPICallResult & {
   ok?: boolean;
   provided?: string;
   response_metadata?: ResponseMetadata;
+  warning?: string;
 };
 
 export interface DeniedRequest {

@@ -13,4 +13,6 @@ export type WorkflowsStepCompletedResponse = WebAPICallResult & {
   needed?: string;
   ok?: boolean;
   provided?: string;
+  req_method?: string;
+  warning?: string;
 };

@@ -9,7 +9,6 @@
 
 import type { WebAPICallResult } from '../../WebClient';
 export type UsersListResponse = WebAPICallResult & {
-  arg?: string;
   cache_ts?: number;
   error?: string;
   members?: Member[];
@@ -18,6 +17,7 @@ export type UsersListResponse = WebAPICallResult & {
   ok?: boolean;
   provided?: string;
   response_metadata?: ResponseMetadata;
+  warning?: string;
 };
 
 export interface Member {
@@ -29,9 +29,7 @@ export interface Member {
   is_admin?: boolean;
   is_app_user?: boolean;
   is_bot?: boolean;
-  is_connector_bot?: boolean;
   is_email_confirmed?: boolean;
-  is_invited_user?: boolean;
   is_owner?: boolean;
   is_primary_owner?: boolean;
   is_restricted?: boolean;
@@ -70,7 +68,6 @@ export interface Profile {
   email?: string;
   fields?: Fields;
   first_name?: string;
-  guest_expiration_ts?: number;
   guest_invited_by?: string;
   huddle_state?: string;
   huddle_state_expiration_ts?: number;
@@ -85,10 +82,10 @@ export interface Profile {
   is_custom_image?: boolean;
   last_name?: string;
   phone?: string;
-  pronouns?: string;
   real_name?: string;
   real_name_normalized?: string;
   skype?: string;
+  start_date?: string;
   status_emoji?: string;
   status_emoji_display_info?: StatusEmojiDisplayInfo[];
   status_expiration?: number;

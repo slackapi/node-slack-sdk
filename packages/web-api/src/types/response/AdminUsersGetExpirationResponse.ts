@@ -8,29 +8,18 @@
 /////////////////////////////////////////////////////////////////////////////////////////
 
 import type { WebAPICallResult } from '../../WebClient';
-export type AdminTeamsListResponse = WebAPICallResult & {
+export type AdminUsersGetExpirationResponse = WebAPICallResult & {
   error?: string;
   needed?: string;
   ok?: boolean;
   provided?: string;
-  response_metadata?: ResponseMetadata;
-  teams?: Team[];
-  warning?: string;
+  user?: User;
 };
 
-export interface ResponseMetadata {
-  next_cursor?: string;
-}
-
-export interface Team {
-  discoverability?: string;
-  id?: string;
-  name?: string;
-  primary_owner?: PrimaryOwner;
-  team_url?: string;
-}
-
-export interface PrimaryOwner {
+export interface User {
   email?: string;
-  user_id?: string;
+  expiration_ts?: number;
+  id?: string;
+  is_restricted?: boolean;
+  is_ultra_restricted?: boolean;
 }

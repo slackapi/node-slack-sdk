@@ -15,6 +15,7 @@ export type UsersLookupByEmailResponse = WebAPICallResult & {
   provided?: string;
   response_metadata?: ResponseMetadata;
   user?: User;
+  warning?: string;
 };
 
 export interface ResponseMetadata {
@@ -39,6 +40,7 @@ export interface User {
   profile?: Profile;
   real_name?: string;
   team_id?: string;
+  two_factor_type?: string;
   tz?: string;
   tz_label?: string;
   tz_offset?: number;
@@ -70,6 +72,7 @@ export interface Profile {
   real_name?: string;
   real_name_normalized?: string;
   skype?: string;
+  start_date?: string;
   status_emoji?: string;
   status_emoji_display_info?: StatusEmojiDisplayInfo[];
   status_emoji_url?: string;
