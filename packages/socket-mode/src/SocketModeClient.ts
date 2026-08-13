@@ -231,7 +231,9 @@ export class SocketModeClient extends EventEmitter {
       } else {
         // Resolve (or reject) on disconnect
         this.once(State.Disconnected, resolve);
-        this.websocket?.disconnect();
+        // A manual shutdown should not report heartbeat failures while the
+        // WebSocket close handshake is in progress.
+        this.websocket?.disconnect({ suppressHeartbeat: true });
       }
     });
   }
