@@ -92,5 +92,40 @@ describe('SlackWebSocket', () => {
       ws.dispatchEvent(new ErrorEvent('error', { error: new Error('boom'), message: 'boom' }));
       sinon.assert.calledOnce(discStub);
     });
+
+    it('should stop heartbeat monitoring during an intentional disconnect', () => {
+      const ws = new WSMock();
+      SlackWebSocket = proxyquire.load('./SlackWebSocket', {
+        undici: {
+          WebSocket: class Fake {
+            constructor() {
+              // biome-ignore lint/correctness/noConstructorReturn: for test mocking purposes
+              return ws;
+            }
+          },
+          CloseEvent,
+          ErrorEvent,
+          MessageEvent,
+          ping: () => {},
+        },
+      }).SlackWebSocket;
+      const logger = new ConsoleLogger();
+      const warn = sinon.stub(logger, 'warn');
+      const clock = sandbox.useFakeTimers();
+      const sws = new SlackWebSocket({
+        url: 'whatevs',
+        client: new EventEmitter(),
+        clientPingTimeoutMS: 5000,
+        serverPingTimeoutMS: 30000,
+        logger,
+      });
+
+      sws.connect();
+      ws.dispatchEvent(new Event('open'));
+      sws.disconnect({ suppressHeartbeat: true });
+      clock.tick(20000);
+
+      sinon.assert.neverCalledWithMatch(warn, "A pong wasn't received from the server");
+    });
   });
 });
