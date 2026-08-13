@@ -20,25 +20,19 @@ export type ViewsPublishResponse = WebAPICallResult & {
 
 export interface ResponseMetadata {
   messages?: string[];
-  warnings?: any[];
 }
 
 export interface View {
   app_id?: string;
   app_installed_team_id?: string;
-  app_unfurl_url?: string;
   blocks?: Block[];
   bot_id?: string;
   callback_id?: string;
-  channel?: string;
   clear_on_close?: boolean;
   close?: Close;
-  entity_url?: string;
   external_id?: string;
-  external_ref?: ExternalRef;
   hash?: string;
   id?: string;
-  message_ts?: string;
   notify_on_close?: boolean;
   previous_view_id?: string;
   private_metadata?: string;
@@ -47,7 +41,6 @@ export interface View {
   submit?: Close;
   submit_disabled?: boolean;
   team_id?: string;
-  thread_ts?: string;
   title?: Close;
   type?: string;
 }
@@ -227,7 +220,6 @@ export interface Style {
   highlight?: boolean;
   italic?: boolean;
   strike?: boolean;
-  underline?: boolean;
   unlink?: boolean;
 }
 
@@ -301,11 +293,6 @@ export interface Trigger {
 export interface CustomizableInputParameter {
   name?: string;
   value?: string;
-}
-
-export interface ExternalRef {
-  id?: string;
-  type?: string;
 }
 
 export type State = {};

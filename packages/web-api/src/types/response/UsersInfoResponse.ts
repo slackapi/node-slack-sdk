@@ -19,8 +19,6 @@ export type UsersInfoResponse = WebAPICallResult & {
 export interface User {
   color?: string;
   deleted?: boolean;
-  enterprise_id?: string;
-  enterprise_name?: string;
   enterprise_user?: EnterpriseUser;
   has_2fa?: boolean;
   id?: string;
@@ -41,7 +39,6 @@ export interface User {
   profile?: Profile;
   real_name?: string;
   team_id?: string;
-  teams?: string[];
   tz?: string;
   tz_label?: string;
   tz_offset?: number;
@@ -86,7 +83,6 @@ export interface Profile {
   real_name?: string;
   real_name_normalized?: string;
   skype?: string;
-  start_date?: string;
   status_emoji?: string;
   status_emoji_display_info?: StatusEmojiDisplayInfo[];
   status_emoji_url?: string;

@@ -89,7 +89,6 @@ export interface Profile {
   real_name?: string;
   real_name_normalized?: string;
   skype?: string;
-  start_date?: string;
   status_emoji?: string;
   status_emoji_display_info?: StatusEmojiDisplayInfo[];
   status_expiration?: number;

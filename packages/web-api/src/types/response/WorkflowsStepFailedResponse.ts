@@ -13,5 +13,4 @@ export type WorkflowsStepFailedResponse = WebAPICallResult & {
   needed?: string;
   ok?: boolean;
   provided?: string;
-  warning?: string;
 };
