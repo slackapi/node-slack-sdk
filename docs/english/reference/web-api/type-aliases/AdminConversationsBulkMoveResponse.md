@@ -6,7 +6,7 @@
 type AdminConversationsBulkMoveResponse = WebAPICallResult & object;
 ```
 
-Defined in: [src/types/response/AdminConversationsBulkMoveResponse.ts:11](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/AdminConversationsBulkMoveResponse.ts#L11)
+Defined in: [packages/web-api/src/types/response/AdminConversationsBulkMoveResponse.ts:11](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/AdminConversationsBulkMoveResponse.ts#L11)
 
 ## Type Declaration
 

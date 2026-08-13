@@ -2,7 +2,7 @@
 
 # Interface: SlackListsItemsUpdateArguments
 
-Defined in: [src/types/request/slackLists.ts:520](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/slackLists.ts#L520)
+Defined in: [packages/web-api/src/types/request/slackLists.ts:520](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/slackLists.ts#L520)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [src/types/request/slackLists.ts:520](https://github.com/slackapi/no
 cells: SlackListsItemCellUpdate[];
 ```
 
-Defined in: [src/types/request/slackLists.ts:529](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/slackLists.ts#L529)
+Defined in: [packages/web-api/src/types/request/slackLists.ts:529](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/slackLists.ts#L529)
 
 #### Description
 
@@ -30,7 +30,7 @@ Cells to update. Each cell includes the row_id, column_id, and field value.
 list_id: string;
 ```
 
-Defined in: [src/types/request/slackLists.ts:524](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/slackLists.ts#L524)
+Defined in: [packages/web-api/src/types/request/slackLists.ts:524](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/slackLists.ts#L524)
 
 #### Description
 
@@ -44,7 +44,7 @@ Encoded ID of the List.
 optional token: string;
 ```
 
-Defined in: [src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
+Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
 
 #### Description
 

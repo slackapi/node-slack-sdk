@@ -2,7 +2,7 @@
 
 # Interface: ChannelArchiveMessageEvent
 
-Defined in: [events/message.ts:92](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/message.ts#L92)
+Defined in: [events/message.ts:95](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/message.ts#L95)
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: [events/message.ts:92](https://github.com/slackapi/node-slack-sdk/bl
 channel: string;
 ```
 
-Defined in: [events/message.ts:97](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/message.ts#L97)
+Defined in: [events/message.ts:100](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/message.ts#L100)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [events/message.ts:97](https://github.com/slackapi/node-slack-sdk/bl
 channel_type: ChannelTypes;
 ```
 
-Defined in: [events/message.ts:98](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/message.ts#L98)
+Defined in: [events/message.ts:101](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/message.ts#L101)
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: [events/message.ts:98](https://github.com/slackapi/node-slack-sdk/bl
 event_ts: string;
 ```
 
-Defined in: [events/message.ts:101](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/message.ts#L101)
+Defined in: [events/message.ts:104](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/message.ts#L104)
 
 ***
 
@@ -42,7 +42,7 @@ Defined in: [events/message.ts:101](https://github.com/slackapi/node-slack-sdk/b
 subtype: "channel_archive";
 ```
 
-Defined in: [events/message.ts:94](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/message.ts#L94)
+Defined in: [events/message.ts:97](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/message.ts#L97)
 
 ***
 
@@ -52,7 +52,7 @@ Defined in: [events/message.ts:94](https://github.com/slackapi/node-slack-sdk/bl
 team: string;
 ```
 
-Defined in: [events/message.ts:95](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/message.ts#L95)
+Defined in: [events/message.ts:98](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/message.ts#L98)
 
 ***
 
@@ -62,7 +62,7 @@ Defined in: [events/message.ts:95](https://github.com/slackapi/node-slack-sdk/bl
 text: string;
 ```
 
-Defined in: [events/message.ts:99](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/message.ts#L99)
+Defined in: [events/message.ts:102](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/message.ts#L102)
 
 ***
 
@@ -72,7 +72,7 @@ Defined in: [events/message.ts:99](https://github.com/slackapi/node-slack-sdk/bl
 ts: string;
 ```
 
-Defined in: [events/message.ts:100](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/message.ts#L100)
+Defined in: [events/message.ts:103](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/message.ts#L103)
 
 ***
 
@@ -82,7 +82,7 @@ Defined in: [events/message.ts:100](https://github.com/slackapi/node-slack-sdk/b
 type: "message";
 ```
 
-Defined in: [events/message.ts:93](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/message.ts#L93)
+Defined in: [events/message.ts:96](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/message.ts#L96)
 
 ***
 
@@ -92,4 +92,4 @@ Defined in: [events/message.ts:93](https://github.com/slackapi/node-slack-sdk/bl
 user: string;
 ```
 
-Defined in: [events/message.ts:96](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/message.ts#L96)
+Defined in: [events/message.ts:99](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/message.ts#L99)

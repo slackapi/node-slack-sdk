@@ -2,7 +2,7 @@
 
 # Interface: StarsListArguments
 
-Defined in: [src/types/request/stars.ts:20](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/stars.ts#L20)
+Defined in: [packages/web-api/src/types/request/stars.ts:20](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/stars.ts#L20)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [src/types/request/stars.ts:20](https://github.com/slackapi/node-sla
 optional count: number;
 ```
 
-Defined in: [src/types/request/common.ts:33](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L33)
+Defined in: [packages/web-api/src/types/request/common.ts:33](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L33)
 
 #### Description
 
@@ -36,7 +36,7 @@ TraditionalPagingEnabled.count
 optional cursor: string;
 ```
 
-Defined in: [src/types/request/common.ts:16](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L16)
+Defined in: [packages/web-api/src/types/request/common.ts:16](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L16)
 
 #### Description
 
@@ -62,7 +62,7 @@ CursorPaginationEnabled.cursor
 optional limit: number;
 ```
 
-Defined in: [src/types/request/common.ts:9](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L9)
+Defined in: [packages/web-api/src/types/request/common.ts:9](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L9)
 
 #### Description
 
@@ -83,7 +83,7 @@ CursorPaginationEnabled.limit
 optional page: number;
 ```
 
-Defined in: [src/types/request/common.ts:35](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L35)
+Defined in: [packages/web-api/src/types/request/common.ts:35](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L35)
 
 #### Description
 
@@ -103,7 +103,7 @@ TraditionalPagingEnabled.page
 optional team_id: string;
 ```
 
-Defined in: [src/types/request/common.ts:70](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L70)
+Defined in: [packages/web-api/src/types/request/common.ts:70](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L70)
 
 #### Description
 
@@ -123,7 +123,7 @@ OptionalTeamAssignable.team_id
 optional token: string;
 ```
 
-Defined in: [src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
+Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
 
 #### Description
 

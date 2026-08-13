@@ -703,6 +703,28 @@ export interface URLInput extends Actionable, Dispatchable, Focusable, Placehold
 }
 
 /**
+ *  @description A URL source element that displays a URL source for referencing within a task card block.
+ *  @see {@link https://docs.slack.dev/reference/block-kit/block-elements/url-source-element}
+ */
+
+export interface URLSourceElement {
+  /**
+   * @description The type of element. In this case `type` is always `url`.
+   */
+  type: 'url';
+
+  /**
+   * @description The URL type source.
+   */
+  url: string;
+
+  /**
+   * @description Display text for the URL.
+   */
+  text: string;
+}
+
+/**
  * @description Allows users to run a {@link https://docs.slack.dev/tools/deno-slack-sdk/guides/creating-link-triggers/#workflow_buttons link trigger} with customizable inputs.
  * @see {@link https://docs.slack.dev/reference/block-kit/block-elements/workflow-button-element Workflow button element reference}.
  */
@@ -1044,4 +1066,13 @@ export interface RichTextInput extends Actionable, Dispatchable, Focusable, Plac
    * @description Initial contents of the input when it is loaded.
    */
   initial_value?: RichTextBlock;
+  /**
+   * @description The minimum number of lines of text shown in the input. Must be between 1 and 100.
+   */
+  min_lines?: number;
+  /**
+   * @description The maximum number of lines of text shown in the input before it scrolls. Must be between 1 and 100.
+   * Defaults to `8` when not specified.
+   */
+  max_lines?: number;
 }

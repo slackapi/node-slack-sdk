@@ -2,7 +2,7 @@
 
 # Interface: DndTeamInfoArguments
 
-Defined in: [src/types/request/dnd.ts:22](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/dnd.ts#L22)
+Defined in: [packages/web-api/src/types/request/dnd.ts:22](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/dnd.ts#L22)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [src/types/request/dnd.ts:22](https://github.com/slackapi/node-slack
 optional team_id: string;
 ```
 
-Defined in: [src/types/request/common.ts:70](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L70)
+Defined in: [packages/web-api/src/types/request/common.ts:70](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L70)
 
 #### Description
 
@@ -36,7 +36,7 @@ OptionalTeamAssignable.team_id
 optional token: string;
 ```
 
-Defined in: [src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
+Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
 
 #### Description
 
@@ -56,7 +56,7 @@ TokenOverridable.token
 users: string;
 ```
 
-Defined in: [src/types/request/dnd.ts:24](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/dnd.ts#L24)
+Defined in: [packages/web-api/src/types/request/dnd.ts:24](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/dnd.ts#L24)
 
 #### Description
 

@@ -1,4 +1,5 @@
-import { assert } from 'chai';
+import assert from 'node:assert/strict';
+import { describe, it } from 'node:test';
 
 import type { InstallURLOptions } from '../install-url-options';
 import type { StateStore } from './interface';
@@ -30,9 +31,9 @@ export class StateStoreChaiTestRunner {
           metadata: 'the metadata',
         };
         const state = await stateStore.generateStateParam(options, new Date());
-        assert.isNotEmpty(state);
+        assert.ok(state.length > 0);
         const result = await stateStore.verifyStateParam(new Date(), state);
-        assert.deepEqual(result, options);
+        assert.deepStrictEqual(result, options);
       });
 
       it('should detect old state values', async () => {
@@ -45,12 +46,12 @@ export class StateStoreChaiTestRunner {
           assert.fail('Exception should be thrown');
           // biome-ignore lint/suspicious/noExplicitAny: errors can be anything
         } catch (e: any) {
-          assert.equal(e.code, 'slack_oauth_invalid_state');
+          assert.strictEqual(e.code, 'slack_oauth_invalid_state');
         }
       });
 
       if (this.shouldVerifyOnlyOnce) {
-        it('should detect multiple consumption', async () => {
+        it('should detect multiple consumption', { timeout: 4000 }, async () => {
           const { stateStore } = this;
           const installUrlOptions = { scopes: ['channels:read'] };
           for (let i = 0; i < 200; i++) {
@@ -59,16 +60,20 @@ export class StateStoreChaiTestRunner {
           }
           const state = await stateStore.generateStateParam(installUrlOptions, new Date());
           const result = await stateStore.verifyStateParam(new Date(), state);
-          assert.exists(result);
+          assert.ok(result !== null && result !== undefined);
           let expectedlyReturnedResult: InstallURLOptions = { scopes: [] };
           try {
             expectedlyReturnedResult = await stateStore.verifyStateParam(new Date(), state);
             assert.fail('Exception should be thrown');
             // biome-ignore lint/suspicious/noExplicitAny: errors can be anything
           } catch (e: any) {
-            assert.equal(e.code, 'slack_oauth_invalid_state', `${state} ${JSON.stringify(expectedlyReturnedResult)}`);
+            assert.strictEqual(
+              e.code,
+              'slack_oauth_invalid_state',
+              `${state} ${JSON.stringify(expectedlyReturnedResult)}`,
+            );
           }
-        }).timeout(4000); // https://github.com/slackapi/node-slack-sdk/issues/2159#issuecomment-2749367820
+        });
       }
     });
   }

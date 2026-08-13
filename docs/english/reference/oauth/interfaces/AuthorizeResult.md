@@ -2,7 +2,7 @@
 
 # Interface: AuthorizeResult
 
-Defined in: [src/authorize-result.ts:4](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/authorize-result.ts#L4)
+Defined in: [packages/oauth/src/authorize-result.ts:4](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/authorize-result.ts#L4)
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: [src/authorize-result.ts:4](https://github.com/slackapi/node-slack-s
 optional botId: string;
 ```
 
-Defined in: [src/authorize-result.ts:11](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/authorize-result.ts#L11)
+Defined in: [packages/oauth/src/authorize-result.ts:11](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/authorize-result.ts#L11)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [src/authorize-result.ts:11](https://github.com/slackapi/node-slack-
 optional botRefreshToken: string;
 ```
 
-Defined in: [src/authorize-result.ts:6](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/authorize-result.ts#L6)
+Defined in: [packages/oauth/src/authorize-result.ts:6](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/authorize-result.ts#L6)
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: [src/authorize-result.ts:6](https://github.com/slackapi/node-slack-s
 optional botToken: string;
 ```
 
-Defined in: [src/authorize-result.ts:5](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/authorize-result.ts#L5)
+Defined in: [packages/oauth/src/authorize-result.ts:5](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/authorize-result.ts#L5)
 
 ***
 
@@ -42,7 +42,7 @@ Defined in: [src/authorize-result.ts:5](https://github.com/slackapi/node-slack-s
 optional botTokenExpiresAt: number;
 ```
 
-Defined in: [src/authorize-result.ts:7](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/authorize-result.ts#L7)
+Defined in: [packages/oauth/src/authorize-result.ts:7](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/authorize-result.ts#L7)
 
 ***
 
@@ -52,7 +52,7 @@ Defined in: [src/authorize-result.ts:7](https://github.com/slackapi/node-slack-s
 optional botUserId: string;
 ```
 
-Defined in: [src/authorize-result.ts:12](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/authorize-result.ts#L12)
+Defined in: [packages/oauth/src/authorize-result.ts:12](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/authorize-result.ts#L12)
 
 ***
 
@@ -62,7 +62,7 @@ Defined in: [src/authorize-result.ts:12](https://github.com/slackapi/node-slack-
 optional enterpriseId: string;
 ```
 
-Defined in: [src/authorize-result.ts:14](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/authorize-result.ts#L14)
+Defined in: [packages/oauth/src/authorize-result.ts:14](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/authorize-result.ts#L14)
 
 ***
 
@@ -72,7 +72,7 @@ Defined in: [src/authorize-result.ts:14](https://github.com/slackapi/node-slack-
 optional teamId: string;
 ```
 
-Defined in: [src/authorize-result.ts:13](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/authorize-result.ts#L13)
+Defined in: [packages/oauth/src/authorize-result.ts:13](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/authorize-result.ts#L13)
 
 ***
 
@@ -82,7 +82,7 @@ Defined in: [src/authorize-result.ts:13](https://github.com/slackapi/node-slack-
 optional userRefreshToken: string;
 ```
 
-Defined in: [src/authorize-result.ts:9](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/authorize-result.ts#L9)
+Defined in: [packages/oauth/src/authorize-result.ts:9](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/authorize-result.ts#L9)
 
 ***
 
@@ -92,7 +92,7 @@ Defined in: [src/authorize-result.ts:9](https://github.com/slackapi/node-slack-s
 optional userToken: string;
 ```
 
-Defined in: [src/authorize-result.ts:8](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/authorize-result.ts#L8)
+Defined in: [packages/oauth/src/authorize-result.ts:8](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/authorize-result.ts#L8)
 
 ***
 
@@ -102,4 +102,4 @@ Defined in: [src/authorize-result.ts:8](https://github.com/slackapi/node-slack-s
 optional userTokenExpiresAt: number;
 ```
 
-Defined in: [src/authorize-result.ts:10](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/authorize-result.ts#L10)
+Defined in: [packages/oauth/src/authorize-result.ts:10](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/authorize-result.ts#L10)

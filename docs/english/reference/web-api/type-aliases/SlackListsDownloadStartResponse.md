@@ -6,7 +6,7 @@
 type SlackListsDownloadStartResponse = WebAPICallResult & object;
 ```
 
-Defined in: [src/types/response/SlackListsDownloadStartResponse.ts:3](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/SlackListsDownloadStartResponse.ts#L3)
+Defined in: [packages/web-api/src/types/response/SlackListsDownloadStartResponse.ts:3](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/SlackListsDownloadStartResponse.ts#L3)
 
 ## Type Declaration
 

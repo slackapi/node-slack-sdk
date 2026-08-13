@@ -2,7 +2,7 @@
 
 # Interface: CallsEndArguments
 
-Defined in: [src/types/request/calls.ts:48](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/calls.ts#L48)
+Defined in: [packages/web-api/src/types/request/calls.ts:48](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/calls.ts#L48)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [src/types/request/calls.ts:48](https://github.com/slackapi/node-sla
 optional duration: number;
 ```
 
-Defined in: [src/types/request/calls.ts:50](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/calls.ts#L50)
+Defined in: [packages/web-api/src/types/request/calls.ts:50](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/calls.ts#L50)
 
 #### Description
 
@@ -30,7 +30,7 @@ Call duration in seconds.
 id: string;
 ```
 
-Defined in: [src/types/request/calls.ts:6](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/calls.ts#L6)
+Defined in: [packages/web-api/src/types/request/calls.ts:6](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/calls.ts#L6)
 
 #### Description
 
@@ -50,7 +50,7 @@ ID.id
 optional token: string;
 ```
 
-Defined in: [src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
+Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
 
 #### Description
 

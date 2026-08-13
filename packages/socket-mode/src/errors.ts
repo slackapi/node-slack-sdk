@@ -1,5 +1,5 @@
 /**
- * All errors produced by this package adhere to this interface
+ * @deprecated Use `instanceof` checks with specific error classes (e.g. `SMWebsocketError`) instead.
  */
 export interface CodedError extends Error {
   code: string;
@@ -24,93 +24,67 @@ export type SMCallError =
   | SMSendWhileDisconnectedError
   | SMSendWhileNotReadyError;
 
-export interface SMPlatformError extends CodedError {
-  code: ErrorCode.SendMessagePlatformError;
-  // biome-ignore lint/suspicious/noExplicitAny: errors can be anything
-  data: any;
-}
-
-export interface SMWebsocketError extends CodedError {
-  code: ErrorCode.WebsocketError;
-  original: Error;
-}
-
-export interface SMNoReplyReceivedError extends CodedError {
-  code: ErrorCode.NoReplyReceivedError;
-}
-
-export interface SMSendWhileDisconnectedError extends CodedError {
-  code: ErrorCode.SendWhileDisconnectedError;
-}
-
-export interface SMSendWhileNotReadyError extends CodedError {
-  code: ErrorCode.SendWhileNotReadyError;
-}
-
 /**
- * Factory for producing a {@link CodedError} from a generic error
+ * The shape of a Slack platform error event that backs an {@link SMPlatformError}.
  */
-function errorWithCode(error: Error, code: ErrorCode): CodedError {
-  // NOTE: might be able to return something more specific than a CodedError with conditional typing
-  const codedError = error as Partial<CodedError>;
-  codedError.code = code;
-  return codedError as CodedError;
+export interface SMPlatformErrorEvent {
+  error: { msg: string };
+  [key: string]: unknown;
 }
 
-/**
- * A factory to create SMWebsocketError objects.
- */
-export function websocketErrorWithOriginal(original: Error): SMWebsocketError {
-  const error = errorWithCode(new Error(original.message), ErrorCode.WebsocketError) as Partial<SMWebsocketError>;
-  error.original = original;
-  return error as SMWebsocketError;
+export abstract class SlackSocketModeError extends Error {
+  abstract readonly code: ErrorCode;
+
+  constructor(message: string, options?: ErrorOptions) {
+    super(message, options);
+    this.name = this.constructor.name;
+    Object.setPrototypeOf(this, new.target.prototype);
+  }
 }
 
-/**
- * A factory to create SMPlatformError objects.
- */
-export function platformErrorFromEvent(
-  // biome-ignore lint/suspicious/noExplicitAny: errors can be anything
-  event: any & { error: { msg: string } },
-): SMPlatformError {
-  const error = errorWithCode(
-    new Error(`An API error occurred: ${event.error.msg}`),
-    ErrorCode.SendMessagePlatformError,
-  ) as Partial<SMPlatformError>;
-  error.data = event;
-  return error as SMPlatformError;
+export class SMPlatformError extends SlackSocketModeError {
+  readonly code = ErrorCode.SendMessagePlatformError;
+  readonly data: SMPlatformErrorEvent;
+
+  constructor(event: SMPlatformErrorEvent) {
+    super(`An API error occurred: ${event.error.msg}`);
+    this.data = event;
+  }
 }
 
-// TODO: Is the below factory needed still?
-/**
- * A factory to create SMNoReplyReceivedError objects.
- */
-export function noReplyReceivedError(): SMNoReplyReceivedError {
-  return errorWithCode(
-    new Error(
+export class SMWebsocketError extends SlackSocketModeError {
+  readonly code = ErrorCode.WebsocketError;
+  readonly original: Error;
+
+  constructor(original: Error) {
+    super(original.message, { cause: original });
+    this.original = original;
+  }
+}
+
+export class SMNoReplyReceivedError extends SlackSocketModeError {
+  readonly code = ErrorCode.NoReplyReceivedError;
+
+  constructor() {
+    super(
       'Message sent but no server acknowledgement was received. This may be caused by the client ' +
         'changing connection state rather than any issue with the specific message. Check before resending.',
-    ),
-    ErrorCode.NoReplyReceivedError,
-  ) as SMNoReplyReceivedError;
+    );
+  }
 }
 
-/**
- * A factory to create SMSendWhileDisconnectedError objects.
- */
-export function sendWhileDisconnectedError(): SMSendWhileDisconnectedError {
-  return errorWithCode(
-    new Error('Failed to send a WebSocket message as the client is not connected'),
-    ErrorCode.NoReplyReceivedError,
-  ) as SMSendWhileDisconnectedError;
+export class SMSendWhileDisconnectedError extends SlackSocketModeError {
+  readonly code = ErrorCode.SendWhileDisconnectedError;
+
+  constructor() {
+    super('Failed to send a WebSocket message as the client is not connected');
+  }
 }
 
-/**
- * A factory to create SMSendWhileNotReadyError objects.
- */
-export function sendWhileNotReadyError(): SMSendWhileNotReadyError {
-  return errorWithCode(
-    new Error('Failed to send a WebSocket message as the client is not ready'),
-    ErrorCode.NoReplyReceivedError,
-  ) as SMSendWhileNotReadyError;
+export class SMSendWhileNotReadyError extends SlackSocketModeError {
+  readonly code = ErrorCode.SendWhileNotReadyError;
+
+  constructor() {
+    super('Failed to send a WebSocket message as the client is not ready');
+  }
 }

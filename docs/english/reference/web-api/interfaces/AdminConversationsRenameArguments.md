@@ -2,7 +2,7 @@
 
 # Interface: AdminConversationsRenameArguments
 
-Defined in: [src/types/request/admin/conversations.ts:136](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/conversations.ts#L136)
+Defined in: [packages/web-api/src/types/request/admin/conversations.ts:136](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/conversations.ts#L136)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [src/types/request/admin/conversations.ts:136](https://github.com/sl
 channel_id: string;
 ```
 
-Defined in: [src/types/request/common.ts:85](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L85)
+Defined in: [packages/web-api/src/types/request/common.ts:85](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L85)
 
 #### Description
 
@@ -36,7 +36,7 @@ ChannelID.channel_id
 name: string;
 ```
 
-Defined in: [src/types/request/admin/conversations.ts:138](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/conversations.ts#L138)
+Defined in: [packages/web-api/src/types/request/admin/conversations.ts:138](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/conversations.ts#L138)
 
 #### Description
 
@@ -50,7 +50,7 @@ The new name for the channel.
 optional token: string;
 ```
 
-Defined in: [src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
+Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
 
 #### Description
 

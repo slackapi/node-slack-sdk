@@ -2,7 +2,7 @@
 
 # Interface: InstallationQuery\<isEnterpriseInstall\>
 
-Defined in: [src/installation-query.ts:4](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/installation-query.ts#L4)
+Defined in: [packages/oauth/src/installation-query.ts:4](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/installation-query.ts#L4)
 
 ## Type Parameters
 
@@ -18,17 +18,17 @@ Defined in: [src/installation-query.ts:4](https://github.com/slackapi/node-slack
 optional conversationId: string;
 ```
 
-Defined in: [src/installation-query.ts:8](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/installation-query.ts#L8)
+Defined in: [packages/oauth/src/installation-query.ts:8](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/installation-query.ts#L8)
 
 ***
 
 ### enterpriseId
 
 ```ts
-enterpriseId: isEnterpriseInstall extends true ? string : undefined | string;
+enterpriseId: isEnterpriseInstall extends true ? string : string | undefined;
 ```
 
-Defined in: [src/installation-query.ts:6](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/installation-query.ts#L6)
+Defined in: [packages/oauth/src/installation-query.ts:6](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/installation-query.ts#L6)
 
 ***
 
@@ -38,7 +38,7 @@ Defined in: [src/installation-query.ts:6](https://github.com/slackapi/node-slack
 isEnterpriseInstall: isEnterpriseInstall;
 ```
 
-Defined in: [src/installation-query.ts:4](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/installation-query.ts#L4)
+Defined in: [packages/oauth/src/installation-query.ts:4](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/installation-query.ts#L4)
 
 ***
 
@@ -48,7 +48,7 @@ Defined in: [src/installation-query.ts:4](https://github.com/slackapi/node-slack
 teamId: isEnterpriseInstall extends false ? string : undefined;
 ```
 
-Defined in: [src/installation-query.ts:5](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/installation-query.ts#L5)
+Defined in: [packages/oauth/src/installation-query.ts:5](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/installation-query.ts#L5)
 
 ***
 
@@ -58,4 +58,4 @@ Defined in: [src/installation-query.ts:5](https://github.com/slackapi/node-slack
 optional userId: string;
 ```
 
-Defined in: [src/installation-query.ts:7](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/installation-query.ts#L7)
+Defined in: [packages/oauth/src/installation-query.ts:7](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/installation-query.ts#L7)

@@ -6,24 +6,23 @@ on:
       - main
   pull_request:
 
+env:
+  LATEST_SUPPORTED_NODE: "24.x"
+
 jobs:
   test:
-    timeout-minutes: 4
+    timeout-minutes: 6
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, windows-latest]
-        node-version: [18.x, 20.x, 22.x]
-        package:
-          - cli-hooks
-          - cli-test
-          - logger
-          - oauth
-          - rtm-api
-          - socket-mode
-          - types
-          - web-api
-          - webhook
+        os:
+          - "ubuntu-latest"
+          - "windows-latest"
+        node-version:
+          - "20.x"
+          - "22.x"
+          - "24.x"
+          - "26.x"
     runs-on: ${{ matrix.os }}
     permissions:
       contents: read
@@ -33,78 +32,49 @@ jobs:
         run: |
           git config --global core.autocrlf false
           git config --global core.eol lf
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@395ad3262231945c25e8478fd5baf05154b1d79f # v6.1.0
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: ${{ matrix.node-version }}
-      - run: npm --version
-      - run: npm install --verbose
-        working-directory: packages/${{ matrix.package }}
-      - name: Link dependent packages (*nix)
-        if: matrix.os == 'ubuntu-latest'
-        working-directory: packages/${{ matrix.package }}
+      - name: Check versions
         run: |
-          # depending on which package we are testing, also npm link up dependent packages within this monorepo
-          case "$PWD" in
-            */webhook) pushd ../types && npm i && popd && npm link ../types;;
-            */web-api) pushd ../types && npm i && popd && npm link ../types && pushd ../logger && npm i && popd && npm link ../logger;;
-            */oauth) pushd ../logger && npm i && popd && npm link ../logger && pushd ../web-api && npm i && popd && npm link ../web-api;;
-            */socket-mode) pushd ../logger && npm i && popd && npm link ../logger && pushd ../web-api && npm i && popd && npm link ../web-api;;
-            *) ;; # default
-          esac
-      - name: Link dependent packages (Windows)
-        if: matrix.os == 'windows-latest'
-        working-directory: packages/${{ matrix.package }}
-        run: |
-          # depending on which package we are testing, also npm link up dependent packages within this monorepo
-          # NOTE: the following is PowerShell
-          echo "$pwd"
-          switch -Wildcard ( "$pwd" )
-          {
-            '*\webhook'
-            {
-              pushd ..\types && npm i && popd && npm link ..\types
-            }
-            '*\web-api'
-            {
-              pushd ..\types && npm i && popd && npm link ..\types && pushd ..\logger && npm i && popd && npm link ..\logger
-            }
-            '*\oauth'
-            {
-              pushd ..\logger && npm i && popd && npm link ..\logger && pushd ..\web-api && npm i && popd && npm link ..\web-api
-            }
-            '*\socket-mode'
-            {
-              pushd ..\logger && npm i && popd && npm link ..\logger && pushd ..\web-api && npm i && popd && npm link ..\web-api
-            }
-          }
-      - run: npm test
-        working-directory: packages/${{ matrix.package }}
-      - name: Check for coverage report existence
-        id: check_coverage
-        uses: andstor/file-existence-action@076e0072799f4942c8bc574a82233e1e4d13e9d6 # v3.0.0
-        with:
-          files: packages/${{ matrix.package }}/coverage/lcov.info
+          node --version
+          npm --version
+      - name: Install dependencies
+        run: npm ci --verbose
+      - name: Build packages
+        run: npm run build
+      - name: Lint
+        run: npm run lint
+      - name: Build docs
+        if: matrix.node-version == env.LATEST_SUPPORTED_NODE
+        run: npm run docs
+      - name: Run tests
+        if: matrix.node-version != env.LATEST_SUPPORTED_NODE
+        run: npm test
+      - name: Run test coverage
+        if: matrix.node-version == env.LATEST_SUPPORTED_NODE
+        run: npm run test:coverage
       - name: Upload code coverage
-        if: matrix.node-version == '22.x' && matrix.os == 'ubuntu-latest' && steps.check_coverage.outputs.files_exists == 'true'
-        uses: codecov/codecov-action@671740ac38dd9b0130fbe1cec585b89eea48d3de # v5.5.2
+        if: matrix.node-version == env.LATEST_SUPPORTED_NODE && matrix.os == 'ubuntu-latest'
+        uses: codecov/codecov-action@fb8b3582c8e4def4969c97caa2f19720cb33a72f # v7.0.0
         with:
-          directory: packages/${{ matrix.package }}/coverage
           fail_ci_if_error: true
-          flags: ${{ matrix.package }}
+          files: packages/*/lcov.info
+          flags: cli-hooks,cli-test,logger,oauth,socket-mode,web-api,webhook
           report_type: coverage
           token: ${{ secrets.CODECOV_TOKEN }}
           verbose: true
-      - name: Upload test results to Codecov
+      - name: Upload test results
         if: ${{ !cancelled() }}
-        uses: codecov/codecov-action@671740ac38dd9b0130fbe1cec585b89eea48d3de # v5.5.2
+        uses: codecov/codecov-action@fb8b3582c8e4def4969c97caa2f19720cb33a72f # v7.0.0
         with:
           fail_ci_if_error: true
-          files: packages/${{ matrix.package }}/coverage/test-results.xml
-          flags: ${{ matrix.node-version }},${{ matrix.os }},${{ matrix.package }}
+          files: packages/cli-hooks/test-results.xml,packages/cli-test/test-results.xml,packages/logger/test-results.xml,packages/oauth/test-results.xml,packages/socket-mode/test-results.xml,packages/web-api/test-results.xml,packages/webhook/test-results.xml
+          flags: ${{ matrix.node-version }},${{ matrix.os }}
           report_type: test_results
           token: ${{ secrets.CODECOV_TOKEN }}
           verbose: true

@@ -2,7 +2,7 @@
 
 # Interface: WorkflowsFeaturedAddArguments
 
-Defined in: [src/types/request/workflows.ts:4](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/workflows.ts#L4)
+Defined in: [packages/web-api/src/types/request/workflows.ts:4](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/workflows.ts#L4)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [src/types/request/workflows.ts:4](https://github.com/slackapi/node-
 channel_id: string;
 ```
 
-Defined in: [src/types/request/workflows.ts:8](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/workflows.ts#L8)
+Defined in: [packages/web-api/src/types/request/workflows.ts:8](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/workflows.ts#L8)
 
 #### Description
 
@@ -30,7 +30,7 @@ Channel to add featured workflow in.
 optional token: string;
 ```
 
-Defined in: [src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
+Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
 
 #### Description
 
@@ -50,7 +50,7 @@ TokenOverridable.token
 trigger_ids: string[];
 ```
 
-Defined in: [src/types/request/workflows.ts:13](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/workflows.ts#L13)
+Defined in: [packages/web-api/src/types/request/workflows.ts:13](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/workflows.ts#L13)
 
 #### Description
 

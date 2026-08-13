@@ -2,7 +2,7 @@
 
 # Interface: RichTextUserMention
 
-Defined in: [block-kit/block-elements.ts:929](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L929)
+Defined in: [block-kit/block-elements.ts:951](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L951)
 
 ## Description
 
@@ -88,7 +88,7 @@ A limited style object for styling rich text `text` elements.
 type: "user";
 ```
 
-Defined in: [block-kit/block-elements.ts:933](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L933)
+Defined in: [block-kit/block-elements.ts:955](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L955)
 
 #### Description
 
@@ -102,7 +102,7 @@ The type of element. In this case `type` is always `user`.
 user_id: string;
 ```
 
-Defined in: [block-kit/block-elements.ts:937](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L937)
+Defined in: [block-kit/block-elements.ts:959](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L959)
 
 #### Description
 

@@ -3,6 +3,7 @@ export * from './block-kit/blocks';
 export * from './block-kit/composition-objects';
 export * from './block-kit/extensions';
 export * from './calls';
+export * from './chunk';
 export * from './dialog';
 export * from './events';
 export * from './message-attachments';

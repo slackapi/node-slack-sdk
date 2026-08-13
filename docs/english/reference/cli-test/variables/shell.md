@@ -8,7 +8,7 @@ const shell: object;
 
 Defined in: [cli/shell.ts:9](https://github.com/slackapi/node-slack-sdk/blob/main/packages/cli-test/src/cli/shell.ts#L9)
 
-## Type declaration
+## Type Declaration
 
 ### assembleShellEnv()
 
@@ -122,7 +122,7 @@ Sleep function used to wait for cli to finish executing
 
 #### Parameters
 
-##### timeout
+##### timeout?
 
 `number` = `1000`
 

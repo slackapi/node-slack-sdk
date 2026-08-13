@@ -2,7 +2,7 @@
 
 # Interface: UsergroupsUsersUpdateArguments
 
-Defined in: [src/types/request/usergroups.ts:58](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/usergroups.ts#L58)
+Defined in: [packages/web-api/src/types/request/usergroups.ts:58](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/usergroups.ts#L58)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [src/types/request/usergroups.ts:58](https://github.com/slackapi/nod
 optional include_count: boolean;
 ```
 
-Defined in: [src/types/request/usergroups.ts:6](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/usergroups.ts#L6)
+Defined in: [packages/web-api/src/types/request/usergroups.ts:6](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/usergroups.ts#L6)
 
 #### Description
 
@@ -36,7 +36,7 @@ UsergroupsIncludeCount.include_count
 optional team_id: string;
 ```
 
-Defined in: [src/types/request/common.ts:70](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L70)
+Defined in: [packages/web-api/src/types/request/common.ts:70](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L70)
 
 #### Description
 
@@ -56,7 +56,7 @@ OptionalTeamAssignable.team_id
 optional token: string;
 ```
 
-Defined in: [src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
+Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
 
 #### Description
 
@@ -76,7 +76,7 @@ TokenOverridable.token
 usergroup: string;
 ```
 
-Defined in: [src/types/request/usergroups.ts:63](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/usergroups.ts#L63)
+Defined in: [packages/web-api/src/types/request/usergroups.ts:63](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/usergroups.ts#L63)
 
 #### Description
 
@@ -90,7 +90,7 @@ The encoded ID of the User Group to update users for.
 users: string;
 ```
 
-Defined in: [src/types/request/usergroups.ts:68](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/usergroups.ts#L68)
+Defined in: [packages/web-api/src/types/request/usergroups.ts:68](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/usergroups.ts#L68)
 
 #### Description
 

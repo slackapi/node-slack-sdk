@@ -6,7 +6,7 @@
 type ConversationsOpenArguments = Channel | Users & TokenOverridable & object;
 ```
 
-Defined in: [src/types/request/conversations.ts:169](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/conversations.ts#L169)
+Defined in: [packages/web-api/src/types/request/conversations.ts:169](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/conversations.ts#L169)
 
 ## Type Declaration
 

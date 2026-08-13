@@ -2,7 +2,7 @@
 
 # Interface: RichTextSection
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:859
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:881
 
 ## Description
 
@@ -16,7 +16,7 @@ A section block within a rich text field.
 elements: RichTextElement[];
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:864
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:886
 
 ***
 
@@ -26,7 +26,7 @@ Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:864
 type: "rich_text_section";
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:863
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:885
 
 #### Description
 

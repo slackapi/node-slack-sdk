@@ -2,7 +2,7 @@
 
 # Interface: AppDeletedEvent
 
-Defined in: [events/app.ts:87](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/app.ts#L87)
+Defined in: [events/app.ts:88](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/app.ts#L88)
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: [events/app.ts:87](https://github.com/slackapi/node-slack-sdk/blob/m
 app_id: string;
 ```
 
-Defined in: [events/app.ts:89](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/app.ts#L89)
+Defined in: [events/app.ts:90](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/app.ts#L90)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [events/app.ts:89](https://github.com/slackapi/node-slack-sdk/blob/m
 app_name: string;
 ```
 
-Defined in: [events/app.ts:90](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/app.ts#L90)
+Defined in: [events/app.ts:91](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/app.ts#L91)
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: [events/app.ts:90](https://github.com/slackapi/node-slack-sdk/blob/m
 app_owner_id: string;
 ```
 
-Defined in: [events/app.ts:91](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/app.ts#L91)
+Defined in: [events/app.ts:92](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/app.ts#L92)
 
 ***
 
@@ -42,7 +42,7 @@ Defined in: [events/app.ts:91](https://github.com/slackapi/node-slack-sdk/blob/m
 event_ts: string;
 ```
 
-Defined in: [events/app.ts:94](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/app.ts#L94)
+Defined in: [events/app.ts:95](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/app.ts#L95)
 
 ***
 
@@ -52,7 +52,7 @@ Defined in: [events/app.ts:94](https://github.com/slackapi/node-slack-sdk/blob/m
 team_domain: string;
 ```
 
-Defined in: [events/app.ts:93](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/app.ts#L93)
+Defined in: [events/app.ts:94](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/app.ts#L94)
 
 ***
 
@@ -62,7 +62,7 @@ Defined in: [events/app.ts:93](https://github.com/slackapi/node-slack-sdk/blob/m
 team_id: string;
 ```
 
-Defined in: [events/app.ts:92](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/app.ts#L92)
+Defined in: [events/app.ts:93](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/app.ts#L93)
 
 ***
 
@@ -72,4 +72,4 @@ Defined in: [events/app.ts:92](https://github.com/slackapi/node-slack-sdk/blob/m
 type: "app_deleted";
 ```
 
-Defined in: [events/app.ts:88](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/app.ts#L88)
+Defined in: [events/app.ts:89](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/app.ts#L89)

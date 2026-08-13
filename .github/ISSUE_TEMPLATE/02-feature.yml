@@ -1,0 +1,49 @@
+name: SDK Enhancement / Feature Request
+description: Submit an enhancement or feature request
+labels: ["untriaged"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for suggesting an improvement!
+
+  - type: dropdown
+    id: package
+    attributes:
+      label: Package
+      description: Which package(s) does this relate to?
+      multiple: true
+      options:
+        - "@slack/web-api"
+        - "@slack/socket-mode"
+        - "@slack/oauth"
+        - "@slack/webhook"
+        - "@slack/types"
+        - "@slack/logger"
+        - "@slack/cli-hooks"
+        - "@slack/cli-test"
+        - I don't know
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Describe the enhancement or feature you'd like
+      placeholder: |
+        Tell us about your idea! What would you like to see, and how would it help your developments?
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives Considered
+      description: Have you considered any alternative solutions or workarounds?
+
+  - type: markdown
+    attributes:
+      value: |
+        ---
+        By submitting this issue, you agree to follow our [Contributing Guidelines](https://github.com/slackapi/node-slack-sdk/blob/main/.github/contributing.md) and [Code of Conduct](https://slackhq.github.io/code-of-conduct).

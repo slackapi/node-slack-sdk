@@ -2,7 +2,7 @@
 
 # Interface: WorkflowsFeaturedListArguments
 
-Defined in: [src/types/request/workflows.ts:17](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/workflows.ts#L17)
+Defined in: [packages/web-api/src/types/request/workflows.ts:17](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/workflows.ts#L17)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [src/types/request/workflows.ts:17](https://github.com/slackapi/node
 channel_ids: string[];
 ```
 
-Defined in: [src/types/request/workflows.ts:22](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/workflows.ts#L22)
+Defined in: [packages/web-api/src/types/request/workflows.ts:22](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/workflows.ts#L22)
 
 #### Description
 
@@ -36,7 +36,7 @@ Comma-separated array of channel IDs to list featured workflows for.
 optional token: string;
 ```
 
-Defined in: [src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
+Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
 
 #### Description
 

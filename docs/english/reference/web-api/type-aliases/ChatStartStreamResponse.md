@@ -6,7 +6,7 @@
 type ChatStartStreamResponse = WebAPICallResult & object;
 ```
 
-Defined in: [src/types/response/ChatStartStreamResponse.ts:2](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/ChatStartStreamResponse.ts#L2)
+Defined in: [packages/web-api/src/types/response/ChatStartStreamResponse.ts:2](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/ChatStartStreamResponse.ts#L2)
 
 ## Type Declaration
 

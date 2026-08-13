@@ -2,7 +2,7 @@
 
 # Interface: RTMCallResult
 
-Defined in: [src/RTMClient.ts:736](https://github.com/slackapi/node-slack-sdk/blob/main/packages/rtm-api/src/RTMClient.ts#L736)
+Defined in: [packages/rtm-api/src/RTMClient.ts:736](https://github.com/slackapi/node-slack-sdk/blob/main/packages/rtm-api/src/RTMClient.ts#L736)
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: [src/RTMClient.ts:736](https://github.com/slackapi/node-slack-sdk/bl
 optional error: object;
 ```
 
-Defined in: [src/RTMClient.ts:739](https://github.com/slackapi/node-slack-sdk/blob/main/packages/rtm-api/src/RTMClient.ts#L739)
+Defined in: [packages/rtm-api/src/RTMClient.ts:739](https://github.com/slackapi/node-slack-sdk/blob/main/packages/rtm-api/src/RTMClient.ts#L739)
 
 #### code
 
@@ -34,7 +34,7 @@ msg: string;
 optional reply_to: number;
 ```
 
-Defined in: [src/RTMClient.ts:738](https://github.com/slackapi/node-slack-sdk/blob/main/packages/rtm-api/src/RTMClient.ts#L738)
+Defined in: [packages/rtm-api/src/RTMClient.ts:738](https://github.com/slackapi/node-slack-sdk/blob/main/packages/rtm-api/src/RTMClient.ts#L738)
 
 ***
 
@@ -44,4 +44,4 @@ Defined in: [src/RTMClient.ts:738](https://github.com/slackapi/node-slack-sdk/bl
 ts: string;
 ```
 
-Defined in: [src/RTMClient.ts:737](https://github.com/slackapi/node-slack-sdk/blob/main/packages/rtm-api/src/RTMClient.ts#L737)
+Defined in: [packages/rtm-api/src/RTMClient.ts:737](https://github.com/slackapi/node-slack-sdk/blob/main/packages/rtm-api/src/RTMClient.ts#L737)

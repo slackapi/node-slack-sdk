@@ -11,4 +11,4 @@ type SMCallError =
   | SMSendWhileNotReadyError;
 ```
 
-Defined in: [src/errors.ts:20](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/errors.ts#L20)
+Defined in: [packages/socket-mode/src/errors.ts:20](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/errors.ts#L20)

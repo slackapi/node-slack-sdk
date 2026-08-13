@@ -6,7 +6,7 @@
 type GroupsCreateChildResponse = WebAPICallResult & object;
 ```
 
-Defined in: [src/types/response/GroupsCreateChildResponse.ts:11](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/GroupsCreateChildResponse.ts#L11)
+Defined in: [packages/web-api/src/types/response/GroupsCreateChildResponse.ts:11](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/GroupsCreateChildResponse.ts#L11)
 
 ## Type Declaration
 

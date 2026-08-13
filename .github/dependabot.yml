@@ -63,6 +63,15 @@ updates:
         patterns:
           - "@types/mocha"
           - "mocha"
+    ignore:
+      - dependency-name: "@types/node"
+        versions:
+          - "21.x"
+          - "22.x"
+          - "23.x"
+          - "24.x"
+          - "25.x"
+          - "26.x"
     labels:
       - "dependencies"
       - "javascript"
@@ -91,6 +100,15 @@ updates:
         patterns:
           - "@types/mocha"
           - "mocha"
+    ignore:
+      - dependency-name: "@types/node"
+        versions:
+          - "21.x"
+          - "22.x"
+          - "23.x"
+          - "24.x"
+          - "25.x"
+          - "26.x"
     labels:
       - "dependencies"
       - "javascript"
@@ -119,6 +137,15 @@ updates:
         patterns:
           - "@types/mocha"
           - "mocha"
+    ignore:
+      - dependency-name: "@types/node"
+        versions:
+          - "21.x"
+          - "22.x"
+          - "23.x"
+          - "24.x"
+          - "25.x"
+          - "26.x"
     labels:
       - "dependencies"
       - "javascript"
@@ -158,6 +185,15 @@ updates:
         patterns:
           - "@types/mocha"
           - "mocha"
+    ignore:
+      - dependency-name: "@types/node"
+        versions:
+          - "21.x"
+          - "22.x"
+          - "23.x"
+          - "24.x"
+          - "25.x"
+          - "26.x"
     labels:
       - "dependencies"
       - "javascript"
@@ -178,6 +214,19 @@ updates:
         patterns:
           - "@types/mocha"
           - "mocha"
+    ignore:
+      # p-retry is pure ESM and raises its minimum Node.js version each major
+      # (v7 requires Node >= 20, v8 requires Node >= 22). Bumping it can force a
+      # change to this package's own supported Node floor.
+      - dependency-name: "p-retry"
+      - dependency-name: "@types/node"
+        versions:
+          - "21.x"
+          - "22.x"
+          - "23.x"
+          - "24.x"
+          - "25.x"
+          - "26.x"
     labels:
       - "dependencies"
       - "javascript"
@@ -192,6 +241,11 @@ updates:
       slack:
         patterns:
           - "@slack/*"
+    ignore:
+      - dependency-name: "@types/node"
+        versions:
+          - "25.x"
+          - "26.x"
     labels:
       - "area:examples"
       - "dependencies"
@@ -206,3 +260,20 @@ updates:
       - "github_actions"
     schedule:
       interval: "monthly"
+
+  - package-ecosystem: "npm"
+    directory: "/"
+    ignore:
+      - dependency-name: "@types/node"
+        versions:
+          - "21.x"
+          - "22.x"
+          - "23.x"
+          - "24.x"
+          - "25.x"
+          - "26.x"
+    labels:
+      - "dependencies"
+      - "javascript"
+    schedule:
+      interval: "weekly"

@@ -2,7 +2,7 @@
 
 # Interface: CanvasesAccessSetArguments
 
-Defined in: [src/types/request/canvas.ts:61](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/canvas.ts#L61)
+Defined in: [packages/web-api/src/types/request/canvas.ts:61](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/canvas.ts#L61)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [src/types/request/canvas.ts:61](https://github.com/slackapi/node-sl
 access_level: "read" | "write";
 ```
 
-Defined in: [src/types/request/canvas.ts:63](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/canvas.ts#L63)
+Defined in: [packages/web-api/src/types/request/canvas.ts:63](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/canvas.ts#L63)
 
 #### Description
 
@@ -30,7 +30,7 @@ Desired level of access.
 canvas_id: string;
 ```
 
-Defined in: [src/types/request/canvas.ts:6](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/canvas.ts#L6)
+Defined in: [packages/web-api/src/types/request/canvas.ts:6](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/canvas.ts#L6)
 
 #### Description
 
@@ -50,7 +50,7 @@ CanvasID.canvas_id
 optional channel_ids: [string, ...string[]];
 ```
 
-Defined in: [src/types/request/common.ts:81](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L81)
+Defined in: [packages/web-api/src/types/request/common.ts:81](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L81)
 
 #### Description
 
@@ -68,7 +68,7 @@ An array of channel IDs (must include at least one ID).
 optional token: string;
 ```
 
-Defined in: [src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
+Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
 
 #### Description
 
@@ -88,7 +88,7 @@ TokenOverridable.token
 optional user_ids: [string, ...string[]];
 ```
 
-Defined in: [src/types/request/common.ts:92](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L92)
+Defined in: [packages/web-api/src/types/request/common.ts:92](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L92)
 
 #### Description
 

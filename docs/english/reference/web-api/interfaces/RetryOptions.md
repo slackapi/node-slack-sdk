@@ -2,7 +2,7 @@
 
 # Interface: RetryOptions
 
-Defined in: [src/retry-policies.ts:6](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/retry-policies.ts#L6)
+Defined in: [packages/web-api/src/retry-policies.ts:6](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/retry-policies.ts#L6)
 
 Options to create retry policies. Extends from https://github.com/tim-kos/node-retry.
 

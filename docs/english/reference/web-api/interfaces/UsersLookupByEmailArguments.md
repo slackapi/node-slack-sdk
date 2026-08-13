@@ -2,7 +2,7 @@
 
 # Interface: UsersLookupByEmailArguments
 
-Defined in: [src/types/request/users.ts:48](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/users.ts#L48)
+Defined in: [packages/web-api/src/types/request/users.ts:48](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/users.ts#L48)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [src/types/request/users.ts:48](https://github.com/slackapi/node-sla
 email: string;
 ```
 
-Defined in: [src/types/request/users.ts:7](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/users.ts#L7)
+Defined in: [packages/web-api/src/types/request/users.ts:7](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/users.ts#L7)
 
 #### Description
 
@@ -36,7 +36,7 @@ Email.email
 optional token: string;
 ```
 
-Defined in: [src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
+Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
 
 #### Description
 

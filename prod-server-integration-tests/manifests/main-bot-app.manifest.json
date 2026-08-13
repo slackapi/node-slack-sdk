@@ -1,0 +1,44 @@
+{
+  "_metadata": {
+    "major_version": 1,
+    "minor_version": 1
+  },
+  "display_information": {
+    "name": "Node SDK Integration Tests",
+    "description": "Primary bot app for node-slack-sdk production integration tests"
+  },
+  "features": {
+    "bot_user": {
+      "display_name": "Node SDK Test Bot",
+      "always_online": false
+    }
+  },
+  "oauth_config": {
+    "scopes": {
+      "bot": [
+        "bookmarks:read",
+        "bookmarks:write",
+        "channels:history",
+        "channels:manage",
+        "channels:read",
+        "channels:write",
+        "chat:write",
+        "conversations.connect:manage",
+        "conversations.connect:read",
+        "conversations.connect:write",
+        "groups:write",
+        "im:write",
+        "mpim:write",
+        "team.billing:read",
+        "team.preferences:read",
+        "users:read"
+      ],
+      "user": ["channels:history", "channels:read", "users:read"]
+    }
+  },
+  "settings": {
+    "org_deploy_enabled": false,
+    "socket_mode_enabled": false,
+    "token_rotation_enabled": false
+  }
+}

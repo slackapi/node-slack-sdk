@@ -2,7 +2,7 @@
 
 # Interface: AdminTeamsSettingsSetDescriptionArguments
 
-Defined in: [src/types/request/admin/teams.ts:35](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/teams.ts#L35)
+Defined in: [packages/web-api/src/types/request/admin/teams.ts:35](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/teams.ts#L35)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [src/types/request/admin/teams.ts:35](https://github.com/slackapi/no
 description: string;
 ```
 
-Defined in: [src/types/request/admin/teams.ts:37](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/teams.ts#L37)
+Defined in: [packages/web-api/src/types/request/admin/teams.ts:37](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/teams.ts#L37)
 
 #### Description
 
@@ -30,7 +30,7 @@ The new description for the workspace.
 team_id: string;
 ```
 
-Defined in: [src/types/request/common.ts:61](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L61)
+Defined in: [packages/web-api/src/types/request/common.ts:61](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L61)
 
 #### Description
 
@@ -50,7 +50,7 @@ TeamID.team_id
 optional token: string;
 ```
 
-Defined in: [src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
+Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
 
 #### Description
 

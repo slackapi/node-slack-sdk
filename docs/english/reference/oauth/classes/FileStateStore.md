@@ -2,7 +2,7 @@
 
 # Class: FileStateStore
 
-Defined in: [src/state-stores/file-state-store.ts:17](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/state-stores/file-state-store.ts#L17)
+Defined in: [packages/oauth/src/state-stores/file-state-store.ts:17](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/state-stores/file-state-store.ts#L17)
 
 Generates state parameter value in the OAuth flow.
 While the state parameter value works for the CSRF protection purpose,
@@ -21,7 +21,7 @@ it can transfer the given InstallURLOptions value to the Redirect URL handler
 new FileStateStore(args): FileStateStore;
 ```
 
-Defined in: [src/state-stores/file-state-store.ts:24](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/state-stores/file-state-store.ts#L24)
+Defined in: [packages/oauth/src/state-stores/file-state-store.ts:24](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/state-stores/file-state-store.ts#L24)
 
 #### Parameters
 
@@ -41,7 +41,7 @@ Defined in: [src/state-stores/file-state-store.ts:24](https://github.com/slackap
 generateStateParam(installOptions, now): Promise<string>;
 ```
 
-Defined in: [src/state-stores/file-state-store.ts:30](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/state-stores/file-state-store.ts#L30)
+Defined in: [packages/oauth/src/state-stores/file-state-store.ts:30](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/state-stores/file-state-store.ts#L30)
 
 Generates a valid state parameter value, which can be decoded as a StateObj object
 by the verifyStateParam() method. This value may be stored on the server-side with expiration.
@@ -73,7 +73,7 @@ The InstallProvider verifies if this value is set in the installer's browser ses
 verifyStateParam(now, state): Promise<InstallURLOptions>;
 ```
 
-Defined in: [src/state-stores/file-state-store.ts:41](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/state-stores/file-state-store.ts#L41)
+Defined in: [packages/oauth/src/state-stores/file-state-store.ts:41](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/state-stores/file-state-store.ts#L41)
 
 Verifies the given state string value by trying to decode the value and
 build the passed InstallURLOptions object from the data.

@@ -1,0 +1,42 @@
+{
+  "name": "@slack",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/slackapi/node-slack-sdk.git"
+  },
+  "workspaces": [
+    "packages/cli-hooks",
+    "packages/cli-test",
+    "packages/logger",
+    "packages/oauth",
+    "packages/rtm-api",
+    "packages/socket-mode",
+    "packages/types",
+    "packages/web-api",
+    "packages/webhook"
+  ],
+  "scripts": {
+    "build": "bash scripts/build.sh",
+    "changeset": "npx @changesets/cli",
+    "clean": "npm run build:clean --workspaces --if-present && git clean -xdf node_modules packages/**/node_modules && git clean -xf '**/package-lock.json'",
+    "docs": "npm run docs --workspaces --if-present",
+    "lint": "npx @biomejs/biome check packages",
+    "lint:fix": "npx @biomejs/biome check --write packages",
+    "test": "npm test --workspaces --if-present",
+    "test:coverage": "npm run test:coverage --workspaces --if-present",
+    "version": "npm run changeset version && npm install && npm run docs"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.5.5",
+    "@changesets/cli": "^2.31.1",
+    "@types/node": "^18.19.130",
+    "shx": "^0.4.0",
+    "tsx": "^4.23.1",
+    "typedoc": "^0.28.20",
+    "typedoc-plugin-markdown": "^4.12.0",
+    "typescript": "5.9.3"
+  }
+}

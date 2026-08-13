@@ -2,7 +2,7 @@
 
 # Interface: BookmarksEditArguments
 
-Defined in: [src/types/request/bookmarks.ts:25](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/bookmarks.ts#L25)
+Defined in: [packages/web-api/src/types/request/bookmarks.ts:25](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/bookmarks.ts#L25)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [src/types/request/bookmarks.ts:25](https://github.com/slackapi/node
 bookmark_id: string;
 ```
 
-Defined in: [src/types/request/bookmarks.ts:4](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/bookmarks.ts#L4)
+Defined in: [packages/web-api/src/types/request/bookmarks.ts:4](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/bookmarks.ts#L4)
 
 #### Inherited from
 
@@ -32,7 +32,7 @@ ID.bookmark_id
 channel_id: string;
 ```
 
-Defined in: [src/types/request/common.ts:85](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L85)
+Defined in: [packages/web-api/src/types/request/common.ts:85](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L85)
 
 #### Description
 
@@ -52,7 +52,7 @@ ChannelID.channel_id
 optional emoji: string;
 ```
 
-Defined in: [src/types/request/bookmarks.ts:12](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/bookmarks.ts#L12)
+Defined in: [packages/web-api/src/types/request/bookmarks.ts:12](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/bookmarks.ts#L12)
 
 #### Description
 
@@ -70,7 +70,7 @@ Emoji tag to apply to the bookmark.
 optional link: string;
 ```
 
-Defined in: [src/types/request/bookmarks.ts:10](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/bookmarks.ts#L10)
+Defined in: [packages/web-api/src/types/request/bookmarks.ts:10](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/bookmarks.ts#L10)
 
 #### Description
 
@@ -88,7 +88,7 @@ Link to bookmark.
 optional title: string;
 ```
 
-Defined in: [src/types/request/bookmarks.ts:8](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/bookmarks.ts#L8)
+Defined in: [packages/web-api/src/types/request/bookmarks.ts:8](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/bookmarks.ts#L8)
 
 #### Description
 
@@ -106,7 +106,7 @@ Title for the bookmark.
 optional token: string;
 ```
 
-Defined in: [src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
+Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
 
 #### Description
 

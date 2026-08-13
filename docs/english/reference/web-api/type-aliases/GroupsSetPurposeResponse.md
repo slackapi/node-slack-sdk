@@ -6,7 +6,7 @@
 type GroupsSetPurposeResponse = WebAPICallResult & object;
 ```
 
-Defined in: [src/types/response/GroupsSetPurposeResponse.ts:11](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/GroupsSetPurposeResponse.ts#L11)
+Defined in: [packages/web-api/src/types/response/GroupsSetPurposeResponse.ts:11](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/GroupsSetPurposeResponse.ts#L11)
 
 ## Type Declaration
 

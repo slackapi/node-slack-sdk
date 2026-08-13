@@ -2,7 +2,7 @@
 
 # Interface: InstallationStore
 
-Defined in: [src/installation-stores/interface.ts:5](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/installation-stores/interface.ts#L5)
+Defined in: [packages/oauth/src/installation-stores/interface.ts:5](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/installation-stores/interface.ts#L5)
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: [src/installation-stores/interface.ts:5](https://github.com/slackapi
 optional deleteInstallation: (query, logger?) => Promise<void>;
 ```
 
-Defined in: [src/installation-stores/interface.ts:16](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/installation-stores/interface.ts#L16)
+Defined in: [packages/oauth/src/installation-stores/interface.ts:16](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/installation-stores/interface.ts#L16)
 
 #### Parameters
 
@@ -36,7 +36,7 @@ Defined in: [src/installation-stores/interface.ts:16](https://github.com/slackap
 fetchInstallation: (query, logger?) => Promise<Installation<"v1" | "v2", boolean>>;
 ```
 
-Defined in: [src/installation-stores/interface.ts:11](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/installation-stores/interface.ts#L11)
+Defined in: [packages/oauth/src/installation-stores/interface.ts:11](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/installation-stores/interface.ts#L11)
 
 #### Parameters
 
@@ -60,7 +60,7 @@ Defined in: [src/installation-stores/interface.ts:11](https://github.com/slackap
 storeInstallation<AuthVersion>(installation, logger?): Promise<void>;
 ```
 
-Defined in: [src/installation-stores/interface.ts:6](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/installation-stores/interface.ts#L6)
+Defined in: [packages/oauth/src/installation-stores/interface.ts:6](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/installation-stores/interface.ts#L6)
 
 #### Type Parameters
 

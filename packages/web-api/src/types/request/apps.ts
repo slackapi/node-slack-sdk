@@ -32,6 +32,14 @@ export interface AppsManifestValidateArguments extends Partial<AppID>, TokenOver
   manifest: Manifest;
 }
 
+// https://docs.slack.dev/reference/methods/apps.user.connection.update
+export interface AppsUserConnectionUpdateArguments extends TokenOverridable {
+  /** @description The identifier for the user receiving the status update. */
+  user_id: string;
+  /** @description The connection status value to assign to the user. `connected` or `disconnected`. */
+  status: string;
+}
+
 // https://docs.slack.dev/reference/methods/apps.uninstall
 export interface AppsUninstallArguments
   extends Pick<OAuthCredentials, 'client_id' | 'client_secret'>,

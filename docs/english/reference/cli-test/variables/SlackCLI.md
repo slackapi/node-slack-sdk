@@ -10,7 +10,7 @@ Defined in: [cli/index.ts:22](https://github.com/slackapi/node-slack-sdk/blob/ma
 
 Set of functions to spawn and interact with Slack Platform CLI processes and commands
 
-## Type declaration
+## Type Declaration
 
 ### app
 
@@ -216,26 +216,6 @@ remove: (args) => Promise<string>;
 
 command output
 
-### create()
-
-```ts
-create: (args) => Promise<string>;
-```
-
-`slack create`
-
-#### Parameters
-
-##### args
-
-`ProjectCommandArguments` & `object`
-
-#### Returns
-
-`Promise`\<`string`\>
-
-command output
-
 ### datastore
 
 ```ts
@@ -328,26 +308,6 @@ command output
 env: object;
 ```
 
-#### env.add()
-
-```ts
-add: (args) => Promise<string>;
-```
-
-`slack env add`
-
-##### Parameters
-
-###### args
-
-`ProjectCommandArguments` & `EnvCommandArguments`
-
-##### Returns
-
-`Promise`\<`string`\>
-
-command output
-
 #### env.list()
 
 ```ts
@@ -368,13 +328,33 @@ list: (args) => Promise<string>;
 
 command output
 
-#### env.remove()
+#### env.set()
 
 ```ts
-remove: (args) => Promise<string>;
+set: (args) => Promise<string>;
 ```
 
-`slack env remove`
+`slack env set`
+
+##### Parameters
+
+###### args
+
+`ProjectCommandArguments` & `EnvCommandArguments`
+
+##### Returns
+
+`Promise`\<`string`\>
+
+command output
+
+#### env.unset()
+
+```ts
+unset: (args) => Promise<string>;
+```
+
+`slack env unset`
 
 ##### Parameters
 
@@ -671,6 +651,32 @@ stop `slack run`
 ##### Returns
 
 `Promise`\<`void`\>
+
+### project
+
+```ts
+project: object;
+```
+
+#### project.create()
+
+```ts
+create: (args) => Promise<string>;
+```
+
+`slack create`
+
+##### Parameters
+
+###### args
+
+`ProjectCommandArguments` & `object`
+
+##### Returns
+
+`Promise`\<`string`\>
+
+command output
 
 ### stopSession()
 

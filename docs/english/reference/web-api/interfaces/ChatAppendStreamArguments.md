@@ -2,11 +2,11 @@
 
 # Interface: ChatAppendStreamArguments
 
-Defined in: [src/types/request/chat.ts:171](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L171)
+Defined in: [packages/web-api/src/types/request/chat.ts:172](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L172)
 
 ## Extends
 
-- `TokenOverridable`.`ChannelAndTS`.`MarkdownText`
+- `TokenOverridable`.`ChannelAndTS`.`Partial`\<`MarkdownText`\>
 
 ## Properties
 
@@ -16,7 +16,7 @@ Defined in: [src/types/request/chat.ts:171](https://github.com/slackapi/node-sla
 channel: string;
 ```
 
-Defined in: [src/types/request/chat.ts:21](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L21)
+Defined in: [packages/web-api/src/types/request/chat.ts:22](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L22)
 
 #### Description
 
@@ -30,13 +30,28 @@ ChannelAndTS.channel
 
 ***
 
-### markdown\_text
+### chunks?
 
 ```ts
-markdown_text: string;
+optional chunks: AnyChunk[];
 ```
 
-Defined in: [src/types/request/chat.ts:62](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L62)
+Defined in: [packages/web-api/src/types/request/chat.ts:177](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L177)
+
+#### Description
+
+An array of [chunk objects](https://docs.slack.dev/messaging/sending-and-scheduling-messages#text-streaming) to append to the stream.
+Either `markdown_text` or `chunks` is required.
+
+***
+
+### markdown\_text?
+
+```ts
+optional markdown_text: string;
+```
+
+Defined in: [packages/web-api/src/types/request/chat.ts:63](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L63)
 
 #### Description
 
@@ -51,7 +66,7 @@ Accepts message text formatted in markdown. This argument should not be used in 
 #### Inherited from
 
 ```ts
-MarkdownText.markdown_text
+Partial.markdown_text
 ```
 
 ***
@@ -62,7 +77,7 @@ MarkdownText.markdown_text
 optional token: string;
 ```
 
-Defined in: [src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
+Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
 
 #### Description
 
@@ -82,7 +97,7 @@ TokenOverridable.token
 ts: string;
 ```
 
-Defined in: [src/types/request/chat.ts:25](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L25)
+Defined in: [packages/web-api/src/types/request/chat.ts:26](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L26)
 
 #### Description
 

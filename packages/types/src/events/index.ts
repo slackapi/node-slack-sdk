@@ -1,4 +1,5 @@
 import type {
+  AppContextChangedEvent,
   AppDeletedEvent,
   AppHomeOpenedEvent,
   AppInstalledEvent,
@@ -120,6 +121,7 @@ export * from './user';
  * This is a discriminated union. The discriminant is the `type` property.
  */
 export type SlackEvent =
+  | AppContextChangedEvent
   | AppDeletedEvent
   | AppHomeOpenedEvent
   | AppInstalledEvent

@@ -2,7 +2,7 @@
 
 # Interface: ToolingTokensRotateArguments
 
-Defined in: [src/types/request/tooling.ts:2](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/tooling.ts#L2)
+Defined in: [packages/web-api/src/types/request/tooling.ts:2](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/tooling.ts#L2)
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: [src/types/request/tooling.ts:2](https://github.com/slackapi/node-sl
 refresh_token: string;
 ```
 
-Defined in: [src/types/request/tooling.ts:4](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/tooling.ts#L4)
+Defined in: [packages/web-api/src/types/request/tooling.ts:4](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/tooling.ts#L4)
 
 #### Description
 

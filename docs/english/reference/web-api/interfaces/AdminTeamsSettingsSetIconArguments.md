@@ -2,7 +2,7 @@
 
 # Interface: AdminTeamsSettingsSetIconArguments
 
-Defined in: [src/types/request/admin/teams.ts:47](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/teams.ts#L47)
+Defined in: [packages/web-api/src/types/request/admin/teams.ts:47](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/teams.ts#L47)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [src/types/request/admin/teams.ts:47](https://github.com/slackapi/no
 image_url: string;
 ```
 
-Defined in: [src/types/request/admin/teams.ts:49](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/teams.ts#L49)
+Defined in: [packages/web-api/src/types/request/admin/teams.ts:49](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/teams.ts#L49)
 
 #### Description
 
@@ -30,7 +30,7 @@ Image URL for the icon.
 team_id: string;
 ```
 
-Defined in: [src/types/request/common.ts:61](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L61)
+Defined in: [packages/web-api/src/types/request/common.ts:61](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L61)
 
 #### Description
 
@@ -50,7 +50,7 @@ TeamID.team_id
 optional token: string;
 ```
 
-Defined in: [src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
+Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
 
 #### Description
 

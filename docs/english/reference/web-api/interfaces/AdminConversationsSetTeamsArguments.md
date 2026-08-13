@@ -2,7 +2,7 @@
 
 # Interface: AdminConversationsSetTeamsArguments
 
-Defined in: [src/types/request/admin/conversations.ts:208](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/conversations.ts#L208)
+Defined in: [packages/web-api/src/types/request/admin/conversations.ts:208](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/conversations.ts#L208)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [src/types/request/admin/conversations.ts:208](https://github.com/sl
 channel_id: string;
 ```
 
-Defined in: [src/types/request/common.ts:85](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L85)
+Defined in: [packages/web-api/src/types/request/common.ts:85](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L85)
 
 #### Description
 
@@ -36,7 +36,7 @@ ChannelID.channel_id
 optional org_channel: boolean;
 ```
 
-Defined in: [src/types/request/admin/conversations.ts:210](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/conversations.ts#L210)
+Defined in: [packages/web-api/src/types/request/admin/conversations.ts:210](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/conversations.ts#L210)
 
 #### Description
 
@@ -50,7 +50,7 @@ Set to `true` if channel has to be converted to an org channel. Defaults to `fal
 optional target_team_ids: string[];
 ```
 
-Defined in: [src/types/request/admin/conversations.ts:215](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/conversations.ts#L215)
+Defined in: [packages/web-api/src/types/request/admin/conversations.ts:215](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/conversations.ts#L215)
 
 #### Description
 
@@ -65,7 +65,7 @@ Not required if the channel is being shared org-wide.
 optional team_id: string;
 ```
 
-Defined in: [src/types/request/admin/conversations.ts:220](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/conversations.ts#L220)
+Defined in: [packages/web-api/src/types/request/admin/conversations.ts:220](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/conversations.ts#L220)
 
 #### Description
 
@@ -80,7 +80,7 @@ Omit this argument if the channel is a cross-workspace shared channel.
 optional token: string;
 ```
 
-Defined in: [src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
+Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
 
 #### Description
 

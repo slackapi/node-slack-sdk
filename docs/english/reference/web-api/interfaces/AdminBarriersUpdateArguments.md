@@ -2,7 +2,7 @@
 
 # Interface: AdminBarriersUpdateArguments
 
-Defined in: [src/types/request/admin/barriers.ts:30](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/barriers.ts#L30)
+Defined in: [packages/web-api/src/types/request/admin/barriers.ts:30](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/barriers.ts#L30)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [src/types/request/admin/barriers.ts:30](https://github.com/slackapi
 barrier_id: string;
 ```
 
-Defined in: [src/types/request/admin/barriers.ts:7](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/barriers.ts#L7)
+Defined in: [packages/web-api/src/types/request/admin/barriers.ts:7](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/barriers.ts#L7)
 
 #### Description
 
@@ -36,7 +36,7 @@ BarrierID.barrier_id
 barriered_from_usergroup_ids: string[];
 ```
 
-Defined in: [src/types/request/admin/barriers.ts:13](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/barriers.ts#L13)
+Defined in: [packages/web-api/src/types/request/admin/barriers.ts:13](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/barriers.ts#L13)
 
 #### Description
 
@@ -54,7 +54,7 @@ A list of [IDP Groups](https://slack.com/help/articles/115001435788-Connect-iden
 primary_usergroup_id: string;
 ```
 
-Defined in: [src/types/request/admin/barriers.ts:15](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/barriers.ts#L15)
+Defined in: [packages/web-api/src/types/request/admin/barriers.ts:15](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/barriers.ts#L15)
 
 #### Description
 
@@ -72,7 +72,7 @@ The ID of the primary [IDP Group](https://slack.com/help/articles/115001435788-C
 restricted_subjects: ["im", "mpim", "call"];
 ```
 
-Defined in: [src/types/request/admin/barriers.ts:20](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/barriers.ts#L20)
+Defined in: [packages/web-api/src/types/request/admin/barriers.ts:20](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/barriers.ts#L20)
 
 #### Description
 
@@ -91,7 +91,7 @@ Currently you must provide all three: `im`, `mpim`, `call`.
 optional token: string;
 ```
 
-Defined in: [src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
+Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
 
 #### Description
 

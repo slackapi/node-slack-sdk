@@ -2,7 +2,7 @@
 
 # Interface: ConversationsInfoArguments
 
-Defined in: [src/types/request/conversations.ts:101](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/conversations.ts#L101)
+Defined in: [packages/web-api/src/types/request/conversations.ts:101](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/conversations.ts#L101)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [src/types/request/conversations.ts:101](https://github.com/slackapi
 channel: string;
 ```
 
-Defined in: [src/types/request/conversations.ts:15](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/conversations.ts#L15)
+Defined in: [packages/web-api/src/types/request/conversations.ts:15](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/conversations.ts#L15)
 
 #### Description
 
@@ -36,7 +36,7 @@ Channel.channel
 optional include_locale: boolean;
 ```
 
-Defined in: [src/types/request/common.ts:51](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L51)
+Defined in: [packages/web-api/src/types/request/common.ts:51](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L51)
 
 #### Description
 
@@ -56,7 +56,7 @@ LocaleAware.include_locale
 optional include_num_members: boolean;
 ```
 
-Defined in: [src/types/request/conversations.ts:105](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/conversations.ts#L105)
+Defined in: [packages/web-api/src/types/request/conversations.ts:105](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/conversations.ts#L105)
 
 #### Description
 
@@ -70,7 +70,7 @@ Set to `true` to include the member count for the specified conversation. Defaul
 optional token: string;
 ```
 
-Defined in: [src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
+Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
 
 #### Description
 

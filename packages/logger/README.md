@@ -6,7 +6,7 @@ The `@slack/logger` package is intended to be used as a simple logging interface
 
 ## Requirements
 
-This package supports Node v18 and higher. It's highly recommended to use [the latest LTS version of
+This package supports Node v20 and higher. It's highly recommended to use [the latest LTS version of
 node](https://github.com/nodejs/Release#release-schedule), and the documentation is written using syntax and features
 from that version.
 

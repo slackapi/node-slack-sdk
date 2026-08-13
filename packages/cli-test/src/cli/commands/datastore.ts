@@ -15,13 +15,6 @@ export interface DatastoreCommandArguments {
 }
 
 /**
- * Used to escape double quotes in JSON strings; this is needed when JSON is passed as a command line argument, which for the datastore commands, it is.
- */
-function escapeJSON(obj: Record<string, unknown>): string {
-  return `"${JSON.stringify(obj).replace(/"/g, '\\"')}"`;
-}
-
-/**
  * `slack datastore get`
  * @returns command output
  */
@@ -32,7 +25,7 @@ export const datastoreGet = async function datastoreGet(
     datastore: args.datastoreName,
     id: args.primaryKeyValue,
   };
-  const cmd = new SlackCLIProcess(['datastore', 'get', escapeJSON(getQueryObj)], args);
+  const cmd = new SlackCLIProcess(['datastore', 'get', JSON.stringify(getQueryObj)], args);
   const proc = await cmd.execAsync({
     cwd: args.appPath,
   });
@@ -50,7 +43,7 @@ export const datastoreDelete = async function datastoreDelete(
     datastore: args.datastoreName,
     id: args.primaryKeyValue,
   };
-  const cmd = new SlackCLIProcess(['datastore', 'delete', escapeJSON(deleteQueryObj)], args);
+  const cmd = new SlackCLIProcess(['datastore', 'delete', JSON.stringify(deleteQueryObj)], args);
   const proc = await cmd.execAsync({
     cwd: args.appPath,
   });
@@ -68,7 +61,7 @@ export const datastorePut = async function datastorePut(
     datastore: args.datastoreName,
     item: args.putItem,
   };
-  const cmd = new SlackCLIProcess(['datastore', 'put', escapeJSON(putQueryObj)], args);
+  const cmd = new SlackCLIProcess(['datastore', 'put', JSON.stringify(putQueryObj)], args);
   const proc = await cmd.execAsync({
     cwd: args.appPath,
   });
@@ -88,7 +81,7 @@ export const datastoreQuery = async function datastoreQuery(
     expression: args.queryExpression,
     expression_values: args.queryExpressionValues,
   };
-  const cmd = new SlackCLIProcess(['datastore', 'query', escapeJSON(queryObj)], args);
+  const cmd = new SlackCLIProcess(['datastore', 'query', JSON.stringify(queryObj)], args);
   const proc = await cmd.execAsync({
     cwd: args.appPath,
   });

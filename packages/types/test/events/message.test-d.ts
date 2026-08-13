@@ -23,3 +23,26 @@ const messageDeletedEvent: MessageDeletedEvent = {
   previous_message: anyMessageEvent,
 };
 expectAssignable<MessageEvent>(messageDeletedEvent.previous_message);
+
+// the agent DM context is delivered inline on messages via the `app_context` field
+const messageWithAppContext: GenericMessageEvent = {
+  type: 'message',
+  subtype: undefined,
+  channel_type: 'im',
+  channel: 'D0123456789',
+  user: 'U0123456789',
+  ts: '1234567890.123456',
+  event_ts: '1234567890.123456',
+  text: 'hi',
+  app_context: {
+    entities: [
+      {
+        type: 'slack#/types/channel_id',
+        value: 'C0123456789',
+        team_id: 'T0123456789',
+        enterprise_id: 'E0123456789',
+      },
+    ],
+  },
+};
+expectAssignable<GenericMessageEvent>(messageWithAppContext);

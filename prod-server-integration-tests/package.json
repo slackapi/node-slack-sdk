@@ -1,19 +1,23 @@
 {
-  "name": "@slack/web-api-code-snippets",
-  "description": "Basic examples of using @slack/web-api package",
+  "name": "@slack/prod-server-integration-tests",
+  "private": true,
+  "type": "module",
+  "description": "Integration tests running against real Slack APIs",
   "scripts": {
-    "test": "mocha --timeout 10000",
-    "test:clean": "./link.sh && mocha --timeout 10000"
+    "build": "npm run build --prefix ../packages/logger && npm run build --prefix ../packages/types && npm run build --prefix ../packages/web-api && npm run build --prefix ../packages/socket-mode",
+    "clean": "rm -rf node_modules/ package-lock.json",
+    "lint": "npx biome check ../prod-server-integration-tests/",
+    "lint:fix": "npx biome check --write ../prod-server-integration-tests/",
+    "test": "node --test-timeout=15000 --test-reporter=spec --test-reporter-destination=stdout --test test/*.test.js",
+    "test:clean": "npm run clean && npm run build && npm install && npm test"
   },
   "repository": "https://github.com/slackapi/node-slack-sdk",
   "author": "Slack Technologies, LLC",
   "license": "MIT",
   "dependencies": {
-    "dotenv": "^4",
-    "winston": "^3.3.3"
+    "@slack/socket-mode": "file:../packages/socket-mode",
+    "@slack/web-api": "file:../packages/web-api",
+    "dotenv": "^16"
   },
-  "devDependencies": {
-    "chai": "^4.3.4",
-    "mocha": "^8.3.2"
-  }
+  "devDependencies": {}
 }

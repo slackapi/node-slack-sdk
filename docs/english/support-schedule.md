@@ -1,6 +1,6 @@
-# Support schedule
+# Node support schedule
 
-## How long will my version be supported?
+## How long will my version of Node be supported?
 
 You have at least until the next Node.js LTS version maintenance ends. According to [current schedule](https://github.com/nodejs/Release), this happens once every 12 months.
 

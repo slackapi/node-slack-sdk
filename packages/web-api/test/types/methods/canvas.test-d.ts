@@ -51,6 +51,20 @@ expectError(
 // -- happy path
 expectAssignable<Parameters<typeof web.canvases.create>>([]); // no arg ok
 expectAssignable<Parameters<typeof web.canvases.create>>([{}]); // all optional args
+expectAssignable<Parameters<typeof web.canvases.create>>([{ title: 'My canvas' }]); // with title
+expectAssignable<Parameters<typeof web.canvases.create>>([
+  {
+    document_content: {
+      type: 'markdown',
+      markdown: '# Hello', // with document_content
+    },
+  },
+]);
+expectAssignable<Parameters<typeof web.canvases.create>>([
+  {
+    channel_id: 'C1234', // with channel_id
+  },
+]);
 
 // canvases.sections.lookup
 // -- sad path

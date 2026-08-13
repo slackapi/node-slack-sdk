@@ -21,7 +21,7 @@ walk you through building your first Slack app using Node.js.
 
 | Slack API    | Use | NPM Package      |
 |--------------|--------------|-------------------|
-| Web API      | Send data to or query data from Slack using any of [over 220 methods](https://docs.slack.dev/reference/methods). | [`@slack/web-api`](https://docs.slack.dev/tools/node-slack-sdk/web-api) |
+| Web API      | Send data to or query data from Slack using any of [over 270 methods](https://docs.slack.dev/reference/methods). | [`@slack/web-api`](https://docs.slack.dev/tools/node-slack-sdk/web-api) |
 | OAuth        | Set up the authentication flow using V2 OAuth for Slack apps as well as V1 OAuth for classic Slack apps. | [`@slack/oauth`](https://docs.slack.dev/tools/node-slack-sdk/oauth) |
 | Incoming Webhooks | Send notifications to a single channel which the user picks on installation. | [`@slack/webhook`](https://docs.slack.dev/tools/node-slack-sdk/webhook) |
 | Socket Mode  | Listen for incoming messages and a limited set of events happening in Slack, using WebSocket. | [`@slack/socket-mode`](https://docs.slack.dev/tools/node-slack-sdk/socket-mode) |
@@ -29,12 +29,6 @@ walk you through building your first Slack app using Node.js.
 **Not sure about which APIs are right for your app?** Read our [blog
 post](https://medium.com/slack-developer-blog/getting-started-with-slacks-apis-f930c73fc889) that explains the options.
 If you're still not sure, [reach out for help](#getting-help) and our community can guide you.
-
-**Deprecation Notice** 
-
-`@slack/events-api` and `@slack/interactive-messages` officially reached EOL on May 31st, 2021. Development has fully stopped for these packages and all remaining open issues and pull requests have been closed.
-
-At this time, we recommend migrating to [Bolt for JavaScript](https://github.com/slackapi/bolt-js), a framework that offers all of the functionality available in those packages (and more). To help with that process, we've provided some [migration samples](https://docs.slack.dev/tools/node-slack-sdk/migration/migrating-to-v6/) for those looking to convert their existing apps.
 
 ## Installation
 
@@ -57,11 +51,11 @@ package's documentation, linked in the table above.
 
 Your app will interact with the Web API through the `WebClient` object, which is an export from `@slack/web-api`. You
 typically instantiate a client with a token you received from Slack. The example below shows how to post a message into
-a channel, DM, MPDM, or group. The `WebClient` object makes it simple to call any of the [**over 130 Web API
+a channel, DM, MPDM, or group. The `WebClient` object makes it simple to call any of the [**over 270 Web API
 methods**](https://docs.slack.dev/reference/methods).
 
 ```javascript
-const { WebClient } = require('@slack/web-api');
+import { WebClient } from '@slack/web-api';
 
 // An access token (from your Slack app or custom integration - xoxp, xoxb)
 const token = process.env.SLACK_TOKEN;
@@ -100,7 +94,7 @@ Refer to [the module document page](https://docs.slack.dev/tools/node-slack-sdk/
 
 ## Requirements
 
-This package supports Node v14 and higher. It's highly recommended to use [the latest LTS version of
+This package supports Node v20 and higher. It's highly recommended to use [the latest LTS version of
 node](https://github.com/nodejs/Release#release-schedule), and the documentation is written using syntax and features
 from that version.
 

@@ -6,7 +6,7 @@
 type EntityPresentDetailsArguments = TokenOverridable & object;
 ```
 
-Defined in: [src/types/request/entity.ts:5](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/entity.ts#L5)
+Defined in: [packages/web-api/src/types/request/entity.ts:5](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/entity.ts#L5)
 
 ## Type Declaration
 

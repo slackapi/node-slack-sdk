@@ -2,7 +2,7 @@
 
 # Interface: SlackListsItemsInfoArguments
 
-Defined in: [src/types/request/slackLists.ts:479](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/slackLists.ts#L479)
+Defined in: [packages/web-api/src/types/request/slackLists.ts:479](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/slackLists.ts#L479)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [src/types/request/slackLists.ts:479](https://github.com/slackapi/no
 id: string;
 ```
 
-Defined in: [src/types/request/slackLists.ts:488](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/slackLists.ts#L488)
+Defined in: [packages/web-api/src/types/request/slackLists.ts:488](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/slackLists.ts#L488)
 
 #### Description
 
@@ -30,7 +30,7 @@ ID of item to delete.
 optional include_is_subscribed: boolean;
 ```
 
-Defined in: [src/types/request/slackLists.ts:493](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/slackLists.ts#L493)
+Defined in: [packages/web-api/src/types/request/slackLists.ts:493](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/slackLists.ts#L493)
 
 #### Description
 
@@ -44,7 +44,7 @@ Set to true to include is_subscribed data for the returned List row.
 list_id: string;
 ```
 
-Defined in: [src/types/request/slackLists.ts:483](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/slackLists.ts#L483)
+Defined in: [packages/web-api/src/types/request/slackLists.ts:483](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/slackLists.ts#L483)
 
 #### Description
 
@@ -58,7 +58,7 @@ Encoded ID of the List.
 optional token: string;
 ```
 
-Defined in: [src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
+Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
 
 #### Description
 
