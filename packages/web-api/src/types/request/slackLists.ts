@@ -66,6 +66,25 @@ export interface SlackListsItemFieldMessage {
 }
 
 /**
+ * @description Message field value returned for Slack Lists items.
+ */
+export interface SlackListsItemMessage {
+  text?: string;
+  ts?: string;
+  user?: string;
+  team?: string;
+  type?: string;
+}
+
+/**
+ * @description Message field returned for Slack Lists items.
+ */
+export interface SlackListsItemFieldMessageResponse {
+  column_id: string;
+  message: SlackListsItemMessage | SlackListsItemMessage[];
+}
+
+/**
  * @description Number field with numeric values.
  */
 export interface SlackListsItemFieldNumber {
@@ -154,6 +173,26 @@ export type SlackListsItemField =
   | SlackListsItemFieldUser;
 
 /**
+ * @description Union type of all possible Slack Lists item field types returned by the API.
+ */
+export type SlackListsItemResponseField =
+  | SlackListsItemFieldAttachment
+  | SlackListsItemFieldChannel
+  | SlackListsItemFieldCheckbox
+  | SlackListsItemFieldDate
+  | SlackListsItemFieldEmail
+  | SlackListsItemFieldLink
+  | SlackListsItemFieldMessageResponse
+  | SlackListsItemFieldNumber
+  | SlackListsItemFieldPhone
+  | SlackListsItemFieldRating
+  | SlackListsItemFieldReference
+  | SlackListsItemFieldRichText
+  | SlackListsItemFieldSelect
+  | SlackListsItemFieldTimestamp
+  | SlackListsItemFieldUser;
+
+/**
  * @description Slack Lists item structure.
  */
 export interface SlackListsItem {
@@ -180,7 +219,7 @@ export interface SlackListsItem {
   /**
    * @description Array of field data for this item.
    */
-  fields: SlackListsItemField[];
+  fields: SlackListsItemResponseField[];
   /**
    * @description String representation of the last update timestamp.
    */
