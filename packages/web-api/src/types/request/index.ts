@@ -140,6 +140,7 @@ export type {
   AuthTeamsListArguments,
   AuthTestArguments,
 } from './auth';
+export type { BlocksValidateArguments } from './blocks';
 export type {
   BookmarksAddArguments,
   BookmarksEditArguments,
