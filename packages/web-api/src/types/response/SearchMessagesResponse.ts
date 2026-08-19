@@ -15,6 +15,7 @@ export type SearchMessagesResponse = WebAPICallResult & {
   ok?: boolean;
   provided?: string;
   query?: string;
+  warning?: string;
 };
 
 export interface Messages {
@@ -28,6 +29,7 @@ export interface Match {
   attachments?: Attachment[];
   blocks?: MatchBlock[];
   channel?: Channel;
+  db_message?: DbMessage;
   files?: FileElement[];
   iid?: string;
   is_mpim?: boolean;
@@ -101,6 +103,7 @@ export interface Attachment {
   service_name?: string;
   service_url?: string;
   size?: number;
+  slack_file_id?: string;
   text?: string;
   thumb_height?: number;
   thumb_url?: string;
@@ -314,6 +317,7 @@ export interface Style {
   highlight?: boolean;
   italic?: boolean;
   strike?: boolean;
+  underline?: boolean;
   unlink?: boolean;
 }
 
@@ -389,11 +393,14 @@ export interface FileElement {
   alt_txt?: string;
   app_id?: string;
   app_name?: string;
+  app_provides_file_work_objects?: boolean;
   attachments?: any[];
   blocks?: TitleBlockElement[];
   bot_id?: string;
   can_toggle_canvas_lock?: boolean;
+  canvas_creator_id?: string;
   canvas_printing_enabled?: boolean;
+  canvas_readtime?: number;
   canvas_template_mode?: string;
   cc?: Cc[];
   channel_actions_count?: number;
@@ -430,8 +437,11 @@ export interface FileElement {
   image_exif_rotation?: number;
   ims?: string[];
   initial_comment?: InitialComment;
+  inline_attachment_count?: number;
+  is_ai_suggested?: boolean;
   is_channel_space?: boolean;
   is_external?: boolean;
+  is_modified_by_ai?: boolean;
   is_public?: boolean;
   is_restricted_sharing_enabled?: boolean;
   is_starred?: boolean;
@@ -473,10 +483,11 @@ export interface FileElement {
   reactions?: Reaction[];
   saved?: Saved;
   sent_to_self?: boolean;
-  shares?: PurpleShares;
+  shares?: Shares;
   show_badge?: boolean;
   simplified_html?: string;
   size?: number;
+  skipped_shares?: boolean;
   source_team?: string;
   subject?: string;
   subtype?: string;
@@ -551,6 +562,7 @@ export interface Cc {
   address?: string;
   name?: string;
   original?: string;
+  slack_user_id?: string;
 }
 
 export interface DmMpdmUsersWithFileAccess {
@@ -582,6 +594,7 @@ export interface InitialComment {
 }
 
 export interface ListLimits {
+  archived_row_count?: number;
   column_count?: number;
   column_count_limit?: number;
   max_attachments_per_cell?: number;
@@ -596,6 +609,7 @@ export interface ListLimits {
 
 export interface ListMetadata {
   creation_source?: CreationSource;
+  default_view?: string;
   description?: string;
   description_blocks?: TitleBlockElement[];
   icon?: string;
@@ -604,6 +618,8 @@ export interface ListMetadata {
   integrations?: string[];
   is_trial?: boolean;
   schema?: Schema[];
+  subtask_schema?: any[];
+  todo_mode?: boolean;
   views?: View[];
 }
 
@@ -657,7 +673,9 @@ export interface Choice {
 }
 
 export interface DefaultValueTyped {
+  channel?: any[];
   select?: string[];
+  user?: any[];
 }
 
 export interface View {
@@ -681,6 +699,7 @@ export interface Column {
   id?: string;
   key?: string;
   position?: string;
+  should_wrap_text?: boolean;
   visible?: boolean;
   width?: number;
 }
@@ -719,7 +738,7 @@ export interface Saved {
   state?: string;
 }
 
-export interface PurpleShares {
+export interface Shares {
   private?: { [key: string]: Private[] };
   public?: { [key: string]: Private[] };
 }
@@ -728,6 +747,7 @@ export interface Private {
   access?: string;
   channel_name?: string;
   date_last_shared?: number;
+  is_silent_share?: boolean;
   latest_reply?: string;
   reply_count?: number;
   reply_users?: string[];
@@ -779,7 +799,7 @@ export interface List {
   private_channels_with_file_access_count?: number;
   private_file_with_access_count?: number;
   public_url_shared?: boolean;
-  shares?: ListShares;
+  shares?: DbMessage;
   size?: number;
   timestamp?: number;
   title?: string;
@@ -791,7 +811,7 @@ export interface List {
   username?: string;
 }
 
-export type ListShares = {};
+export type DbMessage = {};
 
 export interface PurpleListRecord {
   record?: Record;
@@ -811,10 +831,12 @@ export interface RecordField {
   date?: any[];
   email?: any[];
   key?: string;
+  link?: any[];
   message?: Message;
   number?: any[];
   phone?: any[];
   rating?: any[];
+  reference?: any[];
   rich_text?: any[];
   select?: any[];
   text?: string;
@@ -847,11 +869,13 @@ export interface Message {
   is_thread_broadcast?: boolean;
   item?: Comment;
   item_type?: string;
+  language?: Language;
   last_read?: string;
   latest_reply?: string;
   metadata?: MessageMetadata;
   no_notifications?: boolean;
   parent_user_id?: string;
+  permalink?: string;
   pinned_to?: any[];
   purpose?: string;
   reactions?: any[];
@@ -861,6 +885,7 @@ export interface Message {
   reply_users_count?: number;
   room?: Room;
   root?: Root;
+  streaming_state?: string;
   subscribed?: boolean;
   subtype?: string;
   team?: string;
@@ -892,6 +917,7 @@ export interface BotProfile {
   name?: string;
   team_id?: string;
   updated?: number;
+  user_id?: string;
 }
 
 export interface BotProfileIcons {
@@ -946,11 +972,14 @@ export interface MessageFile {
   alt_txt?: string;
   app_id?: string;
   app_name?: string;
+  app_provides_file_work_objects?: boolean;
   attachments?: any[];
   blocks?: any[];
   bot_id?: string;
   can_toggle_canvas_lock?: boolean;
+  canvas_creator_id?: string;
   canvas_printing_enabled?: boolean;
+  canvas_readtime?: number;
   canvas_template_mode?: string;
   cc?: any[];
   channel_actions_count?: number;
@@ -987,8 +1016,11 @@ export interface MessageFile {
   image_exif_rotation?: number;
   ims?: any[];
   initial_comment?: InitialComment;
+  inline_attachment_count?: number;
+  is_ai_suggested?: boolean;
   is_channel_space?: boolean;
   is_external?: boolean;
+  is_modified_by_ai?: boolean;
   is_public?: boolean;
   is_restricted_sharing_enabled?: boolean;
   is_starred?: boolean;
@@ -1030,10 +1062,11 @@ export interface MessageFile {
   reactions?: any[];
   saved?: Saved;
   sent_to_self?: boolean;
-  shares?: ListShares;
+  shares?: DbMessage;
   show_badge?: boolean;
   simplified_html?: string;
   size?: number;
+  skipped_shares?: boolean;
   source_team?: string;
   subject?: string;
   subtype?: string;
@@ -1110,6 +1143,11 @@ export interface MessageIcons {
   image_48?: string;
   image_64?: string;
   image_72?: string;
+}
+
+export interface Language {
+  is_reliable?: boolean;
+  locale?: string;
 }
 
 export interface MessageMetadata {
@@ -1337,6 +1375,7 @@ export interface AppIconUrls {
 
 export interface Channel {
   id?: string;
+  is_archived?: boolean;
   is_channel?: boolean;
   is_ext_shared?: boolean;
   is_file?: boolean;

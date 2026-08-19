@@ -21,6 +21,8 @@ export type FilesInfoResponse = WebAPICallResult & {
   ok?: boolean;
   paging?: Paging;
   provided?: string;
+  response_metadata?: ResponseMetadata;
+  warning?: string;
 };
 
 export interface Comment {
@@ -38,9 +40,12 @@ export interface File {
   alt_txt?: string;
   app_id?: string;
   app_name?: string;
+  app_provides_file_work_objects?: boolean;
   bot_id?: string;
   can_toggle_canvas_lock?: boolean;
+  canvas_creator_id?: string;
   canvas_printing_enabled?: boolean;
+  canvas_readtime?: number;
   canvas_template_mode?: string;
   cc?: Cc[];
   channel_actions_count?: number;
@@ -77,8 +82,11 @@ export interface File {
   image_exif_rotation?: number;
   ims?: string[];
   initial_comment?: Comment;
+  inline_attachment_count?: number;
+  is_ai_suggested?: boolean;
   is_channel_space?: boolean;
   is_external?: boolean;
+  is_modified_by_ai?: boolean;
   is_public?: boolean;
   is_restricted_sharing_enabled?: boolean;
   is_starred?: boolean;
@@ -124,6 +132,7 @@ export interface File {
   show_badge?: boolean;
   simplified_html?: string;
   size?: number;
+  skipped_shares?: boolean;
   source_team?: string;
   subject?: string;
   subtype?: string;
@@ -198,6 +207,7 @@ export interface Cc {
   address?: string;
   name?: string;
   original?: string;
+  slack_user_id?: string;
 }
 
 export interface DmMpdmUsersWithFileAccess {
@@ -219,6 +229,7 @@ export interface Headers {
 }
 
 export interface ListLimits {
+  archived_row_count?: number;
   column_count?: number;
   column_count_limit?: number;
   max_attachments_per_cell?: number;
@@ -233,6 +244,7 @@ export interface ListLimits {
 
 export interface ListMetadata {
   creation_source?: CreationSource;
+  default_view?: string;
   description?: string;
   description_blocks?: Block[];
   icon?: string;
@@ -241,6 +253,8 @@ export interface ListMetadata {
   integrations?: string[];
   is_trial?: boolean;
   schema?: Schema[];
+  subtask_schema?: any[];
+  todo_mode?: boolean;
   views?: View[];
 }
 
@@ -390,6 +404,7 @@ export interface Style {
   highlight?: boolean;
   italic?: boolean;
   strike?: boolean;
+  underline?: boolean;
   unlink?: boolean;
 }
 
@@ -494,7 +509,9 @@ export interface Choice {
 }
 
 export interface DefaultValueTyped {
+  channel?: any[];
   select?: string[];
+  user?: any[];
 }
 
 export interface View {
@@ -518,6 +535,7 @@ export interface Column {
   id?: string;
   key?: string;
   position?: string;
+  should_wrap_text?: boolean;
   visible?: boolean;
   width?: number;
 }
@@ -565,6 +583,7 @@ export interface Private {
   access?: string;
   channel_name?: string;
   date_last_shared?: number;
+  is_silent_share?: boolean;
   latest_reply?: string;
   reply_count?: number;
   reply_users?: string[];
@@ -592,4 +611,8 @@ export interface Paging {
   page?: number;
   pages?: number;
   total?: number;
+}
+
+export interface ResponseMetadata {
+  next_cursor?: string;
 }

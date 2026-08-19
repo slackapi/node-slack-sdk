@@ -10,9 +10,20 @@
 import type { WebAPICallResult } from '../../WebClient';
 export type WorkflowsFeaturedListResponse = WebAPICallResult & {
   error?: string;
+  featured_workflows?: FeaturedWorkflow[];
   invalid_channel_ids?: string[];
   needed?: string;
   ok?: boolean;
   provided?: string;
   warning?: string;
 };
+
+export interface FeaturedWorkflow {
+  channel_id?: string;
+  triggers?: Trigger[];
+}
+
+export interface Trigger {
+  id?: string;
+  title?: string;
+}

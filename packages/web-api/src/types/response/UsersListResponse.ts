@@ -30,6 +30,7 @@ export interface Member {
   is_app_user?: boolean;
   is_bot?: boolean;
   is_email_confirmed?: boolean;
+  is_invited_user?: boolean;
   is_owner?: boolean;
   is_primary_owner?: boolean;
   is_restricted?: boolean;
@@ -68,6 +69,7 @@ export interface Profile {
   email?: string;
   fields?: Fields;
   first_name?: string;
+  guest_expiration_ts?: number;
   guest_invited_by?: string;
   huddle_state?: string;
   huddle_state_expiration_ts?: number;
@@ -82,6 +84,7 @@ export interface Profile {
   is_custom_image?: boolean;
   last_name?: string;
   phone?: string;
+  pronouns?: string;
   real_name?: string;
   real_name_normalized?: string;
   skype?: string;

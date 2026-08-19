@@ -54,6 +54,7 @@ export interface Profile {
   display_name_normalized?: string;
   email?: string;
   first_name?: string;
+  guest_expiration_ts?: number;
   guest_invited_by?: string;
   huddle_state?: string;
   huddle_state_expiration_ts?: number;
