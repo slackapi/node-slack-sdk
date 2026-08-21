@@ -290,8 +290,7 @@ export type ChatStopStreamArguments = TokenOverridable &
      */
     blocks?: (KnownBlock | Block)[];
     /**
-     * @description The agent session lifecycle status to set after stopping the stream. Defaults to `active`.
-     * Acceptable values: `active`, `processing`, `suspended`, `closed`.
+     * @description The session status to set after stopping the stream. Defaults to `active`.
      */
     session_status?: string;
   };
