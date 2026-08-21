@@ -2,6 +2,11 @@
 "@slack/web-api": minor
 ---
 
-chore(web-api): regenerate Web API response types from latest samples
+feat(web-api): add webapi response changes as of 2026-08-21
 
-Regenerate `packages/web-api/src/types/response` from the current `java-slack-sdk` samples, picking up new stable response properties (e.g. `warning` fields, `Channel.properties`) and one new method type. Also fixes `scripts/generate-web-api-types.sh` to run `lint:fix` from the repo root (Biome), since the per-package `lint:fix` script no longer exists.
+Regenerate `packages/web-api/src/types/response` from the latest `java-slack-sdk` samples, picking up new stable response properties (e.g. `agent_session` on message-bearing responses, `ListView` grouping/sort/filter fields, `bots.info` connector/workflow flags).
+
+Two fields are removed from `UsersListResponse`, neither of which is a real success-response property:
+
+- `Member.is_connector_bot` — not returned by `users.list`; this flag is surfaced on `bots.info` (added here to `BotsInfoResponse`).
+- `arg` — an error-response echo field, not part of a successful `users.list` body.
