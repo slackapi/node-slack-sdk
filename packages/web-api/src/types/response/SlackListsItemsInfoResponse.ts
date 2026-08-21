@@ -121,7 +121,14 @@ export interface Schema {
 
 export interface SchemaOptions {
   choices?: Choice[];
+  date_format?: string;
+  default_value_typed?: DefaultValueTyped;
+  emoji?: string;
+  emoji_team_id?: string;
   format?: string;
+  max?: number;
+  notify_users?: boolean;
+  precision?: number;
   show_member_name?: boolean;
 }
 
@@ -129,6 +136,10 @@ export interface Choice {
   color?: string;
   label?: string;
   value?: string;
+}
+
+export interface DefaultValueTyped {
+  user?: string[];
 }
 
 export interface SubtaskSchema {
@@ -184,6 +195,7 @@ export interface RecordField {
   key?: string;
   rich_text?: DescriptionBlock[];
   text?: string;
+  user?: string[];
   value?: boolean;
 }
 

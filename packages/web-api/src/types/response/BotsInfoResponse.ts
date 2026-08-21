@@ -22,6 +22,9 @@ export interface Bot {
   deleted?: boolean;
   icons?: Icons;
   id?: string;
+  is_connector_bot?: boolean;
+  is_legacy_workflow_bot?: boolean;
+  is_workflow_bot?: boolean;
   name?: string;
   updated?: number;
   user_id?: string;

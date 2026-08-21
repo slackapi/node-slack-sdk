@@ -731,11 +731,11 @@ export interface Schema {
   is_primary_column?: boolean;
   key?: string;
   name?: string;
-  options?: Options;
+  options?: ListSchemaOptions;
   type?: string;
 }
 
-export interface Options {
+export interface ListSchemaOptions {
   canvas_id?: string;
   canvas_placeholder_mapping?: CanvasPlaceholderMapping[];
   choices?: Choice[];
@@ -746,6 +746,7 @@ export interface Options {
   default_value_typed?: DefaultValueTyped;
   emoji?: string;
   emoji_team_id?: string;
+  emoji_url?: string;
   for_assignment?: boolean;
   format?: string;
   linked_to?: string[];
@@ -776,6 +777,7 @@ export interface DefaultValueTyped {
 }
 
 export interface View {
+  calculations?: any[];
   columns?: Column[];
   created_by?: string;
   date_created?: number;
@@ -783,11 +785,16 @@ export interface View {
   filters?: FilterElement[];
   grouping?: Grouping;
   id?: string;
+  info_column_filters?: any[];
   is_all_items_view?: boolean;
   is_locked?: boolean;
+  is_template_initial_view?: boolean;
   name?: string;
+  options?: ListViewOptions;
   position?: string;
+  row_height?: number;
   show_completed_items?: boolean;
+  sorts?: any[];
   stick_column_left?: boolean;
   type?: string;
 }
@@ -812,6 +819,13 @@ export interface FilterElement {
 export interface Grouping {
   group_by?: string;
   group_by_column_id?: string;
+  order?: any[];
+}
+
+export interface ListViewOptions {
+  calendar_field?: string;
+  cover_field?: string;
+  cover_fit?: string;
 }
 
 export interface MediaProgress {
@@ -943,6 +957,7 @@ export interface RecordField {
 }
 
 export interface Message {
+  agent_session?: AgentSession;
   app_id?: string;
   assistant_app_thread?: AssistantAppThread;
   attachments?: any[];
@@ -998,6 +1013,14 @@ export interface Message {
   username?: string;
   wibblr?: boolean;
   x_files?: any[];
+}
+
+export interface AgentSession {
+  agent_bot_user_ids?: any[];
+  agent_statuses?: any[];
+  date_status_processing_expire?: number;
+  status?: string;
+  title?: string;
 }
 
 export interface AssistantAppThread {

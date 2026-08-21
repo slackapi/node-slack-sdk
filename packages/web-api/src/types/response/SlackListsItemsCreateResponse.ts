@@ -34,6 +34,7 @@ export interface Field {
   key?: string;
   rich_text?: RichText[];
   text?: string;
+  user?: string[];
   value?: string;
 }
 
