@@ -14,6 +14,7 @@ export type AdminBarriersUpdateResponse = WebAPICallResult & {
   needed?: string;
   ok?: boolean;
   provided?: string;
+  warning?: string;
 };
 
 export interface Barrier {

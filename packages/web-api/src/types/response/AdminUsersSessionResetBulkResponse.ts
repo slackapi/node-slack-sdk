@@ -13,4 +13,5 @@ export type AdminUsersSessionResetBulkResponse = WebAPICallResult & {
   needed?: string;
   ok?: boolean;
   provided?: string;
+  warning?: string;
 };

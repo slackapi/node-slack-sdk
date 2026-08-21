@@ -24,4 +24,5 @@ export type AuthTestResponse = WebAPICallResult & {
   url?: string;
   user?: string;
   user_id?: string;
+  warning?: string;
 };

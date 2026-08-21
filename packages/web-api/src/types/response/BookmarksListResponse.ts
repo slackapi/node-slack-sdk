@@ -15,6 +15,7 @@ export type BookmarksListResponse = WebAPICallResult & {
   ok?: boolean;
   provided?: string;
   response_metadata?: ResponseMetadata;
+  warning?: string;
 };
 
 export interface Bookmark {

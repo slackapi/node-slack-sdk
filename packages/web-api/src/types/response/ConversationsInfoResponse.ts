@@ -14,6 +14,7 @@ export type ConversationsInfoResponse = WebAPICallResult & {
   needed?: string;
   ok?: boolean;
   provided?: string;
+  warning?: string;
 };
 
 export interface Channel {
@@ -52,11 +53,29 @@ export interface Channel {
   pending_connected_team_ids?: string[];
   pending_shared?: string[];
   previous_names?: string[];
+  properties?: Properties;
   purpose?: Purpose;
   shared_team_ids?: string[];
   topic?: Purpose;
   unlinked?: number;
   updated?: number;
+}
+
+export interface Properties {
+  has_slack_connect_invite_created?: boolean;
+  is_dormant?: boolean;
+  tabs?: Tab[];
+  tabz?: Tabz[];
+}
+
+export interface Tab {
+  id?: string;
+  label?: string;
+  type?: string;
+}
+
+export interface Tabz {
+  type?: string;
 }
 
 export interface Purpose {

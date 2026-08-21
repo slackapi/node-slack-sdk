@@ -17,6 +17,7 @@ export type AdminConversationsSearchResponse = WebAPICallResult & {
   provided?: string;
   response_metadata?: ResponseMetadata;
   total_count?: number;
+  warning?: string;
 };
 
 export interface Conversation {
@@ -84,7 +85,10 @@ export interface Properties {
   at_channel_restricted?: boolean;
   at_here_restricted?: boolean;
   canvas?: PropertiesCanvas;
+  has_slack_connect_invite_created?: boolean;
   huddles_restricted?: boolean;
+  is_dormant?: boolean;
+  meeting_notes?: MeetingNotes;
   posting_restricted_to?: PostingRestrictedTo;
   tabs?: Tab[];
   tabz?: Tab[];
@@ -94,7 +98,12 @@ export interface Properties {
 export interface PropertiesCanvas {
   file_id?: string;
   is_empty?: boolean;
+  is_migrated?: boolean;
   quip_thread_id?: string;
+}
+
+export interface MeetingNotes {
+  file_id?: string;
 }
 
 export interface PostingRestrictedTo {
@@ -103,9 +112,17 @@ export interface PostingRestrictedTo {
 }
 
 export interface Tab {
+  data?: Data;
   id?: string;
+  is_disabled?: boolean;
   label?: string;
   type?: string;
+}
+
+export interface Data {
+  file_id?: string;
+  folder_bookmark_id?: string;
+  shared_ts?: string;
 }
 
 export interface ThreadsRestrictedTo {

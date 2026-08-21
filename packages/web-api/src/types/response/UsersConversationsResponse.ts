@@ -9,12 +9,14 @@
 
 import type { WebAPICallResult } from '../../WebClient';
 export type UsersConversationsResponse = WebAPICallResult & {
+  arg?: string;
   channels?: Channel[];
   error?: string;
   needed?: string;
   ok?: boolean;
   provided?: string;
   response_metadata?: ResponseMetadata;
+  warning?: string;
 };
 
 export interface Channel {
@@ -61,17 +63,26 @@ export interface Channel {
 
 export interface Properties {
   canvas?: Canvas;
+  has_slack_connect_invite_created?: boolean;
   huddles_restricted?: boolean;
+  is_dormant?: boolean;
+  meeting_notes?: MeetingNotes;
   posting_restricted_to?: PostingRestrictedTo;
   tabs?: Tab[];
   tabz?: Tab[];
   threads_restricted_to?: ThreadsRestrictedTo;
+  use_case?: string;
 }
 
 export interface Canvas {
   file_id?: string;
   is_empty?: boolean;
+  is_migrated?: boolean;
   quip_thread_id?: string;
+}
+
+export interface MeetingNotes {
+  file_id?: string;
 }
 
 export interface PostingRestrictedTo {
@@ -80,9 +91,17 @@ export interface PostingRestrictedTo {
 }
 
 export interface Tab {
+  data?: Data;
   id?: string;
+  is_disabled?: boolean;
   label?: string;
   type?: string;
+}
+
+export interface Data {
+  file_id?: string;
+  folder_bookmark_id?: string;
+  shared_ts?: string;
 }
 
 export interface ThreadsRestrictedTo {
