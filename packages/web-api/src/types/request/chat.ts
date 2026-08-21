@@ -289,6 +289,11 @@ export type ChatStopStreamArguments = TokenOverridable &
      * Block formatted elements will be appended to the end of the message.
      */
     blocks?: (KnownBlock | Block)[];
+    /**
+     * @description The agent session lifecycle status to set after stopping the stream. Defaults to `active`.
+     * Acceptable values: `active`, `processing`, `suspended`, `closed`.
+     */
+    session_status?: string;
   };
 
 export interface SourceAndUnfurlID {
