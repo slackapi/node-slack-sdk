@@ -22,6 +22,8 @@ export {
 
 export { addAppMetadata } from './instrument';
 
+export { Logger, LogLevel } from './logger';
+
 export { default as retryPolicies, RetryOptions } from './retry-policies';
 
 export {

@@ -11,6 +11,7 @@ import {
 } from './errors';
 import { type FetchFunction, IncomingWebhook } from './IncomingWebhook';
 import { getUserAgent } from './instrument';
+import { LogLevel } from './logger';
 import { rapidRetryPolicy } from './retry-policies';
 
 const url = 'https://hooks.slack.com/services/FAKEWEBHOOK';
@@ -48,6 +49,45 @@ describe('IncomingWebhook', () => {
       const webhook = new IncomingWebhook(url, { fetch: customFetch });
       await webhook.send('Hello');
       assert.ok(fetchCalled);
+    });
+
+    it('should warn when URL contains /triggers/', () => {
+      const warnings: string[] = [];
+      const logger = {
+        debug() {},
+        info() {},
+        warn(...msg: string[]) {
+          warnings.push(msg.join(' '));
+        },
+        error() {},
+        setLevel() {},
+        getLevel() {
+          return LogLevel.WARN;
+        },
+        setName() {},
+      };
+      new IncomingWebhook('https://hooks.slack.com/triggers/T000/abc', { logger });
+      assert.strictEqual(warnings.length, 1);
+      assert.ok(warnings[0].includes('WebhookTrigger'));
+    });
+
+    it('should not warn when URL contains /services/', () => {
+      const warnings: string[] = [];
+      const logger = {
+        debug() {},
+        info() {},
+        warn(...msg: string[]) {
+          warnings.push(msg.join(' '));
+        },
+        error() {},
+        setLevel() {},
+        getLevel() {
+          return LogLevel.WARN;
+        },
+        setName() {},
+      };
+      new IncomingWebhook('https://hooks.slack.com/services/T000/B000/abc', { logger });
+      assert.strictEqual(warnings.length, 0);
     });
   });
 
