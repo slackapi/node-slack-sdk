@@ -24,7 +24,7 @@ that contain remote files. If you want to add remote files to messages,
 ### block\_id?
 
 ```ts
-optional block_id: string;
+optional block_id?: string;
 ```
 
 Defined in: packages/types/dist/block-kit/blocks.d.ts:15

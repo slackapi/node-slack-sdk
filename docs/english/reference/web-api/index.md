@@ -1,4 +1,4 @@
-# @slack/web-api v8.0.0
+# @slack/web-api v8.1.0
 
 ## Enumerations
 
@@ -87,6 +87,7 @@
 - [AdminUsergroupsListChannelsArguments](interfaces/AdminUsergroupsListChannelsArguments.md)
 - [AdminUsergroupsRemoveChannelsArguments](interfaces/AdminUsergroupsRemoveChannelsArguments.md)
 - [AdminUsersAssignArguments](interfaces/AdminUsersAssignArguments.md)
+- [AdminUsersGetExpirationArguments](interfaces/AdminUsersGetExpirationArguments.md)
 - [AdminUsersInviteArguments](interfaces/AdminUsersInviteArguments.md)
 - [AdminUsersRemoveArguments](interfaces/AdminUsersRemoveArguments.md)
 - [AdminUsersSessionClearSettingsArguments](interfaces/AdminUsersSessionClearSettingsArguments.md)
@@ -104,6 +105,8 @@
 - [AdminWorkflowsCollaboratorsRemoveArguments](interfaces/AdminWorkflowsCollaboratorsRemoveArguments.md)
 - [AdminWorkflowsPermissionsLookupArguments](interfaces/AdminWorkflowsPermissionsLookupArguments.md)
 - [AdminWorkflowsUnpublishArguments](interfaces/AdminWorkflowsUnpublishArguments.md)
+- [AgentsSessionsRenameArguments](interfaces/AgentsSessionsRenameArguments.md)
+- [AgentsSessionsSetStatusArguments](interfaces/AgentsSessionsSetStatusArguments.md)
 - [AlertBlock](interfaces/AlertBlock.md)
 - [AppContextChangedEvent](interfaces/AppContextChangedEvent.md)
 - [AppDeletedEvent](interfaces/AppDeletedEvent.md)
@@ -551,6 +554,7 @@
 - [AdminUsergroupsListChannelsResponse](type-aliases/AdminUsergroupsListChannelsResponse.md)
 - [AdminUsergroupsRemoveChannelsResponse](type-aliases/AdminUsergroupsRemoveChannelsResponse.md)
 - [AdminUsersAssignResponse](type-aliases/AdminUsersAssignResponse.md)
+- [AdminUsersGetExpirationResponse](type-aliases/AdminUsersGetExpirationResponse.md)
 - [AdminUsersInviteResponse](type-aliases/AdminUsersInviteResponse.md)
 - [AdminUsersListArguments](type-aliases/AdminUsersListArguments.md)
 - [AdminUsersListResponse](type-aliases/AdminUsersListResponse.md)
@@ -574,6 +578,8 @@
 - [AdminWorkflowsSearchArguments](type-aliases/AdminWorkflowsSearchArguments.md)
 - [AdminWorkflowsSearchResponse](type-aliases/AdminWorkflowsSearchResponse.md)
 - [AdminWorkflowsUnpublishResponse](type-aliases/AdminWorkflowsUnpublishResponse.md)
+- [AgentsSessionsRenameResponse](type-aliases/AgentsSessionsRenameResponse.md)
+- [AgentsSessionsSetStatusResponse](type-aliases/AgentsSessionsSetStatusResponse.md)
 - [AllMessageEvents](type-aliases/AllMessageEvents.md)
 - [AllMessageMetadataEvents](type-aliases/AllMessageMetadataEvents.md)
 - [AnyBlock](type-aliases/AnyBlock.md)

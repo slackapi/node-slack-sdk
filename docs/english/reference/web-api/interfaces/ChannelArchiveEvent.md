@@ -29,7 +29,7 @@ Defined in: packages/types/dist/events/channel.d.ts:6
 ### is\_moved?
 
 ```ts
-optional is_moved: number;
+optional is_moved?: number;
 ```
 
 Defined in: packages/types/dist/events/channel.d.ts:5

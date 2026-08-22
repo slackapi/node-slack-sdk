@@ -17,7 +17,7 @@ A list block within a rich text field.
 ### border?
 
 ```ts
-optional border: 0 | 1;
+optional border?: 0 | 1;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:66
@@ -50,7 +50,7 @@ An array of [RichTextSection](RichTextSection.md) elements comprising each list 
 ### indent?
 
 ```ts
-optional indent: number;
+optional indent?: number;
 ```
 
 Defined in: packages/types/dist/block-kit/block-elements.d.ts:909

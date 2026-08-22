@@ -1,5 +1,25 @@
 # @slack/web-api
 
+## 8.1.0
+
+### Minor Changes
+
+- 955e6b9: feat(web-api): add support for [`admin.users.getExpiration`](https://docs.slack.dev/reference/methods/admin.users.getExpiration)
+- 4322e14: feat(web-api): add [`agents.sessions.rename`](https://docs.slack.dev/reference/methods/agents.sessions.rename) and [`agents.sessions.setStatus`](https://docs.slack.dev/reference/methods/agents.sessions.setStatus)
+- bff3398: feat(web-api): add webapi response changes as of 2026-08-21
+
+  Regenerate response types with new stable response properties (e.g. `agent_session` on message-bearing responses, `ListView` grouping/sort/filter fields, `bots.info` connector/workflow flags).
+
+  Two fields are removed from `UsersListResponse`, neither of which is a real success-response property:
+
+  - `Member.is_connector_bot` — not returned by `users.list`; this flag is surfaced on `bots.info` (added here to `BotsInfoResponse`).
+  - `arg` — an error-response echo field, not part of a successful `users.list` body.
+
+### Patch Changes
+
+- Updated dependencies [f5e9a01]
+  - @slack/types@3.1.0
+
 ## 8.0.0
 
 ### Major Changes

@@ -17,7 +17,7 @@ A block of preformatted text within a rich text field.
 ### border?
 
 ```ts
-optional border: 0 | 1;
+optional border?: 0 | 1;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:66

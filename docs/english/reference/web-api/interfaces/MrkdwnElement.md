@@ -46,7 +46,7 @@ The formatting to use for this text object.
 ### verbatim?
 
 ```ts
-optional verbatim: boolean;
+optional verbatim?: boolean;
 ```
 
 Defined in: packages/types/dist/block-kit/composition-objects.d.ts:159

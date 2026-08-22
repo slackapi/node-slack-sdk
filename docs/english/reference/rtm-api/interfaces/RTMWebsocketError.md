@@ -15,7 +15,7 @@ All errors produced by this package adhere to this interface
 ### cause?
 
 ```ts
-optional cause: unknown;
+optional cause?: unknown;
 ```
 
 Defined in: node\_modules/typescript/lib/lib.es2022.error.d.ts:26
@@ -43,7 +43,7 @@ Defined in: [packages/rtm-api/src/errors.ts:39](https://github.com/slackapi/node
 ### errno?
 
 ```ts
-optional errno: number;
+optional errno?: number;
 ```
 
 Defined in: packages/rtm-api/node\_modules/@types/node/globals.d.ts:101
@@ -95,7 +95,7 @@ Defined in: [packages/rtm-api/src/errors.ts:40](https://github.com/slackapi/node
 ### path?
 
 ```ts
-optional path: string;
+optional path?: string;
 ```
 
 Defined in: packages/rtm-api/node\_modules/@types/node/globals.d.ts:103
@@ -109,7 +109,7 @@ Defined in: packages/rtm-api/node\_modules/@types/node/globals.d.ts:103
 ### stack?
 
 ```ts
-optional stack: string;
+optional stack?: string;
 ```
 
 Defined in: node\_modules/typescript/lib/lib.es5.d.ts:1078
@@ -123,7 +123,7 @@ Defined in: node\_modules/typescript/lib/lib.es5.d.ts:1078
 ### syscall?
 
 ```ts
-optional syscall: string;
+optional syscall?: string;
 ```
 
 Defined in: packages/rtm-api/node\_modules/@types/node/globals.d.ts:104

@@ -22,7 +22,7 @@ font. Use it to delineate between different groups of content in your app's surf
 ### block\_id?
 
 ```ts
-optional block_id: string;
+optional block_id?: string;
 ```
 
 Defined in: packages/types/dist/block-kit/blocks.d.ts:15

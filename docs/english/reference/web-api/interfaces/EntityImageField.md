@@ -19,7 +19,7 @@ Defined in: packages/types/dist/message-metadata.d.ts:229
 ### image\_url?
 
 ```ts
-optional image_url: string;
+optional image_url?: string;
 ```
 
 Defined in: packages/types/dist/message-metadata.d.ts:231
@@ -29,7 +29,7 @@ Defined in: packages/types/dist/message-metadata.d.ts:231
 ### label?
 
 ```ts
-optional label: string;
+optional label?: string;
 ```
 
 Defined in: packages/types/dist/message-metadata.d.ts:230
@@ -39,7 +39,7 @@ Defined in: packages/types/dist/message-metadata.d.ts:230
 ### slack\_file?
 
 ```ts
-optional slack_file: SlackFile;
+optional slack_file?: SlackFile;
 ```
 
 Defined in: packages/types/dist/message-metadata.d.ts:232
@@ -49,7 +49,7 @@ Defined in: packages/types/dist/message-metadata.d.ts:232
 ### title?
 
 ```ts
-optional title: string;
+optional title?: string;
 ```
 
 Defined in: packages/types/dist/message-metadata.d.ts:233
@@ -59,7 +59,7 @@ Defined in: packages/types/dist/message-metadata.d.ts:233
 ### type?
 
 ```ts
-optional type: string;
+optional type?: string;
 ```
 
 Defined in: packages/types/dist/message-metadata.d.ts:234

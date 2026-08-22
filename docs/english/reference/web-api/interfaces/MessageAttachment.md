@@ -16,7 +16,7 @@ Message attachments are considered a legacy part of messaging functionality. The
 ### actions?
 
 ```ts
-optional actions: AttachmentAction[];
+optional actions?: AttachmentAction[];
 ```
 
 Defined in: packages/types/dist/message-attachments.d.ts:97
@@ -26,7 +26,7 @@ Defined in: packages/types/dist/message-attachments.d.ts:97
 ### app\_id?
 
 ```ts
-optional app_id: string;
+optional app_id?: string;
 ```
 
 Defined in: packages/types/dist/message-attachments.d.ts:107
@@ -36,7 +36,7 @@ Defined in: packages/types/dist/message-attachments.d.ts:107
 ### app\_unfurl\_url?
 
 ```ts
-optional app_unfurl_url: string;
+optional app_unfurl_url?: string;
 ```
 
 Defined in: packages/types/dist/message-attachments.d.ts:105
@@ -46,7 +46,7 @@ Defined in: packages/types/dist/message-attachments.d.ts:105
 ### author\_icon?
 
 ```ts
-optional author_icon: string;
+optional author_icon?: string;
 ```
 
 Defined in: packages/types/dist/message-attachments.d.ts:41
@@ -61,7 +61,7 @@ Will only work if `author_name` is present.
 ### author\_link?
 
 ```ts
-optional author_link: string;
+optional author_link?: string;
 ```
 
 Defined in: packages/types/dist/message-attachments.d.ts:36
@@ -75,7 +75,7 @@ A valid URL that will hyperlink the `author_name` text. Will only work if `autho
 ### author\_name?
 
 ```ts
-optional author_name: string;
+optional author_name?: string;
 ```
 
 Defined in: packages/types/dist/message-attachments.d.ts:32
@@ -89,7 +89,7 @@ Small text used to display the author's name.
 ### author\_subname?
 
 ```ts
-optional author_subname: string;
+optional author_subname?: string;
 ```
 
 Defined in: packages/types/dist/message-attachments.d.ts:42
@@ -99,7 +99,7 @@ Defined in: packages/types/dist/message-attachments.d.ts:42
 ### blocks?
 
 ```ts
-optional blocks: AnyBlock[];
+optional blocks?: AnyBlock[];
 ```
 
 Defined in: packages/types/dist/message-attachments.d.ts:13
@@ -114,7 +114,7 @@ An array of [layout blocks](../type-aliases/KnownBlock.md) in the same format
 ### bot\_id?
 
 ```ts
-optional bot_id: string;
+optional bot_id?: string;
 ```
 
 Defined in: packages/types/dist/message-attachments.d.ts:108
@@ -124,7 +124,7 @@ Defined in: packages/types/dist/message-attachments.d.ts:108
 ### callback\_id?
 
 ```ts
-optional callback_id: string;
+optional callback_id?: string;
 ```
 
 Defined in: packages/types/dist/message-attachments.d.ts:98
@@ -134,7 +134,7 @@ Defined in: packages/types/dist/message-attachments.d.ts:98
 ### color?
 
 ```ts
-optional color: string;
+optional color?: string;
 ```
 
 Defined in: packages/types/dist/message-attachments.d.ts:23
@@ -149,7 +149,7 @@ be one of `good` (green), `warning` (yellow), `danger` (red), or any hex color c
 ### fallback?
 
 ```ts
-optional fallback: string;
+optional fallback?: string;
 ```
 
 Defined in: packages/types/dist/message-attachments.d.ts:18
@@ -164,7 +164,7 @@ don't show formatted text (e.g. mobile notifications).
 ### fields?
 
 ```ts
-optional fields: MessageAttachmentField[];
+optional fields?: MessageAttachmentField[];
 ```
 
 Defined in: packages/types/dist/message-attachments.d.ts:63
@@ -180,7 +180,7 @@ For best results, include no more than 2-3 field objects.
 ### footer?
 
 ```ts
-optional footer: string;
+optional footer?: string;
 ```
 
 Defined in: packages/types/dist/message-attachments.d.ts:83
@@ -195,7 +195,7 @@ and may be truncated further when displayed to users in environments with limite
 ### footer\_icon?
 
 ```ts
-optional footer_icon: string;
+optional footer_icon?: string;
 ```
 
 Defined in: packages/types/dist/message-attachments.d.ts:89
@@ -211,7 +211,7 @@ It's best to use an image that is similarly sized.
 ### image\_url?
 
 ```ts
-optional image_url: string;
+optional image_url?: string;
 ```
 
 Defined in: packages/types/dist/message-attachments.d.ts:70
@@ -228,7 +228,7 @@ maintaining the original aspect ratio. Cannot be used with `thumb_url`.
 ### is\_app\_unfurl?
 
 ```ts
-optional is_app_unfurl: boolean;
+optional is_app_unfurl?: boolean;
 ```
 
 Defined in: packages/types/dist/message-attachments.d.ts:106
@@ -238,7 +238,7 @@ Defined in: packages/types/dist/message-attachments.d.ts:106
 ### mrkdwn\_in?
 
 ```ts
-optional mrkdwn_in: ("text" | "pretext" | "fields")[];
+optional mrkdwn_in?: ("text" | "pretext" | "fields")[];
 ```
 
 Defined in: packages/types/dist/message-attachments.d.ts:104
@@ -254,7 +254,7 @@ the `text` or `pretext` properties.
 ### pretext?
 
 ```ts
-optional pretext: string;
+optional pretext?: string;
 ```
 
 Defined in: packages/types/dist/message-attachments.d.ts:28
@@ -269,7 +269,7 @@ or with [\`mrkdwn\`](https://docs.slack.dev/messaging/formatting-message-text#ba
 ### preview?
 
 ```ts
-optional preview: MessageAttachmentPreview;
+optional preview?: MessageAttachmentPreview;
 ```
 
 Defined in: packages/types/dist/message-attachments.d.ts:109
@@ -279,7 +279,7 @@ Defined in: packages/types/dist/message-attachments.d.ts:109
 ### text?
 
 ```ts
-optional text: string;
+optional text?: string;
 ```
 
 Defined in: packages/types/dist/message-attachments.d.ts:57
@@ -296,7 +296,7 @@ a "Show more..." link to expand the content.
 ### thumb\_url?
 
 ```ts
-optional thumb_url: string;
+optional thumb_url?: string;
 ```
 
 Defined in: packages/types/dist/message-attachments.d.ts:78
@@ -314,7 +314,7 @@ For best results, please use images that are already 75px by 75px.
 ### title?
 
 ```ts
-optional title: string;
+optional title?: string;
 ```
 
 Defined in: packages/types/dist/message-attachments.d.ts:46
@@ -328,7 +328,7 @@ Large title text near the top of the attachment.
 ### title\_link?
 
 ```ts
-optional title_link: string;
+optional title_link?: string;
 ```
 
 Defined in: packages/types/dist/message-attachments.d.ts:50
@@ -342,7 +342,7 @@ A valid URL that turns the `title` text into a hyperlink.
 ### ts?
 
 ```ts
-optional ts: string;
+optional ts?: string;
 ```
 
 Defined in: packages/types/dist/message-attachments.d.ts:96

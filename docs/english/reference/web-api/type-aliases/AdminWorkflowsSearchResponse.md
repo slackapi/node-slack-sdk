@@ -13,41 +13,41 @@ Defined in: [packages/web-api/src/types/response/AdminWorkflowsSearchResponse.ts
 ### error?
 
 ```ts
-optional error: string;
+optional error?: string;
 ```
 
 ### needed?
 
 ```ts
-optional needed: string;
+optional needed?: string;
 ```
 
 ### ok?
 
 ```ts
-optional ok: boolean;
+optional ok?: boolean;
 ```
 
 ### provided?
 
 ```ts
-optional provided: string;
+optional provided?: string;
 ```
 
 ### response\_metadata?
 
 ```ts
-optional response_metadata: ResponseMetadata;
+optional response_metadata?: ResponseMetadata;
 ```
 
 ### total\_found?
 
 ```ts
-optional total_found: number;
+optional total_found?: number;
 ```
 
 ### workflows?
 
 ```ts
-optional workflows: Workflow[];
+optional workflows?: Workflow[];
 ```

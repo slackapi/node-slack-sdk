@@ -16,7 +16,7 @@ https://docs.slack.dev/messaging/sending-and-scheduling-messages#text-streaming
 ### details?
 
 ```ts
-optional details: string;
+optional details?: string;
 ```
 
 Defined in: [chunk.ts:49](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/chunk.ts#L49)
@@ -36,7 +36,7 @@ Defined in: [chunk.ts:46](https://github.com/slackapi/node-slack-sdk/blob/main/p
 ### output?
 
 ```ts
-optional output: string;
+optional output?: string;
 ```
 
 Defined in: [chunk.ts:50](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/chunk.ts#L50)
@@ -46,7 +46,7 @@ Defined in: [chunk.ts:50](https://github.com/slackapi/node-slack-sdk/blob/main/p
 ### sources?
 
 ```ts
-optional sources: URLSourceElement[];
+optional sources?: URLSourceElement[];
 ```
 
 Defined in: [chunk.ts:51](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/chunk.ts#L51)

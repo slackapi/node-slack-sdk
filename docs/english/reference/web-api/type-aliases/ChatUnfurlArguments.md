@@ -13,7 +13,7 @@ Defined in: [packages/web-api/src/types/request/chat.ts:309](https://github.com/
 ### user\_auth\_blocks?
 
 ```ts
-optional user_auth_blocks: (KnownBlock | Block)[];
+optional user_auth_blocks?: (KnownBlock | Block)[];
 ```
 
 #### Description
@@ -24,7 +24,7 @@ ephemeral message to the user as invitation to authenticate further and enable f
 ### user\_auth\_message?
 
 ```ts
-optional user_auth_message: string;
+optional user_auth_message?: string;
 ```
 
 #### Description
@@ -35,7 +35,7 @@ authenticate further and enable full unfurling behavior. Provides two buttons, N
 ### user\_auth\_required?
 
 ```ts
-optional user_auth_required: boolean;
+optional user_auth_required?: boolean;
 ```
 
 #### Description
@@ -46,7 +46,7 @@ Defaults to `false`.
 ### user\_auth\_url?
 
 ```ts
-optional user_auth_url: string;
+optional user_auth_url?: string;
 ```
 
 #### Description

@@ -13,7 +13,7 @@ Defined in: [packages/web-api/src/types/request/slackLists.ts:329](https://githu
 ### channel\_ids?
 
 ```ts
-optional channel_ids: string[];
+optional channel_ids?: string[];
 ```
 
 Defined in: [packages/web-api/src/types/request/slackLists.ts:338](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/slackLists.ts#L338)
@@ -41,7 +41,7 @@ Encoded ID of the List.
 ### token?
 
 ```ts
-optional token: string;
+optional token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
@@ -61,7 +61,7 @@ TokenOverridable.token
 ### user\_ids?
 
 ```ts
-optional user_ids: string[];
+optional user_ids?: string[];
 ```
 
 Defined in: [packages/web-api/src/types/request/slackLists.ts:343](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/slackLists.ts#L343)

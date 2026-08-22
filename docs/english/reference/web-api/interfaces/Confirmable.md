@@ -31,7 +31,7 @@ Defined in: packages/types/dist/block-kit/extensions.d.ts:16
 ### confirm?
 
 ```ts
-optional confirm: ConfirmationDialog;
+optional confirm?: ConfirmationDialog;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:21

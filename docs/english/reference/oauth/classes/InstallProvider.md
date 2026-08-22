@@ -41,7 +41,7 @@ Defined in: [packages/oauth/src/install-provider.ts:38](https://github.com/slack
 ### stateStore?
 
 ```ts
-optional stateStore: StateStore;
+optional stateStore?: StateStore;
 ```
 
 Defined in: [packages/oauth/src/install-provider.ts:35](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/install-provider.ts#L35)

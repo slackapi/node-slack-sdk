@@ -23,7 +23,7 @@ element.
 ### action\_id?
 
 ```ts
-optional action_id: string;
+optional action_id?: string;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:12
@@ -41,7 +41,7 @@ among all other `action_id`s in the containing block. Maximum length for this fi
 ### confirm?
 
 ```ts
-optional confirm: ConfirmationDialog;
+optional confirm?: ConfirmationDialog;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:21
@@ -60,7 +60,7 @@ with.
 ### focus\_on\_load?
 
 ```ts
-optional focus_on_load: boolean;
+optional focus_on_load?: boolean;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:36
@@ -80,7 +80,7 @@ Defaults to `false`.
 ### initial\_options?
 
 ```ts
-optional initial_options: PlainTextOption[];
+optional initial_options?: PlainTextOption[];
 ```
 
 Defined in: packages/types/dist/block-kit/block-elements.d.ts:331
@@ -95,7 +95,7 @@ An array of option objects that exactly match one or more of the options within 
 ### max\_selected\_items?
 
 ```ts
-optional max_selected_items: number;
+optional max_selected_items?: number;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:42
@@ -113,7 +113,7 @@ Specifies the maximum number of items that can be selected. Minimum number is 1.
 ### option\_groups?
 
 ```ts
-optional option_groups: object[];
+optional option_groups?: object[];
 ```
 
 Defined in: packages/types/dist/block-kit/block-elements.d.ts:341
@@ -140,7 +140,7 @@ this field should not be.
 ### options?
 
 ```ts
-optional options: PlainTextOption[];
+optional options?: PlainTextOption[];
 ```
 
 Defined in: packages/types/dist/block-kit/block-elements.d.ts:336
@@ -155,7 +155,7 @@ specified, this field should not be.
 ### placeholder?
 
 ```ts
-optional placeholder: PlainTextElement;
+optional placeholder?: PlainTextElement;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:49

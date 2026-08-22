@@ -9,7 +9,7 @@ Defined in: packages/types/dist/message-metadata.d.ts:183
 ### edit?
 
 ```ts
-optional edit: EntityEditSupport;
+optional edit?: EntityEditSupport;
 ```
 
 Defined in: packages/types/dist/message-metadata.d.ts:192
@@ -19,7 +19,7 @@ Defined in: packages/types/dist/message-metadata.d.ts:192
 ### format?
 
 ```ts
-optional format: string;
+optional format?: string;
 ```
 
 Defined in: packages/types/dist/message-metadata.d.ts:186
@@ -29,7 +29,7 @@ Defined in: packages/types/dist/message-metadata.d.ts:186
 ### icon?
 
 ```ts
-optional icon: EntityIconField;
+optional icon?: EntityIconField;
 ```
 
 Defined in: packages/types/dist/message-metadata.d.ts:188
@@ -39,7 +39,7 @@ Defined in: packages/types/dist/message-metadata.d.ts:188
 ### label?
 
 ```ts
-optional label: string;
+optional label?: string;
 ```
 
 Defined in: packages/types/dist/message-metadata.d.ts:185
@@ -49,7 +49,7 @@ Defined in: packages/types/dist/message-metadata.d.ts:185
 ### link?
 
 ```ts
-optional link: string;
+optional link?: string;
 ```
 
 Defined in: packages/types/dist/message-metadata.d.ts:187
@@ -59,7 +59,7 @@ Defined in: packages/types/dist/message-metadata.d.ts:187
 ### long?
 
 ```ts
-optional long: boolean;
+optional long?: boolean;
 ```
 
 Defined in: packages/types/dist/message-metadata.d.ts:189
@@ -69,7 +69,7 @@ Defined in: packages/types/dist/message-metadata.d.ts:189
 ### tag\_color?
 
 ```ts
-optional tag_color: string;
+optional tag_color?: string;
 ```
 
 Defined in: packages/types/dist/message-metadata.d.ts:191
@@ -79,7 +79,7 @@ Defined in: packages/types/dist/message-metadata.d.ts:191
 ### type?
 
 ```ts
-optional type: string;
+optional type?: string;
 ```
 
 Defined in: packages/types/dist/message-metadata.d.ts:190

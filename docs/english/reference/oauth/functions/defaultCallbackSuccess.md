@@ -20,7 +20,7 @@ Defined in: [packages/oauth/src/callback-options.ts:81](https://github.com/slack
 
 ### \_options
 
-[`InstallURLOptions`](../interfaces/InstallURLOptions.md) | `undefined`
+[`InstallURLOptions`](../interfaces/InstallURLOptions.md) \| `undefined`
 
 ### \_req
 

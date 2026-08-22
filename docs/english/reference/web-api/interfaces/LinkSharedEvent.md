@@ -71,7 +71,7 @@ Defined in: packages/types/dist/events/link-shared.d.ts:6
 ### source?
 
 ```ts
-optional source: string;
+optional source?: string;
 ```
 
 Defined in: packages/types/dist/events/link-shared.d.ts:13
@@ -81,7 +81,7 @@ Defined in: packages/types/dist/events/link-shared.d.ts:13
 ### thread\_ts?
 
 ```ts
-optional thread_ts: string;
+optional thread_ts?: string;
 ```
 
 Defined in: packages/types/dist/events/link-shared.d.ts:7
@@ -101,7 +101,7 @@ Defined in: packages/types/dist/events/link-shared.d.ts:2
 ### unfurl\_id?
 
 ```ts
-optional unfurl_id: string;
+optional unfurl_id?: string;
 ```
 
 Defined in: packages/types/dist/events/link-shared.d.ts:12
