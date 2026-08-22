@@ -1,5 +1,20 @@
 import { expectAssignable, expectError } from 'tsd';
-import type { RichTextInput } from '../src/index';
+import type { RichTextInput, WorkflowButton } from '../src/index';
+
+// WorkflowButton happy path
+expectAssignable<WorkflowButton>({
+  type: 'workflow_button',
+  text: {
+    type: 'plain_text',
+    text: 'Run workflow',
+  },
+  action_id: 'run_workflow',
+  workflow: {
+    trigger: {
+      url: 'https://example.com/trigger',
+    },
+  },
+});
 
 // RichTextInput — happy paths
 expectAssignable<RichTextInput>({
