@@ -12,6 +12,7 @@ export {
   SMWebsocketError,
 } from './errors';
 
+export type { HelloMessage, HelloMessageConnectionInfo, HelloMessageDebugInfo } from './HelloMessage';
 export { Logger, LogLevel } from './logger';
 export { SocketModeClient } from './SocketModeClient';
 export { SocketModeDispatcher, SocketModeOptions } from './SocketModeOptions';
