@@ -102,6 +102,8 @@ export { AdminWorkflowsCollaboratorsRemoveResponse } from './AdminWorkflowsColla
 export { AdminWorkflowsPermissionsLookupResponse } from './AdminWorkflowsPermissionsLookupResponse';
 export { AdminWorkflowsSearchResponse } from './AdminWorkflowsSearchResponse';
 export { AdminWorkflowsUnpublishResponse } from './AdminWorkflowsUnpublishResponse';
+export { AgentsSessionsRenameResponse } from './AgentsSessionsRenameResponse';
+export { AgentsSessionsSetStatusResponse } from './AgentsSessionsSetStatusResponse';
 export { ApiTestResponse } from './ApiTestResponse';
 export { AppsConnectionsOpenResponse } from './AppsConnectionsOpenResponse';
 export { AppsEventAuthorizationsListResponse } from './AppsEventAuthorizationsListResponse';

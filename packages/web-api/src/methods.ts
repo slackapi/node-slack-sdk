@@ -98,6 +98,8 @@ import type {
   AdminWorkflowsPermissionsLookupArguments,
   AdminWorkflowsSearchArguments,
   AdminWorkflowsUnpublishArguments,
+  AgentsSessionsRenameArguments,
+  AgentsSessionsSetStatusArguments,
   APITestArguments,
   AppsConnectionsOpenArguments,
   AppsEventAuthorizationsListArguments,
@@ -368,6 +370,8 @@ import type {
   AdminWorkflowsPermissionsLookupResponse,
   AdminWorkflowsSearchResponse,
   AdminWorkflowsUnpublishResponse,
+  AgentsSessionsRenameResponse,
+  AgentsSessionsSetStatusResponse,
   ApiTestResponse,
   AppsConnectionsOpenResponse,
   AppsEventAuthorizationsListResponse,
@@ -1370,6 +1374,24 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
       unpublish: bindApiCall<AdminWorkflowsUnpublishArguments, AdminWorkflowsUnpublishResponse>(
         this,
         'admin.workflows.unpublish',
+      ),
+    },
+  };
+
+  public readonly agents = {
+    sessions: {
+      /**
+       * @description Rename an agent session.
+       * @see {@link https://docs.slack.dev/reference/methods/agents.sessions.rename `agents.sessions.rename` API reference}.
+       */
+      rename: bindApiCall<AgentsSessionsRenameArguments, AgentsSessionsRenameResponse>(this, 'agents.sessions.rename'),
+      /**
+       * @description Set an agent session's lifecycle status, creating the session if needed.
+       * @see {@link https://docs.slack.dev/reference/methods/agents.sessions.setStatus `agents.sessions.setStatus` API reference}.
+       */
+      setStatus: bindApiCall<AgentsSessionsSetStatusArguments, AgentsSessionsSetStatusResponse>(
+        this,
+        'agents.sessions.setStatus',
       ),
     },
   };
