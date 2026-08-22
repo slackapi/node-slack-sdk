@@ -2,17 +2,17 @@
 
 # Interface: WebhookTriggerResult
 
-Defined in: [packages/webhook/src/WebhookTrigger.ts:111](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/WebhookTrigger.ts#L111)
+Defined in: [packages/webhook/src/WebhookTrigger.ts:123](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/WebhookTrigger.ts#L123)
 
 ## Properties
 
 ### error?
 
 ```ts
-optional error: string;
+optional error?: string;
 ```
 
-Defined in: [packages/webhook/src/WebhookTrigger.ts:113](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/WebhookTrigger.ts#L113)
+Defined in: [packages/webhook/src/WebhookTrigger.ts:125](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/WebhookTrigger.ts#L125)
 
 ***
 
@@ -22,4 +22,4 @@ Defined in: [packages/webhook/src/WebhookTrigger.ts:113](https://github.com/slac
 ok: boolean;
 ```
 
-Defined in: [packages/webhook/src/WebhookTrigger.ts:112](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/WebhookTrigger.ts#L112)
+Defined in: [packages/webhook/src/WebhookTrigger.ts:124](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/WebhookTrigger.ts#L124)

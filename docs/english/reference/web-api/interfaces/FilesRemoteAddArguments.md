@@ -53,7 +53,7 @@ SharedFile.external_url
 ### filetype?
 
 ```ts
-optional filetype: string;
+optional filetype?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/files.ts:32](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/files.ts#L32)
@@ -77,7 +77,7 @@ FileType.filetype
 ### indexable\_file\_contents?
 
 ```ts
-optional indexable_file_contents: Buffer<ArrayBufferLike> | Stream;
+optional indexable_file_contents?: Buffer<ArrayBufferLike> | Stream;
 ```
 
 Defined in: [packages/web-api/src/types/request/files.ts:218](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/files.ts#L218)
@@ -98,7 +98,7 @@ SharedFile.indexable_file_contents
 ### preview\_image?
 
 ```ts
-optional preview_image: Buffer<ArrayBufferLike> | Stream;
+optional preview_image?: Buffer<ArrayBufferLike> | Stream;
 ```
 
 Defined in: [packages/web-api/src/types/request/files.ts:213](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/files.ts#L213)
@@ -138,7 +138,7 @@ SharedFile.title
 ### token?
 
 ```ts
-optional token: string;
+optional token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)

@@ -53,7 +53,7 @@ OAuthCredentials.client_secret
 ### code?
 
 ```ts
-optional code: string;
+optional code?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:142](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L142)
@@ -73,7 +73,7 @@ OAuthCredentials.code
 ### grant\_type?
 
 ```ts
-optional grant_type: "authorization_code" | "refresh_token";
+optional grant_type?: "authorization_code" | "refresh_token";
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:152](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L152)
@@ -93,7 +93,7 @@ OAuthGrantRefresh.grant_type
 ### redirect\_uri?
 
 ```ts
-optional redirect_uri: string;
+optional redirect_uri?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:147](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L147)
@@ -114,7 +114,7 @@ OAuthCredentials.redirect_uri
 ### refresh\_token?
 
 ```ts
-optional refresh_token: string;
+optional refresh_token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:154](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L154)

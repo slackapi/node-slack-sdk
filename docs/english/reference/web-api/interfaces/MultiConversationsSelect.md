@@ -23,7 +23,7 @@ MPIMs visible to the current user in the active workspace.
 ### action\_id?
 
 ```ts
-optional action_id: string;
+optional action_id?: string;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:12
@@ -41,7 +41,7 @@ among all other `action_id`s in the containing block. Maximum length for this fi
 ### confirm?
 
 ```ts
-optional confirm: ConfirmationDialog;
+optional confirm?: ConfirmationDialog;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:21
@@ -60,7 +60,7 @@ with.
 ### default\_to\_current\_conversation?
 
 ```ts
-optional default_to_current_conversation: boolean;
+optional default_to_current_conversation?: boolean;
 ```
 
 Defined in: packages/types/dist/block-kit/block-elements.d.ts:396
@@ -75,7 +75,7 @@ modal, if available. Default is `false`.
 ### filter?
 
 ```ts
-optional filter: object;
+optional filter?: object;
 ```
 
 Defined in: packages/types/dist/block-kit/block-elements.d.ts:400
@@ -83,19 +83,19 @@ Defined in: packages/types/dist/block-kit/block-elements.d.ts:400
 #### exclude\_bot\_users?
 
 ```ts
-optional exclude_bot_users: boolean;
+optional exclude_bot_users?: boolean;
 ```
 
 #### exclude\_external\_shared\_channels?
 
 ```ts
-optional exclude_external_shared_channels: boolean;
+optional exclude_external_shared_channels?: boolean;
 ```
 
 #### include?
 
 ```ts
-optional include: ("im" | "mpim" | "private" | "public")[];
+optional include?: ("im" | "mpim" | "private" | "public")[];
 ```
 
 #### Description
@@ -107,7 +107,7 @@ A filter object that reduces the list of available conversations using the speci
 ### focus\_on\_load?
 
 ```ts
-optional focus_on_load: boolean;
+optional focus_on_load?: boolean;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:36
@@ -127,7 +127,7 @@ Defaults to `false`.
 ### initial\_conversations?
 
 ```ts
-optional initial_conversations: string[];
+optional initial_conversations?: string[];
 ```
 
 Defined in: packages/types/dist/block-kit/block-elements.d.ts:391
@@ -142,7 +142,7 @@ An array of one or more IDs of any valid conversations to be pre-selected when t
 ### max\_selected\_items?
 
 ```ts
-optional max_selected_items: number;
+optional max_selected_items?: number;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:42
@@ -160,7 +160,7 @@ Specifies the maximum number of items that can be selected. Minimum number is 1.
 ### placeholder?
 
 ```ts
-optional placeholder: PlainTextElement;
+optional placeholder?: PlainTextElement;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:49

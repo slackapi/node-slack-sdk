@@ -44,7 +44,7 @@ EventEmitter.constructor
 ### websocket?
 
 ```ts
-optional websocket: SlackWebSocket;
+optional websocket?: SlackWebSocket;
 ```
 
 Defined in: [packages/socket-mode/src/SocketModeClient.ts:72](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/SocketModeClient.ts#L72)
@@ -202,7 +202,7 @@ Return the number of listeners listening to a given event.
 
 ##### event
 
-`string` | `symbol`
+`string` \| `symbol`
 
 #### Returns
 
@@ -402,7 +402,7 @@ Remove all listeners, or those of the specified event.
 
 ##### event?
 
-`string` | `symbol`
+`string` \| `symbol`
 
 #### Returns
 

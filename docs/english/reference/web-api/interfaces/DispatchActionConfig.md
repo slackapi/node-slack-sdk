@@ -17,7 +17,7 @@ Defines when a [PlainTextElement](PlainTextElement.md) will return a [\`block\_a
 ### trigger\_actions\_on?
 
 ```ts
-optional trigger_actions_on: ("on_enter_pressed" | "on_character_entered")[];
+optional trigger_actions_on?: ("on_enter_pressed" | "on_character_entered")[];
 ```
 
 Defined in: packages/types/dist/block-kit/composition-objects.d.ts:61

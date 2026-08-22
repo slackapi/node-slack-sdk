@@ -53,7 +53,7 @@ OAuthCredentials.client_secret
 ### code?
 
 ```ts
-optional code: string;
+optional code?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:142](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L142)
@@ -73,7 +73,7 @@ OAuthCredentials.code
 ### redirect\_uri?
 
 ```ts
-optional redirect_uri: string;
+optional redirect_uri?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:147](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L147)
@@ -94,7 +94,7 @@ OAuthCredentials.redirect_uri
 ### single\_channel?
 
 ```ts
-optional single_channel: boolean;
+optional single_channel?: boolean;
 ```
 
 Defined in: [packages/web-api/src/types/request/oauth.ts:6](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/oauth.ts#L6)

@@ -39,7 +39,7 @@ BaseView.blocks
 ### ~~callback\_id?~~
 
 ```ts
-optional callback_id: string;
+optional callback_id?: string;
 ```
 
 Defined in: [views.ts:19](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/views.ts#L19)
@@ -64,7 +64,7 @@ BaseView.callback_id
 ### ~~external\_id?~~
 
 ```ts
-optional external_id: string;
+optional external_id?: string;
 ```
 
 Defined in: [views.ts:21](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/views.ts#L21)
@@ -84,7 +84,7 @@ BaseView.external_id
 ### ~~private\_metadata?~~
 
 ```ts
-optional private_metadata: string;
+optional private_metadata?: string;
 ```
 
 Defined in: [views.ts:13](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/views.ts#L13)
@@ -107,7 +107,7 @@ BaseView.private_metadata
 ### ~~submit\_disabled?~~
 
 ```ts
-optional submit_disabled: boolean;
+optional submit_disabled?: boolean;
 ```
 
 Defined in: [views.ts:73](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/views.ts#L73)

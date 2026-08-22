@@ -13,7 +13,7 @@ Defined in: [packages/web-api/src/types/request/chat.ts:280](https://github.com/
 ### blocks?
 
 ```ts
-optional blocks: (KnownBlock | Block)[];
+optional blocks?: (KnownBlock | Block)[];
 ```
 
 Block formatted elements will be appended to the end of the message.
@@ -21,7 +21,7 @@ Block formatted elements will be appended to the end of the message.
 ### chunks?
 
 ```ts
-optional chunks: AnyChunk[];
+optional chunks?: AnyChunk[];
 ```
 
 #### Description

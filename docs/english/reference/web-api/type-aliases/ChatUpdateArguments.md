@@ -25,7 +25,7 @@ Timestamp of the message to be updated.
 ### file\_ids?
 
 ```ts
-optional file_ids: string[];
+optional file_ids?: string[];
 ```
 
 #### Description
@@ -35,7 +35,7 @@ Array of new file ids that will be sent with this message.
 ### reply\_broadcast?
 
 ```ts
-optional reply_broadcast: boolean;
+optional reply_broadcast?: boolean;
 ```
 
 #### Description

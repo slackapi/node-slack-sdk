@@ -24,7 +24,7 @@ this name is the one that the channel will take.
 ### free\_trial\_accepted?
 
 ```ts
-optional free_trial_accepted: boolean;
+optional free_trial_accepted?: boolean;
 ```
 
 #### Description

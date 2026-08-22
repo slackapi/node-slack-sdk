@@ -13,41 +13,47 @@ Defined in: [packages/web-api/src/types/response/CanvasesAccessSetResponse.ts:11
 ### error?
 
 ```ts
-optional error: string;
+optional error?: string;
 ```
 
 ### failed\_to\_update\_channel\_ids?
 
 ```ts
-optional failed_to_update_channel_ids: string[];
+optional failed_to_update_channel_ids?: string[];
 ```
 
 ### failed\_to\_update\_user\_ids?
 
 ```ts
-optional failed_to_update_user_ids: string[];
+optional failed_to_update_user_ids?: string[];
 ```
 
 ### needed?
 
 ```ts
-optional needed: string;
+optional needed?: string;
 ```
 
 ### ok?
 
 ```ts
-optional ok: boolean;
+optional ok?: boolean;
 ```
 
 ### provided?
 
 ```ts
-optional provided: string;
+optional provided?: string;
 ```
 
 ### response\_metadata?
 
 ```ts
-optional response_metadata: ResponseMetadata;
+optional response_metadata?: ResponseMetadata;
+```
+
+### warning?
+
+```ts
+optional warning?: string;
 ```

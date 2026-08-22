@@ -47,7 +47,7 @@ EventEmitter.constructor
 ### activeTeamId?
 
 ```ts
-optional activeTeamId: string;
+optional activeTeamId?: string;
 ```
 
 Defined in: [packages/rtm-api/src/RTMClient.ts:83](https://github.com/slackapi/node-slack-sdk/blob/main/packages/rtm-api/src/RTMClient.ts#L83)
@@ -59,7 +59,7 @@ The team ID for the workspace the client is connected to.
 ### activeUserId?
 
 ```ts
-optional activeUserId: string;
+optional activeUserId?: string;
 ```
 
 Defined in: [packages/rtm-api/src/RTMClient.ts:78](https://github.com/slackapi/node-slack-sdk/blob/main/packages/rtm-api/src/RTMClient.ts#L78)
@@ -344,7 +344,7 @@ Return the number of listeners listening to a given event.
 
 ##### event
 
-`string` | `symbol`
+`string` \| `symbol`
 
 #### Returns
 
@@ -544,7 +544,7 @@ Remove all listeners, or those of the specified event.
 
 ##### event?
 
-`string` | `symbol`
+`string` \| `symbol`
 
 #### Returns
 

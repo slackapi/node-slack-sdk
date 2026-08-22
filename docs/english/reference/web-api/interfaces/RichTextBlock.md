@@ -26,7 +26,7 @@ the [RichTextInput](RichTextInput.md).
 ### block\_id?
 
 ```ts
-optional block_id: string;
+optional block_id?: string;
 ```
 
 Defined in: packages/types/dist/block-kit/blocks.d.ts:15

@@ -27,7 +27,7 @@ Channel ID containing the assistant thread.
 ### icon\_emoji?
 
 ```ts
-optional icon_emoji: string;
+optional icon_emoji?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/assistant.ts:17](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/assistant.ts#L17)
@@ -47,7 +47,7 @@ Emoji to use as the icon for this message. Overrides `icon_url`.
 ### icon\_url?
 
 ```ts
-optional icon_url: string;
+optional icon_url?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/assistant.ts:22](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/assistant.ts#L22)
@@ -67,7 +67,7 @@ http://lorempixel.com/48/48
 ### loading\_messages?
 
 ```ts
-optional loading_messages: string[];
+optional loading_messages?: string[];
 ```
 
 Defined in: [packages/web-api/src/types/request/assistant.ts:12](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/assistant.ts#L12)
@@ -109,7 +109,7 @@ Message timestamp of the thread.
 ### token?
 
 ```ts
-optional token: string;
+optional token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
@@ -129,7 +129,7 @@ TokenOverridable.token
 ### username?
 
 ```ts
-optional username: string;
+optional username?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/assistant.ts:27](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/assistant.ts#L27)

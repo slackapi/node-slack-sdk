@@ -1,5 +1,11 @@
 # @slack/types
 
+## 3.1.0
+
+### Minor Changes
+
+- f5e9a01: feat(types): add optional `min_lines` and `max_lines` properties to `RichTextInput` element
+
 ## 3.0.0
 
 ### Major Changes

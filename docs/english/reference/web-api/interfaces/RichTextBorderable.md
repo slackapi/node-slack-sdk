@@ -17,7 +17,7 @@ For use in setting border style details on certain Rich Text elements.
 ### border?
 
 ```ts
-optional border: 0 | 1;
+optional border?: 0 | 1;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:66
