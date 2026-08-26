@@ -1550,7 +1550,7 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
 
   public readonly blocks = {
     /**
-     * @description Validates an array of blocks, or a message or view payload.
+     * @description Validates blocks, messages, and views Block Kit JSON payloads.
      * @see {@link https://docs.slack.dev/reference/methods/blocks.validate `blocks.validate` API reference}.
      */
     validate: bindApiCallWithOptionalArgument<BlocksValidateArguments, BlocksValidateResponse>(this, 'blocks.validate'),
