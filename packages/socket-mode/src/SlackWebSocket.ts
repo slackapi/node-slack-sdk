@@ -1,13 +1,16 @@
 import { channel } from 'node:diagnostics_channel';
+import type { Socket } from 'node:net';
 
 import type { EventEmitter } from 'eventemitter3';
-import { CloseEvent, type Dispatcher, ErrorEvent, MessageEvent, ping, WebSocket } from 'undici';
+import { Agent, buildConnector, CloseEvent, type Dispatcher, ErrorEvent, MessageEvent, ping, WebSocket } from 'undici';
 
 import { SMWebsocketError } from './errors';
 import log, { type Logger, LogLevel } from './logger';
 import type { SocketModeDispatcher } from './SocketModeOptions';
 
 export const WS_READY_STATES = ['CONNECTING', 'OPEN', 'CLOSING', 'CLOSED'];
+
+const CLOSE_HANDSHAKE_TIMEOUT_MS = 30_000;
 
 interface PingPongMessage {
   websocket: WebSocket;
@@ -38,7 +41,12 @@ export interface SlackWebSocketOptions {
   logger?: Logger;
   /** @description Delay between this client sending a `ping` message, in milliseconds. */
   pingInterval?: number;
-  /** @description An undici Dispatcher used to establish the WebSocket connection (e.g. ProxyAgent). */
+  /**
+   * @description An undici Dispatcher used to establish the WebSocket connection (e.g. ProxyAgent).
+   * When omitted, this class creates its own Agent and force-destroys the underlying socket on cleanup.
+   * When supplied, the socket is owned by your dispatcher and cannot be force-closed here; a stalled close
+   * handshake instead falls back to a timeout before cleanup runs.
+   */
   dispatcher?: SocketModeDispatcher;
   /** @description Whether this WebSocket should DEBUG log ping and pong events. `false` by default. */
   pingPongLoggingEnabled?: boolean;
@@ -68,6 +76,10 @@ export class SlackWebSocket {
 
   private websocket: WebSocket | null;
 
+  private capturedSocket: Socket | null = null;
+
+  private ownAgent: Agent | null = null;
+
   /**
    * The last timetamp that this WebSocket received pong from the server
    */
@@ -88,6 +100,11 @@ export class SlackWebSocket {
    * Reference to the timeout timer we use to listen to pongs from the server
    */
   private clientPingTimeout: NodeJS.Timeout | undefined;
+
+  /**
+   * Reference to the timer that force-closes the connection if the peer never completes the close handshake
+   */
+  private closeHandshakeTimeout: ReturnType<typeof setTimeout> | undefined;
 
   private openHandler: (() => void) | null = null;
   private errorHandler: ((event: Event) => void) | null = null;
@@ -136,7 +153,26 @@ export class SlackWebSocket {
   public connect(): void {
     this.logger.debug('Initiating new WebSocket connection.');
 
-    this.websocket = new WebSocket(this.options.url, { dispatcher: this.options.dispatcher as Dispatcher });
+    let dispatcher: Dispatcher;
+    if (this.options.dispatcher) {
+      dispatcher = this.options.dispatcher as Dispatcher;
+    } else {
+      const baseConnect = buildConnector({});
+      this.ownAgent = new Agent({
+        connect: (opts, cb) => {
+          baseConnect(opts, (err, socket) => {
+            if (err) {
+              cb(err, null);
+              return;
+            }
+            this.capturedSocket = socket as Socket;
+            cb(null, socket as Socket);
+          });
+        },
+      });
+      dispatcher = this.ownAgent;
+    }
+    this.websocket = new WebSocket(this.options.url, { dispatcher });
 
     this.openHandler = () => {
       this.logger.debug('WebSocket open event received (connection established)!');
@@ -216,8 +252,6 @@ export class SlackWebSocket {
         this.logger.debug('Terminating WebSocket (close frame received).');
         this.cleanup();
       } else if (this.websocket.readyState === WebSocket.CLOSING) {
-        // A close frame was already sent but the peer hasn't responded. Force-terminate rather than
-        // waiting for the ws library's closeTimeout (~30s) while the ping monitor logs repeated warnings.
         this.logger.debug('Terminating WebSocket (close frame sent but no response, force-terminating).');
         this.cleanup();
       } else {
@@ -225,6 +259,10 @@ export class SlackWebSocket {
         // in response.
         this.logger.debug('Sending close frame (status=1000).');
         this.websocket.close(1000); // 1000 = Normal Closure
+        this.closeHandshakeTimeout = setTimeout(() => {
+          this.logger.warn('Peer did not complete the close handshake in time; forcing cleanup.');
+          this.cleanup();
+        }, CLOSE_HANDSHAKE_TIMEOUT_MS);
       }
     } else {
       this.logger.debug('WebSocket already disconnected, flushing remainder.');
@@ -250,9 +288,18 @@ export class SlackWebSocket {
     if (this.pongHandler) SlackWebSocket.pongChannel.unsubscribe(this.pongHandler);
     this.pingHandler = null;
     this.pongHandler = null;
+    if (this.capturedSocket && !this.capturedSocket.destroyed) {
+      this.capturedSocket.destroy();
+    }
+    this.capturedSocket = null;
+    if (this.ownAgent) {
+      this.ownAgent.destroy().catch(() => {});
+      this.ownAgent = null;
+    }
     this.websocket = null;
     clearTimeout(this.serverPingTimeout);
     clearInterval(this.clientPingTimeout);
+    clearTimeout(this.closeHandshakeTimeout);
     // Emit event back to client letting it know connection has closed (in case it needs to reconnect if
     // reconnecting is enabled)
     this.options.client.emit('close');

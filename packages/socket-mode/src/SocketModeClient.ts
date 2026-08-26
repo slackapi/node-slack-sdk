@@ -157,6 +157,8 @@ export class SocketModeClient extends EventEmitter {
     });
     this.on('close', () => {
       // Underlying WebSocket connection was closed, possibly reconnect.
+      if (this.websocket?.isActive()) return;
+      if (this.reconnectionTimer) return;
       if (!this.shuttingDown && this.autoReconnectEnabled) {
         this.delayReconnectAttempt(this.start);
       } else {

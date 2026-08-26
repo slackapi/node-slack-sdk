@@ -160,50 +160,23 @@ describe('SlackWebSocket', () => {
     });
   });
 
-  describe('cleanup() with an active connection (issue #2709)', () => {
-    // Live peer exposing its raw transport so we can assert the socket is torn down, not just dropped.
-    class LivePeerWS extends EventTarget {
-      static CONNECTING = 0;
-      static OPEN = 1;
-      static CLOSING = 2;
-      static CLOSED = 3;
-      readyState = 1;
-      socket = { destroy: sandbox.spy() };
-      close() {}
-      send(_data: string) {}
-    }
-
-    it('should destroy the underlying socket during cleanup', () => {
-      const ws = new LivePeerWS();
-      SlackWebSocket = proxyquire.load('./SlackWebSocket', {
-        undici: {
-          WebSocket: class Fake {
-            static CONNECTING = 0;
-            static OPEN = 1;
-            static CLOSING = 2;
-            static CLOSED = 3;
-            constructor() {
-              // biome-ignore lint/correctness/noConstructorReturn: for test mocking purposes
-              return ws;
-            }
-          },
-          CloseEvent,
-          ErrorEvent,
-          MessageEvent,
-          ping: () => {},
-        },
-      }).SlackWebSocket;
+  describe('cleanup() with a captured socket (issue #2709)', () => {
+    it('should destroy the captured underlying socket during cleanup', () => {
       const sws = new SlackWebSocket({
         url: 'ws://127.0.0.1/',
         client: new EventEmitter(),
         clientPingTimeoutMS: 1,
         serverPingTimeoutMS: 1,
       });
-      sws.connect();
+      const destroy = sandbox.spy();
+      (sws as unknown as { capturedSocket: { destroy: () => void; destroyed: boolean } }).capturedSocket = {
+        destroy,
+        destroyed: false,
+      };
 
-      ws.dispatchEvent(new CloseEvent('close', { code: 1000 }));
+      sws.disconnect();
 
-      sinon.assert.calledOnce(ws.socket.destroy);
+      sinon.assert.calledOnce(destroy);
     });
   });
 });
