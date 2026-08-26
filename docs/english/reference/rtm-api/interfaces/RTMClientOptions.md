@@ -9,7 +9,7 @@ Defined in: [packages/rtm-api/src/RTMClient.ts:717](https://github.com/slackapi/
 ### agent?
 
 ```ts
-optional agent: Agent;
+optional agent?: Agent;
 ```
 
 Defined in: [packages/rtm-api/src/RTMClient.ts:723](https://github.com/slackapi/node-slack-sdk/blob/main/packages/rtm-api/src/RTMClient.ts#L723)
@@ -19,7 +19,7 @@ Defined in: [packages/rtm-api/src/RTMClient.ts:723](https://github.com/slackapi/
 ### autoReconnect?
 
 ```ts
-optional autoReconnect: boolean;
+optional autoReconnect?: boolean;
 ```
 
 Defined in: [packages/rtm-api/src/RTMClient.ts:724](https://github.com/slackapi/node-slack-sdk/blob/main/packages/rtm-api/src/RTMClient.ts#L724)
@@ -29,7 +29,7 @@ Defined in: [packages/rtm-api/src/RTMClient.ts:724](https://github.com/slackapi/
 ### clientPingTimeout?
 
 ```ts
-optional clientPingTimeout: number;
+optional clientPingTimeout?: number;
 ```
 
 Defined in: [packages/rtm-api/src/RTMClient.ts:728](https://github.com/slackapi/node-slack-sdk/blob/main/packages/rtm-api/src/RTMClient.ts#L728)
@@ -39,7 +39,7 @@ Defined in: [packages/rtm-api/src/RTMClient.ts:728](https://github.com/slackapi/
 ### logger?
 
 ```ts
-optional logger: Logger;
+optional logger?: Logger;
 ```
 
 Defined in: [packages/rtm-api/src/RTMClient.ts:720](https://github.com/slackapi/node-slack-sdk/blob/main/packages/rtm-api/src/RTMClient.ts#L720)
@@ -49,7 +49,7 @@ Defined in: [packages/rtm-api/src/RTMClient.ts:720](https://github.com/slackapi/
 ### logLevel?
 
 ```ts
-optional logLevel: LogLevel;
+optional logLevel?: LogLevel;
 ```
 
 Defined in: [packages/rtm-api/src/RTMClient.ts:721](https://github.com/slackapi/node-slack-sdk/blob/main/packages/rtm-api/src/RTMClient.ts#L721)
@@ -59,7 +59,7 @@ Defined in: [packages/rtm-api/src/RTMClient.ts:721](https://github.com/slackapi/
 ### replyAckOnReconnectTimeout?
 
 ```ts
-optional replyAckOnReconnectTimeout: number;
+optional replyAckOnReconnectTimeout?: number;
 ```
 
 Defined in: [packages/rtm-api/src/RTMClient.ts:730](https://github.com/slackapi/node-slack-sdk/blob/main/packages/rtm-api/src/RTMClient.ts#L730)
@@ -69,7 +69,7 @@ Defined in: [packages/rtm-api/src/RTMClient.ts:730](https://github.com/slackapi/
 ### retryConfig?
 
 ```ts
-optional retryConfig: RetryOptions;
+optional retryConfig?: RetryOptions;
 ```
 
 Defined in: [packages/rtm-api/src/RTMClient.ts:722](https://github.com/slackapi/node-slack-sdk/blob/main/packages/rtm-api/src/RTMClient.ts#L722)
@@ -79,7 +79,7 @@ Defined in: [packages/rtm-api/src/RTMClient.ts:722](https://github.com/slackapi/
 ### serverPongTimeout?
 
 ```ts
-optional serverPongTimeout: number;
+optional serverPongTimeout?: number;
 ```
 
 Defined in: [packages/rtm-api/src/RTMClient.ts:729](https://github.com/slackapi/node-slack-sdk/blob/main/packages/rtm-api/src/RTMClient.ts#L729)
@@ -89,7 +89,7 @@ Defined in: [packages/rtm-api/src/RTMClient.ts:729](https://github.com/slackapi/
 ### slackApiUrl?
 
 ```ts
-optional slackApiUrl: string;
+optional slackApiUrl?: string;
 ```
 
 Defined in: [packages/rtm-api/src/RTMClient.ts:719](https://github.com/slackapi/node-slack-sdk/blob/main/packages/rtm-api/src/RTMClient.ts#L719)
@@ -99,7 +99,7 @@ Defined in: [packages/rtm-api/src/RTMClient.ts:719](https://github.com/slackapi/
 ### tls?
 
 ```ts
-optional tls: TLSOptions;
+optional tls?: TLSOptions;
 ```
 
 Defined in: [packages/rtm-api/src/RTMClient.ts:731](https://github.com/slackapi/node-slack-sdk/blob/main/packages/rtm-api/src/RTMClient.ts#L731)
@@ -109,7 +109,7 @@ Defined in: [packages/rtm-api/src/RTMClient.ts:731](https://github.com/slackapi/
 ### useRtmConnect?
 
 ```ts
-optional useRtmConnect: boolean;
+optional useRtmConnect?: boolean;
 ```
 
 Defined in: [packages/rtm-api/src/RTMClient.ts:727](https://github.com/slackapi/node-slack-sdk/blob/main/packages/rtm-api/src/RTMClient.ts#L727)
@@ -119,7 +119,7 @@ Defined in: [packages/rtm-api/src/RTMClient.ts:727](https://github.com/slackapi/
 ### webClient?
 
 ```ts
-optional webClient: WebClient;
+optional webClient?: WebClient;
 ```
 
 Defined in: [packages/rtm-api/src/RTMClient.ts:718](https://github.com/slackapi/node-slack-sdk/blob/main/packages/rtm-api/src/RTMClient.ts#L718)

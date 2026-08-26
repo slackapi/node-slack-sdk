@@ -21,7 +21,7 @@ The App-level token associated with your app, located under the Basic Informatio
 ### autoReconnectEnabled?
 
 ```ts
-optional autoReconnectEnabled: boolean;
+optional autoReconnectEnabled?: boolean;
 ```
 
 Defined in: [packages/socket-mode/src/SocketModeOptions.ts:39](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/SocketModeOptions.ts#L39)
@@ -35,7 +35,7 @@ to a disconnected client after some amount of time.
 ### clientOptions?
 
 ```ts
-optional clientOptions: Omit<WebClientOptions, "logLevel" | "logger">;
+optional clientOptions?: Omit<WebClientOptions, "logLevel" | "logger">;
 ```
 
 Defined in: [packages/socket-mode/src/SocketModeOptions.ts:63](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/SocketModeOptions.ts#L63)
@@ -48,7 +48,7 @@ Useful for setting retry configurations and custom fetch implementations.
 ### clientPingTimeout?
 
 ```ts
-optional clientPingTimeout: number;
+optional clientPingTimeout?: number;
 ```
 
 Defined in: [packages/socket-mode/src/SocketModeOptions.ts:46](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/SocketModeOptions.ts#L46)
@@ -63,7 +63,7 @@ Defaults to 5,000.
 ### dispatcher?
 
 ```ts
-optional dispatcher: SocketModeDispatcher;
+optional dispatcher?: SocketModeDispatcher;
 ```
 
 Defined in: [packages/socket-mode/src/SocketModeOptions.ts:78](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/SocketModeOptions.ts#L78)
@@ -87,7 +87,7 @@ const dispatcher = new ProxyAgent('http://proxy:3128');
 ### logger?
 
 ```ts
-optional logger: Logger;
+optional logger?: Logger;
 ```
 
 Defined in: [packages/socket-mode/src/SocketModeOptions.ts:29](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/SocketModeOptions.ts#L29)
@@ -99,7 +99,7 @@ An instance of `@slack/logger`'s Logger interface, to send log messages to.
 ### logLevel?
 
 ```ts
-optional logLevel: LogLevel;
+optional logLevel?: LogLevel;
 ```
 
 Defined in: [packages/socket-mode/src/SocketModeOptions.ts:33](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/SocketModeOptions.ts#L33)
@@ -111,7 +111,7 @@ An instance of `@slack/logger`'s LogLevel enum, setting the minimum log level to
 ### pingPongLoggingEnabled?
 
 ```ts
-optional pingPongLoggingEnabled: boolean;
+optional pingPongLoggingEnabled?: boolean;
 ```
 
 Defined in: [packages/socket-mode/src/SocketModeOptions.ts:58](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/SocketModeOptions.ts#L58)
@@ -124,7 +124,7 @@ Should logging related to `ping` and `pong` messages between the client and serv
 ### serverPingTimeout?
 
 ```ts
-optional serverPingTimeout: number;
+optional serverPingTimeout?: number;
 ```
 
 Defined in: [packages/socket-mode/src/SocketModeOptions.ts:53](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/SocketModeOptions.ts#L53)

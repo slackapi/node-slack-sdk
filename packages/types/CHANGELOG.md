@@ -1,5 +1,12 @@
 # @slack/types
 
+## 3.1.0
+
+### Minor Changes
+
+- 916d8e9: feat(types): add [`agent_session_stopped`](https://docs.slack.dev/reference/events/agent_session_stopped) and [`agent_session_title_changed`](https://docs.slack.dev/reference/events/agent_session_title_changed) events
+- f5e9a01: feat(types): add optional `min_lines` and `max_lines` properties to `RichTextInput` element
+
 ## 3.0.0
 
 ### Major Changes

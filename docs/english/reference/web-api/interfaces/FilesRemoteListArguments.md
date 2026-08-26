@@ -13,7 +13,7 @@ Defined in: [packages/web-api/src/types/request/files.ts:228](https://github.com
 ### channel?
 
 ```ts
-optional channel: string;
+optional channel?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/files.ts:230](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/files.ts#L230)
@@ -27,7 +27,7 @@ Filter files appearing in a specific channel, indicated by its ID.
 ### cursor?
 
 ```ts
-optional cursor: string;
+optional cursor?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:16](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L16)
@@ -53,7 +53,7 @@ CursorPaginationEnabled.cursor
 ### limit?
 
 ```ts
-optional limit: number;
+optional limit?: number;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:9](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L9)
@@ -74,7 +74,7 @@ CursorPaginationEnabled.limit
 ### token?
 
 ```ts
-optional token: string;
+optional token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
@@ -94,7 +94,7 @@ TokenOverridable.token
 ### ts\_from?
 
 ```ts
-optional ts_from: string;
+optional ts_from?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/files.ts:232](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/files.ts#L232)
@@ -108,7 +108,7 @@ Filter files created after this timestamp (inclusive).
 ### ts\_to?
 
 ```ts
-optional ts_to: string;
+optional ts_to?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/files.ts:234](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/files.ts#L234)

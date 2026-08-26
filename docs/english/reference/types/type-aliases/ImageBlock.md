@@ -26,7 +26,7 @@ Maximum length for this field is 2000 characters.
 ### title?
 
 ```ts
-optional title: PlainTextElement;
+optional title?: PlainTextElement;
 ```
 
 #### Description

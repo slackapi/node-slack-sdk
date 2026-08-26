@@ -29,7 +29,7 @@ Defined in: [events/channel.ts:6](https://github.com/slackapi/node-slack-sdk/blo
 ### is\_moved?
 
 ```ts
-optional is_moved: number;
+optional is_moved?: number;
 ```
 
 Defined in: [events/channel.ts:5](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/channel.ts#L5)

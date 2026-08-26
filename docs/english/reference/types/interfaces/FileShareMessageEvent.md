@@ -9,7 +9,7 @@ Defined in: [events/message.ts:204](https://github.com/slackapi/node-slack-sdk/b
 ### attachments?
 
 ```ts
-optional attachments: MessageAttachment[];
+optional attachments?: MessageAttachment[];
 ```
 
 Defined in: [events/message.ts:208](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/message.ts#L208)
@@ -19,7 +19,7 @@ Defined in: [events/message.ts:208](https://github.com/slackapi/node-slack-sdk/b
 ### blocks?
 
 ```ts
-optional blocks: (Block | KnownBlock)[];
+optional blocks?: (Block | KnownBlock)[];
 ```
 
 Defined in: [events/message.ts:209](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/message.ts#L209)
@@ -49,7 +49,7 @@ Defined in: [events/message.ts:219](https://github.com/slackapi/node-slack-sdk/b
 ### display\_as\_bot?
 
 ```ts
-optional display_as_bot: boolean;
+optional display_as_bot?: boolean;
 ```
 
 Defined in: [events/message.ts:212](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/message.ts#L212)
@@ -69,7 +69,7 @@ Defined in: [events/message.ts:220](https://github.com/slackapi/node-slack-sdk/b
 ### files?
 
 ```ts
-optional files: File[];
+optional files?: File[];
 ```
 
 Defined in: [events/message.ts:210](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/message.ts#L210)
@@ -79,7 +79,7 @@ Defined in: [events/message.ts:210](https://github.com/slackapi/node-slack-sdk/b
 ### parent\_user\_id?
 
 ```ts
-optional parent_user_id: string;
+optional parent_user_id?: string;
 ```
 
 Defined in: [events/message.ts:215](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/message.ts#L215)
@@ -109,7 +109,7 @@ Defined in: [events/message.ts:207](https://github.com/slackapi/node-slack-sdk/b
 ### thread\_ts?
 
 ```ts
-optional thread_ts: string;
+optional thread_ts?: string;
 ```
 
 Defined in: [events/message.ts:217](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/message.ts#L217)
@@ -139,7 +139,7 @@ Defined in: [events/message.ts:205](https://github.com/slackapi/node-slack-sdk/b
 ### upload?
 
 ```ts
-optional upload: boolean;
+optional upload?: boolean;
 ```
 
 Defined in: [events/message.ts:211](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/message.ts#L211)
@@ -159,7 +159,7 @@ Defined in: [events/message.ts:214](https://github.com/slackapi/node-slack-sdk/b
 ### x\_files?
 
 ```ts
-optional x_files: string[];
+optional x_files?: string[];
 ```
 
 Defined in: [events/message.ts:213](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/message.ts#L213)

@@ -2,7 +2,7 @@
 
 # Interface: WebhookTriggerSendArguments
 
-Defined in: [packages/webhook/src/WebhookTrigger.ts:107](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/WebhookTrigger.ts#L107)
+Defined in: [packages/webhook/src/WebhookTrigger.ts:119](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/WebhookTrigger.ts#L119)
 
 ## Indexable
 

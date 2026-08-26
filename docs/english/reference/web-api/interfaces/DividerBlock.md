@@ -22,7 +22,7 @@ different blocks inside of a message. The divider block is nice and neat, requir
 ### block\_id?
 
 ```ts
-optional block_id: string;
+optional block_id?: string;
 ```
 
 Defined in: packages/types/dist/block-kit/blocks.d.ts:15

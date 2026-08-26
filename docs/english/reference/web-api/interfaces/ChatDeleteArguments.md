@@ -13,7 +13,7 @@ Defined in: [packages/web-api/src/types/request/chat.ts:181](https://github.com/
 ### as\_user?
 
 ```ts
-optional as_user: boolean;
+optional as_user?: boolean;
 ```
 
 Defined in: [packages/web-api/src/types/request/chat.ts:38](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L38)
@@ -55,7 +55,7 @@ ChannelAndTS.channel
 ### token?
 
 ```ts
-optional token: string;
+optional token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)

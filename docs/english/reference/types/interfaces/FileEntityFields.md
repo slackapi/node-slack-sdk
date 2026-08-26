@@ -9,7 +9,7 @@ Defined in: [message-metadata.ts:145](https://github.com/slackapi/node-slack-sdk
 ### created\_by?
 
 ```ts
-optional created_by: EntityTypedField;
+optional created_by?: EntityTypedField;
 ```
 
 Defined in: [message-metadata.ts:147](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L147)
@@ -19,7 +19,7 @@ Defined in: [message-metadata.ts:147](https://github.com/slackapi/node-slack-sdk
 ### date\_created?
 
 ```ts
-optional date_created: EntityTimestampField;
+optional date_created?: EntityTimestampField;
 ```
 
 Defined in: [message-metadata.ts:148](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L148)
@@ -29,7 +29,7 @@ Defined in: [message-metadata.ts:148](https://github.com/slackapi/node-slack-sdk
 ### date\_updated?
 
 ```ts
-optional date_updated: EntityTimestampField;
+optional date_updated?: EntityTimestampField;
 ```
 
 Defined in: [message-metadata.ts:149](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L149)
@@ -39,7 +39,7 @@ Defined in: [message-metadata.ts:149](https://github.com/slackapi/node-slack-sdk
 ### file\_size?
 
 ```ts
-optional file_size: EntityStringField;
+optional file_size?: EntityStringField;
 ```
 
 Defined in: [message-metadata.ts:151](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L151)
@@ -49,7 +49,7 @@ Defined in: [message-metadata.ts:151](https://github.com/slackapi/node-slack-sdk
 ### full\_size\_preview?
 
 ```ts
-optional full_size_preview: EntityFullSizePreview;
+optional full_size_preview?: EntityFullSizePreview;
 ```
 
 Defined in: [message-metadata.ts:153](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L153)
@@ -59,7 +59,7 @@ Defined in: [message-metadata.ts:153](https://github.com/slackapi/node-slack-sdk
 ### last\_modified\_by?
 
 ```ts
-optional last_modified_by: EntityTypedField;
+optional last_modified_by?: EntityTypedField;
 ```
 
 Defined in: [message-metadata.ts:150](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L150)
@@ -69,7 +69,7 @@ Defined in: [message-metadata.ts:150](https://github.com/slackapi/node-slack-sdk
 ### mime\_type?
 
 ```ts
-optional mime_type: EntityStringField;
+optional mime_type?: EntityStringField;
 ```
 
 Defined in: [message-metadata.ts:152](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L152)
@@ -79,7 +79,7 @@ Defined in: [message-metadata.ts:152](https://github.com/slackapi/node-slack-sdk
 ### preview?
 
 ```ts
-optional preview: EntityImageField;
+optional preview?: EntityImageField;
 ```
 
 Defined in: [message-metadata.ts:146](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L146)

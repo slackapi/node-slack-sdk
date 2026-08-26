@@ -31,7 +31,7 @@ The range of the broadcast; can be one of `here`, `channel` and `everyone`.
 ### style?
 
 ```ts
-optional style: object;
+optional style?: object;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:75
@@ -39,7 +39,7 @@ Defined in: packages/types/dist/block-kit/extensions.d.ts:75
 #### bold?
 
 ```ts
-optional bold: boolean;
+optional bold?: boolean;
 ```
 
 ##### Description
@@ -49,7 +49,7 @@ When `true`, boldens the text in this element. Defaults to `false`.
 #### code?
 
 ```ts
-optional code: boolean;
+optional code?: boolean;
 ```
 
 ##### Description
@@ -59,7 +59,7 @@ When `true`, the text is preformatted in an inline code style. Defaults to `fals
 #### italic?
 
 ```ts
-optional italic: boolean;
+optional italic?: boolean;
 ```
 
 ##### Description
@@ -69,7 +69,7 @@ When `true`, italicizes the text in this element. Defaults to `false`.
 #### strike?
 
 ```ts
-optional strike: boolean;
+optional strike?: boolean;
 ```
 
 ##### Description
@@ -79,7 +79,7 @@ When `true`, strikes through the text in this element. Defaults to `false`.
 #### underline?
 
 ```ts
-optional underline: boolean;
+optional underline?: boolean;
 ```
 
 ##### Description

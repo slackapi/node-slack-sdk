@@ -17,7 +17,7 @@ A field object to include in a [MessageAttachment](MessageAttachment.md).
 ### short?
 
 ```ts
-optional short: boolean;
+optional short?: boolean;
 ```
 
 Defined in: packages/types/dist/message-attachments.d.ts:129

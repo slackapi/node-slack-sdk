@@ -23,7 +23,7 @@ active workspace.
 ### action\_id?
 
 ```ts
-optional action_id: string;
+optional action_id?: string;
 ```
 
 Defined in: [block-kit/extensions.ts:15](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/extensions.ts#L15)
@@ -41,7 +41,7 @@ among all other `action_id`s in the containing block. Maximum length for this fi
 ### confirm?
 
 ```ts
-optional confirm: ConfirmationDialog;
+optional confirm?: ConfirmationDialog;
 ```
 
 Defined in: [block-kit/extensions.ts:25](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/extensions.ts#L25)
@@ -60,7 +60,7 @@ with.
 ### focus\_on\_load?
 
 ```ts
-optional focus_on_load: boolean;
+optional focus_on_load?: boolean;
 ```
 
 Defined in: [block-kit/extensions.ts:42](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/extensions.ts#L42)
@@ -80,7 +80,7 @@ Defaults to `false`.
 ### initial\_user?
 
 ```ts
-optional initial_user: string;
+optional initial_user?: string;
 ```
 
 Defined in: [block-kit/block-elements.ts:309](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L309)
@@ -94,7 +94,7 @@ The user ID of any valid user to be pre-selected when the menu loads.
 ### placeholder?
 
 ```ts
-optional placeholder: PlainTextElement;
+optional placeholder?: PlainTextElement;
 ```
 
 Defined in: [block-kit/extensions.ts:57](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/extensions.ts#L57)

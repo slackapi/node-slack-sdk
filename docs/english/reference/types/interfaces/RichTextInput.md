@@ -23,7 +23,7 @@ same experience you have writing messages in Slack.
 ### action\_id?
 
 ```ts
-optional action_id: string;
+optional action_id?: string;
 ```
 
 Defined in: [block-kit/extensions.ts:15](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/extensions.ts#L15)
@@ -41,7 +41,7 @@ among all other `action_id`s in the containing block. Maximum length for this fi
 ### dispatch\_action\_config?
 
 ```ts
-optional dispatch_action_config: DispatchActionConfig;
+optional dispatch_action_config?: DispatchActionConfig;
 ```
 
 Defined in: [block-kit/extensions.ts:33](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/extensions.ts#L33)
@@ -60,7 +60,7 @@ A [DispatchActionConfig](DispatchActionConfig.md) object that determines when du
 ### focus\_on\_load?
 
 ```ts
-optional focus_on_load: boolean;
+optional focus_on_load?: boolean;
 ```
 
 Defined in: [block-kit/extensions.ts:42](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/extensions.ts#L42)
@@ -80,7 +80,7 @@ Defaults to `false`.
 ### initial\_value?
 
 ```ts
-optional initial_value: RichTextBlock;
+optional initial_value?: RichTextBlock;
 ```
 
 Defined in: [block-kit/block-elements.ts:1068](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L1068)
@@ -91,10 +91,39 @@ Initial contents of the input when it is loaded.
 
 ***
 
+### max\_lines?
+
+```ts
+optional max_lines?: number;
+```
+
+Defined in: [block-kit/block-elements.ts:1077](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L1077)
+
+#### Description
+
+The maximum number of lines of text shown in the input before it scrolls. Must be between 1 and 100.
+Defaults to `8` when not specified.
+
+***
+
+### min\_lines?
+
+```ts
+optional min_lines?: number;
+```
+
+Defined in: [block-kit/block-elements.ts:1072](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L1072)
+
+#### Description
+
+The minimum number of lines of text shown in the input. Must be between 1 and 100.
+
+***
+
 ### placeholder?
 
 ```ts
-optional placeholder: PlainTextElement;
+optional placeholder?: PlainTextElement;
 ```
 
 Defined in: [block-kit/extensions.ts:57](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/extensions.ts#L57)

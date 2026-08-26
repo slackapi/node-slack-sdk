@@ -61,7 +61,7 @@ Defined in: [events/steps-from-apps.ts:45](https://github.com/slackapi/node-slac
 ### workflow\_published\_configuration?
 
 ```ts
-optional workflow_published_configuration: object;
+optional workflow_published_configuration?: object;
 ```
 
 Defined in: [events/steps-from-apps.ts:54](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/steps-from-apps.ts#L54)
