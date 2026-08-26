@@ -31,7 +31,7 @@ It may be helpful to read the tutorials on [getting started](https://docs.slack.
 This package exposes an `InstallProvider` class, which sets up the required configuration and exposes methods such as `generateInstallUrl`, `handleCallback`, `authorize` for use within your apps. At a minimum, `InstallProvider` takes a `clientId` and `clientSecret` (both which can be obtained under the **Basic Information** of your app configuration). `InstallProvider` also requires a `stateSecret`, which is used to encode the generated state, and later used to decode that same state to verify it wasn't tampered with during the OAuth flow. **Note**: This example is not ready for production because it only stores installations (tokens) in memory. Please go to the [storing installations in a database](#storing-installations-in-a-database) section to learn how to plug in your own database.
 
 ```javascript
-const { InstallProvider } = require('@slack/oauth');
+import { InstallProvider } from '@slack/oauth';
 
 // initialize the installProvider
 const installer = new InstallProvider({
@@ -47,7 +47,7 @@ const installer = new InstallProvider({
 </summary>
 
   ```javascript
-  const { InstallProvider } = require('@slack/oauth');
+  import { InstallProvider } from '@slack/oauth';
 
   // initialize the installProvider
   const installer = new InstallProvider({
@@ -98,7 +98,7 @@ installer.generateInstallUrl({
 After the user approves the request to install your app (and grants access to the required permissions), Slack will redirect the user to your specified **redirect url**. You can either set the redirect url in the app’s **OAuth and Permissions** page or pass a `redirectUri` when calling `installProvider.generateInstallUrl`. Your HTTP server should handle requests to the redirect URL by calling the `installProvider.handleCallback()` method. The first two arguments (`req`, `res`) to `installProvider.handleCallback` are required. By default, if the installation is successful the user will be redirected back to your App Home in Slack (or redirected back to the last open workspace in your slack app for classic Slack apps). If the installation is not successful the user will be shown an error page.
 
 ```javascript
-const { createServer } = require('http');
+import { createServer } from 'node:http';
 
 const server = createServer((req, res) =>  {
   // our redirect_uri is /slack/oauth_redirect
@@ -291,6 +291,41 @@ const installer = new InstallProvider({
 ```
 ---
 
+### Handle errors
+
+Methods on `InstallProvider` reject with an `Error` when something goes wrong. Each kind of error is its own class, all extending the `SlackOAuthError` base class, so you can use an `instanceof` check to decide how to respond. For example, `authorize()` throws an `AuthorizationError` when it can't fetch an installation.
+
+```javascript
+import { AuthorizationError } from '@slack/oauth';
+
+try {
+  await installer.authorize({ teamId, enterpriseId });
+} catch (error) {
+  if (error instanceof AuthorizationError) {
+    // The underlying error is in `cause`.
+    console.log(error.cause);
+  }
+}
+```
+
+To catch any error thrown by this package, check against the `SlackOAuthError` base class:
+
+```javascript
+import { SlackOAuthError } from '@slack/oauth';
+
+try {
+  const installUrl = await installer.generateInstallUrl({ scopes: ['channels:read'] });
+} catch (error) {
+  if (error instanceof SlackOAuthError) {
+    console.log(error.code, error.message);
+  }
+}
+```
+
+Other error classes include `InstallerInitializationError`, `GenerateInstallUrlError`, `MissingStateError`, `InvalidStateError`, `MissingCodeError`, and `UnknownError`. They all extend `SlackOAuthError`, so an `instanceof SlackOAuthError` check catches any of them.
+
+---
+
 ### Setting the log level and using a custom logger
 
 The `InstallProvider` will log interesting information to the console by default. You can use the `logLevel` to decide how
@@ -300,7 +335,7 @@ in development, it's sometimes helpful to set this to the most verbose: `LogLeve
 
 ```javascript
 // Import LogLevel from the package
-const { InstallProvider, LogLevel } = require('@slack/oauth');
+import { InstallProvider, LogLevel } from '@slack/oauth';
 
 // Log level is one of the options you can set in the constructor
 const installer = new InstallProvider({
@@ -333,7 +368,7 @@ specific methods (known as the `Logger` interface):
 A very simple custom logger might ignore the name and level, and write all messages to a file.
 
 ```javascript
-const { createWriteStream } = require('fs');
+import { createWriteStream } from 'node:fs';
 const logWritable = createWriteStream('/var/my_log_file'); // Not shown: close this stream
 
 const installer = new InstallProvider({

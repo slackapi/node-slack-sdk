@@ -78,14 +78,14 @@ npm run build --workspace=@slack/socket-mode
 2. **Request types ARE manually maintained** — `packages/web-api/src/types/request/` is hand-written code; edit these responsibly.
 3. **Build packages in dependency order** — see the dependency graph above.
 4. **Use Biome**, not ESLint or Prettier — config is in `biome.json` at repo root.
-5. **TypeScript 5.9.3**, Node 18+ (tested on Node 18, 20, 22, 24).
+5. **TypeScript 5.9.3**. The minimum supported Node.js version is the `engines.node` field in each package's `package.json`.
 
 ## Code Conventions
 
 - **Formatting**: configured in `biome.json`
 - **Test files**: `*.test.{ts,js}` using `node:test` + `node:assert/strict`; coverage via `--experimental-test-coverage`
 - **Type tests**: `*.test-d.ts` using tsd
-- **CI matrix**: Node 18.x, 20.x, 22.x, 24.x on Ubuntu + Windows
+- **CI matrix**: the tested Node versions and operating systems are defined in `.github/workflows/ci-build.yml` (the `matrix` block).
 
 ## Package-Level AGENTS.md
 
@@ -106,6 +106,10 @@ Individual packages have their own `AGENTS.md` with package-specific guidance:
 ### Adding a New Block Kit Type
 
 Block Kit types are defined in the `@slack/types` package. See `packages/types/AGENTS.md` for detailed steps covering interface definition, discriminated union registration, barrel exports, and type tests.
+
+## Pull Requests
+
+When opening a pull request, use the repository's PR template at `.github/pull_request_template.md` as the PR body — the `gh` CLI does not populate it automatically, so pass the filled-in template explicitly (e.g. via `gh pr create --body-file`). Fill in every section.
 
 ## Common Pitfalls
 

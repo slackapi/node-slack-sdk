@@ -15,6 +15,7 @@ export type CanvasesSectionsLookupResponse = WebAPICallResult & {
   provided?: string;
   response_metadata?: ResponseMetadata;
   sections?: Section[];
+  warning?: string;
 };
 
 export interface ResponseMetadata {

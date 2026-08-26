@@ -13,7 +13,8 @@
       "prod-server-integration-tests/**",
       "!!packages/client",
       "!!packages/events-api",
-      "!!packages/interactive-messages"
+      "!!packages/interactive-messages",
+      "!packages/**/*.svg"
     ]
   },
   "formatter": {

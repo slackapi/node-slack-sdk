@@ -21,7 +21,7 @@ walk you through building your first Slack app using Node.js.
 
 | Slack API    | Use | NPM Package      |
 |--------------|--------------|-------------------|
-| Web API      | Send data to or query data from Slack using any of [over 220 methods](https://docs.slack.dev/reference/methods). | [`@slack/web-api`](https://docs.slack.dev/tools/node-slack-sdk/web-api) |
+| Web API      | Send data to or query data from Slack using any of [over 270 methods](https://docs.slack.dev/reference/methods). | [`@slack/web-api`](https://docs.slack.dev/tools/node-slack-sdk/web-api) |
 | OAuth        | Set up the authentication flow using V2 OAuth for Slack apps as well as V1 OAuth for classic Slack apps. | [`@slack/oauth`](https://docs.slack.dev/tools/node-slack-sdk/oauth) |
 | Incoming Webhooks | Send notifications to a single channel which the user picks on installation. | [`@slack/webhook`](https://docs.slack.dev/tools/node-slack-sdk/webhook) |
 | Socket Mode  | Listen for incoming messages and a limited set of events happening in Slack, using WebSocket. | [`@slack/socket-mode`](https://docs.slack.dev/tools/node-slack-sdk/socket-mode) |
@@ -51,11 +51,11 @@ package's documentation, linked in the table above.
 
 Your app will interact with the Web API through the `WebClient` object, which is an export from `@slack/web-api`. You
 typically instantiate a client with a token you received from Slack. The example below shows how to post a message into
-a channel, DM, MPDM, or group. The `WebClient` object makes it simple to call any of the [**over 130 Web API
+a channel, DM, MPDM, or group. The `WebClient` object makes it simple to call any of the [**over 270 Web API
 methods**](https://docs.slack.dev/reference/methods).
 
 ```javascript
-const { WebClient } = require('@slack/web-api');
+import { WebClient } from '@slack/web-api';
 
 // An access token (from your Slack app or custom integration - xoxp, xoxb)
 const token = process.env.SLACK_TOKEN;
@@ -94,7 +94,7 @@ Refer to [the module document page](https://docs.slack.dev/tools/node-slack-sdk/
 
 ## Requirements
 
-This package supports Node v18 and higher. It's highly recommended to use [the latest LTS version of
+This package supports Node v20 and higher. It's highly recommended to use [the latest LTS version of
 node](https://github.com/nodejs/Release#release-schedule), and the documentation is written using syntax and features
 from that version.
 

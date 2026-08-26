@@ -1,9 +1,9 @@
-import type { OperationOptions } from 'retry';
+import type { WrapOptions } from 'retry';
 
 /**
  * Options to create retry policies. Extends from https://github.com/tim-kos/node-retry.
  */
-export interface RetryOptions extends OperationOptions {}
+export interface RetryOptions extends WrapOptions {}
 
 /**
  * The default retry policy. Retry up to 10 times, over the span of about 30 minutes. It's not exact because

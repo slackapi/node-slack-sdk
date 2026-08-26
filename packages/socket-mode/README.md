@@ -25,7 +25,7 @@ Note: **Socket Mode** requires the `connections:write` scope. Navigate to your [
 
 
 ```javascript
-const { SocketModeClient } = require('@slack/socket-mode');
+import { SocketModeClient } from '@slack/socket-mode';
 
 // Read a token from the environment variables
 const appToken = process.env.SLACK_APP_TOKEN;
@@ -39,7 +39,7 @@ const client = new SocketModeClient({appToken});
 Connecting is as easy as calling the `.start()` method.
 
 ```javascript
-const { SocketModeClient } = require('@slack/socket-mode');
+import { SocketModeClient } from '@slack/socket-mode';
 const appToken = process.env.SLACK_APP_TOKEN;
 
 const socketModeClient = new SocketModeClient({appToken});
@@ -59,7 +59,7 @@ The `event` argument passed to the listener is an object. Its contents correspon
 event](https://docs.slack.dev/reference/events) it's registered for.
 
 ```javascript
-const { SocketModeClient } = require('@slack/socket-mode');
+import { SocketModeClient } from '@slack/socket-mode';
 const appToken = process.env.SLACK_APP_TOKEN;
 
 const socketModeClient = new SocketModeClient({appToken});
@@ -79,10 +79,10 @@ socketModeClient.on('message', (event) => {
 To respond to events and send messages back into Slack, we recommend using the `@slack/web-api` package with a [bot token](https://docs.slack.dev/authentication/tokens#bot).
 
 ```javascript
-const { SocketModeClient } = require('@slack/socket-mode');
-const { WebClient } = require('@slack/web-api');
+import { SocketModeClient } from '@slack/socket-mode';
+import { WebClient } from '@slack/web-api';
 
-const socketModeClient = new SocketModeClient(process.env.SLACK_APP_TOKEN);
+const socketModeClient = new SocketModeClient({ appToken: process.env.SLACK_APP_TOKEN });
 const webClient = new WebClient(process.env.BOT_TOKEN);
 
 // Attach listeners to events by type. See: https://docs.slack.dev/reference/events/message
@@ -144,13 +144,49 @@ The client also emits events that are part of its lifecycle, but aren't states. 
 
 ---
 
+### Handle errors
+
+Because the client is an `EventEmitter`, errors are delivered to your `error` listener rather than thrown. Each kind of error is its own class, all extending the `SlackSocketModeError` base class, so you can use an `instanceof` check to decide how to respond.
+
+```javascript
+import {
+  SocketModeClient,
+  SMWebsocketError,
+  SMPlatformError,
+  SMSendWhileDisconnectedError,
+} from '@slack/socket-mode';
+
+const client = new SocketModeClient({ appToken: process.env.SLACK_APP_TOKEN });
+
+client.on('error', (error) => {
+  if (error instanceof SMWebsocketError) {
+    // A WebSocket connection or protocol failure. The underlying error is on `cause`.
+    console.log('WebSocket issue:', error.cause);
+  } else if (error instanceof SMPlatformError) {
+    // Slack returned an API error. The response is on `data`.
+    console.log('Platform error:', error.data);
+  } else if (error instanceof SMSendWhileDisconnectedError) {
+    // Tried to send a message while the client was disconnected.
+    console.log('Not connected, will retry...');
+  }
+});
+
+(async () => {
+  await client.start();
+})();
+```
+
+Other error classes you might encounter include `SMNoReplyReceivedError` (the server didn't acknowledge a sent message in time) and `SMSendWhileNotReadyError` (a message was sent before the client was fully ready). They all extend `SlackSocketModeError`, so an `instanceof SlackSocketModeError` check catches any of them.
+
+---
+
 ### Logging
 
 The `SocketModeClient` will log information to the console by default. You can use the `logLevel` to decide how much or what kind of information should be output. There are a few possible log levels, which you can find in the `LogLevel` export. By default, the value is set to `LogLevel.INFO`. While you're in development, it's sometimes helpful to set this to the most verbose: `LogLevel.DEBUG`.
 
 ```javascript
 // Import LogLevel from the package
-const { SocketModeClient, LogLevel } = require('@slack/socket-mode');
+import { SocketModeClient, LogLevel } from '@slack/socket-mode';
 const appToken = process.env.SLACK_APP_TOKEN;
 
 // Log level is one of the options you can set in the constructor
@@ -186,7 +222,7 @@ You can also choose to have logs sent to a custom logger using the `logger` opti
 A very simple custom logger might ignore the name and level, and write all messages to a file.
 
 ```javascript
-const { createWriteStream } = require('fs');
+import { createWriteStream } from 'node:fs';
 const logWritable = createWriteStream('/var/my_log_file'); // Not shown: close this stream
 
 const socketModeClient = new SocketModeClient({

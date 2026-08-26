@@ -49,12 +49,12 @@
   },
   "dependencies": {
     "minimist": "^1.2.8",
-    "semver": "^7.5.4"
+    "semver": "^7.8.5"
   },
   "devDependencies": {
     "@types/minimist": "^1.2.5",
-    "@types/semver": "^7.5.6",
-    "@types/sinon": "^21.0.0",
-    "sinon": "^21.0.0"
+    "@types/semver": "^7.8.0",
+    "@types/sinon": "^22.0.0",
+    "sinon": "^22.1.0"
   }
 }

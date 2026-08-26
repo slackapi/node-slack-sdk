@@ -47,8 +47,8 @@
     "jsonwebtoken": "^9"
   },
   "devDependencies": {
-    "@types/sinon": "^21",
+    "@types/sinon": "^22.0.0",
     "rewiremock": "^3",
-    "sinon": "^21"
+    "sinon": "^22.1.0"
   }
 }
