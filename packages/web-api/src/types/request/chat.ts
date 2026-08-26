@@ -290,7 +290,7 @@ export type ChatStopStreamArguments = TokenOverridable &
      */
     blocks?: (KnownBlock | Block)[];
     /**
-     * @description The session status to set after stopping the stream. Defaults to `active`.
+     * @description The session status to set after stopping the stream.
      */
     session_status?: string;
   };
