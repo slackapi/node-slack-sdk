@@ -1,7 +1,7 @@
 import { expectAssignable, expectError } from 'tsd';
 import { WebClient } from '../../../src/WebClient';
 
-const web = new WebClient('TOKEN');
+const web = new WebClient();
 
 // blocks.validate
 // -- happy path
