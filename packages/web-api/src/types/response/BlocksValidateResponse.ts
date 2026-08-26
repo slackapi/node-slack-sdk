@@ -27,8 +27,8 @@ export interface Error {
 }
 
 export interface Constraint {
-  expected?: string[] | number;
-  got?: number | string;
+  expected?: string[];
+  got?: string;
   type?: string;
 }
 
