@@ -1,5 +1,6 @@
 import { channel } from 'node:diagnostics_channel';
 import type { Socket } from 'node:net';
+import type { TLSSocket } from 'node:tls';
 
 import type { EventEmitter } from 'eventemitter3';
 import { Agent, buildConnector, CloseEvent, type Dispatcher, ErrorEvent, MessageEvent, ping, WebSocket } from 'undici';
@@ -76,9 +77,7 @@ export class SlackWebSocket {
 
   private websocket: WebSocket | null;
 
-  private capturedSocket: Socket | null = null;
-
-  private ownAgent: Agent | null = null;
+  private defaultSocket: Socket | TLSSocket | null = null;
 
   /**
    * The last timetamp that this WebSocket received pong from the server
@@ -153,25 +152,9 @@ export class SlackWebSocket {
   public connect(): void {
     this.logger.debug('Initiating new WebSocket connection.');
 
-    let dispatcher: Dispatcher;
-    if (this.options.dispatcher) {
-      dispatcher = this.options.dispatcher as Dispatcher;
-    } else {
-      const baseConnect = buildConnector({});
-      this.ownAgent = new Agent({
-        connect: (opts, cb) => {
-          baseConnect(opts, (err, socket) => {
-            if (err) {
-              cb(err, null);
-              return;
-            }
-            this.capturedSocket = socket as Socket;
-            cb(null, socket as Socket);
-          });
-        },
-      });
-      dispatcher = this.ownAgent;
-    }
+    const dispatcher: Dispatcher = this.options.dispatcher
+      ? (this.options.dispatcher as Dispatcher)
+      : this.buildDefaultDispatcher();
     this.websocket = new WebSocket(this.options.url, { dispatcher });
 
     this.openHandler = () => {
@@ -242,6 +225,27 @@ export class SlackWebSocket {
   }
 
   /**
+   * The `connect` hook captures the underlying socket into `this.defaultSocket` so `cleanup()` can
+   * force-destroy it: undici's `WebSocket` hides its socket and detaches it from the pool at upgrade,
+   * leaving no other way to close a stalled peer.
+   */
+  private buildDefaultDispatcher(): Dispatcher {
+    const baseConnect = buildConnector({});
+    return new Agent({
+      connect: (opts, cb) => {
+        baseConnect(opts, (err, socket) => {
+          if (!socket) {
+            cb(err ?? new Error('Socket Mode connector returned no socket'), null);
+            return;
+          }
+          this.defaultSocket = socket;
+          cb(null, socket);
+        });
+      },
+    });
+  }
+
+  /**
    * Disconnects the WebSocket connection with Slack, if connected.
    */
   public disconnect(): void {
@@ -288,14 +292,10 @@ export class SlackWebSocket {
     if (this.pongHandler) SlackWebSocket.pongChannel.unsubscribe(this.pongHandler);
     this.pingHandler = null;
     this.pongHandler = null;
-    if (this.capturedSocket && !this.capturedSocket.destroyed) {
-      this.capturedSocket.destroy();
+    if (this.defaultSocket && !this.defaultSocket.destroyed) {
+      this.defaultSocket.destroy();
     }
-    this.capturedSocket = null;
-    if (this.ownAgent) {
-      this.ownAgent.destroy().catch(() => {});
-      this.ownAgent = null;
-    }
+    this.defaultSocket = null;
     this.websocket = null;
     clearTimeout(this.serverPingTimeout);
     clearInterval(this.clientPingTimeout);

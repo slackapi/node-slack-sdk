@@ -169,7 +169,7 @@ describe('SlackWebSocket', () => {
         serverPingTimeoutMS: 1,
       });
       const destroy = sandbox.spy();
-      (sws as unknown as { capturedSocket: { destroy: () => void; destroyed: boolean } }).capturedSocket = {
+      (sws as unknown as { defaultSocket: { destroy: () => void; destroyed: boolean } }).defaultSocket = {
         destroy,
         destroyed: false,
       };
