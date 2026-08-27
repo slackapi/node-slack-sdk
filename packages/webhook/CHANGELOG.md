@@ -1,11 +1,5 @@
 # @slack/webhook
 
-## 8.0.2
-
-### Patch Changes
-
-- aef66ac: fix: revert internal packages requiring esm loading for backward compatible support ([#2711](https://github.com/slackapi/node-slack-sdk/issues/2711))
-
 ## 8.0.1
 
 ### Patch Changes
