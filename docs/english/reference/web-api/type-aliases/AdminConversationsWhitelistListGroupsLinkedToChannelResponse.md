@@ -13,41 +13,41 @@ Defined in: [packages/web-api/src/types/response/AdminConversationsWhitelistList
 ### error?
 
 ```ts
-optional error: string;
+optional error?: string;
 ```
 
 ### group\_ids?
 
 ```ts
-optional group_ids: string[];
+optional group_ids?: string[];
 ```
 
 ### needed?
 
 ```ts
-optional needed: string;
+optional needed?: string;
 ```
 
 ### ok?
 
 ```ts
-optional ok: boolean;
+optional ok?: boolean;
 ```
 
 ### provided?
 
 ```ts
-optional provided: string;
+optional provided?: string;
 ```
 
 ### response\_metadata?
 
 ```ts
-optional response_metadata: ResponseMetadata;
+optional response_metadata?: ResponseMetadata;
 ```
 
 ### warning?
 
 ```ts
-optional warning: string;
+optional warning?: string;
 ```

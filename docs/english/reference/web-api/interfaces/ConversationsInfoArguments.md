@@ -33,7 +33,7 @@ Channel.channel
 ### include\_locale?
 
 ```ts
-optional include_locale: boolean;
+optional include_locale?: boolean;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:51](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L51)
@@ -53,7 +53,7 @@ LocaleAware.include_locale
 ### include\_num\_members?
 
 ```ts
-optional include_num_members: boolean;
+optional include_num_members?: boolean;
 ```
 
 Defined in: [packages/web-api/src/types/request/conversations.ts:105](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/conversations.ts#L105)
@@ -67,7 +67,7 @@ Set to `true` to include the member count for the specified conversation. Defaul
 ### token?
 
 ```ts
-optional token: string;
+optional token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)

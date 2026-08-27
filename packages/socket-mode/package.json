@@ -67,7 +67,7 @@
     "sinon": "^22.1.0",
     "tsd": "^0.33.0",
     "undici": "^7.25.0",
-    "ws": "^8"
+    "ws": "^8.21.3"
   },
   "tsd": {
     "directory": "test/types"

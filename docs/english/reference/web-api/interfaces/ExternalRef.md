@@ -19,7 +19,7 @@ Defined in: packages/types/dist/message-metadata.d.ts:59
 ### type?
 
 ```ts
-optional type: string;
+optional type?: string;
 ```
 
 Defined in: packages/types/dist/message-metadata.d.ts:60

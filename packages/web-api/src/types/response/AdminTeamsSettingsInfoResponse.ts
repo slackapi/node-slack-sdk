@@ -14,6 +14,7 @@ export type AdminTeamsSettingsInfoResponse = WebAPICallResult & {
   ok?: boolean;
   provided?: string;
   team?: Team;
+  warning?: string;
 };
 
 export interface Team {

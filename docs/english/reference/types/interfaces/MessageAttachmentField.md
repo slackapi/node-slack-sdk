@@ -17,7 +17,7 @@ A field object to include in a [MessageAttachment](MessageAttachment.md).
 ### short?
 
 ```ts
-optional short: boolean;
+optional short?: boolean;
 ```
 
 Defined in: [message-attachments.ts:138](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-attachments.ts#L138)

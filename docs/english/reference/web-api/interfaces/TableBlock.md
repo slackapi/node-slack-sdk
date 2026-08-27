@@ -21,7 +21,7 @@ Displays structured information in a table.
 ### block\_id?
 
 ```ts
-optional block_id: string;
+optional block_id?: string;
 ```
 
 Defined in: packages/types/dist/block-kit/blocks.d.ts:15
@@ -43,7 +43,7 @@ a message. If a message is updated, use a new `block_id`.
 ### column\_settings?
 
 ```ts
-optional column_settings: TableBlockColumnSettings[];
+optional column_settings?: TableBlockColumnSettings[];
 ```
 
 Defined in: packages/types/dist/block-kit/blocks.d.ts:354

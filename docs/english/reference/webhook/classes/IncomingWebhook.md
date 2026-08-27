@@ -46,9 +46,10 @@ Send a notification to a conversation
 
 ##### message
 
-the message (a simple string, or an object describing the message)
+  \| `string`
+  \| [`IncomingWebhookSendArguments`](../interfaces/IncomingWebhookSendArguments.md)
 
-`string` | [`IncomingWebhookSendArguments`](../interfaces/IncomingWebhookSendArguments.md)
+the message (a simple string, or an object describing the message)
 
 #### Returns
 

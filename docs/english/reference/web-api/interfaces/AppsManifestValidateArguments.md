@@ -13,7 +13,7 @@ Defined in: [packages/web-api/src/types/request/apps.ts:31](https://github.com/s
 ### app\_id?
 
 ```ts
-optional app_id: string;
+optional app_id?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:101](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L101)
@@ -41,7 +41,7 @@ Defined in: [packages/web-api/src/types/request/apps.ts:32](https://github.com/s
 ### token?
 
 ```ts
-optional token: string;
+optional token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)

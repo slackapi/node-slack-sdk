@@ -9,7 +9,7 @@ Defined in: [events/message.ts:276](https://github.com/slackapi/node-slack-sdk/b
 ### attachments?
 
 ```ts
-optional attachments: MessageAttachment[];
+optional attachments?: MessageAttachment[];
 ```
 
 Defined in: [events/message.ts:281](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/message.ts#L281)
@@ -19,7 +19,7 @@ Defined in: [events/message.ts:281](https://github.com/slackapi/node-slack-sdk/b
 ### blocks?
 
 ```ts
-optional blocks: (Block | KnownBlock)[];
+optional blocks?: (Block | KnownBlock)[];
 ```
 
 Defined in: [events/message.ts:282](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/message.ts#L282)
@@ -133,7 +133,7 @@ Defined in: [events/message.ts:280](https://github.com/slackapi/node-slack-sdk/b
 ### thread\_ts?
 
 ```ts
-optional thread_ts: string;
+optional thread_ts?: string;
 ```
 
 Defined in: [events/message.ts:285](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/message.ts#L285)

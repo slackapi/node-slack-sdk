@@ -13,7 +13,7 @@ Defined in: [packages/web-api/src/types/request/migration.ts:4](https://github.c
 ### team\_id?
 
 ```ts
-optional team_id: string;
+optional team_id?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:70](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L70)
@@ -33,7 +33,7 @@ OptionalTeamAssignable.team_id
 ### to\_old?
 
 ```ts
-optional to_old: boolean;
+optional to_old?: boolean;
 ```
 
 Defined in: [packages/web-api/src/types/request/migration.ts:8](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/migration.ts#L8)
@@ -47,7 +47,7 @@ Specify `true` to convert `W` global user IDs to workspace-specific `U` IDs. Def
 ### token?
 
 ```ts
-optional token: string;
+optional token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)

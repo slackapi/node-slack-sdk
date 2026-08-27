@@ -13,29 +13,29 @@ Defined in: [packages/web-api/src/types/response/AdminConversationsGetConversati
 ### error?
 
 ```ts
-optional error: string;
+optional error?: string;
 ```
 
 ### needed?
 
 ```ts
-optional needed: string;
+optional needed?: string;
 ```
 
 ### ok?
 
 ```ts
-optional ok: boolean;
+optional ok?: boolean;
 ```
 
 ### prefs?
 
 ```ts
-optional prefs: Prefs;
+optional prefs?: Prefs;
 ```
 
 ### provided?
 
 ```ts
-optional provided: string;
+optional provided?: string;
 ```

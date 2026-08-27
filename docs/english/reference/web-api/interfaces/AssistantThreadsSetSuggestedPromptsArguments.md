@@ -41,7 +41,7 @@ Prompt suggestions that appear when opening assistant thread.
 ### thread\_ts?
 
 ```ts
-optional thread_ts: string;
+optional thread_ts?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/assistant.ts:37](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/assistant.ts#L37)
@@ -55,7 +55,7 @@ Message timestamp of the thread.
 ### title?
 
 ```ts
-optional title: string;
+optional title?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/assistant.ts:39](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/assistant.ts#L39)
@@ -69,7 +69,7 @@ Title for the prompts.
 ### token?
 
 ```ts
-optional token: string;
+optional token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)

@@ -17,7 +17,7 @@ Defines an object containing some text.
 ### emoji?
 
 ```ts
-optional emoji: boolean;
+optional emoji?: boolean;
 ```
 
 Defined in: [block-kit/composition-objects.ts:150](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/composition-objects.ts#L150)

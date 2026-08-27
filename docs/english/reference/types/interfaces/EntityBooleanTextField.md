@@ -9,7 +9,7 @@ Defined in: [message-metadata.ts:246](https://github.com/slackapi/node-slack-sdk
 ### false\_description?
 
 ```ts
-optional false_description: string;
+optional false_description?: string;
 ```
 
 Defined in: [message-metadata.ts:251](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L251)
@@ -29,7 +29,7 @@ Defined in: [message-metadata.ts:249](https://github.com/slackapi/node-slack-sdk
 ### true\_description?
 
 ```ts
-optional true_description: string;
+optional true_description?: string;
 ```
 
 Defined in: [message-metadata.ts:250](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L250)

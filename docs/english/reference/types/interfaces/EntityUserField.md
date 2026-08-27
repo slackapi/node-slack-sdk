@@ -9,7 +9,7 @@ Defined in: [message-metadata.ts:225](https://github.com/slackapi/node-slack-sdk
 ### email?
 
 ```ts
-optional email: string;
+optional email?: string;
 ```
 
 Defined in: [message-metadata.ts:228](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L228)
@@ -19,7 +19,7 @@ Defined in: [message-metadata.ts:228](https://github.com/slackapi/node-slack-sdk
 ### icon?
 
 ```ts
-optional icon: EntityIconField;
+optional icon?: EntityIconField;
 ```
 
 Defined in: [message-metadata.ts:229](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L229)
@@ -39,7 +39,7 @@ Defined in: [message-metadata.ts:226](https://github.com/slackapi/node-slack-sdk
 ### url?
 
 ```ts
-optional url: string;
+optional url?: string;
 ```
 
 Defined in: [message-metadata.ts:227](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L227)

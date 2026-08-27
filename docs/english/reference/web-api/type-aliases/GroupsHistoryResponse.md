@@ -13,53 +13,53 @@ Defined in: [packages/web-api/src/types/response/GroupsHistoryResponse.ts:11](ht
 ### channel\_actions\_count?
 
 ```ts
-optional channel_actions_count: number;
+optional channel_actions_count?: number;
 ```
 
 ### error?
 
 ```ts
-optional error: string;
+optional error?: string;
 ```
 
 ### has\_more?
 
 ```ts
-optional has_more: boolean;
+optional has_more?: boolean;
 ```
 
 ### messages?
 
 ```ts
-optional messages: Message[];
+optional messages?: Message[];
 ```
 
 ### needed?
 
 ```ts
-optional needed: string;
+optional needed?: string;
 ```
 
 ### ok?
 
 ```ts
-optional ok: boolean;
+optional ok?: boolean;
 ```
 
 ### provided?
 
 ```ts
-optional provided: string;
+optional provided?: string;
 ```
 
 ### response\_metadata?
 
 ```ts
-optional response_metadata: ResponseMetadata;
+optional response_metadata?: ResponseMetadata;
 ```
 
 ### warning?
 
 ```ts
-optional warning: string;
+optional warning?: string;
 ```

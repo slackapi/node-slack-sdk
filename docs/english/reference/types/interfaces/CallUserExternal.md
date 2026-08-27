@@ -9,7 +9,7 @@ Defined in: [calls.ts:18](https://github.com/slackapi/node-slack-sdk/blob/main/p
 ### avatar\_url?
 
 ```ts
-optional avatar_url: string;
+optional avatar_url?: string;
 ```
 
 Defined in: [calls.ts:30](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/calls.ts#L30)

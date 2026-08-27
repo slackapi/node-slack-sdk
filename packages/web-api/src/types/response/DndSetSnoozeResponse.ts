@@ -17,4 +17,5 @@ export type DndSetSnoozeResponse = WebAPICallResult & {
   snooze_endtime?: number;
   snooze_is_indefinite?: boolean;
   snooze_remaining?: number;
+  warning?: string;
 };

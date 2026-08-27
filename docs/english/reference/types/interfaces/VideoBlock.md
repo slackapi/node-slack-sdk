@@ -37,7 +37,7 @@ A tooltip for the video. Required for accessibility.
 ### author\_name?
 
 ```ts
-optional author_name: string;
+optional author_name?: string;
 ```
 
 Defined in: [block-kit/blocks.ts:583](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L583)
@@ -51,7 +51,7 @@ Author name to be displayed. Must be less than 50 characters.
 ### block\_id?
 
 ```ts
-optional block_id: string;
+optional block_id?: string;
 ```
 
 Defined in: [block-kit/blocks.ts:49](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L49)
@@ -73,7 +73,7 @@ a message. If a message is updated, use a new `block_id`.
 ### description?
 
 ```ts
-optional description: PlainTextElement;
+optional description?: PlainTextElement;
 ```
 
 Defined in: [block-kit/blocks.ts:595](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L595)
@@ -87,7 +87,7 @@ Description for video using a [PlainTextElement](PlainTextElement.md) object.
 ### provider\_icon\_url?
 
 ```ts
-optional provider_icon_url: string;
+optional provider_icon_url?: string;
 ```
 
 Defined in: [block-kit/blocks.ts:591](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L591)
@@ -101,7 +101,7 @@ Icon for the video provider, e.g. YouTube icon.
 ### provider\_name?
 
 ```ts
-optional provider_name: string;
+optional provider_name?: string;
 ```
 
 Defined in: [block-kit/blocks.ts:587](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L587)
@@ -143,7 +143,7 @@ Video title as a [PlainTextElement](PlainTextElement.md) object. `text` within m
 ### title\_url?
 
 ```ts
-optional title_url: string;
+optional title_url?: string;
 ```
 
 Defined in: [block-kit/blocks.ts:579](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L579)

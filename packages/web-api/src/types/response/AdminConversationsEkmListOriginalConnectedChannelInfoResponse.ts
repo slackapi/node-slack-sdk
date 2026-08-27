@@ -13,4 +13,5 @@ export type AdminConversationsEkmListOriginalConnectedChannelInfoResponse = WebA
   needed?: string;
   ok?: boolean;
   provided?: string;
+  warning?: string;
 };
