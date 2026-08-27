@@ -231,14 +231,14 @@ export class SlackWebSocket {
   private buildDefaultDispatcher(): Dispatcher {
     const baseConnect = buildConnector({});
     return new Agent({
-      connect: (opts, cb) => {
+      connect: (opts, callback) => {
         baseConnect(opts, (err, socket) => {
           if (!socket) {
-            cb(err ?? new Error('Socket Mode connector returned no socket'), null);
+            callback(err ?? new Error('Socket Mode connector returned no socket'), null);
             return;
           }
           this.defaultSocket = socket;
-          cb(null, socket);
+          callback(null, socket);
         });
       },
     });
