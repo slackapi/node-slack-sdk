@@ -13,7 +13,7 @@ jobs:
     name: Changelog
     runs-on: ubuntu-latest
     outputs:
-      hasChangesets: ${{ steps.changesets.outputs.hasChangesets }}
+      hasChangesets: ${{ steps.changesets.outputs.has-changesets }}
       releaseExists: ${{ steps.published.outputs.exists }}
     permissions:
       contents: write
@@ -59,7 +59,7 @@ jobs:
 
       - name: Check if publish is needed
         id: published
-        if: steps.changesets.outputs.hasChangesets == 'false'
+        if: steps.changesets.outputs.has-changesets == 'false'
         run: |
           EXISTS=true
           for PKG in $(npm query .workspace | jq -r '.[].name'); do
@@ -138,7 +138,7 @@ jobs:
           echo "message=$(echo "$PUBLISHED_PACKAGES" | jq -r '[.[] | "\(.name)@\(.version)"] | join(", ")')" >> "$GITHUB_OUTPUT"
           echo "action_url=$(echo "$PUBLISHED_PACKAGES" | jq -r '[.[] | "https://github.com/${{ github.repository }}/releases/tag/\(.name)@\(.version)"] | join(", ")')" >> "$GITHUB_OUTPUT"
         env:
-          PUBLISHED_PACKAGES: ${{ steps.changesets.outputs.publishedPackages }}
+          PUBLISHED_PACKAGES: ${{ steps.changesets.outputs.published-packages }}
 
       - name: Notify Slack
         if: steps.changesets.outputs.published == 'true'
