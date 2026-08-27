@@ -94,7 +94,7 @@ describe('SlackWebSocket', () => {
     });
   });
 
-  describe('disconnect() with an unresponsive peer (issue #2709)', () => {
+  describe('disconnect() with an unresponsive peer', () => {
     // Peer accepts our close frame but never replies with its own: close() moves to CLOSING
     // and no 'close' event is ever dispatched.
     class DeadPeerWS extends EventTarget {
@@ -160,7 +160,7 @@ describe('SlackWebSocket', () => {
     });
   });
 
-  describe('cleanup() with a captured socket (issue #2709)', () => {
+  describe('cleanup() with a captured socket', () => {
     it('should destroy the captured underlying socket during cleanup', () => {
       const sws = new SlackWebSocket({
         url: 'ws://127.0.0.1/',
@@ -177,6 +177,74 @@ describe('SlackWebSocket', () => {
       sws.disconnect();
 
       sinon.assert.calledOnce(destroy);
+    });
+  });
+
+  describe('buildDefaultDispatcher() connect hook', () => {
+    type ConnectCb = (err: Error | null, socket: unknown) => void;
+    type ConnectFn = (opts: unknown, cb: ConnectCb) => void;
+
+    function loadWith(baseConnect: ConnectFn) {
+      let capturedConnect!: ConnectFn;
+      const SWS = proxyquire.load('./SlackWebSocket', {
+        undici: {
+          WebSocket: WSMock,
+          CloseEvent,
+          ErrorEvent,
+          MessageEvent,
+          ping: () => {},
+          buildConnector: () => baseConnect,
+          Agent: class {
+            constructor(o: { connect: ConnectFn }) {
+              capturedConnect = o.connect;
+            }
+          },
+        },
+      }).SlackWebSocket;
+      const sws = new SWS({
+        url: 'ws://127.0.0.1/',
+        client: new EventEmitter(),
+        clientPingTimeoutMS: 1,
+        serverPingTimeoutMS: 1,
+      });
+      sws.connect(); // no dispatcher provided => builds the default dispatcher => captures the hook
+      return { sws, invoke: (cb: ConnectCb) => capturedConnect({}, cb) };
+    }
+
+    it('should capture the socket and call back with (null, socket) on success', () => {
+      const fakeSocket = { destroy() {}, destroyed: false };
+      const { sws, invoke } = loadWith((_opts, cb) => cb(null, fakeSocket));
+      let cbErr: unknown = 'unset';
+      let cbSocket: unknown = 'unset';
+      invoke((err, socket) => {
+        cbErr = err;
+        cbSocket = socket;
+      });
+      assert.strictEqual(cbErr, null);
+      assert.strictEqual(cbSocket, fakeSocket);
+      assert.strictEqual((sws as unknown as { defaultSocket: unknown }).defaultSocket, fakeSocket);
+    });
+
+    it('should propagate the connector error and not capture a socket', () => {
+      const boom = new Error('connect failed');
+      const { sws, invoke } = loadWith((_opts, cb) => cb(boom, null));
+      let received: unknown = 'unset';
+      invoke((err) => {
+        received = err;
+      });
+      assert.strictEqual(received, boom);
+      assert.strictEqual((sws as unknown as { defaultSocket: unknown }).defaultSocket, null);
+    });
+
+    it('should synthesize an error when the connector yields no socket and no error', () => {
+      const { sws, invoke } = loadWith((_opts, cb) => cb(null, null));
+      let received: unknown;
+      invoke((err) => {
+        received = err;
+      });
+      assert.ok(received instanceof Error);
+      assert.match((received as Error).message, /returned no socket/);
+      assert.strictEqual((sws as unknown as { defaultSocket: unknown }).defaultSocket, null);
     });
   });
 });
