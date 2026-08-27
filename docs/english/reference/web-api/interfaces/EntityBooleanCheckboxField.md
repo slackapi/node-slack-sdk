@@ -9,7 +9,7 @@ Defined in: packages/types/dist/message-metadata.d.ts:210
 ### description?
 
 ```ts
-optional description: string;
+optional description?: string;
 ```
 
 Defined in: packages/types/dist/message-metadata.d.ts:213

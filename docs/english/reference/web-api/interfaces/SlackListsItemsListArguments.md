@@ -13,7 +13,7 @@ Defined in: [packages/web-api/src/types/request/slackLists.ts:497](https://githu
 ### archived?
 
 ```ts
-optional archived: boolean;
+optional archived?: boolean;
 ```
 
 Defined in: [packages/web-api/src/types/request/slackLists.ts:516](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/slackLists.ts#L516)
@@ -27,7 +27,7 @@ Boolean indicating whether archived items or normal items should be returned.
 ### cursor?
 
 ```ts
-optional cursor: string;
+optional cursor?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/slackLists.ts:511](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/slackLists.ts#L511)
@@ -41,7 +41,7 @@ Next cursor for pagination.
 ### limit?
 
 ```ts
-optional limit: number;
+optional limit?: number;
 ```
 
 Defined in: [packages/web-api/src/types/request/slackLists.ts:506](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/slackLists.ts#L506)
@@ -69,7 +69,7 @@ Encoded ID of the List.
 ### token?
 
 ```ts
-optional token: string;
+optional token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)

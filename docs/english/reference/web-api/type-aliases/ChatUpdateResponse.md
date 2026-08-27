@@ -13,53 +13,59 @@ Defined in: [packages/web-api/src/types/response/ChatUpdateResponse.ts:11](https
 ### channel?
 
 ```ts
-optional channel: string;
+optional channel?: string;
 ```
 
 ### error?
 
 ```ts
-optional error: string;
+optional error?: string;
 ```
 
 ### message?
 
 ```ts
-optional message: Message;
+optional message?: Message;
 ```
 
 ### needed?
 
 ```ts
-optional needed: string;
+optional needed?: string;
 ```
 
 ### ok?
 
 ```ts
-optional ok: boolean;
+optional ok?: boolean;
 ```
 
 ### provided?
 
 ```ts
-optional provided: string;
+optional provided?: string;
 ```
 
 ### response\_metadata?
 
 ```ts
-optional response_metadata: ResponseMetadata;
+optional response_metadata?: ResponseMetadata;
 ```
 
 ### text?
 
 ```ts
-optional text: string;
+optional text?: string;
 ```
 
 ### ts?
 
 ```ts
-optional ts: string;
+optional ts?: string;
+```
+
+### warning?
+
+```ts
+optional warning?: string;
 ```

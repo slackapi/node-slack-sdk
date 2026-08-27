@@ -9,7 +9,7 @@ Defined in: packages/types/dist/message-metadata.d.ts:222
 ### edit?
 
 ```ts
-optional edit: EntityEditSupport;
+optional edit?: EntityEditSupport;
 ```
 
 Defined in: packages/types/dist/message-metadata.d.ts:226
@@ -19,7 +19,7 @@ Defined in: packages/types/dist/message-metadata.d.ts:226
 ### label?
 
 ```ts
-optional label: string;
+optional label?: string;
 ```
 
 Defined in: packages/types/dist/message-metadata.d.ts:224
@@ -29,7 +29,7 @@ Defined in: packages/types/dist/message-metadata.d.ts:224
 ### type?
 
 ```ts
-optional type: string;
+optional type?: string;
 ```
 
 Defined in: packages/types/dist/message-metadata.d.ts:225

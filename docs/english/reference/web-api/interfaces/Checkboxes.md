@@ -22,7 +22,7 @@ Allows users to choose multiple items from a list of options.
 ### action\_id?
 
 ```ts
-optional action_id: string;
+optional action_id?: string;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:12
@@ -40,7 +40,7 @@ among all other `action_id`s in the containing block. Maximum length for this fi
 ### confirm?
 
 ```ts
-optional confirm: ConfirmationDialog;
+optional confirm?: ConfirmationDialog;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:21
@@ -59,7 +59,7 @@ with.
 ### focus\_on\_load?
 
 ```ts
-optional focus_on_load: boolean;
+optional focus_on_load?: boolean;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:36
@@ -79,7 +79,7 @@ Defaults to `false`.
 ### initial\_options?
 
 ```ts
-optional initial_options: Option[];
+optional initial_options?: Option[];
 ```
 
 Defined in: packages/types/dist/block-kit/block-elements.d.ts:59

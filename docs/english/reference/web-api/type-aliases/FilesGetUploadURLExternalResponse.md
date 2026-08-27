@@ -13,41 +13,47 @@ Defined in: [packages/web-api/src/types/response/FilesGetUploadURLExternalRespon
 ### error?
 
 ```ts
-optional error: string;
+optional error?: string;
 ```
 
 ### file\_id?
 
 ```ts
-optional file_id: string;
+optional file_id?: string;
 ```
 
 ### needed?
 
 ```ts
-optional needed: string;
+optional needed?: string;
 ```
 
 ### ok?
 
 ```ts
-optional ok: boolean;
+optional ok?: boolean;
 ```
 
 ### provided?
 
 ```ts
-optional provided: string;
+optional provided?: string;
 ```
 
 ### response\_metadata?
 
 ```ts
-optional response_metadata: ResponseMetadata;
+optional response_metadata?: ResponseMetadata;
 ```
 
 ### upload\_url?
 
 ```ts
-optional upload_url: string;
+optional upload_url?: string;
+```
+
+### warning?
+
+```ts
+optional warning?: string;
 ```

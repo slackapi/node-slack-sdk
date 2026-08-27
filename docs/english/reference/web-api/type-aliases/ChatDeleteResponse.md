@@ -13,35 +13,41 @@ Defined in: [packages/web-api/src/types/response/ChatDeleteResponse.ts:11](https
 ### channel?
 
 ```ts
-optional channel: string;
+optional channel?: string;
 ```
 
 ### error?
 
 ```ts
-optional error: string;
+optional error?: string;
 ```
 
 ### needed?
 
 ```ts
-optional needed: string;
+optional needed?: string;
 ```
 
 ### ok?
 
 ```ts
-optional ok: boolean;
+optional ok?: boolean;
 ```
 
 ### provided?
 
 ```ts
-optional provided: string;
+optional provided?: string;
 ```
 
 ### ts?
 
 ```ts
-optional ts: string;
+optional ts?: string;
+```
+
+### warning?
+
+```ts
+optional warning?: string;
 ```

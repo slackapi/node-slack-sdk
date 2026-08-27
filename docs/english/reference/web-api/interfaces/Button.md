@@ -22,7 +22,7 @@ Allows users a direct path to performing basic actions.
 ### accessibility\_label?
 
 ```ts
-optional accessibility_label: string;
+optional accessibility_label?: string;
 ```
 
 Defined in: packages/types/dist/block-kit/block-elements.d.ts:43
@@ -37,7 +37,7 @@ readers instead of the button `text` object. Maximum length for this field is 75
 ### action\_id?
 
 ```ts
-optional action_id: string;
+optional action_id?: string;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:12
@@ -55,7 +55,7 @@ among all other `action_id`s in the containing block. Maximum length for this fi
 ### confirm?
 
 ```ts
-optional confirm: ConfirmationDialog;
+optional confirm?: ConfirmationDialog;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:21
@@ -74,7 +74,7 @@ with.
 ### style?
 
 ```ts
-optional style: ColorScheme;
+optional style?: ColorScheme;
 ```
 
 Defined in: packages/types/dist/block-kit/block-elements.d.ts:38
@@ -126,7 +126,7 @@ The type of element. In this case `type` is always `button`.
 ### url?
 
 ```ts
-optional url: string;
+optional url?: string;
 ```
 
 Defined in: packages/types/dist/block-kit/block-elements.d.ts:29
@@ -142,7 +142,7 @@ and will need to send an [acknowledgement response](https://docs.slack.dev/inter
 ### value?
 
 ```ts
-optional value: string;
+optional value?: string;
 ```
 
 Defined in: packages/types/dist/block-kit/block-elements.d.ts:23

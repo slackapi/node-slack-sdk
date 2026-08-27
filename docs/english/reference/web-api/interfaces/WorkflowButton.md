@@ -21,7 +21,7 @@ Allows users to run a [link trigger](https://docs.slack.dev/tools/deno-slack-sdk
 ### accessibility\_label?
 
 ```ts
-optional accessibility_label: string;
+optional accessibility_label?: string;
 ```
 
 Defined in: packages/types/dist/block-kit/block-elements.d.ts:694
@@ -36,7 +36,7 @@ readers instead of the button `text` object. Maximum length for this field is 75
 ### confirm?
 
 ```ts
-optional confirm: ConfirmationDialog;
+optional confirm?: ConfirmationDialog;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:21
@@ -55,7 +55,7 @@ with.
 ### style?
 
 ```ts
-optional style: ColorScheme;
+optional style?: ColorScheme;
 ```
 
 Defined in: packages/types/dist/block-kit/block-elements.d.ts:689
@@ -122,7 +122,7 @@ that will be invoked via this button.
 ##### trigger.customizable\_input\_parameters?
 
 ```ts
-optional customizable_input_parameters: object[];
+optional customizable_input_parameters?: object[];
 ```
 
 ###### Description

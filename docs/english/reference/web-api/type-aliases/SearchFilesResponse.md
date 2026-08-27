@@ -13,35 +13,41 @@ Defined in: [packages/web-api/src/types/response/SearchFilesResponse.ts:11](http
 ### error?
 
 ```ts
-optional error: string;
+optional error?: string;
 ```
 
 ### files?
 
 ```ts
-optional files: Files;
+optional files?: Files;
 ```
 
 ### needed?
 
 ```ts
-optional needed: string;
+optional needed?: string;
 ```
 
 ### ok?
 
 ```ts
-optional ok: boolean;
+optional ok?: boolean;
 ```
 
 ### provided?
 
 ```ts
-optional provided: string;
+optional provided?: string;
 ```
 
 ### query?
 
 ```ts
-optional query: string;
+optional query?: string;
+```
+
+### warning?
+
+```ts
+optional warning?: string;
 ```

@@ -59,7 +59,7 @@ deleted: boolean;
 #### enterprise\_user?
 
 ```ts
-optional enterprise_user: object;
+optional enterprise_user?: object;
 ```
 
 ##### enterprise\_user.enterprise\_id
@@ -101,13 +101,13 @@ teams: string[];
 #### has\_2fa?
 
 ```ts
-optional has_2fa: boolean;
+optional has_2fa?: boolean;
 ```
 
 #### has\_files?
 
 ```ts
-optional has_files: boolean;
+optional has_files?: boolean;
 ```
 
 #### id
@@ -143,7 +143,7 @@ is_email_confirmed: boolean;
 #### is\_invited\_user?
 
 ```ts
-optional is_invited_user: boolean;
+optional is_invited_user?: boolean;
 ```
 
 #### is\_owner
@@ -167,7 +167,7 @@ is_restricted: boolean;
 #### is\_stranger?
 
 ```ts
-optional is_stranger: boolean;
+optional is_stranger?: boolean;
 ```
 
 #### is\_ultra\_restricted
@@ -179,7 +179,7 @@ is_ultra_restricted: boolean;
 #### is\_workflow\_bot?
 
 ```ts
-optional is_workflow_bot: boolean;
+optional is_workflow_bot?: boolean;
 ```
 
 #### locale
@@ -197,7 +197,7 @@ name: string;
 #### presence?
 
 ```ts
-optional presence: string;
+optional presence?: string;
 ```
 
 #### profile
@@ -227,7 +227,7 @@ display_name_normalized: string;
 ##### profile.email?
 
 ```ts
-optional email: string;
+optional email?: string;
 ```
 
 ##### profile.fields
@@ -262,7 +262,7 @@ huddle_state_expiration_ts: number;
 ##### profile.image\_1024?
 
 ```ts
-optional image_1024: string;
+optional image_1024?: string;
 ```
 
 ##### profile.image\_192
@@ -304,13 +304,13 @@ image_72: string;
 ##### profile.image\_original?
 
 ```ts
-optional image_original: string;
+optional image_original?: string;
 ```
 
 ##### profile.is\_custom\_image?
 
 ```ts
-optional is_custom_image: boolean;
+optional is_custom_image?: boolean;
 ```
 
 ##### profile.last\_name
@@ -400,7 +400,7 @@ team_id: string;
 #### two\_factor\_type?
 
 ```ts
-optional two_factor_type: string;
+optional two_factor_type?: string;
 ```
 
 #### tz

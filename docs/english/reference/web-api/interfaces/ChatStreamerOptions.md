@@ -9,7 +9,7 @@ Defined in: [packages/web-api/src/chat-stream.ts:7](https://github.com/slackapi/
 ### buffer\_size?
 
 ```ts
-optional buffer_size: number;
+optional buffer_size?: number;
 ```
 
 Defined in: [packages/web-api/src/chat-stream.ts:12](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/chat-stream.ts#L12)

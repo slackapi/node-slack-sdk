@@ -13,89 +13,95 @@ Defined in: [packages/web-api/src/types/response/AuthTestResponse.ts:11](https:/
 ### app\_id?
 
 ```ts
-optional app_id: string;
+optional app_id?: string;
 ```
 
 ### app\_name?
 
 ```ts
-optional app_name: string;
+optional app_name?: string;
 ```
 
 ### bot\_id?
 
 ```ts
-optional bot_id: string;
+optional bot_id?: string;
 ```
 
 ### enterprise\_id?
 
 ```ts
-optional enterprise_id: string;
+optional enterprise_id?: string;
 ```
 
 ### error?
 
 ```ts
-optional error: string;
+optional error?: string;
 ```
 
 ### expires\_in?
 
 ```ts
-optional expires_in: number;
+optional expires_in?: number;
 ```
 
 ### is\_enterprise\_install?
 
 ```ts
-optional is_enterprise_install: boolean;
+optional is_enterprise_install?: boolean;
 ```
 
 ### needed?
 
 ```ts
-optional needed: string;
+optional needed?: string;
 ```
 
 ### ok?
 
 ```ts
-optional ok: boolean;
+optional ok?: boolean;
 ```
 
 ### provided?
 
 ```ts
-optional provided: string;
+optional provided?: string;
 ```
 
 ### team?
 
 ```ts
-optional team: string;
+optional team?: string;
 ```
 
 ### team\_id?
 
 ```ts
-optional team_id: string;
+optional team_id?: string;
 ```
 
 ### url?
 
 ```ts
-optional url: string;
+optional url?: string;
 ```
 
 ### user?
 
 ```ts
-optional user: string;
+optional user?: string;
 ```
 
 ### user\_id?
 
 ```ts
-optional user_id: string;
+optional user_id?: string;
+```
+
+### warning?
+
+```ts
+optional warning?: string;
 ```

@@ -13,7 +13,7 @@ Defined in: [packages/web-api/src/types/request/views.ts:40](https://github.com/
 ### hash?
 
 ```ts
-optional hash: string;
+optional hash?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/views.ts:36](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/views.ts#L36)
@@ -37,7 +37,7 @@ ViewHash.hash
 ### token?
 
 ```ts
-optional token: string;
+optional token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)

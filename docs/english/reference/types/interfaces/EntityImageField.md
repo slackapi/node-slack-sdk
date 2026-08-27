@@ -19,7 +19,7 @@ Defined in: [message-metadata.ts:262](https://github.com/slackapi/node-slack-sdk
 ### image\_url?
 
 ```ts
-optional image_url: string;
+optional image_url?: string;
 ```
 
 Defined in: [message-metadata.ts:264](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L264)
@@ -29,7 +29,7 @@ Defined in: [message-metadata.ts:264](https://github.com/slackapi/node-slack-sdk
 ### label?
 
 ```ts
-optional label: string;
+optional label?: string;
 ```
 
 Defined in: [message-metadata.ts:263](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L263)
@@ -39,7 +39,7 @@ Defined in: [message-metadata.ts:263](https://github.com/slackapi/node-slack-sdk
 ### slack\_file?
 
 ```ts
-optional slack_file: SlackFile;
+optional slack_file?: SlackFile;
 ```
 
 Defined in: [message-metadata.ts:265](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L265)
@@ -49,7 +49,7 @@ Defined in: [message-metadata.ts:265](https://github.com/slackapi/node-slack-sdk
 ### title?
 
 ```ts
-optional title: string;
+optional title?: string;
 ```
 
 Defined in: [message-metadata.ts:266](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L266)
@@ -59,7 +59,7 @@ Defined in: [message-metadata.ts:266](https://github.com/slackapi/node-slack-sdk
 ### type?
 
 ```ts
-optional type: string;
+optional type?: string;
 ```
 
 Defined in: [message-metadata.ts:267](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L267)
