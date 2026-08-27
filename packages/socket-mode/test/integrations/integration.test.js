@@ -38,7 +38,7 @@ describe('Integration tests with a WebSocket server', { timeout: 30000 }, () => 
         assert.fail(err);
       });
       // Send `Event.ServerHello`
-      ws.send(JSON.stringify({ type: 'hello' }));
+      ws.send(JSON.stringify({ type: 'hello', num_connections: 1 }));
       exposed_ws_connection = ws;
     });
   });
@@ -73,6 +73,15 @@ describe('Integration tests with a WebSocket server', { timeout: 30000 }, () => 
       const result = await client.start();
       assert.equal(result.ok, true);
       assert.equal(result.url, `ws://localhost:${WSS_PORT}/`);
+      await client.disconnect();
+    });
+    it('emits `hello` with the handshake payload before `start()` resolves', async () => {
+      let hello = null;
+      client.on('hello', (message) => {
+        hello = message;
+      });
+      await client.start();
+      assert.deepEqual(hello, { type: 'hello', num_connections: 1 });
       await client.disconnect();
     });
     it('can call `disconnect()` even if already disconnected without issue', async () => {
