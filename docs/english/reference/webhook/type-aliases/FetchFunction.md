@@ -1,6 +1,6 @@
 [@slack/webhook](../index.md) / FetchFunction
 
-# Type Alias: FetchFunction()
+# Type Alias: FetchFunction
 
 ```ts
 type FetchFunction = (url, init?) => Promise<FetchResponse>;
@@ -12,7 +12,7 @@ Defined in: [packages/webhook/src/IncomingWebhook.ts:32](https://github.com/slac
 
 ### url
 
-`string` | `URL`
+`string` \| `URL`
 
 ### init?
 

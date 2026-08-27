@@ -19,7 +19,7 @@ Defined in: [message-metadata.ts:113](https://github.com/slackapi/node-slack-sdk
 ### hint?
 
 ```ts
-optional hint: PlainTextElement;
+optional hint?: PlainTextElement;
 ```
 
 Defined in: [message-metadata.ts:115](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L115)
@@ -29,7 +29,7 @@ Defined in: [message-metadata.ts:115](https://github.com/slackapi/node-slack-sdk
 ### number?
 
 ```ts
-optional number: object;
+optional number?: object;
 ```
 
 Defined in: [message-metadata.ts:124](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L124)
@@ -37,19 +37,19 @@ Defined in: [message-metadata.ts:124](https://github.com/slackapi/node-slack-sdk
 #### is\_decimal\_allowed?
 
 ```ts
-optional is_decimal_allowed: boolean;
+optional is_decimal_allowed?: boolean;
 ```
 
 #### max\_value?
 
 ```ts
-optional max_value: number;
+optional max_value?: number;
 ```
 
 #### min\_value?
 
 ```ts
-optional min_value: number;
+optional min_value?: number;
 ```
 
 ***
@@ -57,7 +57,7 @@ optional min_value: number;
 ### optional?
 
 ```ts
-optional optional: boolean;
+optional optional?: boolean;
 ```
 
 Defined in: [message-metadata.ts:116](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L116)
@@ -67,7 +67,7 @@ Defined in: [message-metadata.ts:116](https://github.com/slackapi/node-slack-sdk
 ### placeholder?
 
 ```ts
-optional placeholder: PlainTextElement;
+optional placeholder?: PlainTextElement;
 ```
 
 Defined in: [message-metadata.ts:114](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L114)
@@ -77,7 +77,7 @@ Defined in: [message-metadata.ts:114](https://github.com/slackapi/node-slack-sdk
 ### select?
 
 ```ts
-optional select: object;
+optional select?: object;
 ```
 
 Defined in: [message-metadata.ts:117](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L117)
@@ -85,31 +85,31 @@ Defined in: [message-metadata.ts:117](https://github.com/slackapi/node-slack-sdk
 #### current\_value?
 
 ```ts
-optional current_value: string;
+optional current_value?: string;
 ```
 
 #### current\_values?
 
 ```ts
-optional current_values: string[];
+optional current_values?: string[];
 ```
 
 #### fetch\_options\_dynamically?
 
 ```ts
-optional fetch_options_dynamically: boolean;
+optional fetch_options_dynamically?: boolean;
 ```
 
 #### min\_query\_length?
 
 ```ts
-optional min_query_length: number;
+optional min_query_length?: number;
 ```
 
 #### static\_options?
 
 ```ts
-optional static_options: Option[];
+optional static_options?: Option[];
 ```
 
 ***
@@ -117,7 +117,7 @@ optional static_options: Option[];
 ### text?
 
 ```ts
-optional text: object;
+optional text?: object;
 ```
 
 Defined in: [message-metadata.ts:129](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L129)
@@ -125,11 +125,11 @@ Defined in: [message-metadata.ts:129](https://github.com/slackapi/node-slack-sdk
 #### max\_length?
 
 ```ts
-optional max_length: number;
+optional max_length?: number;
 ```
 
 #### min\_length?
 
 ```ts
-optional min_length: number;
+optional min_length?: number;
 ```

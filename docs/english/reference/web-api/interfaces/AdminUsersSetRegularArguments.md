@@ -2,7 +2,7 @@
 
 # Interface: AdminUsersSetRegularArguments
 
-Defined in: [packages/web-api/src/types/request/admin/users.ts:155](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/users.ts#L155)
+Defined in: [packages/web-api/src/types/request/admin/users.ts:165](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/users.ts#L165)
 
 ## Extends
 
@@ -33,7 +33,7 @@ TeamID.team_id
 ### token?
 
 ```ts
-optional token: string;
+optional token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)

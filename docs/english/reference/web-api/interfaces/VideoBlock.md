@@ -37,7 +37,7 @@ A tooltip for the video. Required for accessibility.
 ### author\_name?
 
 ```ts
-optional author_name: string;
+optional author_name?: string;
 ```
 
 Defined in: packages/types/dist/block-kit/blocks.d.ts:459
@@ -51,7 +51,7 @@ Author name to be displayed. Must be less than 50 characters.
 ### block\_id?
 
 ```ts
-optional block_id: string;
+optional block_id?: string;
 ```
 
 Defined in: packages/types/dist/block-kit/blocks.d.ts:15
@@ -73,7 +73,7 @@ a message. If a message is updated, use a new `block_id`.
 ### description?
 
 ```ts
-optional description: PlainTextElement;
+optional description?: PlainTextElement;
 ```
 
 Defined in: packages/types/dist/block-kit/blocks.d.ts:471
@@ -87,7 +87,7 @@ Description for video using a [PlainTextElement](PlainTextElement.md) object.
 ### provider\_icon\_url?
 
 ```ts
-optional provider_icon_url: string;
+optional provider_icon_url?: string;
 ```
 
 Defined in: packages/types/dist/block-kit/blocks.d.ts:467
@@ -101,7 +101,7 @@ Icon for the video provider, e.g. YouTube icon.
 ### provider\_name?
 
 ```ts
-optional provider_name: string;
+optional provider_name?: string;
 ```
 
 Defined in: packages/types/dist/block-kit/blocks.d.ts:463
@@ -143,7 +143,7 @@ Video title as a [PlainTextElement](PlainTextElement.md) object. `text` within m
 ### title\_url?
 
 ```ts
-optional title_url: string;
+optional title_url?: string;
 ```
 
 Defined in: packages/types/dist/block-kit/blocks.d.ts:455

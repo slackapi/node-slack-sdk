@@ -29,7 +29,7 @@ Defined in: packages/types/dist/block-kit/extensions.d.ts:44
 ### placeholder?
 
 ```ts
-optional placeholder: PlainTextElement;
+optional placeholder?: PlainTextElement;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:49

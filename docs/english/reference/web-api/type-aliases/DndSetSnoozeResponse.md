@@ -13,47 +13,53 @@ Defined in: [packages/web-api/src/types/response/DndSetSnoozeResponse.ts:11](htt
 ### error?
 
 ```ts
-optional error: string;
+optional error?: string;
 ```
 
 ### needed?
 
 ```ts
-optional needed: string;
+optional needed?: string;
 ```
 
 ### ok?
 
 ```ts
-optional ok: boolean;
+optional ok?: boolean;
 ```
 
 ### provided?
 
 ```ts
-optional provided: string;
+optional provided?: string;
 ```
 
 ### snooze\_enabled?
 
 ```ts
-optional snooze_enabled: boolean;
+optional snooze_enabled?: boolean;
 ```
 
 ### snooze\_endtime?
 
 ```ts
-optional snooze_endtime: number;
+optional snooze_endtime?: number;
 ```
 
 ### snooze\_is\_indefinite?
 
 ```ts
-optional snooze_is_indefinite: boolean;
+optional snooze_is_indefinite?: boolean;
 ```
 
 ### snooze\_remaining?
 
 ```ts
-optional snooze_remaining: number;
+optional snooze_remaining?: number;
+```
+
+### warning?
+
+```ts
+optional warning?: string;
 ```

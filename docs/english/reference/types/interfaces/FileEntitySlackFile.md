@@ -19,7 +19,7 @@ Defined in: [message-metadata.ts:85](https://github.com/slackapi/node-slack-sdk/
 ### type?
 
 ```ts
-optional type: string;
+optional type?: string;
 ```
 
 Defined in: [message-metadata.ts:86](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L86)

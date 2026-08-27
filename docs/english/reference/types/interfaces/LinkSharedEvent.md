@@ -71,7 +71,7 @@ Defined in: [events/link-shared.ts:6](https://github.com/slackapi/node-slack-sdk
 ### source?
 
 ```ts
-optional source: string;
+optional source?: string;
 ```
 
 Defined in: [events/link-shared.ts:13](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/link-shared.ts#L13)
@@ -81,7 +81,7 @@ Defined in: [events/link-shared.ts:13](https://github.com/slackapi/node-slack-sd
 ### thread\_ts?
 
 ```ts
-optional thread_ts: string;
+optional thread_ts?: string;
 ```
 
 Defined in: [events/link-shared.ts:7](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/link-shared.ts#L7)
@@ -101,7 +101,7 @@ Defined in: [events/link-shared.ts:2](https://github.com/slackapi/node-slack-sdk
 ### unfurl\_id?
 
 ```ts
-optional unfurl_id: string;
+optional unfurl_id?: string;
 ```
 
 Defined in: [events/link-shared.ts:12](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/link-shared.ts#L12)

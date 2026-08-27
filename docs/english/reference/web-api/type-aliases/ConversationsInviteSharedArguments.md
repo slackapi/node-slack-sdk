@@ -13,7 +13,7 @@ Defined in: [packages/web-api/src/types/request/conversations.ts:118](https://gi
 ### external\_limited?
 
 ```ts
-optional external_limited: boolean;
+optional external_limited?: boolean;
 ```
 
 #### Description

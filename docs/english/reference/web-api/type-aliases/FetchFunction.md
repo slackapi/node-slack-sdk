@@ -1,6 +1,6 @@
 [@slack/web-api](../index.md) / FetchFunction
 
-# Type Alias: FetchFunction()
+# Type Alias: FetchFunction
 
 ```ts
 type FetchFunction = (url, init?) => Promise<FetchResponse>;
@@ -12,7 +12,7 @@ Defined in: [packages/web-api/src/WebClient.ts:132](https://github.com/slackapi/
 
 ### url
 
-`string` | `URL`
+`string` \| `URL`
 
 ### init?
 

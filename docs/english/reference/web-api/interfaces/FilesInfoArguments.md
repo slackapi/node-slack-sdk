@@ -13,7 +13,7 @@ Defined in: [packages/web-api/src/types/request/files.ts:103](https://github.com
 ### count?
 
 ```ts
-optional count: number;
+optional count?: number;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:33](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L33)
@@ -33,7 +33,7 @@ TraditionalPagingEnabled.count
 ### cursor?
 
 ```ts
-optional cursor: string;
+optional cursor?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:16](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L16)
@@ -79,7 +79,7 @@ FileArgument.file
 ### limit?
 
 ```ts
-optional limit: number;
+optional limit?: number;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:9](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L9)
@@ -100,7 +100,7 @@ CursorPaginationEnabled.limit
 ### page?
 
 ```ts
-optional page: number;
+optional page?: number;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:35](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L35)
@@ -120,7 +120,7 @@ TraditionalPagingEnabled.page
 ### token?
 
 ```ts
-optional token: string;
+optional token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)

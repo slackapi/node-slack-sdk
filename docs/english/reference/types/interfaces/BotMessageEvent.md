@@ -9,7 +9,7 @@ Defined in: [events/message.ts:68](https://github.com/slackapi/node-slack-sdk/bl
 ### attachments?
 
 ```ts
-optional attachments: MessageAttachment[];
+optional attachments?: MessageAttachment[];
 ```
 
 Defined in: [events/message.ts:86](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/message.ts#L86)
@@ -19,7 +19,7 @@ Defined in: [events/message.ts:86](https://github.com/slackapi/node-slack-sdk/bl
 ### blocks?
 
 ```ts
-optional blocks: (Block | KnownBlock)[];
+optional blocks?: (Block | KnownBlock)[];
 ```
 
 Defined in: [events/message.ts:87](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/message.ts#L87)
@@ -59,7 +59,7 @@ Defined in: [events/message.ts:73](https://github.com/slackapi/node-slack-sdk/bl
 ### edited?
 
 ```ts
-optional edited: object;
+optional edited?: object;
 ```
 
 Defined in: [events/message.ts:88](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/message.ts#L88)
@@ -91,7 +91,7 @@ Defined in: [events/message.ts:71](https://github.com/slackapi/node-slack-sdk/bl
 ### icons?
 
 ```ts
-optional icons: object;
+optional icons?: object;
 ```
 
 Defined in: [events/message.ts:79](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/message.ts#L79)
@@ -107,7 +107,7 @@ Defined in: [events/message.ts:79](https://github.com/slackapi/node-slack-sdk/bl
 ### streaming\_state?
 
 ```ts
-optional streaming_state: "in_progress" | "completed" | "errored";
+optional streaming_state?: "in_progress" | "completed" | "errored";
 ```
 
 Defined in: [events/message.ts:74](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/message.ts#L74)
@@ -137,7 +137,7 @@ Defined in: [events/message.ts:76](https://github.com/slackapi/node-slack-sdk/bl
 ### thread\_ts?
 
 ```ts
-optional thread_ts: string;
+optional thread_ts?: string;
 ```
 
 Defined in: [events/message.ts:92](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/message.ts#L92)
@@ -167,7 +167,7 @@ Defined in: [events/message.ts:69](https://github.com/slackapi/node-slack-sdk/bl
 ### user?
 
 ```ts
-optional user: string;
+optional user?: string;
 ```
 
 Defined in: [events/message.ts:85](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/message.ts#L85)
@@ -177,7 +177,7 @@ Defined in: [events/message.ts:85](https://github.com/slackapi/node-slack-sdk/bl
 ### username?
 
 ```ts
-optional username: string;
+optional username?: string;
 ```
 
 Defined in: [events/message.ts:78](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/message.ts#L78)

@@ -33,7 +33,7 @@ Defined in: [packages/oauth/src/install-provider.ts:792](https://github.com/slac
 ### bot\_user\_id?
 
 ```ts
-optional bot_user_id: string;
+optional bot_user_id?: string;
 ```
 
 Defined in: [packages/oauth/src/install-provider.ts:798](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/install-provider.ts#L798)
@@ -104,7 +104,7 @@ Defined in: [packages/oauth/src/install-provider.ts:796](https://github.com/slac
 ### response\_metadata?
 
 ```ts
-optional response_metadata: object;
+optional response_metadata?: object;
 ```
 
 Defined in: packages/web-api/dist/WebClient.d.ts:43
@@ -112,37 +112,37 @@ Defined in: packages/web-api/dist/WebClient.d.ts:43
 #### acceptedScopes?
 
 ```ts
-optional acceptedScopes: string[];
+optional acceptedScopes?: string[];
 ```
 
 #### messages?
 
 ```ts
-optional messages: string[];
+optional messages?: string[];
 ```
 
 #### next\_cursor?
 
 ```ts
-optional next_cursor: string;
+optional next_cursor?: string;
 ```
 
 #### retryAfter?
 
 ```ts
-optional retryAfter: number;
+optional retryAfter?: number;
 ```
 
 #### scopes?
 
 ```ts
-optional scopes: string[];
+optional scopes?: string[];
 ```
 
 #### warnings?
 
 ```ts
-optional warnings: string[];
+optional warnings?: string[];
 ```
 
 #### Inherited from
