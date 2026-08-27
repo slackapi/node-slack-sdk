@@ -44,9 +44,8 @@ export interface SlackWebSocketOptions {
   pingInterval?: number;
   /**
    * @description An undici Dispatcher used to establish the WebSocket connection (e.g. ProxyAgent).
-   * When omitted, this class creates its own Agent and force-destroys the underlying socket on cleanup.
-   * When supplied, the socket is owned by your dispatcher and cannot be force-closed here; a stalled close
-   * handshake instead falls back to a timeout before cleanup runs.
+   * Overrides the default dispatcher, which force-destroys the underlying socket on cleanup; a custom
+   * dispatcher cannot, so a stalled close handshake falls back to a timeout instead.
    */
   dispatcher?: SocketModeDispatcher;
   /** @description Whether this WebSocket should DEBUG log ping and pong events. `false` by default. */
