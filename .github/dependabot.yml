@@ -186,10 +186,7 @@ updates:
           - "@types/mocha"
           - "mocha"
     ignore:
-      # p-queue (v7+) and p-retry (v5+) are pure ESM and raise their minimum
-      # Node.js version each major. Bumping either breaks `require()` of this
-      # package's CommonJS build on the declared Node >= 20 range (ERR_REQUIRE_ESM,
-      # see #2711) and can force a change to its supported Node floor.
+      # Avoid pure ESM p-queue (v7+) / p-retry (v5+) to prevent CJS require() breakage on Node >= 20 (see #2711).
       - dependency-name: "p-queue"
       - dependency-name: "p-retry"
       - dependency-name: "@types/node"
@@ -221,10 +218,7 @@ updates:
           - "@types/mocha"
           - "mocha"
     ignore:
-      # p-retry (v5+) is pure ESM and raises its minimum Node.js version each
-      # major (v7 requires Node >= 20, v8 requires Node >= 22). Bumping it breaks
-      # `require()` of this package's CommonJS build (ERR_REQUIRE_ESM, see #2711)
-      # and can force a change to its supported Node floor.
+      # Avoid pure ESM p-retry (v5+) to prevent CJS require() breakage on Node >= 20 (see #2711).
       - dependency-name: "p-retry"
       - dependency-name: "@types/node"
         versions:
