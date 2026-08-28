@@ -1,5 +1,5 @@
 import { expectAssignable, expectError } from 'tsd';
-import type { AlertBlock, CardBlock, CarouselBlock, KnownBlock } from '../src/index';
+import type { AlertBlock, CardBlock, CarouselBlock, DataTableBlock, KnownBlock } from '../src/index';
 
 // CardBlock
 // -- sad path
@@ -61,4 +61,54 @@ expectAssignable<CarouselBlock>({
 expectAssignable<KnownBlock>({
   type: 'carousel',
   elements: [{ type: 'card' }],
+});
+
+// DataTableBlock
+// -- sad path
+expectError<DataTableBlock>({}); // missing type, rows, and caption
+expectError<DataTableBlock>({ type: 'data_table' }); // missing required rows and caption
+expectError<DataTableBlock>({
+  type: 'data_table',
+  rows: [[{ type: 'raw_text', text: 'Name' }]],
+}); // missing required caption
+expectError<DataTableBlock>({
+  type: 'data_table',
+  caption: 'A list of fruit and their quantities',
+}); // missing required rows
+// -- happy path
+expectAssignable<DataTableBlock>({
+  type: 'data_table',
+  caption: 'A list of fruit and their quantities',
+  rows: [
+    [
+      { type: 'raw_text', text: 'Fruit' },
+      { type: 'raw_text', text: 'Quantity' },
+    ],
+    [
+      { type: 'raw_text', text: 'Apples' },
+      { type: 'raw_number', value: 12, text: '12' },
+    ],
+  ],
+});
+expectAssignable<DataTableBlock>({
+  type: 'data_table',
+  caption: 'A list of users',
+  block_id: 'users_table',
+  page_size: 10,
+  row_header_column_index: 0,
+  rows: [
+    [
+      { type: 'raw_text', text: 'User' },
+      { type: 'raw_text', text: 'Bio' },
+    ],
+    [
+      { type: 'raw_text', text: 'Mark' },
+      { type: 'rich_text', elements: [{ type: 'rich_text_section', elements: [{ type: 'text', text: 'Founder' }] }] },
+    ],
+  ],
+});
+expectAssignable<KnownBlock>({
+  type: 'data_table',
+  caption: 'A minimal table',
+  rows: [[{ type: 'raw_text', text: 'Header' }], [{ type: 'raw_text', text: 'Value' }]],
 });

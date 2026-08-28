@@ -188,6 +188,25 @@ export interface RawTextElement {
   text: string;
 }
 
+/**
+ * @description Defines an object containing a numeric value and its display text. Used for numeric cells in a
+ * {@link DataTableBlock}, allowing the column to be sorted numerically.
+ */
+export interface RawNumberElement {
+  /**
+   * @description The formatting to use for this object.
+   */
+  type: 'raw_number';
+  /**
+   * @description The numeric value used for sorting the column.
+   */
+  value: number;
+  /**
+   * @description The text used to display the value. The minimum length is 1 character.
+   */
+  text: string;
+}
+
 interface BaseConversationFilter {
   /**
    * @description Indicates which type of conversations should be included in the list. When this field is provided, any
