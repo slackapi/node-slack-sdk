@@ -13,71 +13,77 @@ Defined in: [packages/web-api/src/types/response/ConversationsHistoryResponse.ts
 ### channel\_actions\_count?
 
 ```ts
-optional channel_actions_count: number;
+optional channel_actions_count?: number;
 ```
 
 ### channel\_actions\_ts?
 
 ```ts
-optional channel_actions_ts: number;
+optional channel_actions_ts?: number;
 ```
 
 ### error?
 
 ```ts
-optional error: string;
+optional error?: string;
 ```
 
 ### has\_more?
 
 ```ts
-optional has_more: boolean;
+optional has_more?: boolean;
 ```
 
 ### latest?
 
 ```ts
-optional latest: string;
+optional latest?: string;
 ```
 
 ### messages?
 
 ```ts
-optional messages: MessageElement[];
+optional messages?: MessageElement[];
 ```
 
 ### needed?
 
 ```ts
-optional needed: string;
+optional needed?: string;
 ```
 
 ### ok?
 
 ```ts
-optional ok: boolean;
+optional ok?: boolean;
 ```
 
 ### oldest?
 
 ```ts
-optional oldest: string;
+optional oldest?: string;
 ```
 
 ### pin\_count?
 
 ```ts
-optional pin_count: number;
+optional pin_count?: number;
 ```
 
 ### provided?
 
 ```ts
-optional provided: string;
+optional provided?: string;
 ```
 
 ### response\_metadata?
 
 ```ts
-optional response_metadata: ResponseMetadata;
+optional response_metadata?: ResponseMetadata;
+```
+
+### warning?
+
+```ts
+optional warning?: string;
 ```

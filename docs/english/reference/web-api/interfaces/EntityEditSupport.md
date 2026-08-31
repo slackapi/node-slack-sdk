@@ -19,7 +19,7 @@ Defined in: packages/types/dist/message-metadata.d.ts:95
 ### hint?
 
 ```ts
-optional hint: PlainTextElement;
+optional hint?: PlainTextElement;
 ```
 
 Defined in: packages/types/dist/message-metadata.d.ts:97
@@ -29,7 +29,7 @@ Defined in: packages/types/dist/message-metadata.d.ts:97
 ### number?
 
 ```ts
-optional number: object;
+optional number?: object;
 ```
 
 Defined in: packages/types/dist/message-metadata.d.ts:106
@@ -37,19 +37,19 @@ Defined in: packages/types/dist/message-metadata.d.ts:106
 #### is\_decimal\_allowed?
 
 ```ts
-optional is_decimal_allowed: boolean;
+optional is_decimal_allowed?: boolean;
 ```
 
 #### max\_value?
 
 ```ts
-optional max_value: number;
+optional max_value?: number;
 ```
 
 #### min\_value?
 
 ```ts
-optional min_value: number;
+optional min_value?: number;
 ```
 
 ***
@@ -57,7 +57,7 @@ optional min_value: number;
 ### optional?
 
 ```ts
-optional optional: boolean;
+optional optional?: boolean;
 ```
 
 Defined in: packages/types/dist/message-metadata.d.ts:98
@@ -67,7 +67,7 @@ Defined in: packages/types/dist/message-metadata.d.ts:98
 ### placeholder?
 
 ```ts
-optional placeholder: PlainTextElement;
+optional placeholder?: PlainTextElement;
 ```
 
 Defined in: packages/types/dist/message-metadata.d.ts:96
@@ -77,7 +77,7 @@ Defined in: packages/types/dist/message-metadata.d.ts:96
 ### select?
 
 ```ts
-optional select: object;
+optional select?: object;
 ```
 
 Defined in: packages/types/dist/message-metadata.d.ts:99
@@ -85,31 +85,31 @@ Defined in: packages/types/dist/message-metadata.d.ts:99
 #### current\_value?
 
 ```ts
-optional current_value: string;
+optional current_value?: string;
 ```
 
 #### current\_values?
 
 ```ts
-optional current_values: string[];
+optional current_values?: string[];
 ```
 
 #### fetch\_options\_dynamically?
 
 ```ts
-optional fetch_options_dynamically: boolean;
+optional fetch_options_dynamically?: boolean;
 ```
 
 #### min\_query\_length?
 
 ```ts
-optional min_query_length: number;
+optional min_query_length?: number;
 ```
 
 #### static\_options?
 
 ```ts
-optional static_options: Option[];
+optional static_options?: Option[];
 ```
 
 ***
@@ -117,7 +117,7 @@ optional static_options: Option[];
 ### text?
 
 ```ts
-optional text: object;
+optional text?: object;
 ```
 
 Defined in: packages/types/dist/message-metadata.d.ts:111
@@ -125,11 +125,11 @@ Defined in: packages/types/dist/message-metadata.d.ts:111
 #### max\_length?
 
 ```ts
-optional max_length: number;
+optional max_length?: number;
 ```
 
 #### min\_length?
 
 ```ts
-optional min_length: number;
+optional min_length?: number;
 ```

@@ -22,7 +22,7 @@ your app must have the `files:read` scope.
 ### action\_id?
 
 ```ts
-optional action_id: string;
+optional action_id?: string;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:12
@@ -40,7 +40,7 @@ among all other `action_id`s in the containing block. Maximum length for this fi
 ### filetypes?
 
 ```ts
-optional filetypes: string[];
+optional filetypes?: string[];
 ```
 
 Defined in: packages/types/dist/block-kit/block-elements.d.ts:179
@@ -56,7 +56,7 @@ for convenience only, and you should perform your own file type validation based
 ### max\_files?
 
 ```ts
-optional max_files: number;
+optional max_files?: number;
 ```
 
 Defined in: packages/types/dist/block-kit/block-elements.d.ts:184

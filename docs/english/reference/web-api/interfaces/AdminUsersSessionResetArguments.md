@@ -2,7 +2,7 @@
 
 # Interface: AdminUsersSessionResetArguments
 
-Defined in: [packages/web-api/src/types/request/admin/users.ts:126](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/users.ts#L126)
+Defined in: [packages/web-api/src/types/request/admin/users.ts:136](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/users.ts#L136)
 
 ## Extends
 
@@ -13,7 +13,7 @@ Defined in: [packages/web-api/src/types/request/admin/users.ts:126](https://gith
 ### mobile\_only?
 
 ```ts
-optional mobile_only: boolean;
+optional mobile_only?: boolean;
 ```
 
 Defined in: [packages/web-api/src/types/request/admin/users.ts:25](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/users.ts#L25)
@@ -33,7 +33,7 @@ SessionExpirationTarget.mobile_only
 ### token?
 
 ```ts
-optional token: string;
+optional token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
@@ -73,7 +73,7 @@ UserID.user_id
 ### web\_only?
 
 ```ts
-optional web_only: boolean;
+optional web_only?: boolean;
 ```
 
 Defined in: [packages/web-api/src/types/request/admin/users.ts:27](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/users.ts#L27)

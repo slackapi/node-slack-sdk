@@ -13,7 +13,7 @@ Defined in: [packages/web-api/src/types/request/admin/conversations.ts:85](https
 ### description?
 
 ```ts
-optional description: string;
+optional description?: string;
 ```
 
 #### Description

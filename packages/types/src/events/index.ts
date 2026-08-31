@@ -1,3 +1,4 @@
+import type { AgentSessionStoppedEvent, AgentSessionTitleChangedEvent } from './agent';
 import type {
   AppContextChangedEvent,
   AppDeletedEvent,
@@ -88,6 +89,7 @@ import type {
 import type { TokensRevokedEvent } from './token';
 import type { UserChangeEvent, UserHuddleChangedEvent, UserProfileChangedEvent, UserStatusChangedEvent } from './user';
 
+export * from './agent';
 export * from './app';
 export * from './assistant';
 export * from './call';
@@ -121,6 +123,8 @@ export * from './user';
  * This is a discriminated union. The discriminant is the `type` property.
  */
 export type SlackEvent =
+  | AgentSessionStoppedEvent
+  | AgentSessionTitleChangedEvent
   | AppContextChangedEvent
   | AppDeletedEvent
   | AppHomeOpenedEvent

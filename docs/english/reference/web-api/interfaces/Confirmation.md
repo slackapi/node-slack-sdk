@@ -9,7 +9,7 @@ Defined in: packages/types/dist/message-attachments.d.ts:161
 ### dismiss\_text?
 
 ```ts
-optional dismiss_text: string;
+optional dismiss_text?: string;
 ```
 
 Defined in: packages/types/dist/message-attachments.d.ts:162
@@ -19,7 +19,7 @@ Defined in: packages/types/dist/message-attachments.d.ts:162
 ### ok\_text?
 
 ```ts
-optional ok_text: string;
+optional ok_text?: string;
 ```
 
 Defined in: packages/types/dist/message-attachments.d.ts:163
@@ -39,7 +39,7 @@ Defined in: packages/types/dist/message-attachments.d.ts:164
 ### title?
 
 ```ts
-optional title: string;
+optional title?: string;
 ```
 
 Defined in: packages/types/dist/message-attachments.d.ts:165

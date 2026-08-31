@@ -9,7 +9,7 @@ Defined in: packages/types/dist/events/message.d.ts:227
 ### attachments?
 
 ```ts
-optional attachments: MessageAttachment[];
+optional attachments?: MessageAttachment[];
 ```
 
 Defined in: packages/types/dist/events/message.d.ts:232
@@ -19,7 +19,7 @@ Defined in: packages/types/dist/events/message.d.ts:232
 ### blocks?
 
 ```ts
-optional blocks: (Block | KnownBlock)[];
+optional blocks?: (Block | KnownBlock)[];
 ```
 
 Defined in: packages/types/dist/events/message.d.ts:233
@@ -133,7 +133,7 @@ Defined in: packages/types/dist/events/message.d.ts:231
 ### thread\_ts?
 
 ```ts
-optional thread_ts: string;
+optional thread_ts?: string;
 ```
 
 Defined in: packages/types/dist/events/message.d.ts:236

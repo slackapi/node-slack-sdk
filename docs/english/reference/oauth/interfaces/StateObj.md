@@ -35,7 +35,7 @@ The timestamp that the state object was generated.
 ### random?
 
 ```ts
-optional random: string | number;
+optional random?: string | number;
 ```
 
 Defined in: [packages/oauth/src/state-stores/interface.ts:16](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/state-stores/interface.ts#L16)

@@ -15,4 +15,5 @@ export type AdminConversationsGetCustomRetentionResponse = WebAPICallResult & {
   needed?: string;
   ok?: boolean;
   provided?: string;
+  warning?: string;
 };

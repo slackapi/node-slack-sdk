@@ -13,47 +13,53 @@ Defined in: [packages/web-api/src/types/response/AdminConversationsSearchRespons
 ### conversations?
 
 ```ts
-optional conversations: Conversation[];
+optional conversations?: Conversation[];
 ```
 
 ### error?
 
 ```ts
-optional error: string;
+optional error?: string;
 ```
 
 ### needed?
 
 ```ts
-optional needed: string;
+optional needed?: string;
 ```
 
 ### next\_cursor?
 
 ```ts
-optional next_cursor: string;
+optional next_cursor?: string;
 ```
 
 ### ok?
 
 ```ts
-optional ok: boolean;
+optional ok?: boolean;
 ```
 
 ### provided?
 
 ```ts
-optional provided: string;
+optional provided?: string;
 ```
 
 ### response\_metadata?
 
 ```ts
-optional response_metadata: ResponseMetadata;
+optional response_metadata?: ResponseMetadata;
 ```
 
 ### total\_count?
 
 ```ts
-optional total_count: number;
+optional total_count?: number;
+```
+
+### warning?
+
+```ts
+optional warning?: string;
 ```

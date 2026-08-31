@@ -21,7 +21,7 @@ An icon button to perform actions.
 ### accessibility\_label?
 
 ```ts
-optional accessibility_label: string;
+optional accessibility_label?: string;
 ```
 
 Defined in: [block-kit/block-elements.ts:235](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L235)
@@ -35,7 +35,7 @@ A label for longer descriptive text about a button element. This label will be r
 ### action\_id?
 
 ```ts
-optional action_id: string;
+optional action_id?: string;
 ```
 
 Defined in: [block-kit/extensions.ts:15](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/extensions.ts#L15)
@@ -53,7 +53,7 @@ among all other `action_id`s in the containing block. Maximum length for this fi
 ### confirm?
 
 ```ts
-optional confirm: ConfirmationDialog;
+optional confirm?: ConfirmationDialog;
 ```
 
 Defined in: [block-kit/extensions.ts:25](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/extensions.ts#L25)
@@ -128,7 +128,7 @@ The type of element. In this case `type` is always `icon_button`.
 ### value?
 
 ```ts
-optional value: string;
+optional value?: string;
 ```
 
 Defined in: [block-kit/block-elements.ts:239](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L239)
@@ -142,7 +142,7 @@ The button value.
 ### visible\_to\_user\_ids?
 
 ```ts
-optional visible_to_user_ids: string[];
+optional visible_to_user_ids?: string[];
 ```
 
 Defined in: [block-kit/block-elements.ts:243](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L243)

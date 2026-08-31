@@ -23,7 +23,7 @@ visible to the current user in the active workspace.
 ### action\_id?
 
 ```ts
-optional action_id: string;
+optional action_id?: string;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:12
@@ -41,7 +41,7 @@ among all other `action_id`s in the containing block. Maximum length for this fi
 ### confirm?
 
 ```ts
-optional confirm: ConfirmationDialog;
+optional confirm?: ConfirmationDialog;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:21
@@ -60,7 +60,7 @@ with.
 ### default\_to\_current\_conversation?
 
 ```ts
-optional default_to_current_conversation: boolean;
+optional default_to_current_conversation?: boolean;
 ```
 
 Defined in: packages/types/dist/block-kit/block-elements.d.ts:366
@@ -75,7 +75,7 @@ modal, if available. Default is `false`.
 ### filter?
 
 ```ts
-optional filter: object;
+optional filter?: object;
 ```
 
 Defined in: packages/types/dist/block-kit/block-elements.d.ts:370
@@ -83,19 +83,19 @@ Defined in: packages/types/dist/block-kit/block-elements.d.ts:370
 #### exclude\_bot\_users?
 
 ```ts
-optional exclude_bot_users: boolean;
+optional exclude_bot_users?: boolean;
 ```
 
 #### exclude\_external\_shared\_channels?
 
 ```ts
-optional exclude_external_shared_channels: boolean;
+optional exclude_external_shared_channels?: boolean;
 ```
 
 #### include?
 
 ```ts
-optional include: ("im" | "mpim" | "private" | "public")[];
+optional include?: ("im" | "mpim" | "private" | "public")[];
 ```
 
 #### Description
@@ -107,7 +107,7 @@ A filter object that reduces the list of available conversations using the speci
 ### focus\_on\_load?
 
 ```ts
-optional focus_on_load: boolean;
+optional focus_on_load?: boolean;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:36
@@ -127,7 +127,7 @@ Defaults to `false`.
 ### initial\_conversation?
 
 ```ts
-optional initial_conversation: string;
+optional initial_conversation?: string;
 ```
 
 Defined in: packages/types/dist/block-kit/block-elements.d.ts:361
@@ -142,7 +142,7 @@ The ID of any valid conversation to be pre-selected when the menu loads. If
 ### placeholder?
 
 ```ts
-optional placeholder: PlainTextElement;
+optional placeholder?: PlainTextElement;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:49
@@ -161,7 +161,7 @@ length for the `text` field in this object is 150 characters.
 ### response\_url\_enabled?
 
 ```ts
-optional response_url_enabled: boolean;
+optional response_url_enabled?: boolean;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:58

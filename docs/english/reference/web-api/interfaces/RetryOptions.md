@@ -8,17 +8,17 @@ Options to create retry policies. Extends from https://github.com/tim-kos/node-r
 
 ## Extends
 
-- `OperationOptions`
+- `WrapOptions`
 
 ## Properties
 
 ### factor?
 
 ```ts
-optional factor: number;
+optional factor?: number;
 ```
 
-Defined in: node\_modules/@types/retry/index.d.ts:125
+Defined in: packages/web-api/node\_modules/@types/retry/index.d.ts:119
 
 The exponential factor to use.
 
@@ -31,7 +31,7 @@ The exponential factor to use.
 #### Inherited from
 
 ```ts
-OperationOptions.factor
+WrapOptions.factor
 ```
 
 ***
@@ -39,10 +39,10 @@ OperationOptions.factor
 ### forever?
 
 ```ts
-optional forever: boolean;
+optional forever?: boolean;
 ```
 
-Defined in: node\_modules/@types/retry/index.d.ts:88
+Defined in: packages/web-api/node\_modules/@types/retry/index.d.ts:82
 
 Whether to retry forever.
 
@@ -55,7 +55,7 @@ false
 #### Inherited from
 
 ```ts
-OperationOptions.forever
+WrapOptions.forever
 ```
 
 ***
@@ -63,10 +63,10 @@ OperationOptions.forever
 ### maxRetryTime?
 
 ```ts
-optional maxRetryTime: number;
+optional maxRetryTime?: number;
 ```
 
-Defined in: node\_modules/@types/retry/index.d.ts:98
+Defined in: packages/web-api/node\_modules/@types/retry/index.d.ts:92
 
 The maximum time (in milliseconds) that the retried operation is allowed to run.
 
@@ -79,7 +79,7 @@ Infinity
 #### Inherited from
 
 ```ts
-OperationOptions.maxRetryTime
+WrapOptions.maxRetryTime
 ```
 
 ***
@@ -87,10 +87,10 @@ OperationOptions.maxRetryTime
 ### maxTimeout?
 
 ```ts
-optional maxTimeout: number;
+optional maxTimeout?: number;
 ```
 
-Defined in: node\_modules/@types/retry/index.d.ts:135
+Defined in: packages/web-api/node\_modules/@types/retry/index.d.ts:129
 
 The maximum number of milliseconds between two retries.
 
@@ -103,7 +103,7 @@ Infinity
 #### Inherited from
 
 ```ts
-OperationOptions.maxTimeout
+WrapOptions.maxTimeout
 ```
 
 ***
@@ -111,10 +111,10 @@ OperationOptions.maxTimeout
 ### minTimeout?
 
 ```ts
-optional minTimeout: number;
+optional minTimeout?: number;
 ```
 
-Defined in: node\_modules/@types/retry/index.d.ts:130
+Defined in: packages/web-api/node\_modules/@types/retry/index.d.ts:124
 
 The number of milliseconds before starting the first retry.
 
@@ -127,7 +127,7 @@ The number of milliseconds before starting the first retry.
 #### Inherited from
 
 ```ts
-OperationOptions.minTimeout
+WrapOptions.minTimeout
 ```
 
 ***
@@ -135,10 +135,10 @@ OperationOptions.minTimeout
 ### randomize?
 
 ```ts
-optional randomize: boolean;
+optional randomize?: boolean;
 ```
 
-Defined in: node\_modules/@types/retry/index.d.ts:140
+Defined in: packages/web-api/node\_modules/@types/retry/index.d.ts:134
 
 Randomizes the timeouts by multiplying a factor between 1-2.
 
@@ -151,7 +151,7 @@ false
 #### Inherited from
 
 ```ts
-OperationOptions.randomize
+WrapOptions.randomize
 ```
 
 ***
@@ -159,10 +159,10 @@ OperationOptions.randomize
 ### retries?
 
 ```ts
-optional retries: number;
+optional retries?: number;
 ```
 
-Defined in: node\_modules/@types/retry/index.d.ts:109
+Defined in: packages/web-api/node\_modules/@types/retry/index.d.ts:103
 
 The maximum amount of times to retry the operation.
 
@@ -175,7 +175,7 @@ The maximum amount of times to retry the operation.
 #### Inherited from
 
 ```ts
-OperationOptions.retries
+WrapOptions.retries
 ```
 
 ***
@@ -183,10 +183,10 @@ OperationOptions.retries
 ### unref?
 
 ```ts
-optional unref: boolean;
+optional unref?: boolean;
 ```
 
-Defined in: node\_modules/@types/retry/index.d.ts:93
+Defined in: packages/web-api/node\_modules/@types/retry/index.d.ts:87
 
 Whether to [unref](https://nodejs.org/api/timers.html#timers_unref) the setTimeout's.
 
@@ -199,5 +199,5 @@ false
 #### Inherited from
 
 ```ts
-OperationOptions.unref
+WrapOptions.unref
 ```

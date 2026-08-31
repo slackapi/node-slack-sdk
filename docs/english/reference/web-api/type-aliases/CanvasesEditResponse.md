@@ -13,35 +13,41 @@ Defined in: [packages/web-api/src/types/response/CanvasesEditResponse.ts:11](htt
 ### detail?
 
 ```ts
-optional detail: string;
+optional detail?: string;
 ```
 
 ### error?
 
 ```ts
-optional error: string;
+optional error?: string;
 ```
 
 ### needed?
 
 ```ts
-optional needed: string;
+optional needed?: string;
 ```
 
 ### ok?
 
 ```ts
-optional ok: boolean;
+optional ok?: boolean;
 ```
 
 ### provided?
 
 ```ts
-optional provided: string;
+optional provided?: string;
 ```
 
 ### response\_metadata?
 
 ```ts
-optional response_metadata: ResponseMetadata;
+optional response_metadata?: ResponseMetadata;
+```
+
+### warning?
+
+```ts
+optional warning?: string;
 ```

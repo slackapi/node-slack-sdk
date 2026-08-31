@@ -44,7 +44,7 @@ EventEmitter.constructor
 ### websocket?
 
 ```ts
-optional websocket: SlackWebSocket;
+optional websocket?: SlackWebSocket;
 ```
 
 Defined in: [packages/socket-mode/src/SocketModeClient.ts:72](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/SocketModeClient.ts#L72)
@@ -116,7 +116,7 @@ EventEmitter.addListener
 disconnect(): Promise<void>;
 ```
 
-Defined in: [packages/socket-mode/src/SocketModeClient.ts:221](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/SocketModeClient.ts#L221)
+Defined in: [packages/socket-mode/src/SocketModeClient.ts:223](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/SocketModeClient.ts#L223)
 
 End a Socket Mode session. After this method is called no messages will be sent or received
 unless you call start() again later.
@@ -202,7 +202,7 @@ Return the number of listeners listening to a given event.
 
 ##### event
 
-`string` | `symbol`
+`string` \| `symbol`
 
 #### Returns
 
@@ -402,7 +402,7 @@ Remove all listeners, or those of the specified event.
 
 ##### event?
 
-`string` | `symbol`
+`string` \| `symbol`
 
 #### Returns
 
@@ -472,7 +472,7 @@ EventEmitter.removeListener
 start(): Promise<AppsConnectionsOpenResponse>;
 ```
 
-Defined in: [packages/socket-mode/src/SocketModeClient.ts:178](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/SocketModeClient.ts#L178)
+Defined in: [packages/socket-mode/src/SocketModeClient.ts:180](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/SocketModeClient.ts#L180)
 
 Start a Socket Mode session app.
 This method must be called before any messages can be sent or received,

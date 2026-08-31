@@ -2,7 +2,7 @@
 
 # Interface: AdminUsersSetExpirationArguments
 
-Defined in: [packages/web-api/src/types/request/admin/users.ts:146](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/users.ts#L146)
+Defined in: [packages/web-api/src/types/request/admin/users.ts:156](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/users.ts#L156)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [packages/web-api/src/types/request/admin/users.ts:146](https://gith
 expiration_ts: number;
 ```
 
-Defined in: [packages/web-api/src/types/request/admin/users.ts:148](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/users.ts#L148)
+Defined in: [packages/web-api/src/types/request/admin/users.ts:158](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/users.ts#L158)
 
 #### Description
 
@@ -27,7 +27,7 @@ Epoch timestamp in seconds when guest account should be disabled.
 ### team\_id?
 
 ```ts
-optional team_id: string;
+optional team_id?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:70](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L70)
@@ -47,7 +47,7 @@ OptionalTeamAssignable.team_id
 ### token?
 
 ```ts
-optional token: string;
+optional token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)

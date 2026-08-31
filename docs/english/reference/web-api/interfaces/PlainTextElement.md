@@ -17,7 +17,7 @@ Defines an object containing some text.
 ### emoji?
 
 ```ts
-optional emoji: boolean;
+optional emoji?: boolean;
 ```
 
 Defined in: packages/types/dist/block-kit/composition-objects.d.ts:137

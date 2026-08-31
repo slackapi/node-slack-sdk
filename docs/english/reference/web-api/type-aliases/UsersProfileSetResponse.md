@@ -13,35 +13,41 @@ Defined in: [packages/web-api/src/types/response/UsersProfileSetResponse.ts:11](
 ### error?
 
 ```ts
-optional error: string;
+optional error?: string;
 ```
 
 ### needed?
 
 ```ts
-optional needed: string;
+optional needed?: string;
 ```
 
 ### ok?
 
 ```ts
-optional ok: boolean;
+optional ok?: boolean;
 ```
 
 ### profile?
 
 ```ts
-optional profile: Profile;
+optional profile?: Profile;
 ```
 
 ### provided?
 
 ```ts
-optional provided: string;
+optional provided?: string;
 ```
 
 ### username?
 
 ```ts
-optional username: string;
+optional username?: string;
+```
+
+### warning?
+
+```ts
+optional warning?: string;
 ```

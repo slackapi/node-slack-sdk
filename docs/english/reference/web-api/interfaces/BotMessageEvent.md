@@ -9,7 +9,7 @@ Defined in: packages/types/dist/events/message.d.ts:40
 ### attachments?
 
 ```ts
-optional attachments: MessageAttachment[];
+optional attachments?: MessageAttachment[];
 ```
 
 Defined in: packages/types/dist/events/message.d.ts:55
@@ -19,7 +19,7 @@ Defined in: packages/types/dist/events/message.d.ts:55
 ### blocks?
 
 ```ts
-optional blocks: (Block | KnownBlock)[];
+optional blocks?: (Block | KnownBlock)[];
 ```
 
 Defined in: packages/types/dist/events/message.d.ts:56
@@ -59,7 +59,7 @@ Defined in: packages/types/dist/events/message.d.ts:45
 ### edited?
 
 ```ts
-optional edited: object;
+optional edited?: object;
 ```
 
 Defined in: packages/types/dist/events/message.d.ts:57
@@ -91,7 +91,7 @@ Defined in: packages/types/dist/events/message.d.ts:43
 ### icons?
 
 ```ts
-optional icons: object;
+optional icons?: object;
 ```
 
 Defined in: packages/types/dist/events/message.d.ts:51
@@ -107,7 +107,7 @@ Defined in: packages/types/dist/events/message.d.ts:51
 ### streaming\_state?
 
 ```ts
-optional streaming_state: "in_progress" | "completed" | "errored";
+optional streaming_state?: "in_progress" | "completed" | "errored";
 ```
 
 Defined in: packages/types/dist/events/message.d.ts:46
@@ -137,7 +137,7 @@ Defined in: packages/types/dist/events/message.d.ts:48
 ### thread\_ts?
 
 ```ts
-optional thread_ts: string;
+optional thread_ts?: string;
 ```
 
 Defined in: packages/types/dist/events/message.d.ts:61
@@ -167,7 +167,7 @@ Defined in: packages/types/dist/events/message.d.ts:41
 ### user?
 
 ```ts
-optional user: string;
+optional user?: string;
 ```
 
 Defined in: packages/types/dist/events/message.d.ts:54
@@ -177,7 +177,7 @@ Defined in: packages/types/dist/events/message.d.ts:54
 ### username?
 
 ```ts
-optional username: string;
+optional username?: string;
 ```
 
 Defined in: packages/types/dist/events/message.d.ts:50

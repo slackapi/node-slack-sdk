@@ -23,7 +23,7 @@ Collects information from users via block elements.
 ### block\_id?
 
 ```ts
-optional block_id: string;
+optional block_id?: string;
 ```
 
 Defined in: [block-kit/blocks.ts:49](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L49)
@@ -45,7 +45,7 @@ a message. If a message is updated, use a new `block_id`.
 ### dispatch\_action?
 
 ```ts
-optional dispatch_action: boolean;
+optional dispatch_action?: boolean;
 ```
 
 Defined in: [block-kit/blocks.ts:355](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L355)
@@ -74,7 +74,7 @@ A block element.
 ### hint?
 
 ```ts
-optional hint: PlainTextElement;
+optional hint?: PlainTextElement;
 ```
 
 Defined in: [block-kit/blocks.ts:341](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L341)
@@ -104,7 +104,7 @@ Maximum length for the text in this field is 2000 characters.
 ### optional?
 
 ```ts
-optional optional: boolean;
+optional optional?: boolean;
 ```
 
 Defined in: [block-kit/blocks.ts:346](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L346)

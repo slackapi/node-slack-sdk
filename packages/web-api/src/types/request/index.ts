@@ -94,6 +94,7 @@ export type {
 } from './admin/usergroups';
 export type {
   AdminUsersAssignArguments,
+  AdminUsersGetExpirationArguments,
   AdminUsersInviteArguments,
   AdminUsersListArguments,
   AdminUsersRemoveArguments,
@@ -117,6 +118,7 @@ export type {
   AdminWorkflowsSearchArguments,
   AdminWorkflowsUnpublishArguments,
 } from './admin/workflows';
+export type { AgentsSessionsRenameArguments, AgentsSessionsSetStatusArguments } from './agents';
 export type { APITestArguments } from './api';
 export type {
   AppsConnectionsOpenArguments,
@@ -139,6 +141,7 @@ export type {
   AuthTeamsListArguments,
   AuthTestArguments,
 } from './auth';
+export type { BlocksValidateArguments } from './blocks';
 export type {
   BookmarksAddArguments,
   BookmarksEditArguments,

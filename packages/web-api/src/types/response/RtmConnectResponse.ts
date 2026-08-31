@@ -9,6 +9,7 @@
 
 import type { WebAPICallResult } from '../../WebClient';
 export type RtmConnectResponse = WebAPICallResult & {
+  context?: string;
   error?: string;
   needed?: string;
   ok?: boolean;
@@ -16,6 +17,7 @@ export type RtmConnectResponse = WebAPICallResult & {
   self?: Self;
   team?: Team;
   url?: string;
+  warning?: string;
 };
 
 export interface Self {

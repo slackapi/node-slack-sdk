@@ -51,7 +51,7 @@ Error.constructor
 ### cause?
 
 ```ts
-optional cause: unknown;
+optional cause?: unknown;
 ```
 
 Defined in: node\_modules/typescript/lib/lib.es2022.error.d.ts:26
@@ -109,7 +109,7 @@ Error.name
 ### stack?
 
 ```ts
-optional stack: string;
+optional stack?: string;
 ```
 
 Defined in: node\_modules/typescript/lib/lib.es5.d.ts:1078

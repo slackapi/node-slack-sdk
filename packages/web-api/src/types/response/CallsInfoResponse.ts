@@ -14,6 +14,7 @@ export type CallsInfoResponse = WebAPICallResult & {
   needed?: string;
   ok?: boolean;
   provided?: string;
+  warning?: string;
 };
 
 export interface Call {

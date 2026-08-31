@@ -13,7 +13,7 @@ Defined in: [packages/web-api/src/types/request/chat.ts:209](https://github.com/
 ### mrkdwn?
 
 ```ts
-optional mrkdwn: boolean;
+optional mrkdwn?: boolean;
 ```
 
 #### Description
