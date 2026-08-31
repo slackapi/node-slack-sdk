@@ -77,10 +77,7 @@ expectAssignable<ContainerBlock>({
   type: 'container',
   title: { type: 'plain_text', text: 'Full Container' },
   subtitle: { type: 'plain_text', text: 'A subtitle' },
-  child_blocks: [
-    { type: 'section', text: { type: 'mrkdwn', text: 'Content' } },
-    { type: 'divider' },
-  ],
+  child_blocks: [{ type: 'section', text: { type: 'mrkdwn', text: 'Content' } }, { type: 'divider' }],
   width: 'wide',
   icon: { type: 'image', image_url: 'https://example.com/icon.png', alt_text: 'icon' },
   is_collapsible: true,
