@@ -13,7 +13,7 @@ const nodeMajor = Number.parseInt(process.versions.node.split('.')[0], 10);
 describe('undici peer dependency', () => {
   it('never runs undici v8+ on Node older than 22', () => {
     assert.ok(
-      undiciMajor < 8 || nodeMajor >= 22,
+      undiciMajor >= 8 && nodeMajor < 22,
       `undici@${undiciVersion} requires Node >=22, but tests are running on Node ${process.versions.node}`,
     );
   });
