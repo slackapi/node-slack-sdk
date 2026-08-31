@@ -9,7 +9,7 @@ Defined in: [events/subteam.ts:37](https://github.com/slackapi/node-slack-sdk/bl
 ### added\_users?
 
 ```ts
-optional added_users: string[];
+optional added_users?: string[];
 ```
 
 Defined in: [events/subteam.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/subteam.ts#L43)
@@ -19,7 +19,7 @@ Defined in: [events/subteam.ts:43](https://github.com/slackapi/node-slack-sdk/bl
 ### added\_users\_count?
 
 ```ts
-optional added_users_count: number;
+optional added_users_count?: number;
 ```
 
 Defined in: [events/subteam.ts:44](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/subteam.ts#L44)
@@ -59,7 +59,7 @@ Defined in: [events/subteam.ts:47](https://github.com/slackapi/node-slack-sdk/bl
 ### removed\_users?
 
 ```ts
-optional removed_users: string[];
+optional removed_users?: string[];
 ```
 
 Defined in: [events/subteam.ts:45](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/subteam.ts#L45)
@@ -69,7 +69,7 @@ Defined in: [events/subteam.ts:45](https://github.com/slackapi/node-slack-sdk/bl
 ### removed\_users\_count?
 
 ```ts
-optional removed_users_count: number;
+optional removed_users_count?: number;
 ```
 
 Defined in: [events/subteam.ts:46](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/subteam.ts#L46)

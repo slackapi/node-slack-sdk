@@ -9,7 +9,7 @@ Defined in: [message-metadata.ts:240](https://github.com/slackapi/node-slack-sdk
 ### description?
 
 ```ts
-optional description: string;
+optional description?: string;
 ```
 
 Defined in: [message-metadata.ts:243](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L243)

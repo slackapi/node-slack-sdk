@@ -13,41 +13,41 @@ Defined in: [packages/web-api/src/types/response/UsersIdentityResponse.ts:11](ht
 ### error?
 
 ```ts
-optional error: string;
+optional error?: string;
 ```
 
 ### needed?
 
 ```ts
-optional needed: string;
+optional needed?: string;
 ```
 
 ### ok?
 
 ```ts
-optional ok: boolean;
+optional ok?: boolean;
 ```
 
 ### provided?
 
 ```ts
-optional provided: string;
+optional provided?: string;
 ```
 
 ### team?
 
 ```ts
-optional team: Team;
+optional team?: Team;
 ```
 
 ### user?
 
 ```ts
-optional user: User;
+optional user?: User;
 ```
 
 ### warning?
 
 ```ts
-optional warning: string;
+optional warning?: string;
 ```

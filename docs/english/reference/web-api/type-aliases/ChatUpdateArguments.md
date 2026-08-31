@@ -6,7 +6,7 @@
 type ChatUpdateArguments = MessageContents & object & TokenOverridable & AsUser & LinkNames & Metadata & Parse & object;
 ```
 
-Defined in: [packages/web-api/src/types/request/chat.ts:358](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L358)
+Defined in: [packages/web-api/src/types/request/chat.ts:362](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L362)
 
 ## Type Declaration
 
@@ -25,7 +25,7 @@ Timestamp of the message to be updated.
 ### file\_ids?
 
 ```ts
-optional file_ids: string[];
+optional file_ids?: string[];
 ```
 
 #### Description
@@ -35,7 +35,7 @@ Array of new file ids that will be sent with this message.
 ### reply\_broadcast?
 
 ```ts
-optional reply_broadcast: boolean;
+optional reply_broadcast?: boolean;
 ```
 
 #### Description

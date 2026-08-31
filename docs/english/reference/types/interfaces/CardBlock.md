@@ -21,7 +21,7 @@ Displays content in a card. At least one of `hero_image`, `title`, `actions`, or
 ### actions?
 
 ```ts
-optional actions: Button[];
+optional actions?: Button[];
 ```
 
 Defined in: [block-kit/blocks.ts:169](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L169)
@@ -35,7 +35,7 @@ An array of [Button](Button.md) elements displayed at the bottom of the card.
 ### block\_id?
 
 ```ts
-optional block_id: string;
+optional block_id?: string;
 ```
 
 Defined in: [block-kit/blocks.ts:49](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L49)
@@ -57,7 +57,7 @@ a message. If a message is updated, use a new `block_id`.
 ### body?
 
 ```ts
-optional body: MrkdwnElement;
+optional body?: MrkdwnElement;
 ```
 
 Defined in: [block-kit/blocks.ts:165](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L165)
@@ -72,7 +72,7 @@ Maximum length for the text in this field is 200 characters.
 ### hero\_image?
 
 ```ts
-optional hero_image: ImageElement;
+optional hero_image?: ImageElement;
 ```
 
 Defined in: [block-kit/blocks.ts:146](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L146)
@@ -86,7 +86,7 @@ A top banner image for the card in the form of an [ImageElement](../type-aliases
 ### icon?
 
 ```ts
-optional icon: ImageElement;
+optional icon?: ImageElement;
 ```
 
 Defined in: [block-kit/blocks.ts:150](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L150)
@@ -100,7 +100,7 @@ A small icon displayed next to the title and subtitle in the form of an [ImageEl
 ### subtitle?
 
 ```ts
-optional subtitle: MrkdwnElement;
+optional subtitle?: MrkdwnElement;
 ```
 
 Defined in: [block-kit/blocks.ts:160](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L160)
@@ -115,7 +115,7 @@ Maximum length for the text in this field is 150 characters.
 ### title?
 
 ```ts
-optional title: MrkdwnElement;
+optional title?: MrkdwnElement;
 ```
 
 Defined in: [block-kit/blocks.ts:155](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L155)

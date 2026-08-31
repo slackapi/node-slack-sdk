@@ -33,7 +33,7 @@ Channel.channel
 ### chunks?
 
 ```ts
-optional chunks: AnyChunk[];
+optional chunks?: AnyChunk[];
 ```
 
 Defined in: [packages/web-api/src/types/request/chat.ts:247](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L247)
@@ -48,7 +48,7 @@ Either `markdown_text` or `chunks` is required.
 ### icon\_emoji?
 
 ```ts
-optional icon_emoji: string;
+optional icon_emoji?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/chat.ts:267](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L267)
@@ -68,7 +68,7 @@ Emoji to use as the icon for this message. Overrides `icon_url`.
 ### icon\_url?
 
 ```ts
-optional icon_url: string;
+optional icon_url?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/chat.ts:272](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L272)
@@ -88,7 +88,7 @@ http://lorempixel.com/48/48
 ### markdown\_text?
 
 ```ts
-optional markdown_text: string;
+optional markdown_text?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/chat.ts:63](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L63)
@@ -114,7 +114,7 @@ Partial.markdown_text
 ### recipient\_team\_id?
 
 ```ts
-optional recipient_team_id: string;
+optional recipient_team_id?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/chat.ts:252](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L252)
@@ -129,7 +129,7 @@ This is required when starting a streaming conversation outside of a DM.
 ### recipient\_user\_id?
 
 ```ts
-optional recipient_user_id: string;
+optional recipient_user_id?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/chat.ts:257](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L257)
@@ -144,7 +144,7 @@ This is required when starting a streaming conversation outside of a DM.
 ### task\_display\_mode?
 
 ```ts
-optional task_display_mode: string;
+optional task_display_mode?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/chat.ts:262](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L262)
@@ -180,7 +180,7 @@ ThreadTS.thread_ts
 ### token?
 
 ```ts
-optional token: string;
+optional token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
@@ -200,7 +200,7 @@ TokenOverridable.token
 ### username?
 
 ```ts
-optional username: string;
+optional username?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/chat.ts:277](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L277)

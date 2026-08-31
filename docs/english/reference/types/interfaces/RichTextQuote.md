@@ -17,7 +17,7 @@ A quote block within a rich text field.
 ### border?
 
 ```ts
-optional border: 0 | 1;
+optional border?: 0 | 1;
 ```
 
 Defined in: [block-kit/extensions.ts:76](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/extensions.ts#L76)

@@ -13,7 +13,7 @@ Defined in: [packages/web-api/src/types/request/usergroups.ts:10](https://github
 ### channels?
 
 ```ts
-optional channels: string;
+optional channels?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/usergroups.ts:14](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/usergroups.ts#L14)
@@ -27,7 +27,7 @@ A comma separated string of encoded channel IDs for which the User Group uses as
 ### description?
 
 ```ts
-optional description: string;
+optional description?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/usergroups.ts:16](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/usergroups.ts#L16)
@@ -41,7 +41,7 @@ A short description of the User Group.
 ### handle?
 
 ```ts
-optional handle: string;
+optional handle?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/usergroups.ts:18](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/usergroups.ts#L18)
@@ -55,7 +55,7 @@ A mention handle. Must be unique among channels, users and User Groups.
 ### include\_count?
 
 ```ts
-optional include_count: boolean;
+optional include_count?: boolean;
 ```
 
 Defined in: [packages/web-api/src/types/request/usergroups.ts:6](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/usergroups.ts#L6)
@@ -89,7 +89,7 @@ A name for the User Group. Must be unique among User Groups.
 ### team\_id?
 
 ```ts
-optional team_id: string;
+optional team_id?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:70](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L70)
@@ -109,7 +109,7 @@ OptionalTeamAssignable.team_id
 ### token?
 
 ```ts
-optional token: string;
+optional token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)

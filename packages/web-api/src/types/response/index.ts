@@ -81,6 +81,7 @@ export { AdminUsergroupsAddTeamsResponse } from './AdminUsergroupsAddTeamsRespon
 export { AdminUsergroupsListChannelsResponse } from './AdminUsergroupsListChannelsResponse';
 export { AdminUsergroupsRemoveChannelsResponse } from './AdminUsergroupsRemoveChannelsResponse';
 export { AdminUsersAssignResponse } from './AdminUsersAssignResponse';
+export { AdminUsersGetExpirationResponse } from './AdminUsersGetExpirationResponse';
 export { AdminUsersInviteResponse } from './AdminUsersInviteResponse';
 export { AdminUsersListResponse } from './AdminUsersListResponse';
 export { AdminUsersRemoveResponse } from './AdminUsersRemoveResponse';
@@ -101,6 +102,8 @@ export { AdminWorkflowsCollaboratorsRemoveResponse } from './AdminWorkflowsColla
 export { AdminWorkflowsPermissionsLookupResponse } from './AdminWorkflowsPermissionsLookupResponse';
 export { AdminWorkflowsSearchResponse } from './AdminWorkflowsSearchResponse';
 export { AdminWorkflowsUnpublishResponse } from './AdminWorkflowsUnpublishResponse';
+export { AgentsSessionsRenameResponse } from './AgentsSessionsRenameResponse';
+export { AgentsSessionsSetStatusResponse } from './AgentsSessionsSetStatusResponse';
 export { ApiTestResponse } from './ApiTestResponse';
 export { AppsConnectionsOpenResponse } from './AppsConnectionsOpenResponse';
 export { AppsEventAuthorizationsListResponse } from './AppsEventAuthorizationsListResponse';
@@ -123,6 +126,7 @@ export { AssistantThreadsSetTitleResponse } from './AssistantThreadsSetTitleResp
 export { AuthRevokeResponse } from './AuthRevokeResponse';
 export { AuthTeamsListResponse } from './AuthTeamsListResponse';
 export { AuthTestResponse } from './AuthTestResponse';
+export { BlocksValidateResponse } from './BlocksValidateResponse';
 export { BookmarksAddResponse } from './BookmarksAddResponse';
 export { BookmarksEditResponse } from './BookmarksEditResponse';
 export { BookmarksListResponse } from './BookmarksListResponse';

@@ -17,7 +17,7 @@ Buttons to indicate positive or negative feedback.
 ### action\_id?
 
 ```ts
-optional action_id: string;
+optional action_id?: string;
 ```
 
 Defined in: [block-kit/extensions.ts:15](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/extensions.ts#L15)
@@ -43,7 +43,7 @@ Defined in: [block-kit/block-elements.ts:173](https://github.com/slackapi/node-s
 #### accessibility\_label?
 
 ```ts
-optional accessibility_label: string;
+optional accessibility_label?: string;
 ```
 
 ##### Description
@@ -95,7 +95,7 @@ Defined in: [block-kit/block-elements.ts:154](https://github.com/slackapi/node-s
 #### accessibility\_label?
 
 ```ts
-optional accessibility_label: string;
+optional accessibility_label?: string;
 ```
 
 ##### Description

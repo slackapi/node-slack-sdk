@@ -18,7 +18,7 @@ Set of functions to spawn and interact with Slack Platform CLI processes and com
 app: object;
 ```
 
-#### app.delete()
+#### app.delete
 
 ```ts
 delete: (args) => Promise<string> = del;
@@ -38,7 +38,7 @@ delete: (args) => Promise<string> = del;
 
 command output
 
-#### app.install()
+#### app.install
 
 ```ts
 install: (args) => Promise<string>;
@@ -58,7 +58,7 @@ install: (args) => Promise<string>;
 
 command output
 
-#### app.list()
+#### app.list
 
 ```ts
 list: (args) => Promise<string>;
@@ -84,7 +84,7 @@ command output
 auth: object;
 ```
 
-#### auth.loginChallengeExchange()
+#### auth.loginChallengeExchange
 
 ```ts
 loginChallengeExchange: (args) => Promise<string>;
@@ -102,7 +102,7 @@ loginChallengeExchange: (args) => Promise<string>;
 
 `Promise`\<`string`\>
 
-#### auth.loginNoPrompt()
+#### auth.loginNoPrompt
 
 ```ts
 loginNoPrompt: (args?) => Promise<{
@@ -130,7 +130,7 @@ loginNoPrompt: (args?) => Promise<{
   `output`: `string`;
 \}\>
 
-#### auth.logout()
+#### auth.logout
 
 ```ts
 logout: (args?) => Promise<string>;
@@ -156,7 +156,7 @@ command output
 collaborator: object;
 ```
 
-#### collaborator.add()
+#### collaborator.add
 
 ```ts
 add: (args) => Promise<string>;
@@ -176,7 +176,7 @@ add: (args) => Promise<string>;
 
 command output
 
-#### collaborator.list()
+#### collaborator.list
 
 ```ts
 list: (args) => Promise<string>;
@@ -196,7 +196,7 @@ list: (args) => Promise<string>;
 
 command output
 
-#### collaborator.remove()
+#### collaborator.remove
 
 ```ts
 remove: (args) => Promise<string>;
@@ -222,7 +222,7 @@ command output
 datastore: object;
 ```
 
-#### datastore.datastoreDelete()
+#### datastore.datastoreDelete
 
 ```ts
 datastoreDelete: (args) => Promise<string>;
@@ -242,7 +242,7 @@ datastoreDelete: (args) => Promise<string>;
 
 command output
 
-#### datastore.datastoreGet()
+#### datastore.datastoreGet
 
 ```ts
 datastoreGet: (args) => Promise<string>;
@@ -262,7 +262,7 @@ datastoreGet: (args) => Promise<string>;
 
 command output
 
-#### datastore.datastorePut()
+#### datastore.datastorePut
 
 ```ts
 datastorePut: (args) => Promise<string>;
@@ -282,7 +282,7 @@ datastorePut: (args) => Promise<string>;
 
 command output
 
-#### datastore.datastoreQuery()
+#### datastore.datastoreQuery
 
 ```ts
 datastoreQuery: (args) => Promise<string>;
@@ -308,7 +308,7 @@ command output
 env: object;
 ```
 
-#### env.list()
+#### env.list
 
 ```ts
 list: (args) => Promise<string>;
@@ -328,7 +328,7 @@ list: (args) => Promise<string>;
 
 command output
 
-#### env.set()
+#### env.set
 
 ```ts
 set: (args) => Promise<string>;
@@ -348,7 +348,7 @@ set: (args) => Promise<string>;
 
 command output
 
-#### env.unset()
+#### env.unset
 
 ```ts
 unset: (args) => Promise<string>;
@@ -374,7 +374,7 @@ command output
 externalAuth: object;
 ```
 
-#### externalAuth.add()
+#### externalAuth.add
 
 ```ts
 add: (args) => Promise<string>;
@@ -394,7 +394,7 @@ add: (args) => Promise<string>;
 
 command output
 
-#### externalAuth.addSecret()
+#### externalAuth.addSecret
 
 ```ts
 addSecret: (args) => Promise<string>;
@@ -414,7 +414,7 @@ addSecret: (args) => Promise<string>;
 
 command output
 
-#### externalAuth.remove()
+#### externalAuth.remove
 
 ```ts
 remove: (args) => Promise<string>;
@@ -434,7 +434,7 @@ remove: (args) => Promise<string>;
 
 command output
 
-#### externalAuth.selectAuth()
+#### externalAuth.selectAuth
 
 ```ts
 selectAuth: (args) => Promise<string>;
@@ -460,7 +460,7 @@ command output
 function: object = func;
 ```
 
-#### function.access()
+#### function.access
 
 ```ts
 access: (args) => Promise<string>;
@@ -486,7 +486,7 @@ command output
 manifest: object;
 ```
 
-#### manifest.info()
+#### manifest.info
 
 ```ts
 info: (args) => Promise<string>;
@@ -506,7 +506,7 @@ info: (args) => Promise<string>;
 
 command output
 
-#### manifest.validate()
+#### manifest.validate
 
 ```ts
 validate: (args) => Promise<string>;
@@ -532,7 +532,7 @@ command output
 platform: object;
 ```
 
-#### platform.activity()
+#### platform.activity
 
 ```ts
 activity: (args) => Promise<string>;
@@ -552,7 +552,7 @@ activity: (args) => Promise<string>;
 
 command output
 
-#### platform.activityTailStart()
+#### platform.activityTailStart
 
 ```ts
 activityTailStart: (args) => Promise<ShellProcess>;
@@ -573,7 +573,7 @@ At the specific point where the sequence is found to continue with test
 
 command output
 
-#### platform.activityTailStop()
+#### platform.activityTailStop
 
 ```ts
 activityTailStop: (args) => Promise<string>;
@@ -594,7 +594,7 @@ kills the process then returns the output
 
 command output
 
-#### platform.deploy()
+#### platform.deploy
 
 ```ts
 deploy: (args) => Promise<string>;
@@ -614,7 +614,7 @@ deploy: (args) => Promise<string>;
 
 command output
 
-#### platform.runStart()
+#### platform.runStart
 
 ```ts
 runStart: (args) => Promise<ShellProcess>;
@@ -634,7 +634,7 @@ start `slack run`. `runStop` must be used to stop the `run` process returned by 
 
 shell object to kill it explicitly in the test case via `runStop`
 
-#### platform.runStop()
+#### platform.runStop
 
 ```ts
 runStop: (args) => Promise<void>;
@@ -658,7 +658,7 @@ stop `slack run`
 project: object;
 ```
 
-#### project.create()
+#### project.create
 
 ```ts
 create: (args) => Promise<string>;
@@ -678,7 +678,7 @@ create: (args) => Promise<string>;
 
 command output
 
-### stopSession()
+### stopSession
 
 ```ts
 stopSession: (args) => Promise<void>;
@@ -702,7 +702,7 @@ Delete app and Log out of current team session
 trigger: object;
 ```
 
-#### trigger.access()
+#### trigger.access
 
 ```ts
 access: (args) => Promise<string>;
@@ -722,7 +722,7 @@ access: (args) => Promise<string>;
 
 command output
 
-#### trigger.create()
+#### trigger.create
 
 ```ts
 create: (args) => Promise<string>;
@@ -742,7 +742,7 @@ create: (args) => Promise<string>;
 
 command output
 
-#### trigger.delete()
+#### trigger.delete
 
 ```ts
 delete: (args) => Promise<string> = del;
@@ -762,7 +762,7 @@ delete: (args) => Promise<string> = del;
 
 command output
 
-#### trigger.info()
+#### trigger.info
 
 ```ts
 info: (args) => Promise<string>;
@@ -782,7 +782,7 @@ info: (args) => Promise<string>;
 
 command output
 
-#### trigger.list()
+#### trigger.list
 
 ```ts
 list: (args) => Promise<string>;
@@ -802,7 +802,7 @@ list: (args) => Promise<string>;
 
 command output
 
-#### trigger.update()
+#### trigger.update
 
 ```ts
 update: (args) => Promise<string>;
@@ -828,7 +828,7 @@ command output
 version: object;
 ```
 
-#### version.version()
+#### version.version
 
 ```ts
 version: () => Promise<string>;

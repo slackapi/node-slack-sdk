@@ -17,13 +17,13 @@ Defined in: packages/types/dist/events/token.d.ts:3
 #### bot?
 
 ```ts
-optional bot: string[];
+optional bot?: string[];
 ```
 
 #### oauth?
 
 ```ts
-optional oauth: string[];
+optional oauth?: string[];
 ```
 
 ***

@@ -9,7 +9,7 @@ Defined in: [packages/oauth/src/state-stores/file-state-store.ts:11](https://git
 ### baseDir?
 
 ```ts
-optional baseDir: string;
+optional baseDir?: string;
 ```
 
 Defined in: [packages/oauth/src/state-stores/file-state-store.ts:13](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/state-stores/file-state-store.ts#L13)
@@ -19,7 +19,7 @@ Defined in: [packages/oauth/src/state-stores/file-state-store.ts:13](https://git
 ### logger?
 
 ```ts
-optional logger: Logger;
+optional logger?: Logger;
 ```
 
 Defined in: [packages/oauth/src/state-stores/file-state-store.ts:14](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/state-stores/file-state-store.ts#L14)
@@ -29,7 +29,7 @@ Defined in: [packages/oauth/src/state-stores/file-state-store.ts:14](https://git
 ### stateExpirationSeconds?
 
 ```ts
-optional stateExpirationSeconds: number;
+optional stateExpirationSeconds?: number;
 ```
 
 Defined in: [packages/oauth/src/state-stores/file-state-store.ts:12](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/state-stores/file-state-store.ts#L12)

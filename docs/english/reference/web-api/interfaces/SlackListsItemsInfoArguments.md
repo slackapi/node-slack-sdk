@@ -27,7 +27,7 @@ ID of item to delete.
 ### include\_is\_subscribed?
 
 ```ts
-optional include_is_subscribed: boolean;
+optional include_is_subscribed?: boolean;
 ```
 
 Defined in: [packages/web-api/src/types/request/slackLists.ts:493](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/slackLists.ts#L493)
@@ -55,7 +55,7 @@ Encoded ID of the List.
 ### token?
 
 ```ts
-optional token: string;
+optional token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)

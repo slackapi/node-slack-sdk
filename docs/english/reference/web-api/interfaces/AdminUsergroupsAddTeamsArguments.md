@@ -13,7 +13,7 @@ Defined in: [packages/web-api/src/types/request/admin/usergroups.ts:21](https://
 ### auto\_provision?
 
 ```ts
-optional auto_provision: boolean;
+optional auto_provision?: boolean;
 ```
 
 Defined in: [packages/web-api/src/types/request/admin/usergroups.ts:31](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/usergroups.ts#L31)
@@ -43,7 +43,7 @@ Each workspace MUST belong to the organization associated with the token.
 ### token?
 
 ```ts
-optional token: string;
+optional token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)

@@ -14,6 +14,7 @@ export type UsersSetPhotoResponse = WebAPICallResult & {
   ok?: boolean;
   profile?: Profile;
   provided?: string;
+  warning?: string;
 };
 
 export interface Profile {

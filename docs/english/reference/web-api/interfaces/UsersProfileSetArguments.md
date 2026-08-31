@@ -13,7 +13,7 @@ Defined in: [packages/web-api/src/types/request/users.ts:76](https://github.com/
 ### name?
 
 ```ts
-optional name: string;
+optional name?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/users.ts:90](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/users.ts#L90)
@@ -31,7 +31,7 @@ Name of a single profile field to set. If both `name` and `profile` are set, `na
 ### profile?
 
 ```ts
-optional profile: Record<string, unknown>;
+optional profile?: Record<string, unknown>;
 ```
 
 Defined in: [packages/web-api/src/types/request/users.ts:83](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/users.ts#L83)
@@ -51,7 +51,7 @@ At most 50 fields may be set. Each field name is limited to 255 characters.
 ### token?
 
 ```ts
-optional token: string;
+optional token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
@@ -71,7 +71,7 @@ TokenOverridable.token
 ### user?
 
 ```ts
-optional user: string;
+optional user?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/users.ts:85](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/users.ts#L85)
@@ -85,7 +85,7 @@ ID of user to change. This argument may only be specified by admins on paid team
 ### value?
 
 ```ts
-optional value: string;
+optional value?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/users.ts:95](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/users.ts#L95)

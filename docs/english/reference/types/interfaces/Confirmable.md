@@ -31,7 +31,7 @@ Defined in: [block-kit/extensions.ts:20](https://github.com/slackapi/node-slack-
 ### confirm?
 
 ```ts
-optional confirm: ConfirmationDialog;
+optional confirm?: ConfirmationDialog;
 ```
 
 Defined in: [block-kit/extensions.ts:25](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/extensions.ts#L25)

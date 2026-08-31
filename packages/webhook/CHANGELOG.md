@@ -1,5 +1,23 @@
 # @slack/webhook
 
+## 8.0.2
+
+### Patch Changes
+
+- 0ee1d99: fix: revert internal packages requiring esm loading for backward compatible support ([#2711](https://github.com/slackapi/node-slack-sdk/issues/2711))
+
+## 8.0.1
+
+### Patch Changes
+
+- 3a459f6: fix: stop `WebhookTrigger.send()` from retrying after a successful delivery
+
+  A 2xx response with an empty or non-JSON body no longer throws. It now resolves to `{ ok: true }`. Before this fix that body threw a parse error, which was retried as a request error and caused duplicate Workflow Builder runs. A valid `{ ok: false, error }` body is still surfaced to the caller.
+
+- Updated dependencies [916d8e9]
+- Updated dependencies [f5e9a01]
+  - @slack/types@3.1.0
+
 ## 8.0.0
 
 ### Major Changes

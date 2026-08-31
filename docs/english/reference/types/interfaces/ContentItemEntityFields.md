@@ -9,7 +9,7 @@ Defined in: [message-metadata.ts:179](https://github.com/slackapi/node-slack-sdk
 ### created\_by?
 
 ```ts
-optional created_by: EntityTypedField;
+optional created_by?: EntityTypedField;
 ```
 
 Defined in: [message-metadata.ts:182](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L182)
@@ -19,7 +19,7 @@ Defined in: [message-metadata.ts:182](https://github.com/slackapi/node-slack-sdk
 ### date\_created?
 
 ```ts
-optional date_created: EntityTimestampField;
+optional date_created?: EntityTimestampField;
 ```
 
 Defined in: [message-metadata.ts:183](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L183)
@@ -29,7 +29,7 @@ Defined in: [message-metadata.ts:183](https://github.com/slackapi/node-slack-sdk
 ### date\_updated?
 
 ```ts
-optional date_updated: EntityTimestampField;
+optional date_updated?: EntityTimestampField;
 ```
 
 Defined in: [message-metadata.ts:184](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L184)
@@ -39,7 +39,7 @@ Defined in: [message-metadata.ts:184](https://github.com/slackapi/node-slack-sdk
 ### description?
 
 ```ts
-optional description: EntityStringField;
+optional description?: EntityStringField;
 ```
 
 Defined in: [message-metadata.ts:181](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L181)
@@ -49,7 +49,7 @@ Defined in: [message-metadata.ts:181](https://github.com/slackapi/node-slack-sdk
 ### last\_modified\_by?
 
 ```ts
-optional last_modified_by: EntityTypedField;
+optional last_modified_by?: EntityTypedField;
 ```
 
 Defined in: [message-metadata.ts:185](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L185)
@@ -59,7 +59,7 @@ Defined in: [message-metadata.ts:185](https://github.com/slackapi/node-slack-sdk
 ### preview?
 
 ```ts
-optional preview: EntityImageField;
+optional preview?: EntityImageField;
 ```
 
 Defined in: [message-metadata.ts:180](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L180)
