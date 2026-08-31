@@ -1,5 +1,11 @@
 # @slack/web-api
 
+## 8.1.1
+
+### Patch Changes
+
+- 0ee1d99: fix: revert internal packages requiring esm loading for backward compatible support ([#2711](https://github.com/slackapi/node-slack-sdk/issues/2711))
+
 ## 8.1.0
 
 ### Minor Changes

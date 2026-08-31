@@ -1,6 +1,6 @@
 {
   "name": "@slack/web-api",
-  "version": "8.1.0",
+  "version": "8.1.1",
   "description": "Official library for using the Slack Platform's Web API",
   "author": "Slack Technologies, LLC",
   "license": "MIT",
@@ -53,8 +53,8 @@
     "@types/node": ">=20",
     "@types/retry": "0.12.5",
     "eventemitter3": "^5.0.1",
-    "p-queue": "^9",
-    "p-retry": "^8",
+    "p-queue": "^6.6.2",
+    "p-retry": "^4.6.2",
     "retry": "^0.13.1"
   },
   "devDependencies": {
