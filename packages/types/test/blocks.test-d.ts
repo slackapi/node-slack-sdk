@@ -1,5 +1,5 @@
 import { expectAssignable, expectError } from 'tsd';
-import type { AlertBlock, CardBlock, CarouselBlock, KnownBlock } from '../src/index';
+import type { AlertBlock, CardBlock, CarouselBlock, ContainerBlock, KnownBlock } from '../src/index';
 
 // CardBlock
 // -- sad path
@@ -61,4 +61,47 @@ expectAssignable<CarouselBlock>({
 expectAssignable<KnownBlock>({
   type: 'carousel',
   elements: [{ type: 'card' }],
+});
+
+// ContainerBlock
+// -- sad path
+expectError<ContainerBlock>({}); // missing type and child_blocks
+expectError<ContainerBlock>({ type: 'container' }); // missing required child_blocks
+// -- happy path
+expectAssignable<ContainerBlock>({
+  type: 'container',
+  title: { type: 'plain_text', text: 'My Container' },
+  child_blocks: [{ type: 'divider' }],
+});
+expectAssignable<ContainerBlock>({
+  type: 'container',
+  title: { type: 'plain_text', text: 'Full Container' },
+  subtitle: { type: 'plain_text', text: 'A subtitle' },
+  child_blocks: [
+    { type: 'section', text: { type: 'mrkdwn', text: 'Content' } },
+    { type: 'divider' },
+  ],
+  width: 'wide',
+  icon: { type: 'image', image_url: 'https://example.com/icon.png', alt_text: 'icon' },
+  is_collapsible: true,
+  default_collapsed: true,
+});
+expectAssignable<ContainerBlock>({
+  type: 'container',
+  rich_text_title: {
+    type: 'rich_text',
+    elements: [{ type: 'rich_text_section', elements: [{ type: 'text', text: 'Rich Title' }] }],
+  },
+  child_blocks: [{ type: 'divider' }],
+});
+expectAssignable<ContainerBlock>({
+  type: 'container',
+  title: { type: 'plain_text', text: 'Divider' },
+  child_blocks: [{ type: 'divider' }],
+  has_header_divider: true,
+});
+expectAssignable<KnownBlock>({
+  type: 'container',
+  title: { type: 'plain_text', text: 'Known' },
+  child_blocks: [{ type: 'divider' }],
 });

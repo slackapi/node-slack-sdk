@@ -58,6 +58,7 @@ export type KnownBlock =
   | AlertBlock
   | CardBlock
   | CarouselBlock
+  | ContainerBlock
   | ContextBlock
   | ContextActionsBlock
   | DividerBlock
@@ -182,6 +183,74 @@ export interface CarouselBlock extends Block {
    * @description An array of {@link CardBlock} elements. Minimum 1, maximum 10 cards.
    */
   elements: CardBlock[];
+}
+
+/**
+ * A helper union type of all Block types that can be used as child blocks in a {@link ContainerBlock}.
+ * @see {@link https://docs.slack.dev/reference/block-kit/blocks/container-block Container block reference}.
+ */
+export type ContainerBlockChildBlock =
+  | ActionsBlock
+  | ContextBlock
+  | DividerBlock
+  | FileBlock
+  | HeaderBlock
+  | ImageBlock
+  | InputBlock
+  | RichTextBlock
+  | SectionBlock
+  | TableBlock
+  | VideoBlock;
+
+/**
+ * @description A general-purpose wrapper for grouping child blocks together, with a configurable size.
+ * Note: `has_header_divider` cannot be set to `true` when `is_collapsible` is `true`.
+ * @see {@link https://docs.slack.dev/reference/block-kit/blocks/container-block Container block reference}.
+ */
+export interface ContainerBlock extends Block {
+  /**
+   * @description The type of block. For a container block, `type` is always `container`.
+   */
+  type: 'container';
+  /**
+   * @description Plain text title for the container. Maximum length is 150 characters.
+   * One of `title` or `rich_text_title` is required.
+   */
+  title?: PlainTextElement;
+  /**
+   * @description Rich text title for the container. Takes precedence over `title` if both are provided.
+   * One of `title` or `rich_text_title` is required.
+   */
+  rich_text_title?: RichTextBlock;
+  /**
+   * @description Subtitle for the container in plain text or mrkdwn format. Maximum length is 150 characters.
+   */
+  subtitle?: TextObject;
+  /**
+   * @description An array of child blocks. Maximum 10 blocks.
+   */
+  child_blocks: ContainerBlockChildBlock[];
+  /**
+   * @description Controls the width of the container. Defaults to `"standard"`.
+   */
+  width?: 'narrow' | 'standard' | 'wide' | 'full';
+  /**
+   * @description An image element displayed alongside the title and subtitle.
+   */
+  icon?: ImageElement;
+  /**
+   * @description Whether the container can be collapsed. Defaults to `false`.
+   */
+  is_collapsible?: boolean;
+  /**
+   * @description Whether the container is collapsed by default. Requires `is_collapsible` to be `true`. Defaults to `false`.
+   */
+  default_collapsed?: boolean;
+  /**
+   * @description Whether to show a visible border separating header from content.
+   * Only applies when `is_collapsible` is not `true`. Defaults to `false`.
+   */
+  has_header_divider?: boolean;
 }
 
 /**
