@@ -186,23 +186,6 @@ export interface CarouselBlock extends Block {
 }
 
 /**
- * A helper union type of all Block types that can be used as child blocks in a {@link ContainerBlock}.
- * @see {@link https://docs.slack.dev/reference/block-kit/blocks/container-block Container block reference}.
- */
-export type ContainerBlockChildBlock =
-  | ActionsBlock
-  | ContextBlock
-  | DividerBlock
-  | FileBlock
-  | HeaderBlock
-  | ImageBlock
-  | InputBlock
-  | RichTextBlock
-  | SectionBlock
-  | TableBlock
-  | VideoBlock;
-
-/**
  * @description A general-purpose wrapper for grouping child blocks together, with a configurable size.
  * Note: `has_header_divider` cannot be set to `true` when `is_collapsible` is `true`.
  * @see {@link https://docs.slack.dev/reference/block-kit/blocks/container-block Container block reference}.
@@ -229,7 +212,19 @@ export interface ContainerBlock extends Block {
   /**
    * @description An array of child blocks. Maximum 10 blocks.
    */
-  child_blocks: ContainerBlockChildBlock[];
+  child_blocks: (
+    | ActionsBlock
+    | ContextBlock
+    | DividerBlock
+    | FileBlock
+    | HeaderBlock
+    | ImageBlock
+    | InputBlock
+    | RichTextBlock
+    | SectionBlock
+    | TableBlock
+    | VideoBlock
+  )[];
   /**
    * @description Controls the width of the container. Defaults to `"standard"`.
    */
