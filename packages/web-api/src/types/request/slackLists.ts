@@ -58,11 +58,22 @@ export interface SlackListsItemFieldLink {
 }
 
 /**
+ * @description Message object in Slack Lists message field.
+ */
+export interface SlackListsItemMessage {
+  text?: string;
+  ts?: string;
+  user?: string;
+  team?: string;
+  type?: string;
+}
+
+/**
  * @description Message field with message URLs.
  */
 export interface SlackListsItemFieldMessage {
   column_id: string;
-  message: string[];
+  message: SlackListsItemMessage | SlackListsItemMessage[];
 }
 
 /**
