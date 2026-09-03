@@ -187,7 +187,6 @@ export interface CarouselBlock extends Block {
 
 /**
  * @description A general-purpose wrapper for grouping child blocks together, with a configurable size.
- * Note: `has_header_divider` cannot be set to `true` when `is_collapsible` is `true`.
  * @see {@link https://docs.slack.dev/reference/block-kit/blocks/container-block Container block reference}.
  */
 export interface ContainerBlock extends Block {
