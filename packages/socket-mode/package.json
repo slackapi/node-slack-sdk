@@ -57,7 +57,7 @@
     "eventemitter3": "^5"
   },
   "peerDependencies": {
-    "undici": "^7.0.0"
+    "undici": "^7.0.0 || ^8.0.0"
   },
   "devDependencies": {
     "@types/proxyquire": "^1.3.31",
