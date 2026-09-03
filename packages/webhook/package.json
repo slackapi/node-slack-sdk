@@ -44,7 +44,7 @@
     "@slack/types": "^3.1.0",
     "@types/node": ">=20",
     "@types/retry": "0.12.5",
-    "p-retry": "^4.6.2",
+    "p-retry": "^8.0.0",
     "retry": "^0.13.1"
   },
   "devDependencies": {
