@@ -247,7 +247,12 @@ export class SlackWebSocket {
   /**
    * Disconnects the WebSocket connection with Slack, if connected.
    */
-  public disconnect(): void {
+  public disconnect({ suppressHeartbeat = false }: { suppressHeartbeat?: boolean } = {}): void {
+    if (suppressHeartbeat) {
+      clearTimeout(this.serverPingTimeout);
+      clearInterval(this.clientPingTimeout);
+    }
+
     if (this.websocket) {
       // Disconnecting a WebSocket involves a close frame handshake so we check if we've already received a close frame.
       // If so, we can terminate the underlying socket connection and let the client know.
