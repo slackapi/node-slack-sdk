@@ -13,47 +13,47 @@ Defined in: [packages/web-api/src/types/response/ConversationsAcceptSharedInvite
 ### can\_open\_scdm?
 
 ```ts
-optional can_open_scdm: boolean;
+optional can_open_scdm?: boolean;
 ```
 
 ### channel\_id?
 
 ```ts
-optional channel_id: string;
+optional channel_id?: string;
 ```
 
 ### error?
 
 ```ts
-optional error: string;
+optional error?: string;
 ```
 
 ### implicit\_approval?
 
 ```ts
-optional implicit_approval: boolean;
+optional implicit_approval?: boolean;
 ```
 
 ### invite\_id?
 
 ```ts
-optional invite_id: string;
+optional invite_id?: string;
 ```
 
 ### needed?
 
 ```ts
-optional needed: string;
+optional needed?: string;
 ```
 
 ### ok?
 
 ```ts
-optional ok: boolean;
+optional ok?: boolean;
 ```
 
 ### provided?
 
 ```ts
-optional provided: string;
+optional provided?: string;
 ```

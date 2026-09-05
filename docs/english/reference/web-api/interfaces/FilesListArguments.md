@@ -13,7 +13,7 @@ Defined in: [packages/web-api/src/types/request/files.ts:109](https://github.com
 ### channel?
 
 ```ts
-optional channel: string;
+optional channel?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/files.ts:111](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/files.ts#L111)
@@ -27,7 +27,7 @@ Filter files appearing in a specific channel, indicated by its ID.
 ### count?
 
 ```ts
-optional count: number;
+optional count?: number;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:33](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L33)
@@ -47,7 +47,7 @@ TraditionalPagingEnabled.count
 ### page?
 
 ```ts
-optional page: number;
+optional page?: number;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:35](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L35)
@@ -67,7 +67,7 @@ TraditionalPagingEnabled.page
 ### show\_files\_hidden\_by\_limit?
 
 ```ts
-optional show_files_hidden_by_limit: boolean;
+optional show_files_hidden_by_limit?: boolean;
 ```
 
 Defined in: [packages/web-api/src/types/request/files.ts:116](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/files.ts#L116)
@@ -82,7 +82,7 @@ being over the file limit.
 ### team\_id?
 
 ```ts
-optional team_id: string;
+optional team_id?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:70](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L70)
@@ -102,7 +102,7 @@ OptionalTeamAssignable.team_id
 ### token?
 
 ```ts
-optional token: string;
+optional token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
@@ -122,7 +122,7 @@ TokenOverridable.token
 ### ts\_from?
 
 ```ts
-optional ts_from: string;
+optional ts_from?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/files.ts:118](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/files.ts#L118)
@@ -136,7 +136,7 @@ Filter files created after this timestamp (inclusive).
 ### ts\_to?
 
 ```ts
-optional ts_to: string;
+optional ts_to?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/files.ts:120](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/files.ts#L120)
@@ -150,7 +150,7 @@ Filter files created before this timestamp (inclusive).
 ### types?
 
 ```ts
-optional types: string;
+optional types?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/files.ts:126](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/files.ts#L126)
@@ -166,7 +166,7 @@ Available types are `all`, `spaces`, `snippets`, `images`, `gdocs`, `zips` and `
 ### user?
 
 ```ts
-optional user: string;
+optional user?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/files.ts:128](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/files.ts#L128)

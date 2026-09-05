@@ -13,7 +13,7 @@ Metadata that represents a work object entity.
 ### app\_unfurl\_url?
 
 ```ts
-optional app_unfurl_url: string;
+optional app_unfurl_url?: string;
 ```
 
 Defined in: [message-metadata.ts:68](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L68)
@@ -35,19 +35,19 @@ Defined in: [message-metadata.ts:45](https://github.com/slackapi/node-slack-sdk/
 #### actions?
 
 ```ts
-optional actions: object;
+optional actions?: object;
 ```
 
 ##### actions.overflow\_actions?
 
 ```ts
-optional overflow_actions: EntityActionButton[];
+optional overflow_actions?: EntityActionButton[];
 ```
 
 ##### actions.primary\_actions?
 
 ```ts
-optional primary_actions: EntityActionButton[];
+optional primary_actions?: EntityActionButton[];
 ```
 
 #### attributes
@@ -59,19 +59,19 @@ attributes: EntityAttributes;
 #### custom\_fields?
 
 ```ts
-optional custom_fields: EntityCustomField[];
+optional custom_fields?: EntityCustomField[];
 ```
 
 #### display\_order?
 
 ```ts
-optional display_order: string[];
+optional display_order?: string[];
 ```
 
 #### fields?
 
 ```ts
-optional fields: 
+optional fields?: 
   | ContentItemEntityFields
   | FileEntityFields
   | IncidentEntityFields
@@ -81,7 +81,7 @@ optional fields:
 #### slack\_file?
 
 ```ts
-optional slack_file: FileEntitySlackFile;
+optional slack_file?: FileEntitySlackFile;
 ```
 
 #### Description

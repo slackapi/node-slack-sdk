@@ -98,6 +98,8 @@ import type {
   AdminWorkflowsPermissionsLookupArguments,
   AdminWorkflowsSearchArguments,
   AdminWorkflowsUnpublishArguments,
+  AgentsSessionsRenameArguments,
+  AgentsSessionsSetStatusArguments,
   APITestArguments,
   AppsConnectionsOpenArguments,
   AppsEventAuthorizationsListArguments,
@@ -114,6 +116,7 @@ import type {
   AuthRevokeArguments,
   AuthTeamsListArguments,
   AuthTestArguments,
+  BlocksValidateArguments,
   BookmarksAddArguments,
   BookmarksEditArguments,
   BookmarksListArguments,
@@ -368,6 +371,8 @@ import type {
   AdminWorkflowsPermissionsLookupResponse,
   AdminWorkflowsSearchResponse,
   AdminWorkflowsUnpublishResponse,
+  AgentsSessionsRenameResponse,
+  AgentsSessionsSetStatusResponse,
   ApiTestResponse,
   AppsConnectionsOpenResponse,
   AppsEventAuthorizationsListResponse,
@@ -384,6 +389,7 @@ import type {
   AuthRevokeResponse,
   AuthTeamsListResponse,
   AuthTestResponse,
+  BlocksValidateResponse,
   BookmarksAddResponse,
   BookmarksEditResponse,
   BookmarksListResponse,
@@ -1374,6 +1380,24 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
     },
   };
 
+  public readonly agents = {
+    sessions: {
+      /**
+       * @description Rename an agent session.
+       * @see {@link https://docs.slack.dev/reference/methods/agents.sessions.rename `agents.sessions.rename` API reference}.
+       */
+      rename: bindApiCall<AgentsSessionsRenameArguments, AgentsSessionsRenameResponse>(this, 'agents.sessions.rename'),
+      /**
+       * @description Set an agent session's lifecycle status, creating the session if needed.
+       * @see {@link https://docs.slack.dev/reference/methods/agents.sessions.setStatus `agents.sessions.setStatus` API reference}.
+       */
+      setStatus: bindApiCall<AgentsSessionsSetStatusArguments, AgentsSessionsSetStatusResponse>(
+        this,
+        'agents.sessions.setStatus',
+      ),
+    },
+  };
+
   public readonly api = {
     /**
      * @description Checks API calling code.
@@ -1522,6 +1546,14 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
      * @see {@link https://docs.slack.dev/reference/methods/bookmarks.remove `bookmarks.remove` API reference}.
      */
     remove: bindApiCall<BookmarksRemoveArguments, BookmarksRemoveResponse>(this, 'bookmarks.remove'),
+  };
+
+  public readonly blocks = {
+    /**
+     * @description Validates blocks, messages, and views Block Kit JSON payloads.
+     * @see {@link https://docs.slack.dev/reference/methods/blocks.validate `blocks.validate` API reference}.
+     */
+    validate: bindApiCallWithOptionalArgument<BlocksValidateArguments, BlocksValidateResponse>(this, 'blocks.validate'),
   };
 
   public readonly bots = {

@@ -10,7 +10,7 @@ Defined in: [cli/shell.ts:9](https://github.com/slackapi/node-slack-sdk/blob/mai
 
 ## Type Declaration
 
-### assembleShellEnv()
+### assembleShellEnv
 
 ```ts
 assembleShellEnv: () => Record<string, string | undefined>;
@@ -20,7 +20,7 @@ assembleShellEnv: () => Record<string, string | undefined>;
 
 `Record`\<`string`, `string` \| `undefined`\>
 
-### checkIfFinished()
+### checkIfFinished
 
 ```ts
 checkIfFinished: (proc) => Promise<void>;
@@ -40,7 +40,7 @@ Logic to wait for child process to finish executing
 
 `Promise`\<`void`\>
 
-### kill()
+### kill
 
 ```ts
 kill: (proc) => Promise<boolean>;
@@ -56,7 +56,7 @@ kill: (proc) => Promise<boolean>;
 
 `Promise`\<`boolean`\>
 
-### removeANSIcolors()
+### removeANSIcolors
 
 ```ts
 removeANSIcolors: (text) => string;
@@ -76,7 +76,7 @@ string
 
 `string`
 
-### runCommandSync()
+### runCommandSync
 
 ```ts
 runCommandSync: (command, args, shellOpts?) => string;
@@ -112,7 +112,7 @@ various shell spawning options available to customize
 
 command stdout
 
-### sleep()
+### sleep
 
 ```ts
 sleep: (timeout) => Promise<void>;
@@ -130,7 +130,7 @@ Sleep function used to wait for cli to finish executing
 
 `Promise`\<`void`\>
 
-### spawnProcess()
+### spawnProcess
 
 ```ts
 spawnProcess: (command, args, shellOpts?) => ShellProcess;
@@ -166,7 +166,7 @@ Options to customize shell execution
 
 command output
 
-### waitForOutput()
+### waitForOutput
 
 ```ts
 waitForOutput: (expString, proc, opts?) => Promise<void>;

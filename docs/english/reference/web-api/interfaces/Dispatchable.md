@@ -17,7 +17,7 @@ Defined in: packages/types/dist/block-kit/extensions.d.ts:23
 ### dispatch\_action\_config?
 
 ```ts
-optional dispatch_action_config: DispatchActionConfig;
+optional dispatch_action_config?: DispatchActionConfig;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:28

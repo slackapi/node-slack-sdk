@@ -1,5 +1,35 @@
 # @slack/web-api
 
+## 8.1.1
+
+### Patch Changes
+
+- 0ee1d99: fix: revert internal packages requiring esm loading for backward compatible support ([#2711](https://github.com/slackapi/node-slack-sdk/issues/2711))
+
+## 8.1.0
+
+### Minor Changes
+
+- 955e6b9: feat(web-api): add support for [`admin.users.getExpiration`](https://docs.slack.dev/reference/methods/admin.users.getExpiration)
+- 4322e14: feat(web-api): add [`agents.sessions.rename`](https://docs.slack.dev/reference/methods/agents.sessions.rename) and [`agents.sessions.setStatus`](https://docs.slack.dev/reference/methods/agents.sessions.setStatus)
+- 4ba30a1: feat(web-api): add `session_status` to [`chat.stopStream`](https://docs.slack.dev/reference/methods/chat.stopStream) arguments
+- bff3398: feat(web-api): add webapi response changes as of 2026-08-21
+
+  Regenerate response types with new stable response properties (e.g. `agent_session` on message-bearing responses, `ListView` grouping/sort/filter fields, `bots.info` connector/workflow flags).
+
+  Two fields are removed from `UsersListResponse`, neither of which is a real success-response property:
+
+  - `Member.is_connector_bot` — not returned by `users.list`; this flag is surfaced on `bots.info` (added here to `BotsInfoResponse`).
+  - `arg` — an error-response echo field, not part of a successful `users.list` body.
+
+- f5fd35a: feat(web-api): add [`blocks.validate`](https://docs.slack.dev/reference/methods/blocks.validate) method
+
+### Patch Changes
+
+- Updated dependencies [916d8e9]
+- Updated dependencies [f5e9a01]
+  - @slack/types@3.1.0
+
 ## 8.0.0
 
 ### Major Changes

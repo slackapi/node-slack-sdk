@@ -13,29 +13,35 @@ Defined in: [packages/web-api/src/types/response/TeamBillingInfoResponse.ts:11](
 ### error?
 
 ```ts
-optional error: string;
+optional error?: string;
 ```
 
 ### needed?
 
 ```ts
-optional needed: string;
+optional needed?: string;
 ```
 
 ### ok?
 
 ```ts
-optional ok: boolean;
+optional ok?: boolean;
 ```
 
 ### plan?
 
 ```ts
-optional plan: string;
+optional plan?: string;
 ```
 
 ### provided?
 
 ```ts
-optional provided: string;
+optional provided?: string;
+```
+
+### warning?
+
+```ts
+optional warning?: string;
 ```

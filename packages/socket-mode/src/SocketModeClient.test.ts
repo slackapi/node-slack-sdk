@@ -5,7 +5,8 @@ import type { FetchFunction } from '@slack/web-api';
 import proxyquire from 'proxyquire';
 import sinon from 'sinon';
 
-import logModule from './logger';
+import logModule, { LogLevel } from './logger';
+import type { SlackWebSocket } from './SlackWebSocket';
 import { SocketModeClient } from './SocketModeClient';
 import type { SocketModeDispatcher } from './SocketModeOptions';
 
@@ -384,6 +385,32 @@ describe('SocketModeClient', () => {
         await sleep(30);
         assert.strictEqual(passedEnvelopeId, envelopeId);
       });
+    });
+  });
+
+  describe("reconnection on 'close' (issue #2709)", () => {
+    it('should not reconnect on a stale close event while the current connection is still active', () => {
+      const client = new SocketModeClient({ appToken: 'xapp-', logLevel: LogLevel.ERROR });
+      client.websocket = { isActive: () => true } as unknown as SlackWebSocket;
+      const startStub = sandbox.stub(client, 'start').resolves(undefined as never);
+      const clock = sandbox.useFakeTimers();
+
+      client.emit('close');
+      clock.tick(1_000_000);
+
+      sinon.assert.notCalled(startStub);
+    });
+
+    it('should schedule at most one reconnect when multiple close events fire', () => {
+      const client = new SocketModeClient({ appToken: 'xapp-', logLevel: LogLevel.ERROR });
+      const startStub = sandbox.stub(client, 'start').resolves(undefined as never);
+      const clock = sandbox.useFakeTimers();
+
+      client.emit('close');
+      client.emit('close');
+      clock.tick(1_000_000);
+
+      sinon.assert.calledOnce(startStub);
     });
   });
 });

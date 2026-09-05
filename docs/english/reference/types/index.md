@@ -1,4 +1,4 @@
-# @slack/types v3.0.0
+# @slack/types v3.1.0
 
 ## Enumerations
 
@@ -10,6 +10,8 @@
 - [~~Action~~](interfaces/Action.md)
 - [~~Actionable~~](interfaces/Actionable.md)
 - [ActionsBlock](interfaces/ActionsBlock.md)
+- [AgentSessionStoppedEvent](interfaces/AgentSessionStoppedEvent.md)
+- [AgentSessionTitleChangedEvent](interfaces/AgentSessionTitleChangedEvent.md)
 - [AlertBlock](interfaces/AlertBlock.md)
 - [AppContextChangedEvent](interfaces/AppContextChangedEvent.md)
 - [AppDeletedEvent](interfaces/AppDeletedEvent.md)

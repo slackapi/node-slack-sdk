@@ -16,7 +16,7 @@ https://docs.slack.dev/messaging/sending-and-scheduling-messages#text-streaming
 ### details?
 
 ```ts
-optional details: string;
+optional details?: string;
 ```
 
 Defined in: packages/types/dist/chunk.d.ts:44
@@ -36,7 +36,7 @@ Defined in: packages/types/dist/chunk.d.ts:41
 ### output?
 
 ```ts
-optional output: string;
+optional output?: string;
 ```
 
 Defined in: packages/types/dist/chunk.d.ts:45
@@ -46,7 +46,7 @@ Defined in: packages/types/dist/chunk.d.ts:45
 ### sources?
 
 ```ts
-optional sources: URLSourceElement[];
+optional sources?: URLSourceElement[];
 ```
 
 Defined in: packages/types/dist/chunk.d.ts:46

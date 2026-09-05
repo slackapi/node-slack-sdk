@@ -13,7 +13,7 @@ Defined in: [packages/web-api/src/types/request/search.ts:30](https://github.com
 ### count?
 
 ```ts
-optional count: number;
+optional count?: number;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:33](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L33)
@@ -33,7 +33,7 @@ TraditionalPagingEnabled.count
 ### cursor?
 
 ```ts
-optional cursor: string;
+optional cursor?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/search.ts:22](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/search.ts#L22)
@@ -59,7 +59,7 @@ SearchMessagesCursorPagination.cursor
 ### highlight?
 
 ```ts
-optional highlight: boolean;
+optional highlight?: boolean;
 ```
 
 Defined in: [packages/web-api/src/types/request/search.ts:10](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/search.ts#L10)
@@ -83,7 +83,7 @@ Searchable.highlight
 ### page?
 
 ```ts
-optional page: number;
+optional page?: number;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:35](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L35)
@@ -123,7 +123,7 @@ Searchable.query
 ### sort?
 
 ```ts
-optional sort: "score" | "timestamp";
+optional sort?: "score" | "timestamp";
 ```
 
 Defined in: [packages/web-api/src/types/request/search.ts:12](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/search.ts#L12)
@@ -143,7 +143,7 @@ Searchable.sort
 ### sort\_dir?
 
 ```ts
-optional sort_dir: "asc" | "desc";
+optional sort_dir?: "asc" | "desc";
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:130](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L130)
@@ -163,7 +163,7 @@ Searchable.sort_dir
 ### team\_id?
 
 ```ts
-optional team_id: string;
+optional team_id?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:70](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L70)
@@ -183,7 +183,7 @@ Searchable.team_id
 ### token?
 
 ```ts
-optional token: string;
+optional token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)

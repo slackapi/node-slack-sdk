@@ -21,7 +21,7 @@ https://docs.slack.dev/reference/block-kit/blocks/plan-block/
 ### block\_id?
 
 ```ts
-optional block_id: string;
+optional block_id?: string;
 ```
 
 Defined in: packages/types/dist/block-kit/blocks.d.ts:15
@@ -43,7 +43,7 @@ a message. If a message is updated, use a new `block_id`.
 ### tasks?
 
 ```ts
-optional tasks: (Record<string, unknown> | TaskCardBlock)[];
+optional tasks?: (Record<string, unknown> | TaskCardBlock)[];
 ```
 
 Defined in: packages/types/dist/block-kit/blocks.d.ts:420

@@ -33,7 +33,7 @@ BaseView.blocks
 ### callback\_id?
 
 ```ts
-optional callback_id: string;
+optional callback_id?: string;
 ```
 
 Defined in: [views.ts:19](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/views.ts#L19)
@@ -58,7 +58,7 @@ BaseView.callback_id
 ### clear\_on\_close?
 
 ```ts
-optional clear_on_close: boolean;
+optional clear_on_close?: boolean;
 ```
 
 Defined in: [views.ts:54](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/views.ts#L54)
@@ -73,7 +73,7 @@ Defaults to `false`.
 ### close?
 
 ```ts
-optional close: PlainTextElement;
+optional close?: PlainTextElement;
 ```
 
 Defined in: [views.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/views.ts#L43)
@@ -88,7 +88,7 @@ bottom-right of the view. Maximum length of 24 characters.
 ### external\_id?
 
 ```ts
-optional external_id: string;
+optional external_id?: string;
 ```
 
 Defined in: [views.ts:21](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/views.ts#L21)
@@ -108,7 +108,7 @@ BaseView.external_id
 ### notify\_on\_close?
 
 ```ts
-optional notify_on_close: boolean;
+optional notify_on_close?: boolean;
 ```
 
 Defined in: [views.ts:60](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/views.ts#L60)
@@ -124,7 +124,7 @@ clicks the close button. Defaults to `false`.
 ### private\_metadata?
 
 ```ts
-optional private_metadata: string;
+optional private_metadata?: string;
 ```
 
 Defined in: [views.ts:13](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/views.ts#L13)
@@ -147,7 +147,7 @@ BaseView.private_metadata
 ### submit?
 
 ```ts
-optional submit: PlainTextElement;
+optional submit?: PlainTextElement;
 ```
 
 Defined in: [views.ts:49](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/views.ts#L49)

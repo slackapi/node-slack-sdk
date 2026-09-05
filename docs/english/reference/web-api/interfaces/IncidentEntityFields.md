@@ -9,7 +9,7 @@ Defined in: packages/types/dist/message-metadata.d.ts:145
 ### assigned\_to?
 
 ```ts
-optional assigned_to: EntityTypedField;
+optional assigned_to?: EntityTypedField;
 ```
 
 Defined in: packages/types/dist/message-metadata.d.ts:150
@@ -19,7 +19,7 @@ Defined in: packages/types/dist/message-metadata.d.ts:150
 ### created\_by?
 
 ```ts
-optional created_by: EntityTypedField;
+optional created_by?: EntityTypedField;
 ```
 
 Defined in: packages/types/dist/message-metadata.d.ts:149
@@ -29,7 +29,7 @@ Defined in: packages/types/dist/message-metadata.d.ts:149
 ### date\_created?
 
 ```ts
-optional date_created: EntityTimestampField;
+optional date_created?: EntityTimestampField;
 ```
 
 Defined in: packages/types/dist/message-metadata.d.ts:151
@@ -39,7 +39,7 @@ Defined in: packages/types/dist/message-metadata.d.ts:151
 ### date\_updated?
 
 ```ts
-optional date_updated: EntityTimestampField;
+optional date_updated?: EntityTimestampField;
 ```
 
 Defined in: packages/types/dist/message-metadata.d.ts:152
@@ -49,7 +49,7 @@ Defined in: packages/types/dist/message-metadata.d.ts:152
 ### description?
 
 ```ts
-optional description: EntityStringField;
+optional description?: EntityStringField;
 ```
 
 Defined in: packages/types/dist/message-metadata.d.ts:153
@@ -59,7 +59,7 @@ Defined in: packages/types/dist/message-metadata.d.ts:153
 ### priority?
 
 ```ts
-optional priority: EntityStringField;
+optional priority?: EntityStringField;
 ```
 
 Defined in: packages/types/dist/message-metadata.d.ts:147
@@ -69,7 +69,7 @@ Defined in: packages/types/dist/message-metadata.d.ts:147
 ### service?
 
 ```ts
-optional service: EntityStringField;
+optional service?: EntityStringField;
 ```
 
 Defined in: packages/types/dist/message-metadata.d.ts:154
@@ -79,7 +79,7 @@ Defined in: packages/types/dist/message-metadata.d.ts:154
 ### status?
 
 ```ts
-optional status: EntityStringField;
+optional status?: EntityStringField;
 ```
 
 Defined in: packages/types/dist/message-metadata.d.ts:146
@@ -89,7 +89,7 @@ Defined in: packages/types/dist/message-metadata.d.ts:146
 ### urgency?
 
 ```ts
-optional urgency: EntityStringField;
+optional urgency?: EntityStringField;
 ```
 
 Defined in: packages/types/dist/message-metadata.d.ts:148

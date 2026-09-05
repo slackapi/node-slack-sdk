@@ -61,7 +61,7 @@ Defined in: packages/types/dist/events/steps-from-apps.d.ts:42
 ### workflow\_published\_configuration?
 
 ```ts
-optional workflow_published_configuration: object;
+optional workflow_published_configuration?: object;
 ```
 
 Defined in: packages/types/dist/events/steps-from-apps.d.ts:51

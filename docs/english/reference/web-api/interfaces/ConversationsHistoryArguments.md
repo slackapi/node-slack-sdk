@@ -33,7 +33,7 @@ Channel.channel
 ### cursor?
 
 ```ts
-optional cursor: string;
+optional cursor?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:16](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L16)
@@ -59,7 +59,7 @@ CursorPaginationEnabled.cursor
 ### include\_all\_metadata?
 
 ```ts
-optional include_all_metadata: boolean;
+optional include_all_metadata?: boolean;
 ```
 
 Defined in: [packages/web-api/src/types/request/conversations.ts:24](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/conversations.ts#L24)
@@ -79,7 +79,7 @@ IncludeAllMetadata.include_all_metadata
 ### inclusive?
 
 ```ts
-optional inclusive: boolean;
+optional inclusive?: boolean;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:28](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L28)
@@ -100,7 +100,7 @@ TimelinePaginationEnabled.inclusive
 ### latest?
 
 ```ts
-optional latest: string;
+optional latest?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:23](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L23)
@@ -120,7 +120,7 @@ TimelinePaginationEnabled.latest
 ### limit?
 
 ```ts
-optional limit: number;
+optional limit?: number;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:9](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L9)
@@ -141,7 +141,7 @@ CursorPaginationEnabled.limit
 ### oldest?
 
 ```ts
-optional oldest: string;
+optional oldest?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:21](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L21)
@@ -161,7 +161,7 @@ TimelinePaginationEnabled.oldest
 ### token?
 
 ```ts
-optional token: string;
+optional token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)

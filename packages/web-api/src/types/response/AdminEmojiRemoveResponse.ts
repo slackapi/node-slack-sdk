@@ -14,6 +14,7 @@ export type AdminEmojiRemoveResponse = WebAPICallResult & {
   ok?: boolean;
   provided?: string;
   response_metadata?: ResponseMetadata;
+  warning?: string;
 };
 
 export interface ResponseMetadata {

@@ -14,6 +14,7 @@ export type TeamInfoResponse = WebAPICallResult & {
   ok?: boolean;
   provided?: string;
   team?: Team;
+  warning?: string;
 };
 
 export interface Team {
@@ -26,9 +27,13 @@ export interface Team {
   enterprise_name?: string;
   icon?: Icon;
   id?: string;
+  is_sfdc_auto_slack?: boolean;
   is_verified?: boolean;
   lob_sales_home_enabled?: boolean;
+  locale?: string;
   name?: string;
+  pay_prod_cur?: string;
+  sso_provider?: SsoProvider;
   url?: string;
 }
 
@@ -42,4 +47,10 @@ export interface Icon {
   image_88?: string;
   image_default?: boolean;
   image_original?: string;
+}
+
+export interface SsoProvider {
+  label?: string;
+  name?: string;
+  type?: string;
 }

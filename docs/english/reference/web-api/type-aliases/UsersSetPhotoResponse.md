@@ -13,29 +13,35 @@ Defined in: [packages/web-api/src/types/response/UsersSetPhotoResponse.ts:11](ht
 ### error?
 
 ```ts
-optional error: string;
+optional error?: string;
 ```
 
 ### needed?
 
 ```ts
-optional needed: string;
+optional needed?: string;
 ```
 
 ### ok?
 
 ```ts
-optional ok: boolean;
+optional ok?: boolean;
 ```
 
 ### profile?
 
 ```ts
-optional profile: Profile;
+optional profile?: Profile;
 ```
 
 ### provided?
 
 ```ts
-optional provided: string;
+optional provided?: string;
+```
+
+### warning?
+
+```ts
+optional warning?: string;
 ```
