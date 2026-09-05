@@ -2,7 +2,7 @@
 
 # Interface: AlertBlock
 
-Defined in: [block-kit/blocks.ts:119](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L119)
+Defined in: [block-kit/blocks.ts:120](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L120)
 
 ## Description
 
@@ -46,7 +46,7 @@ a message. If a message is updated, use a new `block_id`.
 optional level?: "default" | "info" | "warning" | "error" | "success";
 ```
 
-Defined in: [block-kit/blocks.ts:131](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L131)
+Defined in: [block-kit/blocks.ts:132](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L132)
 
 #### Description
 
@@ -60,7 +60,7 @@ The severity level of the alert. Defaults to `"default"` if omitted.
 text: TextObject;
 ```
 
-Defined in: [block-kit/blocks.ts:127](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L127)
+Defined in: [block-kit/blocks.ts:128](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L128)
 
 #### Description
 
@@ -74,7 +74,7 @@ The alert message content in the form of a [TextObject](../type-aliases/TextObje
 type: "alert";
 ```
 
-Defined in: [block-kit/blocks.ts:123](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L123)
+Defined in: [block-kit/blocks.ts:124](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L124)
 
 #### Description
 

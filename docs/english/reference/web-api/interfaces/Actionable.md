@@ -38,6 +38,7 @@ Defined in: packages/types/dist/block-kit/extensions.d.ts:14
 - [`RadioButtons`](RadioButtons.md)
 - [`Timepicker`](Timepicker.md)
 - [`URLInput`](URLInput.md)
+- [`WorkflowButton`](WorkflowButton.md)
 - [`RichTextInput`](RichTextInput.md)
 
 ## Properties

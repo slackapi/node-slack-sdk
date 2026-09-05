@@ -2,7 +2,7 @@
 
 # Interface: TaskCardBlock
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:374
+Defined in: packages/types/dist/block-kit/blocks.d.ts:423
 
 ## Description
 
@@ -46,7 +46,7 @@ a message. If a message is updated, use a new `block_id`.
 optional details?: RichTextBlock;
 ```
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:390
+Defined in: packages/types/dist/block-kit/blocks.d.ts:439
 
 #### Description
 
@@ -60,7 +60,7 @@ Details of the task in the form of a single "rich_text" entity.
 optional output?: RichTextBlock;
 ```
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:394
+Defined in: packages/types/dist/block-kit/blocks.d.ts:443
 
 #### Description
 
@@ -74,7 +74,7 @@ Output of the task in the form of a single "rich_text" entity.
 optional sources?: URLSourceElement[];
 ```
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:398
+Defined in: packages/types/dist/block-kit/blocks.d.ts:447
 
 #### Description
 
@@ -88,7 +88,7 @@ Array of URL source elements used to generate a response.
 status: "error" | "pending" | "in_progress" | "complete";
 ```
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:402
+Defined in: packages/types/dist/block-kit/blocks.d.ts:451
 
 #### Description
 
@@ -102,7 +102,7 @@ The state of a task. Can be "pending", "in_progress", "complete", or "error".
 task_id: string;
 ```
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:382
+Defined in: packages/types/dist/block-kit/blocks.d.ts:431
 
 #### Description
 
@@ -116,7 +116,7 @@ ID for the task.
 title: string;
 ```
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:386
+Defined in: packages/types/dist/block-kit/blocks.d.ts:435
 
 #### Description
 
@@ -130,7 +130,7 @@ Title of the task in plain text.
 type: "task_card";
 ```
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:378
+Defined in: packages/types/dist/block-kit/blocks.d.ts:427
 
 #### Description
 

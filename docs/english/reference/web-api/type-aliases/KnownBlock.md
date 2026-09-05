@@ -8,6 +8,7 @@ type KnownBlock =
   | AlertBlock
   | CardBlock
   | CarouselBlock
+  | ContainerBlock
   | ContextBlock
   | ContextActionsBlock
   | DividerBlock

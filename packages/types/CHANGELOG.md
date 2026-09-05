@@ -1,5 +1,12 @@
 # @slack/types
 
+## 3.2.0
+
+### Minor Changes
+
+- ca6f416: feat(types): add [`ContainerBlock`](https://docs.slack.dev/reference/block-kit/blocks/container-block/) block interface
+- 52eeb05: feat(types): add optional `action_id` property to the [`WorkflowButton`](https://docs.slack.dev/reference/block-kit/block-elements/workflow-button-element) block element
+
 ## 3.1.0
 
 ### Minor Changes

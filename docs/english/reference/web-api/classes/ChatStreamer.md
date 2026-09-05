@@ -13,7 +13,8 @@ new ChatStreamer(
    client, 
    logger, 
    args, 
-   options): ChatStreamer;
+   options
+): ChatStreamer;
 ```
 
 Defined in: [packages/web-api/src/chat-stream.ts:47](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/chat-stream.ts#L47)
