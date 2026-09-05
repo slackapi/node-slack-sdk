@@ -2,7 +2,7 @@
 
 # Interface: VideoBlock
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:428
+Defined in: packages/types/dist/block-kit/blocks.d.ts:477
 
 ## Description
 
@@ -26,7 +26,7 @@ must have the [\`links.embed:write\` scope](https://docs.slack.dev/reference/sco
 alt_text: string;
 ```
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:446
+Defined in: packages/types/dist/block-kit/blocks.d.ts:495
 
 #### Description
 
@@ -40,7 +40,7 @@ A tooltip for the video. Required for accessibility.
 optional author_name?: string;
 ```
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:459
+Defined in: packages/types/dist/block-kit/blocks.d.ts:508
 
 #### Description
 
@@ -76,7 +76,7 @@ a message. If a message is updated, use a new `block_id`.
 optional description?: PlainTextElement;
 ```
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:471
+Defined in: packages/types/dist/block-kit/blocks.d.ts:520
 
 #### Description
 
@@ -90,7 +90,7 @@ Description for video using a [PlainTextElement](PlainTextElement.md) object.
 optional provider_icon_url?: string;
 ```
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:467
+Defined in: packages/types/dist/block-kit/blocks.d.ts:516
 
 #### Description
 
@@ -104,7 +104,7 @@ Icon for the video provider, e.g. YouTube icon.
 optional provider_name?: string;
 ```
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:463
+Defined in: packages/types/dist/block-kit/blocks.d.ts:512
 
 #### Description
 
@@ -118,7 +118,7 @@ The originating application or domain of the video, e.g. YouTube.
 thumbnail_url: string;
 ```
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:442
+Defined in: packages/types/dist/block-kit/blocks.d.ts:491
 
 #### Description
 
@@ -132,7 +132,7 @@ The thumbnail image URL.
 title: PlainTextElement;
 ```
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:450
+Defined in: packages/types/dist/block-kit/blocks.d.ts:499
 
 #### Description
 
@@ -146,7 +146,7 @@ Video title as a [PlainTextElement](PlainTextElement.md) object. `text` within m
 optional title_url?: string;
 ```
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:455
+Defined in: packages/types/dist/block-kit/blocks.d.ts:504
 
 #### Description
 
@@ -161,7 +161,7 @@ Must go to an HTTPS URL.
 type: "video";
 ```
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:432
+Defined in: packages/types/dist/block-kit/blocks.d.ts:481
 
 #### Description
 
@@ -179,7 +179,7 @@ The type of block. For a video block, `type` is always `video`.
 video_url: string;
 ```
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:438
+Defined in: packages/types/dist/block-kit/blocks.d.ts:487
 
 #### Description
 

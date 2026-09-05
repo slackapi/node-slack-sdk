@@ -2,7 +2,7 @@
 
 # Interface: HeaderBlock
 
-Defined in: [block-kit/blocks.ts:268](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L268)
+Defined in: [block-kit/blocks.ts:331](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L331)
 
 ## Description
 
@@ -47,7 +47,7 @@ a message. If a message is updated, use a new `block_id`.
 text: PlainTextElement;
 ```
 
-Defined in: [block-kit/blocks.ts:277](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L277)
+Defined in: [block-kit/blocks.ts:340](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L340)
 
 #### Description
 
@@ -62,7 +62,7 @@ Maximum length for the text in this field is 150 characters.
 type: "header";
 ```
 
-Defined in: [block-kit/blocks.ts:272](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L272)
+Defined in: [block-kit/blocks.ts:335](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L335)
 
 #### Description
 

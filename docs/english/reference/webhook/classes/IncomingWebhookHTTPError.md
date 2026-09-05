@@ -16,7 +16,8 @@ Defined in: [packages/webhook/src/errors.ts:35](https://github.com/slackapi/node
 new IncomingWebhookHTTPError(
    statusCode, 
    statusMessage, 
-   body): IncomingWebhookHTTPError;
+   body
+): IncomingWebhookHTTPError;
 ```
 
 Defined in: [packages/webhook/src/errors.ts:41](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/errors.ts#L41)

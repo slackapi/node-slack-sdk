@@ -10,6 +10,7 @@ Defined in: packages/types/dist/block-kit/blocks.d.ts:3
 - [`AlertBlock`](AlertBlock.md)
 - [`CardBlock`](CardBlock.md)
 - [`CarouselBlock`](CarouselBlock.md)
+- [`ContainerBlock`](ContainerBlock.md)
 - [`ContextBlock`](ContextBlock.md)
 - [`ContextActionsBlock`](ContextActionsBlock.md)
 - [`DividerBlock`](DividerBlock.md)

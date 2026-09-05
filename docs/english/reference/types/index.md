@@ -1,4 +1,4 @@
-# @slack/types v3.1.0
+# @slack/types v3.2.0
 
 ## Enumerations
 
@@ -58,6 +58,7 @@
 - [Confirmable](interfaces/Confirmable.md)
 - [Confirmation](interfaces/Confirmation.md)
 - [ConfirmationDialog](interfaces/ConfirmationDialog.md)
+- [ContainerBlock](interfaces/ContainerBlock.md)
 - [ContentItemEntityFields](interfaces/ContentItemEntityFields.md)
 - [ContextActionsBlock](interfaces/ContextActionsBlock.md)
 - [ContextBlock](interfaces/ContextBlock.md)

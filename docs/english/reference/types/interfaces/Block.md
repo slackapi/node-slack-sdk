@@ -10,6 +10,7 @@ Defined in: [block-kit/blocks.ts:37](https://github.com/slackapi/node-slack-sdk/
 - [`AlertBlock`](AlertBlock.md)
 - [`CardBlock`](CardBlock.md)
 - [`CarouselBlock`](CarouselBlock.md)
+- [`ContainerBlock`](ContainerBlock.md)
 - [`ContextBlock`](ContextBlock.md)
 - [`ContextActionsBlock`](ContextActionsBlock.md)
 - [`DividerBlock`](DividerBlock.md)

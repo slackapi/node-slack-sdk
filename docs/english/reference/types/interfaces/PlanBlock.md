@@ -2,7 +2,7 @@
 
 # Interface: PlanBlock
 
-Defined in: [block-kit/blocks.ts:529](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L529)
+Defined in: [block-kit/blocks.ts:592](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L592)
 
 ## Description
 
@@ -46,7 +46,7 @@ a message. If a message is updated, use a new `block_id`.
 optional tasks?: (TaskCardBlock | Record<string, unknown>)[];
 ```
 
-Defined in: [block-kit/blocks.ts:543](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L543)
+Defined in: [block-kit/blocks.ts:606](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L606)
 
 #### Description
 
@@ -60,7 +60,7 @@ A sequence of task card blocks. Each task represents a single action within the 
 title: string;
 ```
 
-Defined in: [block-kit/blocks.ts:538](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L538)
+Defined in: [block-kit/blocks.ts:601](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L601)
 
 #### Description
 
@@ -74,7 +74,7 @@ Title of the plan in plain text.
 type: "plan";
 ```
 
-Defined in: [block-kit/blocks.ts:533](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L533)
+Defined in: [block-kit/blocks.ts:596](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L596)
 
 #### Description
 
