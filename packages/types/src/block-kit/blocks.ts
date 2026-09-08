@@ -301,7 +301,7 @@ export interface DataTableBlock extends Block {
    */
   type: 'data_table';
   /**
-   * @description An array consisting of table rows. The first row is the header row, for which `rich_text` cannot be used.
+   * @description An array consisting of table rows.
    */
   rows: (RawTextElement | RawNumberElement | RichTextBlock)[][];
   /**
