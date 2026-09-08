@@ -1,5 +1,12 @@
 import { expectAssignable, expectError } from 'tsd';
-import type { AlertBlock, CardBlock, CarouselBlock, ContainerBlock, DataVisualizationBlock, KnownBlock } from '../src/index';
+import type {
+  AlertBlock,
+  CardBlock,
+  CarouselBlock,
+  ContainerBlock,
+  DataVisualizationBlock,
+  KnownBlock,
+} from '../src/index';
 
 // CardBlock
 // -- sad path
