@@ -292,7 +292,7 @@ export interface ContextActionsBlock extends Block {
 }
 
 /**
- * @description Displays structured, sortable, and paginated data in a table.
+ * @description Displays rich tables that support pagination, sorting, filtering, and interactivity.
  * @see {@link https://docs.slack.dev/reference/block-kit/blocks/data-table-block Data table block reference}.
  */
 export interface DataTableBlock extends Block {
@@ -301,22 +301,19 @@ export interface DataTableBlock extends Block {
    */
   type: 'data_table';
   /**
-   * @description An array consisting of table rows, where the first row is the header row. Each row is an array of
-   * cells of type `raw_text`, `raw_number`, or `rich_text`. Minimum 2 rows (a header and one data row) and maximum 201
-   * rows (a header and 200 data rows). Each row must contain the same number of cells, with a minimum of 1 and a maximum
-   * of 20 columns. The `rich_text` cell type is not allowed in the header row.
+   * @description An array consisting of table rows. The first row is the header row, and `rich_text` cannot be used for header cells. Cells can be of type `raw_text`, `raw_number`, or `rich_text`. There must be a minimum of 2 rows (1 regular row plus the header) and a maximum of 201 rows (200 regular rows plus the header), a minimum of 1 column and a maximum of 20 columns, and all rows must have the same number of values. A single table's character count across all cells cannot exceed 20,000 characters.
    */
   rows: (RawTextElement | RawNumberElement | RichTextBlock)[][];
   /**
-   * @description A description of the table used for the underlying HTML element.
+   * @description A caption for the table; used as the value for the HTML caption element.
    */
   caption: string;
   /**
-   * @description The number of rows to display per page. Minimum 1, maximum 100. Defaults to 5 if not provided.
+   * @description The number of rows per page. Min `1`, max `100`. Defaults to `5` if omitted.
    */
   page_size?: number;
   /**
-   * @description The zero-based index of the column used as the row identifier. Defaults to 0 if not provided.
+   * @description The 0-based index of the column that uniquely identifies each row (the row header). This column is treated as the row's primary identifier for screen readers. Defaults to `0` if omitted.
    */
   row_header_column_index?: number;
 }
