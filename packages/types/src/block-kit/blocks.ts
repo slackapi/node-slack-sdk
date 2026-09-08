@@ -301,7 +301,7 @@ export interface DataTableBlock extends Block {
    */
   type: 'data_table';
   /**
-   * @description An array consisting of table rows. The first row is the header row, and `rich_text` cannot be used for header cells. Cells can be of type `raw_text`, `raw_number`, or `rich_text`. There must be a minimum of 2 rows (1 regular row plus the header) and a maximum of 201 rows (200 regular rows plus the header), a minimum of 1 column and a maximum of 20 columns, and all rows must have the same number of values. A single table's character count across all cells cannot exceed 20,000 characters.
+   * @description An array consisting of table rows. The first row is the header row, for which `rich_text` cannot be used.
    */
   rows: (RawTextElement | RawNumberElement | RichTextBlock)[][];
   /**
