@@ -174,21 +174,6 @@ export interface MrkdwnElement {
 }
 
 /**
- * @description Defines an object containing some text.
- * @see {@link https://docs.slack.dev/reference/block-kit/composition-objects/text-object Text object reference}.
- */
-export interface RawTextElement {
-  /**
-   * @description The formatting to use for this text object.
-   */
-  type: 'raw_text';
-  /**
-   * @description The text for the block. The minimum length is 1 character.
-   */
-  text: string;
-}
-
-/**
  * @description Defines an object containing a numeric value and its display text. Used for numeric cells in a
  * {@link DataTableBlock}, allowing the column to be sorted numerically.
  */
@@ -203,6 +188,21 @@ export interface RawNumberElement {
   value: number;
   /**
    * @description The text used to display the value. The minimum length is 1 character.
+   */
+  text: string;
+}
+
+/**
+ * @description Defines an object containing some text.
+ * @see {@link https://docs.slack.dev/reference/block-kit/composition-objects/text-object Text object reference}.
+ */
+export interface RawTextElement {
+  /**
+   * @description The formatting to use for this text object.
+   */
+  type: 'raw_text';
+  /**
+   * @description The text for the block. The minimum length is 1 character.
    */
   text: string;
 }
