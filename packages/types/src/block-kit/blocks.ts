@@ -309,7 +309,7 @@ export interface DataTableBlock extends Block {
    */
   caption: string;
   /**
-   * @description The number of rows per page. Min `1`, max `100`. Defaults to `5` if omitted.
+   * @description Number of rows per page. Min `1`, Max `100`. Defaults to `5` if omitted.
    */
   page_size?: number;
   /**
