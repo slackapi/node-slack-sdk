@@ -308,8 +308,8 @@ export interface DataTableBlock extends Block {
   type: 'data_table';
   /**
    * @description An array consisting of table rows, where the first row is the header row. Each row is an array of
-   * cells of type `raw_text`, `raw_number`, or `rich_text`. Minimum 2 rows (a header and one data row) and maximum 101
-   * rows (a header and 100 data rows). Each row must contain the same number of cells, with a minimum of 1 and a maximum
+   * cells of type `raw_text`, `raw_number`, or `rich_text`. Minimum 2 rows (a header and one data row) and maximum 201
+   * rows (a header and 200 data rows). Each row must contain the same number of cells, with a minimum of 1 and a maximum
    * of 20 columns. The `rich_text` cell type is not allowed in the header row.
    */
   rows: DataTableCell[][];
