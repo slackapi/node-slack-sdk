@@ -174,16 +174,15 @@ export interface MrkdwnElement {
 }
 
 /**
- * @description Defines an object containing a numeric value and its display text. Used for numeric cells in a
- * {@link DataTableBlock}, allowing the column to be sorted numerically.
+ * @description Defines an object containing a numeric value.
  */
 export interface RawNumberElement {
   /**
-   * @description The formatting to use for this object.
+   * @description The formatting to use for this numeric object.
    */
   type: 'raw_number';
   /**
-   * @description The numeric value used for sorting the column.
+   * @description The numeric value.
    */
   value: number;
   /**
