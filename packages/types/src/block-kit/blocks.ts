@@ -292,12 +292,6 @@ export interface ContextActionsBlock extends Block {
 }
 
 /**
- * A helper union type of all cell types that can be used in a {@link DataTableBlock} row. Cells can be of type
- * `raw_text`, `raw_number`, or `rich_text`. Note that `rich_text` cells are not allowed in the header row.
- */
-export type DataTableCell = RawTextElement | RawNumberElement | RichTextBlock;
-
-/**
  * @description Displays structured, sortable, and paginated data in a table.
  * @see {@link https://docs.slack.dev/reference/block-kit/blocks/data-table-block Data table block reference}.
  */
@@ -312,7 +306,7 @@ export interface DataTableBlock extends Block {
    * rows (a header and 200 data rows). Each row must contain the same number of cells, with a minimum of 1 and a maximum
    * of 20 columns. The `rich_text` cell type is not allowed in the header row.
    */
-  rows: DataTableCell[][];
+  rows: (RawTextElement | RawNumberElement | RichTextBlock)[][];
   /**
    * @description A description of the table used for the underlying HTML element.
    */
