@@ -108,7 +108,7 @@ expectAssignable<KnownBlock>({
 expectError<TableBlock>({}); // missing type and rows
 expectError<TableBlock>({ type: 'table' }); // missing required rows
 // -- happy path
-// Table cells can be raw_text, raw_number, or rich_text.
+// Table cells can be rich_text, raw_text, or raw_number.
 expectAssignable<TableBlock>({
   type: 'table',
   rows: [
