@@ -1,5 +1,5 @@
 import { expectAssignable, expectError } from 'tsd';
-import type { AlertBlock, CardBlock, CarouselBlock, ContainerBlock, KnownBlock } from '../src/index';
+import type { AlertBlock, CardBlock, CarouselBlock, ContainerBlock, KnownBlock, TableBlock } from '../src/index';
 
 // CardBlock
 // -- sad path
@@ -101,4 +101,32 @@ expectAssignable<KnownBlock>({
   type: 'container',
   title: { type: 'plain_text', text: 'Known' },
   child_blocks: [{ type: 'divider' }],
+});
+
+// TableBlock
+// -- sad path
+expectError<TableBlock>({}); // missing type and rows
+expectError<TableBlock>({ type: 'table' }); // missing required rows
+// -- happy path
+// Table cells can be raw_text, raw_number, or rich_text.
+expectAssignable<TableBlock>({
+  type: 'table',
+  rows: [
+    [
+      { type: 'raw_text', text: 'Item' },
+      { type: 'raw_text', text: 'Count' },
+    ],
+    [
+      { type: 'raw_text', text: 'Widgets' },
+      { type: 'raw_number', value: 42, text: '42' },
+    ],
+    [
+      { type: 'rich_text', elements: [{ type: 'rich_text_section', elements: [{ type: 'text', text: 'Gadgets' }] }] },
+      { type: 'raw_number', value: 7, text: '7' },
+    ],
+  ],
+});
+expectAssignable<KnownBlock>({
+  type: 'table',
+  rows: [[{ type: 'raw_number', value: 1, text: '1' }]],
 });

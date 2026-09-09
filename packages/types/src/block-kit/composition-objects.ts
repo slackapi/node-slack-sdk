@@ -174,6 +174,24 @@ export interface MrkdwnElement {
 }
 
 /**
+ * @description Defines an object containing a numeric value.
+ */
+export interface RawNumberElement {
+  /**
+   * @description The formatting to use for this numeric object.
+   */
+  type: 'raw_number';
+  /**
+   * @description The numeric value.
+   */
+  value: number;
+  /**
+   * @description The text used to display the value. The minimum length is 1 character.
+   */
+  text: string;
+}
+
+/**
  * @description Defines an object containing some text.
  * @see {@link https://docs.slack.dev/reference/block-kit/composition-objects/text-object Text object reference}.
  */
