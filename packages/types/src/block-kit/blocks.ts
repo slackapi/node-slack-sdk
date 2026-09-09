@@ -28,6 +28,7 @@ import type {
 import type {
   MrkdwnElement,
   PlainTextElement,
+  RawNumberElement,
   RawTextElement,
   SlackFileImageObject,
   TextObject,
@@ -61,6 +62,7 @@ export type KnownBlock =
   | ContainerBlock
   | ContextBlock
   | ContextActionsBlock
+  | DataTableBlock
   | DataVisualizationBlock
   | DividerBlock
   | FileBlock
@@ -413,6 +415,33 @@ export interface DataVisualizationBlock extends Block {
    * @description The {@link DataVisualizationChart} to render. One of a pie, bar, area, or line chart.
    */
   chart: DataVisualizationChart;
+}
+
+/**
+ * @description Displays rich tables that support pagination, sorting, filtering, and interactivity.
+ * @see {@link https://docs.slack.dev/reference/block-kit/blocks/data-table-block Data table block reference}.
+ */
+export interface DataTableBlock extends Block {
+  /**
+   * @description The type of block. For a data table block, `type` is always `data_table`.
+   */
+  type: 'data_table';
+  /**
+   * @description An array consisting of table rows.
+   */
+  rows: (RawTextElement | RawNumberElement | RichTextBlock)[][];
+  /**
+   * @description A caption for the table; used as the value for the HTML caption element.
+   */
+  caption: string;
+  /**
+   * @description Number of rows per page. Min `1`, Max `100`. Defaults to `5` if omitted.
+   */
+  page_size?: number;
+  /**
+   * @description The 0-based index of the column that uniquely identifies each row (the row header). This column is treated as the row's primary identifier for screen readers. Defaults to `0` if omitted.
+   */
+  row_header_column_index?: number;
 }
 
 /**
