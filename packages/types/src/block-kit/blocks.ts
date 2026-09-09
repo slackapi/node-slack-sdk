@@ -296,7 +296,7 @@ export interface ContextActionsBlock extends Block {
  * @description A single slice of a {@link DataVisualizationPieChart}.
  * @see {@link https://docs.slack.dev/reference/block-kit/blocks/data-visualization-block Data visualization block reference}.
  */
-export interface DataVisualizationPieSegment {
+interface DataVisualizationPieSegment {
   /**
    * @description The label for the segment. Maximum length is 20 characters.
    */
@@ -311,7 +311,7 @@ export interface DataVisualizationPieSegment {
  * @description A single data point within a {@link DataVisualizationSeries}.
  * @see {@link https://docs.slack.dev/reference/block-kit/blocks/data-visualization-block Data visualization block reference}.
  */
-export interface DataVisualizationDataPoint {
+interface DataVisualizationDataPoint {
   /**
    * @description The label for the data point. Maximum length is 20 characters. Must match a category defined in
    * the chart's {@link DataVisualizationAxisConfig}.
@@ -327,7 +327,7 @@ export interface DataVisualizationDataPoint {
  * @description A series of data points displayed in a bar, area, or line {@link DataVisualizationBlock} chart.
  * @see {@link https://docs.slack.dev/reference/block-kit/blocks/data-visualization-block Data visualization block reference}.
  */
-export interface DataVisualizationSeries {
+interface DataVisualizationSeries {
   /**
    * @description The name of the series. Maximum length is 20 characters. Must be unique within the chart.
    */
@@ -342,7 +342,7 @@ export interface DataVisualizationSeries {
  * @description Axis configuration for a bar, area, or line {@link DataVisualizationBlock} chart.
  * @see {@link https://docs.slack.dev/reference/block-kit/blocks/data-visualization-block Data visualization block reference}.
  */
-export interface DataVisualizationAxisConfig {
+interface DataVisualizationAxisConfig {
   /**
    * @description The x-axis category labels. The order of categories determines the x-axis display sequence. Maximum
    * length for each category is 20 characters.
@@ -362,7 +362,7 @@ export interface DataVisualizationAxisConfig {
  * @description A pie chart for a {@link DataVisualizationBlock}.
  * @see {@link https://docs.slack.dev/reference/block-kit/blocks/data-visualization-block Data visualization block reference}.
  */
-export interface DataVisualizationPieChart {
+interface DataVisualizationPieChart {
   /**
    * @description The type of chart. For a pie chart, `type` is always `pie`.
    */
@@ -377,7 +377,7 @@ export interface DataVisualizationPieChart {
  * @description A bar, area, or line chart for a {@link DataVisualizationBlock}.
  * @see {@link https://docs.slack.dev/reference/block-kit/blocks/data-visualization-block Data visualization block reference}.
  */
-export interface DataVisualizationSeriesChart {
+interface DataVisualizationSeriesChart {
   /**
    * @description The type of chart. One of `bar`, `area`, or `line`.
    */
@@ -393,12 +393,6 @@ export interface DataVisualizationSeriesChart {
 }
 
 /**
- * @description A helper union type of all chart shapes supported by a {@link DataVisualizationBlock}.
- * @see {@link https://docs.slack.dev/reference/block-kit/blocks/data-visualization-block Data visualization block reference}.
- */
-export type DataVisualizationChart = DataVisualizationPieChart | DataVisualizationSeriesChart;
-
-/**
  * @description Displays a chart visualizing a dataset, such as a pie, bar, area, or line chart.
  * @see {@link https://docs.slack.dev/reference/block-kit/blocks/data-visualization-block Data visualization block reference}.
  */
@@ -412,9 +406,10 @@ export interface DataVisualizationBlock extends Block {
    */
   title: string;
   /**
-   * @description The {@link DataVisualizationChart} to render. One of a pie, bar, area, or line chart.
+   * @description The chart to render. One of a pie ({@link DataVisualizationPieChart}) or bar/area/line
+   * ({@link DataVisualizationSeriesChart}) chart.
    */
-  chart: DataVisualizationChart;
+  chart: DataVisualizationPieChart | DataVisualizationSeriesChart;
 }
 
 /**
