@@ -298,11 +298,12 @@ export interface ContextActionsBlock extends Block {
  */
 interface DataVisualizationPieSegment {
   /**
-   * @description The label for the segment. Maximum length is 20 characters.
+   * @description Display name for this slice, shown in the legend and on hover. Maximum of 20 characters.
    */
   label: string;
   /**
-   * @description The value for the segment. Must be greater than 0.
+   * @description Numeric weight of this slice. Must be greater than 0. Rendered percentage is the value divided by
+   * the sum of all segment values.
    */
   value: number;
 }
@@ -313,12 +314,12 @@ interface DataVisualizationPieSegment {
  */
 interface DataVisualizationDataPoint {
   /**
-   * @description The label for the data point. Maximum length is 20 characters. Must match a category defined in
-   * the chart's {@link DataVisualizationAxisConfig}.
+   * @description The x-axis category this point belongs to. Must match one of the values in `axis_config.categories`.
+   * Maximum of 20 characters.
    */
   label: string;
   /**
-   * @description The value for the data point. Negative values are permitted.
+   * @description Numeric y-axis value. Negative values are permitted.
    */
   value: number;
 }
@@ -329,11 +330,13 @@ interface DataVisualizationDataPoint {
  */
 interface DataVisualizationSeries {
   /**
-   * @description The name of the series. Maximum length is 20 characters. Must be unique within the chart.
+   * @description Human-readable identifier displayed in the chart legend. Must be unique across all series in the
+   * same chart. Maximum 20 characters.
    */
   name: string;
   /**
-   * @description An array of {@link DataVisualizationDataPoint} objects. Minimum 1, maximum 20 data points.
+   * @description Ordered data points. Min 1, max 20. Must contain exactly one entry for every label in
+   * `axis_config.categories`.
    */
   data: DataVisualizationDataPoint[];
 }
@@ -344,16 +347,16 @@ interface DataVisualizationSeries {
  */
 interface DataVisualizationAxisConfig {
   /**
-   * @description The x-axis category labels. The order of categories determines the x-axis display sequence. Maximum
-   * length for each category is 20 characters.
+   * @description Category labels for the x-axis. Defines valid labels and their left-to-right display order. Each
+   * category label has a maximum of 20 characters.
    */
   categories: string[];
   /**
-   * @description An optional label for the x-axis. Maximum length is 50 characters.
+   * @description Descriptive title displayed below the x-axis (e.g., "Time of Day"). Maximum of 50 characters.
    */
   x_label?: string;
   /**
-   * @description An optional label for the y-axis. Maximum length is 50 characters.
+   * @description Descriptive title displayed beside the y-axis (e.g., "Latency (ms)"). Maximum of 50 characters.
    */
   y_label?: string;
 }
@@ -364,30 +367,70 @@ interface DataVisualizationAxisConfig {
  */
 interface DataVisualizationPieChart {
   /**
-   * @description The type of chart. For a pie chart, `type` is always `pie`.
+   * @description The type of chart. In this case, `pie`.
    */
   type: 'pie';
   /**
-   * @description An array of {@link DataVisualizationPieSegment} objects. Minimum 1, maximum 6 segments.
+   * @description Labeled slices that make up the pie. Min 1, max 12. Each is a {@link DataVisualizationPieSegment}.
    */
   segments: DataVisualizationPieSegment[];
 }
 
 /**
- * @description A bar, area, or line chart for a {@link DataVisualizationBlock}.
+ * @description A bar chart for a {@link DataVisualizationBlock}.
  * @see {@link https://docs.slack.dev/reference/block-kit/blocks/data-visualization-block Data visualization block reference}.
  */
-interface DataVisualizationSeriesChart {
+interface DataVisualizationBarChart {
   /**
-   * @description The type of chart. One of `bar`, `area`, or `line`.
+   * @description The type of chart. In this case, `bar`.
    */
-  type: 'bar' | 'area' | 'line';
+  type: 'bar';
   /**
-   * @description An array of {@link DataVisualizationSeries} objects. Minimum 1, maximum 6 series.
+   * @description Series to plot as bar groups. Min 1, max 12. For multiple series, bars are grouped by label. Each is
+   * a {@link DataVisualizationSeries}.
    */
   series: DataVisualizationSeries[];
   /**
-   * @description The {@link DataVisualizationAxisConfig} describing the chart axes.
+   * @description X-axis categories and axis titles. See {@link DataVisualizationAxisConfig}.
+   */
+  axis_config: DataVisualizationAxisConfig;
+}
+
+/**
+ * @description An area chart for a {@link DataVisualizationBlock}.
+ * @see {@link https://docs.slack.dev/reference/block-kit/blocks/data-visualization-block Data visualization block reference}.
+ */
+interface DataVisualizationAreaChart {
+  /**
+   * @description The type of chart. In this case, `area`.
+   */
+  type: 'area';
+  /**
+   * @description Series to plot as filled areas. Min 1, max 12. Series are layered in array order (first at back).
+   * Each is a {@link DataVisualizationSeries}.
+   */
+  series: DataVisualizationSeries[];
+  /**
+   * @description X-axis categories and axis titles. See {@link DataVisualizationAxisConfig}.
+   */
+  axis_config: DataVisualizationAxisConfig;
+}
+
+/**
+ * @description A line chart for a {@link DataVisualizationBlock}.
+ * @see {@link https://docs.slack.dev/reference/block-kit/blocks/data-visualization-block Data visualization block reference}.
+ */
+interface DataVisualizationLineChart {
+  /**
+   * @description The type of chart. In this case, `line`.
+   */
+  type: 'line';
+  /**
+   * @description Series to plot as lines. Min 1, max 12. Each is a {@link DataVisualizationSeries}.
+   */
+  series: DataVisualizationSeries[];
+  /**
+   * @description X-axis categories and axis titles. See {@link DataVisualizationAxisConfig}.
    */
   axis_config: DataVisualizationAxisConfig;
 }
@@ -402,14 +445,17 @@ export interface DataVisualizationBlock extends Block {
    */
   type: 'data_visualization';
   /**
-   * @description The title of the chart. Maximum length is 50 characters.
+   * @description A short label displayed above the chart. Maximum 50 characters.
    */
   title: string;
   /**
-   * @description The chart to render. One of a pie ({@link DataVisualizationPieChart}) or bar/area/line
-   * ({@link DataVisualizationSeriesChart}) chart.
+   * @description The chart-specific payload. Must be one of the following: `pie`, `bar`, `area`, or `line`.
    */
-  chart: DataVisualizationPieChart | DataVisualizationSeriesChart;
+  chart:
+    | DataVisualizationPieChart
+    | DataVisualizationBarChart
+    | DataVisualizationAreaChart
+    | DataVisualizationLineChart;
 }
 
 /**

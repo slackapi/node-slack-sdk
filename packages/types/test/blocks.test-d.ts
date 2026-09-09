@@ -167,6 +167,18 @@ expectAssignable<DataVisualizationBlock>({
     axis_config: { categories: ['Q1', 'Q2'], x_label: 'Quarter', y_label: 'Revenue' },
   },
 });
+expectAssignable<DataVisualizationBlock>({
+  type: 'data_visualization',
+  title: 'Daily active users',
+  chart: {
+    type: 'area',
+    series: [
+      { name: 'Free tier', data: [{ label: 'Mon', value: 12000 }] },
+      { name: 'Paid tier', data: [{ label: 'Mon', value: 4500 }] },
+    ],
+    axis_config: { categories: ['Mon'], x_label: 'Day', y_label: 'Users' },
+  },
+});
 expectAssignable<KnownBlock>({
   type: 'data_visualization',
   title: 'Trend',
