@@ -166,9 +166,10 @@ expectAssignable<KnownBlock>({
 expectError<TableBlock>({}); // missing type and rows
 expectError<TableBlock>({ type: 'table' }); // missing required rows
 // -- happy path
-// Table cells can be rich_text, raw_text, or raw_number.
+// Table cells can be rich_text, raw_text, or raw_number; column_settings describe column behavior.
 expectAssignable<TableBlock>({
   type: 'table',
+  column_settings: [{ is_wrapped: true }, { align: 'right' }],
   rows: [
     [
       { type: 'raw_text', text: 'Item' },
