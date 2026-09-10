@@ -549,9 +549,9 @@ export interface TableBlock extends Block {
    */
   type: 'table';
   /**
-   * @description An array consisting of table rows. Maximum 100 rows. Each row object is an array with a max of 20 table cells. Table cells can have a type of raw_text or rich_text.
+   * @description An array consisting of table rows. Maximum 100 rows. Each row object is an array with a max of 20 table cells. Table cells can have a type of rich_text, raw_text, or raw_number.
    */
-  rows: (RichTextBlock | RawTextElement)[][];
+  rows: (RichTextBlock | RawTextElement | RawNumberElement)[][];
   /**
    * @description An array describing column behavior. If there are fewer items in the column_settings array than there are columns in the table, then the items in the the column_settings array will describe the same number of columns in the table as there are in the array itself. Any additional columns will have the default behavior. Maximum 20 items.
    */
