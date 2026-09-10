@@ -17,7 +17,8 @@ new WebAPIHTTPError(
    statusCode, 
    statusMessage, 
    headers, 
-   body?): WebAPIHTTPError;
+   body?
+): WebAPIHTTPError;
 ```
 
 Defined in: [packages/web-api/src/errors.ts:66](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/errors.ts#L66)
