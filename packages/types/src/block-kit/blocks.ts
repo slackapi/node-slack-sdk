@@ -28,6 +28,7 @@ import type {
 import type {
   MrkdwnElement,
   PlainTextElement,
+  RawNumberElement,
   RawTextElement,
   SlackFileImageObject,
   TextObject,
@@ -58,8 +59,10 @@ export type KnownBlock =
   | AlertBlock
   | CardBlock
   | CarouselBlock
+  | ContainerBlock
   | ContextBlock
   | ContextActionsBlock
+  | DataTableBlock
   | DividerBlock
   | FileBlock
   | HeaderBlock
@@ -185,6 +188,68 @@ export interface CarouselBlock extends Block {
 }
 
 /**
+ * @description A general-purpose wrapper for grouping child blocks together, with a configurable size.
+ * @see {@link https://docs.slack.dev/reference/block-kit/blocks/container-block Container block reference}.
+ */
+export interface ContainerBlock extends Block {
+  /**
+   * @description The type of block. For a container block, `type` is always `container`.
+   */
+  type: 'container';
+  /**
+   * @description Plain text title for the container. Maximum length is 150 characters.
+   * One of `title` or `rich_text_title` is required.
+   */
+  title?: PlainTextElement;
+  /**
+   * @description Rich text title for the container. Takes precedence over `title` if both are provided.
+   * One of `title` or `rich_text_title` is required.
+   */
+  rich_text_title?: RichTextBlock;
+  /**
+   * @description Subtitle for the container in plain text or mrkdwn format. Maximum length is 150 characters.
+   */
+  subtitle?: TextObject;
+  /**
+   * @description An array of child blocks. Maximum 10 blocks.
+   */
+  child_blocks: (
+    | ActionsBlock
+    | ContextBlock
+    | DividerBlock
+    | FileBlock
+    | HeaderBlock
+    | ImageBlock
+    | InputBlock
+    | RichTextBlock
+    | SectionBlock
+    | TableBlock
+    | VideoBlock
+  )[];
+  /**
+   * @description Controls the width of the container. Defaults to `"standard"`.
+   */
+  width?: 'narrow' | 'standard' | 'wide' | 'full';
+  /**
+   * @description An image element displayed alongside the title and subtitle.
+   */
+  icon?: ImageElement;
+  /**
+   * @description Whether the container can be collapsed. Defaults to `false`.
+   */
+  is_collapsible?: boolean;
+  /**
+   * @description Whether the container is collapsed by default. Requires `is_collapsible` to be `true`. Defaults to `false`.
+   */
+  default_collapsed?: boolean;
+  /**
+   * @description Whether to show a visible border separating header from content.
+   * Only applies when `is_collapsible` is not `true`. Defaults to `false`.
+   */
+  has_header_divider?: boolean;
+}
+
+/**
  * A helper union type of all Block Elements that can be used in a {@link ContextBlock}.
  * @see {@link https://docs.slack.dev/reference/block-kit/blocks/context-block Context block reference}.
  */
@@ -224,6 +289,33 @@ export interface ContextActionsBlock extends Block {
    * @description An array of {@link FeedbackButtons} or {@link IconButton} block elements. Maximum number of items is 5.
    */
   elements: ContextActionsBlockElement[];
+}
+
+/**
+ * @description Displays rich tables that support pagination, sorting, filtering, and interactivity.
+ * @see {@link https://docs.slack.dev/reference/block-kit/blocks/data-table-block Data table block reference}.
+ */
+export interface DataTableBlock extends Block {
+  /**
+   * @description The type of block. For a data table block, `type` is always `data_table`.
+   */
+  type: 'data_table';
+  /**
+   * @description An array consisting of table rows.
+   */
+  rows: (RawTextElement | RawNumberElement | RichTextBlock)[][];
+  /**
+   * @description A caption for the table; used as the value for the HTML caption element.
+   */
+  caption: string;
+  /**
+   * @description Number of rows per page. Min `1`, Max `100`. Defaults to `5` if omitted.
+   */
+  page_size?: number;
+  /**
+   * @description The 0-based index of the column that uniquely identifies each row (the row header). This column is treated as the row's primary identifier for screen readers. Defaults to `0` if omitted.
+   */
+  row_header_column_index?: number;
 }
 
 /**
@@ -457,9 +549,9 @@ export interface TableBlock extends Block {
    */
   type: 'table';
   /**
-   * @description An array consisting of table rows. Maximum 100 rows. Each row object is an array with a max of 20 table cells. Table cells can have a type of raw_text or rich_text.
+   * @description An array consisting of table rows. Maximum 100 rows. Each row object is an array with a max of 20 table cells. Table cells can have a type of rich_text, raw_text, or raw_number.
    */
-  rows: (RichTextBlock | RawTextElement)[][];
+  rows: (RichTextBlock | RawTextElement | RawNumberElement)[][];
   /**
    * @description An array describing column behavior. If there are fewer items in the column_settings array than there are columns in the table, then the items in the the column_settings array will describe the same number of columns in the table as there are in the array itself. Any additional columns will have the default behavior. Maximum 20 items.
    */
