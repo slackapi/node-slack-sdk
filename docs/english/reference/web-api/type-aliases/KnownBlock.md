@@ -8,8 +8,10 @@ type KnownBlock =
   | AlertBlock
   | CardBlock
   | CarouselBlock
+  | ContainerBlock
   | ContextBlock
   | ContextActionsBlock
+  | DataTableBlock
   | DividerBlock
   | FileBlock
   | HeaderBlock

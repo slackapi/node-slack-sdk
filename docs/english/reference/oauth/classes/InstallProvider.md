@@ -76,7 +76,8 @@ Fetches data from the installationStore
 generateInstallUrl(
    options, 
    stateVerification?, 
-state?): Promise<string>;
+   state?
+): Promise<string>;
 ```
 
 Defined in: [packages/oauth/src/install-provider.ts:415](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/install-provider.ts#L415)
@@ -111,7 +112,8 @@ handleCallback(
    req, 
    res, 
    options?, 
-installOptions?): Promise<void>;
+   installOptions?
+): Promise<void>;
 ```
 
 Defined in: [packages/oauth/src/install-provider.ts:485](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/install-provider.ts#L485)
@@ -155,7 +157,8 @@ handleInstallPath(
    req, 
    res, 
    options?, 
-installOptions?): Promise<void>;
+   installOptions?
+): Promise<void>;
 ```
 
 Defined in: [packages/oauth/src/install-provider.ts:330](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/install-provider.ts#L330)
