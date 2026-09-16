@@ -73,7 +73,8 @@ EventEmitter.prefixed
 addListener<T>(
    event, 
    fn, 
-   context?): this;
+   context?
+): this;
 ```
 
 Defined in: node\_modules/eventemitter3/index.d.ts:45
@@ -257,7 +258,8 @@ off<T>(
    event, 
    fn?, 
    context?, 
-   once?): this;
+   once?
+): this;
 ```
 
 Defined in: node\_modules/eventemitter3/index.d.ts:69
@@ -304,7 +306,8 @@ EventEmitter.off
 on<T>(
    event, 
    fn, 
-   context?): this;
+   context?
+): this;
 ```
 
 Defined in: node\_modules/eventemitter3/index.d.ts:40
@@ -349,7 +352,8 @@ EventEmitter.on
 once<T>(
    event, 
    fn, 
-   context?): this;
+   context?
+): this;
 ```
 
 Defined in: node\_modules/eventemitter3/index.d.ts:54
@@ -423,7 +427,8 @@ removeListener<T>(
    event, 
    fn?, 
    context?, 
-   once?): this;
+   once?
+): this;
 ```
 
 Defined in: node\_modules/eventemitter3/index.d.ts:63

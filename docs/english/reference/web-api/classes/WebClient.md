@@ -4794,7 +4794,8 @@ Defined in: node\_modules/eventemitter3/index.d.ts:9
 addListener<T>(
    event, 
    fn, 
-   context?): this;
+   context?
+): this;
 ```
 
 Defined in: node\_modules/eventemitter3/index.d.ts:45
@@ -5072,7 +5073,8 @@ off<T>(
    event, 
    fn?, 
    context?, 
-   once?): this;
+   once?
+): this;
 ```
 
 Defined in: node\_modules/eventemitter3/index.d.ts:69
@@ -5117,7 +5119,8 @@ Defined in: node\_modules/eventemitter3/index.d.ts:69
 on<T>(
    event, 
    fn, 
-   context?): this;
+   context?
+): this;
 ```
 
 Defined in: node\_modules/eventemitter3/index.d.ts:40
@@ -5160,7 +5163,8 @@ Add a listener for a given event.
 once<T>(
    event, 
    fn, 
-   context?): this;
+   context?
+): this;
 ```
 
 Defined in: node\_modules/eventemitter3/index.d.ts:54
@@ -5245,7 +5249,8 @@ options
 paginate(
    method, 
    options, 
-shouldStop): Promise<void>;
+   shouldStop
+): Promise<void>;
 ```
 
 Defined in: [packages/web-api/src/WebClient.ts:344](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/WebClient.ts#L344)
@@ -5295,7 +5300,8 @@ paginate<R, A>(
    method, 
    options, 
    shouldStop, 
-reduce?): Promise<A>;
+   reduce?
+): Promise<A>;
 ```
 
 Defined in: [packages/web-api/src/WebClient.ts:345](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/WebClient.ts#L345)
@@ -5389,7 +5395,8 @@ removeListener<T>(
    event, 
    fn?, 
    context?, 
-   once?): this;
+   once?
+): this;
 ```
 
 Defined in: node\_modules/eventemitter3/index.d.ts:63
