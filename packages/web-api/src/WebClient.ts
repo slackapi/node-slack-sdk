@@ -799,7 +799,12 @@ export class WebClient extends Methods {
       // if it isn't a Gzip response but is from the admin.analytics.getFile request,
       // decode the ArrayBuffer to JSON read the error
       const buffer = await response.arrayBuffer();
-      data = JSON.parse(new TextDecoder().decode(buffer));
+      try {
+        data = JSON.parse(new TextDecoder().decode(buffer));
+      } catch (_) {
+        // failed to parse the response body as JSON
+        data = { ok: false, error: new TextDecoder().decode(buffer) };
+      }
     } else {
       const text = await response.text();
       try {
