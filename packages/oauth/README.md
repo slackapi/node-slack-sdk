@@ -388,12 +388,6 @@ const installer = new InstallProvider({
 ```
 </details>
 
----
-
-### Examples
-
-*  [OAuth Express app](../../examples/oauth-v2/README.md). This example uses [Keyv](https://github.com/lukechilds/keyv) library as an installation store.
-*  [classic Slack App](../../examples/oauth-v1/README.md). This example uses the built-in installation store
 
 ---
 
