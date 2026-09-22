@@ -18,7 +18,6 @@ interface PingPongMessage {
   payload: Buffer;
 }
 
-// Match by reference identity, not `instanceof`: the channels are process-global and a different undici copy (e.g. Node's global WebSocket) fails `instanceof` against our import.
 function isMessageForSocket(message: unknown, websocket: WebSocket): message is PingPongMessage {
   if (typeof message !== 'object' || message === null) {
     return false;
