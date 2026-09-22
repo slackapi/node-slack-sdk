@@ -18,17 +18,16 @@ interface PingPongMessage {
   payload: Buffer;
 }
 
-function isPingPongMessage(message: unknown): message is PingPongMessage {
-  if (typeof message !== 'object' || message === null) {
-    return false;
-  }
-  if (!('websocket' in message && message.websocket instanceof WebSocket)) {
-    return false;
-  }
-  if (!('payload' in message && Buffer.isBuffer(message.payload))) {
-    return false;
-  }
-  return true;
+// Match by reference identity, not `instanceof`: the channels are process-global and a different undici copy (e.g. Node's global WebSocket) fails `instanceof` against our import.
+function isMessageForSocket(message: unknown, websocket: WebSocket): message is PingPongMessage {
+  return (
+    typeof message === 'object' &&
+    message !== null &&
+    'websocket' in message &&
+    message.websocket === websocket &&
+    'payload' in message &&
+    Buffer.isBuffer(message.payload)
+  );
 }
 
 export interface SlackWebSocketOptions {
@@ -194,29 +193,20 @@ export class SlackWebSocket {
     };
     this.websocket.addEventListener('close', this.closeHandler);
 
-    // Subscribe to undici diagnostics_channel for WebSocket ping/pong frame events.
-    // These channels fire for ALL undici WebSocket instances, so we filter by matching instance.
+    // These channels fire for every undici WebSocket in the process, so filter to this socket's frames.
     this.pingHandler = (message: unknown) => {
-      if (!isPingPongMessage(message)) {
-        this.logger.warn('Received unexpected ping diagnostics message format');
-        return;
-      }
-      if (message.websocket !== this.websocket) return;
+      if (!this.websocket || !isMessageForSocket(message, this.websocket)) return;
       if (this.options.pingPongLoggingEnabled) {
-        this.logger.debug(`WebSocket received ping from Slack server (data: ${message.payload?.toString()})`);
+        this.logger.debug(`WebSocket received ping from Slack server (data: ${message.payload.toString()})`);
       }
       this.monitorPingFromSlack();
     };
     SlackWebSocket.pingChannel.subscribe(this.pingHandler);
 
     this.pongHandler = (message: unknown) => {
-      if (!isPingPongMessage(message)) {
-        this.logger.warn('Received unexpected pong diagnostics message format');
-        return;
-      }
-      if (message.websocket !== this.websocket) return;
+      if (!this.websocket || !isMessageForSocket(message, this.websocket)) return;
       if (this.options.pingPongLoggingEnabled) {
-        this.logger.debug(`WebSocket received pong from Slack server (data: ${message.payload?.toString()})`);
+        this.logger.debug(`WebSocket received pong from Slack server (data: ${message.payload.toString()})`);
       }
       this.lastPongReceivedTimestamp = Date.now();
     };
