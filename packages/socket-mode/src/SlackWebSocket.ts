@@ -20,14 +20,16 @@ interface PingPongMessage {
 
 // Match by reference identity, not `instanceof`: the channels are process-global and a different undici copy (e.g. Node's global WebSocket) fails `instanceof` against our import.
 function isMessageForSocket(message: unknown, websocket: WebSocket): message is PingPongMessage {
-  return (
-    typeof message === 'object' &&
-    message !== null &&
-    'websocket' in message &&
-    message.websocket === websocket &&
-    'payload' in message &&
-    Buffer.isBuffer(message.payload)
-  );
+  if (typeof message !== 'object' || message === null) {
+    return false;
+  }
+  if (!('websocket' in message && message.websocket === websocket)) {
+    return false;
+  }
+  if (!('payload' in message && Buffer.isBuffer(message.payload))) {
+    return false;
+  }
+  return true;
 }
 
 export interface SlackWebSocketOptions {
