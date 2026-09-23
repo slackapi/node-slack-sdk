@@ -72,7 +72,7 @@ export interface AgentsConversationsCreateArguments extends TokenOverridable {
    * @description A friendly display name for the code channel. Optional when `origin_channel_id` and `origin_message_ts`
    * are provided — in that case the channel name is derived from the origin message.
    */
-  name?: string;
+  name: string;
   /** @description Create a private channel instead of a public one. */
   is_private?: boolean;
   /**
@@ -90,7 +90,7 @@ export interface AgentsConversationsCreateArguments extends TokenOverridable {
 // https://docs.slack.dev/reference/methods/agents.conversations.archive
 export interface AgentsConversationsArchiveArguments extends TokenOverridable {
   /** @description ID of the code channel to archive. */
-  channel_id?: string;
+  channel_id: string;
   /**
    * @description Timestamp of a message in the code channel to share back as a thread reply on the origin message.
    * Requires the channel to have an `origin_link`.
@@ -101,7 +101,7 @@ export interface AgentsConversationsArchiveArguments extends TokenOverridable {
 // https://docs.slack.dev/reference/methods/agents.conversations.setProperties
 export interface AgentsConversationsSetPropertiesArguments extends TokenOverridable {
   /** @description ID of the code channel to update. */
-  channel_id?: string;
+  channel_id: string;
   /** @description New display title for the agent session. */
   title?: string;
   /** @description New status for the agent session. */
@@ -115,7 +115,7 @@ export interface AgentsConversationsSetPropertiesArguments extends TokenOverrida
 // https://docs.slack.dev/reference/methods/agents.conversations.setView
 export interface AgentsConversationsSetViewArguments extends TokenOverridable {
   /** @description ID of the code channel to render the view in. */
-  channel_id?: string;
+  channel_id: string;
   /**
    * @description The kind of view to create or update. Defaults to `html`. Determines which other arguments are
    * required: `html` and `diff` require `content`, `block_kit` requires `blocks`, `canvas` requires `canvas_id`,
@@ -172,7 +172,7 @@ export interface AgentsConversationsSetViewArguments extends TokenOverridable {
 // https://docs.slack.dev/reference/methods/agents.conversations.setCommands
 export interface AgentsConversationsSetCommandsArguments extends TokenOverridable {
   /** @description ID of the code channel to register commands for. */
-  channel_id?: string;
+  channel_id: string;
   /**
    * @description Full set of commands to register for the calling agent in this channel, replacing that agent's
    * previously registered set. Pass an empty array to clear the agent's commands.
@@ -183,13 +183,13 @@ export interface AgentsConversationsSetCommandsArguments extends TokenOverridabl
 // https://docs.slack.dev/reference/methods/agents.conversations.listViews
 export interface AgentsConversationsListViewsArguments extends TokenOverridable {
   /** @description ID of the code channel to list views for. */
-  channel_id?: string;
+  channel_id: string;
 }
 
 // https://docs.slack.dev/reference/methods/agents.conversations.removeView
 export interface AgentsConversationsRemoveViewArguments extends TokenOverridable {
   /** @description ID of the code channel to remove the view from. */
-  channel_id?: string;
+  channel_id: string;
   /** @description Agent-assigned key of the view to remove. Provide exactly one of `view_key` or `view_id`. */
   view_key?: string;
   /** @description Encoded channel tab ID of the view to remove. Provide exactly one of `view_key` or `view_id`. */
@@ -198,10 +198,7 @@ export interface AgentsConversationsRemoveViewArguments extends TokenOverridable
 
 // https://docs.slack.dev/reference/methods/agents.conversations.getCanvas
 export interface AgentsConversationsGetCanvasArguments extends TokenOverridable {
-  /**
-   * @description ID of the agent session channel the canvas belongs to.
-   * @remark Note this method uses `channel`, not `channel_id`.
-   */
+  /** @description ID of the agent session channel the canvas belongs to. */
   channel: string;
   /** @description Encoded ID of the canvas to fetch. */
   canvas_id: string;
@@ -213,10 +210,7 @@ export interface AgentsConversationsGetCanvasArguments extends TokenOverridable 
 
 // https://docs.slack.dev/reference/methods/agents.conversations.setCanvasContent
 export interface AgentsConversationsSetCanvasContentArguments extends TokenOverridable {
-  /**
-   * @description ID of the agent session channel the canvas is attached to.
-   * @remark Note this method uses `channel`, not `channel_id`.
-   */
+  /** @description ID of the agent session channel the canvas is attached to. */
   channel: string;
   /** @description Encoded ID of the canvas whose content to replace. */
   canvas_id: string;
