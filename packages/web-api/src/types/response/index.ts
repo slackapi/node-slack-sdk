@@ -102,6 +102,15 @@ export { AdminWorkflowsCollaboratorsRemoveResponse } from './AdminWorkflowsColla
 export { AdminWorkflowsPermissionsLookupResponse } from './AdminWorkflowsPermissionsLookupResponse';
 export { AdminWorkflowsSearchResponse } from './AdminWorkflowsSearchResponse';
 export { AdminWorkflowsUnpublishResponse } from './AdminWorkflowsUnpublishResponse';
+export { AgentsConversationsArchiveResponse } from './AgentsConversationsArchiveResponse';
+export { AgentsConversationsCreateResponse } from './AgentsConversationsCreateResponse';
+export { AgentsConversationsGetCanvasResponse } from './AgentsConversationsGetCanvasResponse';
+export { AgentsConversationsListViewsResponse } from './AgentsConversationsListViewsResponse';
+export { AgentsConversationsRemoveViewResponse } from './AgentsConversationsRemoveViewResponse';
+export { AgentsConversationsSetCanvasContentResponse } from './AgentsConversationsSetCanvasContentResponse';
+export { AgentsConversationsSetCommandsResponse } from './AgentsConversationsSetCommandsResponse';
+export { AgentsConversationsSetPropertiesResponse } from './AgentsConversationsSetPropertiesResponse';
+export { AgentsConversationsSetViewResponse } from './AgentsConversationsSetViewResponse';
 export { AgentsSessionsRenameResponse } from './AgentsSessionsRenameResponse';
 export { AgentsSessionsSetStatusResponse } from './AgentsSessionsSetStatusResponse';
 export { ApiTestResponse } from './ApiTestResponse';
