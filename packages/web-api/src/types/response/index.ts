@@ -28,6 +28,7 @@ export { AdminConversationsBulkDeleteResponse } from './AdminConversationsBulkDe
 export { AdminConversationsBulkMoveResponse } from './AdminConversationsBulkMoveResponse';
 export { AdminConversationsConvertToPrivateResponse } from './AdminConversationsConvertToPrivateResponse';
 export { AdminConversationsConvertToPublicResponse } from './AdminConversationsConvertToPublicResponse';
+export { AdminConversationsCreateForObjectsResponse } from './AdminConversationsCreateForObjectsResponse';
 export { AdminConversationsCreateResponse } from './AdminConversationsCreateResponse';
 export { AdminConversationsDeleteResponse } from './AdminConversationsDeleteResponse';
 export { AdminConversationsDisconnectSharedResponse } from './AdminConversationsDisconnectSharedResponse';
@@ -36,6 +37,7 @@ export { AdminConversationsGetConversationPrefsResponse } from './AdminConversat
 export { AdminConversationsGetCustomRetentionResponse } from './AdminConversationsGetCustomRetentionResponse';
 export { AdminConversationsGetTeamsResponse } from './AdminConversationsGetTeamsResponse';
 export { AdminConversationsInviteResponse } from './AdminConversationsInviteResponse';
+export { AdminConversationsLinkObjectsResponse } from './AdminConversationsLinkObjectsResponse';
 export { AdminConversationsLookupResponse } from './AdminConversationsLookupResponse';
 export { AdminConversationsRemoveCustomRetentionResponse } from './AdminConversationsRemoveCustomRetentionResponse';
 export { AdminConversationsRenameResponse } from './AdminConversationsRenameResponse';
@@ -47,6 +49,7 @@ export { AdminConversationsSetConversationPrefsResponse } from './AdminConversat
 export { AdminConversationsSetCustomRetentionResponse } from './AdminConversationsSetCustomRetentionResponse';
 export { AdminConversationsSetTeamsResponse } from './AdminConversationsSetTeamsResponse';
 export { AdminConversationsUnarchiveResponse } from './AdminConversationsUnarchiveResponse';
+export { AdminConversationsUnlinkObjectsResponse } from './AdminConversationsUnlinkObjectsResponse';
 export { AdminConversationsWhitelistAddResponse } from './AdminConversationsWhitelistAddResponse';
 export { AdminConversationsWhitelistListGroupsLinkedToChannelResponse } from './AdminConversationsWhitelistListGroupsLinkedToChannelResponse';
 export { AdminConversationsWhitelistRemoveResponse } from './AdminConversationsWhitelistRemoveResponse';

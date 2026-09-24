@@ -92,6 +92,28 @@ export type AdminConversationsCreateArguments = TokenOverridable &
     description?: string;
   };
 
+// https://docs.slack.dev/reference/methods/admin.conversations.createForObjects
+export interface AdminConversationsCreateForObjectsArguments extends TokenOverridable {
+  /**
+   * @description Object / Record ID (15 or 18 digit accepted).
+   * @see See {@link https://help.salesforce.com/s/articleView?id=000385008&type=1 here} for how to look up an ID.
+   * @example 0019000000DmehKAAR
+   **/
+  object_id: string;
+  /**
+   * @description Salesforce org ID (15 or 18 digit accepted).
+   * @see See {@link https://help.salesforce.com/s/articleView?id=000385215&type=1 here} for how to look up Salesforce org ID.
+   * @example 00DGC00000024hsuWY
+   **/
+  salesforce_org_id: string;
+  /**
+   * @description Optional flag to add all team members related to the object to the newly created Salesforce channel. When true, adds a maximum of 100 team members to the channel.
+   * @default false
+   * @example true
+   **/
+  invite_object_team?: boolean;
+}
+
 // https://docs.slack.dev/reference/methods/admin.conversations.delete
 export interface AdminConversationsDeleteArguments extends ChannelID, TokenOverridable {}
 
@@ -117,6 +139,26 @@ export interface AdminConversationsGetTeamsArguments extends ChannelID, TokenOve
 
 // https://docs.slack.dev/reference/methods/admin.conversations.invite
 export interface AdminConversationsInviteArguments extends ChannelID, UserIDs, TokenOverridable {}
+
+// https://docs.slack.dev/reference/methods/admin.conversations.linkObjects
+export interface AdminConversationsLinkObjectsArguments extends TokenOverridable {
+  /**
+   * @description Channel ID for Slack channel that will be linked to a Salesforce record.
+   **/
+  channel: string;
+  /**
+   * @description Salesforce record ID (15 or 18 digit accepted).
+   * @see See {@link https://help.salesforce.com/s/articleView?id=000385008&type=1 here} for how to look up record ID.
+   * @example 0019000000DmehKAAR
+   */
+  record_id: string;
+  /**
+   * @description Salesforce org ID (15 or 18 digit accepted).
+   * @see See {@link https://help.salesforce.com/s/articleView?id=000385215&type=1 here} for how to look up Salesforce org ID.
+   * @example: 00DGC00000024hsuWY
+   **/
+  salesforce_org_id: string;
+}
 
 // https://docs.slack.dev/reference/methods/admin.conversations.lookup
 export interface AdminConversationsLookupArguments extends TeamIDs, TokenOverridable, CursorPaginationEnabled {
@@ -222,3 +264,15 @@ export interface AdminConversationsSetTeamsArguments extends ChannelID, TokenOve
 
 // https://docs.slack.dev/reference/methods/admin.conversations.unarchive
 export interface AdminConversationsUnarchiveArguments extends ChannelID, TokenOverridable {}
+
+// https://docs.slack.dev/reference/methods/admin.conversations.unlinkObjects
+export interface AdminConversationsUnlinkObjectsArguments extends TokenOverridable {
+  /**
+   * @description Channel ID for Slack channel that will be unlinked from the Salesforce record.
+   **/
+  channel: string;
+  /**
+   * @description Channel name you would like to give to the channel that is being unlinked from the Salesforce record.
+   **/
+  new_name: string;
+}
