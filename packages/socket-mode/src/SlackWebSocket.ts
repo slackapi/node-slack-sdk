@@ -229,7 +229,8 @@ export class SlackWebSocket {
    * leaving no other way to close a stalled peer.
    */
   private buildDefaultDispatcher(): Dispatcher {
-    const baseConnect = buildConnector({});
+    // undici v8 defaults allowH2 to true; pin HTTP/1.1 so the WebSocket keeps a dedicated socket.
+    const baseConnect = buildConnector({ allowH2: false });
     return new Agent({
       connect: (opts, callback) => {
         baseConnect(opts, (err, socket) => {
