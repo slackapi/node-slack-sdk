@@ -227,9 +227,12 @@ export class SlackWebSocket {
    * The `connect` hook captures the underlying socket into `this.defaultSocket` so `cleanup()` can
    * force-destroy it: undici's `WebSocket` hides its socket and detaches it from the pool at upgrade,
    * leaving no other way to close a stalled peer.
+   *
+   * `allowH2: false` pins HTTP/1.1: undici v8 defaults it to `true`, which would offer h2 over ALPN and
+   * could move the WebSocket onto an HTTP/2 stream, where there is no dedicated socket to destroy.
    */
   private buildDefaultDispatcher(): Dispatcher {
-    const baseConnect = buildConnector({});
+    const baseConnect = buildConnector({ allowH2: false });
     return new Agent({
       connect: (opts, callback) => {
         baseConnect(opts, (err, socket) => {
