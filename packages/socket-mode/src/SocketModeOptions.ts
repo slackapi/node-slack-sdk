@@ -68,9 +68,6 @@ export interface SocketModeOptions {
    *
    * Use this to configure proxies or custom TLS behavior.
    *
-   * On `undici@^8`, dispatchers offer HTTP/2 by default. The default dispatcher pins HTTP/1.1; to do the same
-   * with a `ProxyAgent`, pass `requestTls: { allowH2: false }`.
-   *
    * @example
    * ```js
    * // Using undici's ProxyAgent as the dispatcher
