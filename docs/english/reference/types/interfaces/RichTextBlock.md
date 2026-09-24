@@ -2,7 +2,7 @@
 
 # Interface: RichTextBlock
 
-Defined in: [block-kit/blocks.ts:390](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L390)
+Defined in: [block-kit/blocks.ts:482](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L482)
 
 ## Description
 
@@ -29,7 +29,7 @@ the [RichTextInput](RichTextInput.md).
 optional block_id?: string;
 ```
 
-Defined in: [block-kit/blocks.ts:49](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L49)
+Defined in: [block-kit/blocks.ts:50](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L50)
 
 #### Description
 
@@ -51,7 +51,7 @@ a message. If a message is updated, use a new `block_id`.
 elements: RichTextBlockElement[];
 ```
 
-Defined in: [block-kit/blocks.ts:395](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L395)
+Defined in: [block-kit/blocks.ts:487](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L487)
 
 ***
 
@@ -61,7 +61,7 @@ Defined in: [block-kit/blocks.ts:395](https://github.com/slackapi/node-slack-sdk
 type: "rich_text";
 ```
 
-Defined in: [block-kit/blocks.ts:394](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L394)
+Defined in: [block-kit/blocks.ts:486](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L486)
 
 #### Description
 

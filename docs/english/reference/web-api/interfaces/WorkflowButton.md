@@ -14,7 +14,7 @@ Allows users to run a [link trigger](https://docs.slack.dev/tools/deno-slack-sdk
 
 ## Extends
 
-- [`Confirmable`](Confirmable.md)
+- [`Actionable`](Actionable.md).[`Confirmable`](Confirmable.md)
 
 ## Properties
 
@@ -30,6 +30,24 @@ Defined in: packages/types/dist/block-kit/block-elements.d.ts:694
 
 A label for longer descriptive text about a button element. This label will be read out by screen
 readers instead of the button `text` object. Maximum length for this field is 75 characters.
+
+***
+
+### action\_id?
+
+```ts
+optional action_id?: string;
+```
+
+Defined in: packages/types/dist/block-kit/extensions.d.ts:12
+
+@description: An identifier for this action. You can use this when you receive an interaction payload to
+[identify the source of the action](https://docs.slack.dev/interactivity/handling-user-interaction#payloads). Should be unique
+among all other `action_id`s in the containing block. Maximum length for this field is 255 characters.
+
+#### Inherited from
+
+[`Actionable`](Actionable.md).[`action_id`](Actionable.md#action_id)
 
 ***
 
@@ -97,6 +115,10 @@ Defined in: packages/types/dist/block-kit/block-elements.d.ts:644
 #### Description
 
 The type of element. In this case `type` is always `workflow_button`.
+
+#### Overrides
+
+[`Actionable`](Actionable.md).[`type`](Actionable.md#type)
 
 ***
 
