@@ -51,9 +51,8 @@ jobs:
           npm --version
       - name: Install dependencies
         run: npm ci --verbose
-      - name: Install undici v8 for socket-mode
-        if: matrix.undici == '8'
-        run: npm install undici@^8 --workspace=packages/socket-mode --no-save
+      - name: Install undici
+        run: npm install undici@^${{ matrix.undici }} --workspace=packages/socket-mode --no-save
       - name: Build packages
         run: npm run build
       - name: Lint
