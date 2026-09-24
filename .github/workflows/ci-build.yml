@@ -78,35 +78,15 @@ jobs:
           report_type: test_results
           token: ${{ secrets.CODECOV_TOKEN }}
           verbose: true
-  socket-mode-undici-v8:
-    # The lockfile pins undici v7, which `test` covers on every Node; this covers the v8 peer range (Node >=22.19).
-    timeout-minutes: 6
-    strategy:
-      fail-fast: false
-      matrix:
-        node-version:
-          - "22.x"
-          - "24.x"
-          - "26.x"
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          persist-credentials: false
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
-        with:
-          node-version: ${{ matrix.node-version }}
-      - name: Install dependencies
-        run: npm ci --verbose
+      # The lockfile pins undici v7; re-run socket-mode against the v8 peer range, which needs Node >=22.19.
+      # These run after the uploads so they don't overwrite socket-mode's v7 test-results.xml.
       - name: Install undici v8 for socket-mode
+        if: matrix.node-version != '20.x'
         run: npm install undici@^8 --workspace=packages/socket-mode --no-save
       - name: Check undici version
+        if: matrix.node-version != '20.x'
         working-directory: packages/socket-mode
         run: node -e "const v = require('undici/package.json').version; console.log('undici', v); if (!v.startsWith('8.')) process.exit(1);"
-      - name: Build packages
-        run: npm run build
-      - name: Run socket-mode tests
+      - name: Run socket-mode tests (undici v8)
+        if: matrix.node-version != '20.x'
         run: npm test --workspace=packages/socket-mode
