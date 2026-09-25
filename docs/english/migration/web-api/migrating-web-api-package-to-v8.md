@@ -337,7 +337,7 @@ function handleError(error: WebAPIHTTPError) {
 
 ### We've removed the `RequestConfig` type
 
-The `RequestConfig` type was an alias for axios's `InternalAxiosRequestConfig`. If you were importing it for `requestInterceptor`, [that has also been removed](requestinterceptor-and-requestinterceptor-type-removed). Use a fetch wrapper instead as described above.
+The `RequestConfig` type was an alias for axios's `InternalAxiosRequestConfig`. If you were importing it for `requestInterceptor`, [that has also been removed](#weve-removed-the-requestinterceptor-and-requestinterceptor-types). Use a fetch wrapper instead as described above.
 
 ```diff
 -import type { RequestConfig } from '@slack/web-api';
