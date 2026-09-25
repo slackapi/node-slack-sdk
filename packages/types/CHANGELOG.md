@@ -1,5 +1,14 @@
 # @slack/types
 
+## 3.2.0
+
+### Minor Changes
+
+- ca6f416: feat(types): add [`ContainerBlock`](https://docs.slack.dev/reference/block-kit/blocks/container-block/) block interface
+- abf184e: feat: add the [`data_table`](https://docs.slack.dev/reference/block-kit/blocks/data-table-block) Block Kit block type (`DataTableBlock`)
+- d420d00: feat: allow `raw_number` cells in [`TableBlock`](https://docs.slack.dev/reference/block-kit/blocks/table-block) rows (adds `RawNumberElement`)
+- 52eeb05: feat(types): add optional `action_id` property to the [`WorkflowButton`](https://docs.slack.dev/reference/block-kit/block-elements/workflow-button-element) block element
+
 ## 3.1.0
 
 ### Minor Changes
