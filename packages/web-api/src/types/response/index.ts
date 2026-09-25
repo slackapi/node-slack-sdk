@@ -225,6 +225,7 @@ export { FilesRemoteUpdateResponse } from './FilesRemoteUpdateResponse';
 export { FilesRevokePublicURLResponse } from './FilesRevokePublicURLResponse';
 export { FilesSharedPublicURLResponse } from './FilesSharedPublicURLResponse';
 export { FilesUploadResponse } from './FilesUploadResponse';
+export { FilesUploadV2Response } from './FilesUploadV2Response'; // Manual addition pending regeneration
 export { FunctionsCompleteErrorResponse } from './FunctionsCompleteErrorResponse';
 export { FunctionsCompleteSuccessResponse } from './FunctionsCompleteSuccessResponse';
 export { GroupsArchiveResponse } from './GroupsArchiveResponse';

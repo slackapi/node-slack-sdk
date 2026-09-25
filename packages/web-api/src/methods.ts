@@ -470,6 +470,7 @@ import type {
   FilesRemoteUpdateResponse,
   FilesRevokePublicURLResponse,
   FilesSharedPublicURLResponse,
+  FilesUploadV2Response, // Manual addition pending regeneration
   FunctionsCompleteErrorResponse,
   FunctionsCompleteSuccessResponse,
   MigrationExchangeResponse,
@@ -2026,7 +2027,7 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
      * as multiple file uploads property.
      * @see {@link https://docs.slack.dev/tools/node-slack-sdk/web-api/#upload-a-file `@slack/web-api` Upload a file documentation}.
      */
-    uploadV2: bindFilesUploadV2<FilesUploadV2Arguments, WebAPICallResult>(this),
+    uploadV2: bindFilesUploadV2<FilesUploadV2Arguments, FilesUploadV2Response>(this),
     comments: {
       /**
        * @description Deletes an existing comment on a file.
