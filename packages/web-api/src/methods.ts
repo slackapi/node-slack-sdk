@@ -1401,14 +1401,6 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
   public readonly agents = {
     conversations: {
       /**
-       * @description Create a dedicated code channel for an agent session.
-       * @see {@link https://docs.slack.dev/reference/methods/agents.conversations.create `agents.conversations.create` API reference}.
-       */
-      create: bindApiCallWithOptionalArgument<AgentsConversationsCreateArguments, AgentsConversationsCreateResponse>(
-        this,
-        'agents.conversations.create',
-      ),
-      /**
        * @description Archive a code channel.
        * @see {@link https://docs.slack.dev/reference/methods/agents.conversations.archive `agents.conversations.archive` API reference}.
        */
@@ -1417,28 +1409,20 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
         'agents.conversations.archive',
       ),
       /**
-       * @description Set properties on a code channel.
-       * @see {@link https://docs.slack.dev/reference/methods/agents.conversations.setProperties `agents.conversations.setProperties` API reference}.
+       * @description Create a dedicated code channel for an agent session.
+       * @see {@link https://docs.slack.dev/reference/methods/agents.conversations.create `agents.conversations.create` API reference}.
        */
-      setProperties: bindApiCallWithOptionalArgument<
-        AgentsConversationsSetPropertiesArguments,
-        AgentsConversationsSetPropertiesResponse
-      >(this, 'agents.conversations.setProperties'),
-      /**
-       * @description Create or update a view in a code channel.
-       * @see {@link https://docs.slack.dev/reference/methods/agents.conversations.setView `agents.conversations.setView` API reference}.
-       */
-      setView: bindApiCallWithOptionalArgument<AgentsConversationsSetViewArguments, AgentsConversationsSetViewResponse>(
+      create: bindApiCallWithOptionalArgument<AgentsConversationsCreateArguments, AgentsConversationsCreateResponse>(
         this,
-        'agents.conversations.setView',
+        'agents.conversations.create',
       ),
       /**
-       * @description Register the set of agent-defined slash commands for the calling agent in a code channel.
-       * @see {@link https://docs.slack.dev/reference/methods/agents.conversations.setCommands `agents.conversations.setCommands` API reference}.
+       * @description Fetch a canvas attached to a code channel.
+       * @see {@link https://docs.slack.dev/reference/methods/agents.conversations.getCanvas `agents.conversations.getCanvas` API reference}.
        */
-      setCommands: bindApiCall<AgentsConversationsSetCommandsArguments, AgentsConversationsSetCommandsResponse>(
+      getCanvas: bindApiCall<AgentsConversationsGetCanvasArguments, AgentsConversationsGetCanvasResponse>(
         this,
-        'agents.conversations.setCommands',
+        'agents.conversations.getCanvas',
       ),
       /**
        * @description List the views currently attached to a code channel.
@@ -1457,14 +1441,6 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
         AgentsConversationsRemoveViewResponse
       >(this, 'agents.conversations.removeView'),
       /**
-       * @description Fetch a canvas attached to a code channel.
-       * @see {@link https://docs.slack.dev/reference/methods/agents.conversations.getCanvas `agents.conversations.getCanvas` API reference}.
-       */
-      getCanvas: bindApiCall<AgentsConversationsGetCanvasArguments, AgentsConversationsGetCanvasResponse>(
-        this,
-        'agents.conversations.getCanvas',
-      ),
-      /**
        * @description Replace the full markdown content of a plan canvas attached to a code channel.
        * @see {@link https://docs.slack.dev/reference/methods/agents.conversations.setCanvasContent `agents.conversations.setCanvasContent` API reference}.
        */
@@ -1472,6 +1448,30 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
         AgentsConversationsSetCanvasContentArguments,
         AgentsConversationsSetCanvasContentResponse
       >(this, 'agents.conversations.setCanvasContent'),
+      /**
+       * @description Register the set of agent-defined slash commands for the calling agent in a code channel.
+       * @see {@link https://docs.slack.dev/reference/methods/agents.conversations.setCommands `agents.conversations.setCommands` API reference}.
+       */
+      setCommands: bindApiCall<AgentsConversationsSetCommandsArguments, AgentsConversationsSetCommandsResponse>(
+        this,
+        'agents.conversations.setCommands',
+      ),
+      /**
+       * @description Set properties on a code channel.
+       * @see {@link https://docs.slack.dev/reference/methods/agents.conversations.setProperties `agents.conversations.setProperties` API reference}.
+       */
+      setProperties: bindApiCallWithOptionalArgument<
+        AgentsConversationsSetPropertiesArguments,
+        AgentsConversationsSetPropertiesResponse
+      >(this, 'agents.conversations.setProperties'),
+      /**
+       * @description Create or update a view in a code channel.
+       * @see {@link https://docs.slack.dev/reference/methods/agents.conversations.setView `agents.conversations.setView` API reference}.
+       */
+      setView: bindApiCallWithOptionalArgument<AgentsConversationsSetViewArguments, AgentsConversationsSetViewResponse>(
+        this,
+        'agents.conversations.setView',
+      ),
     },
     sessions: {
       /**

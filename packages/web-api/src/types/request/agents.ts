@@ -56,6 +56,17 @@ export interface AgentsSessionsSetStatusArguments extends TokenOverridable {
   username?: string;
 }
 
+// https://docs.slack.dev/reference/methods/agents.conversations.archive
+export interface AgentsConversationsArchiveArguments extends TokenOverridable {
+  /** @description ID of the code channel to archive. */
+  channel_id: string;
+  /**
+   * @description Timestamp of a message in the code channel to share back as a thread reply on the origin message.
+   * Requires the channel to have an `origin_link`.
+   */
+  summary_message_ts?: string;
+}
+
 // https://docs.slack.dev/reference/methods/agents.conversations.create
 export interface AgentsConversationsCreateArguments extends TokenOverridable {
   /**
@@ -87,15 +98,56 @@ export interface AgentsConversationsCreateArguments extends TokenOverridable {
   origin_message_ts?: string;
 }
 
-// https://docs.slack.dev/reference/methods/agents.conversations.archive
-export interface AgentsConversationsArchiveArguments extends TokenOverridable {
-  /** @description ID of the code channel to archive. */
+// https://docs.slack.dev/reference/methods/agents.conversations.getCanvas
+export interface AgentsConversationsGetCanvasArguments extends TokenOverridable {
+  /** @description ID of the agent session channel the canvas belongs to. */
+  channel: string;
+  /** @description Encoded ID of the canvas to fetch. */
+  canvas_id: string;
+  /** @description Format to render the canvas content in. Defaults to `markdown`. */
+  content_format?: string;
+  /** @description Whether to include resolved comment threads in the response. Defaults to `false`. */
+  include_resolved?: boolean;
+}
+
+// https://docs.slack.dev/reference/methods/agents.conversations.listViews
+export interface AgentsConversationsListViewsArguments extends TokenOverridable {
+  /** @description ID of the code channel to list views for. */
+  channel_id: string;
+}
+
+// https://docs.slack.dev/reference/methods/agents.conversations.removeView
+export interface AgentsConversationsRemoveViewArguments extends TokenOverridable {
+  /** @description ID of the code channel to remove the view from. */
+  channel_id: string;
+  /** @description Agent-assigned key of the view to remove. Provide exactly one of `view_key` or `view_id`. */
+  view_key?: string;
+  /** @description Encoded channel tab ID of the view to remove. Provide exactly one of `view_key` or `view_id`. */
+  view_id?: string;
+}
+
+// https://docs.slack.dev/reference/methods/agents.conversations.setCanvasContent
+export interface AgentsConversationsSetCanvasContentArguments extends TokenOverridable {
+  /** @description ID of the agent session channel the canvas is attached to. */
+  channel: string;
+  /** @description Encoded ID of the canvas whose content to replace. */
+  canvas_id: string;
+  /**
+   * @description The full new canvas content as markdown. The server diffs this against the current content and applies
+   * only the changed sections.
+   */
+  content: string;
+}
+
+// https://docs.slack.dev/reference/methods/agents.conversations.setCommands
+export interface AgentsConversationsSetCommandsArguments extends TokenOverridable {
+  /** @description ID of the code channel to register commands for. */
   channel_id: string;
   /**
-   * @description Timestamp of a message in the code channel to share back as a thread reply on the origin message.
-   * Requires the channel to have an `origin_link`.
+   * @description Full set of commands to register for the calling agent in this channel, replacing that agent's
+   * previously registered set. Pass an empty array to clear the agent's commands.
    */
-  summary_message_ts?: string;
+  commands: Record<string, unknown>[];
 }
 
 // https://docs.slack.dev/reference/methods/agents.conversations.setProperties
@@ -167,56 +219,4 @@ export interface AgentsConversationsSetViewArguments extends TokenOverridable {
    * (https-only, no private/internal hosts) and persisted with the view.
    */
   csp?: Record<string, unknown>;
-}
-
-// https://docs.slack.dev/reference/methods/agents.conversations.setCommands
-export interface AgentsConversationsSetCommandsArguments extends TokenOverridable {
-  /** @description ID of the code channel to register commands for. */
-  channel_id: string;
-  /**
-   * @description Full set of commands to register for the calling agent in this channel, replacing that agent's
-   * previously registered set. Pass an empty array to clear the agent's commands.
-   */
-  commands: Record<string, unknown>[];
-}
-
-// https://docs.slack.dev/reference/methods/agents.conversations.listViews
-export interface AgentsConversationsListViewsArguments extends TokenOverridable {
-  /** @description ID of the code channel to list views for. */
-  channel_id: string;
-}
-
-// https://docs.slack.dev/reference/methods/agents.conversations.removeView
-export interface AgentsConversationsRemoveViewArguments extends TokenOverridable {
-  /** @description ID of the code channel to remove the view from. */
-  channel_id: string;
-  /** @description Agent-assigned key of the view to remove. Provide exactly one of `view_key` or `view_id`. */
-  view_key?: string;
-  /** @description Encoded channel tab ID of the view to remove. Provide exactly one of `view_key` or `view_id`. */
-  view_id?: string;
-}
-
-// https://docs.slack.dev/reference/methods/agents.conversations.getCanvas
-export interface AgentsConversationsGetCanvasArguments extends TokenOverridable {
-  /** @description ID of the agent session channel the canvas belongs to. */
-  channel: string;
-  /** @description Encoded ID of the canvas to fetch. */
-  canvas_id: string;
-  /** @description Format to render the canvas content in. Defaults to `markdown`. */
-  content_format?: string;
-  /** @description Whether to include resolved comment threads in the response. Defaults to `false`. */
-  include_resolved?: boolean;
-}
-
-// https://docs.slack.dev/reference/methods/agents.conversations.setCanvasContent
-export interface AgentsConversationsSetCanvasContentArguments extends TokenOverridable {
-  /** @description ID of the agent session channel the canvas is attached to. */
-  channel: string;
-  /** @description Encoded ID of the canvas whose content to replace. */
-  canvas_id: string;
-  /**
-   * @description The full new canvas content as markdown. The server diffs this against the current content and applies
-   * only the changed sections.
-   */
-  content: string;
 }
