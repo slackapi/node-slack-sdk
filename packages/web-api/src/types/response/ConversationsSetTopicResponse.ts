@@ -35,6 +35,7 @@ export interface Channel {
   is_private?: boolean;
   is_shared?: boolean;
   last_read?: string;
+  latest?: Latest; // Manual addition pending regeneration
   name?: string;
   name_normalized?: string;
   pending_connected_team_ids?: string[];
@@ -45,6 +46,14 @@ export interface Channel {
   topic?: Purpose;
   unlinked?: number;
   updated?: number;
+}
+
+export interface Latest { // Manual addition pending regeneration
+  subtype?: string;
+  text?: string;
+  ts?: string;
+  type?: string;
+  user?: string;
 }
 
 export interface Purpose {
