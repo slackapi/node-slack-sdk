@@ -3,6 +3,81 @@ import { WebClient } from '../../../src/WebClient';
 
 const web = new WebClient('TOKEN');
 
+// assistant.search.context
+// -- sad path
+expectError(web.assistant.search.context()); // lacking argument
+expectError(web.assistant.search.context({})); // empty argument
+expectError(
+  web.assistant.search.context({
+    query: 123, // not a string
+  }),
+  web.assistant.search.context({
+    query: 'What is project gizmo?',
+    channel_types: ['public_channel', 'channel'], // unsupported channel type
+  }),
+  web.assistant.search.context({
+    query: 'What is project gizmo?',
+    content_types: ['messages', 'posts'], // unsupported content type
+  }),
+  web.assistant.search.context({
+    query: 'What is project gizmo?',
+    include_bots: 'false', // not a boolean
+  }),
+  web.assistant.search.context({
+    query: 'What is project gizmo?',
+    keywords_clauses: ['project'], // not an array of string arrays
+  }),
+  web.assistant.search.context({
+    query: 'What is project gizmo?',
+    sort: 'date', // unsupported sort field
+  }),
+  web.assistant.search.context({
+    query: 'What is project gizmo?',
+    sort_dir: 'down', // unsupported sort direction
+  }),
+);
+// -- happy path
+expectAssignable<Parameters<typeof web.assistant.search.context>>([
+  {
+    query: 'What is project gizmo?',
+  },
+]);
+expectAssignable<Parameters<typeof web.assistant.search.context>>([
+  {
+    query: 'What is the latest on project Gizmo?',
+    action_token: '12345.98765.abcd2358fdea',
+    after: 1752512713,
+    before: 1755191113,
+    channel_types: ['public_channel', 'private_channel', 'mpim', 'im'],
+    content_types: ['messages', 'files', 'channels', 'users'],
+    context_channel_id: 'C1234',
+    cursor: 'asf91j9jfd',
+    disable_semantic_search: false,
+    highlight: true,
+    include_archived_channels: true,
+    include_bots: false,
+    include_context_messages: true,
+    include_deleted_users: false,
+    include_message_blocks: true,
+    keywords_clauses: [['project', 'gizmo']],
+    limit: 20,
+    modifiers: 'has:pin before:yesterday',
+    sort: 'timestamp',
+    sort_dir: 'asc',
+    term_clauses: ['project gizmo'],
+  },
+]);
+
+// assistant.search.info
+// -- happy path
+expectAssignable<Parameters<typeof web.assistant.search.info>>([]);
+expectAssignable<Parameters<typeof web.assistant.search.info>>([{}]);
+expectAssignable<Parameters<typeof web.assistant.search.info>>([
+  {
+    token: 'TOKEN',
+  },
+]);
+
 // assistant.threads.setStatus
 // -- sad path
 expectError(web.assistant.threads.setStatus()); // lacking argument
