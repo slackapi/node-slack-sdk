@@ -118,7 +118,19 @@ export type {
   AdminWorkflowsSearchArguments,
   AdminWorkflowsUnpublishArguments,
 } from './admin/workflows';
-export type { AgentsSessionsRenameArguments, AgentsSessionsSetStatusArguments } from './agents';
+export type {
+  AgentsConversationsArchiveArguments,
+  AgentsConversationsCreateArguments,
+  AgentsConversationsGetCanvasArguments,
+  AgentsConversationsListViewsArguments,
+  AgentsConversationsRemoveViewArguments,
+  AgentsConversationsSetCanvasContentArguments,
+  AgentsConversationsSetCommandsArguments,
+  AgentsConversationsSetPropertiesArguments,
+  AgentsConversationsSetViewArguments,
+  AgentsSessionsRenameArguments,
+  AgentsSessionsSetStatusArguments,
+} from './agents';
 export type { APITestArguments } from './api';
 export type {
   AppsConnectionsOpenArguments,
