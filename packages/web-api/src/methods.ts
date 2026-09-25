@@ -1404,7 +1404,7 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
        * @description Archive a code channel.
        * @see {@link https://docs.slack.dev/reference/methods/agents.conversations.archive `agents.conversations.archive` API reference}.
        */
-      archive: bindApiCallWithOptionalArgument<AgentsConversationsArchiveArguments, AgentsConversationsArchiveResponse>(
+      archive: bindApiCall<AgentsConversationsArchiveArguments, AgentsConversationsArchiveResponse>(
         this,
         'agents.conversations.archive',
       ),
@@ -1412,7 +1412,7 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
        * @description Create a dedicated code channel for an agent session.
        * @see {@link https://docs.slack.dev/reference/methods/agents.conversations.create `agents.conversations.create` API reference}.
        */
-      create: bindApiCallWithOptionalArgument<AgentsConversationsCreateArguments, AgentsConversationsCreateResponse>(
+      create: bindApiCall<AgentsConversationsCreateArguments, AgentsConversationsCreateResponse>(
         this,
         'agents.conversations.create',
       ),
@@ -1428,18 +1428,18 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
        * @description List the views currently attached to a code channel.
        * @see {@link https://docs.slack.dev/reference/methods/agents.conversations.listViews `agents.conversations.listViews` API reference}.
        */
-      listViews: bindApiCallWithOptionalArgument<
-        AgentsConversationsListViewsArguments,
-        AgentsConversationsListViewsResponse
-      >(this, 'agents.conversations.listViews'),
+      listViews: bindApiCall<AgentsConversationsListViewsArguments, AgentsConversationsListViewsResponse>(
+        this,
+        'agents.conversations.listViews',
+      ),
       /**
        * @description Remove a view from a code channel.
        * @see {@link https://docs.slack.dev/reference/methods/agents.conversations.removeView `agents.conversations.removeView` API reference}.
        */
-      removeView: bindApiCallWithOptionalArgument<
-        AgentsConversationsRemoveViewArguments,
-        AgentsConversationsRemoveViewResponse
-      >(this, 'agents.conversations.removeView'),
+      removeView: bindApiCall<AgentsConversationsRemoveViewArguments, AgentsConversationsRemoveViewResponse>(
+        this,
+        'agents.conversations.removeView',
+      ),
       /**
        * @description Replace the full markdown content of a plan canvas attached to a code channel.
        * @see {@link https://docs.slack.dev/reference/methods/agents.conversations.setCanvasContent `agents.conversations.setCanvasContent` API reference}.
@@ -1460,15 +1460,15 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
        * @description Set properties on a code channel.
        * @see {@link https://docs.slack.dev/reference/methods/agents.conversations.setProperties `agents.conversations.setProperties` API reference}.
        */
-      setProperties: bindApiCallWithOptionalArgument<
-        AgentsConversationsSetPropertiesArguments,
-        AgentsConversationsSetPropertiesResponse
-      >(this, 'agents.conversations.setProperties'),
+      setProperties: bindApiCall<AgentsConversationsSetPropertiesArguments, AgentsConversationsSetPropertiesResponse>(
+        this,
+        'agents.conversations.setProperties',
+      ),
       /**
        * @description Create or update a view in a code channel.
        * @see {@link https://docs.slack.dev/reference/methods/agents.conversations.setView `agents.conversations.setView` API reference}.
        */
-      setView: bindApiCallWithOptionalArgument<AgentsConversationsSetViewArguments, AgentsConversationsSetViewResponse>(
+      setView: bindApiCall<AgentsConversationsSetViewArguments, AgentsConversationsSetViewResponse>(
         this,
         'agents.conversations.setView',
       ),
@@ -1707,7 +1707,7 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
      * @description Create Canvas for a user.
      * @see {@link https://docs.slack.dev/reference/methods/canvases.create `canvases.create` API reference}.
      */
-    create: bindApiCallWithOptionalArgument<CanvasesCreateArguments, CanvasesCreateResponse>(this, 'canvases.create'),
+    create: bindApiCall<CanvasesCreateArguments, CanvasesCreateResponse>(this, 'canvases.create'),
     /**
      * @description Deletes a canvas.
      * @see {@link https://docs.slack.dev/reference/methods/canvases.delete `canvases.delete` API reference}.
