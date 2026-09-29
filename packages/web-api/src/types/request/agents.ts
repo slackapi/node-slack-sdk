@@ -8,7 +8,7 @@ export interface AgentsConversationsArchiveArguments extends TokenOverridable {
   channel_id: string;
   /**
    * @description Timestamp of a message in the code channel to share back as a thread reply on the origin message.
-   * Requires the channel to have an `origin_link`.
+   * Requires the channel to have an `origin_link` set.
    */
   summary_message_ts?: string;
 }
@@ -17,7 +17,7 @@ export interface AgentsConversationsArchiveArguments extends TokenOverridable {
 export interface AgentsConversationsCreateArguments extends TokenOverridable {
   /**
    * @description Encoded team ID to create the channel in. Required for org tokens when `origin_channel_id` is not
-   * provided. When omitted, the workspace is derived from the token.
+   * provided. When omitted, the workspace is derived from the origin channel.
    */
   team_id?: string;
   /**
@@ -27,19 +27,19 @@ export interface AgentsConversationsCreateArguments extends TokenOverridable {
   session_id?: string;
   /**
    * @description A friendly display name for the code channel. Optional when `origin_channel_id` and `origin_message_ts`
-   * are provided — in that case the channel name is derived from the origin message.
+   * are provided — in that case the channel name is derived from the origin message and re-titled automatically. Required when no origin link is given.
    */
-  name: string;
+  name?: string;
   /** @description Create a private channel instead of a public one. */
   is_private?: boolean;
   /**
    * @description The channel ID where the agent session was initiated from. Must be provided together with
-   * `origin_message_ts`. The channel must be accessible to the calling app.
+   * `origin_message_ts`. The channel must be accessible to the calling user and must not be externally shared (Slack Connect). When `team_id` is omitted with an org token, the channel is created in the same workspace as this origin channel.
    */
   origin_channel_id?: string;
   /**
    * @description The message timestamp in the origin channel that started the agent session. Must be provided together
-   * with `origin_channel_id`.
+   * with `origin_channel_id`. The author of this message is automatically invited to the newly created code channel.
    */
   origin_message_ts?: string;
 }
@@ -91,9 +91,16 @@ export interface AgentsConversationsSetCommandsArguments extends TokenOverridabl
   channel_id: string;
   /**
    * @description Full set of commands to register for the calling agent in this channel, replacing that agent's
-   * previously registered set. Pass an empty array to clear the agent's commands.
+   * previously registered set. Pass an empty array to clear the agent's commands. At most 10 commands may exist across all agents in the channel; names must be unique within the set and must not collide with builtin Slack commands.
    */
-  commands: Record<string, unknown>[];
+  commands: {
+    /** @description Command name, without a leading slash. 1-31 characters, unique within the set. */
+    name: string;
+    /** @description Short description of what the command does. */
+    description?: string;
+    /** @description Hint describing the command's arguments, shown in the typeahead. */
+    argument_hint?: string;
+  }[];
 }
 
 // https://docs.slack.dev/reference/methods/agents.conversations.setProperties
@@ -105,9 +112,37 @@ export interface AgentsConversationsSetPropertiesArguments extends TokenOverrida
   /** @description New status for the agent session. */
   status?: string;
   /** @description Code channel properties to set. Only provided fields are updated. */
-  code_channel?: Record<string, unknown>;
+  code_channel?: {
+    /** @description Items displayed in the channel context bar. Maximum 5 items. The array replaces the current set. */
+    context_bar_items?: {
+      /** @description Unique identifier for the item within the channel. Maximum 64 characters. */
+      key: string;
+      /** @description Display text. Maximum 128 characters. */
+      label: string;
+      /** @description Icon shown beside the label: `branch`, `folder`, `hierarchy`, `life-ring`, `link`, `globe`, `terminal`, `code`, `search`, or `lock`. */
+      icon?: string;
+      /** @description Makes the item a link to this URL. Maximum 2048 characters. */
+      url?: string;
+      /** @description `info` (default, informational) or `action` (interactive; clicking delivers a `code_channel_action` event). */
+      item_type?: string;
+    }[];
+    /** @description Records which message in the channel represents the current session summary. */
+    summary_message?: {
+      /** @description Timestamp of the summary message in the code channel. */
+      message_ts: string;
+    };
+  };
   /** @description Agent resource properties to set. Only provided fields are updated. */
-  agent_resource?: Record<string, unknown>;
+  agent_resource?: {
+    /** @description URL of the external resource. Maximum 2048 characters. */
+    url?: string;
+    /** @description Type of the external resource. Maximum 64 characters. */
+    resource_type?: string;
+    /** @description Display title of the external resource. Maximum 255 characters. */
+    title?: string;
+    /** @description Provider of the external resource. Maximum 64 characters. */
+    provider?: string;
+  };
 }
 
 // https://docs.slack.dev/reference/methods/agents.conversations.setView
@@ -122,12 +157,12 @@ export interface AgentsConversationsSetViewArguments extends TokenOverridable {
   type?: string;
   /**
    * @description Agent-assigned stable identity for the view (e.g. the source file path on the agent's machine). Used as
-   * the upsert key: calls with the same `view_key` update the existing view.
+   * the upsert key: calls with the same `view_key` update the same view. Required for html, block_kit, and canvas views; ignored for diff (a diff view is a per-channel singleton).
    */
   view_key?: string;
   /**
    * @description View content. For `html`, a full self-contained HTML document; for `diff`, raw unified diff text.
-   * Capped at 1,000,000 bytes — larger content returns an error.
+   * Capped at 1,000,000 bytes — larger content returns content_too_large. The cap is enforced by the handler (not schema maxLength) so the documented error code actually surfaces instead of a generic argument-validation failure. Required when type is html or diff.
    */
   content?: string;
   /** @description Block Kit blocks to render in the view tab. Required when `type` is `block_kit`; ignored otherwise. */
@@ -136,12 +171,12 @@ export interface AgentsConversationsSetViewArguments extends TokenOverridable {
   canvas_id?: string;
   /**
    * @description For canvas views: access level granted to the channel for the canvas tab. Defaults to `write`. Use
-   * `comment` to grant channel members comment access.
+   * `comment` to grant channel members comment access (read and comment, no editing) so the agent remains the sole author of the canvas text.
    */
   access_level?: string;
   /**
    * @description For canvas views: hash of the canvas-derived markdown the agent last wrote, recorded so the agent can
-   * later detect human edits to the canvas.
+   * later detect human edits to the canvas. Opaque to the server.
    */
   agent_content_hash?: string;
   /** @description For pull_request views: the pull request's URL. Required when `type` is `pull_request`; ignored otherwise. */
@@ -151,18 +186,13 @@ export interface AgentsConversationsSetViewArguments extends TokenOverridable {
   /** @description For diff views: head branch name for display purposes. */
   head_branch?: string;
   /**
-   * @description Display label for the view tab. Preferred over the legacy `label` argument (`name` wins if both are
-   * supplied). Defaults to the last path segment of `view_key`.
+   * @description Display label for the view tab (`name` wins if both are
+   * supplied). Defaults to the last path segment of `view_key`, stripped of any .html/.htm extension.
    */
   name?: string;
   /**
-   * @description Deprecated alias for `name`. Display label for the view tab. Defaults to the last path segment of
-   * `view_key`, stripped of any `.html`/`.htm` extension.
-   */
-  label?: string;
-  /**
    * @description Content-Security-Policy domain declarations for the view. Domains are validated server-side
-   * (https-only, no private/internal hosts) and persisted with the view.
+   * (https-only, no private/internal hosts) and persisted. Only resource_domains is honored at render time today; connect_domains is accepted and stored for forward-compatibility but NOT honored yet.
    */
   csp?: Record<string, unknown>;
 }

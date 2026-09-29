@@ -1707,7 +1707,7 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
      * @description Create Canvas for a user.
      * @see {@link https://docs.slack.dev/reference/methods/canvases.create `canvases.create` API reference}.
      */
-    create: bindApiCall<CanvasesCreateArguments, CanvasesCreateResponse>(this, 'canvases.create'),
+    create: bindApiCallWithOptionalArgument<CanvasesCreateArguments, CanvasesCreateResponse>(this, 'canvases.create'),
     /**
      * @description Deletes a canvas.
      * @see {@link https://docs.slack.dev/reference/methods/canvases.delete `canvases.delete` API reference}.

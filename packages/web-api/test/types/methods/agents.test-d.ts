@@ -23,7 +23,6 @@ expectAssignable<Parameters<typeof web.agents.conversations.archive>>([
 // agents.conversations.create
 // -- sad path
 expectError(web.agents.conversations.create()); // lacking argument
-expectError(web.agents.conversations.create({})); // missing name
 // -- happy path
 expectAssignable<Parameters<typeof web.agents.conversations.create>>([
   {
