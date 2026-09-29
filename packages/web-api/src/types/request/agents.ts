@@ -192,7 +192,12 @@ export interface AgentsConversationsSetViewArguments extends TokenOverridable {
    * @description Content-Security-Policy domain declarations for the view. Domains are validated server-side
    * (https-only, no private/internal hosts) and persisted. Only resource_domains is honored at render time today; connect_domains is accepted and stored for forward-compatibility but NOT honored yet.
    */
-  csp?: Record<string, unknown>;
+  csp?: {
+    /** @description Origins the view may fetch()/XHR/WebSocket to. Accepted and stored, but not honored at render time yet. */
+    connect_domains?: string[];
+    /** @description Origins the view may load scripts/styles/fonts/images/media from, merged into the curated CDN allowlist at render time. */
+    resource_domains?: string[];
+  };
 }
 
 // https://docs.slack.dev/reference/methods/agents.sessions.rename
