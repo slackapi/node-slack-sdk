@@ -27,7 +27,7 @@ export interface AgentsConversationsCreateArguments extends TokenOverridable {
   session_id?: string;
   /**
    * @description A friendly display name for the code channel. Optional when `origin_channel_id` and `origin_message_ts`
-   * are provided — in that case the channel name is derived from the origin message and re-titled automatically. Required when no origin link is given.
+   * are provided — in that case the channel is named from the origin message and re-titled automatically. Required when no origin link is given.
    */
   name: string;
   /** @description Create a private channel instead of a public one. */
