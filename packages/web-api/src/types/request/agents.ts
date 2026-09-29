@@ -107,10 +107,6 @@ export interface AgentsConversationsSetCommandsArguments extends TokenOverridabl
 export interface AgentsConversationsSetPropertiesArguments extends TokenOverridable {
   /** @description ID of the code channel to update. */
   channel_id: string;
-  /** @description New display title for the agent session. */
-  title?: string;
-  /** @description New status for the agent session. */
-  status?: string;
   /** @description Code channel properties to set. Only provided fields are updated. */
   code_channel?: {
     /** @description Items displayed in the channel context bar. Maximum 5 items. The array replaces the current set. */
