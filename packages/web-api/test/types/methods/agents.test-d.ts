@@ -137,7 +137,12 @@ expectAssignable<Parameters<typeof web.agents.conversations.setCommands>>([
   {
     channel_id: 'C9876543210',
     commands: [
-      { name: 'create-pr', description: 'Open a pull request for the current branch', argument_hint: '[title]' },
+      {
+        name: 'create-pr',
+        description: 'Open a pull request for the current branch',
+        argument_hint: '[title]',
+        should_escape: true,
+      },
       { name: 'run-tests', description: 'Run the test suite and report back' },
       { name: 'summarize', description: 'Post a summary of the work so far' },
     ],

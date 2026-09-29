@@ -100,6 +100,11 @@ export interface AgentsConversationsSetCommandsArguments extends TokenOverridabl
     description?: string;
     /** @description Hint describing the command's arguments, shown in the typeahead. */
     argument_hint?: string;
+    /**
+     * @description When true, channel, user, and link references in the command's text are escaped/parsed before
+     * being sent to the agent app, matching the slash-command `should_escape` behavior. Absent is treated as false.
+     */
+    should_escape?: boolean;
   }[];
 }
 
