@@ -126,6 +126,8 @@ export interface AgentsConversationsSetPropertiesArguments extends TokenOverrida
     summary_message?: {
       /** @description Timestamp of the summary message in the code channel. */
       message_ts: string;
+      /** @description Thread timestamp if the summary message is a thread reply. Clients need this to fetch the message via conversations.replies. */
+      thread_ts?: string;
     };
   };
   /** @description Agent resource properties to set. Only provided fields are updated. */
