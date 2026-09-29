@@ -18,8 +18,10 @@ export type AgentsConversationsListViewsResponse = WebAPICallResult & {
 };
 
 export interface View {
+  content_version?: number;
+  date_added?: number;
+  file_id?: string;
+  label?: string;
   view_id?: string;
   view_key?: string;
-  type?: string;
-  name?: string;
 }

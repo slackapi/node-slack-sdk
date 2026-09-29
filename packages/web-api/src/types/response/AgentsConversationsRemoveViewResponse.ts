@@ -9,9 +9,11 @@
 
 import type { WebAPICallResult } from '../../WebClient';
 export type AgentsConversationsRemoveViewResponse = WebAPICallResult & {
+  channel_id?: string;
   error?: string;
   needed?: string;
   ok?: boolean;
   provided?: string;
+  view_id?: string;
   warning?: string;
 };

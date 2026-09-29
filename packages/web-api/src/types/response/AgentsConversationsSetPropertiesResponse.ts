@@ -9,6 +9,7 @@
 
 import type { WebAPICallResult } from '../../WebClient';
 export type AgentsConversationsSetPropertiesResponse = WebAPICallResult & {
+  channel_id?: string;
   error?: string;
   needed?: string;
   ok?: boolean;

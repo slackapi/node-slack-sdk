@@ -9,10 +9,15 @@
 
 import type { WebAPICallResult } from '../../WebClient';
 export type AgentsConversationsSetViewResponse = WebAPICallResult & {
+  canvas_id?: string;
+  channel_id?: string;
+  content_version?: number;
   error?: string;
+  file_id?: string;
   needed?: string;
   ok?: boolean;
   provided?: string;
+  type?: string;
   view_id?: string;
   warning?: string;
 };
