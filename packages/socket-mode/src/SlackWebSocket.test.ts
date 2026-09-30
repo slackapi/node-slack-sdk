@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { channel } from 'node:diagnostics_channel';
 import { afterEach, beforeEach, describe, it } from 'node:test';
 import { ConsoleLogger } from '@slack/logger';
 import EventEmitter from 'eventemitter3';
@@ -245,6 +246,77 @@ describe('SlackWebSocket', () => {
       assert.ok(received instanceof Error);
       assert.match((received as Error).message, /returned no socket/);
       assert.strictEqual((sws as unknown as { defaultSocket: unknown }).defaultSocket, null);
+    });
+  });
+
+  describe('ping/pong diagnostics channel filtering', () => {
+    const pingChannel = channel('undici:websocket:ping');
+    const pongChannel = channel('undici:websocket:pong');
+
+    function connect() {
+      const ws = new WSMock();
+      const SWS = proxyquire.load('./SlackWebSocket', {
+        undici: {
+          WebSocket: class Fake {
+            constructor() {
+              // biome-ignore lint/correctness/noConstructorReturn: for test mocking purposes
+              return ws;
+            }
+          },
+          CloseEvent,
+          ErrorEvent,
+          MessageEvent,
+          ping: () => {},
+        },
+      }).SlackWebSocket;
+      const logger = new ConsoleLogger();
+      const warn = sandbox.spy(logger, 'warn');
+      const sws = new SWS({
+        url: 'ws://127.0.0.1/',
+        client: new EventEmitter(),
+        clientPingTimeoutMS: 1,
+        serverPingTimeoutMS: 1,
+        logger,
+      });
+      const monitorPingFromSlack = sandbox.stub(
+        sws as unknown as { monitorPingFromSlack: () => void },
+        'monitorPingFromSlack',
+      );
+      const lastPong = () => (sws as unknown as { lastPongReceivedTimestamp?: number }).lastPongReceivedTimestamp;
+      sws.connect();
+      return { ws, warn, monitorPingFromSlack, lastPong };
+    }
+
+    // A plain object stands in for a WebSocket from a different undici copy: it fails `instanceof` our
+    // import, which is exactly the frame that used to warn. A WSMock instance would pass `instanceof`.
+    const foreignSocket = {};
+
+    it('ignores a ping for another undici copy socket, without warning', () => {
+      const { warn, monitorPingFromSlack } = connect();
+      pingChannel.publish({ websocket: foreignSocket, payload: Buffer.from('x') });
+      sinon.assert.notCalled(monitorPingFromSlack);
+      sinon.assert.notCalled(warn);
+    });
+
+    it('processes a ping for this socket', () => {
+      const { ws, warn, monitorPingFromSlack } = connect();
+      pingChannel.publish({ websocket: ws, payload: Buffer.from('x') });
+      sinon.assert.calledOnce(monitorPingFromSlack);
+      sinon.assert.notCalled(warn);
+    });
+
+    it('ignores a pong for another undici copy socket, without warning', () => {
+      const { warn, lastPong } = connect();
+      pongChannel.publish({ websocket: foreignSocket, payload: Buffer.from('x') });
+      assert.strictEqual(lastPong(), undefined);
+      sinon.assert.notCalled(warn);
+    });
+
+    it('processes a pong for this socket', () => {
+      const { ws, warn, lastPong } = connect();
+      pongChannel.publish({ websocket: ws, payload: Buffer.from('x') });
+      assert.strictEqual(typeof lastPong(), 'number');
+      sinon.assert.notCalled(warn);
     });
   });
 });
