@@ -10,7 +10,7 @@
 import type { WebAPICallResult } from '../../WebClient';
 export type AgentsConversationsGetCanvasResponse = WebAPICallResult & {
   canvas_id?: string;
-  comments?: any[];
+  comments?: Comment[];
   content?: string;
   error?: string;
   has_more_comments?: boolean;
@@ -20,3 +20,20 @@ export type AgentsConversationsGetCanvasResponse = WebAPICallResult & {
   title?: string;
   warning?: string;
 };
+
+export interface Comment {
+  has_more_replies?: boolean;
+  id?: string;
+  is_resolved?: boolean;
+  quoted_text?: string;
+  replies?: Reply[];
+  text?: string;
+  ts?: string;
+  user_id?: string;
+}
+
+export interface Reply {
+  text?: string;
+  ts?: string;
+  user_id?: string;
+}
