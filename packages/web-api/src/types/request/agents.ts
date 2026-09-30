@@ -114,7 +114,37 @@ export interface AgentsConversationsSetPropertiesArguments extends TokenOverrida
   channel_id: string;
   /** @description Code channel properties to set. Only provided fields are updated. */
   code_channel?: {
-    /** @description Items displayed in the channel context bar. Maximum 5 items. The array replaces the current set. */
+    /** @description Git hosting provider (e.g. github.com). */
+    host?: string;
+    /** @description Repository name (e.g., org/repo). */
+    repo?: string;
+    /** @description Working branch name. */
+    branch?: string;
+    /** @description Base branch the working branch was created from. */
+    base_branch?: string;
+    /** @description Current commit SHA. */
+    commit_sha?: string;
+    /** @description Pull request number. */
+    pr_number?: number;
+    /** @description URL of the pull request. */
+    pr_url?: string;
+    /** @description Title of the pull request. */
+    pr_title?: string;
+    /** @description Status of the pull request (e.g. open, merged, closed). */
+    pr_status?: string;
+    /** @description URL to the CI pipeline run. */
+    ci_url?: string;
+    /** @description State of the CI pipeline (e.g. pending, success, failure). */
+    ci_state?: string;
+    /** @description List of file paths relevant to this session. */
+    file_paths?: string[];
+    /** @description Primary programming language. */
+    language?: string;
+    /** @description Upstream repository URL. */
+    upstream_url?: string;
+    /** @description URL of the working branch. */
+    branch_url?: string;
+    /** @description Configurable items to display in the channel context bar. A maximum of 5 items will be applied; any beyond that will be silently truncated and a warning returned. */
     context_bar_items?: {
       /** @description Unique identifier for the item within the channel. Maximum 64 characters. */
       key: string;
@@ -127,7 +157,7 @@ export interface AgentsConversationsSetPropertiesArguments extends TokenOverrida
       /** @description `info` (default, informational) or `action` (interactive; clicking delivers a `code_channel_action` event). */
       item_type?: string;
     }[];
-    /** @description Records which message in the channel represents the current session summary. */
+    /** @description Points to the current summary message for this code channel. Must reference a message within this channel. When the channel is archived with a summary_message_ts, this property is also set to record where the summary lives so clients can fetch it. */
     summary_message?: {
       /** @description Timestamp of the summary message in the code channel. */
       message_ts: string;
