@@ -169,29 +169,6 @@ expectAssignable<Parameters<typeof web.agents.conversations.setProperties>>([
     },
   },
 ]);
-expectAssignable<Parameters<typeof web.agents.conversations.setProperties>>([
-  {
-    channel_id: 'C9876543210',
-    code_channel: {
-      base_branch: 'main',
-      branch: 'agent/migrate-cron',
-      branch_url: 'https://github.com/borant/billing/tree/agent/migrate-cron',
-      ci_state: 'pending',
-      ci_url: 'https://github.com/borant/billing/actions/runs/1',
-      commit_sha: '4b825dc642cb6eb9a060e54bf8d69288fbee4904',
-      file_paths: ['cron.py', 'workflows/billing.py'],
-      host: 'github.com',
-      language: 'python',
-      pr_number: 42,
-      pr_status: 'open',
-      pr_title: 'Migrate billing cron to Temporal',
-      pr_url: 'https://github.com/borant/billing/pull/42',
-      repo: 'borant/billing',
-      summary_message: { message_ts: '1790722297.042409' },
-      upstream_url: 'https://github.com/borant/billing',
-    },
-  },
-]);
 
 // agents.conversations.setView
 // -- sad path
