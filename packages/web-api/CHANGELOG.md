@@ -1,5 +1,19 @@
 # @slack/web-api
 
+## 8.2.0
+
+### Minor Changes
+
+- c523063: feat: add the `agents.conversations.*` methods for [Slack Code](https://docs.slack.dev/changelog/2026/08/20/slack-code) ([`create`](https://docs.slack.dev/reference/methods/agents.conversations.create), [`archive`](https://docs.slack.dev/reference/methods/agents.conversations.archive), [`setProperties`](https://docs.slack.dev/reference/methods/agents.conversations.setProperties), [`setView`](https://docs.slack.dev/reference/methods/agents.conversations.setView), [`setCommands`](https://docs.slack.dev/reference/methods/agents.conversations.setCommands), [`listViews`](https://docs.slack.dev/reference/methods/agents.conversations.listViews), [`removeView`](https://docs.slack.dev/reference/methods/agents.conversations.removeView), [`getCanvas`](https://docs.slack.dev/reference/methods/agents.conversations.getCanvas), [`setCanvasContent`](https://docs.slack.dev/reference/methods/agents.conversations.setCanvasContent)).
+
+### Patch Changes
+
+- Updated dependencies [ca6f416]
+- Updated dependencies [abf184e]
+- Updated dependencies [d420d00]
+- Updated dependencies [52eeb05]
+  - @slack/types@3.2.0
+
 ## 8.1.1
 
 ### Patch Changes

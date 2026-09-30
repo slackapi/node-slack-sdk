@@ -2,7 +2,7 @@
 
 # Interface: AgentsSessionsRenameArguments
 
-Defined in: [packages/web-api/src/types/request/agents.ts:4](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/agents.ts#L4)
+Defined in: [packages/web-api/src/types/request/agents.ts:209](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/agents.ts#L209)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [packages/web-api/src/types/request/agents.ts:4](https://github.com/
 channel_id: string;
 ```
 
-Defined in: [packages/web-api/src/types/request/agents.ts:6](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/agents.ts#L6)
+Defined in: [packages/web-api/src/types/request/agents.ts:211](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/agents.ts#L211)
 
 #### Description
 
@@ -30,7 +30,7 @@ ID of the channel containing the agent session.
 optional thread_ts?: string;
 ```
 
-Defined in: [packages/web-api/src/types/request/agents.ts:13](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/agents.ts#L13)
+Defined in: [packages/web-api/src/types/request/agents.ts:218](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/agents.ts#L218)
 
 #### Description
 
@@ -45,7 +45,7 @@ regular channels and DMs. Must be omitted for session channels.
 title: string;
 ```
 
-Defined in: [packages/web-api/src/types/request/agents.ts:8](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/agents.ts#L8)
+Defined in: [packages/web-api/src/types/request/agents.ts:213](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/agents.ts#L213)
 
 #### Description
 

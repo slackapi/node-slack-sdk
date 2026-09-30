@@ -1,4 +1,4 @@
-# @slack/types v3.1.0
+# @slack/types v3.2.0
 
 ## Enumerations
 
@@ -58,10 +58,12 @@
 - [Confirmable](interfaces/Confirmable.md)
 - [Confirmation](interfaces/Confirmation.md)
 - [ConfirmationDialog](interfaces/ConfirmationDialog.md)
+- [ContainerBlock](interfaces/ContainerBlock.md)
 - [ContentItemEntityFields](interfaces/ContentItemEntityFields.md)
 - [ContextActionsBlock](interfaces/ContextActionsBlock.md)
 - [ContextBlock](interfaces/ContextBlock.md)
 - [ConversationsSelect](interfaces/ConversationsSelect.md)
+- [DataTableBlock](interfaces/DataTableBlock.md)
 - [Datepicker](interfaces/Datepicker.md)
 - [DateTimepicker](interfaces/DateTimepicker.md)
 - [~~Dialog~~](interfaces/Dialog.md)
@@ -167,6 +169,7 @@
 - [PlanBlock](interfaces/PlanBlock.md)
 - [PlanUpdateChunk](interfaces/PlanUpdateChunk.md)
 - [RadioButtons](interfaces/RadioButtons.md)
+- [RawNumberElement](interfaces/RawNumberElement.md)
 - [RawTextElement](interfaces/RawTextElement.md)
 - [ReactionAddedEvent](interfaces/ReactionAddedEvent.md)
 - [ReactionRemovedEvent](interfaces/ReactionRemovedEvent.md)

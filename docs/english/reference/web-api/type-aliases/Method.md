@@ -6,7 +6,7 @@
 type Method<MethodArguments, MethodResult> = (options?) => Promise<MethodResult>;
 ```
 
-Defined in: [packages/web-api/src/methods.ts:559](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/methods.ts#L559)
+Defined in: [packages/web-api/src/methods.ts:577](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/methods.ts#L577)
 
 ## Type Parameters
 
