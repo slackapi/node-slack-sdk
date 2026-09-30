@@ -2,7 +2,7 @@
 
 # Interface: RawTextElement
 
-Defined in: packages/types/dist/block-kit/composition-objects.d.ts:165
+Defined in: packages/types/dist/block-kit/composition-objects.d.ts:182
 
 ## Description
 
@@ -20,7 +20,7 @@ Defines an object containing some text.
 text: string;
 ```
 
-Defined in: packages/types/dist/block-kit/composition-objects.d.ts:173
+Defined in: packages/types/dist/block-kit/composition-objects.d.ts:190
 
 #### Description
 
@@ -34,7 +34,7 @@ The text for the block. The minimum length is 1 character.
 type: "raw_text";
 ```
 
-Defined in: packages/types/dist/block-kit/composition-objects.d.ts:169
+Defined in: packages/types/dist/block-kit/composition-objects.d.ts:186
 
 #### Description
 
