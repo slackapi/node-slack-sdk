@@ -129,6 +129,8 @@ export { AppsPermissionsUsersListResponse } from './AppsPermissionsUsersListResp
 export { AppsPermissionsUsersRequestResponse } from './AppsPermissionsUsersRequestResponse';
 export { AppsUninstallResponse } from './AppsUninstallResponse';
 export { AppsUserConnectionUpdateResponse } from './AppsUserConnectionUpdateResponse';
+export { AssistantSearchContextResponse } from './AssistantSearchContextResponse';
+export { AssistantSearchInfoResponse } from './AssistantSearchInfoResponse';
 export { AssistantThreadsSetStatusResponse } from './AssistantThreadsSetStatusResponse';
 export { AssistantThreadsSetSuggestedPromptsResponse } from './AssistantThreadsSetSuggestedPromptsResponse';
 export { AssistantThreadsSetTitleResponse } from './AssistantThreadsSetTitleResponse';
