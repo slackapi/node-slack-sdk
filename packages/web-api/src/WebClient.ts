@@ -27,6 +27,7 @@ import type {
   AdminAnalyticsPublicChannelMetadataDetails,
   FilesCompleteUploadExternalResponse,
   FilesGetUploadURLExternalResponse,
+  FilesUploadV2Response, // Manual addition pending regeneration
 } from './types/response';
 
 /*
@@ -468,7 +469,7 @@ export class WebClient extends Methods {
    */
   public async filesUploadV2(
     options: FilesUploadV2Arguments,
-  ): Promise<WebAPICallResult & { files: FilesCompleteUploadExternalResponse[] }> {
+  ): Promise<FilesUploadV2Response> {
     this.logger.debug('files.uploadV2() start');
     // 1
     const fileUploads = await this.getAllFileUploads(options);
