@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
+import http from 'node:http';
 import { afterEach, beforeEach, describe, it } from 'node:test';
 import zlib from 'node:zlib';
 import type { ContextActionsBlock } from '@slack/types';
@@ -513,6 +514,108 @@ describe('WebClient', () => {
         assert.ok(error.original instanceof Error);
         assert.strictEqual(error.cause, error.original);
       }
+    });
+
+    describe('when the response body is interrupted', () => {
+      const servers: http.Server[] = [];
+      afterEach(() => {
+        for (const server of servers.splice(0)) {
+          server.closeAllConnections();
+          server.close();
+        }
+      });
+
+      // `fetch` resolves once the response headers arrive, so a connection dropped partway through
+      // the body cannot be simulated with nock. These use a local server that writes a 200 status
+      // line and part of the body before destroying the socket. `Content-Length` deliberately
+      // overstates the body so the client is still waiting on it when the socket goes away.
+      function startFlakyServer(succeedAfter: number): Promise<{ url: string; requests: () => number }> {
+        let requests = 0;
+        const server = http.createServer((req, res) => {
+          req.resume();
+          requests += 1;
+          if (requests > succeedAfter) {
+            res.end('{"ok":true}');
+            return;
+          }
+          res.writeHead(200, { 'Content-Type': 'application/json', 'Content-Length': '100' });
+          res.write('{"ok":');
+          setTimeout(() => res.destroy(), 10);
+        });
+        servers.push(server);
+        return new Promise((resolve) => {
+          server.listen(0, '127.0.0.1', () => {
+            const address = server.address();
+            assert.ok(address !== null && typeof address !== 'string');
+            resolve({ url: `http://127.0.0.1:${address.port}/`, requests: () => requests });
+          });
+        });
+      }
+
+      it('should retry the request when the connection drops while reading the body', async () => {
+        const { url, requests } = await startFlakyServer(1);
+        const client = new WebClient(token, {
+          slackApiUrl: url,
+          retryConfig: { retries: 1, minTimeout: 1, maxTimeout: 1 },
+        });
+
+        const result = await client.apiCall('method');
+
+        assert.strictEqual(result.ok, true);
+        assert.strictEqual(requests(), 2);
+      });
+
+      it('should retry when reading the body rejects, without depending on socket timing', async () => {
+        // A deterministic counterpart to the socket-level tests above: the body read is what fails,
+        // which is the exact condition #2738 describes, with no reliance on when the connection drops.
+        let calls = 0;
+        const fetchFn: FetchFunction = async () => {
+          calls += 1;
+          const failing = calls === 1;
+          const payload = JSON.stringify({ ok: true });
+          const readBody = async () => {
+            if (failing) throw new TypeError('terminated');
+            return payload;
+          };
+          return {
+            ok: true,
+            status: 200,
+            statusText: 'OK',
+            url: 'https://slack.com/api/method',
+            headers: { get: () => null, entries: () => [] },
+            arrayBuffer: async () => new TextEncoder().encode(await readBody()).buffer as ArrayBuffer,
+            text: readBody,
+            json: async () => JSON.parse(await readBody()),
+          };
+        };
+        const client = new WebClient(token, {
+          fetch: fetchFn,
+          retryConfig: { retries: 1, minTimeout: 1, maxTimeout: 1 },
+        });
+
+        const result = await client.apiCall('method');
+
+        assert.strictEqual(result.ok, true);
+        assert.strictEqual(calls, 2);
+      });
+
+      it('should fail with WebAPIRequestError once retries are exhausted', async () => {
+        const { url } = await startFlakyServer(Number.POSITIVE_INFINITY);
+        const client = new WebClient(token, {
+          slackApiUrl: url,
+          retryConfig: { retries: 1, minTimeout: 1, maxTimeout: 1 },
+        });
+
+        try {
+          await client.apiCall('method');
+          assert.fail('expected error to be thrown');
+        } catch (error) {
+          assert.ok(error instanceof WebAPIRequestError);
+          assert.ok(error instanceof SlackError);
+          assert.strictEqual(error.code, ErrorCode.RequestError);
+          assert.ok(error.original instanceof Error);
+        }
+      });
     });
 
     it('should set error.body to the raw string when HTTP error response is not valid JSON', async () => {
