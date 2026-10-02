@@ -401,10 +401,10 @@ export class InstallProvider {
         res.end(body);
       }
     } catch (e: unknown) {
-      const message = `An unhandled error occurred while processing an install path request (error: ${e})`;
+      const errorMessage = e instanceof Error ? e.message : String(e);
+      const message = `An unhandled error occurred while processing an install path request (error: ${errorMessage})`;
       this.logger.error(message);
-      // biome-ignore lint/suspicious/noExplicitAny: errors can be any
-      throw new GenerateInstallUrlError((e as any).message);
+      throw new GenerateInstallUrlError(errorMessage);
     }
   }
 

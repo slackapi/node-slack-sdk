@@ -71,7 +71,7 @@ export class IncomingWebhook {
       timeout: 0,
     },
   ) {
-    if (url === undefined) {
+    if (!url) {
       throw new Error('Incoming webhook URL is required');
     }
 
