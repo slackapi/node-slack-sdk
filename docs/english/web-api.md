@@ -19,8 +19,8 @@ We recommend you read our documentation on [Basic app setup](/quickstart).
 This article contains the steps you must follow to get your access token:
 
 1. [Create a new Slack application](/quickstart)
-2. [Set permissions your app will request](/quickstart#scopes)
-3. [Install the app to a workspace](/quickstart#installing)
+2. [Set permissions your app will request](/app-management/quickstart-app-settings#scopes)
+3. [Install the app to a workspace](/app-management/quickstart-app-settings#installing)
 4. Finally, get your access token
 
 You can also read the [Getting Started guide](/tools/node-slack-sdk/getting-started) which guides
