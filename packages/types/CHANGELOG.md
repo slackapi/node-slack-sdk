@@ -1,5 +1,11 @@
 # @slack/types
 
+## 3.2.1
+
+### Patch Changes
+
+- e02e7fe: fix: add the `files`, `upload`, `display_as_bot`, and `parent_user_id` fields to `ThreadBroadcastMessageEvent`
+
 ## 3.2.0
 
 ### Minor Changes
