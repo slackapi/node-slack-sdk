@@ -280,7 +280,11 @@ export interface ThreadBroadcastMessageEvent {
   text: string;
   attachments?: MessageAttachment[];
   blocks?: (KnownBlock | Block)[];
+  files?: File[];
+  upload?: boolean;
+  display_as_bot?: boolean;
   user: string;
+  parent_user_id?: string;
   ts: string;
   thread_ts?: string;
   root: (GenericMessageEvent | BotMessageEvent) & {
