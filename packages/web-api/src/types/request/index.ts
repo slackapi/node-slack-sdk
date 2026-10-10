@@ -144,6 +144,8 @@ export type {
   AppsUserConnectionUpdateArguments,
 } from './apps';
 export type {
+  AssistantSearchContextArguments,
+  AssistantSearchInfoArguments,
   AssistantThreadsSetStatusArguments,
   AssistantThreadsSetSuggestedPromptsArguments,
   AssistantThreadsSetTitleArguments,
