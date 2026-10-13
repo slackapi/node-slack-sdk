@@ -60,6 +60,7 @@ const threadBroadcastWithFiles: ThreadBroadcastMessageEvent = {
   channel: 'C1234',
   event_ts: '1234.57',
   user: 'U1234',
+  bot_id: 'B1234',
   ts: '1234.57',
   thread_ts: '1234.56',
   text: '',
