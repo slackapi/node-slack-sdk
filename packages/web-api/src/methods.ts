@@ -1594,7 +1594,7 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
     user: {
       connection: {
         /**
-         * @description Sets the connection status between an app and up to 1000 users at once.
+         * @description Updates the connection status between an app and many users in one call, for backfilling an existing user base.
          * @see {@link https://docs.slack.dev/reference/methods/apps.user.connection.bulkUpdate `apps.user.connection.bulkUpdate` API reference}.
          */
         bulkUpdate: bindApiCall<AppsUserConnectionBulkUpdateArguments, AppsUserConnectionBulkUpdateResponse>(
@@ -1602,7 +1602,7 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
           'apps.user.connection.bulkUpdate',
         ),
         /**
-         * @description Opens or updates the authorization modal that asks a user to connect a provider to an app.
+         * @description Opens or updates a standardized authentication modal for the calling app.
          * @see {@link https://docs.slack.dev/reference/methods/apps.user.connection.requestAuth `apps.user.connection.requestAuth` API reference}.
          */
         requestAuth: bindApiCall<AppsUserConnectionRequestAuthArguments, AppsUserConnectionRequestAuthResponse>(
