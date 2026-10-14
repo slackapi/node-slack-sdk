@@ -83,6 +83,11 @@ interface ManifestFeatures {
    * @see {@link https://docs.slack.dev/messaging/unfurling-links-in-messages Link unfurling: configuring domains}.
    */
   unfurl_domains?: string[];
+  /**
+   * @description A subgroup of settings that opt the app into the standardized user connection flow, where users
+   * connect the app to an account on an external provider.
+   */
+  user_connections?: ManifestUserConnections;
 }
 
 interface ManifestAgentView {
@@ -187,6 +192,16 @@ interface ManifestSlashCommand {
   url?: string; // can be absent when enabling Socket Mode
   /** @description A string a short usage hint about the slash command for users. Maximum length is 1000 characters. */
   usage_hint?: string;
+}
+
+interface ManifestUserConnections {
+  /** @description Whether the user connection flow is enabled for the app. */
+  is_enabled: boolean;
+  /**
+   * @description An array of hosts, without a scheme, that the provider's `auth_url` and `disconnect_url` may use.
+   * Subdomains of a listed host are also allowed. Between 1 and 25 hosts can be included in this array.
+   */
+  auth_hosts: string[];
 }
 
 interface ManifestOAuthConfig {
