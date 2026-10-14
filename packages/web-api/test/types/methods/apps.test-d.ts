@@ -37,6 +37,19 @@ expectError(
     },
   }),
 );
+expectError(
+  web.apps.manifest.create({
+    manifest: {
+      display_information: { name: 'Agent' },
+      features: {
+        code_channels: {
+          // enabled is a boolean
+          enabled: 'true',
+        },
+      },
+    },
+  }),
+);
 // -- happy path
 expectAssignable<Parameters<typeof web.apps.manifest.create>>([
   {
@@ -70,6 +83,25 @@ expectAssignable<Parameters<typeof web.apps.manifest.create>>([
         event_subscriptions: {
           bot_events: ['app_context_changed'],
           metadata_subscriptions: [{ app_id: 'A1234', event_type: 'my_metadata_event' }],
+        },
+      },
+    },
+  },
+]);
+// -- happy path: code_channels
+expectAssignable<Parameters<typeof web.apps.manifest.create>>([
+  {
+    manifest: {
+      display_information: { name: 'Agent' },
+      features: {
+        code_channels: {
+          enabled: true,
+          slash_command_url: 'https://example.com/slack/code-channel-commands',
+        },
+      },
+      oauth_config: {
+        scopes: {
+          bot: ['app_mentions:read', 'code_channels:manage'],
         },
       },
     },
