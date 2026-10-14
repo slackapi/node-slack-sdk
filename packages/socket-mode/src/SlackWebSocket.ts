@@ -246,14 +246,20 @@ export class SlackWebSocket {
       if (this.closeFrameReceived) {
         this.logger.debug('Terminating WebSocket (close frame received).');
         this.cleanup();
-      } else if (this.websocket.readyState === WebSocket.CLOSING) {
+      } else if (this.websocket.readyState === WebSocket.CLOSING || this.websocket.readyState === WebSocket.CLOSED) {
+        // Our close frame is already out (CLOSING) or the transport is gone without a close frame (CLOSED, the
+        // 1006 case): there is no handshake left to wait for.
         this.logger.debug('Terminating WebSocket (close frame sent but no response, force-terminating).');
         this.cleanup();
       } else {
         // If we haven't received a close frame yet, then we send one to the peer, expecting to receive a close frame
         // in response.
         this.logger.debug('Sending close frame (status=1000).');
+        clearTimeout(this.closeHandshakeTimeout);
         this.websocket.close(1000); // 1000 = Normal Closure
+        // close() on a socket that is still connecting fails it synchronously: the error and close handlers have
+        // already run cleanup() by now, and a handshake timer would outlive this instance.
+        if (!this.websocket) return;
         this.closeHandshakeTimeout = setTimeout(() => {
           this.logger.warn('Peer did not complete the close handshake in time; forcing cleanup.');
           this.cleanup();

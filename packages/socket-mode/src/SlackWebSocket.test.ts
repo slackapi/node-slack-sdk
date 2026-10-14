@@ -161,6 +161,123 @@ describe('SlackWebSocket', () => {
     });
   });
 
+  describe('disconnect() after the peer drops the transport', () => {
+    // Peer takes our close frame (CLOSING) and then drops TCP without replying: undici sets CLOSED, fires 'error'
+    // (code 1006) and then 'close'. Each handler calls disconnect() again.
+    class DroppingPeerWS extends EventTarget {
+      static CONNECTING = 0;
+      static OPEN = 1;
+      static CLOSING = 2;
+      static CLOSED = 3;
+      readyState = 1;
+      close() {
+        if (this.readyState === DroppingPeerWS.OPEN) this.readyState = DroppingPeerWS.CLOSING;
+      }
+      send(_data: string) {}
+      drop() {
+        this.readyState = DroppingPeerWS.CLOSED;
+        this.dispatchEvent(new ErrorEvent('error', { error: new TypeError(''), message: '' }));
+        this.dispatchEvent(new CloseEvent('close', { code: 1006, reason: '', wasClean: false }));
+      }
+    }
+
+    it('should emit "close" once and leave no handshake timer behind', () => {
+      const clock = sandbox.useFakeTimers();
+      const ws = new DroppingPeerWS();
+      SlackWebSocket = proxyquire.load('./SlackWebSocket', {
+        undici: {
+          WebSocket: class Fake {
+            static CONNECTING = 0;
+            static OPEN = 1;
+            static CLOSING = 2;
+            static CLOSED = 3;
+            constructor() {
+              // biome-ignore lint/correctness/noConstructorReturn: for test mocking purposes
+              return ws;
+            }
+          },
+          CloseEvent,
+          ErrorEvent,
+          MessageEvent,
+          ping: () => {},
+        },
+      }).SlackWebSocket;
+      const client = new EventEmitter();
+      let closeEmitted = 0;
+      client.on('close', () => {
+        closeEmitted += 1;
+      });
+      const logger = new ConsoleLogger();
+      const warnStub = sandbox.stub(logger, 'warn');
+      const sws = new SlackWebSocket({
+        url: 'ws://127.0.0.1/',
+        client,
+        logger,
+        clientPingTimeoutMS: 60000,
+        serverPingTimeoutMS: 60000,
+      });
+      sws.connect();
+
+      sws.disconnect();
+      assert.strictEqual(sws.readyState, DroppingPeerWS.CLOSING, 'our close frame should be out');
+      ws.drop();
+      assert.strictEqual(closeEmitted, 1, 'the transport drop should close the connection once');
+
+      clock.tick(60000);
+
+      assert.strictEqual(closeEmitted, 1, 'the handshake timer of the first disconnect() must not fire after cleanup');
+      sinon.assert.notCalled(warnStub);
+    });
+
+    it('should not arm a handshake timer when close() fails a connecting socket synchronously', () => {
+      const clock = sandbox.useFakeTimers();
+      const ws = new DroppingPeerWS();
+      ws.readyState = DroppingPeerWS.CONNECTING;
+      ws.close = () => ws.drop();
+      SlackWebSocket = proxyquire.load('./SlackWebSocket', {
+        undici: {
+          WebSocket: class Fake {
+            static CONNECTING = 0;
+            static OPEN = 1;
+            static CLOSING = 2;
+            static CLOSED = 3;
+            constructor() {
+              // biome-ignore lint/correctness/noConstructorReturn: for test mocking purposes
+              return ws;
+            }
+          },
+          CloseEvent,
+          ErrorEvent,
+          MessageEvent,
+          ping: () => {},
+        },
+      }).SlackWebSocket;
+      const client = new EventEmitter();
+      let closeEmitted = 0;
+      client.on('close', () => {
+        closeEmitted += 1;
+      });
+      const logger = new ConsoleLogger();
+      const warnStub = sandbox.stub(logger, 'warn');
+      const sws = new SlackWebSocket({
+        url: 'ws://127.0.0.1/',
+        client,
+        logger,
+        clientPingTimeoutMS: 60000,
+        serverPingTimeoutMS: 60000,
+      });
+      sws.connect();
+
+      sws.disconnect();
+      assert.strictEqual(closeEmitted, 1, 'failing the connection should close it once');
+
+      clock.tick(60000);
+
+      assert.strictEqual(closeEmitted, 1, 'no handshake timer may outlive the instance');
+      sinon.assert.notCalled(warnStub);
+    });
+  });
+
   describe('cleanup() with a captured socket', () => {
     it('should destroy the captured underlying socket during cleanup', () => {
       const sws = new SlackWebSocket({
