@@ -156,8 +156,7 @@ export interface AuthProviderBlock extends Block {
    */
   name: PlainTextElement;
   /**
-   * @description Whether this provider is currently connected or disconnected. Slack records this state for the user,
-   * so an omitted value would be indistinguishable from an explicit `false` and silently mark the user disconnected.
+   * @description Whether this provider is currently connected. Slack records this state for the user.
    */
   is_connected: boolean;
   /**
@@ -172,7 +171,7 @@ export interface AuthProviderBlock extends Block {
   icon_url?: string;
   /**
    * @description OAuth redirect URL opened when the user clicks Connect. Must be an HTTPS URL on a host listed in the
-   * app manifest's `features.user_connections.auth_hosts`.
+   * app manifest's `features.user_connections.auth_hosts`. Maximum length for this field is 3000 characters.
    */
   auth_url?: string;
   /**
@@ -182,21 +181,21 @@ export interface AuthProviderBlock extends Block {
   disconnect_url?: string;
   /**
    * @description Display name of the connected account in the form of a {@link PlainTextElement}, shown when
-   * `is_connected` is `true`.
+   * `is_connected` is `true`. Maximum length for the text in this field is 75 characters.
    */
   connected_identity?: PlainTextElement;
   /**
    * @description Additional context about the connection in the form of a {@link PlainTextElement}, e.g. the org or
-   * workspace name.
+   * workspace name. Maximum length for the text in this field is 75 characters.
    */
   connected_context?: PlainTextElement;
   /**
-   * @description An {@link Overflow} element shown when connected, e.g. with Disconnect or Re-authenticate options.
+   * @description An {@link Overflow} menu shown when connected, e.g. Disconnect or Re-authenticate.
    */
   accessory?: Overflow;
   /**
-   * @description An array of {@link KnownBlock} objects rendered by clients that don't recognize `auth_provider`,
-   * spliced into the parent blocks array.
+   * @description An array of stable {@link KnownBlock} objects rendered by clients that don't recognize
+   * `auth_provider`, spliced into the parent blocks array.
    */
   fallback?: KnownBlock[];
 }
