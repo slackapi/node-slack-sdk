@@ -128,6 +128,8 @@ export { AppsPermissionsScopesListResponse } from './AppsPermissionsScopesListRe
 export { AppsPermissionsUsersListResponse } from './AppsPermissionsUsersListResponse';
 export { AppsPermissionsUsersRequestResponse } from './AppsPermissionsUsersRequestResponse';
 export { AppsUninstallResponse } from './AppsUninstallResponse';
+export { AppsUserConnectionBulkUpdateResponse } from './AppsUserConnectionBulkUpdateResponse';
+export { AppsUserConnectionRequestAuthResponse } from './AppsUserConnectionRequestAuthResponse';
 export { AppsUserConnectionUpdateResponse } from './AppsUserConnectionUpdateResponse';
 export { AssistantThreadsSetStatusResponse } from './AssistantThreadsSetStatusResponse';
 export { AssistantThreadsSetSuggestedPromptsResponse } from './AssistantThreadsSetSuggestedPromptsResponse';
