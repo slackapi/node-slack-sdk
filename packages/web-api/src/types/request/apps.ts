@@ -65,23 +65,23 @@ export interface UserConnectionPrimaryProvider {
   /** @description Human-readable name of the provider. */
   name: PlainTextElement;
   /**
-   * @description Whether this provider is currently connected. Required: Slack records this state against the user,
-   * so an omitted value would be indistinguishable from an explicit false and would silently mark the user disconnected.
+   * @description Whether this provider is currently connected or disconnected. Slack records this state for the user,
+   * so an omitted value would be indistinguishable from an explicit `false` and silently mark the user disconnected.
    */
   is_connected: boolean;
   /** @description Brief description of what this connection enables. */
   description?: PlainTextElement;
-  /** @description URL for the provider icon image. Must be https. Falls back to the app's avatar when absent or on load failure. */
+  /** @description URL for the provider icon image. Must be HTTPs format. Falls back to the app's avatar when absent. */
   icon_url?: string;
-  /** @description OAuth redirect URL opened when the user clicks Connect. Must be https. */
+  /** @description OAuth redirect URL opened when the user clicks **Connect**. Must be HTTPs format. */
   auth_url?: string;
-  /** @description URL opened when the user clicks Disconnect. Must be https, on a registered auth host. */
+  /** @description URL opened when the user clicks **Disconnect**. Must be HTTPs format on a registered auth host. */
   disconnect_url?: string;
-  /** @description Display name of the connected account, shown when `is_connected` is true. */
+  /** @description Display name of the connected account, shown when `is_connected` is `true`. */
   connected_identity?: PlainTextElement;
-  /** @description Additional context about the connection (e.g. org or workspace name). */
+  /** @description Additional context about the connection (e.g., org or workspace name). */
   connected_context?: PlainTextElement;
-  /** @description Overflow menu shown when connected (e.g. Switch accounts, Disconnect). */
+  /** @description Overflow menu shown when connected (e.g., Disconnect, Re-authenticate). */
   accessory?: Overflow;
 }
 
