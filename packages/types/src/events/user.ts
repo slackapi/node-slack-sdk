@@ -82,6 +82,11 @@ export interface UserChangeEvent {
   event_ts: string;
 }
 
+export interface UserConnectionStatusRequestedEvent {
+  type: 'user_connection_status_requested';
+  user: string;
+}
+
 export interface UserHuddleChangedEvent {
   type: 'user_huddle_changed';
   user: {

@@ -87,7 +87,13 @@ import type {
   TeamRenameEvent,
 } from './team';
 import type { TokensRevokedEvent } from './token';
-import type { UserChangeEvent, UserHuddleChangedEvent, UserProfileChangedEvent, UserStatusChangedEvent } from './user';
+import type {
+  UserChangeEvent,
+  UserConnectionStatusRequestedEvent,
+  UserHuddleChangedEvent,
+  UserProfileChangedEvent,
+  UserStatusChangedEvent,
+} from './user';
 
 export * from './agent';
 export * from './app';
@@ -205,6 +211,7 @@ export type SlackEvent =
   // TODO: url_verification event is missing, but maybe we don't need it?
   // NOTE: url_verification does not use the envelope, but it's also not interesting for an app developer. it's omitted.
   | UserChangeEvent
+  | UserConnectionStatusRequestedEvent
   | UserHuddleChangedEvent
   | UserProfileChangedEvent
   | UserStatusChangedEvent
