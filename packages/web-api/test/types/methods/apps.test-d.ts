@@ -144,6 +144,92 @@ expectAssignable<Parameters<typeof web.apps.manifest.validate>>([
   },
 ]);
 
+// apps.user.connection.bulkUpdate
+// -- sad path
+expectError(web.apps.user.connection.bulkUpdate()); // lacking argument
+expectError(web.apps.user.connection.bulkUpdate({})); // missing both connected_user_ids and disconnected_user_ids
+// -- happy path
+expectAssignable<Parameters<typeof web.apps.user.connection.bulkUpdate>>([
+  {
+    connected_user_ids: ['U1234'],
+  },
+]);
+expectAssignable<Parameters<typeof web.apps.user.connection.bulkUpdate>>([
+  {
+    disconnected_user_ids: ['U5678'],
+  },
+]);
+expectAssignable<Parameters<typeof web.apps.user.connection.bulkUpdate>>([
+  {
+    connected_user_ids: ['U1234'],
+    disconnected_user_ids: ['U5678'],
+  },
+]);
+
+// apps.user.connection.requestAuth
+// -- sad path
+expectError(web.apps.user.connection.requestAuth()); // lacking argument
+expectError(web.apps.user.connection.requestAuth({})); // empty argument
+expectError(
+  web.apps.user.connection.requestAuth({
+    primary_provider: { value: 'github', name: { type: 'plain_text', text: 'GitHub' }, is_connected: false }, // missing trigger_id or user_id
+  }),
+);
+expectError(
+  web.apps.user.connection.requestAuth({
+    user_id: 'U1234', // missing primary_provider
+  }),
+);
+expectError(
+  web.apps.user.connection.requestAuth({
+    user_id: 'U1234',
+    primary_provider: { name: { type: 'plain_text', text: 'GitHub' }, is_connected: false }, // missing value
+  }),
+);
+expectError(
+  web.apps.user.connection.requestAuth({
+    user_id: 'U1234',
+    primary_provider: { value: 'github', is_connected: false }, // missing name
+  }),
+);
+expectError(
+  web.apps.user.connection.requestAuth({
+    user_id: 'U1234',
+    primary_provider: { value: 'github', name: { type: 'plain_text', text: 'GitHub' } }, // missing is_connected
+  }),
+);
+// -- happy path
+expectAssignable<Parameters<typeof web.apps.user.connection.requestAuth>>([
+  {
+    trigger_id: '1234567890.1234567890.abcdef0123456789',
+    primary_provider: {
+      value: 'github',
+      name: { type: 'plain_text', text: 'GitHub' },
+      is_connected: true,
+      description: { type: 'plain_text', text: 'Link pull requests to conversations' },
+      icon_url: 'https://example.com/icon.png',
+      auth_url: 'https://example.com/oauth',
+      disconnect_url: 'https://example.com/disconnect',
+      connected_identity: { type: 'plain_text', text: 'octocat' },
+      connected_context: { type: 'plain_text', text: 'Acme Inc.' },
+      accessory: {
+        type: 'overflow',
+        action_id: 'provider-menu',
+        options: [
+          { text: { type: 'plain_text', text: 'Switch accounts' }, value: 'switch' },
+          { text: { type: 'plain_text', text: 'Disconnect' }, value: 'disconnect' },
+        ],
+      },
+    },
+  },
+]);
+expectAssignable<Parameters<typeof web.apps.user.connection.requestAuth>>([
+  {
+    user_id: 'U1234',
+    primary_provider: { value: 'github', name: { type: 'plain_text', text: 'GitHub' }, is_connected: false },
+  },
+]);
+
 // apps.user.connection.update
 // -- sad path
 expectError(web.apps.user.connection.update()); // lacking argument
