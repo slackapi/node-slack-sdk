@@ -18,6 +18,8 @@ import { SlackWebSocket, WS_READY_STATES } from './SlackWebSocket';
 import type { SocketModeDispatcher, SocketModeOptions } from './SocketModeOptions';
 import { UnrecoverableSocketModeStartError } from './UnrecoverableSocketModeStartError';
 
+class SocketModeClientShuttingDownError extends Error {}
+
 // Lifecycle events as described in the README
 enum State {
   Connecting = 'connecting',
@@ -160,7 +162,11 @@ export class SocketModeClient extends EventEmitter {
       if (this.websocket?.isActive()) return;
       if (this.reconnectionTimer) return;
       if (!this.shuttingDown && this.autoReconnectEnabled) {
-        this.delayReconnectAttempt(this.start);
+        void this.delayReconnectAttempt(this.start).catch((error) => {
+          if (!(error instanceof SocketModeClientShuttingDownError)) {
+            this.logger.error(`Failed to reconnect Socket Mode client: ${error}`);
+          }
+        });
       } else {
         // If reconnect is disabled or user explicitly called `disconnect()`, emit a disconnected state.
         this.emit(State.Disconnected);
@@ -248,15 +254,16 @@ export class SocketModeClient extends EventEmitter {
     this.numOfConsecutiveReconnectionFailures += 1;
     const msBeforeRetry = this.clientPingTimeoutMS * this.numOfConsecutiveReconnectionFailures;
     this.logger.debug(`Before trying to reconnect, this client will wait for ${msBeforeRetry} milliseconds`);
-    return new Promise((res, _rej) => {
+    return new Promise((resolve, reject) => {
       this.reconnectionTimer = setTimeout(() => {
         this.reconnectionTimer = undefined;
         if (this.shuttingDown) {
           this.logger.debug('Client shutting down, will not attempt reconnect.');
+          reject(new SocketModeClientShuttingDownError('Socket Mode client is shutting down'));
         } else {
           this.logger.debug('Continuing with reconnect...');
           this.emit(State.Reconnecting);
-          cb.apply(this).then(res);
+          cb.apply(this).then(resolve, reject);
         }
       }, msBeforeRetry);
     });
