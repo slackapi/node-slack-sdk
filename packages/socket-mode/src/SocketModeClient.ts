@@ -363,15 +363,20 @@ export class SocketModeClient extends EventEmitter {
 
     // For events_api messages, expose the type of the event
     if (event.type === 'events_api') {
-      this.emit(event.payload.event.type, {
-        ack,
-        envelope_id: event.envelope_id,
-        body: event.payload,
-        event: event.payload.event,
-        retry_num: event.retry_attempt,
-        retry_reason: event.retry_reason,
-        accepts_response_payload: event.accepts_response_payload,
-      });
+      const innerEvent = event.payload?.event;
+      const dispatchedEvent =
+        typeof innerEvent?.type === 'string' && innerEvent.type.length > 0 ? innerEvent : event.payload;
+      if (typeof dispatchedEvent?.type === 'string' && dispatchedEvent.type.length > 0) {
+        this.emit(dispatchedEvent.type, {
+          ack,
+          envelope_id: event.envelope_id,
+          body: event.payload,
+          event: dispatchedEvent,
+          retry_num: event.retry_attempt,
+          retry_reason: event.retry_reason,
+          accepts_response_payload: event.accepts_response_payload,
+        });
+      }
     } else {
       // Emit just ack and body for all other types of messages
       this.emit(event.type, {
