@@ -1,5 +1,5 @@
 import { expectAssignable, expectError } from 'tsd';
-
+import type { SlackListsItemsListResponse } from '../../../src/types/response/SlackListsItemsListResponse';
 import { WebClient } from '../../../src/WebClient';
 
 const web = new WebClient('TOKEN');
@@ -77,8 +77,15 @@ expectError(web.slackLists.items.create({})); // missing list_id
 expectAssignable<Parameters<typeof web.slackLists.items.create>>([
   {
     list_id: 'L1234567890',
+    initial_fields: [{ column_id: 'Col1234567890', message: ['https://example.slack.com/archives/C123/p123'] }],
   },
 ]);
+expectError(
+  web.slackLists.items.create({
+    list_id: 'L1234567890',
+    initial_fields: [{ column_id: 'Col1234567890', message: { text: 'message objects are only returned by the API' } }],
+  }),
+);
 
 // slackLists.items.delete
 // -- sad path
@@ -159,3 +166,28 @@ expectAssignable<Parameters<typeof web.slackLists.update>>([
     id: 'L1234567890',
   },
 ]);
+
+// slackLists.items.list response fields
+expectAssignable<SlackListsItemsListResponse>({
+  ok: true,
+  items: [
+    {
+      id: 'Rec014K005UQJ',
+      list_id: 'L1234567890',
+      date_created: 1710000000,
+      created_by: 'U01284PCR98',
+      updated_by: 'U01284PCR98',
+      fields: [{ column_id: 'Col014K005UQJ', message: { text: 'hello', ts: '123.456', user: 'U01284PCR98' } }],
+      updated_timestamp: '1710000000.000000',
+    },
+    {
+      id: 'Rec014K005UQK',
+      list_id: 'L1234567890',
+      date_created: 1710000001,
+      created_by: 'U01284PCR98',
+      updated_by: 'U01284PCR98',
+      fields: [{ column_id: 'Col014K005UQJ', message: [{ text: 'first' }, { text: 'second', ts: '123.457' }] }],
+      updated_timestamp: '1710000001.000000',
+    },
+  ],
+});
