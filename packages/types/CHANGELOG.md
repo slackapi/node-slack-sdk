@@ -1,5 +1,15 @@
 # @slack/types
 
+## 3.3.0
+
+### Minor Changes
+
+- 1fabb45: feat(types): add [`AuthProviderBlock`](https://docs.slack.dev/reference/block-kit/blocks/auth-provider-block) block interface
+
+### Patch Changes
+
+- e02e7fe: fix: add the `files`, `upload`, `display_as_bot`, and `parent_user_id` fields to `ThreadBroadcastMessageEvent`
+
 ## 3.2.0
 
 ### Minor Changes

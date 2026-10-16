@@ -1,4 +1,4 @@
-# @slack/types v3.2.0
+# @slack/types v3.3.0
 
 ## Enumerations
 
@@ -24,6 +24,7 @@
 - [AppUninstalledTeamEvent](interfaces/AppUninstalledTeamEvent.md)
 - [AssistantThreadContextChangedEvent](interfaces/AssistantThreadContextChangedEvent.md)
 - [AssistantThreadStartedEvent](interfaces/AssistantThreadStartedEvent.md)
+- [AuthProviderBlock](interfaces/AuthProviderBlock.md)
 - [Block](interfaces/Block.md)
 - [BlocksChunk](interfaces/BlocksChunk.md)
 - [BotMessageEvent](interfaces/BotMessageEvent.md)

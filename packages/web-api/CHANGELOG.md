@@ -1,5 +1,17 @@
 # @slack/web-api
 
+## 8.3.0
+
+### Minor Changes
+
+- 604135c: feat: add support for apps.user.connection.requestAuth and apps.user.connection.bulkUpdate
+
+### Patch Changes
+
+- Updated dependencies [1fabb45]
+- Updated dependencies [e02e7fe]
+  - @slack/types@3.3.0
+
 ## 8.2.0
 
 ### Minor Changes

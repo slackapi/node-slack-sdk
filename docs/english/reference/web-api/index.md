@@ -1,4 +1,4 @@
-# @slack/web-api v8.2.0
+# @slack/web-api v8.3.0
 
 ## Enumerations
 
@@ -141,6 +141,7 @@
 - [AssistantThreadsSetSuggestedPromptsArguments](interfaces/AssistantThreadsSetSuggestedPromptsArguments.md)
 - [AssistantThreadsSetTitleArguments](interfaces/AssistantThreadsSetTitleArguments.md)
 - [AssistantThreadStartedEvent](interfaces/AssistantThreadStartedEvent.md)
+- [AuthProviderBlock](interfaces/AuthProviderBlock.md)
 - [Block](interfaces/Block.md)
 - [BlocksChunk](interfaces/BlocksChunk.md)
 - [BookmarksAddArguments](interfaces/BookmarksAddArguments.md)
@@ -432,6 +433,7 @@
 - [URLRespondable](interfaces/URLRespondable.md)
 - [URLSourceElement](interfaces/URLSourceElement.md)
 - [UserChangeEvent](interfaces/UserChangeEvent.md)
+- [UserConnectionPrimaryProvider](interfaces/UserConnectionPrimaryProvider.md)
 - [UsergroupsCreateArguments](interfaces/UsergroupsCreateArguments.md)
 - [UsergroupsDisableArguments](interfaces/UsergroupsDisableArguments.md)
 - [UsergroupsEnableArguments](interfaces/UsergroupsEnableArguments.md)
@@ -624,6 +626,10 @@
 - [AppsPermissionsUsersListResponse](type-aliases/AppsPermissionsUsersListResponse.md)
 - [AppsPermissionsUsersRequestResponse](type-aliases/AppsPermissionsUsersRequestResponse.md)
 - [AppsUninstallResponse](type-aliases/AppsUninstallResponse.md)
+- [AppsUserConnectionBulkUpdateArguments](type-aliases/AppsUserConnectionBulkUpdateArguments.md)
+- [AppsUserConnectionBulkUpdateResponse](type-aliases/AppsUserConnectionBulkUpdateResponse.md)
+- [AppsUserConnectionRequestAuthArguments](type-aliases/AppsUserConnectionRequestAuthArguments.md)
+- [AppsUserConnectionRequestAuthResponse](type-aliases/AppsUserConnectionRequestAuthResponse.md)
 - [AppsUserConnectionUpdateResponse](type-aliases/AppsUserConnectionUpdateResponse.md)
 - [AssistantThreadsSetStatusResponse](type-aliases/AssistantThreadsSetStatusResponse.md)
 - [AssistantThreadsSetSuggestedPromptsResponse](type-aliases/AssistantThreadsSetSuggestedPromptsResponse.md)
