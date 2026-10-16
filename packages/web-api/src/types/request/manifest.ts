@@ -66,6 +66,12 @@ interface ManifestFeatures {
    */
   bot_user?: ManifestBotUser;
   /**
+   * @description Settings for apps that create {@link https://docs.slack.dev/ai/slack-code code channels}: dedicated
+   * channels where an agent collaborates with a user on a task.
+   * @see {@link https://docs.slack.dev/ai/slack-code#enabling-code-channels Enabling code channels}.
+   */
+  code_channels?: ManifestCodeChannels;
+  /**
    * @description An array of settings groups that describe {@link https://docs.slack.dev/interactivity/implementing-shortcuts shortcuts}
    * configuration. A maximum of 10 shortcuts can be included in this array.
    * @see {@link https://docs.slack.dev/interactivity/implementing-shortcuts Shortcuts}.
@@ -151,6 +157,17 @@ interface ManifestBotUser {
   display_name: string;
   /** @description A boolean that specifies whether or not the bot user will always appear to be online. */
   always_online?: boolean;
+}
+
+interface ManifestCodeChannels {
+  /** @description A boolean that specifies whether or not code channels are enabled for the app. */
+  enabled?: boolean;
+  /**
+   * @description The URL where Slack delivers invocations of the agent's runtime-registered code channel slash
+   * commands. Must be an http:// or https:// URL, at most 3000 characters. Not required for Socket Mode or hosted apps.
+   * @see {@link https://docs.slack.dev/ai/slack-code/agent-slash-commands Agent slash commands}.
+   */
+  slash_command_url?: string;
 }
 
 interface ManifestShortcut {
@@ -362,6 +379,7 @@ type BotScope =
   | 'chat:write'
   | 'chat:write.customize'
   | 'chat:write.public'
+  | 'code_channels:manage'
   | 'commands'
   | 'conversations.connect:manage'
   | 'conversations.connect:read'
