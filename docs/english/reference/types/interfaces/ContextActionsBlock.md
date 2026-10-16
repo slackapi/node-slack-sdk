@@ -2,7 +2,7 @@
 
 # Interface: ContextActionsBlock
 
-Defined in: [block-kit/blocks.ts:283](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L283)
+Defined in: [block-kit/blocks.ts:349](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L349)
 
 ## Description
 
@@ -46,7 +46,7 @@ a message. If a message is updated, use a new `block_id`.
 elements: ContextActionsBlockElement[];
 ```
 
-Defined in: [block-kit/blocks.ts:291](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L291)
+Defined in: [block-kit/blocks.ts:357](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L357)
 
 #### Description
 
@@ -60,7 +60,7 @@ An array of [FeedbackButtons](FeedbackButtons.md) or [IconButton](IconButton.md)
 type: "context_actions";
 ```
 
-Defined in: [block-kit/blocks.ts:287](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L287)
+Defined in: [block-kit/blocks.ts:353](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L353)
 
 #### Description
 

@@ -2,7 +2,7 @@
 
 # Interface: AppsUserConnectionUpdateArguments
 
-Defined in: [packages/web-api/src/types/request/apps.ts:36](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/apps.ts#L36)
+Defined in: [packages/web-api/src/types/request/apps.ts:109](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/apps.ts#L109)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [packages/web-api/src/types/request/apps.ts:36](https://github.com/s
 status: string;
 ```
 
-Defined in: [packages/web-api/src/types/request/apps.ts:40](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/apps.ts#L40)
+Defined in: [packages/web-api/src/types/request/apps.ts:113](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/apps.ts#L113)
 
 #### Description
 
@@ -50,7 +50,7 @@ TokenOverridable.token
 user_id: string;
 ```
 
-Defined in: [packages/web-api/src/types/request/apps.ts:38](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/apps.ts#L38)
+Defined in: [packages/web-api/src/types/request/apps.ts:111](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/apps.ts#L111)
 
 #### Description
 
