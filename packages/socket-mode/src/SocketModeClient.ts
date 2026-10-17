@@ -104,6 +104,13 @@ export class SocketModeClient extends EventEmitter {
    */
   private reconnectionTimer: ReturnType<typeof setTimeout> | undefined;
 
+  /**
+   * True while a Slack-requested disconnect is being served by opening a replacement connection
+   * before the previous socket is closed. Prevents the retiring socket's `close` from scheduling
+   * another reconnect (and from counting the refresh as a consecutive failure).
+   */
+  private refreshInProgress = false;
+
   public constructor(
     {
       logger = undefined,
@@ -159,6 +166,8 @@ export class SocketModeClient extends EventEmitter {
       // Underlying WebSocket connection was closed, possibly reconnect.
       if (this.websocket?.isActive()) return;
       if (this.reconnectionTimer) return;
+      // A Slack-requested refresh is already opening the next connection; ignore the retiring socket.
+      if (this.refreshInProgress) return;
       if (!this.shuttingDown && this.autoReconnectEnabled) {
         this.delayReconnectAttempt(this.start);
       } else {
@@ -263,6 +272,32 @@ export class SocketModeClient extends EventEmitter {
   }
 
   /**
+   * Handles a Slack `type: disconnect` message by opening a replacement WebSocket first.
+   * The previous connection stays up until the new one has completed the `hello` handshake,
+   * so interactive payloads are not dropped during a routine connection refresh.
+   */
+  private async refreshConnection(): Promise<void> {
+    if (this.refreshInProgress || this.shuttingDown) {
+      return;
+    }
+    this.refreshInProgress = true;
+    this.emit(State.Reconnecting);
+    const retiring = this.websocket;
+    try {
+      await this.start();
+    } catch (error) {
+      this.logger.error(
+        `Failed to open a replacement Socket Mode connection after Slack requested a disconnect: ${error}`,
+      );
+    } finally {
+      this.refreshInProgress = false;
+      if (retiring && retiring !== this.websocket) {
+        retiring.disconnect();
+      }
+    }
+  }
+
+  /**
    * Retrieves a new WebSocket URL to connect to.
    */
   private async retrieveWSSURL(): Promise<string> {
@@ -347,7 +382,13 @@ export class SocketModeClient extends EventEmitter {
       this.logger.debug(
         `Received "${event.type}" (${event.reason}) message - disconnecting.${this.autoReconnectEnabled ? ' Will reconnect.' : ''}`,
       );
-      this.websocket?.disconnect();
+      if (this.autoReconnectEnabled && !this.shuttingDown) {
+        // Open the next connection before closing the current one, and do not treat this as a failure.
+        // See https://github.com/slackapi/node-slack-sdk/issues/2767
+        await this.refreshConnection();
+      } else {
+        this.websocket?.disconnect();
+      }
       return;
     }
 
