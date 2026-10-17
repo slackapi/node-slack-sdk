@@ -571,6 +571,115 @@ describe('SocketModeClient', () => {
       sinon.assert.calledOnce(oldSend);
     });
 
+    it('should acknowledge on the old socket while the new socket is OPEN but has not received hello', async () => {
+      const client = new SocketModeClient({
+        appToken: 'xapp-',
+        logLevel: LogLevel.ERROR,
+        clientPingTimeout: 5000,
+      });
+      const oldSend = sandbox.stub();
+      const newSend = sandbox.stub();
+      const oldWs = {
+        disconnect: sandbox.stub(),
+        isActive: () => true,
+        readyState: 1,
+        send: (data: string, cb: (err: Error | undefined) => void) => {
+          oldSend(data);
+          cb(undefined);
+        },
+      };
+      client.websocket = oldWs as unknown as SlackWebSocket;
+      sandbox.stub(client, 'start').callsFake(() => {
+        // Real WebSocket is OPEN well before Slack sends `hello`.
+        client.websocket = {
+          disconnect: sandbox.stub(),
+          isActive: () => true,
+          readyState: 1,
+          send: (data: string, cb: (err: Error | undefined) => void) => {
+            newSend(data);
+            cb(undefined);
+          },
+        } as unknown as SlackWebSocket;
+        return new Promise(() => {});
+      });
+
+      client.emit(
+        'ws_message',
+        JSON.stringify({ type: 'disconnect', reason: 'refresh_requested' }),
+        false /* isBinary */,
+      );
+      await sleep(20);
+
+      let ackError: unknown;
+      client.on('slash_commands', async ({ ack }) => {
+        try {
+          await ack({});
+        } catch (error) {
+          ackError = error;
+        }
+      });
+      client.emit(
+        'ws_message',
+        JSON.stringify({
+          envelope_id: 'ack-before-hello',
+          type: 'slash_commands',
+          payload: { command: '/hello-socket-mode' },
+        }),
+        false /* isBinary */,
+      );
+      await sleep(20);
+
+      assert.equal(ackError, undefined);
+      sinon.assert.calledOnce(oldSend);
+      sinon.assert.notCalled(newSend);
+    });
+
+    it('should emit disconnected once if disconnect() is called during a refresh', async () => {
+      const client = new SocketModeClient({
+        appToken: 'xapp-',
+        logLevel: LogLevel.ERROR,
+        clientPingTimeout: 5000,
+      });
+      const disconnected = sandbox.stub();
+      client.on('disconnected', disconnected);
+
+      const oldWs = {
+        isActive: () => true,
+        disconnect: sandbox.stub().callsFake(() => {
+          oldWs.isActive = () => false;
+          client.emit('close');
+        }),
+      };
+      client.websocket = oldWs as unknown as SlackWebSocket;
+
+      const newWs = {
+        isActive: () => true,
+        disconnect: sandbox.stub().callsFake(() => {
+          newWs.isActive = () => false;
+          client.emit('close');
+        }),
+      };
+      sandbox.stub(client, 'start').callsFake(() => {
+        client.websocket = newWs as unknown as SlackWebSocket;
+        return new Promise((resolve, reject) => {
+          client.once('connected', resolve);
+          client.once('disconnected', reject);
+        });
+      });
+
+      client.emit(
+        'ws_message',
+        JSON.stringify({ type: 'disconnect', reason: 'refresh_requested' }),
+        false /* isBinary */,
+      );
+      await sleep(20);
+
+      await client.disconnect();
+      await sleep(20);
+
+      sinon.assert.calledOnce(disconnected);
+    });
+
     it('should close the current socket immediately when auto-reconnect is disabled', async () => {
       const client = new SocketModeClient({
         appToken: 'xapp-',

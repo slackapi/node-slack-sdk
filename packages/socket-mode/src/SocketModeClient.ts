@@ -362,12 +362,22 @@ export class SocketModeClient extends EventEmitter {
     this.refreshInProgress = false;
     this.clearRefreshHelloTimeout();
     this.connectionAttemptId += 1;
-    // Reject the in-flight start() waiter (Connected / Disconnected).
-    this.emit(State.Disconnected);
     const retiring = this.retiringWebsocket;
     const incoming = this.websocket !== retiring ? this.websocket : undefined;
     this.retiringWebsocket = undefined;
-    if (!this.shuttingDown && this.autoReconnectEnabled && !this.reconnectionTimer) {
+    if (this.shuttingDown) {
+      // User `disconnect()` already closed `this.websocket` and is waiting on `disconnected`.
+      // Close the other socket if needed; do not emit here so that event fires once from `close`.
+      if (retiring && retiring !== this.websocket) {
+        retiring.disconnect();
+      } else {
+        this.emit(State.Disconnected);
+      }
+      return;
+    }
+    // Reject the in-flight start() waiter (Connected / Disconnected).
+    this.emit(State.Disconnected);
+    if (this.autoReconnectEnabled && !this.reconnectionTimer) {
       this.delayReconnectAttempt(this.start);
     }
     retiring?.disconnect();
@@ -375,11 +385,13 @@ export class SocketModeClient extends EventEmitter {
   }
 
   /**
-   * Prefers the current socket when it is OPEN, otherwise the still-open socket being replaced.
-   * During a refresh, `this.websocket` is the connecting replacement, so acks for events that
-   * arrived on the old connection must not be written there.
+   * During a Slack-requested refresh the replacement socket can be WebSocket OPEN long before
+   * Slack sends `hello`. Keep writing acks to the old socket until that handshake completes.
    */
   private socketForSend(): SlackWebSocket | undefined {
+    if (this.refreshInProgress && this.retiringWebsocket?.isActive()) {
+      return this.retiringWebsocket;
+    }
     if (this.websocket?.isActive()) {
       return this.websocket;
     }
