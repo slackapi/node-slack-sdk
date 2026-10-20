@@ -201,7 +201,7 @@ export interface EntityTypedField {
   slack_file?: SlackFile;
   alt_text?: string;
   edit?: EntityEditSupport;
-  tag_color?: string;
+  tag_color?: 'red' | 'yellow' | 'green' | 'gray' | 'blue';
   user?: EntityUserIDField | EntityUserField;
   entity_ref?: EntityRefField;
 }
@@ -214,7 +214,7 @@ export interface EntityStringField {
   icon?: EntityIconField;
   long?: boolean;
   type?: string;
-  tag_color?: string;
+  tag_color?: 'red' | 'yellow' | 'green' | 'gray' | 'blue';
   edit?: EntityEditSupport;
 }
 
@@ -279,7 +279,7 @@ export interface EntityCustomField {
   image_url?: string;
   slack_file?: SlackFile;
   alt_text?: string;
-  tag_color?: string;
+  tag_color?: 'red' | 'yellow' | 'green' | 'gray' | 'blue';
   edit?: EntityEditSupport;
   item_type?: string;
   user?: EntityUserIDField | EntityUserField;
