@@ -66,8 +66,8 @@ interface ManifestFeatures {
    */
   bot_user?: ManifestBotUser;
   /**
-   * @description Settings for apps that create {@link https://docs.slack.dev/ai/slack-code code channels}: dedicated
-   * channels where an agent collaborates with a user on a task.
+   * @description A subgroup of settings that describe {@link https://docs.slack.dev/ai/slack-code code channels}
+   * configuration.
    * @see {@link https://docs.slack.dev/ai/slack-code#enabling-code-channels Enabling code channels}.
    */
   code_channels?: ManifestCodeChannels;
@@ -163,8 +163,9 @@ interface ManifestCodeChannels {
   /** @description A boolean that specifies whether or not code channels are enabled for the app. */
   enabled?: boolean;
   /**
-   * @description The URL where Slack delivers invocations of the agent's runtime-registered code channel slash
-   * commands. Must be an http:// or https:// URL, at most 3000 characters. Not required for Socket Mode or hosted apps.
+   * @description A string containing the `https` URL where Slack delivers invocations of your agent's
+   * {@link https://docs.slack.dev/ai/slack-code/agent-slash-commands runtime-registered slash commands}. Not needed for
+   * Socket Mode or hosted apps. Maximum length is 3000 characters.
    * @see {@link https://docs.slack.dev/ai/slack-code/agent-slash-commands Agent slash commands}.
    */
   slash_command_url?: string;
