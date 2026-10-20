@@ -385,7 +385,7 @@ export class InstallProvider {
       if (this.directInstall !== undefined && this.directInstall) {
         // If a Slack app sets "Direct Install URL" in the Slack app configruation,
         // the installation flow of the app should start with the Slack authorize URL.
-        // See https://docs.slack.dev/slack-marketplace/distributing-your-app-in-the-slack-marketplace for more details.
+        // See https://docs.slack.dev/slack-marketplace/slack-marketplace-app-guidelines-and-requirements for more details.
         res.setHeader('Location', url);
         res.writeHead(302);
         res.end('');

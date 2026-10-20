@@ -58,7 +58,7 @@
     "retry": "^0.13.1"
   },
   "devDependencies": {
-    "@types/busboy": "^1.5.4",
+    "@types/busboy": "^1.5.5",
     "@types/sinon": "^22.0.0",
     "busboy": "^1",
     "nock": "^14.0.17",
