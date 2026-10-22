@@ -3,7 +3,7 @@ export interface Manifest extends Record<string, unknown> {
   _metadata?: ManifestMetadata;
   /**
    * @description A group of settings that describe parts of an app's appearance within Slack. If you're distributing
-   * the app via the Slack Marketplace, read our {@link https://docs.slack.dev/slack-marketplace/distributing-your-app-in-the-slack-marketplace listing guidelines} to pick the best values for these settings.
+   * the app via the Slack Marketplace, read our {@link https://docs.slack.dev/slack-marketplace/slack-marketplace-app-guidelines-and-requirements listing guidelines} to pick the best values for these settings.
    */
   display_information: ManifestDisplayInformation;
   /** @description A group of settings corresponding to the Features section of the app config pages. */
