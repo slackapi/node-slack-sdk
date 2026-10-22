@@ -84,8 +84,8 @@ interface ManifestFeatures {
    */
   unfurl_domains?: string[];
   /**
-   * @description A subgroup of settings that opt the app into the standardized user connection flow, where users
-   * connect the app to an account on an external provider.
+   * @description A subgroup of settings that describe {@link https://docs.slack.dev/authentication/standardized-auth standardized app authentication}
+   * configuration.
    */
   user_connections?: ManifestUserConnections;
 }
@@ -195,11 +195,11 @@ interface ManifestSlashCommand {
 }
 
 interface ManifestUserConnections {
-  /** @description Whether the user connection flow is enabled for the app. */
+  /** @description A boolean that specifies whether or not standardized app authentication is enabled for the app. */
   is_enabled: boolean;
   /**
-   * @description An array of hosts, without a scheme, that the provider's `auth_url` and `disconnect_url` may use.
-   * Subdomains of a listed host are also allowed. Between 1 and 25 hosts can be included in this array.
+   * @description An array of strings containing the hosts, without a scheme, that a provider's `auth_url` and
+   * `disconnect_url` may use. Subdomains of a listed host are also allowed.
    */
   auth_hosts: string[];
 }
