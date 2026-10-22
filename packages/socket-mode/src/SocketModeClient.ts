@@ -362,7 +362,7 @@ export class SocketModeClient extends EventEmitter {
     };
 
     // For events_api messages, expose the type of the event
-    if (event.type === 'events_api') {
+    if (event.type === 'events_api' && event.payload?.event?.type) {
       this.emit(event.payload.event.type, {
         ack,
         envelope_id: event.envelope_id,
@@ -372,6 +372,20 @@ export class SocketModeClient extends EventEmitter {
         retry_reason: event.retry_reason,
         accepts_response_payload: event.accepts_response_payload,
       });
+    } else if (event.type === 'events_api') {
+      // Some events_api payloads carry no inner event, e.g. app_rate_limited
+      if (event.payload?.type) {
+        this.emit(event.payload.type, {
+          ack,
+          envelope_id: event.envelope_id,
+          body: event.payload,
+          retry_num: event.retry_attempt,
+          retry_reason: event.retry_reason,
+          accepts_response_payload: event.accepts_response_payload,
+        });
+      } else {
+        this.logger.debug(`events_api message has no event or payload type: ${event.envelope_id}`);
+      }
     } else {
       // Emit just ack and body for all other types of messages
       this.emit(event.type, {

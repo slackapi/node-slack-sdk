@@ -259,6 +259,20 @@ describe('SocketModeClient', () => {
         retry_attempt: 2,
         retry_reason: 'timeout',
       });
+      const appRateLimited = JSON.stringify({
+        envelope_id: envelopeId,
+        payload: {
+          token: 'verification-token',
+          api_app_id: 'A111',
+          minute_rate_limited: 1792487520,
+          type: 'app_rate_limited',
+          team_id: 'T111',
+        },
+        type: 'events_api',
+        accepts_response_payload: false,
+        retry_attempt: 1,
+        retry_reason: 'timeout',
+      });
 
       it('should be sent to the specific and generic event listeners, and should not trip an unrelated event listener', async () => {
         const client = new SocketModeClient({ appToken: 'xapp-' });
@@ -315,6 +329,30 @@ describe('SocketModeClient', () => {
         client.on('message', spy);
         client.emit('ws_message', message, false /* isBinary */);
         sinon.assert.callCount(spy, 1);
+      });
+      it('should send payloads without an inner event to the payload type and slack_event listeners', async () => {
+        const client = new SocketModeClient({ appToken: 'xapp-' });
+        const rateLimitedSpy = sinon.spy();
+        const slackEventSpy = sinon.spy();
+        client.on('app_rate_limited', rateLimitedSpy);
+        client.on('slack_event', slackEventSpy);
+        client.emit('ws_message', appRateLimited, false /* isBinary */);
+        await sleep(30);
+        sinon.assert.calledOnce(rateLimitedSpy);
+        sinon.assert.calledOnce(slackEventSpy);
+      });
+      it('should pass all the properties to listeners of payloads without an inner event', async () => {
+        const client = new SocketModeClient({ appToken: 'xapp-' });
+        const spy = sinon.spy();
+        client.on('app_rate_limited', spy);
+        client.emit('ws_message', appRateLimited, false /* isBinary */);
+        await sleep(30);
+        const args = spy.firstCall.args[0];
+        assert.strictEqual(args.envelope_id, envelopeId);
+        assert.strictEqual(args.body.minute_rate_limited, 1792487520);
+        assert.strictEqual(args.retry_num, 1);
+        assert.strictEqual(args.retry_reason, 'timeout');
+        assert.strictEqual('event' in args, false);
       });
     });
 
