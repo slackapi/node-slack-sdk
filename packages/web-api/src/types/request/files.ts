@@ -95,6 +95,8 @@ export interface FilesGetUploadURLExternalArguments extends TokenOverridable {
   /** @description Size in bytes of the file being uploaded. */
   length: number;
   /** @description Description of image for screen-reader. */
+  alt_txt?: string;
+  /** @deprecated Slack does not use this. Use `alt_txt`. */
   alt_text?: string;
   /** @description Syntax type of the snippet being uploaded. E.g. `python`. */
   snippet_type?: string;
