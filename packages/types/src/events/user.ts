@@ -82,9 +82,28 @@ export interface UserChangeEvent {
   event_ts: string;
 }
 
+export type UserConnectionEvent = UserConnectionConnectEvent | UserConnectionDisconnectEvent;
+
+export interface UserConnectionConnectEvent {
+  type: 'user_connection';
+  subtype: 'connect';
+  user: string;
+  trigger_id: string;
+  event_ts: string;
+}
+
+export interface UserConnectionDisconnectEvent {
+  type: 'user_connection';
+  subtype: 'disconnect';
+  user: string;
+  enterprise_id?: string;
+  event_ts: string;
+}
+
 export interface UserConnectionStatusRequestedEvent {
   type: 'user_connection_status_requested';
   user: string;
+  event_ts: string;
 }
 
 export interface UserHuddleChangedEvent {

@@ -89,6 +89,7 @@ import type {
 import type { TokensRevokedEvent } from './token';
 import type {
   UserChangeEvent,
+  UserConnectionEvent,
   UserConnectionStatusRequestedEvent,
   UserHuddleChangedEvent,
   UserProfileChangedEvent,
@@ -211,6 +212,7 @@ export type SlackEvent =
   // TODO: url_verification event is missing, but maybe we don't need it?
   // NOTE: url_verification does not use the envelope, but it's also not interesting for an app developer. it's omitted.
   | UserChangeEvent
+  | UserConnectionEvent
   | UserConnectionStatusRequestedEvent
   | UserHuddleChangedEvent
   | UserProfileChangedEvent
