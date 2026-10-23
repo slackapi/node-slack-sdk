@@ -85,8 +85,7 @@ interface ManifestFeatures {
   unfurl_domains?: string[];
   /**
    * @description A subgroup of settings that describe {@link https://docs.slack.dev/authentication/standardized-auth standardized app authentication}
-   * configuration. When enabled, the app must subscribe to the `user_connection` and
-   * `user_connection_status_requested` events, and have an interactivity request URL or Socket Mode enabled.
+   * configuration.
    */
   user_connections?: ManifestUserConnections;
 }
