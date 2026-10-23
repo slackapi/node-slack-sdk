@@ -213,6 +213,29 @@ describe('FileInstallationStore', async () => {
     assert.strictEqual(fsUnlinkSync.callCount, 1);
   });
 
+  it('should forget the user token kept with the latest installation when that user is deleted', async () => {
+    const installationStore = new FileInstallationStore({ baseDir: os.tmpdir() });
+    const { enterprise, team, user } = storedInstallation;
+    const fakeInstallDir = path.join(os.tmpdir(), `${enterprise.id}-${team.id}`);
+    const query = { enterpriseId: enterprise.id, teamId: team.id, userId: user.id };
+
+    await installationStore.deleteInstallation(query);
+
+    const forgotten = JSON.stringify({ ...storedInstallation, user: { id: user.id } });
+    assert.strictEqual(fsWriteFileSync.calledWith(path.join(fakeInstallDir, 'app-latest'), forgotten), true);
+    assert.strictEqual(fsUnlinkSync.calledWith(sinon.match('app-latest')), false);
+  });
+
+  it('should keep the latest installation untouched when another user is deleted', async () => {
+    const installationStore = new FileInstallationStore({ baseDir: os.tmpdir() });
+    const { enterprise, team } = storedInstallation;
+    const query = { enterpriseId: enterprise.id, teamId: team.id, userId: 'otherUserId' };
+
+    await installationStore.deleteInstallation(query);
+
+    assert.strictEqual(fsWriteFileSync.called, false);
+  });
+
   it("should run authorize with triage-bot's MongoDB data", async () => {
     // Refer to https://github.com/slackapi/bolt-js/issues/1265 to learn the context
     const storedInstallation = {
