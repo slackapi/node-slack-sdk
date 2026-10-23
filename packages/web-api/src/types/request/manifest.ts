@@ -85,7 +85,8 @@ interface ManifestFeatures {
   unfurl_domains?: string[];
   /**
    * @description A subgroup of settings that describe {@link https://docs.slack.dev/authentication/standardized-auth standardized app authentication}
-   * configuration.
+   * configuration. When enabled, the app must subscribe to the `user_connection` and
+   * `user_connection_status_requested` events, and have an interactivity request URL or Socket Mode enabled.
    */
   user_connections?: ManifestUserConnections;
 }
@@ -199,7 +200,8 @@ interface ManifestUserConnections {
   is_enabled: boolean;
   /**
    * @description An array of strings containing the hosts, without a scheme, that a provider's `auth_url` and
-   * `disconnect_url` may use. Subdomains of a listed host are also allowed.
+   * `disconnect_url` may use. Subdomains of a listed host are also allowed. The hosts are kept while `is_enabled` is
+   * false, so turning standardized app authentication off only flips `is_enabled`.
    */
   auth_hosts: string[];
 }
@@ -619,6 +621,8 @@ type ManifestEvent =
   | 'tokens_revoked'
   | 'url_verification'
   | 'user_change'
+  | 'user_connection'
+  | 'user_connection_status_requested'
   | 'user_huddle_changed'
   | 'user_profile_changed'
   | 'user_resource_denied'

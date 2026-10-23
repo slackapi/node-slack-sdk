@@ -112,6 +112,12 @@ expectAssignable<Parameters<typeof web.apps.manifest.create>>([
           auth_hosts: ['example.com', 'auth.example.com'],
         },
       },
+      settings: {
+        event_subscriptions: {
+          bot_events: ['user_connection', 'user_connection_status_requested'],
+        },
+        socket_mode_enabled: true,
+      },
     },
   },
 ]);
