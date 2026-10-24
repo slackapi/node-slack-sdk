@@ -2,7 +2,7 @@
 
 # Interface: PlanBlock
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:483
+Defined in: packages/types/dist/block-kit/blocks.d.ts:547
 
 ## Description
 
@@ -46,7 +46,7 @@ a message. If a message is updated, use a new `block_id`.
 optional tasks?: (Record<string, unknown> | TaskCardBlock)[];
 ```
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:495
+Defined in: packages/types/dist/block-kit/blocks.d.ts:559
 
 #### Description
 
@@ -60,7 +60,7 @@ A sequence of task card blocks. Each task represents a single action within the 
 title: string;
 ```
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:491
+Defined in: packages/types/dist/block-kit/blocks.d.ts:555
 
 #### Description
 
@@ -74,7 +74,7 @@ Title of the plan in plain text.
 type: "plan";
 ```
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:487
+Defined in: packages/types/dist/block-kit/blocks.d.ts:551
 
 #### Description
 

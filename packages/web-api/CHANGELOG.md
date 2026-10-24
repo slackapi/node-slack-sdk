@@ -1,5 +1,19 @@
 # @slack/web-api
 
+## 8.3.0
+
+### Minor Changes
+
+- 604135c: feat: add support for apps.user.connection.requestAuth and apps.user.connection.bulkUpdate
+- 651c298: feat: add the `user_connections` feature (`is_enabled`, `auth_hosts`) and the `user_connection` and `user_connection_status_requested` events to the app manifest types
+
+### Patch Changes
+
+- Updated dependencies [1fabb45]
+- Updated dependencies [e02e7fe]
+- Updated dependencies [7c310ea]
+  - @slack/types@3.3.0
+
 ## 8.2.0
 
 ### Minor Changes

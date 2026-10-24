@@ -19,7 +19,7 @@ type InputBlockElement =
   | URLInput;
 ```
 
-Defined in: [block-kit/blocks.ts:398](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L398)
+Defined in: [block-kit/blocks.ts:464](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L464)
 
 A helper union type of all Block Elements that can be used in an [InputBlock](../interfaces/InputBlock.md).
 

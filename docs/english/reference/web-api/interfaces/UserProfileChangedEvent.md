@@ -2,7 +2,7 @@
 
 # Interface: UserProfileChangedEvent
 
-Defined in: packages/types/dist/events/user.d.ts:159
+Defined in: packages/types/dist/events/user.d.ts:179
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: packages/types/dist/events/user.d.ts:159
 cache_ts: number;
 ```
 
-Defined in: packages/types/dist/events/user.d.ts:234
+Defined in: packages/types/dist/events/user.d.ts:254
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: packages/types/dist/events/user.d.ts:234
 event_ts: string;
 ```
 
-Defined in: packages/types/dist/events/user.d.ts:235
+Defined in: packages/types/dist/events/user.d.ts:255
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: packages/types/dist/events/user.d.ts:235
 type: "user_profile_changed";
 ```
 
-Defined in: packages/types/dist/events/user.d.ts:160
+Defined in: packages/types/dist/events/user.d.ts:180
 
 ***
 
@@ -42,7 +42,7 @@ Defined in: packages/types/dist/events/user.d.ts:160
 user: object;
 ```
 
-Defined in: packages/types/dist/events/user.d.ts:161
+Defined in: packages/types/dist/events/user.d.ts:181
 
 #### color
 
