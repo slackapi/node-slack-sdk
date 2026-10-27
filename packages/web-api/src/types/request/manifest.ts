@@ -89,6 +89,11 @@ interface ManifestFeatures {
    * @see {@link https://docs.slack.dev/messaging/unfurling-links-in-messages Link unfurling: configuring domains}.
    */
   unfurl_domains?: string[];
+  /**
+   * @description A subgroup of settings that describe {@link https://docs.slack.dev/authentication/standardized-auth standardized app authentication}
+   * configuration.
+   */
+  user_connections?: ManifestUserConnections;
 }
 
 interface ManifestAgentView {
@@ -205,6 +210,17 @@ interface ManifestSlashCommand {
   url?: string; // can be absent when enabling Socket Mode
   /** @description A string a short usage hint about the slash command for users. Maximum length is 1000 characters. */
   usage_hint?: string;
+}
+
+interface ManifestUserConnections {
+  /** @description A boolean that specifies whether or not standardized app authentication is enabled for the app. */
+  is_enabled: boolean;
+  /**
+   * @description An array of strings containing the hosts, without a scheme, that a provider's `auth_url` and
+   * `disconnect_url` may use. Subdomains of a listed host are also allowed. The hosts are kept while `is_enabled` is
+   * false, so turning standardized app authentication off only flips `is_enabled`.
+   */
+  auth_hosts: string[];
 }
 
 interface ManifestOAuthConfig {
@@ -623,6 +639,8 @@ type ManifestEvent =
   | 'tokens_revoked'
   | 'url_verification'
   | 'user_change'
+  | 'user_connection'
+  | 'user_connection_status_requested'
   | 'user_huddle_changed'
   | 'user_profile_changed'
   | 'user_resource_denied'

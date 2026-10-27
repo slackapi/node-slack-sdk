@@ -27,6 +27,32 @@ expectError(web.apps.manifest.create({})); // empty argument
 expectError(
   web.apps.manifest.create({
     manifest: {
+      display_information: { name: 'Connector' },
+      features: {
+        user_connections: {
+          // missing is_enabled
+          auth_hosts: ['example.com'],
+        },
+      },
+    },
+  }),
+);
+expectError(
+  web.apps.manifest.create({
+    manifest: {
+      display_information: { name: 'Connector' },
+      features: {
+        user_connections: {
+          // missing auth_hosts
+          is_enabled: true,
+        },
+      },
+    },
+  }),
+);
+expectError(
+  web.apps.manifest.create({
+    manifest: {
       display_information: { name: 'Agent' },
       features: {
         agent_view: {
@@ -102,6 +128,39 @@ expectAssignable<Parameters<typeof web.apps.manifest.create>>([
       oauth_config: {
         scopes: {
           bot: ['app_mentions:read', 'code_channels:manage'],
+        },
+      },
+    },
+  },
+]);
+// -- happy path: user_connections
+expectAssignable<Parameters<typeof web.apps.manifest.create>>([
+  {
+    manifest: {
+      display_information: { name: 'Connector' },
+      features: {
+        user_connections: {
+          is_enabled: true,
+          auth_hosts: ['example.com', 'auth.example.com'],
+        },
+      },
+      settings: {
+        event_subscriptions: {
+          bot_events: ['user_connection', 'user_connection_status_requested'],
+        },
+        socket_mode_enabled: true,
+      },
+    },
+  },
+]);
+expectAssignable<Parameters<typeof web.apps.manifest.create>>([
+  {
+    manifest: {
+      display_information: { name: 'Connector' },
+      features: {
+        user_connections: {
+          is_enabled: false,
+          auth_hosts: ['example.com'],
         },
       },
     },
