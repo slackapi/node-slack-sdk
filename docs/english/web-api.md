@@ -498,7 +498,7 @@ are marked "public" when shared to a provided `channel_id`.
 Multiple files can also be uploaded at once, without needing to write a loop, using the `files_uploads` parameter. This
 accepts similar attributes as a single file:
 
-* `alt_text`: A description of images for a screen-reader.
+* `alt_txt`: A description of images for a screen-reader.
 * `content`: The file contents as a string. If omitted, `file` must be provided.
 * `file`: The file path or data to upload. If omitted, `content` must be provided.
 * `filename`: The name of the file.
