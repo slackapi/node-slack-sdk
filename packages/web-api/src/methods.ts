@@ -2130,7 +2130,7 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
      * Supports a single file upload
      * Supply:
      * - (required) single file or content
-     * - (optional) channel, alt_text, snippet_type,
+     * - (optional) channel, alt_txt, snippet_type,
      * Supports multiple file uploads
      * Supply:
      * - multiple upload_files

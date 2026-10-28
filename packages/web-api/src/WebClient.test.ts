@@ -1662,7 +1662,7 @@ describe('WebClient', () => {
 
     it('uploads multiple files', async () => {
       const scope = nock('https://slack.com')
-        .post('/api/files.getUploadURLExternal', { filename: 'test-png.png', length: 55292 })
+        .post('/api/files.getUploadURLExternal', { filename: 'test-png.png', length: 55292, alt_txt: 'A test image' })
         .reply(200, {
           ok: true,
           file_id: 'F0000000001',
@@ -1717,6 +1717,7 @@ describe('WebClient', () => {
           {
             file: fs.createReadStream('./test/fixtures/test-png.png'),
             filename: 'test-png.png',
+            alt_txt: 'A test image',
           },
         ],
       });
