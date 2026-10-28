@@ -1,5 +1,5 @@
 import { expectAssignable, expectError } from 'tsd';
-import type { RichTextInput, WorkflowButton } from '../src/index';
+import type { Button, RichTextInput, WorkflowButton } from '../src/index';
 
 // RichTextInput — happy paths
 expectAssignable<RichTextInput>({
@@ -42,4 +42,17 @@ expectAssignable<WorkflowButton>({
       url: 'https://example.com/trigger',
     },
   },
+});
+
+// Button with agent prompt and visibility fields
+expectAssignable<Button>({
+  type: 'button',
+  text: {
+    type: 'plain_text',
+    text: 'Summarize with Slackbot',
+  },
+  action_id: 'summarize_incident',
+  agent_prompt: 'Summarize this incident and suggest next steps.',
+  agent_prompt_display: 'Summarize this incident',
+  visible_to_user_ids: ['U123456'],
 });
