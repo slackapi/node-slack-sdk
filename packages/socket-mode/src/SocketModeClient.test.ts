@@ -152,6 +152,104 @@ describe('SocketModeClient', () => {
     });
 
     describe('events_api messages', () => {
+      class TestSocketModeClient extends SocketModeClient {
+        async receive(payload: unknown): Promise<void> {
+          await this.onWebSocketMessage(JSON.stringify(payload), false);
+        }
+      }
+
+      it('should dispatch the inner event of an event_callback', async () => {
+        const client = new TestSocketModeClient({ appToken: 'xapp-' });
+        const event = { type: 'app_mention', text: '<@U111>' };
+        const body = { type: 'event_callback', event };
+        const specific = sandbox.spy();
+        const generic = sandbox.spy();
+        const callback = sandbox.spy();
+        client.on('app_mention', specific);
+        client.on('event_callback', callback);
+        client.on('slack_event', generic);
+
+        await client.receive({ type: 'events_api', payload: body, envelope_id: 'inner-event' });
+
+        sinon.assert.calledOnce(specific);
+        sinon.assert.notCalled(callback);
+        assert.deepEqual(specific.firstCall.args[0].body, body);
+        assert.deepEqual(specific.firstCall.args[0].event, event);
+        sinon.assert.calledOnce(generic);
+        assert.deepEqual(generic.firstCall.args[0].body, body);
+      });
+
+      it('should dispatch app_rate_limited without an inner event', async () => {
+        const client = new TestSocketModeClient({ appToken: 'xapp-' });
+        const body = { type: 'app_rate_limited', team_id: 'T111', minute_rate_limited: 1610241741 };
+        const specific = sandbox.spy();
+        const generic = sandbox.spy();
+        client.on('app_rate_limited', specific);
+        client.on('slack_event', generic);
+
+        await client.receive({
+          type: 'events_api',
+          payload: body,
+          envelope_id: 'rate-limited',
+          retry_attempt: 2,
+          retry_reason: 'timeout',
+          accepts_response_payload: false,
+        });
+
+        sinon.assert.calledOnce(specific);
+        const args = specific.firstCall.args[0];
+        assert.deepEqual(args.body, body);
+        assert.strictEqual(args.event, args.body);
+        assert.strictEqual(args.envelope_id, 'rate-limited');
+        assert.strictEqual(args.retry_num, 2);
+        assert.strictEqual(args.retry_reason, 'timeout');
+        assert.strictEqual(args.accepts_response_payload, false);
+        sinon.assert.calledOnce(generic);
+        assert.deepEqual(generic.firstCall.args[0].body, body);
+        assert.strictEqual(generic.firstCall.args[0].ack, args.ack);
+      });
+
+      it('should allow generic listeners to ACK malformed payloads without a valid event type', async () => {
+        for (const body of [
+          {},
+          { event: null },
+          { event: { type: 123 }, type: 456 },
+          { event: { type: '' }, type: '' },
+          null,
+          undefined,
+        ]) {
+          const client = new TestSocketModeClient({ appToken: 'xapp-' });
+          const send = sandbox
+            .stub(client as unknown as { send: (id: string, response: unknown) => Promise<void> }, 'send')
+            .resolves();
+          const generic = sandbox.spy();
+          const emit = sandbox.spy(client, 'emit');
+          client.on('slack_event', generic);
+
+          await client.receive({ type: 'events_api', payload: body, envelope_id: 'malformed' });
+
+          sinon.assert.calledOnce(emit);
+          sinon.assert.calledOnce(generic);
+          const args = generic.firstCall.args[0];
+          assert.strictEqual(args.type, 'events_api');
+          assert.deepEqual(args.body, body);
+          await args.ack({});
+          sinon.assert.calledOnceWithExactly(send, 'malformed', {});
+        }
+      });
+
+      it('should use the payload type when the inner event type is invalid', async () => {
+        const client = new TestSocketModeClient({ appToken: 'xapp-' });
+        const body = { type: 'app_rate_limited', event: { type: 123 } };
+        const specific = sandbox.spy();
+        client.on('app_rate_limited', specific);
+
+        await client.receive({ type: 'events_api', payload: body, envelope_id: 'invalid-inner-event' });
+
+        sinon.assert.calledOnce(specific);
+        assert.deepEqual(specific.firstCall.args[0].event, body);
+      });
+
       const envelopeId = 'cda4159a-72a5-4744-aba3-4d66eb52682b';
       const appMention = JSON.stringify({
         envelope_id: envelopeId,
