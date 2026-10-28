@@ -376,6 +376,8 @@ export class SocketModeClient extends EventEmitter {
           retry_reason: event.retry_reason,
           accepts_response_payload: event.accepts_response_payload,
         });
+      } else {
+        this.logger.debug(`Received an events_api message without an event type (envelope_id: ${event.envelope_id})`);
       }
     } else {
       // Emit just ack and body for all other types of messages
