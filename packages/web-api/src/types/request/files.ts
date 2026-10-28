@@ -160,7 +160,7 @@ type FileUpload = FileUploadContents &
     title?: string;
   };
 export type FileUploadV2 = FileUpload & {
-  /** @description Description of image for screen-reader. */
+  /** @description A description of images for a screen-reader. */
   alt_text?: string;
   /**
    * @description An array of structured rich text blocks. If the `initial_comment` field is provided, the `blocks` field is ignored.
