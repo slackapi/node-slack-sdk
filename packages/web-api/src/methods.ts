@@ -118,6 +118,8 @@ import type {
   AppsManifestUpdateArguments,
   AppsManifestValidateArguments,
   AppsUninstallArguments,
+  AppsUserConnectionBulkUpdateArguments,
+  AppsUserConnectionRequestAuthArguments,
   AppsUserConnectionUpdateArguments,
   AssistantThreadsSetStatusArguments,
   AssistantThreadsSetSuggestedPromptsArguments,
@@ -142,6 +144,7 @@ import type {
   CanvasesCreateArguments,
   CanvasesDeleteArguments,
   CanvasesEditArguments,
+  CanvasesGetContentArguments,
   CanvasesSectionsLookupArguments,
   ChatAppendStreamArguments,
   ChatDeleteArguments,
@@ -400,6 +403,8 @@ import type {
   AppsManifestUpdateResponse,
   AppsManifestValidateResponse,
   AppsUninstallResponse,
+  AppsUserConnectionBulkUpdateResponse,
+  AppsUserConnectionRequestAuthResponse,
   AppsUserConnectionUpdateResponse,
   AssistantThreadsSetStatusResponse,
   AssistantThreadsSetSuggestedPromptsResponse,
@@ -424,6 +429,7 @@ import type {
   CanvasesCreateResponse,
   CanvasesDeleteResponse,
   CanvasesEditResponse,
+  CanvasesGetContentResponse,
   CanvasesSectionsLookupResponse,
   ChatAppendStreamResponse,
   ChatDeleteResponse,
@@ -1590,6 +1596,22 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
     user: {
       connection: {
         /**
+         * @description Updates the connection status between an app and many users in one call, for backfilling an existing user base.
+         * @see {@link https://docs.slack.dev/reference/methods/apps.user.connection.bulkUpdate `apps.user.connection.bulkUpdate` API reference}.
+         */
+        bulkUpdate: bindApiCall<AppsUserConnectionBulkUpdateArguments, AppsUserConnectionBulkUpdateResponse>(
+          this,
+          'apps.user.connection.bulkUpdate',
+        ),
+        /**
+         * @description Opens or updates a standardized authentication modal for the calling app.
+         * @see {@link https://docs.slack.dev/reference/methods/apps.user.connection.requestAuth `apps.user.connection.requestAuth` API reference}.
+         */
+        requestAuth: bindApiCall<AppsUserConnectionRequestAuthArguments, AppsUserConnectionRequestAuthResponse>(
+          this,
+          'apps.user.connection.requestAuth',
+        ),
+        /**
          * @description Updates the connection status between a user and an app.
          * @see {@link https://docs.slack.dev/reference/methods/apps.user.connection.update `apps.user.connection.update` API reference}.
          */
@@ -1718,6 +1740,11 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
      * @see {@link https://docs.slack.dev/reference/methods/canvases.edit `canvases.edit` API reference}.
      */
     edit: bindApiCall<CanvasesEditArguments, CanvasesEditResponse>(this, 'canvases.edit'),
+    /**
+     * @description Get the content of a canvas as markdown (default) or HTML.
+     * @see {@link https://docs.slack.dev/reference/methods/canvases.getContent `canvases.getContent` API reference}.
+     */
+    getContent: bindApiCall<CanvasesGetContentArguments, CanvasesGetContentResponse>(this, 'canvases.getContent'),
     sections: {
       /**
        * @description Find sections matching the provided criteria.
@@ -2110,7 +2137,7 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
      * Supports a single file upload
      * Supply:
      * - (required) single file or content
-     * - (optional) channel, alt_text, snippet_type,
+     * - (optional) channel, alt_txt, snippet_type,
      * Supports multiple file uploads
      * Supply:
      * - multiple upload_files

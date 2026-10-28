@@ -502,7 +502,7 @@ export class WebClient extends Methods {
         const options = {
           filename: upload.filename,
           length: upload.length,
-          alt_text: upload.alt_text,
+          alt_txt: upload.alt_txt,
           snippet_type: upload.snippet_type,
         } as FilesGetUploadURLExternalArguments;
         if ('token' in upload) {

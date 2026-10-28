@@ -141,7 +141,10 @@ export type {
   AppsManifestUpdateArguments,
   AppsManifestValidateArguments,
   AppsUninstallArguments,
+  AppsUserConnectionBulkUpdateArguments,
+  AppsUserConnectionRequestAuthArguments,
   AppsUserConnectionUpdateArguments,
+  UserConnectionPrimaryProvider,
 } from './apps';
 export type {
   AssistantThreadsSetStatusArguments,
@@ -175,6 +178,7 @@ export type {
   CanvasesCreateArguments,
   CanvasesDeleteArguments,
   CanvasesEditArguments,
+  CanvasesGetContentArguments,
   CanvasesSectionsLookupArguments,
   ConversationsCanvasesCreateArguments,
 } from './canvas';

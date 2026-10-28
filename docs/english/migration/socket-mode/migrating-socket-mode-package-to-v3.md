@@ -93,7 +93,7 @@ const client = new SocketModeClient({
 
 ### We've updated the dependency on `@slack/web-api@^8`
 
-This package now uses `@slack/web-api@^8` internally. If you're passing `clientOptions`, the web-api breaking changes apply there too. Check the [web-api v8 migration guide](./web-api-v8-migration.md) for details.
+This package now uses `@slack/web-api@^8` internally. If you're passing `clientOptions`, the web-api breaking changes apply there too. Check the [web-api v8 migration guide](../web-api/migrating-web-api-package-to-v8.md) for details.
 
 ```diff
  const client = new SocketModeClient({
@@ -207,7 +207,7 @@ If your logging or error monitoring tools filter on `error.name`, update those f
 ### `dispatcher` option for unified proxy/TLS configuration
 
 :::tip[You can skip manual dispatcher configuration entirely by using `http.setGlobalProxyFromEnv()` or `NODE_USE_ENV_PROXY=1`]
-See [the `httpAgent` option removed section](#we-removed-the-httpagent-option) above for more detail.
+See [the `httpAgent` option removed section](#weve-removed-the-httpagent-option) above for more detail.
 :::
 
 Pass any undici `Dispatcher` and it'll handle both WebSocket and HTTP traffic:

@@ -128,6 +128,8 @@ export { AppsPermissionsScopesListResponse } from './AppsPermissionsScopesListRe
 export { AppsPermissionsUsersListResponse } from './AppsPermissionsUsersListResponse';
 export { AppsPermissionsUsersRequestResponse } from './AppsPermissionsUsersRequestResponse';
 export { AppsUninstallResponse } from './AppsUninstallResponse';
+export { AppsUserConnectionBulkUpdateResponse } from './AppsUserConnectionBulkUpdateResponse';
+export { AppsUserConnectionRequestAuthResponse } from './AppsUserConnectionRequestAuthResponse';
 export { AppsUserConnectionUpdateResponse } from './AppsUserConnectionUpdateResponse';
 export { AssistantThreadsSetStatusResponse } from './AssistantThreadsSetStatusResponse';
 export { AssistantThreadsSetSuggestedPromptsResponse } from './AssistantThreadsSetSuggestedPromptsResponse';
@@ -152,6 +154,7 @@ export { CanvasesAccessSetResponse } from './CanvasesAccessSetResponse';
 export { CanvasesCreateResponse } from './CanvasesCreateResponse';
 export { CanvasesDeleteResponse } from './CanvasesDeleteResponse';
 export { CanvasesEditResponse } from './CanvasesEditResponse';
+export { CanvasesGetContentResponse } from './CanvasesGetContentResponse';
 export { CanvasesSectionsLookupResponse } from './CanvasesSectionsLookupResponse';
 export { ChannelsArchiveResponse } from './ChannelsArchiveResponse';
 export { ChannelsCreateResponse } from './ChannelsCreateResponse';
