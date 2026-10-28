@@ -161,6 +161,8 @@ type FileUpload = FileUploadContents &
   };
 export type FileUploadV2 = FileUpload & {
   /** @description A description of images for a screen-reader. */
+  alt_txt?: string;
+  /** @deprecated Use `alt_txt`. */
   alt_text?: string;
   /**
    * @description An array of structured rich text blocks. If the `initial_comment` field is provided, the `blocks` field is ignored.

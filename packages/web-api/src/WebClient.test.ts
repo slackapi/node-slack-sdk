@@ -1717,7 +1717,7 @@ describe('WebClient', () => {
           {
             file: fs.createReadStream('./test/fixtures/test-png.png'),
             filename: 'test-png.png',
-            alt_text: 'A test image',
+            alt_txt: 'A test image',
           },
         ],
       });
