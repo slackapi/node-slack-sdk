@@ -243,6 +243,40 @@ expectAssignable<Parameters<typeof web.canvases.edit>>([
   },
 ]);
 
+// canvases.getContent
+// -- sad path
+expectError(web.canvases.getContent()); // lacking argument
+expectError(web.canvases.getContent({})); // empty argument
+expectError(
+  web.canvases.getContent({
+    content_type: 'markdown', // missing canvas_id
+  }),
+);
+expectError(
+  web.canvases.getContent({
+    canvas_id: 'F1234',
+    content_type: 'pdf', // invalid content_type
+  }),
+);
+// -- happy path
+expectAssignable<Parameters<typeof web.canvases.getContent>>([
+  {
+    canvas_id: 'F1234',
+  },
+]);
+expectAssignable<Parameters<typeof web.canvases.getContent>>([
+  {
+    canvas_id: 'F1234',
+    content_type: 'html',
+  },
+]);
+expectAssignable<Parameters<typeof web.canvases.getContent>>([
+  {
+    canvas_id: 'F1234',
+    content_type: 'markdown',
+  },
+]);
+
 // conversations.canvases.create
 // -- sad path
 expectError(web.conversations.canvases.create()); // lacking argument

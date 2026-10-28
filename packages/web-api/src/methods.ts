@@ -144,6 +144,7 @@ import type {
   CanvasesCreateArguments,
   CanvasesDeleteArguments,
   CanvasesEditArguments,
+  CanvasesGetContentArguments,
   CanvasesSectionsLookupArguments,
   ChatAppendStreamArguments,
   ChatDeleteArguments,
@@ -428,6 +429,7 @@ import type {
   CanvasesCreateResponse,
   CanvasesDeleteResponse,
   CanvasesEditResponse,
+  CanvasesGetContentResponse,
   CanvasesSectionsLookupResponse,
   ChatAppendStreamResponse,
   ChatDeleteResponse,
@@ -1738,6 +1740,11 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
      * @see {@link https://docs.slack.dev/reference/methods/canvases.edit `canvases.edit` API reference}.
      */
     edit: bindApiCall<CanvasesEditArguments, CanvasesEditResponse>(this, 'canvases.edit'),
+    /**
+     * @description Get the content of a canvas as markdown (default) or HTML.
+     * @see {@link https://docs.slack.dev/reference/methods/canvases.getContent `canvases.getContent` API reference}.
+     */
+    getContent: bindApiCall<CanvasesGetContentArguments, CanvasesGetContentResponse>(this, 'canvases.getContent'),
     sections: {
       /**
        * @description Find sections matching the provided criteria.
