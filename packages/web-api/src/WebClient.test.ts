@@ -985,11 +985,11 @@ describe('WebClient', () => {
       scope = nock('https://slack.com')
         .persist()
         .post(/api/)
-        .delay(responseDelay)
-        .reply((_uri, _requestBody) => {
-          // NOTE: the assumption is that this function gets called right away when the request body is available,
-          // not after the delay
+        .reply(async () => {
+          // NOTE: diff is measured when the request arrives. The wait holds the response headers, which is what
+          // releases the request queue. The nock delay() method only delays the response body.
           const diff = Date.now() - testStart;
+          await new Promise((resolve) => setTimeout(resolve, responseDelay));
           return [200, JSON.stringify({ ok: true, diff })];
         });
     });
@@ -1141,9 +1141,9 @@ describe('WebClient', () => {
         .post(/api/)
         .reply(429, '', { 'retry-after': String(retryAfter) })
         .post(/api/)
-        .reply(200, (_uri, _requestBody) => JSON.stringify({ ok: true, diff: Date.now() - startTime }))
+        .reply(200, () => JSON.stringify({ ok: true, diff: Date.now() - startTime }))
         .post(/api/)
-        .reply(200, (_uri, _requestBody) => JSON.stringify({ ok: true, diff: Date.now() - startTime }));
+        .reply(200, () => JSON.stringify({ ok: true, diff: Date.now() - startTime }));
       const client = new WebClient(token, { retryConfig: rapidRetryPolicy, maxRequestConcurrency: 1 });
       const firstCall = client.apiCall('method');
       const secondCall = client.apiCall('method');
@@ -1223,8 +1223,9 @@ describe('WebClient', () => {
       const client = new WebClient();
       const scope = nock('https://slack.com')
         .post(/api/)
-        .reply(200, (_uri, body) => {
-          assert.ok(!(body as string).includes(token));
+        .reply(200, async (request) => {
+          const body = await request.text();
+          assert.ok(!body.includes(token));
           console.log('body is', body);
           return { ok: true };
         });
@@ -1238,8 +1239,9 @@ describe('WebClient', () => {
       const client = new WebClient(token);
       const scope = nock('https://slack.com')
         .post(/api/)
-        .reply(200, (_uri, body) => {
-          assert.ok(!(body as string).includes(token));
+        .reply(200, async (request) => {
+          const body = await request.text();
+          assert.ok(!body.includes(token));
           return { ok: true };
         });
       await client.apps.event.authorizations.list({ event_context: 'foo' });

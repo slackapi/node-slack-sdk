@@ -48,6 +48,6 @@
     "retry": "^0.13.1"
   },
   "devDependencies": {
-    "nock": "^14.0.17"
+    "nock": "^15.0.5"
   }
 }
