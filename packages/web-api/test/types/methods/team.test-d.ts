@@ -1,4 +1,4 @@
-import { expectAssignable, expectError } from 'tsd';
+import { expectAssignable, expectError, expectType } from 'tsd';
 
 import { WebClient } from '../../../src/WebClient';
 
@@ -39,9 +39,16 @@ expectAssignable<Parameters<typeof web.team.externalTeams.list>>([{}]); // all o
 
 // team.info
 // -- sad path
+expectError(web.team.info({ include_slackbot_availability: 'true' }));
 // -- happy path
 expectAssignable<Parameters<typeof web.team.info>>([{}]); // all optional arguments
 expectAssignable<Parameters<typeof web.team.info>>([]); // no arg is fine
+expectAssignable<Parameters<typeof web.team.info>>([{ include_slackbot_availability: true }]);
+expectAssignable<Parameters<typeof web.team.info>>([{ team: 'T1234', include_slackbot_availability: false }]);
+expectAssignable<Parameters<typeof web.team.info>>([{ domain: 'example', include_slackbot_availability: true }]);
+web.team.info({ include_slackbot_availability: true }).then((response) => {
+  expectType<string | undefined>(response.team?.slackbot_availability);
+});
 
 // team.integrationLogs
 // -- sad path

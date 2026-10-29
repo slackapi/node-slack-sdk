@@ -68,6 +68,12 @@ export type TeamInfoArguments = OptionalArgument<
      * This also expects the domain to belong to a team and not the enterprise itself.
      */
     domain?: string; // available only for Enterprise Grid
+    /**
+     * @description Include advisory Slackbot availability for the caller's own workspace or organization.
+     * Defaults to false. Requires the existing `team:read` scope.
+     * @see {@link https://docs.slack.dev/reference/methods/team.info `team.info` API reference}.
+     */
+    include_slackbot_availability?: boolean;
     /** @description Team to get info about; if omitted, will return information about the current team. */
     team?: string;
   }
