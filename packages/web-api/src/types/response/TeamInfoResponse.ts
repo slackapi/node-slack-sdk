@@ -33,6 +33,7 @@ export interface Team {
   locale?: string;
   name?: string;
   pay_prod_cur?: string;
+  slackbot_availability?: string;
   sso_provider?: SsoProvider;
   url?: string;
 }
