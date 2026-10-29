@@ -54,11 +54,13 @@
 - f1fb7bf: feat: add thinking steps types
 
   Added types for Thinking Steps features:
+
   - **Block types**: `PlanBlock` and `TaskCard` for displaying task progress in messages
   - **Chunk types**: `MarkdownTextChunk`, `PlanUpdateChunk`, `TaskUpdateChunk` for streaming
   - **Source types**: `UrlSourceElements` for displaying sources within task cards
 
   Related PRs:
+
   - [#2471](https://github.com/slackapi/node-slack-sdk/pull/2471) - add task_card and plan blocks
 
   ### Example

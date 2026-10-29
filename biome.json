@@ -20,7 +20,7 @@
   "formatter": {
     "enabled": true,
     "formatWithErrors": false,
-    "includes": ["**"],
+    "includes": ["**", "!**/*.md"],
     "attributePosition": "auto",
     "indentStyle": "space",
     "indentWidth": 2,

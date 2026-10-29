@@ -75,7 +75,7 @@ const webhook = new IncomingWebhook(url);
 // Send the notification
 (async () => {
   await webhook.send({
-    text: "I've got news for you...",
+    text: 'I\'ve got news for you...',
   });
 })();
 ```
@@ -132,12 +132,12 @@ const webhook = new IncomingWebhook(url);
 
 (async () => {
   try {
-    await webhook.send({ text: "I've got news for you..." });
+    await webhook.send({ text: 'I\'ve got news for you...' });
   } catch (error) {
     if (error instanceof IncomingWebhookHTTPError) {
-      console.log(error.statusCode); // e.g. 404
+      console.log(error.statusCode);    // e.g. 404
       console.log(error.statusMessage); // e.g. 'Not Found'
-      console.log(error.body); // the raw response body
+      console.log(error.body);          // the raw response body
     } else if (error instanceof IncomingWebhookRequestError) {
       console.log(error.cause);
     }

@@ -31,7 +31,7 @@ import { SocketModeClient } from '@slack/socket-mode';
 const appToken = process.env.SLACK_APP_TOKEN;
 
 // Initialize
-const client = new SocketModeClient({ appToken });
+const client = new SocketModeClient({appToken});
 ```
 
 ### Connect to Slack
@@ -42,7 +42,7 @@ Connecting is as easy as calling the `.start()` method.
 import { SocketModeClient } from '@slack/socket-mode';
 const appToken = process.env.SLACK_APP_TOKEN;
 
-const socketModeClient = new SocketModeClient({ appToken });
+const socketModeClient = new SocketModeClient({appToken});
 
 (async () => {
   // Connect to Slack
@@ -62,7 +62,7 @@ event](https://docs.slack.dev/reference/events) it's registered for.
 import { SocketModeClient } from '@slack/socket-mode';
 const appToken = process.env.SLACK_APP_TOKEN;
 
-const socketModeClient = new SocketModeClient({ appToken });
+const socketModeClient = new SocketModeClient({appToken});
 
 // Attach listeners to events by type. See: https://docs.slack.dev/reference/events/message
 socketModeClient.on('message', (event) => {
@@ -86,36 +86,36 @@ const socketModeClient = new SocketModeClient({ appToken: process.env.SLACK_APP_
 const webClient = new WebClient(process.env.BOT_TOKEN);
 
 // Attach listeners to events by type. See: https://docs.slack.dev/reference/events/message
-socketModeClient.on('member_joined_channel', async ({ event, body, ack }) => {
-  try {
-    // send acknowledgement back to slack over the socketMode websocket connection
-    // this is so slack knows you have received the event and are processing it
-    await ack();
-    await webClient.chat.postMessage({
-      blocks: [
-        {
-          type: 'section',
-          text: {
-            type: 'mrkdwn',
-            text: `Welcome to the channel, <@${event.user}>. We're here to help. Let us know if you have an issue.`,
-          },
-          accessory: {
-            type: 'button',
+socketModeClient.on('member_joined_channel', async ({event, body, ack}) => {
+    try {
+      // send acknowledgement back to slack over the socketMode websocket connection
+      // this is so slack knows you have received the event and are processing it
+      await ack();
+      await webClient.chat.postMessage({
+          blocks: [
+          {
+            type: 'section',
             text: {
-              type: 'plain_text',
-              text: 'Get Help',
+              type: 'mrkdwn',
+              text: `Welcome to the channel, <@${event.user}>. We're here to help. Let us know if you have an issue.`,
             },
-            value: 'get_help',
+            accessory: {
+              type: 'button',
+              text: {
+                type: 'plain_text',
+                text: 'Get Help',
+              },
+              value: 'get_help',
+            },
           },
-        },
-      ],
-      channel: event.channel,
-    });
-  } catch (error) {
-    console.log('An error occurred', error);
-  }
-});
-
+        ],
+        channel: event.channel,
+      });
+    } catch (error) {
+      console.log('An error occurred', error);
+    }
+  });
+  
 (async () => {
   await socketModeClient.start();
 })();
@@ -127,20 +127,20 @@ The client's connection to Slack has a lifecycle. This means the client can be s
 
 In the table below, the client's states are listed, which are also the names of the events you can use to observe the transition to that state. The table also includes descriptions for the states and arguments that a listener would receive.
 
-| Event Name      | Arguments | Description                                                                                                                                                                                           |
-| --------------- | --------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `connecting`    |           | The client is in the process of connecting to the platform.                                                                                                                                           |
-| `connected`     |           | The client is connected to the platform and incoming events will start being emitted.                                                                                                                 |
-| `disconnecting` |           | The client is no longer connected to the platform and cleaning up its resources. It will soon transition to `disconnected`.                                                                           |
-| `reconnecting`  |           | The client is no longer connected to the platform and cleaning up its resources. It will soon transition to `connecting`.                                                                             |
+| Event Name      | Arguments | Description |
+|-----------------|-----------------|-------------|
+| `connecting`    |  | The client is in the process of connecting to the platform. |
+| `connected`     |  | The client is connected to the platform and incoming events will start being emitted. |
+| `disconnecting` |  | The client is no longer connected to the platform and cleaning up its resources. It will soon transition to `disconnected`. |
+| `reconnecting`  |  | The client is no longer connected to the platform and cleaning up its resources. It will soon transition to `connecting`. |
 | `disconnected`  | `(error)` | The client is not connected to the platform. This is a steady state - no attempt to connect is occurring. The `error` argument will be `undefined` when the client initiated the disconnect (normal). |
 
 The client also emits events that are part of its lifecycle, but aren't states. Instead, they represent specific moments that might be helpful to your app. The following table lists these events, their description, and includes the arguments that a listener would receive.
 
-| Event Name    | Arguments            | Description                                |
-| ------------- | -------------------- | ------------------------------------------ |
-| `error`       | `(error)`            | An error has occurred.                     |
-| `slack_event` | `(eventType, event)` | An incoming Slack event has been received. |
+| Event Name      | Arguments | Description |
+|-----------------|-----------|-------------|
+| `error`         | `(error)` | An error has occurred. |
+| `slack_event`   | `(eventType, event)` | An incoming Slack event has been received. |
 
 ---
 
@@ -149,7 +149,12 @@ The client also emits events that are part of its lifecycle, but aren't states. 
 Because the client is an `EventEmitter`, errors are delivered to your `error` listener rather than thrown. Each kind of error is its own class, all extending the `SlackSocketModeError` base class, so you can use an `instanceof` check to decide how to respond.
 
 ```javascript
-import { SocketModeClient, SMWebsocketError, SMPlatformError, SMSendWhileDisconnectedError } from '@slack/socket-mode';
+import {
+  SocketModeClient,
+  SMWebsocketError,
+  SMPlatformError,
+  SMSendWhileDisconnectedError,
+} from '@slack/socket-mode';
 
 const client = new SocketModeClient({ appToken: process.env.SLACK_APP_TOKEN });
 
@@ -205,7 +210,7 @@ All the log levels, in order of most to least information are: `DEBUG`, `INFO`, 
 You can also choose to have logs sent to a custom logger using the `logger` option. A custom logger needs to implement specific methods (known as the `Logger` interface, see the [`@slack/logger` package](https://www.npmjs.com/package/@slack/logger) for details). A minimal interface should implement the following methods:
 
 | Method       | Parameters        | Return type |
-| ------------ | ----------------- | ----------- |
+|--------------|-------------------|-------------|
 | `getLevel()` | n/a               | `LogLevel`  |
 | `setLevel()` | `level: LogLevel` | `void`      |
 | `setName()`  | `name: string`    | `void`      |
@@ -246,7 +251,7 @@ const socketModeClient = new SocketModeClient({
 
 If you get stuck, we're here to help. The following are the best ways to get assistance working through your issue:
 
-- [Issue Tracker](http://github.com/slackapi/node-slack-sdk/issues) for questions, feature requests, bug reports and general discussion related to these packages. Try searching before you create a new issue.
+  * [Issue Tracker](http://github.com/slackapi/node-slack-sdk/issues) for questions, feature requests, bug reports and general discussion related to these packages. Try searching before you create a new issue.
 
 [socket-mode]: https://docs.slack.dev/apis/events-api/using-socket-mode
 [app-token]: https://docs.slack.dev/authentication/tokens#app-level

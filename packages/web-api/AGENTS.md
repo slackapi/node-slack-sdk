@@ -91,14 +91,14 @@ File: `src/types/request/<namespace>.ts`
 
 Create an interface/type for the method's arguments. Reuse mixins from `src/types/request/common.ts`:
 
-| Mixin                       | Purpose                                      |
-| --------------------------- | -------------------------------------------- |
-| `TokenOverridable`          | Optional `token` override                    |
-| `CursorPaginationEnabled`   | `cursor` + `limit` pagination                |
+| Mixin | Purpose |
+|-------|---------|
+| `TokenOverridable` | Optional `token` override |
+| `CursorPaginationEnabled` | `cursor` + `limit` pagination |
 | `TimelinePaginationEnabled` | `oldest` + `latest` + `inclusive` pagination |
-| `TraditionalPagingEnabled`  | `count` + `page` pagination                  |
-| `OptionalTeamAssignable`    | Optional `team_id`                           |
-| `LocaleAware`               | Optional `include_locale`                    |
+| `TraditionalPagingEnabled` | `count` + `page` pagination |
+| `OptionalTeamAssignable` | Optional `team_id` |
+| `LocaleAware` | Optional `include_locale` |
 
 Also reuse namespace-specific mixins from the same file (e.g., `Channel`, `ChannelAndTS`, `AsUser` in `chat.ts`).
 

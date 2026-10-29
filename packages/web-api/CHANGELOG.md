@@ -32,6 +32,7 @@
   Regenerate response types with new stable response properties (e.g. `agent_session` on message-bearing responses, `ListView` grouping/sort/filter fields, `bots.info` connector/workflow flags).
 
   Two fields are removed from `UsersListResponse`, neither of which is a real success-response property:
+
   - `Member.is_connector_bot` — not returned by `users.list`; this flag is surfaced on `bots.info` (added here to `BotsInfoResponse`).
   - `arg` — an error-response echo field, not part of a successful `users.list` body.
 
@@ -53,6 +54,7 @@
   **Migration:** Replace `if (error.code === ErrorCode.PlatformError)` with `if (error instanceof WebAPIPlatformError)`. All error classes extend a common `SlackError` base class (which extends `Error`), so you can also catch all SDK errors with `if (error instanceof SlackError)`.
 
   **New error class hierarchy:**
+
   - `SlackError` (abstract base)
     - `WebAPIPlatformError` — Slack API returned `ok: false`
     - `WebAPIRequestError` — Network/transport failure (original error in `cause`)
@@ -62,6 +64,7 @@
     - `WebAPIFileUploadReadFileDataError` — Failed to read file data for upload
 
   **Removed factory functions** (these were internal but exported — use `new` with the corresponding class instead):
+
   - `errorWithCode()`
   - `platformErrorFromResult()` → `new WebAPIPlatformError(...)`
   - `requestErrorWithOriginal()` → `new WebAPIRequestError(...)`
@@ -69,13 +72,14 @@
   - `rateLimitedErrorWithDelay()` → `new WebAPIRateLimitedError(...)`
 
   **Other breaking type changes:**
+
   - `WebAPIHTTPError.headers` type changed from `IncomingHttpHeaders` to `Record<string, string>`.
   - The `CodedError` interface is deprecated — use `instanceof` checks with specific error classes instead.
   - Error `.name` values changed from generic `'Error'` to descriptive class names (e.g., `'WebAPIPlatformError'`).
 
 - fc98c8c: Replaced `axios` with the standard Fetch API for all HTTP transport. The following options and types have been removed from `WebClientOptions`:
-  - **`agent`** — Use the new `fetch` option to provide a custom fetch implementation with proxy or keep-alive support. For proxies, prefer the built-in `http.setGlobalProxyFromEnv()` or `NODE_USE_ENV_PROXY=1` (Node.js 24+). For advanced use cases:
 
+  - **`agent`** — Use the new `fetch` option to provide a custom fetch implementation with proxy or keep-alive support. For proxies, prefer the built-in `http.setGlobalProxyFromEnv()` or `NODE_USE_ENV_PROXY=1` (Node.js 24+). For advanced use cases:
     ```ts
     import { fetch, Agent } from "undici";
     const client = new WebClient(token, {
@@ -97,6 +101,7 @@
   New exported types for custom fetch implementations: `FetchFunction`, `FetchResponse`, `FetchRequestInit`, `FetchHeaders`.
 
 - fc98c8c: Removed previously-deprecated API methods and their associated request/response types:
+
   - **`files.upload`** — Use `filesUploadV2` instead (available since v6.7). The `filesUploadV2` method handles the multi-step upload process automatically.
   - **`rtm.start`** — Use `rtm.connect` instead. The `rtm.start` method was deprecated by Slack in favor of the lighter-weight `rtm.connect`.
   - **`workflows.stepCompleted`**, **`workflows.stepFailed`**, **`workflows.updateStep`** — These methods supported the retired [Steps from Apps](https://api.slack.com/changelog/2023-08-workflow-steps-from-apps-step-back) feature (deprecated August 2023, retired September 2024). The `workflows.featured.*` and `admin.workflows.*` methods for the current Workflow Builder remain available.
@@ -208,6 +213,7 @@
   `chat.appendStream`, `chat.startStream`, and `chat.stopStream` now accept a `chunks` parameter for streaming structured content including markdown text, plan updates, and task updates.
 
   Related PRs:
+
   - [#2467](https://github.com/slackapi/node-slack-sdk/pull/2467) - accept chunks as arguments to chat.{start,append,stop}Stream methods
   - [#2470](https://github.com/slackapi/node-slack-sdk/pull/2470) - accept chunks as arguments to chat stream helper
   - [#2479](https://github.com/slackapi/node-slack-sdk/pull/2479) - add task display mode option to start of chat streams
