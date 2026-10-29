@@ -2,7 +2,7 @@
 
 # Interface: FilesCommentsDeleteArguments
 
-Defined in: [packages/web-api/src/types/request/files.ts:203](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/files.ts#L203)
+Defined in: [packages/web-api/src/types/request/files.ts:207](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/files.ts#L207)
 
 ## Extends
 
@@ -36,7 +36,7 @@ FileArgument.file
 id: string;
 ```
 
-Defined in: [packages/web-api/src/types/request/files.ts:205](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/files.ts#L205)
+Defined in: [packages/web-api/src/types/request/files.ts:209](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/files.ts#L209)
 
 #### Description
 

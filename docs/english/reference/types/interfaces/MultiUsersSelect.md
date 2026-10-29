@@ -2,7 +2,7 @@
 
 # Interface: MultiUsersSelect
 
-Defined in: [block-kit/block-elements.ts:318](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L318)
+Defined in: [block-kit/block-elements.ts:332](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L332)
 
 ## Description
 
@@ -83,7 +83,7 @@ Defaults to `false`.
 optional initial_users?: string[];
 ```
 
-Defined in: [block-kit/block-elements.ts:326](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L326)
+Defined in: [block-kit/block-elements.ts:340](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L340)
 
 #### Description
 
@@ -134,7 +134,7 @@ length for the `text` field in this object is 150 characters.
 type: "multi_users_select";
 ```
 
-Defined in: [block-kit/block-elements.ts:322](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L322)
+Defined in: [block-kit/block-elements.ts:336](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L336)
 
 #### Description
 

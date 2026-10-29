@@ -2,7 +2,7 @@
 
 # Interface: RichTextTeamMention
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:825
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:839
 
 ## Description
 
@@ -88,7 +88,7 @@ A limited style object for styling rich text `text` elements.
 team_id: string;
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:833
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:847
 
 #### Description
 
@@ -102,7 +102,7 @@ The encoded team ID, e.g. T1234ABCD.
 type: "team";
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:829
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:843
 
 #### Description
 

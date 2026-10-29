@@ -2,7 +2,7 @@
 
 # Interface: Datepicker
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:70
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:84
 
 ## Description
 
@@ -82,7 +82,7 @@ Defaults to `false`.
 optional initial_date?: string;
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:79
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:93
 
 #### Description
 
@@ -116,7 +116,7 @@ length for the `text` field in this object is 150 characters.
 type: "datepicker";
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:74
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:88
 
 #### Description
 

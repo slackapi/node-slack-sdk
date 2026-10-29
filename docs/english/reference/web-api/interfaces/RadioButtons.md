@@ -2,7 +2,7 @@
 
 # Interface: RadioButtons
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:564
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:578
 
 ## Description
 
@@ -82,7 +82,7 @@ Defaults to `false`.
 optional initial_option?: Option;
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:573
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:587
 
 #### Description
 
@@ -97,7 +97,7 @@ be selected when the radio button group initially loads.
 options: Option[];
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:577
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:591
 
 #### Description
 
@@ -111,7 +111,7 @@ An array of [Option](../type-aliases/Option.md) objects. A maximum of 10 options
 type: "radio_buttons";
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:568
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:582
 
 #### Description
 

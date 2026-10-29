@@ -2,7 +2,7 @@
 
 # Interface: MultiExternalSelect
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:465
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:479
 
 ## Description
 
@@ -82,7 +82,7 @@ Defaults to `false`.
 optional initial_options?: PlainTextOption[];
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:473
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:487
 
 #### Description
 
@@ -114,7 +114,7 @@ Specifies the maximum number of items that can be selected. Minimum number is 1.
 optional min_query_length?: number;
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:479
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:493
 
 #### Description
 
@@ -149,7 +149,7 @@ length for the `text` field in this object is 150 characters.
 type: "multi_external_select";
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:469
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:483
 
 #### Description
 

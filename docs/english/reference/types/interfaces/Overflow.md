@@ -2,7 +2,7 @@
 
 # Interface: Overflow
 
-Defined in: [block-kit/block-elements.ts:600](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L600)
+Defined in: [block-kit/block-elements.ts:614](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L614)
 
 ## Description
 
@@ -66,7 +66,7 @@ with.
 options: PlainTextOption[];
 ```
 
-Defined in: [block-kit/block-elements.ts:609](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L609)
+Defined in: [block-kit/block-elements.ts:623](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L623)
 
 #### Description
 
@@ -80,7 +80,7 @@ An array of up to 5 [PlainTextOption](PlainTextOption.md) to display in the menu
 type: "overflow";
 ```
 
-Defined in: [block-kit/block-elements.ts:604](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L604)
+Defined in: [block-kit/block-elements.ts:618](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L618)
 
 #### Description
 

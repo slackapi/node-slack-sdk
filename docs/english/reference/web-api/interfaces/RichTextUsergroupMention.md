@@ -2,7 +2,7 @@
 
 # Interface: RichTextUsergroupMention
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:864
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:878
 
 ## Description
 
@@ -88,7 +88,7 @@ A limited style object for styling rich text `text` elements.
 type: "usergroup";
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:868
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:882
 
 #### Description
 
@@ -102,7 +102,7 @@ The type of element. In this case `type` is always `usergroup`.
 usergroup_id: string;
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:872
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:886
 
 #### Description
 

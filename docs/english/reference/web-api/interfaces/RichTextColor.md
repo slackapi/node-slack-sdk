@@ -2,7 +2,7 @@
 
 # Interface: RichTextColor
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:712
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:726
 
 ## Description
 
@@ -88,7 +88,7 @@ A limited style object for styling rich text `text` elements.
 type: "color";
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:716
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:730
 
 #### Description
 
@@ -102,7 +102,7 @@ The type of element. In this case `type` is always `color`.
 value: string;
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:720
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:734
 
 #### Description
 

@@ -2,7 +2,7 @@
 
 # Interface: Checkboxes
 
-Defined in: [block-kit/block-elements.ts:71](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L71)
+Defined in: [block-kit/block-elements.ts:85](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L85)
 
 ## Description
 
@@ -82,7 +82,7 @@ Defaults to `false`.
 optional initial_options?: Option[];
 ```
 
-Defined in: [block-kit/block-elements.ts:80](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L80)
+Defined in: [block-kit/block-elements.ts:94](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L94)
 
 #### Description
 
@@ -97,7 +97,7 @@ These options will be selected when the checkbox group initially loads.
 options: Option[];
 ```
 
-Defined in: [block-kit/block-elements.ts:84](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L84)
+Defined in: [block-kit/block-elements.ts:98](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L98)
 
 #### Description
 
@@ -111,7 +111,7 @@ An array of [Option](../type-aliases/Option.md) objects. A maximum of 10 options
 type: "checkboxes";
 ```
 
-Defined in: [block-kit/block-elements.ts:75](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L75)
+Defined in: [block-kit/block-elements.ts:89](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L89)
 
 #### Description
 

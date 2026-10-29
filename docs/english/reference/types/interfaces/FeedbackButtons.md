@@ -2,7 +2,7 @@
 
 # Interface: FeedbackButtons
 
-Defined in: [block-kit/block-elements.ts:144](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L144)
+Defined in: [block-kit/block-elements.ts:158](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L158)
 
 ## Description
 
@@ -38,7 +38,7 @@ among all other `action_id`s in the containing block. Maximum length for this fi
 negative_button: object;
 ```
 
-Defined in: [block-kit/block-elements.ts:173](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L173)
+Defined in: [block-kit/block-elements.ts:187](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L187)
 
 #### accessibility\_label?
 
@@ -90,7 +90,7 @@ A button to indicate negative feedback.
 positive_button: object;
 ```
 
-Defined in: [block-kit/block-elements.ts:154](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L154)
+Defined in: [block-kit/block-elements.ts:168](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L168)
 
 #### accessibility\_label?
 
@@ -142,7 +142,7 @@ A button to indicate positive feedback.
 type: "feedback_buttons";
 ```
 
-Defined in: [block-kit/block-elements.ts:149](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L149)
+Defined in: [block-kit/block-elements.ts:163](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L163)
 
 #### Description
 

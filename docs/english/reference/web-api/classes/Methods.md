@@ -2,7 +2,7 @@
 
 # Abstract Class: Methods
 
-Defined in: [packages/web-api/src/methods.ts:615](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/methods.ts#L615)
+Defined in: [packages/web-api/src/methods.ts:621](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/methods.ts#L621)
 
 A class that defines all Web API methods, their arguments type, their response type, and binds those methods to the
 `apiCall` class method.
@@ -23,7 +23,7 @@ A class that defines all Web API methods, their arguments type, their response t
 readonly admin: object;
 ```
 
-Defined in: [packages/web-api/src/methods.ts:628](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/methods.ts#L628)
+Defined in: [packages/web-api/src/methods.ts:634](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/methods.ts#L634)
 
 #### analytics
 
@@ -1572,7 +1572,7 @@ Unpublish workflows within the team or enterprise.
 readonly agents: object;
 ```
 
-Defined in: [packages/web-api/src/methods.ts:1401](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/methods.ts#L1401)
+Defined in: [packages/web-api/src/methods.ts:1407](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/methods.ts#L1407)
 
 #### conversations
 
@@ -1748,7 +1748,7 @@ Set an agent session's lifecycle status, creating the session if needed.
 readonly api: object;
 ```
 
-Defined in: [packages/web-api/src/methods.ts:1493](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/methods.ts#L1493)
+Defined in: [packages/web-api/src/methods.ts:1499](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/methods.ts#L1499)
 
 #### test
 
@@ -1772,7 +1772,7 @@ Checks API calling code.
 readonly apps: object;
 ```
 
-Defined in: [packages/web-api/src/methods.ts:1530](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/methods.ts#L1530)
+Defined in: [packages/web-api/src/methods.ts:1536](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/methods.ts#L1536)
 
 #### connections
 
@@ -1924,6 +1924,34 @@ user: object;
 connection: object;
 ```
 
+##### user.connection.bulkUpdate
+
+```ts
+bulkUpdate: MethodWithRequiredArgument<AppsUserConnectionBulkUpdateArguments, AppsUserConnectionBulkUpdateResponse>;
+```
+
+###### Description
+
+Updates the connection status between an app and many users in one call, for backfilling an existing user base.
+
+###### See
+
+[\`apps.user.connection.bulkUpdate\` API reference](https://docs.slack.dev/reference/methods/apps.user.connection.bulkUpdate).
+
+##### user.connection.requestAuth
+
+```ts
+requestAuth: MethodWithRequiredArgument<AppsUserConnectionRequestAuthArguments, AppsUserConnectionRequestAuthResponse>;
+```
+
+###### Description
+
+Opens or updates a standardized authentication modal for the calling app.
+
+###### See
+
+[\`apps.user.connection.requestAuth\` API reference](https://docs.slack.dev/reference/methods/apps.user.connection.requestAuth).
+
 ##### user.connection.update
 
 ```ts
@@ -1946,7 +1974,7 @@ Updates the connection status between a user and an app.
 readonly assistant: object;
 ```
 
-Defined in: [packages/web-api/src/methods.ts:1501](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/methods.ts#L1501)
+Defined in: [packages/web-api/src/methods.ts:1507](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/methods.ts#L1507)
 
 #### threads
 
@@ -2004,7 +2032,7 @@ Set the title of the thread. This is shown when a user views the app's chat hist
 readonly auth: object;
 ```
 
-Defined in: [packages/web-api/src/methods.ts:1604](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/methods.ts#L1604)
+Defined in: [packages/web-api/src/methods.ts:1626](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/methods.ts#L1626)
 
 #### revoke
 
@@ -2054,7 +2082,7 @@ test: Method<AuthTestArguments, AuthTestResponse>;
 readonly blocks: object;
 ```
 
-Defined in: [packages/web-api/src/methods.ts:1643](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/methods.ts#L1643)
+Defined in: [packages/web-api/src/methods.ts:1665](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/methods.ts#L1665)
 
 #### validate
 
@@ -2078,7 +2106,7 @@ Validates blocks, messages, and views Block Kit JSON payloads.
 readonly bookmarks: object;
 ```
 
-Defined in: [packages/web-api/src/methods.ts:1620](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/methods.ts#L1620)
+Defined in: [packages/web-api/src/methods.ts:1642](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/methods.ts#L1642)
 
 #### add
 
@@ -2144,7 +2172,7 @@ Remove bookmark from a channel.
 readonly bots: object;
 ```
 
-Defined in: [packages/web-api/src/methods.ts:1651](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/methods.ts#L1651)
+Defined in: [packages/web-api/src/methods.ts:1673](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/methods.ts#L1673)
 
 #### info
 
@@ -2168,7 +2196,7 @@ Gets information about a bot user.
 readonly calls: object;
 ```
 
-Defined in: [packages/web-api/src/methods.ts:1659](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/methods.ts#L1659)
+Defined in: [packages/web-api/src/methods.ts:1681](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/methods.ts#L1681)
 
 #### add
 
@@ -2260,7 +2288,7 @@ Updates information about a Call.
 readonly canvases: object;
 ```
 
-Defined in: [packages/web-api/src/methods.ts:1693](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/methods.ts#L1693)
+Defined in: [packages/web-api/src/methods.ts:1715](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/methods.ts#L1715)
 
 #### access
 
@@ -2338,6 +2366,20 @@ Update an existing canvas.
 
 [\`canvases.edit\` API reference](https://docs.slack.dev/reference/methods/canvases.edit).
 
+#### getContent
+
+```ts
+getContent: MethodWithRequiredArgument<CanvasesGetContentArguments, CanvasesGetContentResponse>;
+```
+
+##### Description
+
+Get the content of a canvas as markdown (default) or HTML.
+
+##### See
+
+[\`canvases.getContent\` API reference](https://docs.slack.dev/reference/methods/canvases.getContent).
+
 #### sections
 
 ```ts
@@ -2366,7 +2408,7 @@ Find sections matching the provided criteria.
 readonly chat: object;
 ```
 
-Defined in: [packages/web-api/src/methods.ts:1733](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/methods.ts#L1733)
+Defined in: [packages/web-api/src/methods.ts:1760](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/methods.ts#L1760)
 
 #### appendStream
 
@@ -2564,7 +2606,7 @@ Updates a message.
 readonly conversations: object;
 ```
 
-Defined in: [packages/web-api/src/methods.ts:1812](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/methods.ts#L1812)
+Defined in: [packages/web-api/src/methods.ts:1839](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/methods.ts#L1839)
 
 #### acceptSharedInvite
 
@@ -2986,7 +3028,7 @@ Reverses conversation archival.
 readonly dialog: object;
 ```
 
-Defined in: [packages/web-api/src/methods.ts:2005](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/methods.ts#L2005)
+Defined in: [packages/web-api/src/methods.ts:2032](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/methods.ts#L2032)
 
 #### open
 
@@ -3010,7 +3052,7 @@ Open a dialog with a user.
 readonly dnd: object;
 ```
 
-Defined in: [packages/web-api/src/methods.ts:2013](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/methods.ts#L2013)
+Defined in: [packages/web-api/src/methods.ts:2040](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/methods.ts#L2040)
 
 #### endDnd
 
@@ -3090,7 +3132,7 @@ Retrieves the Do Not Disturb status for up to 50 users on a team.
 readonly emoji: object;
 ```
 
-Defined in: [packages/web-api/src/methods.ts:2041](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/methods.ts#L2041)
+Defined in: [packages/web-api/src/methods.ts:2068](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/methods.ts#L2068)
 
 #### list
 
@@ -3114,7 +3156,7 @@ Lists custom emoji for a team.
 readonly entity: object;
 ```
 
-Defined in: [packages/web-api/src/methods.ts:2049](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/methods.ts#L2049)
+Defined in: [packages/web-api/src/methods.ts:2076](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/methods.ts#L2076)
 
 #### presentDetails
 
@@ -3138,7 +3180,7 @@ Provide information about the entity to be displayed in the flexpane.
 readonly files: object;
 ```
 
-Defined in: [packages/web-api/src/methods.ts:2060](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/methods.ts#L2060)
+Defined in: [packages/web-api/src/methods.ts:2087](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/methods.ts#L2087)
 
 #### comments
 
@@ -3360,7 +3402,7 @@ Custom method to support a new way of uploading files to Slack.
 Supports a single file upload
 Supply:
 - (required) single file or content
-- (optional) channel, alt_text, snippet_type,
+- (optional) channel, alt_txt, snippet_type,
 Supports multiple file uploads
 Supply:
 - multiple upload_files
@@ -3379,7 +3421,7 @@ as multiple file uploads property.
 readonly functions: object;
 ```
 
-Defined in: [packages/web-api/src/methods.ts:2163](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/methods.ts#L2163)
+Defined in: [packages/web-api/src/methods.ts:2190](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/methods.ts#L2190)
 
 #### completeError
 
@@ -3417,7 +3459,7 @@ Signal the successful completion of a Custom Function.
 readonly migration: object;
 ```
 
-Defined in: [packages/web-api/src/methods.ts:2182](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/methods.ts#L2182)
+Defined in: [packages/web-api/src/methods.ts:2209](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/methods.ts#L2209)
 
 #### exchange
 
@@ -3441,7 +3483,7 @@ For Enterprise Grid workspaces, map local user IDs to global user IDs.
 readonly oauth: object;
 ```
 
-Defined in: [packages/web-api/src/methods.ts:2190](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/methods.ts#L2190)
+Defined in: [packages/web-api/src/methods.ts:2217](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/methods.ts#L2217)
 
 #### ~~access~~
 
@@ -3503,7 +3545,7 @@ Exchanges a legacy access token for a new expiring access token and refresh toke
 readonly openid: object;
 ```
 
-Defined in: [packages/web-api/src/methods.ts:2211](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/methods.ts#L2211)
+Defined in: [packages/web-api/src/methods.ts:2238](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/methods.ts#L2238)
 
 #### connect
 
@@ -3547,7 +3589,7 @@ Get the identity of a user who has authorized [Sign in with Slack](https://docs.
 readonly pins: object;
 ```
 
-Defined in: [packages/web-api/src/methods.ts:2229](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/methods.ts#L2229)
+Defined in: [packages/web-api/src/methods.ts:2256](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/methods.ts#L2256)
 
 #### add
 
@@ -3599,7 +3641,7 @@ Un-pins an item from a channel.
 readonly reactions: object;
 ```
 
-Defined in: [packages/web-api/src/methods.ts:2247](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/methods.ts#L2247)
+Defined in: [packages/web-api/src/methods.ts:2274](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/methods.ts#L2274)
 
 #### add
 
@@ -3665,7 +3707,7 @@ Removes a reaction from an item.
 readonly reminders: object;
 ```
 
-Defined in: [packages/web-api/src/methods.ts:2272](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/methods.ts#L2272)
+Defined in: [packages/web-api/src/methods.ts:2299](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/methods.ts#L2299)
 
 #### add
 
@@ -3745,7 +3787,7 @@ Lists all reminders created by or for a given user.
 readonly rtm: object;
 ```
 
-Defined in: [packages/web-api/src/methods.ts:2300](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/methods.ts#L2300)
+Defined in: [packages/web-api/src/methods.ts:2327](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/methods.ts#L2327)
 
 #### connect
 
@@ -3769,7 +3811,7 @@ Starts a Real Time Messaging session.
 readonly search: object;
 ```
 
-Defined in: [packages/web-api/src/methods.ts:2308](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/methods.ts#L2308)
+Defined in: [packages/web-api/src/methods.ts:2335](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/methods.ts#L2335)
 
 #### all
 
@@ -3821,7 +3863,7 @@ Searches for messages matching a query.
 readonly slackLists: object;
 ```
 
-Defined in: [packages/web-api/src/methods.ts:2326](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/methods.ts#L2326)
+Defined in: [packages/web-api/src/methods.ts:2353](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/methods.ts#L2353)
 
 #### access
 
@@ -4017,7 +4059,7 @@ Update a list.
 readonly stars: object;
 ```
 
-Defined in: [packages/web-api/src/methods.ts:2636](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/methods.ts#L2636)
+Defined in: [packages/web-api/src/methods.ts:2663](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/methods.ts#L2663)
 
 #### ~~add~~
 
@@ -4084,7 +4126,7 @@ See [our post on stars and the Later list](https://docs.slack.dev/changelog/2023
 readonly team: object;
 ```
 
-Defined in: [packages/web-api/src/methods.ts:2413](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/methods.ts#L2413)
+Defined in: [packages/web-api/src/methods.ts:2440](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/methods.ts#L2440)
 
 #### accessLogs
 
@@ -4244,7 +4286,7 @@ Retrieve a team's profile.
 readonly tooling: object;
 ```
 
-Defined in: [packages/web-api/src/methods.ts:2484](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/methods.ts#L2484)
+Defined in: [packages/web-api/src/methods.ts:2511](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/methods.ts#L2511)
 
 #### tokens
 
@@ -4274,7 +4316,7 @@ Exchanges a refresh token for a new app configuration token.
 readonly usergroups: object;
 ```
 
-Defined in: [packages/web-api/src/methods.ts:2494](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/methods.ts#L2494)
+Defined in: [packages/web-api/src/methods.ts:2521](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/methods.ts#L2521)
 
 #### create
 
@@ -4388,7 +4430,7 @@ Update the list of users in a User Group.
 readonly users: object;
 ```
 
-Defined in: [packages/web-api/src/methods.ts:2537](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/methods.ts#L2537)
+Defined in: [packages/web-api/src/methods.ts:2564](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/methods.ts#L2564)
 
 #### conversations
 
@@ -4578,7 +4620,7 @@ Manually sets user presence.
 readonly views: object;
 ```
 
-Defined in: [packages/web-api/src/methods.ts:2607](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/methods.ts#L2607)
+Defined in: [packages/web-api/src/methods.ts:2634](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/methods.ts#L2634)
 
 #### open
 
@@ -4644,7 +4686,7 @@ Update an existing view.
 readonly workflows: object;
 ```
 
-Defined in: [packages/web-api/src/methods.ts:2660](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/methods.ts#L2660)
+Defined in: [packages/web-api/src/methods.ts:2687](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/methods.ts#L2687)
 
 #### featured
 
@@ -4776,7 +4818,7 @@ EventEmitter.addListener
 abstract apiCall(method, options?): Promise<WebAPICallResult>;
 ```
 
-Defined in: [packages/web-api/src/methods.ts:625](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/methods.ts#L625)
+Defined in: [packages/web-api/src/methods.ts:631](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/methods.ts#L631)
 
 #### Parameters
 
@@ -4861,7 +4903,7 @@ EventEmitter.eventNames
 abstract filesUploadV2(options): Promise<WebAPICallResult>;
 ```
 
-Defined in: [packages/web-api/src/methods.ts:626](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/methods.ts#L626)
+Defined in: [packages/web-api/src/methods.ts:632](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/methods.ts#L632)
 
 #### Parameters
 

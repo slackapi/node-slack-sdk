@@ -2,7 +2,7 @@
 
 # Interface: MultiStaticSelect
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:322
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:336
 
 ## Description
 
@@ -83,7 +83,7 @@ Defaults to `false`.
 optional initial_options?: PlainTextOption[];
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:331
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:345
 
 #### Description
 
@@ -116,7 +116,7 @@ Specifies the maximum number of items that can be selected. Minimum number is 1.
 optional option_groups?: object[];
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:341
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:355
 
 #### label
 
@@ -143,7 +143,7 @@ this field should not be.
 optional options?: PlainTextOption[];
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:336
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:350
 
 #### Description
 
@@ -177,7 +177,7 @@ length for the `text` field in this object is 150 characters.
 type: "multi_static_select";
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:326
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:340
 
 #### Description
 

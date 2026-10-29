@@ -2,7 +2,7 @@
 
 # Interface: ConversationsSelect
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:352
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:366
 
 ## Description
 
@@ -63,7 +63,7 @@ with.
 optional default_to_current_conversation?: boolean;
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:366
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:380
 
 #### Description
 
@@ -78,7 +78,7 @@ modal, if available. Default is `false`.
 optional filter?: object;
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:370
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:384
 
 #### exclude\_bot\_users?
 
@@ -130,7 +130,7 @@ Defaults to `false`.
 optional initial_conversation?: string;
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:361
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:375
 
 #### Description
 
@@ -185,7 +185,7 @@ for the message will be determined by the value of this select menu.
 type: "conversations_select";
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:356
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:370
 
 #### Description
 

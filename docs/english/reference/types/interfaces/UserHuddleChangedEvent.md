@@ -2,7 +2,7 @@
 
 # Interface: UserHuddleChangedEvent
 
-Defined in: [events/user.ts:85](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/user.ts#L85)
+Defined in: [events/user.ts:109](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/user.ts#L109)
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: [events/user.ts:85](https://github.com/slackapi/node-slack-sdk/blob/
 cache_ts: number;
 ```
 
-Defined in: [events/user.ts:164](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/user.ts#L164)
+Defined in: [events/user.ts:188](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/user.ts#L188)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [events/user.ts:164](https://github.com/slackapi/node-slack-sdk/blob
 event_ts: string;
 ```
 
-Defined in: [events/user.ts:165](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/user.ts#L165)
+Defined in: [events/user.ts:189](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/user.ts#L189)
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: [events/user.ts:165](https://github.com/slackapi/node-slack-sdk/blob
 type: "user_huddle_changed";
 ```
 
-Defined in: [events/user.ts:86](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/user.ts#L86)
+Defined in: [events/user.ts:110](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/user.ts#L110)
 
 ***
 
@@ -42,7 +42,7 @@ Defined in: [events/user.ts:86](https://github.com/slackapi/node-slack-sdk/blob/
 user: object;
 ```
 
-Defined in: [events/user.ts:87](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/user.ts#L87)
+Defined in: [events/user.ts:111](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/user.ts#L111)
 
 #### color
 

@@ -2,7 +2,7 @@
 
 # Interface: MultiChannelsSelect
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:428
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:442
 
 ## Description
 
@@ -83,7 +83,7 @@ Defaults to `false`.
 optional initial_channels?: string[];
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:436
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:450
 
 #### Description
 
@@ -134,7 +134,7 @@ length for the `text` field in this object is 150 characters.
 type: "multi_channels_select";
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:432
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:446
 
 #### Description
 

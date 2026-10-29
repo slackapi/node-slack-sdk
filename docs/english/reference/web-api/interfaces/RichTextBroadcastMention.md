@@ -2,7 +2,7 @@
 
 # Interface: RichTextBroadcastMention
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:699
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:713
 
 ## Description
 
@@ -20,7 +20,7 @@ A broadcast mention element for use in a rich text message.
 range: "channel" | "here" | "everyone";
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:707
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:721
 
 #### Description
 
@@ -102,7 +102,7 @@ A limited style object for styling rich text `text` elements.
 type: "broadcast";
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:703
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:717
 
 #### Description
 
