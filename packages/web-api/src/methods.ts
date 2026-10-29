@@ -121,6 +121,8 @@ import type {
   AppsUserConnectionBulkUpdateArguments,
   AppsUserConnectionRequestAuthArguments,
   AppsUserConnectionUpdateArguments,
+  AssistantSearchContextArguments,
+  AssistantSearchInfoArguments,
   AssistantThreadsSetStatusArguments,
   AssistantThreadsSetSuggestedPromptsArguments,
   AssistantThreadsSetTitleArguments,
@@ -406,6 +408,8 @@ import type {
   AppsUserConnectionBulkUpdateResponse,
   AppsUserConnectionRequestAuthResponse,
   AppsUserConnectionUpdateResponse,
+  AssistantSearchContextResponse,
+  AssistantSearchInfoResponse,
   AssistantThreadsSetStatusResponse,
   AssistantThreadsSetSuggestedPromptsResponse,
   AssistantThreadsSetTitleResponse,
@@ -1505,6 +1509,24 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
   };
 
   public readonly assistant = {
+    search: {
+      /**
+       * @description Searches messages, files, channels and users across your Slack organization.
+       * @see {@link https://docs.slack.dev/reference/methods/assistant.search.context `assistant.search.context` API reference}.
+       */
+      context: bindApiCall<AssistantSearchContextArguments, AssistantSearchContextResponse>(
+        this,
+        'assistant.search.context',
+      ),
+      /**
+       * @description Returns search capabilities on a given team.
+       * @see {@link https://docs.slack.dev/reference/methods/assistant.search.info `assistant.search.info` API reference}.
+       */
+      info: bindApiCallWithOptionalArgument<AssistantSearchInfoArguments, AssistantSearchInfoResponse>(
+        this,
+        'assistant.search.info',
+      ),
+    },
     threads: {
       /**
        * @description Set loading status to indicate that the app is building a response.

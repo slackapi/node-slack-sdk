@@ -1,4 +1,52 @@
-import type { TokenOverridable } from './common';
+import type { OptionalArgument } from '../helpers';
+import type { CursorPaginationEnabled, SortDir, TokenOverridable } from './common';
+
+type AssistantSearchChannelType = 'public_channel' | 'private_channel' | 'mpim' | 'im';
+type AssistantSearchContentType = 'messages' | 'files' | 'channels' | 'users';
+type AssistantSearchSort = 'score' | 'timestamp';
+
+// https://docs.slack.dev/reference/methods/assistant.search.context
+export interface AssistantSearchContextArguments extends TokenOverridable, CursorPaginationEnabled, SortDir {
+  /** @description User prompt or search query. */
+  query: string;
+  /** @description Send `action_token` as received in a message event. */
+  action_token?: string;
+  /** @description UNIX timestamp filter. If present, filters for results after this date. */
+  after?: number;
+  /** @description UNIX timestamp filter. If present, filters for results before this date. */
+  before?: number;
+  /** @description Mix and match channel types to search. */
+  channel_types?: AssistantSearchChannelType[];
+  /** @description Content types to include in search results. */
+  content_types?: AssistantSearchContentType[];
+  /** @description Context channel ID to support scoping the search when applicable. */
+  context_channel_id?: string;
+  /** @description Whether to disable semantic search. When true, only keyword-based search is used. */
+  disable_semantic_search?: boolean;
+  /** @description Whether to highlight the search query in the results. */
+  highlight?: boolean;
+  /** @description Whether the results should include archived channels. */
+  include_archived_channels?: boolean;
+  /** @description Whether the results should include bots. */
+  include_bots?: boolean;
+  /** @description Whether to include context messages surrounding the main message result. */
+  include_context_messages?: boolean;
+  /** @description Whether to include deleted users in user search results. */
+  include_deleted_users?: boolean;
+  /** @description Whether to return message blocks in the response. */
+  include_message_blocks?: boolean;
+  /** @description A list of keyword clauses used to match search results. */
+  keywords_clauses?: string[][];
+  /** @description A string containing only modifiers in the format of `modifier:value`. */
+  modifiers?: string;
+  /** @description The field to sort the results by. Defaults to `score`. */
+  sort?: AssistantSearchSort;
+  /** @description A list of term clauses. Search results returned will match every term clause specified. */
+  term_clauses?: string[];
+}
+
+// https://docs.slack.dev/reference/methods/assistant.search.info
+export type AssistantSearchInfoArguments = OptionalArgument<TokenOverridable>;
 
 // https://docs.slack.dev/reference/methods/assistant.threads.setStatus
 export interface AssistantThreadsSetStatusArguments extends TokenOverridable {
