@@ -49,15 +49,12 @@ describe('Login with the CLI', () => {
     const loginChallengeResult = await SlackCLI.loginNoPrompt();
 
     // Submit auth ticket in Slack UI
-    const challenge = await submitCLIAuthTicket(
-      loginUrlToMyWorkspace,
-      loginChallengeResult.authTicketSlashCommand
-    );
+    const challenge = await submitCLIAuthTicket(loginUrlToMyWorkspace, loginChallengeResult.authTicketSlashCommand);
 
     // login with challenge and auth ticket
     const loginChallengeExchangeResult = await SlackCLI.loginChallengeExchange(
       challenge,
-      loginChallengeResult.authTicket
+      loginChallengeResult.authTicket,
     );
   });
 });
