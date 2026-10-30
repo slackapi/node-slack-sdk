@@ -186,6 +186,10 @@ updates:
           - "@types/mocha"
           - "mocha"
     ignore:
+      # nock 15 requires Node.js 22.20 or later. Pick it back up when Node.js 20 support is dropped (see #2805).
+      - dependency-name: "nock"
+        versions:
+          - "15.x"
       # Avoid pure ESM p-queue (v7+) / p-retry (v5+) to prevent CJS require() breakage on Node >= 20 (see #2711).
       - dependency-name: "p-queue"
       - dependency-name: "p-retry"
@@ -218,6 +222,10 @@ updates:
           - "@types/mocha"
           - "mocha"
     ignore:
+      # nock 15 requires Node.js 22.20 or later. Pick it back up when Node.js 20 support is dropped (see #2805).
+      - dependency-name: "nock"
+        versions:
+          - "15.x"
       # Avoid pure ESM p-retry (v5+) to prevent CJS require() breakage on Node >= 20 (see #2711).
       - dependency-name: "p-retry"
       - dependency-name: "@types/node"
@@ -265,6 +273,10 @@ updates:
   - package-ecosystem: "npm"
     directory: "/"
     ignore:
+      # nock 15 requires Node.js 22.20 or later. Pick it back up when Node.js 20 support is dropped (see #2805).
+      - dependency-name: "nock"
+        versions:
+          - "15.x"
       - dependency-name: "@types/node"
         versions:
           - "21.x"
