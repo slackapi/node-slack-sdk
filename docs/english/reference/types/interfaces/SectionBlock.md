@@ -2,7 +2,7 @@
 
 # Interface: SectionBlock
 
-Defined in: [block-kit/blocks.ts:514](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L514)
+Defined in: [block-kit/blocks.ts:580](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L580)
 
 ## Description
 
@@ -26,7 +26,7 @@ combination with text fields, or side-by-side with certain
 optional accessory?: SectionBlockAccessory;
 ```
 
-Defined in: [block-kit/blocks.ts:535](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L535)
+Defined in: [block-kit/blocks.ts:601](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L601)
 
 #### Description
 
@@ -62,7 +62,7 @@ a message. If a message is updated, use a new `block_id`.
 optional expand?: boolean;
 ```
 
-Defined in: [block-kit/blocks.ts:539](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L539)
+Defined in: [block-kit/blocks.ts:605](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L605)
 
 Whether or not this section block's text should always expand when rendered. If false or not provided, it may be rendered with a 'see more' option to expand and show the full text. For AI Assistant apps, this allows the app to post long messages without users needing to click 'see more' to expand the message.
 
@@ -74,7 +74,7 @@ Whether or not this section block's text should always expand when rendered. If 
 optional fields?: TextObject[];
 ```
 
-Defined in: [block-kit/blocks.ts:531](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L531)
+Defined in: [block-kit/blocks.ts:597](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L597)
 
 #### Description
 
@@ -91,7 +91,7 @@ Maximum length for the text in each item is 2000 characters.
 optional text?: TextObject;
 ```
 
-Defined in: [block-kit/blocks.ts:524](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L524)
+Defined in: [block-kit/blocks.ts:590](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L590)
 
 #### Description
 
@@ -107,7 +107,7 @@ is provided instead.
 type: "section";
 ```
 
-Defined in: [block-kit/blocks.ts:518](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L518)
+Defined in: [block-kit/blocks.ts:584](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L584)
 
 #### Description
 

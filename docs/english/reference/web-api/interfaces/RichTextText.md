@@ -2,7 +2,7 @@
 
 # Interface: RichTextText
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:838
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:852
 
 ## Description
 
@@ -88,7 +88,7 @@ A limited style object for styling rich text `text` elements.
 text: string;
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:846
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:860
 
 #### Description
 
@@ -102,7 +102,7 @@ The text to render.
 type: "text";
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:842
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:856
 
 #### Description
 

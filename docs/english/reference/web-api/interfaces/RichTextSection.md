@@ -2,7 +2,7 @@
 
 # Interface: RichTextSection
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:881
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:895
 
 ## Description
 
@@ -16,7 +16,7 @@ A section block within a rich text field.
 elements: RichTextElement[];
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:886
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:900
 
 ***
 
@@ -26,7 +26,7 @@ Defined in: packages/types/dist/block-kit/block-elements.d.ts:886
 type: "rich_text_section";
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:885
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:899
 
 #### Description
 

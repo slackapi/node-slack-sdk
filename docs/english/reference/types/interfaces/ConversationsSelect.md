@@ -2,7 +2,7 @@
 
 # Interface: ConversationsSelect
 
-Defined in: [block-kit/block-elements.ts:409](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L409)
+Defined in: [block-kit/block-elements.ts:423](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L423)
 
 ## Description
 
@@ -63,7 +63,7 @@ with.
 optional default_to_current_conversation?: boolean;
 ```
 
-Defined in: [block-kit/block-elements.ts:423](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L423)
+Defined in: [block-kit/block-elements.ts:437](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L437)
 
 #### Description
 
@@ -78,7 +78,7 @@ modal, if available. Default is `false`.
 optional filter?: object;
 ```
 
-Defined in: [block-kit/block-elements.ts:427](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L427)
+Defined in: [block-kit/block-elements.ts:441](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L441)
 
 #### exclude\_bot\_users?
 
@@ -130,7 +130,7 @@ Defaults to `false`.
 optional initial_conversation?: string;
 ```
 
-Defined in: [block-kit/block-elements.ts:418](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L418)
+Defined in: [block-kit/block-elements.ts:432](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L432)
 
 #### Description
 
@@ -185,7 +185,7 @@ for the message will be determined by the value of this select menu.
 type: "conversations_select";
 ```
 
-Defined in: [block-kit/block-elements.ts:413](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L413)
+Defined in: [block-kit/block-elements.ts:427](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L427)
 
 #### Description
 

@@ -2,7 +2,7 @@
 
 # Interface: RadioButtons
 
-Defined in: [block-kit/block-elements.ts:648](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L648)
+Defined in: [block-kit/block-elements.ts:662](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L662)
 
 ## Description
 
@@ -82,7 +82,7 @@ Defaults to `false`.
 optional initial_option?: Option;
 ```
 
-Defined in: [block-kit/block-elements.ts:657](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L657)
+Defined in: [block-kit/block-elements.ts:671](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L671)
 
 #### Description
 
@@ -97,7 +97,7 @@ be selected when the radio button group initially loads.
 options: Option[];
 ```
 
-Defined in: [block-kit/block-elements.ts:661](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L661)
+Defined in: [block-kit/block-elements.ts:675](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L675)
 
 #### Description
 
@@ -111,7 +111,7 @@ An array of [Option](../type-aliases/Option.md) objects. A maximum of 10 options
 type: "radio_buttons";
 ```
 
-Defined in: [block-kit/block-elements.ts:652](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L652)
+Defined in: [block-kit/block-elements.ts:666](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L666)
 
 #### Description
 

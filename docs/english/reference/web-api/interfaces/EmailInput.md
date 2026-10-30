@@ -2,7 +2,7 @@
 
 # Interface: EmailInput
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:106
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:120
 
 ## Description
 
@@ -82,7 +82,7 @@ Defaults to `false`.
 optional initial_value?: string;
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:114
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:128
 
 #### Description
 
@@ -115,7 +115,7 @@ length for the `text` field in this object is 150 characters.
 type: "email_text_input";
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:110
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:124
 
 #### Description
 

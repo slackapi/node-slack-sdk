@@ -2,7 +2,7 @@
 
 # Interface: MultiConversationsSelect
 
-Defined in: [block-kit/block-elements.ts:443](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L443)
+Defined in: [block-kit/block-elements.ts:457](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L457)
 
 ## Description
 
@@ -63,7 +63,7 @@ with.
 optional default_to_current_conversation?: boolean;
 ```
 
-Defined in: [block-kit/block-elements.ts:463](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L463)
+Defined in: [block-kit/block-elements.ts:477](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L477)
 
 #### Description
 
@@ -78,7 +78,7 @@ modal, if available. Default is `false`.
 optional filter?: object;
 ```
 
-Defined in: [block-kit/block-elements.ts:467](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L467)
+Defined in: [block-kit/block-elements.ts:481](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L481)
 
 #### exclude\_bot\_users?
 
@@ -130,7 +130,7 @@ Defaults to `false`.
 optional initial_conversations?: string[];
 ```
 
-Defined in: [block-kit/block-elements.ts:458](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L458)
+Defined in: [block-kit/block-elements.ts:472](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L472)
 
 #### Description
 
@@ -182,7 +182,7 @@ length for the `text` field in this object is 150 characters.
 type: "multi_conversations_select";
 ```
 
-Defined in: [block-kit/block-elements.ts:452](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L452)
+Defined in: [block-kit/block-elements.ts:466](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L466)
 
 #### Description
 

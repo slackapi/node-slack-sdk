@@ -2,7 +2,7 @@
 
 # Interface: TableBlock
 
-Defined in: [block-kit/blocks.ts:546](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L546)
+Defined in: [block-kit/blocks.ts:612](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L612)
 
 ## Description
 
@@ -46,7 +46,7 @@ a message. If a message is updated, use a new `block_id`.
 optional column_settings?: TableBlockColumnSettings[];
 ```
 
-Defined in: [block-kit/blocks.ts:558](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L558)
+Defined in: [block-kit/blocks.ts:624](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L624)
 
 #### Description
 
@@ -63,7 +63,7 @@ rows: (
   | RawNumberElement)[][];
 ```
 
-Defined in: [block-kit/blocks.ts:554](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L554)
+Defined in: [block-kit/blocks.ts:620](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L620)
 
 #### Description
 
@@ -77,7 +77,7 @@ An array consisting of table rows. Maximum 100 rows. Each row object is an array
 type: "table";
 ```
 
-Defined in: [block-kit/blocks.ts:550](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L550)
+Defined in: [block-kit/blocks.ts:616](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L616)
 
 #### Description
 

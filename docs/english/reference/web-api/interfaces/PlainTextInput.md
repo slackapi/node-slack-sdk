@@ -2,7 +2,7 @@
 
 # Interface: PlainTextInput
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:534
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:548
 
 ## Description
 
@@ -82,7 +82,7 @@ Defaults to `false`.
 optional initial_value?: string;
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:542
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:556
 
 #### Description
 
@@ -96,7 +96,7 @@ The initial value in the plain-text input when it is loaded.
 optional max_length?: number;
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:557
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:571
 
 #### Description
 
@@ -111,7 +111,7 @@ they will receive an error.
 optional min_length?: number;
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:552
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:566
 
 #### Description
 
@@ -126,7 +126,7 @@ an error. Maximum value is 3000.
 optional multiline?: boolean;
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:547
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:561
 
 #### Description
 
@@ -160,7 +160,7 @@ length for the `text` field in this object is 150 characters.
 type: "plain_text_input";
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:538
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:552
 
 #### Description
 

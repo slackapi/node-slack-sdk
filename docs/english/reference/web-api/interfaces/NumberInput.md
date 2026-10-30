@@ -2,7 +2,7 @@
 
 # Interface: NumberInput
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:488
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:502
 
 ## Description
 
@@ -84,7 +84,7 @@ Defaults to `false`.
 optional initial_value?: string;
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:500
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:514
 
 #### Description
 
@@ -98,7 +98,7 @@ The initial value in the input when it is loaded.
 is_decimal_allowed: boolean;
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:496
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:510
 
 #### Description
 
@@ -112,7 +112,7 @@ Decimal numbers are allowed if this property is `true`, set the value to `false`
 optional max_value?: string;
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:508
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:522
 
 #### Description
 
@@ -126,7 +126,7 @@ The maximum value, cannot be less than `min_value`.
 optional min_value?: string;
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:504
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:518
 
 #### Description
 
@@ -159,7 +159,7 @@ length for the `text` field in this object is 150 characters.
 type: "number_input";
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:492
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:506
 
 #### Description
 

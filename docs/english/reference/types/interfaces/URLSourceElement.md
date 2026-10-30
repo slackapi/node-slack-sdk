@@ -2,7 +2,7 @@
 
 # Interface: URLSourceElement
 
-Defined in: [block-kit/block-elements.ts:710](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L710)
+Defined in: [block-kit/block-elements.ts:724](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L724)
 
 ## Description
 
@@ -20,7 +20,7 @@ A URL source element that displays a URL source for referencing within a task ca
 text: string;
 ```
 
-Defined in: [block-kit/block-elements.ts:724](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L724)
+Defined in: [block-kit/block-elements.ts:738](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L738)
 
 #### Description
 
@@ -34,7 +34,7 @@ Display text for the URL.
 type: "url";
 ```
 
-Defined in: [block-kit/block-elements.ts:714](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L714)
+Defined in: [block-kit/block-elements.ts:728](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L728)
 
 #### Description
 
@@ -48,7 +48,7 @@ The type of element. In this case `type` is always `url`.
 url: string;
 ```
 
-Defined in: [block-kit/block-elements.ts:719](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L719)
+Defined in: [block-kit/block-elements.ts:733](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L733)
 
 #### Description
 

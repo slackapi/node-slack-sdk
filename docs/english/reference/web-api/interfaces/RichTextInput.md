@@ -2,7 +2,7 @@
 
 # Interface: RichTextInput
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:943
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:957
 
 ## Description
 
@@ -83,7 +83,7 @@ Defaults to `false`.
 optional initial_value?: RichTextBlock;
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:951
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:965
 
 #### Description
 
@@ -97,7 +97,7 @@ Initial contents of the input when it is loaded.
 optional max_lines?: number;
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:960
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:974
 
 #### Description
 
@@ -112,7 +112,7 @@ Defaults to `8` when not specified.
 optional min_lines?: number;
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:955
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:969
 
 #### Description
 
@@ -145,7 +145,7 @@ length for the `text` field in this object is 150 characters.
 type: "rich_text_input";
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:947
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:961
 
 #### Description
 

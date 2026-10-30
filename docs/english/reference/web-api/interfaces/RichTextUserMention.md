@@ -2,7 +2,7 @@
 
 # Interface: RichTextUserMention
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:851
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:865
 
 ## Description
 
@@ -88,7 +88,7 @@ A limited style object for styling rich text `text` elements.
 type: "user";
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:855
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:869
 
 #### Description
 
@@ -102,7 +102,7 @@ The type of element. In this case `type` is always `user`.
 user_id: string;
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:859
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:873
 
 #### Description
 

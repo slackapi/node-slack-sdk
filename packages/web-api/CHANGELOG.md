@@ -1,5 +1,24 @@
 # @slack/web-api
 
+## 8.3.0
+
+### Minor Changes
+
+- 604135c: feat: add support for apps.user.connection.requestAuth and apps.user.connection.bulkUpdate
+- bf3ca27: feat(web-api): add [`canvases.getContent`](https://docs.slack.dev/reference/methods/canvases.getContent) method
+- 4483395: feat: add the `code_channels` app manifest feature and the `code_channels:manage` bot scope to manifest types
+- 651c298: feat: add the `user_connections` feature (`is_enabled`, `auth_hosts`) and the `user_connection` and `user_connection_status_requested` events to the app manifest types
+- 9c6893e: Add the optional `include_slackbot_availability` argument and `team.slackbot_availability` response field to `team.info`.
+
+### Patch Changes
+
+- 28bd9f9: fix: image alt text passed to `files.uploadV2` is now saved. Before, it was sent as `alt_text`, which Slack ignores. Add `alt_txt` to `files.uploadV2` and `files.getUploadURLExternal` arguments, and deprecate `alt_text` in both. A deprecated `alt_text` passed to `files.uploadV2` is still sent as `alt_txt` ([#2788](https://github.com/slackapi/node-slack-sdk/issues/2788))
+- Updated dependencies [1fabb45]
+- Updated dependencies [6f6fbd1]
+- Updated dependencies [e02e7fe]
+- Updated dependencies [7c310ea]
+  - @slack/types@3.3.0
+
 ## 8.2.0
 
 ### Minor Changes

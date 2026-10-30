@@ -2,7 +2,7 @@
 
 # Interface: FilesInfoArguments
 
-Defined in: [packages/web-api/src/types/request/files.ts:103](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/files.ts#L103)
+Defined in: [packages/web-api/src/types/request/files.ts:105](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/files.ts#L105)
 
 ## Extends
 

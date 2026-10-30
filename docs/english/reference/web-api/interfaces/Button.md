@@ -52,6 +52,36 @@ among all other `action_id`s in the containing block. Maximum length for this fi
 
 ***
 
+### agent\_prompt?
+
+```ts
+optional agent_prompt?: string;
+```
+
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:48
+
+#### Description
+
+A prompt sent to Slackbot when the button is clicked, if Slackbot AI is available to the user.
+Maximum length for this field is 4000 characters.
+
+***
+
+### agent\_prompt\_display?
+
+```ts
+optional agent_prompt_display?: string;
+```
+
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:53
+
+#### Description
+
+Short text shown instead of the full `agent_prompt` in the user's Slackbot message. Requires
+`agent_prompt` and defaults to the button's `text`.
+
+***
+
 ### confirm?
 
 ```ts
@@ -151,3 +181,17 @@ Defined in: packages/types/dist/block-kit/block-elements.d.ts:23
 
 The value to send along with the [interaction payload](https://docs.slack.dev/interactivity/handling-user-interaction#payloads).
 Maximum length for this field is 2000 characters.
+
+***
+
+### visible\_to\_user\_ids?
+
+```ts
+optional visible_to_user_ids?: string[];
+```
+
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:57
+
+#### Description
+
+An array of user IDs for which the button appears. If not provided, the button is visible to all users.

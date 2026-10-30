@@ -2,7 +2,7 @@
 
 # Interface: DateTimepicker
 
-Defined in: [block-kit/block-elements.ts:112](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L112)
+Defined in: [block-kit/block-elements.ts:126](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L126)
 
 ## Description
 
@@ -85,7 +85,7 @@ Defaults to `false`.
 optional initial_date_time?: number;
 ```
 
-Defined in: [block-kit/block-elements.ts:122](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L122)
+Defined in: [block-kit/block-elements.ts:136](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L136)
 
 #### Description
 
@@ -101,7 +101,7 @@ time August 10th, 2021 at 03:17pm PST.
 type: "datetimepicker";
 ```
 
-Defined in: [block-kit/block-elements.ts:116](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L116)
+Defined in: [block-kit/block-elements.ts:130](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L130)
 
 #### Description
 

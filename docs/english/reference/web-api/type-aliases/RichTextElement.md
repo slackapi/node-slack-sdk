@@ -16,7 +16,7 @@ type RichTextElement =
   | RichTextUsergroupMention;
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:877
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:891
 
 ## Description
 

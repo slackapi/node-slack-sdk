@@ -2,7 +2,7 @@
 
 # Interface: UsersSelect
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:260
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:274
 
 ## Description
 
@@ -83,7 +83,7 @@ Defaults to `false`.
 optional initial_user?: string;
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:268
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:282
 
 #### Description
 
@@ -116,7 +116,7 @@ length for the `text` field in this object is 150 characters.
 type: "users_select";
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:264
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:278
 
 #### Description
 

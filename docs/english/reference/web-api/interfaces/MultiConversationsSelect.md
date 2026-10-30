@@ -2,7 +2,7 @@
 
 # Interface: MultiConversationsSelect
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:382
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:396
 
 ## Description
 
@@ -63,7 +63,7 @@ with.
 optional default_to_current_conversation?: boolean;
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:396
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:410
 
 #### Description
 
@@ -78,7 +78,7 @@ modal, if available. Default is `false`.
 optional filter?: object;
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:400
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:414
 
 #### exclude\_bot\_users?
 
@@ -130,7 +130,7 @@ Defaults to `false`.
 optional initial_conversations?: string[];
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:391
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:405
 
 #### Description
 
@@ -182,7 +182,7 @@ length for the `text` field in this object is 150 characters.
 type: "multi_conversations_select";
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:386
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:400
 
 #### Description
 

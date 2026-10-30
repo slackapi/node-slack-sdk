@@ -8,4 +8,4 @@ type FilesUploadV2Arguments = TokenOverridable &
   | Omit<FileUploadV2, "file" | "content"> & FilesUploadV2ArgumentsMultipleFiles;
 ```
 
-Defined in: [packages/web-api/src/types/request/files.ts:190](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/files.ts#L190)
+Defined in: [packages/web-api/src/types/request/files.ts:194](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/files.ts#L194)

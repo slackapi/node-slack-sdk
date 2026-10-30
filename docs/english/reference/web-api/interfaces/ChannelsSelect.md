@@ -2,7 +2,7 @@
 
 # Interface: ChannelsSelect
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:412
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:426
 
 ## Description
 
@@ -83,7 +83,7 @@ Defaults to `false`.
 optional initial_channel?: string;
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:420
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:434
 
 #### Description
 
@@ -137,7 +137,7 @@ for the message will be determined by the value of this select menu.
 type: "channels_select";
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:416
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:430
 
 #### Description
 
