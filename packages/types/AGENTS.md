@@ -58,12 +58,12 @@ src/
 
 Block Kit types live in `src/block-kit/` across four files:
 
-| File | Contents |
-|------|----------|
-| `blocks.ts` | Layout blocks (`SectionBlock`, `ActionsBlock`, `HeaderBlock`, etc.) |
-| `block-elements.ts` | Interactive elements (`Button`, `Datepicker`, `StaticSelect`, etc.) |
-| `composition-objects.ts` | Reusable objects (`PlainTextElement`, `MrkdwnElement`, `Option`, `ConfirmationDialog`, etc.) |
-| `extensions.ts` | Mixins for shared behaviors (`Actionable`, `Confirmable`, `Focusable`, `Placeholdable`, etc.) |
+| File                     | Contents                                                                                      |
+| ------------------------ | --------------------------------------------------------------------------------------------- |
+| `blocks.ts`              | Layout blocks (`SectionBlock`, `ActionsBlock`, `HeaderBlock`, etc.)                           |
+| `block-elements.ts`      | Interactive elements (`Button`, `Datepicker`, `StaticSelect`, etc.)                           |
+| `composition-objects.ts` | Reusable objects (`PlainTextElement`, `MrkdwnElement`, `Option`, `ConfirmationDialog`, etc.)  |
+| `extensions.ts`          | Mixins for shared behaviors (`Actionable`, `Confirmable`, `Focusable`, `Placeholdable`, etc.) |
 
 #### Steps
 
