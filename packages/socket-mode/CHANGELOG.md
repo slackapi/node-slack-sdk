@@ -5,7 +5,7 @@
 ### Minor Changes
 
 - 334e6a6: Support `undici@^8` as a peer dependency in addition to `undici@^7`. `undici@^8` requires Node.js >=22.19; `undici@^7` continues to support Node.js >=20.
-  
+
   The default dispatcher now pins the WebSocket connection to HTTP/1.1, since `undici@^8` offers HTTP/2 by default. To do the same with a custom `ProxyAgent` dispatcher, pass `requestTls: { allowH2: false }`.
 
 ### Patch Changes
@@ -19,7 +19,6 @@
 ### Patch Changes
 
 - 5c2362c: Fix leaked TCP sockets on disconnect ([#2709](https://github.com/slackapi/node-slack-sdk/issues/2709)). Moving from `ws` to undici's `WebSocket` in 3.0.0 dropped every force-close mechanism, so `ESTABLISHED` sockets were never torn down and accumulated toward Slack's per-app connection cap.
-  
   - `disconnect()` now arms a 30s close-handshake timeout, so a peer that never replies to the close frame no longer leaves the socket stuck in `CLOSING` indefinitely.
   - On the default dispatcher path, the underlying TCP socket is now captured and force-destroyed during cleanup. A user-supplied `dispatcher` owns its own socket and instead relies on the close-handshake timeout — this limitation is documented on the `dispatcher` option.
   - The `close` handler no longer schedules a reconnect on stale or overlapping close events, so at most one reconnect is scheduled per disconnect.
@@ -34,7 +33,6 @@
   **Migration:** Replace `if (error.code === ErrorCode.WebsocketError)` with `if (error instanceof SMWebsocketError)`.
 
   **New error classes** (all extend a common `SlackSocketModeError` abstract base class, which extends `Error`):
-
   - `SMPlatformError` — Slack platform returned an error event
   - `SMWebsocketError` — WebSocket connection failure (original error in `cause`)
   - `SMNoReplyReceivedError` — Timed out waiting for a reply to an acknowledgement
@@ -44,7 +42,6 @@
   Catch any socket-mode error with `if (error instanceof SlackSocketModeError)`.
 
   **Removed factory functions** (use `new` with the corresponding class instead):
-
   - `websocketErrorWithOriginal()` → `new SMWebsocketError(original)`
   - `platformErrorFromEvent()` → `new SMPlatformError(event)`
   - `noReplyReceivedError()` → `new SMNoReplyReceivedError()`
@@ -60,7 +57,6 @@
   ```
 
   **Removed options:**
-
   - **`clientOptions.agent`** (the `httpAgent` passed to the underlying web-api client). Use the new top-level `dispatcher` option instead. The dispatcher handles both the WebSocket connection and HTTP API calls (unless `clientOptions.fetch` is also provided, in which case `dispatcher` only applies to WebSocket).
 
   **New `dispatcher` option:**
