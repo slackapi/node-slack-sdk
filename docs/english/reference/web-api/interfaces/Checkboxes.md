@@ -2,7 +2,7 @@
 
 # Interface: Checkboxes
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:50
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:64
 
 ## Description
 
@@ -82,7 +82,7 @@ Defaults to `false`.
 optional initial_options?: Option[];
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:59
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:73
 
 #### Description
 
@@ -97,7 +97,7 @@ These options will be selected when the checkbox group initially loads.
 options: Option[];
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:63
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:77
 
 #### Description
 
@@ -111,7 +111,7 @@ An array of [Option](../type-aliases/Option.md) objects. A maximum of 10 options
 type: "checkboxes";
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:54
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:68
 
 #### Description
 

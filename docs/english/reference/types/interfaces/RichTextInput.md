@@ -2,7 +2,7 @@
 
 # Interface: RichTextInput
 
-Defined in: [block-kit/block-elements.ts:1060](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L1060)
+Defined in: [block-kit/block-elements.ts:1074](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L1074)
 
 ## Description
 
@@ -83,7 +83,7 @@ Defaults to `false`.
 optional initial_value?: RichTextBlock;
 ```
 
-Defined in: [block-kit/block-elements.ts:1068](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L1068)
+Defined in: [block-kit/block-elements.ts:1082](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L1082)
 
 #### Description
 
@@ -97,7 +97,7 @@ Initial contents of the input when it is loaded.
 optional max_lines?: number;
 ```
 
-Defined in: [block-kit/block-elements.ts:1077](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L1077)
+Defined in: [block-kit/block-elements.ts:1091](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L1091)
 
 #### Description
 
@@ -112,7 +112,7 @@ Defaults to `8` when not specified.
 optional min_lines?: number;
 ```
 
-Defined in: [block-kit/block-elements.ts:1072](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L1072)
+Defined in: [block-kit/block-elements.ts:1086](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L1086)
 
 #### Description
 
@@ -145,7 +145,7 @@ length for the `text` field in this object is 150 characters.
 type: "rich_text_input";
 ```
 
-Defined in: [block-kit/block-elements.ts:1064](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L1064)
+Defined in: [block-kit/block-elements.ts:1078](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L1078)
 
 #### Description
 

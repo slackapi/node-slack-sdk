@@ -2,7 +2,7 @@
 
 # Interface: MultiChannelsSelect
 
-Defined in: [block-kit/block-elements.ts:498](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L498)
+Defined in: [block-kit/block-elements.ts:512](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L512)
 
 ## Description
 
@@ -83,7 +83,7 @@ Defaults to `false`.
 optional initial_channels?: string[];
 ```
 
-Defined in: [block-kit/block-elements.ts:507](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L507)
+Defined in: [block-kit/block-elements.ts:521](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L521)
 
 #### Description
 
@@ -134,7 +134,7 @@ length for the `text` field in this object is 150 characters.
 type: "multi_channels_select";
 ```
 
-Defined in: [block-kit/block-elements.ts:502](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L502)
+Defined in: [block-kit/block-elements.ts:516](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L516)
 
 #### Description
 

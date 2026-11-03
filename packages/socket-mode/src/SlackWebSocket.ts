@@ -249,15 +249,18 @@ export class SlackWebSocket {
       } else if (this.websocket.readyState === WebSocket.CLOSING) {
         this.logger.debug('Terminating WebSocket (close frame sent but no response, force-terminating).');
         this.cleanup();
+      } else if (this.websocket.readyState === WebSocket.CLOSED) {
+        this.logger.debug('Terminating WebSocket (connection already closed).');
+        this.cleanup();
       } else {
         // If we haven't received a close frame yet, then we send one to the peer, expecting to receive a close frame
         // in response.
         this.logger.debug('Sending close frame (status=1000).');
-        this.websocket.close(1000); // 1000 = Normal Closure
         this.closeHandshakeTimeout = setTimeout(() => {
           this.logger.warn('Peer did not complete the close handshake in time; forcing cleanup.');
           this.cleanup();
         }, CLOSE_HANDSHAKE_TIMEOUT_MS);
+        this.websocket.close(1000); // 1000 = Normal Closure
       }
     } else {
       this.logger.debug('WebSocket already disconnected, flushing remainder.');

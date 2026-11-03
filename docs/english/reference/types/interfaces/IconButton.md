@@ -2,7 +2,7 @@
 
 # Interface: IconButton
 
-Defined in: [block-kit/block-elements.ts:217](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L217)
+Defined in: [block-kit/block-elements.ts:231](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L231)
 
 ## Description
 
@@ -24,7 +24,7 @@ An icon button to perform actions.
 optional accessibility_label?: string;
 ```
 
-Defined in: [block-kit/block-elements.ts:235](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L235)
+Defined in: [block-kit/block-elements.ts:249](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L249)
 
 #### Description
 
@@ -75,7 +75,7 @@ with.
 icon: string;
 ```
 
-Defined in: [block-kit/block-elements.ts:226](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L226)
+Defined in: [block-kit/block-elements.ts:240](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L240)
 
 #### Description
 
@@ -95,7 +95,7 @@ trash
 text: PlainTextElement;
 ```
 
-Defined in: [block-kit/block-elements.ts:231](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L231)
+Defined in: [block-kit/block-elements.ts:245](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L245)
 
 #### Description
 
@@ -113,7 +113,7 @@ Defines an object containing some text.
 type: "icon_button";
 ```
 
-Defined in: [block-kit/block-elements.ts:221](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L221)
+Defined in: [block-kit/block-elements.ts:235](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L235)
 
 #### Description
 
@@ -131,7 +131,7 @@ The type of element. In this case `type` is always `icon_button`.
 optional value?: string;
 ```
 
-Defined in: [block-kit/block-elements.ts:239](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L239)
+Defined in: [block-kit/block-elements.ts:253](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L253)
 
 #### Description
 
@@ -145,7 +145,7 @@ The button value.
 optional visible_to_user_ids?: string[];
 ```
 
-Defined in: [block-kit/block-elements.ts:243](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L243)
+Defined in: [block-kit/block-elements.ts:257](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L257)
 
 #### Description
 

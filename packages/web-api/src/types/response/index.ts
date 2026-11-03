@@ -154,6 +154,7 @@ export { CanvasesAccessSetResponse } from './CanvasesAccessSetResponse';
 export { CanvasesCreateResponse } from './CanvasesCreateResponse';
 export { CanvasesDeleteResponse } from './CanvasesDeleteResponse';
 export { CanvasesEditResponse } from './CanvasesEditResponse';
+export { CanvasesGetContentResponse } from './CanvasesGetContentResponse';
 export { CanvasesSectionsLookupResponse } from './CanvasesSectionsLookupResponse';
 export { ChannelsArchiveResponse } from './ChannelsArchiveResponse';
 export { ChannelsCreateResponse } from './ChannelsCreateResponse';

@@ -38,18 +38,29 @@ describe('file-upload', () => {
     sandbox.restore();
   });
   describe('getFileUploadJob', () => {
+    it('maps the deprecated alt_text to alt_txt', async () => {
+      const res = await getFileUploadJob(
+        {
+          filename: 'test.txt',
+          file: Buffer.from('test'),
+          alt_text: 'an image of a thing',
+        },
+        logger,
+      );
+      assert.strictEqual(res.alt_txt, 'an image of a thing');
+    });
     it('returns a fileUploadEntry', async () => {
       const valid = {
         filename: 'test.txt',
         file: Buffer.from('test'),
         title: 'My title',
-        alt_text: 'an image of a thing',
+        alt_txt: 'an image of a thing',
         initial_comment: 'lorem ipsum',
       };
       const res = await getFileUploadJob(valid, logger);
       // supplied values
       assert.strictEqual(valid.initial_comment, res.initial_comment);
-      assert.strictEqual(valid.alt_text, res.alt_text);
+      assert.strictEqual(valid.alt_txt, res.alt_txt);
       assert.strictEqual(valid.title, res.title);
       assert.strictEqual(valid.filename, res.filename);
 
@@ -116,7 +127,7 @@ describe('file-upload', () => {
           {
             file: './test/fixtures/test-png.png',
             filename: 'watermelon.png',
-            alt_text: 'cubed fruit for box eats',
+            alt_txt: 'cubed fruit for box eats',
           },
           {
             content: 'howdy world!',
@@ -136,7 +147,7 @@ describe('file-upload', () => {
       assert.strictEqual(valid.token, res[1].token);
       assert.strictEqual(valid.file_uploads[0].file, (res[0] as FileUploadBinaryContents).file);
       assert.strictEqual(valid.file_uploads[0].filename, res[0].filename);
-      assert.strictEqual(valid.file_uploads[0].alt_text, res[0].alt_text);
+      assert.strictEqual(valid.file_uploads[0].alt_txt, res[0].alt_txt);
       assert.strictEqual(valid.file_uploads[1].content, (res[1] as FileUploadStringContents).content);
       assert.strictEqual(valid.file_uploads[1].filename, res[1].filename);
 

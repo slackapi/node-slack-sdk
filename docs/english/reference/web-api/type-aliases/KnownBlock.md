@@ -6,6 +6,7 @@
 type KnownBlock = 
   | ActionsBlock
   | AlertBlock
+  | AuthProviderBlock
   | CardBlock
   | CarouselBlock
   | ContainerBlock

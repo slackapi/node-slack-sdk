@@ -2,7 +2,7 @@
 
 # Interface: UserHuddleChangedEvent
 
-Defined in: packages/types/dist/events/user.d.ts:80
+Defined in: packages/types/dist/events/user.d.ts:100
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: packages/types/dist/events/user.d.ts:80
 cache_ts: number;
 ```
 
-Defined in: packages/types/dist/events/user.d.ts:156
+Defined in: packages/types/dist/events/user.d.ts:176
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: packages/types/dist/events/user.d.ts:156
 event_ts: string;
 ```
 
-Defined in: packages/types/dist/events/user.d.ts:157
+Defined in: packages/types/dist/events/user.d.ts:177
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: packages/types/dist/events/user.d.ts:157
 type: "user_huddle_changed";
 ```
 
-Defined in: packages/types/dist/events/user.d.ts:81
+Defined in: packages/types/dist/events/user.d.ts:101
 
 ***
 
@@ -42,7 +42,7 @@ Defined in: packages/types/dist/events/user.d.ts:81
 user: object;
 ```
 
-Defined in: packages/types/dist/events/user.d.ts:82
+Defined in: packages/types/dist/events/user.d.ts:102
 
 #### color
 

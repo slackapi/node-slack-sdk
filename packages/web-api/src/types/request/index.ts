@@ -178,6 +178,7 @@ export type {
   CanvasesCreateArguments,
   CanvasesDeleteArguments,
   CanvasesEditArguments,
+  CanvasesGetContentArguments,
   CanvasesSectionsLookupArguments,
   ConversationsCanvasesCreateArguments,
 } from './canvas';

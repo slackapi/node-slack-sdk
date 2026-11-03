@@ -66,6 +66,12 @@ interface ManifestFeatures {
    */
   bot_user?: ManifestBotUser;
   /**
+   * @description A subgroup of settings that describe {@link https://docs.slack.dev/ai/slack-code code channels}
+   * configuration.
+   * @see {@link https://docs.slack.dev/ai/slack-code#enabling-code-channels Enabling code channels}.
+   */
+  code_channels?: ManifestCodeChannels;
+  /**
    * @description An array of settings groups that describe {@link https://docs.slack.dev/interactivity/implementing-shortcuts shortcuts}
    * configuration. A maximum of 10 shortcuts can be included in this array.
    * @see {@link https://docs.slack.dev/interactivity/implementing-shortcuts Shortcuts}.
@@ -83,6 +89,11 @@ interface ManifestFeatures {
    * @see {@link https://docs.slack.dev/messaging/unfurling-links-in-messages Link unfurling: configuring domains}.
    */
   unfurl_domains?: string[];
+  /**
+   * @description A subgroup of settings that describe {@link https://docs.slack.dev/authentication/standardized-auth standardized app authentication}
+   * configuration.
+   */
+  user_connections?: ManifestUserConnections;
 }
 
 interface ManifestAgentView {
@@ -153,6 +164,18 @@ interface ManifestBotUser {
   always_online?: boolean;
 }
 
+interface ManifestCodeChannels {
+  /** @description A boolean that specifies whether or not code channels are enabled for the app. */
+  enabled?: boolean;
+  /**
+   * @description A string containing the `https` URL where Slack delivers invocations of your agent's
+   * {@link https://docs.slack.dev/ai/slack-code/agent-slash-commands runtime-registered slash commands}. Not needed for
+   * Socket Mode or hosted apps. Maximum length is 3000 characters.
+   * @see {@link https://docs.slack.dev/ai/slack-code/agent-slash-commands Agent slash commands}.
+   */
+  slash_command_url?: string;
+}
+
 interface ManifestShortcut {
   /** @description Specifies which {@link https://docs.slack.dev/interactivity/implementing-shortcuts type of shortcut} is being described. */
   type: 'global' | 'message';
@@ -187,6 +210,17 @@ interface ManifestSlashCommand {
   url?: string; // can be absent when enabling Socket Mode
   /** @description A string a short usage hint about the slash command for users. Maximum length is 1000 characters. */
   usage_hint?: string;
+}
+
+interface ManifestUserConnections {
+  /** @description A boolean that specifies whether or not standardized app authentication is enabled for the app. */
+  is_enabled: boolean;
+  /**
+   * @description An array of strings containing the hosts, without a scheme, that a provider's `auth_url` and
+   * `disconnect_url` may use. Subdomains of a listed host are also allowed. The hosts are kept while `is_enabled` is
+   * false, so turning standardized app authentication off only flips `is_enabled`.
+   */
+  auth_hosts: string[];
 }
 
 interface ManifestOAuthConfig {
@@ -362,6 +396,7 @@ type BotScope =
   | 'chat:write'
   | 'chat:write.customize'
   | 'chat:write.public'
+  | 'code_channels:manage'
   | 'commands'
   | 'conversations.connect:manage'
   | 'conversations.connect:read'
@@ -604,6 +639,8 @@ type ManifestEvent =
   | 'tokens_revoked'
   | 'url_verification'
   | 'user_change'
+  | 'user_connection'
+  | 'user_connection_status_requested'
   | 'user_huddle_changed'
   | 'user_profile_changed'
   | 'user_resource_denied'
