@@ -99,7 +99,7 @@ If you're using an editor that supports TypeScript, even if you're not using Typ
 you'll get hints for all of the arguments each method supports. This saves time by reducing the number of
 times you need to open a webpage to check the reference. More information about [using TypeScript here](/tools/node-slack-sdk/typescript).
 
-Use the [Block Kit Builder](https://api.slack.com/tools/block-kit-builder) for a playground
+Use the [Block Kit Builder](https://app.slack.com/block-kit-builder) for a playground
 where you can prototype your message's look and feel.
 
 <details>

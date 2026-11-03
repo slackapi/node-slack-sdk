@@ -2,7 +2,7 @@
 
 # Interface: CarouselBlock
 
-Defined in: [block-kit/blocks.ts:179](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L179)
+Defined in: [block-kit/blocks.ts:245](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L245)
 
 ## Description
 
@@ -46,7 +46,7 @@ a message. If a message is updated, use a new `block_id`.
 elements: CardBlock[];
 ```
 
-Defined in: [block-kit/blocks.ts:187](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L187)
+Defined in: [block-kit/blocks.ts:253](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L253)
 
 #### Description
 
@@ -60,7 +60,7 @@ An array of [CardBlock](CardBlock.md) elements. Minimum 1, maximum 10 cards.
 type: "carousel";
 ```
 
-Defined in: [block-kit/blocks.ts:183](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L183)
+Defined in: [block-kit/blocks.ts:249](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L249)
 
 #### Description
 

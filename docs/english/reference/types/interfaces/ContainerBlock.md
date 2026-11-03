@@ -2,7 +2,7 @@
 
 # Interface: ContainerBlock
 
-Defined in: [block-kit/blocks.ts:194](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L194)
+Defined in: [block-kit/blocks.ts:260](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L260)
 
 ## Description
 
@@ -57,7 +57,7 @@ child_blocks: (
   | VideoBlock)[];
 ```
 
-Defined in: [block-kit/blocks.ts:216](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L216)
+Defined in: [block-kit/blocks.ts:282](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L282)
 
 #### Description
 
@@ -71,7 +71,7 @@ An array of child blocks. Maximum 10 blocks.
 optional default_collapsed?: boolean;
 ```
 
-Defined in: [block-kit/blocks.ts:244](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L244)
+Defined in: [block-kit/blocks.ts:310](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L310)
 
 #### Description
 
@@ -85,7 +85,7 @@ Whether the container is collapsed by default. Requires `is_collapsible` to be `
 optional has_header_divider?: boolean;
 ```
 
-Defined in: [block-kit/blocks.ts:249](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L249)
+Defined in: [block-kit/blocks.ts:315](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L315)
 
 #### Description
 
@@ -100,7 +100,7 @@ Only applies when `is_collapsible` is not `true`. Defaults to `false`.
 optional icon?: ImageElement;
 ```
 
-Defined in: [block-kit/blocks.ts:236](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L236)
+Defined in: [block-kit/blocks.ts:302](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L302)
 
 #### Description
 
@@ -114,7 +114,7 @@ An image element displayed alongside the title and subtitle.
 optional is_collapsible?: boolean;
 ```
 
-Defined in: [block-kit/blocks.ts:240](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L240)
+Defined in: [block-kit/blocks.ts:306](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L306)
 
 #### Description
 
@@ -128,7 +128,7 @@ Whether the container can be collapsed. Defaults to `false`.
 optional rich_text_title?: RichTextBlock;
 ```
 
-Defined in: [block-kit/blocks.ts:208](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L208)
+Defined in: [block-kit/blocks.ts:274](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L274)
 
 #### Description
 
@@ -143,7 +143,7 @@ One of `title` or `rich_text_title` is required.
 optional subtitle?: TextObject;
 ```
 
-Defined in: [block-kit/blocks.ts:212](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L212)
+Defined in: [block-kit/blocks.ts:278](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L278)
 
 #### Description
 
@@ -157,7 +157,7 @@ Subtitle for the container in plain text or mrkdwn format. Maximum length is 150
 optional title?: PlainTextElement;
 ```
 
-Defined in: [block-kit/blocks.ts:203](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L203)
+Defined in: [block-kit/blocks.ts:269](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L269)
 
 #### Description
 
@@ -172,7 +172,7 @@ One of `title` or `rich_text_title` is required.
 type: "container";
 ```
 
-Defined in: [block-kit/blocks.ts:198](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L198)
+Defined in: [block-kit/blocks.ts:264](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L264)
 
 #### Description
 
@@ -190,7 +190,7 @@ The type of block. For a container block, `type` is always `container`.
 optional width?: "narrow" | "standard" | "wide" | "full";
 ```
 
-Defined in: [block-kit/blocks.ts:232](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L232)
+Defined in: [block-kit/blocks.ts:298](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L298)
 
 #### Description
 

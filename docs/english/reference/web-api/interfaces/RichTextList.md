@@ -2,7 +2,7 @@
 
 # Interface: RichTextList
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:891
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:905
 
 ## Description
 
@@ -39,7 +39,7 @@ while `1` renders a border.
 elements: RichTextSection[];
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:899
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:913
 
 #### Description
 
@@ -53,7 +53,7 @@ An array of [RichTextSection](RichTextSection.md) elements comprising each list 
 optional indent?: number;
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:909
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:923
 
 #### Description
 
@@ -68,7 +68,7 @@ or characters rendered as the list points. Also affected by the `style` property
 style: "bullet" | "ordered";
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:904
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:918
 
 #### Description
 
@@ -83,7 +83,7 @@ The type of list. Can be either `bullet` (the list points are all rendered the s
 type: "rich_text_list";
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:895
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:909
 
 #### Description
 

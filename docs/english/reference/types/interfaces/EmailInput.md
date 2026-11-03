@@ -2,7 +2,7 @@
 
 # Interface: EmailInput
 
-Defined in: [block-kit/block-elements.ts:130](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L130)
+Defined in: [block-kit/block-elements.ts:144](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L144)
 
 ## Description
 
@@ -82,7 +82,7 @@ Defaults to `false`.
 optional initial_value?: string;
 ```
 
-Defined in: [block-kit/block-elements.ts:138](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L138)
+Defined in: [block-kit/block-elements.ts:152](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L152)
 
 #### Description
 
@@ -115,7 +115,7 @@ length for the `text` field in this object is 150 characters.
 type: "email_text_input";
 ```
 
-Defined in: [block-kit/block-elements.ts:134](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L134)
+Defined in: [block-kit/block-elements.ts:148](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L148)
 
 #### Description
 

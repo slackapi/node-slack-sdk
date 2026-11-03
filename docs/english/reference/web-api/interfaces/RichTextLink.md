@@ -2,7 +2,7 @@
 
 # Interface: RichTextLink
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:804
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:818
 
 ## Description
 
@@ -88,7 +88,7 @@ A limited style object for styling rich text `text` elements.
 optional text?: string;
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:812
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:826
 
 #### Description
 
@@ -102,7 +102,7 @@ The text to link.
 type: "link";
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:808
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:822
 
 #### Description
 
@@ -116,7 +116,7 @@ The type of element. In this case `type` is always `link`.
 optional unsafe?: boolean;
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:816
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:830
 
 #### Description
 
@@ -130,7 +130,7 @@ TODO: ?
 url: string;
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:820
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:834
 
 #### Description
 

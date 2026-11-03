@@ -2,7 +2,7 @@
 
 # Interface: AppsEventAuthorizationsListArguments
 
-Defined in: [packages/web-api/src/types/request/apps.ts:10](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/apps.ts#L10)
+Defined in: [packages/web-api/src/types/request/apps.ts:12](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/apps.ts#L12)
 
 ## Extends
 
@@ -42,7 +42,7 @@ CursorPaginationEnabled.cursor
 event_context: string;
 ```
 
-Defined in: [packages/web-api/src/types/request/apps.ts:11](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/apps.ts#L11)
+Defined in: [packages/web-api/src/types/request/apps.ts:13](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/apps.ts#L13)
 
 ***
 

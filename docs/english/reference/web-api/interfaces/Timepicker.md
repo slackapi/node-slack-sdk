@@ -2,7 +2,7 @@
 
 # Interface: Timepicker
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:586
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:600
 
 ## Description
 
@@ -84,7 +84,7 @@ Defaults to `false`.
 optional initial_time?: string;
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:596
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:610
 
 #### Description
 
@@ -119,7 +119,7 @@ length for the `text` field in this object is 150 characters.
 optional timezone?: string;
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:601
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:615
 
 #### Description
 
@@ -134,7 +134,7 @@ text underneath the time picker. It is also passed to the app upon certain inter
 type: "timepicker";
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:590
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:604
 
 #### Description
 

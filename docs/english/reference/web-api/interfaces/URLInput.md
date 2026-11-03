@@ -2,7 +2,7 @@
 
 # Interface: URLInput
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:608
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:622
 
 ## Description
 
@@ -82,7 +82,7 @@ Defaults to `false`.
 optional initial_value?: string;
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:616
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:630
 
 #### Description
 
@@ -115,7 +115,7 @@ length for the `text` field in this object is 150 characters.
 type: "url_text_input";
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:612
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:626
 
 #### Description
 

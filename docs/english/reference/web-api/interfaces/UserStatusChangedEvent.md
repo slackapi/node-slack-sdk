@@ -2,7 +2,7 @@
 
 # Interface: UserStatusChangedEvent
 
-Defined in: packages/types/dist/events/user.d.ts:237
+Defined in: packages/types/dist/events/user.d.ts:257
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: packages/types/dist/events/user.d.ts:237
 cache_ts: number;
 ```
 
-Defined in: packages/types/dist/events/user.d.ts:310
+Defined in: packages/types/dist/events/user.d.ts:330
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: packages/types/dist/events/user.d.ts:310
 event_ts: string;
 ```
 
-Defined in: packages/types/dist/events/user.d.ts:311
+Defined in: packages/types/dist/events/user.d.ts:331
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: packages/types/dist/events/user.d.ts:311
 type: "user_status_changed";
 ```
 
-Defined in: packages/types/dist/events/user.d.ts:238
+Defined in: packages/types/dist/events/user.d.ts:258
 
 ***
 
@@ -42,7 +42,7 @@ Defined in: packages/types/dist/events/user.d.ts:238
 user: object;
 ```
 
-Defined in: packages/types/dist/events/user.d.ts:239
+Defined in: packages/types/dist/events/user.d.ts:259
 
 #### color
 

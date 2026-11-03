@@ -2,7 +2,7 @@
 
 # Interface: MarkdownBlock
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:344
+Defined in: packages/types/dist/block-kit/blocks.d.ts:408
 
 ## Description
 
@@ -48,7 +48,7 @@ a message. If a message is updated, use a new `block_id`.
 text: string;
 ```
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:352
+Defined in: packages/types/dist/block-kit/blocks.d.ts:416
 
 #### Description
 
@@ -62,7 +62,7 @@ The standard markdown-formatted text. Limit 12,000 characters max.
 type: "markdown";
 ```
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:348
+Defined in: packages/types/dist/block-kit/blocks.d.ts:412
 
 #### Description
 
