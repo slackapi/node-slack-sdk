@@ -2,7 +2,7 @@
 
 # Interface: ExternalSelect
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:444
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:458
 
 ## Description
 
@@ -83,7 +83,7 @@ Defaults to `false`.
 optional initial_option?: PlainTextOption;
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:452
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:466
 
 #### Description
 
@@ -97,7 +97,7 @@ A single option to be selected when the menu initially loads.
 optional min_query_length?: number;
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:458
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:472
 
 #### Description
 
@@ -132,7 +132,7 @@ length for the `text` field in this object is 150 characters.
 type: "external_select";
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:448
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:462
 
 #### Description
 

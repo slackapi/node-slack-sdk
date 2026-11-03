@@ -2,7 +2,7 @@
 
 # Interface: RichTextList
 
-Defined in: [block-kit/block-elements.ts:1005](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L1005)
+Defined in: [block-kit/block-elements.ts:1019](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L1019)
 
 ## Description
 
@@ -39,7 +39,7 @@ while `1` renders a border.
 elements: RichTextSection[];
 ```
 
-Defined in: [block-kit/block-elements.ts:1013](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L1013)
+Defined in: [block-kit/block-elements.ts:1027](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L1027)
 
 #### Description
 
@@ -53,7 +53,7 @@ An array of [RichTextSection](RichTextSection.md) elements comprising each list 
 optional indent?: number;
 ```
 
-Defined in: [block-kit/block-elements.ts:1023](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L1023)
+Defined in: [block-kit/block-elements.ts:1037](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L1037)
 
 #### Description
 
@@ -68,7 +68,7 @@ or characters rendered as the list points. Also affected by the `style` property
 style: "bullet" | "ordered";
 ```
 
-Defined in: [block-kit/block-elements.ts:1018](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L1018)
+Defined in: [block-kit/block-elements.ts:1032](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L1032)
 
 #### Description
 
@@ -83,7 +83,7 @@ The type of list. Can be either `bullet` (the list points are all rendered the s
 type: "rich_text_list";
 ```
 
-Defined in: [block-kit/block-elements.ts:1009](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L1009)
+Defined in: [block-kit/block-elements.ts:1023](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L1023)
 
 #### Description
 

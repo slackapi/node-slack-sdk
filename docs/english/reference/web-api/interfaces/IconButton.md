@@ -2,7 +2,7 @@
 
 # Interface: IconButton
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:190
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:204
 
 ## Description
 
@@ -24,7 +24,7 @@ An icon button to perform actions.
 optional accessibility_label?: string;
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:208
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:222
 
 #### Description
 
@@ -75,7 +75,7 @@ with.
 icon: string;
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:199
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:213
 
 #### Description
 
@@ -95,7 +95,7 @@ trash
 text: PlainTextElement;
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:204
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:218
 
 #### Description
 
@@ -113,7 +113,7 @@ Defines an object containing some text.
 type: "icon_button";
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:194
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:208
 
 #### Description
 
@@ -131,7 +131,7 @@ The type of element. In this case `type` is always `icon_button`.
 optional value?: string;
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:212
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:226
 
 #### Description
 
@@ -145,7 +145,7 @@ The button value.
 optional visible_to_user_ids?: string[];
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:216
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:230
 
 #### Description
 

@@ -2,7 +2,7 @@
 
 # Interface: Timepicker
 
-Defined in: [block-kit/block-elements.ts:671](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L671)
+Defined in: [block-kit/block-elements.ts:685](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L685)
 
 ## Description
 
@@ -84,7 +84,7 @@ Defaults to `false`.
 optional initial_time?: string;
 ```
 
-Defined in: [block-kit/block-elements.ts:681](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L681)
+Defined in: [block-kit/block-elements.ts:695](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L695)
 
 #### Description
 
@@ -119,7 +119,7 @@ length for the `text` field in this object is 150 characters.
 optional timezone?: string;
 ```
 
-Defined in: [block-kit/block-elements.ts:686](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L686)
+Defined in: [block-kit/block-elements.ts:700](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L700)
 
 #### Description
 
@@ -134,7 +134,7 @@ text underneath the time picker. It is also passed to the app upon certain inter
 type: "timepicker";
 ```
 
-Defined in: [block-kit/block-elements.ts:675](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L675)
+Defined in: [block-kit/block-elements.ts:689](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L689)
 
 #### Description
 

@@ -2,7 +2,7 @@
 
 # Interface: RichTextChannelMention
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:725
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:739
 
 ## Description
 
@@ -20,7 +20,7 @@ A channel mention element for use in a rich text message.
 channel_id: string;
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:733
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:747
 
 #### Description
 
@@ -102,7 +102,7 @@ A limited style object for styling rich text `text` elements.
 type: "channel";
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:729
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:743
 
 #### Description
 

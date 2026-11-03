@@ -2,7 +2,7 @@
 
 # Interface: RichTextDate
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:738
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:752
 
 ## Description
 
@@ -20,7 +20,7 @@ A date element for use in a rich text message.
 optional fallback?: string;
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:778
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:792
 
 #### Description
 
@@ -34,7 +34,7 @@ Text to display in place of the date should parsing, formatting or displaying fa
 format: string;
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:770
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:784
 
 #### Description
 
@@ -136,7 +136,7 @@ A limited style object for styling rich text `text` elements.
 timestamp: number;
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:746
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:760
 
 #### Description
 
@@ -150,7 +150,7 @@ A UNIX timestamp for the date to be displayed in seconds.
 type: "date";
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:742
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:756
 
 #### Description
 
@@ -164,7 +164,7 @@ The type of element. In this case `type` is always `date`.
 optional url?: string;
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:774
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:788
 
 #### Description
 

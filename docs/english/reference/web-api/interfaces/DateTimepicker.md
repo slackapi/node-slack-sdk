@@ -2,7 +2,7 @@
 
 # Interface: DateTimepicker
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:89
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:103
 
 ## Description
 
@@ -85,7 +85,7 @@ Defaults to `false`.
 optional initial_date_time?: number;
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:99
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:113
 
 #### Description
 
@@ -101,7 +101,7 @@ time August 10th, 2021 at 03:17pm PST.
 type: "datetimepicker";
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:93
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:107
 
 #### Description
 

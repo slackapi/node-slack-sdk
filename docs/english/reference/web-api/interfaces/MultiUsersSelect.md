@@ -2,7 +2,7 @@
 
 # Interface: MultiUsersSelect
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:276
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:290
 
 ## Description
 
@@ -83,7 +83,7 @@ Defaults to `false`.
 optional initial_users?: string[];
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:284
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:298
 
 #### Description
 
@@ -134,7 +134,7 @@ length for the `text` field in this object is 150 characters.
 type: "multi_users_select";
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:280
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:294
 
 #### Description
 

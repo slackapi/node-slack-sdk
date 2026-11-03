@@ -8,6 +8,7 @@ Defined in: packages/types/dist/block-kit/blocks.d.ts:3
 
 - [`ActionsBlock`](ActionsBlock.md)
 - [`AlertBlock`](AlertBlock.md)
+- [`AuthProviderBlock`](AuthProviderBlock.md)
 - [`CardBlock`](CardBlock.md)
 - [`CarouselBlock`](CarouselBlock.md)
 - [`ContainerBlock`](ContainerBlock.md)
