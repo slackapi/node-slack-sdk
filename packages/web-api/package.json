@@ -59,7 +59,7 @@
   },
   "devDependencies": {
     "@types/busboy": "^1.5.5",
-    "@types/sinon": "^22.0.0",
+    "@types/sinon": "^22.0.2",
     "busboy": "^1",
     "nock": "^14.0.17",
     "sinon": "^22.1.0",

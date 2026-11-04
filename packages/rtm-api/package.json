@@ -55,7 +55,7 @@
     "ws": "^8.22.1"
   },
   "devDependencies": {
-    "@types/sinon": "^22",
+    "@types/sinon": "^22.0.2",
     "@types/ws": "^8.18.2",
     "sinon": "^22"
   }
