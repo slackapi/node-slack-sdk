@@ -3,11 +3,6 @@ updates:
   - package-ecosystem: "npm"
     directory: "/packages/cli-hooks"
     groups:
-      dev-sinon:
-        dependency-type: "development"
-        patterns:
-          - "@types/sinon"
-          - "sinon"
       dev-mocha:
         dependency-type: "development"
         patterns:
