@@ -1,57 +1,59 @@
 import assert from 'node:assert';
 import childProcess from 'node:child_process';
+import { EventEmitter } from 'node:events';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import { after, afterEach, before, beforeEach, describe, it } from 'node:test';
-import sinon from 'sinon';
+import { after, afterEach, before, beforeEach, describe, it, mock } from 'node:test';
 
 import start from './start.js';
 
 /**
- * @typedef MockStreams
- * @property {sinon.SinonStub} on - The istener function for this event stream.
- * @property {() => void} [setEncoding] - Character encoding of the output bytes.
+ * @typedef {import('node:test').Mock<(...args: any[]) => any>} MockFunction
  */
 
 /**
- * @typedef MockSpawnProcess
- * @property {MockStreams} stdout - Output logged to standard output streams.
- * @property {MockStreams} stderr - Output logged to standard error streams.
- * @property {sinon.SinonStub} on - A fallback event to mock the spawn closure.
- * @property {sinon.SinonStub} [kill] - Forced exit code of a spawned process.
+ * Creates a stand-in for the spawned app process that tests emit output and exit events on.
  */
+function createMockApp() {
+  const stdout = Object.assign(new EventEmitter(), { setEncoding: () => {} });
+  return Object.assign(new EventEmitter(), { stdout, stderr: new EventEmitter(), kill: mock.fn() });
+}
+
+/**
+ * Lists the arguments of each call made to a mocked function.
+ * @param {MockFunction} fn - The mocked function to inspect.
+ * @returns {unknown[][]} - The arguments of every call, in order.
+ */
+function callsTo(fn) {
+  return fn.mock.calls.map((call) => call.arguments);
+}
 
 describe('start implementation', async () => {
   describe('begins the app process', async () => {
-    /** @type {sinon.SinonStub} */
+    /** @type {MockFunction} */
     let exitStub;
-    /** @type {sinon.SinonStub} */
+    /** @type {MockFunction} */
     let stdoutWriteStub;
-    /** @type {sinon.SinonStub} */
+    /** @type {MockFunction} */
     let stderrWriteStub;
-    /** @type {MockSpawnProcess} */
-    let mockSpawnProcess;
-    /** @type {sinon.SinonStub} */
+    /** @type {ReturnType<typeof createMockApp>} */
+    let app;
+    /** @type {MockFunction} */
     let spawnStub;
 
     beforeEach(() => {
-      exitStub = sinon.stub(process, 'exit');
-      stdoutWriteStub = sinon.stub(process.stdout, 'write');
-      stderrWriteStub = sinon.stub(process.stderr, 'write');
-      mockSpawnProcess = {
-        stdout: { on: sinon.stub(), setEncoding: () => {} },
-        stderr: { on: sinon.stub() },
-        on: sinon.stub(),
-        kill: sinon.stub(),
-      };
-      spawnStub = sinon.stub(childProcess, 'spawn').returns(/** @type {any} */ (mockSpawnProcess));
+      exitStub = mock.method(process, 'exit', () => {});
+      stdoutWriteStub = mock.method(process.stdout, 'write', () => {});
+      stderrWriteStub = mock.method(process.stderr, 'write', () => {});
+      app = createMockApp();
+      spawnStub = mock.method(childProcess, 'spawn', () => app);
       process.env.SLACK_CLI_XAPP = 'xapp-example';
       process.env.SLACK_CLI_XOXB = 'xoxb-example';
     });
 
     afterEach(() => {
-      sinon.restore();
+      mock.restoreAll();
       process.env.SLACK_CLI_XOXB = undefined;
       process.env.SLACK_CLI_XAPP = undefined;
     });
@@ -71,30 +73,28 @@ describe('start implementation', async () => {
 
       it('writes output from the main script', () => {
         start(tempDir);
-        mockSpawnProcess.stdout.on.callArgWith(1, 'message');
-        mockSpawnProcess.stderr.on.callArgWith(1, 'warning');
-        mockSpawnProcess.on.callArgWith(1, 0);
+        app.stdout.emit('data', 'message');
+        app.stderr.emit('data', 'warning');
+        app.emit('close', 0);
 
-        assert.ok(spawnStub.called);
-        assert.ok(spawnStub.calledWith('node', [path.resolve(tempDir, 'start.js')]));
-        assert.ok(stdoutWriteStub.calledWith('message'));
-        assert.ok(stderrWriteStub.calledWith('warning'));
-        assert.ok(exitStub.calledWith(0));
+        assert.deepEqual(callsTo(spawnStub), [['node', [path.resolve(tempDir, 'start.js')]]]);
+        assert.deepEqual(callsTo(stdoutWriteStub), [['message']]);
+        assert.deepEqual(callsTo(stderrWriteStub), [['warning']]);
+        assert.deepEqual(callsTo(exitStub), [[0]]);
       });
     });
 
     describe('runs the default app path', async () => {
       it('writes output from the default script', async () => {
         start('./tmp');
-        mockSpawnProcess.stdout.on.callArgWith(1, 'defaults');
-        mockSpawnProcess.stderr.on.callArgWith(1, 'watch out');
-        mockSpawnProcess.on.callArgWith(1, 2);
+        app.stdout.emit('data', 'defaults');
+        app.stderr.emit('data', 'watch out');
+        app.emit('close', 2);
 
-        assert.ok(spawnStub.called);
-        assert.ok(spawnStub.calledWith('node', [path.resolve('tmp', 'app.js')]));
-        assert.ok(stdoutWriteStub.calledWith('defaults'));
-        assert.ok(stderrWriteStub.calledWith('watch out'));
-        assert.ok(exitStub.calledWith(2));
+        assert.deepEqual(callsTo(spawnStub), [['node', [path.resolve('tmp', 'app.js')]]]);
+        assert.deepEqual(callsTo(stdoutWriteStub), [['defaults']]);
+        assert.deepEqual(callsTo(stderrWriteStub), [['watch out']]);
+        assert.deepEqual(callsTo(exitStub), [[2]]);
       });
     });
 
@@ -109,73 +109,66 @@ describe('start implementation', async () => {
 
       it('writes output from the custom script', async () => {
         start('./');
-        mockSpawnProcess.stdout.on.callArgWith(1, 'startled');
-        mockSpawnProcess.stderr.on.callArgWith(1, 'erroneous');
-        mockSpawnProcess.on.callArgWith(1, 4);
+        app.stdout.emit('data', 'startled');
+        app.stderr.emit('data', 'erroneous');
+        app.emit('close', 4);
 
-        assert.ok(spawnStub.called);
-        assert.ok(spawnStub.calledWith('node', [path.resolve('application.js')]));
-        assert.ok(stdoutWriteStub.calledWith('startled'));
-        assert.ok(stderrWriteStub.calledWith('erroneous'));
-        assert.ok(exitStub.calledWith(4));
+        assert.deepEqual(callsTo(spawnStub), [['node', [path.resolve('application.js')]]]);
+        assert.deepEqual(callsTo(stdoutWriteStub), [['startled']]);
+        assert.deepEqual(callsTo(stderrWriteStub), [['erroneous']]);
+        assert.deepEqual(callsTo(exitStub), [[4]]);
       });
     });
   });
 
   describe('stops the app process', () => {
-    /** @type {sinon.SinonStub} */
-    let processStub;
-    /** @type {sinon.SinonStub} */
+    /** @type {EventEmitter} */
+    let processEvents;
+    /** @type {MockFunction} */
     let exitStub;
-    /** @type {MockSpawnProcess} */
-    let mockSpawnProcess;
-    /** @type {sinon.SinonStub} */
+    /** @type {ReturnType<typeof createMockApp>} */
+    let app;
+    /** @type {MockFunction} */
     let spawnStub;
 
     beforeEach(() => {
       process.env.SLACK_CLI_CUSTOM_FILE_PATH = 'app.js';
-      processStub = sinon.stub(process, 'on');
-      exitStub = sinon.stub(process, 'exit');
-      mockSpawnProcess = {
-        stdout: { on: sinon.stub(), setEncoding: () => {} },
-        stderr: { on: sinon.stub() },
-        on: sinon.stub(),
-        kill: sinon.stub(),
-      };
-      spawnStub = sinon.stub(childProcess, 'spawn').returns(/** @type {any} */ (mockSpawnProcess));
+      processEvents = new EventEmitter();
+      mock.method(process, 'on', (/** @type {string} */ event, /** @type {() => void} */ listener) =>
+        processEvents.on(event, listener),
+      );
+      exitStub = mock.method(process, 'exit', () => {});
+      app = createMockApp();
+      spawnStub = mock.method(childProcess, 'spawn', () => app);
     });
 
     afterEach(() => {
-      sinon.restore();
+      mock.restoreAll();
       process.env.SLACK_CLI_CUSTOM_FILE_PATH = undefined;
     });
 
     it('stops app process on hook exit', () => {
       start('./');
-      assert.ok(spawnStub.called);
-      assert.ok(spawnStub.calledWith('node', [path.resolve('app.js')]));
-      const handler = processStub.getCalls().find((call) => call.args[0] === 'exit')?.args[1];
-      assert.ok(handler, 'exit handler should be registered');
-      handler();
-      assert.ok(mockSpawnProcess.kill?.called);
+      processEvents.emit('exit');
+
+      assert.deepEqual(callsTo(spawnStub), [['node', [path.resolve('app.js')]]]);
+      assert.equal(app.kill.mock.callCount(), 1);
     });
 
     it('stops app process on hook SIGINT', () => {
       start('./');
-      const handler = processStub.getCalls().find((call) => call.args[0] === 'SIGINT')?.args[1];
-      assert.ok(handler, 'SIGINT handler should be registered');
-      handler();
-      assert.ok(mockSpawnProcess.kill?.calledWith('SIGINT'));
-      assert.ok(exitStub.called);
+      processEvents.emit('SIGINT');
+
+      assert.deepEqual(callsTo(app.kill), [['SIGINT']]);
+      assert.equal(exitStub.mock.callCount(), 1);
     });
 
     it('stops app process on hook SIGTERM', () => {
       start('./');
-      const handler = processStub.getCalls().find((call) => call.args[0] === 'SIGTERM')?.args[1];
-      assert.ok(handler, 'SIGTERM handler should be registered');
-      handler();
-      assert.ok(mockSpawnProcess.kill?.calledWith('SIGTERM'));
-      assert.ok(exitStub.called);
+      processEvents.emit('SIGTERM');
+
+      assert.deepEqual(callsTo(app.kill), [['SIGTERM']]);
+      assert.equal(exitStub.mock.callCount(), 1);
     });
   });
 });
