@@ -152,7 +152,7 @@ describe('start implementation', async () => {
       processEvents.emit('exit');
 
       assert.deepEqual(callsTo(spawnStub), [['node', [path.resolve('app.js')]]]);
-      assert.equal(app.kill.mock.callCount(), 1);
+      assert.deepEqual(callsTo(app.kill), [[]]);
     });
 
     it('stops app process on hook SIGINT', () => {
