@@ -151,13 +151,96 @@ describe('SlackWebSocket', () => {
       assert.strictEqual(sws.readyState, DeadPeerWS.CLOSING, 'socket should be CLOSING after sending close frame');
       assert.strictEqual(closeEmitted, false, 'close must not fire before the handshake completes or times out');
 
-      clock.tick(60000);
+      clock.tick(999);
+      assert.strictEqual(closeEmitted, false, 'close must not fire before the handshake timeout elapses');
+
+      clock.tick(1);
 
       assert.strictEqual(
         closeEmitted,
         true,
         'expected disconnect() to force cleanup and emit "close" after the peer failed to reply',
       );
+    });
+  });
+
+  describe('heartbeat while closing against a peer that never ends TCP (issue #2752)', () => {
+    class HalfClosedPeerWS extends EventTarget {
+      static CONNECTING = 0;
+      static OPEN = 1;
+      static CLOSING = 2;
+      static CLOSED = 3;
+      readyState = HalfClosedPeerWS.OPEN;
+      close() {
+        this.readyState = HalfClosedPeerWS.CLOSING;
+      }
+      send(_data: string) {}
+    }
+
+    function open(clientPingTimeoutMS: number) {
+      const ws = new HalfClosedPeerWS();
+      const ping = sandbox.spy();
+      const SWS = proxyquire.load('./SlackWebSocket', {
+        undici: {
+          WebSocket: class Fake {
+            static CONNECTING = 0;
+            static OPEN = 1;
+            static CLOSING = 2;
+            static CLOSED = 3;
+            constructor() {
+              // biome-ignore lint/correctness/noConstructorReturn: for test mocking purposes
+              return ws;
+            }
+          },
+          CloseEvent,
+          ErrorEvent,
+          MessageEvent,
+          ping,
+        },
+      }).SlackWebSocket;
+      const client = new EventEmitter();
+      let closeEvents = 0;
+      client.on('close', () => {
+        closeEvents += 1;
+      });
+      const logger = new ConsoleLogger();
+      const warn = sandbox.stub(logger, 'warn');
+      sandbox.stub(logger, 'debug');
+      const sws = new SWS({
+        url: 'ws://127.0.0.1/',
+        client,
+        clientPingTimeoutMS,
+        serverPingTimeoutMS: 60000,
+        logger,
+      });
+      sws.connect();
+      ws.dispatchEvent(new Event('open'));
+      return { ws, sws, ping, warn, closeEvents: () => closeEvents };
+    }
+
+    it('should stop the heartbeat once the close frame is sent, so the pong watchdog never warns', () => {
+      const clock = sandbox.useFakeTimers();
+      const { ws, sws, ping, warn, closeEvents } = open(900);
+      channel('undici:websocket:pong').publish({ websocket: ws, payload: Buffer.from('x') });
+
+      sws.disconnect();
+      const pingsBeforeClose = ping.callCount;
+      clock.tick(1000);
+
+      assert.strictEqual(ping.callCount, pingsBeforeClose, 'no ping should be sent while closing');
+      assert.strictEqual(closeEvents(), 1);
+      sinon.assert.notCalled(warn);
+    });
+
+    it('should terminate within one heartbeat tick when the peer starts the close handshake', () => {
+      const clock = sandbox.useFakeTimers();
+      const { ws, warn, closeEvents } = open(3000);
+
+      ws.readyState = HalfClosedPeerWS.CLOSING;
+      clock.tick(1000);
+
+      assert.strictEqual(closeEvents(), 1);
+      sinon.assert.notCalled(warn);
     });
   });
 
