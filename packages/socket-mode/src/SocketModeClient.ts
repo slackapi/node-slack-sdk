@@ -160,16 +160,18 @@ export class SocketModeClient extends EventEmitter {
     this.on('error', (err) => {
       this.logger.error(`WebSocket error! ${err}`);
     });
-    this.on('close', () => {
+    this.on('close', async () => {
       // Underlying WebSocket connection was closed, possibly reconnect.
       if (this.websocket?.isActive()) return;
       if (this.reconnectionTimer) return;
       if (!this.shuttingDown && this.autoReconnectEnabled) {
-        this.delayReconnectAttempt(this.start).catch((error) => {
+        try {
+          await this.delayReconnectAttempt(this.start);
+        } catch (error) {
           if (!(error instanceof SMDisconnectedWhileConnectingError)) {
             this.logger.error(`Failed to reconnect the Socket Mode client (error: ${error})`);
           }
-        });
+        }
       } else {
         // If reconnect is disabled or user explicitly called `disconnect()`, emit a disconnected state.
         this.emit(State.Disconnected);
