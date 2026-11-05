@@ -132,7 +132,7 @@ In the table below, the client's states are listed, which are also the names of 
 | `connecting`    |           | The client is in the process of connecting to the platform.                                                                                                                                           |
 | `connected`     |           | The client is connected to the platform and incoming events will start being emitted.                                                                                                                 |
 | `disconnecting` |           | The client is no longer connected to the platform and cleaning up its resources. It will soon transition to `disconnected`.                                                                           |
-| `reconnecting`  |           | The client is no longer connected to the platform and cleaning up its resources. It will soon transition to `connecting`.                                                                             |
+| `reconnecting`  |           | The client is replacing its connection. On a Slack refresh, the current connection keeps serving until the new one is `connected`. It will soon transition to `connecting`.                           |
 | `disconnected`  | `(error)` | The client is not connected to the platform. This is a steady state - no attempt to connect is occurring. The `error` argument will be `undefined` when the client initiated the disconnect (normal). |
 
 The client also emits events that are part of its lifecycle, but aren't states. Instead, they represent specific moments that might be helpful to your app. The following table lists these events, their description, and includes the arguments that a listener would receive.

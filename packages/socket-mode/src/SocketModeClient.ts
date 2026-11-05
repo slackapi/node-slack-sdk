@@ -77,6 +77,12 @@ export class SocketModeClient extends EventEmitter {
   public websocket?: SlackWebSocket;
 
   /**
+   * The previous connection, kept open while its replacement connects so no payload is missed.
+   * It is closed as soon as the replacement receives `hello`.
+   */
+  private retiringWebsocket?: SlackWebSocket;
+
+  /**
    * Enables ping-pong detailed logging if true
    */
   private pingPongLoggingEnabled: boolean;
@@ -160,8 +166,10 @@ export class SocketModeClient extends EventEmitter {
     this.on('error', (err) => {
       this.logger.error(`WebSocket error! ${err}`);
     });
-    this.on('close', () => {
+    this.on('close', (socket?: SlackWebSocket) => {
       // Underlying WebSocket connection was closed, possibly reconnect.
+      // A connection that was already replaced has no say in reconnecting.
+      if (socket && socket !== this.websocket) return;
       if (this.websocket?.isActive()) return;
       if (this.reconnectionTimer) return;
       if (!this.shuttingDown && this.autoReconnectEnabled) {
@@ -194,6 +202,7 @@ export class SocketModeClient extends EventEmitter {
     if (this.shuttingDown) {
       throw new SMDisconnectedWhileConnectingError();
     }
+    const previous = this.websocket;
     // create a socket connection using SlackWebSocket
     this.websocket = new SlackWebSocket({
       url,
@@ -207,6 +216,7 @@ export class SocketModeClient extends EventEmitter {
       serverPingTimeoutMS: this.serverPingTimeoutMS,
       pingPongLoggingEnabled: this.pingPongLoggingEnabled,
     });
+    this.retire(previous);
 
     // Return a promise that resolves with the connection information
     return new Promise((resolve, reject) => {
@@ -237,6 +247,8 @@ export class SocketModeClient extends EventEmitter {
     this.shuttingDown = true;
     clearTimeout(this.reconnectionTimer);
     this.reconnectionTimer = undefined;
+    this.retiringWebsocket?.disconnect();
+    this.retiringWebsocket = undefined;
     this.logger.debug('Manually disconnecting this Socket Mode client');
     this.emit(State.Disconnecting);
     return new Promise((resolve, _reject) => {
@@ -252,6 +264,19 @@ export class SocketModeClient extends EventEmitter {
   }
 
   // PRIVATE/PROTECTED METHODS
+
+  /**
+   * Handles a connection that was just replaced by a new one. An open connection keeps serving until
+   * the new one receives `hello`; anything else is closed right away.
+   */
+  private retire(previous: SlackWebSocket | undefined): void {
+    if (previous?.isActive()) {
+      this.retiringWebsocket?.disconnect();
+      this.retiringWebsocket = previous;
+    } else if (previous?.readyState !== undefined) {
+      previous.disconnect();
+    }
+  }
 
   /**
    * Initiates a reconnect, taking into account configurable delays and number of reconnect attempts and failures.
@@ -352,16 +377,27 @@ export class SocketModeClient extends EventEmitter {
 
     // Slack has finalized the handshake with a hello message; we are good to go.
     if (event.type === 'hello') {
+      this.retiringWebsocket?.disconnect();
+      this.retiringWebsocket = undefined;
       this.emit(State.Connected, this.connectionResponse);
       return;
     }
 
     // Slack is recycling the pod handling the connection (or otherwise requires the client to reconnect)
     if (event.type === 'disconnect') {
-      this.logger.debug(
-        `Received "${event.type}" (${event.reason}) message - disconnecting.${this.autoReconnectEnabled ? ' Will reconnect.' : ''}`,
-      );
-      this.websocket?.disconnect();
+      if (this.autoReconnectEnabled && !this.shuttingDown) {
+        // Open the replacement first; the current connection keeps serving until the replacement says hello.
+        this.logger.debug(`Received "${event.type}" (${event.reason}) message - opening a replacement connection.`);
+        this.emit(State.Reconnecting);
+        this.start().catch((error) => {
+          if (!this.shuttingDown) {
+            this.logger.error(`Failed to open a replacement Socket Mode connection (error: ${error})`);
+          }
+        });
+      } else {
+        this.logger.debug(`Received "${event.type}" (${event.reason}) message - disconnecting.`);
+        this.websocket?.disconnect();
+      }
       return;
     }
 
@@ -427,14 +463,15 @@ export class SocketModeClient extends EventEmitter {
     const message = { envelope_id: id, payload: { ..._body } };
 
     return new Promise((resolve, reject) => {
-      const wsState = this.websocket?.readyState;
+      const websocket = this.retiringWebsocket?.isActive() ? this.retiringWebsocket : this.websocket;
+      const wsState = websocket?.readyState;
       this.logger.debug(
         `send() method was called (WebSocket state: ${wsState ? WS_READY_STATES[wsState] : 'uninitialized'})`,
       );
-      if (this.websocket === undefined) {
+      if (websocket === undefined) {
         this.logger.error('Failed to send a message as the client is not connected');
         reject(new SMSendWhileDisconnectedError());
-      } else if (!this.websocket.isActive()) {
+      } else if (!websocket.isActive()) {
         this.logger.error('Failed to send a message as the client has no active connection');
         reject(new SMSendWhileNotReadyError());
       } else {
@@ -442,7 +479,7 @@ export class SocketModeClient extends EventEmitter {
 
         const flatMessage = JSON.stringify(message);
         this.logger.debug(`Sending a WebSocket message: ${flatMessage}`);
-        this.websocket.send(flatMessage, (error) => {
+        websocket.send(flatMessage, (error) => {
           if (error) {
             this.logger.error(`Failed to send a WebSocket message (error: ${error})`);
             return reject(new SMWebsocketError(error));
