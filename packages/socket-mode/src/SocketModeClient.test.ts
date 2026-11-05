@@ -584,7 +584,7 @@ describe('SocketModeClient', () => {
       await client.disconnect();
       releaseURL('ws://127.0.0.1:1/');
 
-      await assert.rejects(starting, { name: 'SMDisconnectedWhileConnectingError' });
+      await assert.rejects(starting, { name: 'SMConnectAbortedError' });
       assert.strictEqual(client.websocket, undefined);
     });
 
@@ -596,7 +596,7 @@ describe('SocketModeClient', () => {
       await sleep(10);
       await client.disconnect();
 
-      await assert.rejects(starting, { name: 'SMDisconnectedWhileConnectingError' });
+      await assert.rejects(starting, { name: 'SMConnectAbortedError' });
     });
 
     it('should not log an error when disconnect() stops a reconnect during the WebSocket handshake', async () => {
@@ -620,7 +620,7 @@ describe('SocketModeClient', () => {
       await sleep(10);
       await client.disconnect();
 
-      await assert.rejects(starting, { name: 'SMDisconnectedWhileConnectingError' });
+      await assert.rejects(starting, { name: 'SMConnectAbortedError' });
     });
   });
 });

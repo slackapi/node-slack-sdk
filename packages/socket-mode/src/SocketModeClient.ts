@@ -13,7 +13,7 @@ import { type RequestInit, fetch as undiciFetch } from 'undici';
 
 import packageJson from '../package.json';
 import {
-  SMDisconnectedWhileConnectingError,
+  SMConnectAbortedError,
   SMSendWhileDisconnectedError,
   SMSendWhileNotReadyError,
   SMWebsocketError,
@@ -170,7 +170,7 @@ export class SocketModeClient extends EventEmitter {
         try {
           await this.delayReconnectAttempt(this.start);
         } catch (error) {
-          if (!(error instanceof SMDisconnectedWhileConnectingError)) {
+          if (!(error instanceof SMConnectAbortedError)) {
             this.logger.error(`Failed to reconnect the Socket Mode client (error: ${error})`);
           }
         }
@@ -196,7 +196,7 @@ export class SocketModeClient extends EventEmitter {
     this.logger.debug('Starting Socket Mode session ...');
     const url = await this.retrieveWSSURL();
     if (this.shuttingDown) {
-      throw new SMDisconnectedWhileConnectingError();
+      throw new SMConnectAbortedError();
     }
     // create a socket connection using SlackWebSocket
     this.websocket = new SlackWebSocket({
@@ -224,7 +224,7 @@ export class SocketModeClient extends EventEmitter {
       };
       disconnectedCallback = (err) => {
         this.removeListener(State.Connected, connectedCallback);
-        reject(this.shuttingDown ? new SMDisconnectedWhileConnectingError() : err);
+        reject(this.shuttingDown ? new SMConnectAbortedError() : err);
       };
       this.once(State.Connected, connectedCallback);
       this.once(State.Disconnected, disconnectedCallback);
@@ -273,7 +273,7 @@ export class SocketModeClient extends EventEmitter {
     this.reconnectionTimer = undefined;
     if (this.shuttingDown) {
       this.logger.debug('Client shutting down, will not attempt reconnect.');
-      throw new SMDisconnectedWhileConnectingError();
+      throw new SMConnectAbortedError();
     }
     this.logger.debug('Continuing with reconnect...');
     this.emit(State.Reconnecting);
