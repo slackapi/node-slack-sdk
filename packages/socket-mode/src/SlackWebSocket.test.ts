@@ -218,14 +218,17 @@ describe('SlackWebSocket', () => {
       return { ws, sws, ping, warn, closeEvents: () => closeEvents };
     }
 
-    it('should stop the heartbeat once the close frame is sent, so the pong watchdog never warns', () => {
+    it('should stop the heartbeat once the close frame is sent, so the close-handshake timeout owns the wait', () => {
       const clock = sandbox.useFakeTimers();
       const { ws, sws, ping, warn, closeEvents } = open(900);
       channel('undici:websocket:pong').publish({ websocket: ws, payload: Buffer.from('x') });
 
       sws.disconnect();
       const pingsBeforeClose = ping.callCount;
-      clock.tick(1000);
+      clock.tick(999);
+      assert.strictEqual(closeEvents(), 0, 'the heartbeat must not cut the close handshake short');
+
+      clock.tick(1);
 
       assert.strictEqual(ping.callCount, pingsBeforeClose, 'no ping should be sent while closing');
       assert.strictEqual(closeEvents(), 1);
