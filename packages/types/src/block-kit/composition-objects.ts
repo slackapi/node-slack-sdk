@@ -78,19 +78,21 @@ interface OptionDescriptor {
    * Maximum length for this field is 3000 characters.
    */
   url?: string;
-  /**
-   * @description A {@link PlainTextElement} that defines a line of descriptive text shown below the `text` field.
-   * Maximum length for the `text` within this field is 75 characters.
-   */
-  description?: PlainTextElement;
 }
 
 export interface MrkdwnOption extends OptionDescriptor {
   /**
-   * @description A {@link MrkdwnElement} that defines the text shown in the option on the menu. To be used with
-   * radio buttons and checkboxes. Maximum length for the `text` in this field is 75 characters.
+   * @description A {@link PlainTextElement} or {@link MrkdwnElement} that defines the text shown in the option on the
+   * menu. To be used with radio buttons and checkboxes, which can use `mrkdwn` text objects. Maximum length for the
+   * `text` in this field is 75 characters.
    */
-  text: MrkdwnElement;
+  text: PlainTextElement | MrkdwnElement;
+  /**
+   * @description A {@link PlainTextElement} or {@link MrkdwnElement} that defines a line of descriptive text shown
+   * below the `text` field. Checkbox group and radio button group items can also use `mrkdwn` formatting. Maximum
+   * length for the `text` within this field is 75 characters.
+   */
+  description?: PlainTextElement | MrkdwnElement;
 }
 
 export interface PlainTextOption extends OptionDescriptor {
@@ -99,6 +101,11 @@ export interface PlainTextOption extends OptionDescriptor {
    * overflow, select and multi-select menus. Maximum length for the `text` in this field is 75 characters.
    */
   text: PlainTextElement;
+  /**
+   * @description A {@link PlainTextElement} that defines a line of descriptive text shown below the `text` field.
+   * Maximum length for the `text` within this field is 75 characters.
+   */
+  description?: PlainTextElement;
 }
 
 /**
