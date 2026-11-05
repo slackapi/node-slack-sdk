@@ -1,12 +1,12 @@
 import assert from 'node:assert/strict';
 import { afterEach, beforeEach, describe, it } from 'node:test';
 import { ConsoleLogger } from '@slack/logger';
-import type { FetchFunction } from '@slack/web-api';
+import type { FetchFunction, WebClient } from '@slack/web-api';
 import proxyquire from 'proxyquire';
 import sinon from 'sinon';
 
 import logModule, { LogLevel } from './logger';
-import type { SlackWebSocket } from './SlackWebSocket';
+import { SlackWebSocket } from './SlackWebSocket';
 import { SocketModeClient } from './SocketModeClient';
 import type { SocketModeDispatcher } from './SocketModeOptions';
 
@@ -522,12 +522,24 @@ describe('SocketModeClient', () => {
       process.off('unhandledRejection', unhandledRejection);
     });
 
-    function clientWithLogger() {
+    function clientWithLogger(clientPingTimeout = 1) {
       const logger = new ConsoleLogger();
       const error = sandbox.stub(logger, 'error');
       sandbox.stub(logger, 'debug');
-      const client = new SocketModeClient({ appToken: 'xapp-', clientPingTimeout: 1, logger });
+      const client = new SocketModeClient({ appToken: 'xapp-', clientPingTimeout, logger });
       return { client, error };
+    }
+
+    function holdHandshake(client: SocketModeClient) {
+      sandbox
+        .stub(client as unknown as { retrieveWSSURL: () => Promise<string> }, 'retrieveWSSURL')
+        .resolves('ws://127.0.0.1:1/');
+      sandbox.stub(SlackWebSocket.prototype, 'connect');
+    }
+
+    function failWSSURL(client: SocketModeClient) {
+      const { webClient } = client as unknown as { webClient: WebClient };
+      sandbox.stub(webClient.apps.connections, 'open').rejects(new Error('internal_error'));
     }
 
     function holdWSSURL(client: SocketModeClient) {
@@ -574,6 +586,41 @@ describe('SocketModeClient', () => {
 
       await assert.rejects(starting, { name: 'SMDisconnectedWhileConnectingError' });
       assert.strictEqual(client.websocket, undefined);
+    });
+
+    it('should reject start() when disconnect() is called during the WebSocket handshake', async () => {
+      const { client } = clientWithLogger();
+      holdHandshake(client);
+
+      const starting = client.start();
+      await sleep(10);
+      await client.disconnect();
+
+      await assert.rejects(starting, { name: 'SMDisconnectedWhileConnectingError' });
+    });
+
+    it('should not log an error when disconnect() stops a reconnect during the WebSocket handshake', async () => {
+      const { client, error } = clientWithLogger();
+      holdHandshake(client);
+
+      client.emit('close');
+      await sleep(10);
+      await client.disconnect();
+      await sleep(10);
+
+      sinon.assert.notCalled(error);
+      sinon.assert.notCalled(unhandledRejection);
+    });
+
+    it('should reject start() when disconnect() is called while waiting to retry the WSS URL', async () => {
+      const { client } = clientWithLogger(60_000);
+      failWSSURL(client);
+
+      const starting = client.start();
+      await sleep(10);
+      await client.disconnect();
+
+      await assert.rejects(starting, { name: 'SMDisconnectedWhileConnectingError' });
     });
   });
 });
