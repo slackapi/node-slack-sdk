@@ -259,23 +259,21 @@ export class SocketModeClient extends EventEmitter {
    * Initiates a reconnect, taking into account configurable delays and number of reconnect attempts and failures.
    * Accepts a callback to invoke after any calculated delays.
    */
-  private delayReconnectAttempt<T>(cb: () => Promise<T>): Promise<T> {
+  private async delayReconnectAttempt<T>(cb: () => Promise<T>): Promise<T> {
     this.numOfConsecutiveReconnectionFailures += 1;
     const msBeforeRetry = this.clientPingTimeoutMS * this.numOfConsecutiveReconnectionFailures;
     this.logger.debug(`Before trying to reconnect, this client will wait for ${msBeforeRetry} milliseconds`);
-    return new Promise((res, rej) => {
-      this.reconnectionTimer = setTimeout(() => {
-        this.reconnectionTimer = undefined;
-        if (this.shuttingDown) {
-          this.logger.debug('Client shutting down, will not attempt reconnect.');
-          rej(new SMDisconnectedWhileConnectingError());
-        } else {
-          this.logger.debug('Continuing with reconnect...');
-          this.emit(State.Reconnecting);
-          cb.apply(this).then(res, rej);
-        }
-      }, msBeforeRetry);
+    await new Promise<void>((resolve) => {
+      this.reconnectionTimer = setTimeout(resolve, msBeforeRetry);
     });
+    this.reconnectionTimer = undefined;
+    if (this.shuttingDown) {
+      this.logger.debug('Client shutting down, will not attempt reconnect.');
+      throw new SMDisconnectedWhileConnectingError();
+    }
+    this.logger.debug('Continuing with reconnect...');
+    this.emit(State.Reconnecting);
+    return cb.apply(this);
   }
 
   /**

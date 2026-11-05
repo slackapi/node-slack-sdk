@@ -499,14 +499,14 @@ describe('SocketModeClient', () => {
       sinon.assert.notCalled(startStub);
     });
 
-    it('should schedule at most one reconnect when multiple close events fire', () => {
+    it('should schedule at most one reconnect when multiple close events fire', async () => {
       const client = new SocketModeClient({ appToken: 'xapp-', logLevel: LogLevel.ERROR });
       const startStub = sandbox.stub(client, 'start').resolves(undefined as never);
-      const clock = sandbox.useFakeTimers();
+      const clock = sandbox.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] });
 
       client.emit('close');
       client.emit('close');
-      clock.tick(1_000_000);
+      await clock.tickAsync(1_000_000);
 
       sinon.assert.calledOnce(startStub);
     });
