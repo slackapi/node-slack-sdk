@@ -14,4 +14,5 @@ export type ChatPostEphemeralResponse = WebAPICallResult & {
   needed?: string;
   ok?: boolean;
   provided?: string;
+  warning?: string;
 };

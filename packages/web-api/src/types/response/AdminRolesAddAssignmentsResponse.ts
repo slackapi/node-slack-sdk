@@ -14,6 +14,7 @@ export type AdminRolesAddAssignmentsResponse = WebAPICallResult & {
   ok?: boolean;
   provided?: string;
   rejected_users?: RejectedUser[];
+  warning?: string;
 };
 
 export interface RejectedUser {

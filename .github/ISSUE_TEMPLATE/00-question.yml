@@ -1,0 +1,65 @@
+name: SDK Question
+description: Submit a question about this SDK
+labels: ["untriaged"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Have a question about using the SDK? We're here to help!
+
+  - type: dropdown
+    id: package
+    attributes:
+      label: Package
+      description: Which package(s) does this relate to?
+      multiple: true
+      options:
+        - "@slack/web-api"
+        - "@slack/socket-mode"
+        - "@slack/oauth"
+        - "@slack/webhook"
+        - "@slack/types"
+        - "@slack/logger"
+        - "@slack/cli-hooks"
+        - "@slack/cli-test"
+        - I don't know
+    validations:
+      required: true
+
+  - type: textarea
+    id: question
+    attributes:
+      label: Question
+      description: Describe your question in detail
+    validations:
+      required: true
+
+  - type: input
+    id: sdk-version
+    attributes:
+      label: SDK Version
+      description: |
+        Run `npm ls | grep slack` or check your `package.json`
+      placeholder: e.g., @slack/web-api@7.0.0
+
+  - type: input
+    id: node-version
+    attributes:
+      label: Node.js Version
+      description: Run `node --version`
+      placeholder: e.g., v20.10.0
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional Context
+      description: |
+        Add any code snippets, error messages, or other context that might help.
+
+  - type: markdown
+    attributes:
+      value: |
+        ---
+        For general questions about the Slack API platform, please [contact Slack support](https://slack.com/help/requests/new).
+
+        By submitting this issue, you agree to follow our [Contributing Guidelines](https://github.com/slackapi/node-slack-sdk/blob/main/.github/contributing.md) and [Code of Conduct](https://slackhq.github.io/code-of-conduct).

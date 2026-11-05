@@ -5,8 +5,5 @@ package-lock.json
 # build products
 /dist
 
-# coverage
-/coverage
-
 # test fixtures
 test/integration/**/dist

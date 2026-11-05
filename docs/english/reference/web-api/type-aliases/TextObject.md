@@ -1,0 +1,20 @@
+[@slack/web-api](../index.md) / TextObject
+
+# Type Alias: TextObject
+
+```ts
+type TextObject = 
+  | PlainTextElement
+  | MrkdwnElement;
+```
+
+Defined in: packages/types/dist/block-kit/composition-objects.d.ts:120
+
+## Description
+
+Defines an object containing some text. Can be either a [PlainTextElement](../interfaces/PlainTextElement.md) or a
+[MrkdwnElement](../interfaces/MrkdwnElement.md).
+
+## See
+
+[Text object reference](https://docs.slack.dev/reference/block-kit/composition-objects/text-object).

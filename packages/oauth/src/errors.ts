@@ -1,3 +1,10 @@
+/**
+ * All errors produced by this package adhere to this interface.
+ *
+ * NOTE: This interface is retained because it is part of the public `CallbackOptions#failure`
+ * callback signature. For new code, prefer `instanceof` checks against the {@link SlackOAuthError}
+ * base class or a specific error subclass.
+ */
 export interface CodedError extends Error {
   code: string; // This can be a value from ErrorCode, or WebClient's ErrorCode, or a NodeJS error code
 }
@@ -15,35 +22,47 @@ export enum ErrorCode {
   UnknownError = 'slack_oauth_unknown_error',
 }
 
-export class InstallerInitializationError extends Error implements CodedError {
-  public code = ErrorCode.InstallerInitializationError;
+export abstract class SlackOAuthError extends Error {
+  abstract readonly code: ErrorCode;
+
+  constructor(message: string, options?: ErrorOptions) {
+    super(message, options);
+    this.name = this.constructor.name;
+    Object.setPrototypeOf(this, new.target.prototype);
+  }
 }
 
-export class GenerateInstallUrlError extends Error implements CodedError {
-  public code = ErrorCode.GenerateInstallUrlError;
-}
-export class MissingStateError extends Error implements CodedError {
-  public code = ErrorCode.MissingStateError;
-}
-export class InvalidStateError extends Error implements CodedError {
-  public code = ErrorCode.InvalidStateError;
+export class InstallerInitializationError extends SlackOAuthError {
+  readonly code = ErrorCode.InstallerInitializationError;
 }
 
-export class MissingCodeError extends Error implements CodedError {
-  public code = ErrorCode.MissingCodeError;
+export class GenerateInstallUrlError extends SlackOAuthError {
+  readonly code = ErrorCode.GenerateInstallUrlError;
 }
 
-export class UnknownError extends Error implements CodedError {
-  public code = ErrorCode.UnknownError;
+export class MissingStateError extends SlackOAuthError {
+  readonly code = ErrorCode.MissingStateError;
 }
 
-export class AuthorizationError extends Error implements CodedError {
-  public code = ErrorCode.AuthorizationError;
+export class InvalidStateError extends SlackOAuthError {
+  readonly code = ErrorCode.InvalidStateError;
+}
+
+export class MissingCodeError extends SlackOAuthError {
+  readonly code = ErrorCode.MissingCodeError;
+}
+
+export class UnknownError extends SlackOAuthError {
+  readonly code = ErrorCode.UnknownError;
+}
+
+export class AuthorizationError extends SlackOAuthError {
+  readonly code = ErrorCode.AuthorizationError;
 
   public original: Error | undefined;
 
   public constructor(message: string, original?: Error) {
-    super(message);
+    super(message, original !== undefined ? { cause: original } : undefined);
 
     if (original !== undefined) {
       this.original = original;

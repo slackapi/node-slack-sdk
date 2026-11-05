@@ -1,4 +1,6 @@
+import type { AgentSessionStoppedEvent, AgentSessionTitleChangedEvent } from './agent';
 import type {
+  AppContextChangedEvent,
   AppDeletedEvent,
   AppHomeOpenedEvent,
   AppInstalledEvent,
@@ -25,6 +27,7 @@ import type {
 import type { DNDUpdatedEvent, DNDUpdatedUserEvent } from './dnd';
 import type { EmailDomainChangedEvent } from './email';
 import type { EmojiChangedEvent } from './emoji';
+import type { EntityDetailsRequestedEvent } from './entity-details-requested';
 import type {
   FileChangeEvent,
   FileCommentDeletedEvent,
@@ -84,8 +87,16 @@ import type {
   TeamRenameEvent,
 } from './team';
 import type { TokensRevokedEvent } from './token';
-import type { UserChangeEvent, UserHuddleChangedEvent, UserProfileChangedEvent, UserStatusChangedEvent } from './user';
+import type {
+  UserChangeEvent,
+  UserConnectionEvent,
+  UserConnectionStatusRequestedEvent,
+  UserHuddleChangedEvent,
+  UserProfileChangedEvent,
+  UserStatusChangedEvent,
+} from './user';
 
+export * from './agent';
 export * from './app';
 export * from './assistant';
 export * from './call';
@@ -119,6 +130,9 @@ export * from './user';
  * This is a discriminated union. The discriminant is the `type` property.
  */
 export type SlackEvent =
+  | AgentSessionStoppedEvent
+  | AgentSessionTitleChangedEvent
+  | AppContextChangedEvent
   | AppDeletedEvent
   | AppHomeOpenedEvent
   | AppInstalledEvent
@@ -144,6 +158,7 @@ export type SlackEvent =
   | DNDUpdatedUserEvent
   | EmailDomainChangedEvent
   | EmojiChangedEvent
+  | EntityDetailsRequestedEvent
   | FileChangeEvent
   | FileCommentDeletedEvent
   | FileCreatedEvent
@@ -197,6 +212,8 @@ export type SlackEvent =
   // TODO: url_verification event is missing, but maybe we don't need it?
   // NOTE: url_verification does not use the envelope, but it's also not interesting for an app developer. it's omitted.
   | UserChangeEvent
+  | UserConnectionEvent
+  | UserConnectionStatusRequestedEvent
   | UserHuddleChangedEvent
   | UserProfileChangedEvent
   | UserStatusChangedEvent

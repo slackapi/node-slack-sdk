@@ -34,6 +34,11 @@ export interface FileType {
 export interface FileUploadComplete {
   /** @description Encoded file ID. */
   id: string;
+  /**
+   * @description Optional highlight type hint for the file. The upload processing job may overwrite this value.
+   * @see {@link https://docs.slack.dev/reference/methods/files.completeUploadExternal}
+   */
+  highlight_type?: string;
   /** @description File title. */
   title?: string;
 }
@@ -90,6 +95,8 @@ export interface FilesGetUploadURLExternalArguments extends TokenOverridable {
   /** @description Size in bytes of the file being uploaded. */
   length: number;
   /** @description Description of image for screen-reader. */
+  alt_txt?: string;
+  /** @deprecated Slack does not use this. Use `alt_txt`. */
   alt_text?: string;
   /** @description Syntax type of the snippet being uploaded. E.g. `python`. */
   snippet_type?: string;
@@ -152,11 +159,10 @@ type FileUpload = FileUploadContents &
     /** @description File title. */
     title?: string;
   };
-// https://docs.slack.dev/reference/methods/files.upload
-export type FilesUploadArguments = FileUpload & TokenOverridable;
-
 export type FileUploadV2 = FileUpload & {
-  /** @description Description of image for screen-reader. */
+  /** @description A description of images for a screen-reader. */
+  alt_txt?: string;
+  /** @deprecated Use `alt_txt`. */
   alt_text?: string;
   /**
    * @description An array of structured rich text blocks. If the `initial_comment` field is provided, the `blocks` field is ignored.
@@ -168,6 +174,11 @@ export type FileUploadV2 = FileUpload & {
   channel_id?: string;
   /** @deprecated use channel_id instead */
   channels?: string;
+  /**
+   * @description Optional highlight type hint for the file. The upload processing job may overwrite this value.
+   * @see {@link https://docs.slack.dev/reference/methods/files.completeUploadExternal}
+   */
+  highlight_type?: string;
   /** @description Syntax type of the snippet being uploaded. E.g. `python`. */
   snippet_type?: string;
 };
@@ -179,7 +190,7 @@ export interface FilesUploadV2ArgumentsMultipleFiles {
   >[];
 }
 
-// https://tools.slack.dev/node-slack-sdk/web-api#upload-a-file
+// https://docs.slack.dev/tools/node-slack-sdk/web-api/#upload-a-file
 export type FilesUploadV2Arguments = TokenOverridable &
   (FileUploadV2 | (Omit<FileUploadV2, 'file' | 'content'> & FilesUploadV2ArgumentsMultipleFiles));
 

@@ -1,0 +1,103 @@
+[@slack/web-api](../index.md) / SlackEvent
+
+# Type Alias: SlackEvent
+
+```ts
+type SlackEvent = 
+  | AgentSessionStoppedEvent
+  | AgentSessionTitleChangedEvent
+  | AppContextChangedEvent
+  | AppDeletedEvent
+  | AppHomeOpenedEvent
+  | AppInstalledEvent
+  | AppMentionEvent
+  | AppRateLimitedEvent
+  | AppRequestedEvent
+  | AppUninstalledTeamEvent
+  | AppUninstalledEvent
+  | AssistantThreadContextChangedEvent
+  | AssistantThreadStartedEvent
+  | CallRejectedEvent
+  | ChannelArchiveEvent
+  | ChannelCreatedEvent
+  | ChannelDeletedEvent
+  | ChannelHistoryChangedEvent
+  | ChannelIDChangedEvent
+  | ChannelLeftEvent
+  | ChannelRenameEvent
+  | ChannelSharedEvent
+  | ChannelUnarchiveEvent
+  | ChannelUnsharedEvent
+  | DNDUpdatedEvent
+  | DNDUpdatedUserEvent
+  | EmailDomainChangedEvent
+  | EmojiChangedEvent
+  | EntityDetailsRequestedEvent
+  | FileChangeEvent
+  | FileCommentDeletedEvent
+  | FileCreatedEvent
+  | FileDeletedEvent
+  | FilePublicEvent
+  | FileSharedEvent
+  | FileUnsharedEvent
+  | FunctionExecutedEvent
+  | GridMigrationFinishedEvent
+  | GridMigrationStartedEvent
+  | GroupArchiveEvent
+  | GroupCloseEvent
+  | GroupDeletedEvent
+  | GroupHistoryChangedEvent
+  | GroupLeftEvent
+  | GroupOpenEvent
+  | GroupRenameEvent
+  | GroupUnarchiveEvent
+  | IMCloseEvent
+  | IMCreatedEvent
+  | IMHistoryChangedEvent
+  | IMOpenEvent
+  | InviteRequestedEvent
+  | LinkSharedEvent
+  | MemberJoinedChannelEvent
+  | MemberLeftChannelEvent
+  | AllMessageEvents
+  | AllMessageMetadataEvents
+  | PinAddedEvent
+  | PinRemovedEvent
+  | ReactionAddedEvent
+  | ReactionRemovedEvent
+  | SharedChannelInviteAcceptedEvent
+  | SharedChannelInviteApprovedEvent
+  | SharedChannelInviteDeclinedEvent
+  | SharedChannelInviteReceivedEvent
+  | SharedChannelInviteRequestedEvent
+  | StarAddedEvent
+  | StarRemovedEvent
+  | SubteamCreatedEvent
+  | SubteamMembersChangedEvent
+  | SubteamSelfAddedEvent
+  | SubteamSelfRemovedEvent
+  | SubteamUpdatedEvent
+  | TeamAccessGrantedEvent
+  | TeamAccessRevokedEvent
+  | TeamDomainChangeEvent
+  | TeamJoinEvent
+  | TeamRenameEvent
+  | TokensRevokedEvent
+  | UserChangeEvent
+  | UserConnectionEvent
+  | UserConnectionStatusRequestedEvent
+  | UserHuddleChangedEvent
+  | UserProfileChangedEvent
+  | UserStatusChangedEvent
+  | WorkflowDeletedEvent
+  | WorkflowPublishedEvent
+  | WorkflowUnpublishedEvent
+  | WorkflowStepDeletedEvent
+  | WorkflowStepExecuteEvent;
+```
+
+Defined in: packages/types/dist/events/index.d.ts:61
+
+All known event types in Slack's Events API
+Please refer to https://docs.slack.dev/reference/events for more details
+This is a discriminated union. The discriminant is the `type` property.

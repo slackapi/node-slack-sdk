@@ -16,13 +16,13 @@ $ npm install @slack/oauth
 
 ## Usage
 
-These examples show how to get started using the most common features. You'll find more extensive [documentation on the package's website](https://tools.slack.dev/node-slack-sdk/oauth).
+These examples show how to get started using the most common features. You'll find more extensive [documentation on the package's website](https://docs.slack.dev/tools/node-slack-sdk/oauth/).
 
 <!-- END: Remove before copying into the docs directory -->
 
 Before building an app, you'll need to [create a Slack app](https://api.slack.com/apps/new) and install it to your development workspace. You'll also need to copy the **Client ID** and **Client Secret** given to you by Slack under the **Basic Information** of your app configuration.
 
-It may be helpful to read the tutorials on [getting started](https://tools.slack.dev/node-slack-sdk/getting-started) and [getting a public URL that can be used for development](https://tools.slack.dev/node-slack-sdk/tutorials/local-development).
+It may be helpful to read the tutorials on [getting started](https://docs.slack.dev/tools/node-slack-sdk/getting-started/) and [getting a public URL that can be used for development](https://docs.slack.dev/tools/node-slack-sdk/tutorials/local-development/).
 
 ---
 
@@ -31,7 +31,7 @@ It may be helpful to read the tutorials on [getting started](https://tools.slack
 This package exposes an `InstallProvider` class, which sets up the required configuration and exposes methods such as `generateInstallUrl`, `handleCallback`, `authorize` for use within your apps. At a minimum, `InstallProvider` takes a `clientId` and `clientSecret` (both which can be obtained under the **Basic Information** of your app configuration). `InstallProvider` also requires a `stateSecret`, which is used to encode the generated state, and later used to decode that same state to verify it wasn't tampered with during the OAuth flow. **Note**: This example is not ready for production because it only stores installations (tokens) in memory. Please go to the [storing installations in a database](#storing-installations-in-a-database) section to learn how to plug in your own database.
 
 ```javascript
-const { InstallProvider } = require('@slack/oauth');
+import { InstallProvider } from '@slack/oauth';
 
 // initialize the installProvider
 const installer = new InstallProvider({
@@ -46,17 +46,17 @@ const installer = new InstallProvider({
 <strong><i>Using a classic Slack app</i></strong>
 </summary>
 
-  ```javascript
-  const { InstallProvider } = require('@slack/oauth');
+```javascript
+import { InstallProvider } from '@slack/oauth';
 
-  // initialize the installProvider
-  const installer = new InstallProvider({
-    clientId: process.env.SLACK_CLIENT_ID,
-    clientSecret: process.env.SLACK_CLIENT_SECRET,
-    stateSecret: process.env.SLACK_STATE_SECRET,
-    authVersion: 'v1' //required for classic Slack apps
-  });
-  ```
+// initialize the installProvider
+const installer = new InstallProvider({
+  clientId: process.env.SLACK_CLIENT_ID,
+  clientSecret: process.env.SLACK_CLIENT_SECRET,
+  stateSecret: process.env.SLACK_STATE_SECRET,
+  authVersion: 'v1', //required for classic Slack apps
+});
+```
 </details>
 
 ---
@@ -70,8 +70,8 @@ The `installProvider.generateInstallUrl()` method will create an installation UR
 ```javascript
 installer.generateInstallUrl({
   // Add the scopes your app needs
-  scopes: ['channels:read']
-})
+  scopes: ['channels:read'],
+});
 ```
 <details>
 <summary markdown="span">
@@ -84,8 +84,8 @@ You might want to present an "Add to Slack" button while the user is in the midd
 installer.generateInstallUrl({
   // Add the scopes your app needs
   scopes: ['channels:read'],
-  metadata: JSON.stringify({some:'sessionState'})
-})
+  metadata: JSON.stringify({ some: 'sessionState' }),
+});
 ```
 
 **Note**: custom metadata is visible to the user, so don't store any secret information in the metadata. The installation provider will ensure that none of the metadata has been tampered with when the user returns. To change how metadata is handled, including hiding it from users, read about [using a custom state store](#using-a-custom-state-store).
@@ -98,15 +98,15 @@ installer.generateInstallUrl({
 After the user approves the request to install your app (and grants access to the required permissions), Slack will redirect the user to your specified **redirect url**. You can either set the redirect url in the app’s **OAuth and Permissions** page or pass a `redirectUri` when calling `installProvider.generateInstallUrl`. Your HTTP server should handle requests to the redirect URL by calling the `installProvider.handleCallback()` method. The first two arguments (`req`, `res`) to `installProvider.handleCallback` are required. By default, if the installation is successful the user will be redirected back to your App Home in Slack (or redirected back to the last open workspace in your slack app for classic Slack apps). If the installation is not successful the user will be shown an error page.
 
 ```javascript
-const { createServer } = require('http');
+import { createServer } from 'node:http';
 
-const server = createServer((req, res) =>  {
+const server = createServer((req, res) => {
   // our redirect_uri is /slack/oauth_redirect
   if (req.url === '/slack/oauth_redirect') {
     // call installer.handleCallback to wrap up the install flow
     installer.handleCallback(req, res);
   }
-})
+});
 
 server.listen(3000);
 ```
@@ -139,16 +139,16 @@ const callbackOptions = {
     // Tips:
     // - Inspect the metadata with `installOptions.metadata`
     // - Add javascript and css in the htmlResponse using the <script> and <style> tags
-    const htmlResponse = `<html><body>Success!</body></html>`
+    const htmlResponse = `<html><body>Success!</body></html>`;
     res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
     res.end(htmlResponse);
   },
-  failure: (error, installOptions , req, res) => {
+  failure: (error, installOptions, req, res) => {
     // Do custom failure logic here
     res.writeHead(500, { 'Content-Type': 'text/html; charset=utf-8' });
     res.end('<html><body><h1>Oops, Something Went Wrong! Please Try Again or Contact the App Owner</h1></body></html>');
-  }
-}
+  },
+};
 app.get('/slack/oauth_redirect', (req, res) => {
   installer.handleCallback(req, res, callbackOptions);
 });
@@ -216,6 +216,7 @@ const installer = new InstallProvider({
   },
 });
 ```
+
 ---
 
 ### Reading tokens and other installation data
@@ -225,7 +226,7 @@ You can use the the `installationProvider.authorize()` function to fetch data th
 ```javascript
 // installer.authorize takes in an installQuery as an argument
 // installQuery = {teamId: 'string', enterpriseId: 'string', userId: string, conversationId: 'string', isEnterpriseInstall: boolean};
-const result = installer.authorize({teamId: 'my-team-ID'});
+const result = installer.authorize({ teamId: 'my-team-ID' });
 /*
 result = {
   botToken: '',
@@ -249,7 +250,10 @@ The `installer.authorize()` method only returns a subset of the installation dat
 // installer.installationStore.fetchInstallation takes in an installQuery as an argument
 // installQuery = {teamId: 'string', enterpriseId: 'string', userId: 'string', conversationId: 'string', isEnterpriseInstall: boolean};
 // returns an installation object
-const result = await installer.installationStore.fetchInstallation({teamId:'my-team-ID', enterpriseId:'my-enterprise-ID'});
+const result = await installer.installationStore.fetchInstallation({
+  teamId: 'my-team-ID',
+  enterpriseId: 'my-enterprise-ID',
+});
 ```
 </details>
 
@@ -281,14 +285,50 @@ const installer = new InstallProvider({
     },
     // verifyStateParam's first argument is a date object and the second argument is a string representing the state
     // verifyStateParam is expected to return an object representing installUrlOptions
-    verifyStateParam:  (date, state) => {
+    verifyStateParam: (date, state) => {
       // fetch saved installOptions from DB using state reference
       const installUrlOptions = myDB.get(randomState);
       return installUrlOptions;
-    }
+    },
   },
 });
 ```
+
+---
+
+### Handle errors
+
+Methods on `InstallProvider` reject with an `Error` when something goes wrong. Each kind of error is its own class, all extending the `SlackOAuthError` base class, so you can use an `instanceof` check to decide how to respond. For example, `authorize()` throws an `AuthorizationError` when it can't fetch an installation.
+
+```javascript
+import { AuthorizationError } from '@slack/oauth';
+
+try {
+  await installer.authorize({ teamId, enterpriseId });
+} catch (error) {
+  if (error instanceof AuthorizationError) {
+    // The underlying error is in `cause`.
+    console.log(error.cause);
+  }
+}
+```
+
+To catch any error thrown by this package, check against the `SlackOAuthError` base class:
+
+```javascript
+import { SlackOAuthError } from '@slack/oauth';
+
+try {
+  const installUrl = await installer.generateInstallUrl({ scopes: ['channels:read'] });
+} catch (error) {
+  if (error instanceof SlackOAuthError) {
+    console.log(error.code, error.message);
+  }
+}
+```
+
+Other error classes include `InstallerInitializationError`, `GenerateInstallUrlError`, `MissingStateError`, `InvalidStateError`, `MissingCodeError`, and `UnknownError`. They all extend `SlackOAuthError`, so an `instanceof SlackOAuthError` check catches any of them.
+
 ---
 
 ### Setting the log level and using a custom logger
@@ -300,7 +340,7 @@ in development, it's sometimes helpful to set this to the most verbose: `LogLeve
 
 ```javascript
 // Import LogLevel from the package
-const { InstallProvider, LogLevel } = require('@slack/oauth');
+import { InstallProvider, LogLevel } from '@slack/oauth';
 
 // Log level is one of the options you can set in the constructor
 const installer = new InstallProvider({
@@ -322,7 +362,7 @@ You can also choose to have logs sent to a custom logger using the `logger` opti
 specific methods (known as the `Logger` interface):
 
 | Method       | Parameters        | Return type |
-|--------------|-------------------|-------------|
+| ------------ | ----------------- | ----------- |
 | `setLevel()` | `level: LogLevel` | `void`      |
 | `setName()`  | `name: string`    | `void`      |
 | `debug()`    | `...msgs: any[]`  | `void`      |
@@ -333,7 +373,7 @@ specific methods (known as the `Logger` interface):
 A very simple custom logger might ignore the name and level, and write all messages to a file.
 
 ```javascript
-const { createWriteStream } = require('fs');
+import { createWriteStream } from 'node:fs';
 const logWritable = createWriteStream('/var/my_log_file'); // Not shown: close this stream
 
 const installer = new InstallProvider({
@@ -357,14 +397,14 @@ const installer = new InstallProvider({
 
 ### Examples
 
-*  [OAuth Express app](../../examples/oauth-v2/README.md). This example uses [Keyv](https://github.com/lukechilds/keyv) library as an installation store.
-*  [classic Slack App](../../examples/oauth-v1/README.md). This example uses the built-in installation store
+-  [OAuth Express app](../../examples/oauth-v2/README.md). This example uses [Keyv](https://github.com/lukechilds/keyv) library as an installation store.
+-  [classic Slack App](../../examples/oauth-v1/README.md). This example uses the built-in installation store
 
 ---
 
 ### Requirements
 
-This package supports Node v18 and higher. It's highly recommended to use [the latest LTS version of
+This package supports Node v20 and higher. It's highly recommended to use [the latest LTS version of
 node](https://github.com/nodejs/Release#release-schedule), and the documentation is written using syntax and features
 from that version.
 
@@ -372,8 +412,8 @@ from that version.
 
 If you get stuck, we're here to help. The following are the best ways to get assistance working through your issue:
 
-  * [Issue Tracker](http://github.com/slackapi/node-slack-sdk/issues) for questions, feature requests, bug reports and
-    general discussion related to these packages. Try searching before you create a new issue.
-  * [Email us](mailto:developers@slack.com) in Slack developer support: `developers@slack.com`
-  * [Bot Developers Hangout](https://community.botkit.ai/): a Slack community for developers
-    building all types of bots. You can find the maintainers and users of these packages in **#sdk-node-slack-sdk**.
+- [Issue Tracker](http://github.com/slackapi/node-slack-sdk/issues) for questions, feature requests, bug reports and
+  general discussion related to these packages. Try searching before you create a new issue.
+- [Email us](mailto:developers@slack.com) in Slack developer support: `developers@slack.com`
+- [Bot Developers Hangout](https://community.botkit.ai/): a Slack community for developers
+  building all types of bots. You can find the maintainers and users of these packages in **#sdk-node-slack-sdk**.

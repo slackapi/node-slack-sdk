@@ -21,7 +21,7 @@ export default class FileInstallationStore implements InstallationStore {
     clientId,
     historicalDataEnabled = true,
   }: FileInstallationOptions = {}) {
-    this.baseDir = clientId !== undefined ? `${baseDir}/${clientId}` : baseDir;
+    this.baseDir = clientId !== undefined ? path.join(baseDir, clientId) : baseDir;
     this.historicalDataEnabled = historicalDataEnabled;
   }
 
@@ -45,13 +45,13 @@ export default class FileInstallationStore implements InstallationStore {
     fs.mkdirSync(installationDir, { recursive: true });
 
     try {
-      writeToFile(`${installationDir}/app-latest`, installationData);
-      writeToFile(`${installationDir}/user-${user.id}-latest`, installationData);
+      writeToFile(path.join(installationDir, 'app-latest'), installationData);
+      writeToFile(path.join(installationDir, `user-${user.id}-latest`), installationData);
 
       if (this.historicalDataEnabled) {
         const currentUTC = Date.now();
-        writeToFile(`${installationDir}/app-${currentUTC}`, installationData);
-        writeToFile(`${installationDir}/user-${user.id}-${currentUTC}`, installationData);
+        writeToFile(path.join(installationDir, `app-${currentUTC}`), installationData);
+        writeToFile(path.join(installationDir, `user-${user.id}-${currentUTC}`), installationData);
       }
     } catch (err) {
       throw new Error(`Failed to save installation to FileInstallationStore (error: ${err})`);
@@ -71,11 +71,11 @@ export default class FileInstallationStore implements InstallationStore {
     }
 
     try {
-      const data = fs.readFileSync(path.resolve(`${installationDir}/app-latest`));
+      const data = fs.readFileSync(path.join(installationDir, 'app-latest'));
       const installation: Installation = JSON.parse(data.toString());
       if (query.userId && installation.user.id !== query.userId) {
         try {
-          const userData = fs.readFileSync(path.resolve(`${installationDir}/user-${query.userId}-latest`));
+          const userData = fs.readFileSync(path.join(installationDir, `user-${query.userId}-latest`));
           if (userData !== undefined && userData !== null) {
             const userInstallation: Installation = JSON.parse(userData.toString());
             installation.user = userInstallation.user;
@@ -116,7 +116,7 @@ export default class FileInstallationStore implements InstallationStore {
 
     try {
       for (const filePath of filesToDelete) {
-        deleteFile(path.resolve(`${installationDir}/${filePath}`));
+        deleteFile(path.join(installationDir, filePath));
       }
     } catch (err) {
       throw new Error(`Failed to delete installation from FileInstallationStore (error: ${err})`);
@@ -124,7 +124,7 @@ export default class FileInstallationStore implements InstallationStore {
   }
 
   private getInstallationDir(enterpriseId = '', teamId = '', isEnterpriseInstall = false): string {
-    let installDir = `${this.baseDir}/${enterpriseId}`;
+    let installDir = path.join(this.baseDir, enterpriseId);
     if (teamId !== '' && !isEnterpriseInstall) {
       installDir += enterpriseId !== '' ? `-${teamId}` : `${teamId}`;
     }

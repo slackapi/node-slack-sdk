@@ -15,6 +15,7 @@ export type AdminRolesListAssignmentsResponse = WebAPICallResult & {
   provided?: string;
   response_metadata?: ResponseMetadata;
   role_assignments?: RoleAssignment[];
+  warning?: string;
 };
 
 export interface ResponseMetadata {

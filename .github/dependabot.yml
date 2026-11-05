@@ -3,16 +3,15 @@ updates:
   - package-ecosystem: "npm"
     directory: "/packages/cli-hooks"
     groups:
-      dev-sinon:
-        dependency-type: "development"
-        patterns:
-          - "@types/sinon"
-          - "sinon"
       dev-mocha:
         dependency-type: "development"
         patterns:
           - "@types/mocha"
           - "mocha"
+    labels:
+      - "dependencies"
+      - "javascript"
+      - "pkg:cli-hooks"
     schedule:
       interval: "weekly"
 
@@ -34,6 +33,10 @@ updates:
         patterns:
           - "@types/mocha"
           - "mocha"
+    labels:
+      - "dependencies"
+      - "javascript"
+      - "pkg:cli-test"
     schedule:
       interval: "weekly"
 
@@ -55,6 +58,19 @@ updates:
         patterns:
           - "@types/mocha"
           - "mocha"
+    ignore:
+      - dependency-name: "@types/node"
+        versions:
+          - "21.x"
+          - "22.x"
+          - "23.x"
+          - "24.x"
+          - "25.x"
+          - "26.x"
+    labels:
+      - "dependencies"
+      - "javascript"
+      - "pkg:logger"
     schedule:
       interval: "weekly"
 
@@ -79,6 +95,19 @@ updates:
         patterns:
           - "@types/mocha"
           - "mocha"
+    ignore:
+      - dependency-name: "@types/node"
+        versions:
+          - "21.x"
+          - "22.x"
+          - "23.x"
+          - "24.x"
+          - "25.x"
+          - "26.x"
+    labels:
+      - "dependencies"
+      - "javascript"
+      - "pkg:oauth"
     schedule:
       interval: "weekly"
 
@@ -103,11 +132,28 @@ updates:
         patterns:
           - "@types/mocha"
           - "mocha"
+    ignore:
+      - dependency-name: "@types/node"
+        versions:
+          - "21.x"
+          - "22.x"
+          - "23.x"
+          - "24.x"
+          - "25.x"
+          - "26.x"
+    labels:
+      - "dependencies"
+      - "javascript"
+      - "pkg:socket-mode"
     schedule:
       interval: "weekly"
 
   - package-ecosystem: "npm"
     directory: "/packages/types"
+    labels:
+      - "dependencies"
+      - "javascript"
+      - "pkg:types"
     schedule:
       interval: "weekly"
 
@@ -134,32 +180,108 @@ updates:
         patterns:
           - "@types/mocha"
           - "mocha"
+    ignore:
+      # nock 15 requires Node.js 22.20 or later. Pick it back up when Node.js 20 support is dropped (see #2805).
+      - dependency-name: "nock"
+        versions:
+          - "15.x"
+      # Avoid pure ESM p-queue (v7+) / p-retry (v5+) to prevent CJS require() breakage on Node >= 20 (see #2711).
+      - dependency-name: "p-queue"
+      - dependency-name: "p-retry"
+      - dependency-name: "@types/node"
+        versions:
+          - "21.x"
+          - "22.x"
+          - "23.x"
+          - "24.x"
+          - "25.x"
+          - "26.x"
+    labels:
+      - "dependencies"
+      - "javascript"
+      - "pkg:web-api"
+    schedule:
+      interval: "weekly"
+
+  - package-ecosystem: "npm"
+    directory: "/packages/webhook"
+    groups:
+      dev-chai:
+        dependency-type: "development"
+        patterns:
+          - "@types/chai"
+          - "chai"
+      dev-mocha:
+        dependency-type: "development"
+        patterns:
+          - "@types/mocha"
+          - "mocha"
+    ignore:
+      # nock 15 requires Node.js 22.20 or later. Pick it back up when Node.js 20 support is dropped (see #2805).
+      - dependency-name: "nock"
+        versions:
+          - "15.x"
+      # Avoid pure ESM p-retry (v5+) to prevent CJS require() breakage on Node >= 20 (see #2711).
+      - dependency-name: "p-retry"
+      - dependency-name: "@types/node"
+        versions:
+          - "21.x"
+          - "22.x"
+          - "23.x"
+          - "24.x"
+          - "25.x"
+          - "26.x"
+    labels:
+      - "dependencies"
+      - "javascript"
+      - "pkg:webhook"
     schedule:
       interval: "weekly"
 
   - package-ecosystem: "npm"
     directories:
-      - "/"
-      - "/docs"
       - "/examples/*"
     groups:
-      docusaurus:
-        patterns:
-          - "@docusaurus/*"
-          - "docusaurus-plugin-typedoc"
-          - "typedoc"
-          - "typedoc-plugin-markdown"
       slack:
         patterns:
           - "@slack/*"
-      react:
-        patterns:
-          - "react"
-          - "react-dom"
+    ignore:
+      - dependency-name: "@types/node"
+        versions:
+          - "25.x"
+          - "26.x"
+    labels:
+      - "area:examples"
+      - "dependencies"
+      - "javascript"
     schedule:
       interval: "monthly"
 
   - package-ecosystem: "github-actions"
     directory: "/"
+    labels:
+      - "dependencies"
+      - "github_actions"
     schedule:
       interval: "monthly"
+
+  - package-ecosystem: "npm"
+    directory: "/"
+    ignore:
+      # nock 15 requires Node.js 22.20 or later. Pick it back up when Node.js 20 support is dropped (see #2805).
+      - dependency-name: "nock"
+        versions:
+          - "15.x"
+      - dependency-name: "@types/node"
+        versions:
+          - "21.x"
+          - "22.x"
+          - "23.x"
+          - "24.x"
+          - "25.x"
+          - "26.x"
+    labels:
+      - "dependencies"
+      - "javascript"
+    schedule:
+      interval: "weekly"

@@ -1,0 +1,29 @@
+name: SDK Documentation
+description: Submit an issue about documentation
+labels: ["untriaged", "docs"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Found an issue with the documentation? Let us know!
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Describe the documentation issue or improvement
+    validations:
+      required: true
+
+  - type: input
+    id: url
+    attributes:
+      label: Relevant URL
+      description: Link to the documentation page (if applicable)
+      placeholder: e.g., https://docs.slack.dev/tools/node-slack-sdk/
+
+  - type: markdown
+    attributes:
+      value: |
+        ---
+        By submitting this issue, you agree to follow our [Contributing Guidelines](https://github.com/slackapi/node-slack-sdk/blob/main/.github/contributing.md) and [Code of Conduct](https://slackhq.github.io/code-of-conduct).

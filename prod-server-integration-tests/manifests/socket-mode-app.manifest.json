@@ -1,0 +1,32 @@
+{
+  "_metadata": {
+    "major_version": 1,
+    "minor_version": 1
+  },
+  "display_information": {
+    "name": "Node SDK Socket Mode Test",
+    "description": "Socket Mode app for node-slack-sdk integration tests"
+  },
+  "features": {
+    "bot_user": {
+      "display_name": "SDK Socket Mode Bot",
+      "always_online": false
+    }
+  },
+  "oauth_config": {
+    "scopes": {
+      "bot": ["app_mentions:read", "channels:history", "chat:write"]
+    }
+  },
+  "settings": {
+    "event_subscriptions": {
+      "bot_events": ["app_mention"]
+    },
+    "interactivity": {
+      "is_enabled": true
+    },
+    "org_deploy_enabled": false,
+    "socket_mode_enabled": true,
+    "token_rotation_enabled": false
+  }
+}

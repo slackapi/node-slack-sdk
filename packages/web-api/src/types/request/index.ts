@@ -97,6 +97,7 @@ export type {
 } from './admin/usergroups';
 export type {
   AdminUsersAssignArguments,
+  AdminUsersGetExpirationArguments,
   AdminUsersInviteArguments,
   AdminUsersListArguments,
   AdminUsersRemoveArguments,
@@ -120,6 +121,19 @@ export type {
   AdminWorkflowsSearchArguments,
   AdminWorkflowsUnpublishArguments,
 } from './admin/workflows';
+export type {
+  AgentsConversationsArchiveArguments,
+  AgentsConversationsCreateArguments,
+  AgentsConversationsGetCanvasArguments,
+  AgentsConversationsListViewsArguments,
+  AgentsConversationsRemoveViewArguments,
+  AgentsConversationsSetCanvasContentArguments,
+  AgentsConversationsSetCommandsArguments,
+  AgentsConversationsSetPropertiesArguments,
+  AgentsConversationsSetViewArguments,
+  AgentsSessionsRenameArguments,
+  AgentsSessionsSetStatusArguments,
+} from './agents';
 export type { APITestArguments } from './api';
 export type {
   AppsConnectionsOpenArguments,
@@ -130,6 +144,10 @@ export type {
   AppsManifestUpdateArguments,
   AppsManifestValidateArguments,
   AppsUninstallArguments,
+  AppsUserConnectionBulkUpdateArguments,
+  AppsUserConnectionRequestAuthArguments,
+  AppsUserConnectionUpdateArguments,
+  UserConnectionPrimaryProvider,
 } from './apps';
 export type {
   AssistantThreadsSetStatusArguments,
@@ -141,6 +159,7 @@ export type {
   AuthTeamsListArguments,
   AuthTestArguments,
 } from './auth';
+export type { BlocksValidateArguments } from './blocks';
 export type {
   BookmarksAddArguments,
   BookmarksEditArguments,
@@ -162,10 +181,12 @@ export type {
   CanvasesCreateArguments,
   CanvasesDeleteArguments,
   CanvasesEditArguments,
+  CanvasesGetContentArguments,
   CanvasesSectionsLookupArguments,
   ConversationsCanvasesCreateArguments,
 } from './canvas';
 export type {
+  ChatAppendStreamArguments,
   ChatDeleteArguments,
   ChatDeleteScheduledMessageArguments,
   ChatGetPermalinkArguments,
@@ -174,6 +195,8 @@ export type {
   ChatPostMessageArguments,
   ChatScheduledMessagesListArguments,
   ChatScheduleMessageArguments,
+  ChatStartStreamArguments,
+  ChatStopStreamArguments,
   ChatUnfurlArguments,
   ChatUpdateArguments,
 } from './chat';
@@ -215,6 +238,7 @@ export type {
   DndTeamInfoArguments,
 } from './dnd';
 export type { EmojiListArguments } from './emoji';
+export type { EntityPresentDetailsArguments } from './entity';
 export type {
   FilesCommentsDeleteArguments,
   FilesCompleteUploadExternalArguments,
@@ -230,7 +254,6 @@ export type {
   FilesRemoteUpdateArguments,
   FilesRevokePublicURLArguments,
   FilesSharedPublicURLArguments,
-  FilesUploadArguments,
   FilesUploadV2Arguments,
 } from './files';
 export type {
@@ -265,15 +288,26 @@ export type {
   RemindersInfoArguments,
   RemindersListArguments,
 } from './reminders';
-export type {
-  RTMConnectArguments,
-  RTMStartArguments,
-} from './rtm';
+export type { RTMConnectArguments } from './rtm';
 export type {
   SearchAllArguments,
   SearchFilesArguments,
   SearchMessagesArguments,
 } from './search';
+export type {
+  SlackListsAccessDeleteArguments,
+  SlackListsAccessSetArguments,
+  SlackListsCreateArguments,
+  SlackListsDownloadGetArguments,
+  SlackListsDownloadStartArguments,
+  SlackListsItemsCreateArguments,
+  SlackListsItemsDeleteArguments,
+  SlackListsItemsDeleteMultipleArguments,
+  SlackListsItemsInfoArguments,
+  SlackListsItemsListArguments,
+  SlackListsItemsUpdateArguments,
+  SlackListsUpdateArguments,
+} from './slackLists';
 export type {
   StarsAddRemoveArguments,
   StarsListArguments,
@@ -320,7 +354,8 @@ export type {
   ViewsUpdateArguments,
 } from './views';
 export type {
-  WorkflowsStepCompletedArguments,
-  WorkflowsStepFailedArguments,
-  WorkflowsUpdateStepArguments,
+  WorkflowsFeaturedAddArguments,
+  WorkflowsFeaturedListArguments,
+  WorkflowsFeaturedRemoveArguments,
+  WorkflowsFeaturedSetArguments,
 } from './workflows';

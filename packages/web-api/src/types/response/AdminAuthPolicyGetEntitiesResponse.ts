@@ -15,6 +15,7 @@ export type AdminAuthPolicyGetEntitiesResponse = WebAPICallResult & {
   needed?: string;
   ok?: boolean;
   provided?: string;
+  warning?: string;
 };
 
 export interface Entity {

@@ -1,0 +1,53 @@
+[@slack/web-api](../index.md) / AuthTeamsListResponse
+
+# Type Alias: AuthTeamsListResponse
+
+```ts
+type AuthTeamsListResponse = WebAPICallResult & object;
+```
+
+Defined in: [packages/web-api/src/types/response/AuthTeamsListResponse.ts:11](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/AuthTeamsListResponse.ts#L11)
+
+## Type Declaration
+
+### error?
+
+```ts
+optional error?: string;
+```
+
+### needed?
+
+```ts
+optional needed?: string;
+```
+
+### ok?
+
+```ts
+optional ok?: boolean;
+```
+
+### provided?
+
+```ts
+optional provided?: string;
+```
+
+### response\_metadata?
+
+```ts
+optional response_metadata?: ResponseMetadata;
+```
+
+### teams?
+
+```ts
+optional teams?: Team[];
+```
+
+### warning?
+
+```ts
+optional warning?: string;
+```

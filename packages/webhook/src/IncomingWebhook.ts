@@ -1,10 +1,35 @@
-import type { Agent } from 'node:http';
-
 import type { Block, KnownBlock, MessageAttachment } from '@slack/types'; // TODO: Block and KnownBlock will be merged into AnyBlock in upcoming types release
-import axios, { type AxiosInstance, type AxiosResponse } from 'axios';
+import pRetry, { AbortError } from 'p-retry';
 
-import { httpErrorWithOriginal, requestErrorWithOriginal } from './errors';
+import { IncomingWebhookHTTPError, IncomingWebhookRequestError, SlackWebhookError } from './errors';
 import { getUserAgent } from './instrument';
+import type { RetryOptions } from './retry-policies';
+
+export interface FetchHeaders {
+  get(name: string): string | null;
+  entries(): Iterable<[string, string]>;
+}
+
+export interface FetchResponse {
+  readonly ok: boolean;
+  readonly status: number;
+  readonly statusText: string;
+  readonly url: string;
+  readonly headers: FetchHeaders;
+  arrayBuffer(): Promise<ArrayBuffer>;
+  json(): Promise<unknown>;
+  text(): Promise<string>;
+}
+
+export interface FetchRequestInit {
+  method?: string;
+  headers?: Record<string, string>;
+  body?: string | FormData;
+  redirect?: 'error' | 'follow' | 'manual';
+  signal?: AbortSignal;
+}
+
+export type FetchFunction = (url: string | URL, init?: FetchRequestInit) => Promise<FetchResponse>;
 
 /**
  * A client for Slack's Incoming Webhooks
@@ -21,9 +46,24 @@ export class IncomingWebhook {
   private defaults: IncomingWebhookDefaultArguments;
 
   /**
-   * Axios HTTP client instance used by this client
+   * The fetch function used for HTTP requests
    */
-  private axios: AxiosInstance;
+  private fetchFn: FetchFunction;
+
+  /**
+   * Request timeout in milliseconds
+   */
+  private timeout: number;
+
+  /**
+   * Default headers sent with every request
+   */
+  private headers: Record<string, string>;
+
+  /**
+   * Retry policy applied to each send. Defaults to no retries.
+   */
+  private retryConfig: RetryOptions;
 
   public constructor(
     url: string,
@@ -36,21 +76,16 @@ export class IncomingWebhook {
     }
 
     this.url = url;
-    this.defaults = defaults;
+    this.fetchFn = defaults.fetch ?? globalThis.fetch;
+    this.timeout = defaults.timeout ?? 0;
+    this.retryConfig = defaults.retryConfig ?? { retries: 0 };
+    this.headers = {
+      'User-Agent': getUserAgent(),
+    };
 
-    this.axios = axios.create({
-      baseURL: url,
-      httpAgent: defaults.agent,
-      httpsAgent: defaults.agent,
-      maxRedirects: 0,
-      proxy: false,
-      timeout: defaults.timeout,
-      headers: {
-        'User-Agent': getUserAgent(),
-      },
-    });
-
-    this.defaults.agent = undefined;
+    // Remove transport options so they don't leak into payloads
+    const { fetch: _fetch, timeout: _timeout, retryConfig: _retryConfig, ...messageDefaults } = defaults;
+    this.defaults = messageDefaults;
   }
 
   /**
@@ -58,7 +93,6 @@ export class IncomingWebhook {
    * @param message - the message (a simple string, or an object describing the message)
    */
   public async send(message: string | IncomingWebhookSendArguments): Promise<IncomingWebhookResult> {
-    // NOTE: no support for TLS config
     let payload: IncomingWebhookSendArguments = { ...this.defaults };
 
     if (typeof message === 'string') {
@@ -67,28 +101,46 @@ export class IncomingWebhook {
       payload = Object.assign(payload, message);
     }
 
-    try {
-      const response = await this.axios.post(this.url, payload);
-      return this.buildResult(response);
-      // biome-ignore lint/suspicious/noExplicitAny: errors can be anything
-    } catch (error: any) {
-      // Wrap errors in this packages own error types (abstract the implementation details' types)
-      if (error.response !== undefined) {
-        throw httpErrorWithOriginal(error);
+    return pRetry(async () => {
+      const signal = this.timeout > 0 ? AbortSignal.timeout(this.timeout) : undefined;
+
+      try {
+        const response = await this.fetchFn(this.url, {
+          method: 'POST',
+          headers: {
+            ...this.headers,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(payload),
+          redirect: 'error',
+          signal,
+        });
+
+        if (!response.ok) {
+          const body = await response.text();
+          const httpError = new IncomingWebhookHTTPError(response.status, response.statusText, body);
+          // Only server errors (5xx) are transient; client errors (4xx), including rate limits (429), fail immediately.
+          throw response.status >= 500 ? httpError : new AbortError(httpError);
+        }
+
+        return await this.buildResult(response);
+      } catch (error) {
+        // Non-retryable signals (AbortError) and already-wrapped errors pass through untouched.
+        if (error instanceof AbortError || error instanceof SlackWebhookError) {
+          throw error;
+        }
+        // No response received (network/timeout): retryable.
+        throw new IncomingWebhookRequestError(error instanceof Error ? error : new Error(String(error)));
       }
-      if (error.request !== undefined) {
-        throw requestErrorWithOriginal(error);
-      }
-      throw error;
-    }
+    }, this.retryConfig);
   }
 
   /**
    * Processes an HTTP response into an IncomingWebhookResult.
    */
-  private buildResult(response: AxiosResponse): IncomingWebhookResult {
+  private async buildResult(response: FetchResponse): Promise<IncomingWebhookResult> {
     return {
-      text: response.data,
+      text: await response.text(),
     };
   }
 }
@@ -104,8 +156,9 @@ export interface IncomingWebhookDefaultArguments {
   channel?: string;
   text?: string;
   link_names?: boolean;
-  agent?: Agent;
+  fetch?: FetchFunction;
   timeout?: number;
+  retryConfig?: RetryOptions;
 }
 
 export interface IncomingWebhookSendArguments extends IncomingWebhookDefaultArguments {

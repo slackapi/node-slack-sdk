@@ -51,6 +51,20 @@ expectError(
 // -- happy path
 expectAssignable<Parameters<typeof web.canvases.create>>([]); // no arg ok
 expectAssignable<Parameters<typeof web.canvases.create>>([{}]); // all optional args
+expectAssignable<Parameters<typeof web.canvases.create>>([{ title: 'My canvas' }]); // with title
+expectAssignable<Parameters<typeof web.canvases.create>>([
+  {
+    document_content: {
+      type: 'markdown',
+      markdown: '# Hello', // with document_content
+    },
+  },
+]);
+expectAssignable<Parameters<typeof web.canvases.create>>([
+  {
+    channel_id: 'C1234', // with channel_id
+  },
+]);
 
 // canvases.sections.lookup
 // -- sad path
@@ -226,6 +240,40 @@ expectAssignable<Parameters<typeof web.canvases.edit>>([
         section_id: '1234',
       },
     ],
+  },
+]);
+
+// canvases.getContent
+// -- sad path
+expectError(web.canvases.getContent()); // lacking argument
+expectError(web.canvases.getContent({})); // empty argument
+expectError(
+  web.canvases.getContent({
+    content_type: 'markdown', // missing canvas_id
+  }),
+);
+expectError(
+  web.canvases.getContent({
+    canvas_id: 'F1234',
+    content_type: 'pdf', // invalid content_type
+  }),
+);
+// -- happy path
+expectAssignable<Parameters<typeof web.canvases.getContent>>([
+  {
+    canvas_id: 'F1234',
+  },
+]);
+expectAssignable<Parameters<typeof web.canvases.getContent>>([
+  {
+    canvas_id: 'F1234',
+    content_type: 'html',
+  },
+]);
+expectAssignable<Parameters<typeof web.canvases.getContent>>([
+  {
+    canvas_id: 'F1234',
+    content_type: 'markdown',
   },
 ]);
 

@@ -3,7 +3,7 @@
 The `@slack/rtm-api` package contains a simple, convenient, and configurable client for receiving events and sending simple messages to Slack's [Real Time Messaging API](https://docs.slack.dev/legacy/legacy-rtm-api). Use it in your
 app to stay connected to the Slack platform over a persistent Websocket connection.
 
-**Note**: The RTM API isn't available for modern granular-permissions apps, and you can no longer create new legacy apps. We recommend using [Bolt for JavaScript](https://tools.slack.dev/bolt-js). If you have an existing RTM app, do not update its scopes as it will be updated to a granular-permissions app and stop working with the RTM API.
+**Note**: The RTM API isn't available for modern granular-permissions apps, and you can no longer create new legacy apps. We recommend using [Bolt for JavaScript](https://docs.slack.dev/tools/bolt-js/). If you have an existing RTM app, do not update its scopes as it will be updated to a granular-permissions app and stop working with the RTM API.
 
 ## Installation
 
@@ -16,7 +16,7 @@ $ npm install @slack/rtm-api
 ## Usage
 
 These examples show the most common features of the `RTMClient`. You'll find even more extensive [documentation on the
-package's website](https://tools.slack.dev/node-slack-sdk/rtm-api).
+package's website](https://docs.slack.dev/tools/node-slack-sdk/rtm-api/).
 
 <!-- END: Remove before copying into the docs directory -->
 
@@ -72,7 +72,7 @@ user ID and team ID, you can look those up any time the client is connected as t
 
 Options passed to the `.start()` method are passed through as arguments to the [`rtm.connect` Web API
 method](https://docs.slack.dev/reference/methods/rtm.connect). These arguments deal with presence, which is discussed in more
-detail [on the documentation website](https://tools.slack.dev/node-slack-sdk/rtm-api/#presence).
+detail [on the documentation website](https://docs.slack.dev/tools/node-slack-sdk/rtm-api/#presence).
 
 </details>
 
@@ -150,7 +150,7 @@ const rtm = new RTMClient(token);
 rtm.on('member_joined_channel', async (event) => {
   try {
     // Send a welcome message to the same channel where the new member just joined, and mention the user.
-    const reply = await rtm.sendMessage(`Welcome to the channel, <@${event.user}>`, event.channel)
+    const reply = await rtm.sendMessage(`Welcome to the channel, <@${event.user}>`, event.channel);
     console.log('Message sent successfully', reply.ts);
   } catch (error) {
     console.log('An error occurred', error);
@@ -240,10 +240,10 @@ rtm.on('member_joined_channel', async (event) => {
   try {
     // Send a typing indicator, and wait for 3 seconds
     await rtm.sendTyping(event.channel);
-    await (new Promise((resolve) => setTimeout(resolve, 3000)));
+    await new Promise((resolve) => setTimeout(resolve, 3000));
 
     // Send a message (clears typing indicator)
-    const reply = await rtm.sendMessage(`Welcome to the channel, <@${event.user}>`, event.channel)
+    const reply = await rtm.sendMessage(`Welcome to the channel, <@${event.user}>`, event.channel);
     console.log('Message sent successfully', reply.ts);
   } catch (error) {
     console.log('An error occurred', error);
@@ -270,25 +270,25 @@ In the table below, the client's states are listed, which are also the names of 
 the transition to that state. The table also includes description for the state, and arguments that a listener would
 receive.
 
-| Event Name      | Arguments | Description |
-|-----------------|-----------------|-------------|
-| `connecting`    |  | The client is in the process of connecting to the platform. |
-| `authenticated` | `(connectData)` - the response from `rtm.connect` or `rtm.start` | The client has authenticated with the platform. This is a sub-state of `connecting`. |
-| `connected`     |  | The client is connected to the platform and incoming events will start being emitted. |
-| `ready`         |  | The client is ready to send outgoing messages. This is a sub-state of `connected` |
-| `disconnecting` |  | The client is no longer connected to the platform and cleaning up its resources. It will soon transition to `disconnected`. |
-| `reconnecting`  |  | The client is no longer connected to the platform and cleaning up its resources. It will soon transition to `connecting`. |
-| `disconnected`  | `(error)` | The client is not connected to the platform. This is a steady state - no attempt to connect is occurring. The `error` argument will be `undefined` when the client initiated the disconnect (normal). |
+| Event Name      | Arguments                                                        | Description                                                                                                                                                                                           |
+| --------------- | ---------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `connecting`    |                                                                  | The client is in the process of connecting to the platform.                                                                                                                                           |
+| `authenticated` | `(connectData)` - the response from `rtm.connect` or `rtm.start` | The client has authenticated with the platform. This is a sub-state of `connecting`.                                                                                                                  |
+| `connected`     |                                                                  | The client is connected to the platform and incoming events will start being emitted.                                                                                                                 |
+| `ready`         |                                                                  | The client is ready to send outgoing messages. This is a sub-state of `connected`                                                                                                                     |
+| `disconnecting` |                                                                  | The client is no longer connected to the platform and cleaning up its resources. It will soon transition to `disconnected`.                                                                           |
+| `reconnecting`  |                                                                  | The client is no longer connected to the platform and cleaning up its resources. It will soon transition to `connecting`.                                                                             |
+| `disconnected`  | `(error)`                                                        | The client is not connected to the platform. This is a steady state - no attempt to connect is occurring. The `error` argument will be `undefined` when the client initiated the disconnect (normal). |
 
 The client also emits events that are part of its lifecycle, but aren't states. Instead, they represent specific
 moments that might be interesting to your app. The following table lists these events, their description, and includes
 the arguments that a listener would receive.
 
-| Event Name      | Arguments | Description |
-|-----------------|-----------|-------------|
-| `error`         | `(error)` | An error has occurred. See [error handling](#handle-errors) for details. |
-| `slack_event`   | `(eventType, event)` | An incoming Slack event has been received. |
-| `unable_to_rtm_start` | `(error)` | A problem occurred while connecting, a reconnect may or may not occur. |
+| Event Name            | Arguments            | Description                                                              |
+| --------------------- | -------------------- | ------------------------------------------------------------------------ |
+| `error`               | `(error)`            | An error has occurred. See [error handling](#handle-errors) for details. |
+| `slack_event`         | `(eventType, event)` | An incoming Slack event has been received.                               |
+| `unable_to_rtm_start` | `(error)`            | A problem occurred while connecting, a reconnect may or may not occur.   |
 
 ---
 
@@ -310,7 +310,7 @@ const rtm = new RTMClient(token);
 
 rtm.on('member_joined_channel', async (event) => {
   try {
-    const reply = await rtm.sendMessage(`Welcome to the channel, <@${event.user}>`, event.channel)
+    const reply = await rtm.sendMessage(`Welcome to the channel, <@${event.user}>`, event.channel);
     console.log('Message sent successfully', reply.ts);
   } catch (error) {
     // Check the error code, and when it's a platform error, log the whole response
@@ -335,12 +335,12 @@ rtm.on('member_joined_channel', async (event) => {
 
 There are a few more types of errors that you might encounter, each with one of these `code`s:
 
-* `ErrorCode.NoReplyReceivedError`: A message was sent, but because either the connection was reset the there was no
+- `ErrorCode.NoReplyReceivedError`: A message was sent, but because either the connection was reset the there was no
   reply acknowledging it from the server. You may want to send this message again.
-* `ErrorCode.SendWhileDisconnectedError`: You've attempted to send a message while the client was not connected.
-* `ErrorCode.SendWhileNotReadyError`: You've attempted to send a message when the client was authenticated but not ready
+- `ErrorCode.SendWhileDisconnectedError`: You've attempted to send a message while the client was not connected.
+- `ErrorCode.SendWhileNotReadyError`: You've attempted to send a message when the client was authenticated but not ready
   for outgoing messages.
-* `ErrorCode.WebsocketError`: The Websocket transport underlying the connection has emitted an error.
+- `ErrorCode.WebsocketError`: The Websocket transport underlying the connection has emitted an error.
 
 </details>
 
@@ -379,7 +379,7 @@ You can also choose to have logs sent to a custom logger using the `logger` opti
 specific methods (known as the `Logger` interface):
 
 | Method       | Parameters        | Return type |
-|--------------|-------------------|-------------|
+| ------------ | ----------------- | ----------- |
 | `setLevel()` | `level: LogLevel` | `void`      |
 | `setName()`  | `name: string`    | `void`      |
 | `debug()`    | `...msgs: any[]`  | `void`      |
@@ -415,12 +415,12 @@ const rtm = new RTMClient(token, {
 
 ### More
 
-*  User presence subscriptions
-*  Workspace state snapshot on connection
-*  Using a custom agent for proxying
-*  Automatic reconnect
-*  Custom TLS configuration
-*  Custom API URL
+-  User presence subscriptions
+-  Workspace state snapshot on connection
+-  Using a custom agent for proxying
+-  Automatic reconnect
+-  Custom TLS configuration
+-  Custom API URL
 
 ---
 
@@ -434,5 +434,5 @@ from that version.
 
 If you get stuck, we're here to help. The following are the best ways to get assistance working through your issue:
 
-  * [Issue Tracker](http://github.com/slackapi/node-slack-sdk/issues) for questions, feature requests, bug reports and
-    general discussion related to these packages. Try searching before you create a new issue.
+- [Issue Tracker](http://github.com/slackapi/node-slack-sdk/issues) for questions, feature requests, bug reports and
+  general discussion related to these packages. Try searching before you create a new issue.

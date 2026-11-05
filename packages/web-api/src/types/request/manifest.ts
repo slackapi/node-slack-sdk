@@ -3,7 +3,7 @@ export interface Manifest extends Record<string, unknown> {
   _metadata?: ManifestMetadata;
   /**
    * @description A group of settings that describe parts of an app's appearance within Slack. If you're distributing
-   * the app via the Slack Marketplace, read our {@link https://docs.slack.dev/slack-marketplace/distributing-your-app-in-the-slack-marketplace listing guidelines} to pick the best values for these settings.
+   * the app via the Slack Marketplace, read our {@link https://docs.slack.dev/slack-marketplace/slack-marketplace-app-guidelines-and-requirements listing guidelines} to pick the best values for these settings.
    */
   display_information: ManifestDisplayInformation;
   /** @description A group of settings corresponding to the Features section of the app config pages. */
@@ -46,15 +46,31 @@ interface ManifestDisplayInformation {
 
 interface ManifestFeatures {
   /**
+   * @description A subgroup of settings that describe {@link https://docs.slack.dev/ai/developing-ai-apps agent} configuration.
+   * @see {@link https://docs.slack.dev/ai/developing-ai-apps Developing AI apps}.
+   */
+  agent_view?: ManifestAgentView;
+  /**
    * @description A subgroup of settings that describe {@link https://docs.slack.dev/surfaces/app-home App Home} configuration.
    * @see {@link https://docs.slack.dev/surfaces/app-home App Home}.
    */
   app_home?: ManifestAppHome;
   /**
+   * @description A subgroup of settings that describe {@link https://docs.slack.dev/ai/developing-ai-apps assistant} configuration.
+   * @see {@link https://docs.slack.dev/ai/developing-ai-apps Developing AI apps}.
+   */
+  assistant_view?: ManifestAssistantView;
+  /**
    * @description A subgroup of settings that describe {@link https://docs.slack.dev/legacy/legacy-bot-users bot user} configuration.
    * @see {@link https://docs.slack.dev/legacy/legacy-bot-users Legacy bots}.
    */
   bot_user?: ManifestBotUser;
+  /**
+   * @description A subgroup of settings that describe {@link https://docs.slack.dev/ai/slack-code code channels}
+   * configuration.
+   * @see {@link https://docs.slack.dev/ai/slack-code#enabling-code-channels Enabling code channels}.
+   */
+  code_channels?: ManifestCodeChannels;
   /**
    * @description An array of settings groups that describe {@link https://docs.slack.dev/interactivity/implementing-shortcuts shortcuts}
    * configuration. A maximum of 10 shortcuts can be included in this array.
@@ -73,6 +89,49 @@ interface ManifestFeatures {
    * @see {@link https://docs.slack.dev/messaging/unfurling-links-in-messages Link unfurling: configuring domains}.
    */
   unfurl_domains?: string[];
+  /**
+   * @description A subgroup of settings that describe {@link https://docs.slack.dev/authentication/standardized-auth standardized app authentication}
+   * configuration.
+   */
+  user_connections?: ManifestUserConnections;
+}
+
+interface ManifestAgentView {
+  /**
+   * @description A description specific to the agent, used to communicate to end users what agent functionality the
+   * app provides. Maximum length is 300 characters.
+   */
+  agent_description?: string;
+  /**
+   * @description An array of pre-written prompts designed to guide users when interacting with the agent. A maximum of
+   * 4 suggested prompts can be included in this array.
+   */
+  suggested_prompts?: ManifestSuggestedPrompt[];
+  /** @description Quick actions surfaced in the agent UI. */
+  actions?: ManifestAgentAction[];
+}
+
+interface ManifestAssistantView {
+  /** @description A string that describes the app assistant. */
+  assistant_description: string;
+  /**
+   * @description An array of pre-written prompts designed to guide users when interacting with the app assistant.
+   */
+  suggested_prompts?: ManifestSuggestedPrompt[];
+}
+
+interface ManifestSuggestedPrompt {
+  /** @description The prompt title. */
+  title: string;
+  /** @description The prompt content. */
+  message: string;
+}
+
+interface ManifestAgentAction {
+  /** @description The action name. */
+  name: string;
+  /** @description A short description of what the action does. */
+  description: string;
 }
 
 interface ManifestAppHome {
@@ -103,6 +162,18 @@ interface ManifestBotUser {
   display_name: string;
   /** @description A boolean that specifies whether or not the bot user will always appear to be online. */
   always_online?: boolean;
+}
+
+interface ManifestCodeChannels {
+  /** @description A boolean that specifies whether or not code channels are enabled for the app. */
+  enabled?: boolean;
+  /**
+   * @description A string containing the `https` URL where Slack delivers invocations of your agent's
+   * {@link https://docs.slack.dev/ai/slack-code/agent-slash-commands runtime-registered slash commands}. Not needed for
+   * Socket Mode or hosted apps. Maximum length is 3000 characters.
+   * @see {@link https://docs.slack.dev/ai/slack-code/agent-slash-commands Agent slash commands}.
+   */
+  slash_command_url?: string;
 }
 
 interface ManifestShortcut {
@@ -141,6 +212,17 @@ interface ManifestSlashCommand {
   usage_hint?: string;
 }
 
+interface ManifestUserConnections {
+  /** @description A boolean that specifies whether or not standardized app authentication is enabled for the app. */
+  is_enabled: boolean;
+  /**
+   * @description An array of strings containing the hosts, without a scheme, that a provider's `auth_url` and
+   * `disconnect_url` may use. Subdomains of a listed host are also allowed. The hosts are kept while `is_enabled` is
+   * false, so turning standardized app authentication off only flips `is_enabled`.
+   */
+  auth_hosts: string[];
+}
+
 interface ManifestOAuthConfig {
   /**
    * @description An array of strings containing {@link https://docs.slack.dev/authentication/installing-with-oauth OAuth redirect URLs}.
@@ -163,6 +245,16 @@ interface ManifestOAuthScopes {
    * to request upon app installation. A maximum of 255 scopes can included in this array.
    */
   user?: UserScope[];
+  /**
+   * @description An array of strings containing optional {@link https://docs.slack.dev/reference/scopes?token_types=Bot granular bot scopes}
+   * to request upon app installation. A maximum of 255 scopes can included in this array.
+   */
+  bot_optional?: BotScope[];
+  /**
+   * @description An array of strings containing optional {@link https://docs.slack.dev/reference/scopes?token_types=User user scopes}
+   * to request upon app installation. A maximum of 255 scopes can included in this array.
+   */
+  user_optional?: UserScope[];
 }
 
 interface ManifestSettings {
@@ -205,6 +297,18 @@ interface ManifestEventSubscriptions {
    * If set, you'll need to manually verify the Request URL in the App Manifest section of App Management.
    */
   request_url?: string; // can be absent when enabling Socket Mode
+  /**
+   * @description An array describing {@link https://docs.slack.dev/messaging/message-metadata message metadata} event
+   * types the app subscribes to. Between 1 and 20 subscriptions can be included in this array.
+   */
+  metadata_subscriptions?: ManifestMetadataSubscription[];
+}
+
+interface ManifestMetadataSubscription {
+  /** @description The ID of the app publishing the message metadata event. */
+  app_id: string;
+  /** @description The event type of the message metadata to subscribe to. */
+  event_type: string;
 }
 
 interface ManifestIncomingWebhooks {
@@ -292,6 +396,7 @@ type BotScope =
   | 'chat:write'
   | 'chat:write.customize'
   | 'chat:write.public'
+  | 'code_channels:manage'
   | 'commands'
   | 'conversations.connect:manage'
   | 'conversations.connect:read'
@@ -447,11 +552,14 @@ export type AppManifestLevelScopes = 'authorizations:read' | 'connections:write'
 // var events = [].slice.call(document.getElementsByClassName('apiReferenceFilterableList__listItemLink'))
 // .map(e => '"' + e.innerText + '"').join(' | '); console.log("export type AnyMafifestEvent = " + events + ";");
 type ManifestEvent =
+  | 'app_context_changed'
   | 'app_home_opened'
   | 'app_mention'
   | 'app_rate_limited'
   | 'app_requested'
   | 'app_uninstalled'
+  | 'assistant_thread_context_changed'
+  | 'assistant_thread_started'
   | 'call_rejected'
   | 'channel_archive'
   | 'channel_created'
@@ -467,6 +575,7 @@ type ManifestEvent =
   | 'dnd_updated_user'
   | 'email_domain_changed'
   | 'emoji_changed'
+  | 'entity_details_requested'
   | 'file_change'
   | 'file_comment_added'
   | 'file_comment_deleted'
@@ -530,6 +639,8 @@ type ManifestEvent =
   | 'tokens_revoked'
   | 'url_verification'
   | 'user_change'
+  | 'user_connection'
+  | 'user_connection_status_requested'
   | 'user_huddle_changed'
   | 'user_profile_changed'
   | 'user_resource_denied'

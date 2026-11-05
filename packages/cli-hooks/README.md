@@ -19,7 +19,7 @@ section.
 
 ## Requirements
 
-This package supports Node v18 and higher. It's highly recommended to use [the
+This package supports Node v20 and higher. It's highly recommended to use [the
 latest LTS version of Node][node].
 
 An updated version of the Slack CLI is also encouraged while using this package.
@@ -54,13 +54,13 @@ installed.
 The hooks that are currently supported for use within the Slack CLI include
 `check-update`, `doctor`, `get-hooks`, `get-manifest`, and `start`:
 
-| Hook Name      | CLI Command      | File |Description |
-| -------------- | ---------------- | ---- | ----------- |
-| `check-update` | `slack update`   | [`check-update.js`](./src/check-update.js) | Checks the project's Slack dependencies to determine whether or not any packages need to be updated. |
-| `doctor`       | `slack doctor`   | [`doctor.js`](./src/doctor.js) | Returns runtime versions and other system dependencies required by the application. |
-| `get-hooks`    | All              | [`get-hooks.js`](./src/get-hooks.js) | Fetches the list of available hooks for the CLI from this repository. |
-| `get-manifest` | `slack manifest` | [`get-manifest.js`](./src/get-manifest.js) | Converts a `manifest.json` file into a valid manifest JSON payload. |
-| `start`        | `slack run`      | [`start.js`](./src/start.js) | While developing locally, the CLI manages a socket connection with Slack's backend and utilizes this hook for events received via this connection. |
+| Hook Name      | CLI Command      | File                                       | Description                                                                                                                                        |
+| -------------- | ---------------- | ------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `check-update` | `slack update`   | [`check-update.js`](./src/check-update.js) | Checks the project's Slack dependencies to determine whether or not any packages need to be updated.                                               |
+| `doctor`       | `slack doctor`   | [`doctor.js`](./src/doctor.js)             | Returns runtime versions and other system dependencies required by the application.                                                                |
+| `get-hooks`    | All              | [`get-hooks.js`](./src/get-hooks.js)       | Fetches the list of available hooks for the CLI from this repository.                                                                              |
+| `get-manifest` | `slack manifest` | [`get-manifest.js`](./src/get-manifest.js) | Converts a `manifest.json` file into a valid manifest JSON payload.                                                                                |
+| `start`        | `slack run`      | [`start.js`](./src/start.js)               | While developing locally, the CLI manages a socket connection with Slack's backend and utilizes this hook for events received via this connection. |
 
 ### Overriding Hooks
 
@@ -104,21 +104,21 @@ to ensure you're using the correct version for your project.
 If you get stuck, we're here to help. The following are the best ways to get
 assistance working through your issue:
 
-* [Issue Tracker][issues] for questions, feature requests, bug reports and
+- [Issue Tracker][issues] for questions, feature requests, bug reports and
   general discussion related to these packages. Try searching before you create
   a new issue.
-* [Email us][email]: `developers@slack.com`
-* [Community Slack][community]: a Slack community for developers building all
+- [Email us][email]: `developers@slack.com`
+- [Community Slack][community]: a Slack community for developers building all
   kinds of Slack apps. You can find the maintainers and users of these packages
   in **#lang-javascript**.
 
 <!-- a collection of links -->
 [bolt]: https://github.com/slackapi/bolt-js
-[cli]: https://tools.slack.dev/slack-cli/
+[cli]: https://docs.slack.dev/tools/slack-cli/
 [community]: https://community.slack.com/
 [config]: https://api.slack.com/apps
 [email]: mailto:developers@slack.com
-[install]: https://tools.slack.dev/slack-cli/guides/installing-the-slack-cli-for-mac-and-linux
+[install]: https://docs.slack.dev/tools/slack-cli/guides/installing-the-slack-cli-for-mac-and-linux
 [issues]: http://github.com/slackapi/node-slack-sdk/issues
 [manifest]: https://docs.slack.dev/reference/app-manifest
 [node]: https://github.com/nodejs/Release#release-schedule

@@ -70,6 +70,7 @@ export interface AppHomeOpenedEvent {
   channel: string;
   tab?: 'home' | 'messages';
   view?: View;
+  context?: AppContextChangedEvent['context'];
   event_ts: string;
 }
 
@@ -133,8 +134,63 @@ export interface AppMentionEvent {
   text: string;
   attachments?: MessageAttachment[];
   blocks?: (KnownBlock | Block)[];
-  // TODO: Add more properties once the types library has a file object definition
-  files?: { id: string }[];
+  // TODO: Create and extend a file object definition
+  files?: {
+    id: string;
+    created: number;
+    timestamp: number;
+    name: string;
+    title: string;
+    mimetype: string;
+    filetype: string;
+    pretty_type: string;
+    user: string;
+    user_team: string;
+    editable: boolean;
+    size: number;
+    mode: string;
+    is_external: boolean;
+    external_type: string;
+    is_public: boolean;
+    public_url_shared: boolean;
+    display_as_bot: boolean;
+    username: string;
+    url_private: string;
+    url_private_download: string;
+    media_display_type: string;
+    thumb_pdf?: string;
+    thumb_pdf_w?: number;
+    thumb_pdf_h?: number;
+    thumb_64?: string;
+    thumb_80?: string;
+    thumb_360?: string;
+    thumb_360_w?: number;
+    thumb_360_h?: number;
+    thumb_480?: string;
+    thumb_480_w?: number;
+    thumb_480_h?: number;
+    thumb_160?: string;
+    thumb_720?: string;
+    thumb_720_w?: number;
+    thumb_720_h?: number;
+    thumb_800?: string;
+    thumb_800_w?: number;
+    thumb_800_h?: number;
+    thumb_960?: string;
+    thumb_960_w?: number;
+    thumb_960_h?: number;
+    thumb_1024?: string;
+    thumb_1024_w?: number;
+    thumb_1024_h?: number;
+    original_w?: number;
+    original_h?: number;
+    thumb_tiny?: string;
+    permalink: string;
+    permalink_public: string;
+    is_starred: boolean;
+    has_rich_preview: boolean;
+    file_access: string;
+  }[];
   upload?: boolean;
   display_as_bot?: boolean;
   edited?: {
@@ -161,6 +217,39 @@ export interface AppRateLimitedEvent {
 // https://docs.slack.dev/reference/events/app_rate_limited
 // export interface AppRateLimitedEvent {
 // }
+
+export interface AppContextChangedEvent {
+  type: 'app_context_changed';
+  channel: string;
+  user: string;
+  context: {
+    entities?: ((
+      | {
+          type: 'slack#/types/channel_id';
+          value: string;
+        }
+      | {
+          type: 'slack#/types/canvas_id';
+          value: string;
+        }
+      | {
+          type: 'slack#/types/list_id';
+          value: string;
+        }
+      | {
+          type: 'slack#/types/message_context';
+          value: {
+            message_ts: string;
+            channel_id: string;
+          };
+        }
+    ) & {
+      team_id?: string;
+      enterprise_id?: string;
+    })[];
+  };
+  event_ts: string;
+}
 
 export interface AppUninstalledEvent {
   type: 'app_uninstalled';

@@ -16,6 +16,7 @@ export type FilesGetUploadURLExternalResponse = WebAPICallResult & {
   provided?: string;
   response_metadata?: ResponseMetadata;
   upload_url?: string;
+  warning?: string;
 };
 
 export interface ResponseMetadata {

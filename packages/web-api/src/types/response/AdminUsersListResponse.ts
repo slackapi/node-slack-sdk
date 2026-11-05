@@ -15,6 +15,7 @@ export type AdminUsersListResponse = WebAPICallResult & {
   provided?: string;
   response_metadata?: ResponseMetadata;
   users?: User[];
+  warning?: string;
 };
 
 export interface ResponseMetadata {

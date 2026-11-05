@@ -1,0 +1,152 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+concurrency: ${{ github.workflow }}-${{ github.ref }}
+
+jobs:
+  changelog:
+    name: Changelog
+    runs-on: ubuntu-latest
+    outputs:
+      hasChangesets: ${{ steps.changesets.outputs.has-changesets }}
+      releaseExists: ${{ steps.published.outputs.exists }}
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: true
+
+      - name: Setup Node
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24
+
+      - name: Install dependencies
+        run: npm ci --verbose
+
+      - name: Build packages
+        run: |
+          # Build base dependencies
+          npm run build --workspace=@slack/logger
+          npm run build --workspace=@slack/types
+
+          # Build packages requiring base dependencies
+          npm run build --workspace=@slack/web-api
+          npm run build --workspace=@slack/webhook
+
+          # Build packages that depend on the Web API
+          npm run build --workspace=@slack/oauth
+          npm run build --workspace=@slack/rtm-api
+          npm run build --workspace=@slack/socket-mode
+
+      - name: Create or update release PR
+        id: changesets
+        uses: changesets/action@ae32849d5ba541f9ae29e40e22a623bc13562f51 # v2.1.2
+        with:
+          commit-message: "chore: release"
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          pr-draft: create
+          pr-title: "chore: release"
+          version-script: npm run version
+
+      - name: Check if publish is needed
+        id: published
+        if: steps.changesets.outputs.has-changesets == 'false'
+        run: |
+          EXISTS=true
+          for PKG in $(npm query .workspace | jq -r '.[].name'); do
+            VERSION=$(npm query "#${PKG}" | jq -r '.[0].version')
+            if ! gh release view "${PKG}@${VERSION}" &>/dev/null; then
+              EXISTS=false
+              break
+            fi
+          done
+          echo "exists=${EXISTS}" >> "$GITHUB_OUTPUT"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  publish:
+    name: Publish
+    needs: changelog
+    if: needs.changelog.outputs.hasChangesets == 'false' && needs.changelog.outputs.releaseExists == 'false'
+    runs-on: ubuntu-latest
+    environment: publish
+    permissions:
+      contents: write
+      id-token: write # OIDC: https://docs.npmjs.com/trusted-publishers
+    steps:
+      - name: Gather credentials
+        id: credentials
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+        with:
+          client-id: ${{ secrets.GH_APP_CLIENT_ID }}
+          private-key: ${{ secrets.GH_APP_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+          repositories: ${{ github.event.repository.name }}
+          permission-contents: write
+
+      - name: Checkout repo
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: true
+          token: ${{ steps.credentials.outputs.token }}
+
+      - name: Setup Node
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24
+          registry-url: "https://registry.npmjs.org"
+
+      - name: Install dependencies
+        run: npm ci --verbose
+
+      - name: Build packages
+        run: |
+          # Build base dependencies
+          npm run build --workspace=@slack/logger
+          npm run build --workspace=@slack/types
+
+          # Build packages requiring base dependencies
+          npm run build --workspace=@slack/web-api
+          npm run build --workspace=@slack/webhook
+
+          # Build packages that depend on the Web API
+          npm run build --workspace=@slack/oauth
+          npm run build --workspace=@slack/rtm-api
+          npm run build --workspace=@slack/socket-mode
+
+      - name: Publish to npm and create GitHub releases
+        id: changesets
+        uses: changesets/action@ae32849d5ba541f9ae29e40e22a623bc13562f51 # v2.1.2
+        with:
+          create-github-releases: true
+          github-token: ${{ steps.credentials.outputs.token }}
+          publish-script: npm run changeset -- publish
+
+      - name: Get publication details
+        if: steps.changesets.outputs.published == 'true'
+        id: release
+        run: |
+          echo "message=$(echo "$PUBLISHED_PACKAGES" | jq -r '[.[] | "\(.name)@\(.version)"] | join(", ")')" >> "$GITHUB_OUTPUT"
+          echo "action_url=$(echo "$PUBLISHED_PACKAGES" | jq -r '[.[] | "https://github.com/${{ github.repository }}/releases/tag/\(.name)@\(.version)"] | join(", ")')" >> "$GITHUB_OUTPUT"
+        env:
+          PUBLISHED_PACKAGES: ${{ steps.changesets.outputs.published-packages }}
+
+      - name: Notify Slack
+        if: steps.changesets.outputs.published == 'true'
+        uses: slackapi/slack-github-action@dcb1066f776dd043e64d0e8ba94ca15cc7e1875d # v4.0.0
+        with:
+          webhook: ${{ secrets.SLACK_RELEASE_ANNOUNCEMENTS_WEBHOOK_URL }}
+          webhook-type: webhook-trigger
+          payload: |
+            action_url: "${{ steps.release.outputs.action_url }}"
+            message: "${{ steps.release.outputs.message }}"
+            repository: "${{ github.repository }}"

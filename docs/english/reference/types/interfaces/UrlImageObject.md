@@ -1,0 +1,23 @@
+[@slack/types](../index.md) / UrlImageObject
+
+# Interface: UrlImageObject
+
+Defined in: [block-kit/composition-objects.ts:239](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/composition-objects.ts#L239)
+
+## Description
+
+Object for image which contains a image_url.
+
+## Properties
+
+### image\_url
+
+```ts
+image_url: string;
+```
+
+Defined in: [block-kit/composition-objects.ts:243](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/composition-objects.ts#L243)
+
+#### Description
+
+The URL of the image to be displayed.

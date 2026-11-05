@@ -1,6 +1,23 @@
 import type { WebClientOptions } from '@slack/web-api';
 import type { Logger, LogLevel } from './logger';
 
+/**
+ * A structural type representing an HTTP dispatcher compatible with undici's fetch and WebSocket.
+ * Any undici `Agent`, `ProxyAgent`, `Client`, or custom `Dispatcher` subclass satisfies this interface.
+ *
+ * Defining this structurally allows consumers to use different compatible undici versions
+ * without type conflicts.
+ */
+export interface SocketModeDispatcher {
+  /**
+   * Dispatches an HTTP request through this dispatcher.
+   * @param options - The request options (method, path, headers, body, etc.)
+   * @param handler - The response handler that processes incoming data and events
+   */
+  // biome-ignore lint/suspicious/noExplicitAny: structural compatibility with any undici Dispatcher version
+  dispatch(options: any, handler: any): boolean;
+}
+
 export interface SocketModeOptions {
   /**
    * The App-level token associated with your app, located under the Basic Information page on api.slack.com/apps.
@@ -41,7 +58,22 @@ export interface SocketModeOptions {
   pingPongLoggingEnabled?: boolean;
   /**
    * The `@slack/web-api` `WebClientOptions` to provide to the HTTP client interacting with Slack's HTTP API.
-   * Useful for setting retry configurations, TLS and HTTP Agent options.
+   * Useful for setting retry configurations and custom fetch implementations.
    */
   clientOptions?: Omit<WebClientOptions, 'logLevel' | 'logger'>;
+  /**
+   * A {@link SocketModeDispatcher} used for the WebSocket connection and, if no custom `fetch` is provided
+   * via `clientOptions`, also wrapped into a custom fetch for HTTP API calls.
+   * If `clientOptions.fetch` is already defined, the dispatcher is only used for the WebSocket connection.
+   *
+   * Use this to configure proxies or custom TLS behavior.
+   *
+   * @example
+   * ```js
+   * // Using undici's ProxyAgent as the dispatcher
+   * import { ProxyAgent } from 'undici';
+   * const dispatcher = new ProxyAgent('http://proxy:3128');
+   * ```
+   */
+  dispatcher?: SocketModeDispatcher;
 }

@@ -5,7 +5,9 @@ import type {
   Datepicker,
   DateTimepicker,
   EmailInput,
+  FeedbackButtons,
   FileInput,
+  IconButton,
   ImageElement,
   MultiSelect,
   NumberInput,
@@ -20,9 +22,18 @@ import type {
   Select,
   Timepicker,
   URLInput,
+  URLSourceElement,
   WorkflowButton,
 } from './block-elements';
-import type { PlainTextElement, SlackFileImageObject, TextObject, UrlImageObject } from './composition-objects';
+import type {
+  MrkdwnElement,
+  PlainTextElement,
+  RawNumberElement,
+  RawTextElement,
+  SlackFileImageObject,
+  TextObject,
+  UrlImageObject,
+} from './composition-objects';
 
 export interface Block {
   /**
@@ -45,7 +56,14 @@ export interface Block {
  */
 export type KnownBlock =
   | ActionsBlock
+  | AlertBlock
+  | AuthProviderBlock
+  | CardBlock
+  | CarouselBlock
+  | ContainerBlock
   | ContextBlock
+  | ContextActionsBlock
+  | DataTableBlock
   | DividerBlock
   | FileBlock
   | HeaderBlock
@@ -54,6 +72,9 @@ export type KnownBlock =
   | MarkdownBlock
   | RichTextBlock
   | SectionBlock
+  | TableBlock
+  | TaskCardBlock
+  | PlanBlock
   | VideoBlock;
 
 /**
@@ -96,6 +117,205 @@ export interface ActionsBlock extends Block {
 }
 
 /**
+ * @description Displays alerts, warnings, and informational messages.
+ * @see {@link https://docs.slack.dev/reference/block-kit/blocks/alert-block Alert block reference}.
+ */
+export interface AlertBlock extends Block {
+  /**
+   * @description The type of block. For an alert block, `type` is always `alert`.
+   */
+  type: 'alert';
+  /**
+   * @description The alert message content in the form of a {@link TextObject}.
+   */
+  text: TextObject;
+  /**
+   * @description The severity level of the alert. Defaults to `"default"` if omitted.
+   */
+  level?: 'default' | 'info' | 'warning' | 'error' | 'success';
+}
+
+/**
+ * @description Displays authentication provider information, including its icon, name, and connection state.
+ * @see {@link https://docs.slack.dev/reference/block-kit/blocks/auth-provider-block Auth provider block reference}.
+ */
+export interface AuthProviderBlock extends Block {
+  /**
+   * @description The type of block. For an auth provider block, `type` is always `auth_provider`.
+   */
+  type: 'auth_provider';
+  /**
+   * @description Unique identifier for this provider within the app. Included in interaction payloads and used to
+   * derive the connect button `action_id` (`auth_provider_connect_<value>`). Maximum length for this field is 150
+   * characters.
+   */
+  value: string;
+  /**
+   * @description Human-readable name of the provider in the form of a {@link PlainTextElement}.
+   * Maximum length for the text in this field is 75 characters.
+   */
+  name: PlainTextElement;
+  /**
+   * @description Whether this provider is currently connected. Slack records this state for the user.
+   */
+  is_connected: boolean;
+  /**
+   * @description Brief description of what this connection enables in the form of a {@link PlainTextElement}.
+   * Maximum length for the text in this field is 150 characters.
+   */
+  description?: PlainTextElement;
+  /**
+   * @description URL for the provider icon image. Must be an HTTPS URL. Falls back to the app's avatar when absent.
+   * Maximum length for this field is 3000 characters.
+   */
+  icon_url?: string;
+  /**
+   * @description OAuth redirect URL opened when the user clicks Connect. Must be an HTTPS URL on a host listed in the
+   * app manifest's `features.user_connections.auth_hosts`. Maximum length for this field is 3000 characters.
+   */
+  auth_url?: string;
+  /**
+   * @description URL opened when the user clicks Disconnect. Must be an HTTPS URL on a host listed in the app
+   * manifest's `features.user_connections.auth_hosts`. Maximum length for this field is 3000 characters.
+   */
+  disconnect_url?: string;
+  /**
+   * @description Display name of the connected account in the form of a {@link PlainTextElement}, shown when
+   * `is_connected` is `true`. Maximum length for the text in this field is 75 characters.
+   */
+  connected_identity?: PlainTextElement;
+  /**
+   * @description Additional context about the connection in the form of a {@link PlainTextElement}, e.g. the org or
+   * workspace name. Maximum length for the text in this field is 75 characters.
+   */
+  connected_context?: PlainTextElement;
+  /**
+   * @description An {@link Overflow} menu shown when connected, e.g. Disconnect or Re-authenticate.
+   */
+  accessory?: Overflow;
+  /**
+   * @description An array of stable {@link KnownBlock} objects rendered by clients that don't recognize
+   * `auth_provider`, spliced into the parent blocks array.
+   */
+  fallback?: KnownBlock[];
+}
+
+/**
+ * @description Displays content in a card. At least one of `hero_image`, `title`, `actions`, or `body` must be provided.
+ * @see {@link https://docs.slack.dev/reference/block-kit/blocks/card-block Card block reference}.
+ */
+export interface CardBlock extends Block {
+  /**
+   * @description The type of block. For a card block, `type` is always `card`.
+   */
+  type: 'card';
+  /**
+   * @description A top banner image for the card in the form of an {@link ImageElement}.
+   */
+  hero_image?: ImageElement;
+  /**
+   * @description A small icon displayed next to the title and subtitle in the form of an {@link ImageElement}.
+   */
+  icon?: ImageElement;
+  /**
+   * @description The title of the card in the form of a {@link MrkdwnElement}.
+   * Maximum length for the text in this field is 150 characters.
+   */
+  title?: MrkdwnElement;
+  /**
+   * @description The subtitle of the card in the form of a {@link MrkdwnElement}.
+   * Maximum length for the text in this field is 150 characters.
+   */
+  subtitle?: MrkdwnElement;
+  /**
+   * @description The body text of the card in the form of a {@link MrkdwnElement}.
+   * Maximum length for the text in this field is 200 characters.
+   */
+  body?: MrkdwnElement;
+  /**
+   * @description An array of {@link Button} elements displayed at the bottom of the card.
+   */
+  actions?: Button[];
+}
+
+/**
+ * @description Displays related card blocks in a horizontally-scrolling container.
+ * @see {@link https://docs.slack.dev/reference/block-kit/blocks/carousel-block Carousel block reference}.
+ */
+export interface CarouselBlock extends Block {
+  /**
+   * @description The type of block. For a carousel block, `type` is always `carousel`.
+   */
+  type: 'carousel';
+  /**
+   * @description An array of {@link CardBlock} elements. Minimum 1, maximum 10 cards.
+   */
+  elements: CardBlock[];
+}
+
+/**
+ * @description A general-purpose wrapper for grouping child blocks together, with a configurable size.
+ * @see {@link https://docs.slack.dev/reference/block-kit/blocks/container-block Container block reference}.
+ */
+export interface ContainerBlock extends Block {
+  /**
+   * @description The type of block. For a container block, `type` is always `container`.
+   */
+  type: 'container';
+  /**
+   * @description Plain text title for the container. Maximum length is 150 characters.
+   * One of `title` or `rich_text_title` is required.
+   */
+  title?: PlainTextElement;
+  /**
+   * @description Rich text title for the container. Takes precedence over `title` if both are provided.
+   * One of `title` or `rich_text_title` is required.
+   */
+  rich_text_title?: RichTextBlock;
+  /**
+   * @description Subtitle for the container in plain text or mrkdwn format. Maximum length is 150 characters.
+   */
+  subtitle?: TextObject;
+  /**
+   * @description An array of child blocks. Maximum 10 blocks.
+   */
+  child_blocks: (
+    | ActionsBlock
+    | ContextBlock
+    | DividerBlock
+    | FileBlock
+    | HeaderBlock
+    | ImageBlock
+    | InputBlock
+    | RichTextBlock
+    | SectionBlock
+    | TableBlock
+    | VideoBlock
+  )[];
+  /**
+   * @description Controls the width of the container. Defaults to `"standard"`.
+   */
+  width?: 'narrow' | 'standard' | 'wide' | 'full';
+  /**
+   * @description An image element displayed alongside the title and subtitle.
+   */
+  icon?: ImageElement;
+  /**
+   * @description Whether the container can be collapsed. Defaults to `false`.
+   */
+  is_collapsible?: boolean;
+  /**
+   * @description Whether the container is collapsed by default. Requires `is_collapsible` to be `true`. Defaults to `false`.
+   */
+  default_collapsed?: boolean;
+  /**
+   * @description Whether to show a visible border separating header from content.
+   * Only applies when `is_collapsible` is not `true`. Defaults to `false`.
+   */
+  has_header_divider?: boolean;
+}
+
+/**
  * A helper union type of all Block Elements that can be used in a {@link ContextBlock}.
  * @see {@link https://docs.slack.dev/reference/block-kit/blocks/context-block Context block reference}.
  */
@@ -115,6 +335,53 @@ export interface ContextBlock extends Block {
    * Maximum number of items is 10.
    */
   elements: ContextBlockElement[]; // TODO: breaking change: min 1 item
+}
+
+/**
+ * A helper union type of all Block Elements that can be used in a {@link ContextActionsBlock}.
+ */
+export type ContextActionsBlockElement = FeedbackButtons | IconButton;
+
+/**
+ * @description Displays actions as contextual info, which can include both feedback buttons and icon buttons.
+ * @see {@link https://docs.slack.dev/reference/block-kit/blocks/context-actions-block Context actions block reference}.
+ */
+export interface ContextActionsBlock extends Block {
+  /**
+   * @description The type of block. For a context actions block, `type` is always `context_actions`.
+   */
+  type: 'context_actions';
+  /**
+   * @description An array of {@link FeedbackButtons} or {@link IconButton} block elements. Maximum number of items is 5.
+   */
+  elements: ContextActionsBlockElement[];
+}
+
+/**
+ * @description Displays rich tables that support pagination, sorting, filtering, and interactivity.
+ * @see {@link https://docs.slack.dev/reference/block-kit/blocks/data-table-block Data table block reference}.
+ */
+export interface DataTableBlock extends Block {
+  /**
+   * @description The type of block. For a data table block, `type` is always `data_table`.
+   */
+  type: 'data_table';
+  /**
+   * @description An array consisting of table rows.
+   */
+  rows: (RawTextElement | RawNumberElement | RichTextBlock)[][];
+  /**
+   * @description A caption for the table; used as the value for the HTML caption element.
+   */
+  caption: string;
+  /**
+   * @description Number of rows per page. Min `1`, Max `100`. Defaults to `5` if omitted.
+   */
+  page_size?: number;
+  /**
+   * @description The 0-based index of the column that uniquely identifies each row (the row header). This column is treated as the row's primary identifier for screen readers. Defaults to `0` if omitted.
+   */
+  row_header_column_index?: number;
 }
 
 /**
@@ -336,6 +603,102 @@ export interface SectionBlock extends Block {
    * Whether or not this section block's text should always expand when rendered. If false or not provided, it may be rendered with a 'see more' option to expand and show the full text. For AI Assistant apps, this allows the app to post long messages without users needing to click 'see more' to expand the message.
    */
   expand?: boolean;
+}
+
+/**
+ * @description Displays structured information in a table.
+ * @see {@link https://docs.slack.dev/reference/block-kit/blocks/table-block Table block reference}.
+ */
+export interface TableBlock extends Block {
+  /**
+   * @description The type of block. For a table block, `type` is always `table`.
+   */
+  type: 'table';
+  /**
+   * @description An array consisting of table rows. Maximum 100 rows. Each row object is an array with a max of 20 table cells. Table cells can have a type of rich_text, raw_text, or raw_number.
+   */
+  rows: (RichTextBlock | RawTextElement | RawNumberElement)[][];
+  /**
+   * @description An array describing column behavior. If there are fewer items in the column_settings array than there are columns in the table, then the items in the the column_settings array will describe the same number of columns in the table as there are in the array itself. Any additional columns will have the default behavior. Maximum 20 items.
+   */
+  column_settings?: TableBlockColumnSettings[];
+}
+
+/**
+ * Schema for column_settings of the table block.
+ * @see {@link https://docs.slack.dev/reference/block-kit/blocks/table-block/#schema-for-column_settings}.
+ */
+interface TableBlockColumnSettings {
+  /**
+   * @description The alignment for items in this column. Can be left, center, or right. Defaults to left if not defined.
+   */
+  align?: 'left' | 'center' | 'right';
+  /**
+   * @description Whether the contents of this column should be wrapped or not. Defaults to false if not defined.
+   */
+  is_wrapped?: boolean;
+}
+
+/**
+ * @description A discrete task or tool call.
+ * @see https://docs.slack.dev/reference/block-kit/blocks/task-card-block/
+ */
+export interface TaskCardBlock extends Block {
+  /**
+   * @description The type of block. For this block, type will always be `task_card`.
+   */
+  type: 'task_card';
+
+  /**
+   * @description ID for the task.
+   */
+  task_id: string;
+
+  /**
+   * @description Title of the task in plain text.
+   */
+  title: string;
+
+  /**
+   * @description Details of the task in the form of a single "rich_text" entity.
+   */
+  details?: RichTextBlock;
+
+  /**
+   * @description Output of the task in the form of a single "rich_text" entity.
+   */
+  output?: RichTextBlock;
+
+  /**
+   * @description Array of URL source elements used to generate a response.
+   */
+  sources?: URLSourceElement[];
+
+  /**
+   * @description The state of a task. Can be "pending", "in_progress", "complete", or "error".
+   */
+  status: 'pending' | 'in_progress' | 'complete' | 'error';
+}
+
+/**
+ * @description A collection of related tasks.
+ * @see https://docs.slack.dev/reference/block-kit/blocks/plan-block/
+ */
+export interface PlanBlock extends Block {
+  /**
+   * @description The type of block. In this case `type` is always `plan`.
+   */
+  type: 'plan';
+
+  /**
+   * @description Title of the plan in plain text.
+   */
+  title: string;
+
+  /**
+   * @description A sequence of task card blocks. Each task represents a single action within the plan.
+   */
+  tasks?: (TaskCardBlock | Record<string, unknown>)[];
 }
 
 /**

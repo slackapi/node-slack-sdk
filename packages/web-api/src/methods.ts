@@ -80,6 +80,7 @@ import type {
   AdminUsergroupsListChannelsArguments,
   AdminUsergroupsRemoveChannelsArguments,
   AdminUsersAssignArguments,
+  AdminUsersGetExpirationArguments,
   AdminUsersInviteArguments,
   AdminUsersListArguments,
   AdminUsersRemoveArguments,
@@ -100,6 +101,17 @@ import type {
   AdminWorkflowsPermissionsLookupArguments,
   AdminWorkflowsSearchArguments,
   AdminWorkflowsUnpublishArguments,
+  AgentsConversationsArchiveArguments,
+  AgentsConversationsCreateArguments,
+  AgentsConversationsGetCanvasArguments,
+  AgentsConversationsListViewsArguments,
+  AgentsConversationsRemoveViewArguments,
+  AgentsConversationsSetCanvasContentArguments,
+  AgentsConversationsSetCommandsArguments,
+  AgentsConversationsSetPropertiesArguments,
+  AgentsConversationsSetViewArguments,
+  AgentsSessionsRenameArguments,
+  AgentsSessionsSetStatusArguments,
   APITestArguments,
   AppsConnectionsOpenArguments,
   AppsEventAuthorizationsListArguments,
@@ -109,12 +121,16 @@ import type {
   AppsManifestUpdateArguments,
   AppsManifestValidateArguments,
   AppsUninstallArguments,
+  AppsUserConnectionBulkUpdateArguments,
+  AppsUserConnectionRequestAuthArguments,
+  AppsUserConnectionUpdateArguments,
   AssistantThreadsSetStatusArguments,
   AssistantThreadsSetSuggestedPromptsArguments,
   AssistantThreadsSetTitleArguments,
   AuthRevokeArguments,
   AuthTeamsListArguments,
   AuthTestArguments,
+  BlocksValidateArguments,
   BookmarksAddArguments,
   BookmarksEditArguments,
   BookmarksListArguments,
@@ -131,7 +147,9 @@ import type {
   CanvasesCreateArguments,
   CanvasesDeleteArguments,
   CanvasesEditArguments,
+  CanvasesGetContentArguments,
   CanvasesSectionsLookupArguments,
+  ChatAppendStreamArguments,
   ChatDeleteArguments,
   ChatDeleteScheduledMessageArguments,
   ChatGetPermalinkArguments,
@@ -140,6 +158,8 @@ import type {
   ChatPostMessageArguments,
   ChatScheduledMessagesListArguments,
   ChatScheduleMessageArguments,
+  ChatStartStreamArguments,
+  ChatStopStreamArguments,
   ChatUnfurlArguments,
   ChatUpdateArguments,
   ConversationsAcceptSharedInviteArguments,
@@ -177,6 +197,7 @@ import type {
   DndSetSnoozeArguments,
   DndTeamInfoArguments,
   EmojiListArguments,
+  EntityPresentDetailsArguments,
   FilesCommentsDeleteArguments,
   FilesCompleteUploadExternalArguments,
   FilesDeleteArguments,
@@ -191,7 +212,6 @@ import type {
   FilesRemoteUpdateArguments,
   FilesRevokePublicURLArguments,
   FilesSharedPublicURLArguments,
-  FilesUploadArguments,
   FilesUploadV2Arguments,
   FunctionsCompleteErrorArguments,
   FunctionsCompleteSuccessArguments,
@@ -214,10 +234,21 @@ import type {
   RemindersInfoArguments,
   RemindersListArguments,
   RTMConnectArguments,
-  RTMStartArguments,
   SearchAllArguments,
   SearchFilesArguments,
   SearchMessagesArguments,
+  SlackListsAccessDeleteArguments,
+  SlackListsAccessSetArguments,
+  SlackListsCreateArguments,
+  SlackListsDownloadGetArguments,
+  SlackListsDownloadStartArguments,
+  SlackListsItemsCreateArguments,
+  SlackListsItemsDeleteArguments,
+  SlackListsItemsDeleteMultipleArguments,
+  SlackListsItemsInfoArguments,
+  SlackListsItemsListArguments,
+  SlackListsItemsUpdateArguments,
+  SlackListsUpdateArguments,
   StarsAddRemoveArguments,
   StarsListArguments,
   TeamAccessLogsArguments,
@@ -253,9 +284,10 @@ import type {
   ViewsPublishArguments,
   ViewsPushArguments,
   ViewsUpdateArguments,
-  WorkflowsStepCompletedArguments,
-  WorkflowsStepFailedArguments,
-  WorkflowsUpdateStepArguments,
+  WorkflowsFeaturedAddArguments,
+  WorkflowsFeaturedListArguments,
+  WorkflowsFeaturedRemoveArguments,
+  WorkflowsFeaturedSetArguments,
 } from './types/request/index';
 import type {
   AdminAnalyticsGetFileResponse,
@@ -336,6 +368,7 @@ import type {
   AdminUsergroupsListChannelsResponse,
   AdminUsergroupsRemoveChannelsResponse,
   AdminUsersAssignResponse,
+  AdminUsersGetExpirationResponse,
   AdminUsersInviteResponse,
   AdminUsersListResponse,
   AdminUsersRemoveResponse,
@@ -356,6 +389,17 @@ import type {
   AdminWorkflowsPermissionsLookupResponse,
   AdminWorkflowsSearchResponse,
   AdminWorkflowsUnpublishResponse,
+  AgentsConversationsArchiveResponse,
+  AgentsConversationsCreateResponse,
+  AgentsConversationsGetCanvasResponse,
+  AgentsConversationsListViewsResponse,
+  AgentsConversationsRemoveViewResponse,
+  AgentsConversationsSetCanvasContentResponse,
+  AgentsConversationsSetCommandsResponse,
+  AgentsConversationsSetPropertiesResponse,
+  AgentsConversationsSetViewResponse,
+  AgentsSessionsRenameResponse,
+  AgentsSessionsSetStatusResponse,
   ApiTestResponse,
   AppsConnectionsOpenResponse,
   AppsEventAuthorizationsListResponse,
@@ -365,12 +409,16 @@ import type {
   AppsManifestUpdateResponse,
   AppsManifestValidateResponse,
   AppsUninstallResponse,
+  AppsUserConnectionBulkUpdateResponse,
+  AppsUserConnectionRequestAuthResponse,
+  AppsUserConnectionUpdateResponse,
   AssistantThreadsSetStatusResponse,
   AssistantThreadsSetSuggestedPromptsResponse,
   AssistantThreadsSetTitleResponse,
   AuthRevokeResponse,
   AuthTeamsListResponse,
   AuthTestResponse,
+  BlocksValidateResponse,
   BookmarksAddResponse,
   BookmarksEditResponse,
   BookmarksListResponse,
@@ -387,7 +435,9 @@ import type {
   CanvasesCreateResponse,
   CanvasesDeleteResponse,
   CanvasesEditResponse,
+  CanvasesGetContentResponse,
   CanvasesSectionsLookupResponse,
+  ChatAppendStreamResponse,
   ChatDeleteResponse,
   ChatDeleteScheduledMessageResponse,
   ChatGetPermalinkResponse,
@@ -396,6 +446,8 @@ import type {
   ChatPostMessageResponse,
   ChatScheduledMessagesListResponse,
   ChatScheduleMessageResponse,
+  ChatStartStreamResponse,
+  ChatStopStreamResponse,
   ChatUnfurlResponse,
   ChatUpdateResponse,
   ConversationsAcceptSharedInviteResponse,
@@ -433,6 +485,7 @@ import type {
   DndSetSnoozeResponse,
   DndTeamInfoResponse,
   EmojiListResponse,
+  EntityPresentDetailsResponse,
   FilesCommentsDeleteResponse,
   FilesCompleteUploadExternalResponse,
   FilesDeleteResponse,
@@ -447,7 +500,6 @@ import type {
   FilesRemoteUpdateResponse,
   FilesRevokePublicURLResponse,
   FilesSharedPublicURLResponse,
-  FilesUploadResponse,
   FunctionsCompleteErrorResponse,
   FunctionsCompleteSuccessResponse,
   MigrationExchangeResponse,
@@ -469,10 +521,21 @@ import type {
   RemindersInfoResponse,
   RemindersListResponse,
   RtmConnectResponse,
-  RtmStartResponse,
   SearchAllResponse,
   SearchFilesResponse,
   SearchMessagesResponse,
+  SlackListsAccessDeleteResponse,
+  SlackListsAccessSetResponse,
+  SlackListsCreateResponse,
+  SlackListsDownloadGetResponse,
+  SlackListsDownloadStartResponse,
+  SlackListsItemsCreateResponse,
+  SlackListsItemsDeleteMultipleResponse,
+  SlackListsItemsDeleteResponse,
+  SlackListsItemsInfoResponse,
+  SlackListsItemsListResponse,
+  SlackListsItemsUpdateResponse,
+  SlackListsUpdateResponse,
   StarsAddResponse,
   StarsListResponse,
   StarsRemoveResponse,
@@ -509,9 +572,10 @@ import type {
   ViewsPublishResponse,
   ViewsPushResponse,
   ViewsUpdateResponse,
-  WorkflowsStepCompletedResponse,
-  WorkflowsStepFailedResponse,
-  WorkflowsUpdateStepResponse,
+  WorkflowsFeaturedAddResponse,
+  WorkflowsFeaturedListResponse,
+  WorkflowsFeaturedRemoveResponse,
+  WorkflowsFeaturedSetResponse,
 } from './types/response/index';
 
 import { type WebAPICallResult, WebClient, type WebClientEvent } from './WebClient';
@@ -1201,6 +1265,14 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
        */
       assign: bindApiCall<AdminUsersAssignArguments, AdminUsersAssignResponse>(this, 'admin.users.assign'),
       /**
+       * @description Fetches the expiration timestamp for a guest.
+       * @see {@link https://docs.slack.dev/reference/methods/admin.users.getExpiration `admin.users.getExpiration` API reference}.
+       */
+      getExpiration: bindApiCall<AdminUsersGetExpirationArguments, AdminUsersGetExpirationResponse>(
+        this,
+        'admin.users.getExpiration',
+      ),
+      /**
        * @description Invite a user to a workspace.
        * @see {@link https://docs.slack.dev/reference/methods/admin.users.invite `admin.users.invite` API reference}.
        */
@@ -1362,6 +1434,98 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
     },
   };
 
+  public readonly agents = {
+    conversations: {
+      /**
+       * @description Archive a code channel.
+       * @see {@link https://docs.slack.dev/reference/methods/agents.conversations.archive `agents.conversations.archive` API reference}.
+       */
+      archive: bindApiCall<AgentsConversationsArchiveArguments, AgentsConversationsArchiveResponse>(
+        this,
+        'agents.conversations.archive',
+      ),
+      /**
+       * @description Create a dedicated code channel for an agent session.
+       * @see {@link https://docs.slack.dev/reference/methods/agents.conversations.create `agents.conversations.create` API reference}.
+       */
+      create: bindApiCall<AgentsConversationsCreateArguments, AgentsConversationsCreateResponse>(
+        this,
+        'agents.conversations.create',
+      ),
+      /**
+       * @description Fetch a canvas attached to a code channel.
+       * @see {@link https://docs.slack.dev/reference/methods/agents.conversations.getCanvas `agents.conversations.getCanvas` API reference}.
+       */
+      getCanvas: bindApiCall<AgentsConversationsGetCanvasArguments, AgentsConversationsGetCanvasResponse>(
+        this,
+        'agents.conversations.getCanvas',
+      ),
+      /**
+       * @description List the views currently attached to a code channel.
+       * @see {@link https://docs.slack.dev/reference/methods/agents.conversations.listViews `agents.conversations.listViews` API reference}.
+       */
+      listViews: bindApiCall<AgentsConversationsListViewsArguments, AgentsConversationsListViewsResponse>(
+        this,
+        'agents.conversations.listViews',
+      ),
+      /**
+       * @description Remove a view from a code channel.
+       * @see {@link https://docs.slack.dev/reference/methods/agents.conversations.removeView `agents.conversations.removeView` API reference}.
+       */
+      removeView: bindApiCall<AgentsConversationsRemoveViewArguments, AgentsConversationsRemoveViewResponse>(
+        this,
+        'agents.conversations.removeView',
+      ),
+      /**
+       * @description Replace the full markdown content of a plan canvas attached to a code channel.
+       * @see {@link https://docs.slack.dev/reference/methods/agents.conversations.setCanvasContent `agents.conversations.setCanvasContent` API reference}.
+       */
+      setCanvasContent: bindApiCall<
+        AgentsConversationsSetCanvasContentArguments,
+        AgentsConversationsSetCanvasContentResponse
+      >(this, 'agents.conversations.setCanvasContent'),
+      /**
+       * @description Register the set of agent-defined slash commands for the calling agent in a code channel.
+       * @see {@link https://docs.slack.dev/reference/methods/agents.conversations.setCommands `agents.conversations.setCommands` API reference}.
+       */
+      setCommands: bindApiCall<AgentsConversationsSetCommandsArguments, AgentsConversationsSetCommandsResponse>(
+        this,
+        'agents.conversations.setCommands',
+      ),
+      /**
+       * @description Set properties on a code channel.
+       * @see {@link https://docs.slack.dev/reference/methods/agents.conversations.setProperties `agents.conversations.setProperties` API reference}.
+       */
+      setProperties: bindApiCall<AgentsConversationsSetPropertiesArguments, AgentsConversationsSetPropertiesResponse>(
+        this,
+        'agents.conversations.setProperties',
+      ),
+      /**
+       * @description Create or update a view in a code channel.
+       * @see {@link https://docs.slack.dev/reference/methods/agents.conversations.setView `agents.conversations.setView` API reference}.
+       */
+      setView: bindApiCall<AgentsConversationsSetViewArguments, AgentsConversationsSetViewResponse>(
+        this,
+        'agents.conversations.setView',
+      ),
+    },
+    sessions: {
+      /**
+       * @description Rename an agent session.
+       * @see {@link https://docs.slack.dev/reference/methods/agents.sessions.rename `agents.sessions.rename` API reference}.
+       */
+      rename: bindApiCall<AgentsSessionsRenameArguments, AgentsSessionsRenameResponse>(this, 'agents.sessions.rename'),
+      /**
+       * @description Set an agent session's lifecycle status, creating the session if needed.
+       * @see {@link https://docs.slack.dev/reference/methods/agents.sessions.setStatus `agents.sessions.setStatus` API reference}.
+       */
+      setStatus: bindApiCall<AgentsSessionsSetStatusArguments, AgentsSessionsSetStatusResponse>(
+        this,
+        'agents.sessions.setStatus',
+      ),
+    },
+  };
+
   public readonly api = {
     /**
      * @description Checks API calling code.
@@ -1459,6 +1623,34 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
      * @see {@link https://docs.slack.dev/reference/methods/apps.uninstall `apps.uninstall` API reference}.
      */
     uninstall: bindApiCall<AppsUninstallArguments, AppsUninstallResponse>(this, 'apps.uninstall'),
+    user: {
+      connection: {
+        /**
+         * @description Updates the connection status between an app and many users in one call, for backfilling an existing user base.
+         * @see {@link https://docs.slack.dev/reference/methods/apps.user.connection.bulkUpdate `apps.user.connection.bulkUpdate` API reference}.
+         */
+        bulkUpdate: bindApiCall<AppsUserConnectionBulkUpdateArguments, AppsUserConnectionBulkUpdateResponse>(
+          this,
+          'apps.user.connection.bulkUpdate',
+        ),
+        /**
+         * @description Opens or updates a standardized authentication modal for the calling app.
+         * @see {@link https://docs.slack.dev/reference/methods/apps.user.connection.requestAuth `apps.user.connection.requestAuth` API reference}.
+         */
+        requestAuth: bindApiCall<AppsUserConnectionRequestAuthArguments, AppsUserConnectionRequestAuthResponse>(
+          this,
+          'apps.user.connection.requestAuth',
+        ),
+        /**
+         * @description Updates the connection status between a user and an app.
+         * @see {@link https://docs.slack.dev/reference/methods/apps.user.connection.update `apps.user.connection.update` API reference}.
+         */
+        update: bindApiCall<AppsUserConnectionUpdateArguments, AppsUserConnectionUpdateResponse>(
+          this,
+          'apps.user.connection.update',
+        ),
+      },
+    },
   };
 
   public readonly auth = {
@@ -1498,6 +1690,14 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
      * @see {@link https://docs.slack.dev/reference/methods/bookmarks.remove `bookmarks.remove` API reference}.
      */
     remove: bindApiCall<BookmarksRemoveArguments, BookmarksRemoveResponse>(this, 'bookmarks.remove'),
+  };
+
+  public readonly blocks = {
+    /**
+     * @description Validates blocks, messages, and views Block Kit JSON payloads.
+     * @see {@link https://docs.slack.dev/reference/methods/blocks.validate `blocks.validate` API reference}.
+     */
+    validate: bindApiCallWithOptionalArgument<BlocksValidateArguments, BlocksValidateResponse>(this, 'blocks.validate'),
   };
 
   public readonly bots = {
@@ -1570,6 +1770,11 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
      * @see {@link https://docs.slack.dev/reference/methods/canvases.edit `canvases.edit` API reference}.
      */
     edit: bindApiCall<CanvasesEditArguments, CanvasesEditResponse>(this, 'canvases.edit'),
+    /**
+     * @description Get the content of a canvas as markdown (default) or HTML.
+     * @see {@link https://docs.slack.dev/reference/methods/canvases.getContent `canvases.getContent` API reference}.
+     */
+    getContent: bindApiCall<CanvasesGetContentArguments, CanvasesGetContentResponse>(this, 'canvases.getContent'),
     sections: {
       /**
        * @description Find sections matching the provided criteria.
@@ -1583,6 +1788,11 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
   };
 
   public readonly chat = {
+    /**
+     * @description Appends text to an existing streaming conversation.
+     * @see {@link https://docs.slack.dev/reference/methods/chat.appendStream `chat.appendStream` API reference}.
+     */
+    appendStream: bindApiCall<ChatAppendStreamArguments, ChatAppendStreamResponse>(this, 'chat.appendStream'),
     /**
      * @description Deletes a message.
      * @see {@link https://docs.slack.dev/reference/methods/chat.delete `chat.delete` API reference}.
@@ -1634,6 +1844,16 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
         'chat.scheduledMessages.list',
       ),
     },
+    /**
+     * @description Starts a new streaming conversation.
+     * @see {@link https://docs.slack.dev/reference/methods/chat.startStream `chat.startStream` API reference}.
+     */
+    startStream: bindApiCall<ChatStartStreamArguments, ChatStartStreamResponse>(this, 'chat.startStream'),
+    /**
+     * @description Stops a streaming conversation.
+     * @see {@link https://docs.slack.dev/reference/methods/chat.stopStream `chat.stopStream` API reference}.
+     */
+    stopStream: bindApiCall<ChatStopStreamArguments, ChatStopStreamResponse>(this, 'chat.stopStream'),
     /**
      * @description Provide custom unfurl behavior for user-posted URLs.
      * @see {@link https://docs.slack.dev/reference/methods/chat.unfurl `chat.unfurl` API reference}.
@@ -1883,6 +2103,17 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
     list: bindApiCallWithOptionalArgument<EmojiListArguments, EmojiListResponse>(this, 'emoji.list'),
   };
 
+  public readonly entity = {
+    /**
+     * @description Provide information about the entity to be displayed in the flexpane.
+     * @see {@link https://docs.slack.dev/reference/methods/entity.presentDetails}
+     */
+    presentDetails: bindApiCall<EntityPresentDetailsArguments, EntityPresentDetailsResponse>(
+      this,
+      'entity.presentDetails',
+    ),
+  };
+
   public readonly files = {
     /**
      * @description Finishes an upload started with {@link https://docs.slack.dev/reference/methods/files.getUploadURLExternal `files.getUploadURLExternal`}.
@@ -1932,23 +2163,17 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
       'files.sharedPublicURL',
     ),
     /**
-     * @description Uploads or creates a file.
-     * @deprecated Use `uploadV2` instead. See {@link https://docs.slack.dev/changelog/2024-04-a-better-way-to-upload-files-is-here-to-stay our post on retiring `files.upload`}.
-     * @see {@link https://docs.slack.dev/reference/methods/files.upload `files.upload` API reference}.
-     */
-    upload: bindApiCall<FilesUploadArguments, FilesUploadResponse>(this, 'files.upload'),
-    /**
      * @description Custom method to support a new way of uploading files to Slack.
      * Supports a single file upload
      * Supply:
      * - (required) single file or content
-     * - (optional) channel, alt_text, snippet_type,
+     * - (optional) channel, alt_txt, snippet_type,
      * Supports multiple file uploads
      * Supply:
      * - multiple upload_files
      * Will try to honor both single file or content data supplied as well
      * as multiple file uploads property.
-     * @see {@link https://tools.slack.dev/node-slack-sdk/web-api#upload-a-file `@slack/web-api` Upload a file documentation}.
+     * @see {@link https://docs.slack.dev/tools/node-slack-sdk/web-api/#upload-a-file `@slack/web-api` Upload a file documentation}.
      */
     uploadV2: bindFilesUploadV2<FilesUploadV2Arguments, WebAPICallResult>(this),
     comments: {
@@ -2135,12 +2360,6 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
      * @see {@link https://docs.slack.dev/reference/methods/rtm.connect `rtm.connect` API reference}.
      */
     connect: bindApiCallWithOptionalArgument<RTMConnectArguments, RtmConnectResponse>(this, 'rtm.connect'),
-    /**
-     * @description Starts a Real Time Messaging session.
-     * @deprecated Use `rtm.connect` instead. See {@link https://docs.slack.dev/changelog/2021-10-rtm-start-to-stop our post on retiring `rtm.start`}.
-     * @see {@link https://docs.slack.dev/reference/methods/rtm.start `rtm.start` API reference}.
-     */
-    start: bindApiCallWithOptionalArgument<RTMStartArguments, RtmStartResponse>(this, 'rtm.start'),
   };
 
   public readonly search = {
@@ -2159,6 +2378,93 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
      * @see {@link https://docs.slack.dev/reference/methods/search.messages search.messages` API reference}.
      */
     messages: bindApiCall<SearchMessagesArguments, SearchMessagesResponse>(this, 'search.messages'),
+  };
+
+  public readonly slackLists = {
+    access: {
+      /**
+       * @description Delete access for specified entities.
+       * @see {@link https://docs.slack.dev/reference/methods/slackLists.access.delete `slackLists.access.delete` API reference}.
+       */
+      delete: bindApiCall<SlackListsAccessDeleteArguments, SlackListsAccessDeleteResponse>(
+        this,
+        'slackLists.access.delete',
+      ),
+      /**
+       * @description Set access level for specified entities.
+       * @see {@link https://docs.slack.dev/reference/methods/slackLists.access.set `slackLists.access.set` API reference}.
+       */
+      set: bindApiCall<SlackListsAccessSetArguments, SlackListsAccessSetResponse>(this, 'slackLists.access.set'),
+    },
+    /**
+     * @description Create a List.
+     * @see {@link https://docs.slack.dev/reference/methods/slackLists.create `slackLists.create` API reference}.
+     */
+    create: bindApiCall<SlackListsCreateArguments, SlackListsCreateResponse>(this, 'slackLists.create'),
+    download: {
+      /**
+       * @description Get download job status.
+       * @see {@link https://docs.slack.dev/reference/methods/slackLists.download.get `slackLists.download.get` API reference}.
+       */
+      get: bindApiCall<SlackListsDownloadGetArguments, SlackListsDownloadGetResponse>(this, 'slackLists.download.get'),
+      /**
+       * @description Start a download job for a list.
+       * @see {@link https://docs.slack.dev/reference/methods/slackLists.download.start `slackLists.download.start` API reference}.
+       */
+      start: bindApiCall<SlackListsDownloadStartArguments, SlackListsDownloadStartResponse>(
+        this,
+        'slackLists.download.start',
+      ),
+    },
+    items: {
+      /**
+       * @description Create a list item.
+       * @see {@link https://docs.slack.dev/reference/methods/slackLists.items.create `slackLists.items.create` API reference}.
+       */
+      create: bindApiCall<SlackListsItemsCreateArguments, SlackListsItemsCreateResponse>(
+        this,
+        'slackLists.items.create',
+      ),
+      /**
+       * @description Delete a list item.
+       * @see {@link https://docs.slack.dev/reference/methods/slackLists.items.delete `slackLists.items.delete` API reference}.
+       */
+      delete: bindApiCall<SlackListsItemsDeleteArguments, SlackListsItemsDeleteResponse>(
+        this,
+        'slackLists.items.delete',
+      ),
+      /**
+       * @description Delete multiple list items.
+       * @see {@link https://docs.slack.dev/reference/methods/slackLists.items.deleteMultiple `slackLists.items.deleteMultiple` API reference}.
+       */
+      deleteMultiple: bindApiCall<SlackListsItemsDeleteMultipleArguments, SlackListsItemsDeleteMultipleResponse>(
+        this,
+        'slackLists.items.deleteMultiple',
+      ),
+      /**
+       * @description Get info about a list item.
+       * @see {@link https://docs.slack.dev/reference/methods/slackLists.items.info `slackLists.items.info` API reference}.
+       */
+      info: bindApiCall<SlackListsItemsInfoArguments, SlackListsItemsInfoResponse>(this, 'slackLists.items.info'),
+      /**
+       * @description Get records from a List.
+       * @see {@link https://docs.slack.dev/reference/methods/slackLists.items.list `slackLists.items.list` API reference}.
+       */
+      list: bindApiCall<SlackListsItemsListArguments, SlackListsItemsListResponse>(this, 'slackLists.items.list'),
+      /**
+       * @description Update a list item.
+       * @see {@link https://docs.slack.dev/reference/methods/slackLists.items.update `slackLists.items.update` API reference}.
+       */
+      update: bindApiCall<SlackListsItemsUpdateArguments, SlackListsItemsUpdateResponse>(
+        this,
+        'slackLists.items.update',
+      ),
+    },
+    /**
+     * @description Update a list.
+     * @see {@link https://docs.slack.dev/reference/methods/slackLists.update `slackLists.update` API reference}.
+     */
+    update: bindApiCall<SlackListsUpdateArguments, SlackListsUpdateResponse>(this, 'slackLists.update'),
   };
 
   public readonly team = {
@@ -2383,7 +2689,6 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
   // ------------------
   // TODO: breaking changes for future majors:
   // - stars.* methods are marked as deprecated; once Later has APIs, these will see an official sunsetting timeline
-  // - workflows.* methods, Sep 12 2024: https://docs.slack.dev/changelog/2023-08-workflow-steps-from-apps-step-back
 
   public readonly stars = {
     /**
@@ -2410,33 +2715,31 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
   };
 
   public readonly workflows = {
-    /**
-     * @description Indicate that an app's step in a workflow completed execution.
-     * @deprecated Steps from Apps is deprecated.
-     * We're retiring all Slack app functionality around Steps from Apps in September 2024.
-     * See {@link https://docs.slack.dev/changelog/2023-08-workflow-steps-from-apps-step-back our post on deprecating Steps from Apps}.
-     * @see {@link https://docs.slack.dev/legacy/legacy-steps-from-apps/legacy-steps-from-apps-workflow_step-object `workflows.stepCompleted` API reference}.
-     */
-    stepCompleted: bindApiCall<WorkflowsStepCompletedArguments, WorkflowsStepCompletedResponse>(
-      this,
-      'workflows.stepCompleted',
-    ),
-    /**
-     * @description Indicate that an app's step in a workflow failed to execute.
-     * @deprecated Steps from Apps is deprecated.
-     * We're retiring all Slack app functionality around Steps from Apps in September 2024.
-     * See {@link https://docs.slack.dev/changelog/2023-08-workflow-steps-from-apps-step-back our post on deprecating Steps from Apps}.
-     * @see {@link https://docs.slack.dev/legacy/legacy-steps-from-apps/legacy-steps-from-apps-workflow_step-object `workflows.stepFailed` API reference}.
-     */
-    stepFailed: bindApiCall<WorkflowsStepFailedArguments, WorkflowsStepFailedResponse>(this, 'workflows.stepFailed'),
-    /**
-     * @description Update the configuration for a workflow step.
-     * @deprecated Steps from Apps is deprecated.
-     * We're retiring all Slack app functionality around Steps from Apps in September 2024.
-     * See {@link https://docs.slack.dev/changelog/2023-08-workflow-steps-from-apps-step-back our post on deprecating Steps from Apps}.
-     * @see {@link https://docs.slack.dev/legacy/legacy-steps-from-apps/legacy-steps-from-apps-workflow_step-object `workflows.updateStep` API reference}.
-     */
-    updateStep: bindApiCall<WorkflowsUpdateStepArguments, WorkflowsUpdateStepResponse>(this, 'workflows.updateStep'),
+    featured: {
+      /**
+       * @description Add featured workflows to a channel.
+       * @see {@link https://docs.slack.dev/reference/methods/workflows.featured.add `workflows.featured.add` API reference}.
+       */
+      add: bindApiCall<WorkflowsFeaturedAddArguments, WorkflowsFeaturedAddResponse>(this, 'workflows.featured.add'),
+      /**
+       * @description List the featured workflows for specified channels.
+       * @see {@link https://docs.slack.dev/reference/methods/workflows.featured.list `workflows.featured.list` API reference}.
+       */
+      list: bindApiCall<WorkflowsFeaturedListArguments, WorkflowsFeaturedListResponse>(this, 'workflows.featured.list'),
+      /**
+       * @description Remove featured workflows from a channel.
+       * @see {@link https://docs.slack.dev/reference/methods/workflows.featured.remove `workflows.featured.remove` API reference}.
+       */
+      remove: bindApiCall<WorkflowsFeaturedRemoveArguments, WorkflowsFeaturedRemoveResponse>(
+        this,
+        'workflows.featured.remove',
+      ),
+      /**
+       * @description Set featured workflows for a channel.
+       * @see {@link https://docs.slack.dev/reference/methods/workflows.featured.set `workflows.featured.set` API reference}.
+       */
+      set: bindApiCall<WorkflowsFeaturedSetArguments, WorkflowsFeaturedSetResponse>(this, 'workflows.featured.set'),
+    },
   };
 }
 
