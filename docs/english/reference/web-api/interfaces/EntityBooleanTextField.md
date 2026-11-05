@@ -9,7 +9,7 @@ Defined in: packages/types/dist/message-metadata.d.ts:215
 ### false\_description?
 
 ```ts
-optional false_description: string;
+optional false_description?: string;
 ```
 
 Defined in: packages/types/dist/message-metadata.d.ts:220
@@ -29,7 +29,7 @@ Defined in: packages/types/dist/message-metadata.d.ts:218
 ### true\_description?
 
 ```ts
-optional true_description: string;
+optional true_description?: string;
 ```
 
 Defined in: packages/types/dist/message-metadata.d.ts:219

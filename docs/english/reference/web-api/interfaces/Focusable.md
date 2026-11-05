@@ -32,7 +32,7 @@ Defined in: packages/types/dist/block-kit/extensions.d.ts:30
 ### focus\_on\_load?
 
 ```ts
-optional focus_on_load: boolean;
+optional focus_on_load?: boolean;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:36

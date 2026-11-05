@@ -49,7 +49,7 @@ ChannelID.channel_id
 ### emoji?
 
 ```ts
-optional emoji: string;
+optional emoji?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/bookmarks.ts:12](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/bookmarks.ts#L12)
@@ -67,7 +67,7 @@ Emoji tag to apply to the bookmark.
 ### link?
 
 ```ts
-optional link: string;
+optional link?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/bookmarks.ts:10](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/bookmarks.ts#L10)
@@ -85,7 +85,7 @@ Link to bookmark.
 ### title?
 
 ```ts
-optional title: string;
+optional title?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/bookmarks.ts:8](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/bookmarks.ts#L8)
@@ -103,7 +103,7 @@ Title for the bookmark.
 ### token?
 
 ```ts
-optional token: string;
+optional token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)

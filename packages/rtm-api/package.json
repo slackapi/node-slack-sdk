@@ -52,11 +52,11 @@
     "finity": "^0.5.4",
     "p-cancelable": "^4",
     "p-queue": "^6",
-    "ws": "^8"
+    "ws": "^8.22.1"
   },
   "devDependencies": {
-    "@types/sinon": "^17",
-    "@types/ws": "^8",
-    "sinon": "^21"
+    "@types/sinon": "^22.0.2",
+    "@types/ws": "^8.18.2",
+    "sinon": "^22"
   }
 }

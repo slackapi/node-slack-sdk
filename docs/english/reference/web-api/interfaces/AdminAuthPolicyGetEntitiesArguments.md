@@ -13,7 +13,7 @@ Defined in: [packages/web-api/src/types/request/admin/auth.ts:20](https://github
 ### cursor?
 
 ```ts
-optional cursor: string;
+optional cursor?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:16](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L16)
@@ -39,7 +39,7 @@ CursorPaginationEnabled.cursor
 ### entity\_type?
 
 ```ts
-optional entity_type: "USER";
+optional entity_type?: "USER";
 ```
 
 Defined in: [packages/web-api/src/types/request/admin/auth.ts:9](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/auth.ts#L9)
@@ -57,7 +57,7 @@ The type of entity interacting with the policy.
 ### limit?
 
 ```ts
-optional limit: number;
+optional limit?: number;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:9](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L9)
@@ -98,7 +98,7 @@ PolicyName.policy_name
 ### token?
 
 ```ts
-optional token: string;
+optional token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)

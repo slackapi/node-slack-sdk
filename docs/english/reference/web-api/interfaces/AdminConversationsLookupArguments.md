@@ -13,7 +13,7 @@ Defined in: [packages/web-api/src/types/request/admin/conversations.ts:122](http
 ### cursor?
 
 ```ts
-optional cursor: string;
+optional cursor?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:16](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L16)
@@ -54,7 +54,7 @@ was sent before this parameter.
 ### limit?
 
 ```ts
-optional limit: number;
+optional limit?: number;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:9](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L9)
@@ -75,7 +75,7 @@ CursorPaginationEnabled.limit
 ### max\_member\_count?
 
 ```ts
-optional max_member_count: number;
+optional max_member_count?: number;
 ```
 
 Defined in: [packages/web-api/src/types/request/admin/conversations.ts:129](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/conversations.ts#L129)
@@ -109,7 +109,7 @@ TeamIDs.team_ids
 ### token?
 
 ```ts
-optional token: string;
+optional token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)

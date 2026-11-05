@@ -13,41 +13,47 @@ Defined in: [packages/web-api/src/types/response/DndInfoResponse.ts:11](https://
 ### dnd\_enabled?
 
 ```ts
-optional dnd_enabled: boolean;
+optional dnd_enabled?: boolean;
 ```
 
 ### error?
 
 ```ts
-optional error: string;
+optional error?: string;
 ```
 
 ### needed?
 
 ```ts
-optional needed: string;
+optional needed?: string;
 ```
 
 ### next\_dnd\_end\_ts?
 
 ```ts
-optional next_dnd_end_ts: number;
+optional next_dnd_end_ts?: number;
 ```
 
 ### next\_dnd\_start\_ts?
 
 ```ts
-optional next_dnd_start_ts: number;
+optional next_dnd_start_ts?: number;
 ```
 
 ### ok?
 
 ```ts
-optional ok: boolean;
+optional ok?: boolean;
 ```
 
 ### provided?
 
 ```ts
-optional provided: string;
+optional provided?: string;
+```
+
+### warning?
+
+```ts
+optional warning?: string;
 ```

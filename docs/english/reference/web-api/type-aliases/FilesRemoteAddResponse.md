@@ -13,29 +13,35 @@ Defined in: [packages/web-api/src/types/response/FilesRemoteAddResponse.ts:11](h
 ### error?
 
 ```ts
-optional error: string;
+optional error?: string;
 ```
 
 ### file?
 
 ```ts
-optional file: File;
+optional file?: File;
 ```
 
 ### needed?
 
 ```ts
-optional needed: string;
+optional needed?: string;
 ```
 
 ### ok?
 
 ```ts
-optional ok: boolean;
+optional ok?: boolean;
 ```
 
 ### provided?
 
 ```ts
-optional provided: string;
+optional provided?: string;
+```
+
+### warning?
+
+```ts
+optional warning?: string;
 ```

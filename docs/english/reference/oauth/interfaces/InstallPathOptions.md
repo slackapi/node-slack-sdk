@@ -9,10 +9,10 @@ inside InstallProvider#handleInstallPath() method.
 
 ## Properties
 
-### beforeRedirection()?
+### beforeRedirection?
 
 ```ts
-optional beforeRedirection: (request, response, options?) => Promise<boolean>;
+optional beforeRedirection?: (request, response, options?) => Promise<boolean>;
 ```
 
 Defined in: [packages/oauth/src/install-path-options.ts:21](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/install-path-options.ts#L21)

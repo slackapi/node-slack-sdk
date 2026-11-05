@@ -15,6 +15,7 @@ export type AuthTeamsListResponse = WebAPICallResult & {
   provided?: string;
   response_metadata?: ResponseMetadata;
   teams?: Team[];
+  warning?: string;
 };
 
 export interface ResponseMetadata {

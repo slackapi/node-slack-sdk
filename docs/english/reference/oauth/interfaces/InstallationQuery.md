@@ -15,7 +15,7 @@ Defined in: [packages/oauth/src/installation-query.ts:4](https://github.com/slac
 ### conversationId?
 
 ```ts
-optional conversationId: string;
+optional conversationId?: string;
 ```
 
 Defined in: [packages/oauth/src/installation-query.ts:8](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/installation-query.ts#L8)
@@ -55,7 +55,7 @@ Defined in: [packages/oauth/src/installation-query.ts:5](https://github.com/slac
 ### userId?
 
 ```ts
-optional userId: string;
+optional userId?: string;
 ```
 
 Defined in: [packages/oauth/src/installation-query.ts:7](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/installation-query.ts#L7)

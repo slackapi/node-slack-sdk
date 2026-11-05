@@ -22,7 +22,7 @@ Allows users a direct path to performing basic actions.
 ### accessibility\_label?
 
 ```ts
-optional accessibility_label: string;
+optional accessibility_label?: string;
 ```
 
 Defined in: packages/types/dist/block-kit/block-elements.d.ts:43
@@ -37,7 +37,7 @@ readers instead of the button `text` object. Maximum length for this field is 75
 ### action\_id?
 
 ```ts
-optional action_id: string;
+optional action_id?: string;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:12
@@ -52,10 +52,40 @@ among all other `action_id`s in the containing block. Maximum length for this fi
 
 ***
 
+### agent\_prompt?
+
+```ts
+optional agent_prompt?: string;
+```
+
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:48
+
+#### Description
+
+A prompt sent to Slackbot when the button is clicked, if Slackbot AI is available to the user.
+Maximum length for this field is 4000 characters.
+
+***
+
+### agent\_prompt\_display?
+
+```ts
+optional agent_prompt_display?: string;
+```
+
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:53
+
+#### Description
+
+Short text shown instead of the full `agent_prompt` in the user's Slackbot message. Requires
+`agent_prompt` and defaults to the button's `text`.
+
+***
+
 ### confirm?
 
 ```ts
-optional confirm: ConfirmationDialog;
+optional confirm?: ConfirmationDialog;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:21
@@ -74,7 +104,7 @@ with.
 ### style?
 
 ```ts
-optional style: ColorScheme;
+optional style?: ColorScheme;
 ```
 
 Defined in: packages/types/dist/block-kit/block-elements.d.ts:38
@@ -126,7 +156,7 @@ The type of element. In this case `type` is always `button`.
 ### url?
 
 ```ts
-optional url: string;
+optional url?: string;
 ```
 
 Defined in: packages/types/dist/block-kit/block-elements.d.ts:29
@@ -142,7 +172,7 @@ and will need to send an [acknowledgement response](https://docs.slack.dev/inter
 ### value?
 
 ```ts
-optional value: string;
+optional value?: string;
 ```
 
 Defined in: packages/types/dist/block-kit/block-elements.d.ts:23
@@ -151,3 +181,17 @@ Defined in: packages/types/dist/block-kit/block-elements.d.ts:23
 
 The value to send along with the [interaction payload](https://docs.slack.dev/interactivity/handling-user-interaction#payloads).
 Maximum length for this field is 2000 characters.
+
+***
+
+### visible\_to\_user\_ids?
+
+```ts
+optional visible_to_user_ids?: string[];
+```
+
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:57
+
+#### Description
+
+An array of user IDs for which the button appears. If not provided, the button is visible to all users.

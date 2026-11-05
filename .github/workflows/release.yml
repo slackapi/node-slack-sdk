@@ -13,7 +13,7 @@ jobs:
     name: Changelog
     runs-on: ubuntu-latest
     outputs:
-      hasChangesets: ${{ steps.changesets.outputs.hasChangesets }}
+      hasChangesets: ${{ steps.changesets.outputs.has-changesets }}
       releaseExists: ${{ steps.published.outputs.exists }}
     permissions:
       contents: write
@@ -25,7 +25,7 @@ jobs:
           persist-credentials: true
 
       - name: Setup Node
-        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: 24
 
@@ -49,18 +49,17 @@ jobs:
 
       - name: Create or update release PR
         id: changesets
-        uses: changesets/action@a45c4d594aa4e2c509dc14a9f2b3b67ba3780d0d # v1.9.0
+        uses: changesets/action@ae32849d5ba541f9ae29e40e22a623bc13562f51 # v2.1.2
         with:
-          commit: "chore: release"
-          prDraft: create
-          title: "chore: release"
-          version: npm run version
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "chore: release"
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          pr-draft: create
+          pr-title: "chore: release"
+          version-script: npm run version
 
       - name: Check if publish is needed
         id: published
-        if: steps.changesets.outputs.hasChangesets == 'false'
+        if: steps.changesets.outputs.has-changesets == 'false'
         run: |
           EXISTS=true
           for PKG in $(npm query .workspace | jq -r '.[].name'); do
@@ -101,7 +100,7 @@ jobs:
           token: ${{ steps.credentials.outputs.token }}
 
       - name: Setup Node
-        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: 24
           registry-url: "https://registry.npmjs.org"
@@ -126,12 +125,11 @@ jobs:
 
       - name: Publish to npm and create GitHub releases
         id: changesets
-        uses: changesets/action@a45c4d594aa4e2c509dc14a9f2b3b67ba3780d0d # v1.9.0
+        uses: changesets/action@ae32849d5ba541f9ae29e40e22a623bc13562f51 # v2.1.2
         with:
-          createGithubReleases: true
-          publish: npm run changeset -- publish
-        env:
-          GITHUB_TOKEN: ${{ steps.credentials.outputs.token }}
+          create-github-releases: true
+          github-token: ${{ steps.credentials.outputs.token }}
+          publish-script: npm run changeset -- publish
 
       - name: Get publication details
         if: steps.changesets.outputs.published == 'true'
@@ -140,7 +138,7 @@ jobs:
           echo "message=$(echo "$PUBLISHED_PACKAGES" | jq -r '[.[] | "\(.name)@\(.version)"] | join(", ")')" >> "$GITHUB_OUTPUT"
           echo "action_url=$(echo "$PUBLISHED_PACKAGES" | jq -r '[.[] | "https://github.com/${{ github.repository }}/releases/tag/\(.name)@\(.version)"] | join(", ")')" >> "$GITHUB_OUTPUT"
         env:
-          PUBLISHED_PACKAGES: ${{ steps.changesets.outputs.publishedPackages }}
+          PUBLISHED_PACKAGES: ${{ steps.changesets.outputs.published-packages }}
 
       - name: Notify Slack
         if: steps.changesets.outputs.published == 'true'

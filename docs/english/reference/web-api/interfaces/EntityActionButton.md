@@ -9,7 +9,7 @@ Defined in: packages/types/dist/message-metadata.d.ts:269
 ### accessibility\_label?
 
 ```ts
-optional accessibility_label: string;
+optional accessibility_label?: string;
 ```
 
 Defined in: packages/types/dist/message-metadata.d.ts:275
@@ -29,7 +29,7 @@ Defined in: packages/types/dist/message-metadata.d.ts:271
 ### processing\_state?
 
 ```ts
-optional processing_state: object;
+optional processing_state?: object;
 ```
 
 Defined in: packages/types/dist/message-metadata.d.ts:276
@@ -43,7 +43,7 @@ enabled: boolean;
 #### interstitial\_text?
 
 ```ts
-optional interstitial_text: string;
+optional interstitial_text?: string;
 ```
 
 ***
@@ -51,7 +51,7 @@ optional interstitial_text: string;
 ### style?
 
 ```ts
-optional style: string;
+optional style?: string;
 ```
 
 Defined in: packages/types/dist/message-metadata.d.ts:273
@@ -71,7 +71,7 @@ Defined in: packages/types/dist/message-metadata.d.ts:270
 ### url?
 
 ```ts
-optional url: string;
+optional url?: string;
 ```
 
 Defined in: packages/types/dist/message-metadata.d.ts:274
@@ -81,7 +81,7 @@ Defined in: packages/types/dist/message-metadata.d.ts:274
 ### value?
 
 ```ts
-optional value: string;
+optional value?: string;
 ```
 
 Defined in: packages/types/dist/message-metadata.d.ts:272

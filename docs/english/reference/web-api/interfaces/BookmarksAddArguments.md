@@ -33,7 +33,7 @@ ChannelID.channel_id
 ### emoji?
 
 ```ts
-optional emoji: string;
+optional emoji?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/bookmarks.ts:12](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/bookmarks.ts#L12)
@@ -53,7 +53,7 @@ BookmarkFields.emoji
 ### entity\_id?
 
 ```ts
-optional entity_id: string;
+optional entity_id?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/bookmarks.ts:20](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/bookmarks.ts#L20)
@@ -87,7 +87,7 @@ BookmarkFields.link
 ### parent\_id?
 
 ```ts
-optional parent_id: string;
+optional parent_id?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/bookmarks.ts:22](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/bookmarks.ts#L22)
@@ -121,7 +121,7 @@ BookmarkFields.title
 ### token?
 
 ```ts
-optional token: string;
+optional token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)

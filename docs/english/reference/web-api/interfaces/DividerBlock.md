@@ -2,7 +2,7 @@
 
 # Interface: DividerBlock
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:159
+Defined in: packages/types/dist/block-kit/blocks.d.ts:298
 
 ## Description
 
@@ -22,7 +22,7 @@ different blocks inside of a message. The divider block is nice and neat, requir
 ### block\_id?
 
 ```ts
-optional block_id: string;
+optional block_id?: string;
 ```
 
 Defined in: packages/types/dist/block-kit/blocks.d.ts:15
@@ -47,7 +47,7 @@ a message. If a message is updated, use a new `block_id`.
 type: "divider";
 ```
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:163
+Defined in: packages/types/dist/block-kit/blocks.d.ts:302
 
 #### Description
 

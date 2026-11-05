@@ -47,7 +47,7 @@ EventEmitter.constructor
 ### activeTeamId?
 
 ```ts
-optional activeTeamId: string;
+optional activeTeamId?: string;
 ```
 
 Defined in: [packages/rtm-api/src/RTMClient.ts:83](https://github.com/slackapi/node-slack-sdk/blob/main/packages/rtm-api/src/RTMClient.ts#L83)
@@ -59,7 +59,7 @@ The team ID for the workspace the client is connected to.
 ### activeUserId?
 
 ```ts
-optional activeUserId: string;
+optional activeUserId?: string;
 ```
 
 Defined in: [packages/rtm-api/src/RTMClient.ts:78](https://github.com/slackapi/node-slack-sdk/blob/main/packages/rtm-api/src/RTMClient.ts#L78)
@@ -115,7 +115,8 @@ EventEmitter.prefixed
 addListener<T>(
    event, 
    fn, 
-   context?): this;
+   context?
+): this;
 ```
 
 Defined in: node\_modules/eventemitter3/index.d.ts:45
@@ -160,7 +161,8 @@ EventEmitter.addListener
 addOutgoingEvent(
    awaitReply, 
    type, 
-body?): Promise<RTMCallResult>;
+   body?
+): Promise<RTMCallResult>;
 ```
 
 Defined in: [packages/rtm-api/src/RTMClient.ts:525](https://github.com/slackapi/node-slack-sdk/blob/main/packages/rtm-api/src/RTMClient.ts#L525)
@@ -208,7 +210,8 @@ the message body
 addOutgoingEvent(
    awaitReply, 
    type, 
-body?): Promise<undefined>;
+   body?
+): Promise<undefined>;
 ```
 
 Defined in: [packages/rtm-api/src/RTMClient.ts:526](https://github.com/slackapi/node-slack-sdk/blob/main/packages/rtm-api/src/RTMClient.ts#L526)
@@ -344,7 +347,7 @@ Return the number of listeners listening to a given event.
 
 ##### event
 
-`string` | `symbol`
+`string` \| `symbol`
 
 #### Returns
 
@@ -399,7 +402,8 @@ off<T>(
    event, 
    fn?, 
    context?, 
-   once?): this;
+   once?
+): this;
 ```
 
 Defined in: node\_modules/eventemitter3/index.d.ts:69
@@ -446,7 +450,8 @@ EventEmitter.off
 on<T>(
    event, 
    fn, 
-   context?): this;
+   context?
+): this;
 ```
 
 Defined in: node\_modules/eventemitter3/index.d.ts:40
@@ -491,7 +496,8 @@ EventEmitter.on
 once<T>(
    event, 
    fn, 
-   context?): this;
+   context?
+): this;
 ```
 
 Defined in: node\_modules/eventemitter3/index.d.ts:54
@@ -544,7 +550,7 @@ Remove all listeners, or those of the specified event.
 
 ##### event?
 
-`string` | `symbol`
+`string` \| `symbol`
 
 #### Returns
 
@@ -565,7 +571,8 @@ removeListener<T>(
    event, 
    fn?, 
    context?, 
-   once?): this;
+   once?
+): this;
 ```
 
 Defined in: node\_modules/eventemitter3/index.d.ts:63

@@ -13,7 +13,7 @@ Defined in: [packages/web-api/src/types/request/files.ts:71](https://github.com/
 ### blocks?
 
 ```ts
-optional blocks: (KnownBlock | Block)[];
+optional blocks?: (KnownBlock | Block)[];
 ```
 
 #### Description
@@ -49,7 +49,7 @@ Array of file IDs and their corresponding (optional) titles.
 ### initial\_comment?
 
 ```ts
-optional initial_comment: string;
+optional initial_comment?: string;
 ```
 
 #### Description

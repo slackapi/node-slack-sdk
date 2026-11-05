@@ -2,7 +2,7 @@
 
 # Interface: AppsManifestValidateArguments
 
-Defined in: [packages/web-api/src/types/request/apps.ts:31](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/apps.ts#L31)
+Defined in: [packages/web-api/src/types/request/apps.ts:33](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/apps.ts#L33)
 
 ## Extends
 
@@ -13,7 +13,7 @@ Defined in: [packages/web-api/src/types/request/apps.ts:31](https://github.com/s
 ### app\_id?
 
 ```ts
-optional app_id: string;
+optional app_id?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:101](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L101)
@@ -34,14 +34,14 @@ The ID of the app.
 manifest: Manifest;
 ```
 
-Defined in: [packages/web-api/src/types/request/apps.ts:32](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/apps.ts#L32)
+Defined in: [packages/web-api/src/types/request/apps.ts:34](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/apps.ts#L34)
 
 ***
 
 ### token?
 
 ```ts
-optional token: string;
+optional token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)

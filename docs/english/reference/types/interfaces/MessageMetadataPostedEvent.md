@@ -19,7 +19,7 @@ Defined in: [events/message-metadata.ts:10](https://github.com/slackapi/node-sla
 ### bot\_id?
 
 ```ts
-optional bot_id: string;
+optional bot_id?: string;
 ```
 
 Defined in: [events/message-metadata.ts:11](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/message-metadata.ts#L11)

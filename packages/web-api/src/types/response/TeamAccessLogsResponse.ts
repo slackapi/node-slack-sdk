@@ -16,6 +16,7 @@ export type TeamAccessLogsResponse = WebAPICallResult & {
   paging?: Paging;
   provided?: string;
   response_metadata?: ResponseMetadata;
+  warning?: string;
 };
 
 export interface Login {
@@ -36,6 +37,7 @@ export interface Paging {
   page?: number;
   pages?: number;
   total?: number;
+  warnings?: string[];
 }
 
 export interface ResponseMetadata {

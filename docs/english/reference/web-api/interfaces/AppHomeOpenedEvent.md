@@ -19,7 +19,7 @@ Defined in: packages/types/dist/events/app.d.ts:68
 ### context?
 
 ```ts
-optional context: object;
+optional context?: object;
 ```
 
 Defined in: packages/types/dist/events/app.d.ts:71
@@ -27,7 +27,7 @@ Defined in: packages/types/dist/events/app.d.ts:71
 #### entities?
 
 ```ts
-optional entities: 
+optional entities?: 
   | {
   type: "slack#/types/channel_id";
   value: string;
@@ -64,7 +64,7 @@ Defined in: packages/types/dist/events/app.d.ts:72
 ### tab?
 
 ```ts
-optional tab: "home" | "messages";
+optional tab?: "home" | "messages";
 ```
 
 Defined in: packages/types/dist/events/app.d.ts:69
@@ -94,7 +94,7 @@ Defined in: packages/types/dist/events/app.d.ts:67
 ### view?
 
 ```ts
-optional view: View;
+optional view?: View;
 ```
 
 Defined in: packages/types/dist/events/app.d.ts:70

@@ -2,7 +2,7 @@
 
 # Interface: FileInput
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:169
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:183
 
 ## Description
 
@@ -22,7 +22,7 @@ your app must have the `files:read` scope.
 ### action\_id?
 
 ```ts
-optional action_id: string;
+optional action_id?: string;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:12
@@ -40,10 +40,10 @@ among all other `action_id`s in the containing block. Maximum length for this fi
 ### filetypes?
 
 ```ts
-optional filetypes: string[];
+optional filetypes?: string[];
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:179
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:193
 
 #### Description
 
@@ -56,10 +56,10 @@ for convenience only, and you should perform your own file type validation based
 ### max\_files?
 
 ```ts
-optional max_files: number;
+optional max_files?: number;
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:184
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:198
 
 #### Description
 
@@ -74,7 +74,7 @@ Maximum number of files that can be uploaded for this `file_input` element. Mini
 type: "file_input";
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:173
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:187
 
 #### Description
 

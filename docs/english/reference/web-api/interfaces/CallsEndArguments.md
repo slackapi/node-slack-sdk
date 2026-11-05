@@ -13,7 +13,7 @@ Defined in: [packages/web-api/src/types/request/calls.ts:48](https://github.com/
 ### duration?
 
 ```ts
-optional duration: number;
+optional duration?: number;
 ```
 
 Defined in: [packages/web-api/src/types/request/calls.ts:50](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/calls.ts#L50)
@@ -47,7 +47,7 @@ ID.id
 ### token?
 
 ```ts
-optional token: string;
+optional token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)

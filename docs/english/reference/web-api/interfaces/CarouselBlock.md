@@ -2,7 +2,7 @@
 
 # Interface: CarouselBlock
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:106
+Defined in: packages/types/dist/block-kit/blocks.d.ts:170
 
 ## Description
 
@@ -21,7 +21,7 @@ Displays related card blocks in a horizontally-scrolling container.
 ### block\_id?
 
 ```ts
-optional block_id: string;
+optional block_id?: string;
 ```
 
 Defined in: packages/types/dist/block-kit/blocks.d.ts:15
@@ -46,7 +46,7 @@ a message. If a message is updated, use a new `block_id`.
 elements: CardBlock[];
 ```
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:114
+Defined in: packages/types/dist/block-kit/blocks.d.ts:178
 
 #### Description
 
@@ -60,7 +60,7 @@ An array of [CardBlock](CardBlock.md) elements. Minimum 1, maximum 10 cards.
 type: "carousel";
 ```
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:110
+Defined in: packages/types/dist/block-kit/blocks.d.ts:174
 
 #### Description
 

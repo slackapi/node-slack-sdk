@@ -2,7 +2,7 @@
 
 # Interface: SlackFileImageObject
 
-Defined in: packages/types/dist/block-kit/composition-objects.d.ts:210
+Defined in: packages/types/dist/block-kit/composition-objects.d.ts:227
 
 ## Description
 
@@ -16,7 +16,7 @@ Object for image which contains a slack_file.
 slack_file: SlackFile;
 ```
 
-Defined in: packages/types/dist/block-kit/composition-objects.d.ts:214
+Defined in: packages/types/dist/block-kit/composition-objects.d.ts:231
 
 #### Description
 

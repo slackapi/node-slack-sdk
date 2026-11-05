@@ -1,9 +1,8 @@
 import assert from 'node:assert/strict';
-import { beforeEach, describe, it } from 'node:test';
+import { beforeEach, describe, it, mock } from 'node:test';
 import url from 'node:url';
 import type { OAuthV2AccessArguments, OauthV2AccessResponse, WebClientOptions } from '@slack/web-api';
 import rewiremock from 'rewiremock';
-import sinon from 'sinon';
 import {
   type AuthorizationError,
   ErrorCode,
@@ -20,10 +19,10 @@ rewiremock(() => require('@slack/web-api')).with({
   // @ts-expect-error: missing some irrelevant class properties in this mock
   WebClient: class {
     auth = {
-      test: sinon.fake.resolves({ bot_id: '' }),
+      test: async () => ({ bot_id: '' }),
     };
     oauth = {
-      access: sinon.fake.resolves({
+      access: async () => ({
         team_id: 'fake-v1-team-id',
         team_name: 'fake-team-name',
         access_token: 'token',
@@ -50,6 +49,13 @@ var { InstallProvider } = require('./index') as typeof import('./index');
 rewiremock.disable();
 
 const webClientOptions: WebClientOptions = { timeout: 1000 };
+
+function createFakeStateStore() {
+  return {
+    generateStateParam: mock.fn<StateStore['generateStateParam']>(async () => 'fakeState'),
+    verifyStateParam: mock.fn<StateStore['verifyStateParam']>(async () => ({ scopes: [] })),
+  };
+}
 
 async function mockedV2AccessResp(options: OAuthV2AccessArguments): Promise<OauthV2AccessResponse> {
   const mockedResp: OauthV2AccessResponse = {
@@ -225,10 +231,7 @@ describe('InstallProvider', async () => {
 
     it('should build a default installer given a clientID, client secret and state store', async () => {
       // stateStore for testing
-      const fakeStateStore = {
-        generateStateParam: sinon.fake.resolves('fakeState'),
-        verifyStateParam: sinon.fake.resolves({}),
-      };
+      const fakeStateStore = createFakeStateStore();
 
       const installer = new InstallProvider({ clientId, clientSecret, stateStore: fakeStateStore, logger: noopLogger });
       assert.ok(installer instanceof InstallProvider);
@@ -313,10 +316,7 @@ describe('InstallProvider', async () => {
         clientId,
         clientSecret,
         installUrlOptions: undefined,
-        stateStore: {
-          generateStateParam: sinon.fake.resolves('fakeState'),
-          verifyStateParam: sinon.fake.resolves({ scopes: [] }),
-        },
+        stateStore: createFakeStateStore(),
         logger: noopLogger,
       });
       const req = {};
@@ -355,10 +355,7 @@ describe('InstallProvider', async () => {
         clientSecret,
         installUrlOptions,
         directInstall: true,
-        stateStore: {
-          generateStateParam: sinon.fake.resolves('fakeState'),
-          verifyStateParam: sinon.fake.resolves({ scopes: [] }),
-        },
+        stateStore: createFakeStateStore(),
         logger: noopLogger,
       });
       const req = {};
@@ -391,10 +388,7 @@ describe('InstallProvider', async () => {
         clientSecret,
         installUrlOptions,
         directInstall: true,
-        stateStore: {
-          generateStateParam: sinon.fake.resolves('fakeState'),
-          verifyStateParam: sinon.fake.resolves({ scopes: [] }),
-        },
+        stateStore: createFakeStateStore(),
         logger: noopLogger,
       });
       const req = {};
@@ -432,10 +426,7 @@ describe('InstallProvider', async () => {
 
   describe('installer.generateInstallUrl', async () => {
     it('should return a generated v2 url', async () => {
-      const fakeStateStore = {
-        generateStateParam: sinon.fake.resolves('fakeState'),
-        verifyStateParam: sinon.fake.resolves({}),
-      };
+      const fakeStateStore = createFakeStateStore();
       const installer = new InstallProvider({ clientId, clientSecret, stateStore: fakeStateStore, logger: noopLogger });
       const scopes = ['channels:read'];
       const teamId = '1234Team';
@@ -452,9 +443,9 @@ describe('InstallProvider', async () => {
       try {
         const generatedUrl = await installer.generateInstallUrl(installUrlOptions, stateVerification);
         assert.ok(generatedUrl);
-        assert.strictEqual(fakeStateStore.generateStateParam.callCount, 1);
-        assert.strictEqual(fakeStateStore.verifyStateParam.callCount, 0);
-        assert.strictEqual(fakeStateStore.generateStateParam.calledWith(installUrlOptions), true);
+        assert.strictEqual(fakeStateStore.generateStateParam.mock.callCount(), 1);
+        assert.strictEqual(fakeStateStore.verifyStateParam.mock.callCount(), 0);
+        assert.deepEqual(fakeStateStore.generateStateParam.mock.calls[0].arguments[0], installUrlOptions);
 
         const parsedUrl = url.parse(generatedUrl, true);
         assert.strictEqual(parsedUrl.query.state, 'fakeState');
@@ -468,10 +459,7 @@ describe('InstallProvider', async () => {
       }
     });
     it('should not call generate state param when state validation is false', async () => {
-      const fakeStateStore = {
-        generateStateParam: sinon.fake.resolves('fakeState'),
-        verifyStateParam: sinon.fake.resolves({}),
-      };
+      const fakeStateStore = createFakeStateStore();
       const authorizationUrl = 'https://dev.slack.com/oauth/v2/authorize';
       const installer = new InstallProvider({
         clientId,
@@ -495,17 +483,14 @@ describe('InstallProvider', async () => {
       try {
         const generatedUrl = await installer.generateInstallUrl(installUrlOptions, stateVerification);
         assert.ok(generatedUrl);
-        assert.strictEqual(fakeStateStore.generateStateParam.callCount, 0);
-        assert.strictEqual(fakeStateStore.verifyStateParam.callCount, 0);
+        assert.strictEqual(fakeStateStore.generateStateParam.mock.callCount(), 0);
+        assert.strictEqual(fakeStateStore.verifyStateParam.mock.callCount(), 0);
       } catch (error) {
         assert.fail((error as Error).message);
       }
     });
     it('should return a generated url when passed a custom authorizationUrl', async () => {
-      const fakeStateStore = {
-        generateStateParam: sinon.fake.resolves('fakeState'),
-        verifyStateParam: sinon.fake.resolves({}),
-      };
+      const fakeStateStore = createFakeStateStore();
       const authorizationUrl = 'https://dev.slack.com/oauth/v2/authorize';
       const installer = new InstallProvider({
         clientId,
@@ -528,9 +513,9 @@ describe('InstallProvider', async () => {
       try {
         const generatedUrl = await installer.generateInstallUrl(installUrlOptions);
         assert.ok(generatedUrl);
-        assert.strictEqual(fakeStateStore.generateStateParam.callCount, 1);
-        assert.strictEqual(fakeStateStore.verifyStateParam.callCount, 0);
-        assert.strictEqual(fakeStateStore.generateStateParam.calledWith(installUrlOptions), true);
+        assert.strictEqual(fakeStateStore.generateStateParam.mock.callCount(), 1);
+        assert.strictEqual(fakeStateStore.verifyStateParam.mock.callCount(), 0);
+        assert.deepEqual(fakeStateStore.generateStateParam.mock.calls[0].arguments[0], installUrlOptions);
 
         const parsedUrl = url.parse(generatedUrl, true);
         assert.strictEqual(parsedUrl.query.state, 'fakeState');
@@ -546,10 +531,7 @@ describe('InstallProvider', async () => {
     });
 
     it('should return a generated v1 url', async () => {
-      const fakeStateStore = {
-        generateStateParam: sinon.fake.resolves('fakeState'),
-        verifyStateParam: sinon.fake.resolves({}),
-      };
+      const fakeStateStore = createFakeStateStore();
       const installer = new InstallProvider({
         clientId,
         clientSecret,
@@ -571,9 +553,9 @@ describe('InstallProvider', async () => {
         const generatedUrl = await installer.generateInstallUrl(installUrlOptions, stateVerification);
         assert.ok(generatedUrl);
         const parsedUrl = url.parse(generatedUrl, true);
-        assert.strictEqual(fakeStateStore.generateStateParam.callCount, 1);
-        assert.strictEqual(fakeStateStore.verifyStateParam.callCount, 0);
-        assert.strictEqual(fakeStateStore.generateStateParam.calledWith(installUrlOptions), true);
+        assert.strictEqual(fakeStateStore.generateStateParam.mock.callCount(), 1);
+        assert.strictEqual(fakeStateStore.verifyStateParam.mock.callCount(), 0);
+        assert.deepEqual(fakeStateStore.generateStateParam.mock.calls[0].arguments[0], installUrlOptions);
         assert.strictEqual(parsedUrl.pathname, '/oauth/authorize');
         assert.strictEqual(parsedUrl.query.state, 'fakeState');
         assert.strictEqual(scopes.join(','), parsedUrl.query.scope);
@@ -655,7 +637,7 @@ describe('InstallProvider', async () => {
   });
 
   describe('installer.handleCallback', async () => {
-    let fakeStateStore: StateStore;
+    let fakeStateStore: ReturnType<typeof createFakeStateStore>;
     let sent = false;
     const res = {
       end: () => {
@@ -664,10 +646,7 @@ describe('InstallProvider', async () => {
       setHeader: () => {},
     };
     beforeEach(() => {
-      fakeStateStore = {
-        generateStateParam: sinon.fake.resolves('fakeState'),
-        verifyStateParam: sinon.fake.resolves({ scopes: [] }),
-      };
+      fakeStateStore = createFakeStateStore();
       sent = false;
     });
 
@@ -791,7 +770,7 @@ describe('InstallProvider', async () => {
       // @ts-expect-error req is not an instance of IncomingMessage, TODO: type or stub IncomingMessage for req properly
       await installer.handleCallback(req, res, successExpectedCallbackOptions);
       assert.strictEqual(sent, true);
-      assert.strictEqual((fakeStateStore.verifyStateParam as sinon.SinonSpy).callCount, 1);
+      assert.strictEqual(fakeStateStore.verifyStateParam.mock.callCount(), 1);
     });
 
     it('should call the success callback for a v2 url', async () => {
@@ -815,7 +794,7 @@ describe('InstallProvider', async () => {
       // @ts-expect-error req is not an instance of IncomingMessage, TODO: type or stub IncomingMessage for req properly
       await installer.handleCallback(req, res, successExpectedCallbackOptions);
       assert.strictEqual(sent, true);
-      assert.strictEqual((fakeStateStore.verifyStateParam as sinon.SinonSpy).callCount, 1);
+      assert.strictEqual(fakeStateStore.verifyStateParam.mock.callCount(), 1);
     });
 
     it('should call the success callback for a v1 url', async () => {
@@ -840,7 +819,7 @@ describe('InstallProvider', async () => {
       // @ts-expect-error req is not an instance of IncomingMessage, TODO: type or stub IncomingMessage for req properly
       await installer.handleCallback(req, res, successExpectedCallbackOptions);
       assert.strictEqual(sent, true);
-      assert.strictEqual((fakeStateStore.verifyStateParam as sinon.SinonSpy).callCount, 1);
+      assert.strictEqual(fakeStateStore.verifyStateParam.mock.callCount(), 1);
     });
 
     it('should call the success callback for a v1 url', async () => {
@@ -866,14 +845,11 @@ describe('InstallProvider', async () => {
       // @ts-expect-error req is not an instance of IncomingMessage, TODO: type or stub IncomingMessage for req properly
       await installer.handleCallback(req, res, successExpectedCallbackOptions);
       assert.strictEqual(sent, true);
-      assert.strictEqual((fakeStateStore.verifyStateParam as sinon.SinonSpy).callCount, 1);
+      assert.strictEqual(fakeStateStore.verifyStateParam.mock.callCount(), 1);
     });
 
     it('should not verify state when stateVerification is false', async () => {
-      const fakeStateStore = {
-        generateStateParam: sinon.fake.resolves('fakeState'),
-        verifyStateParam: sinon.fake.resolves({}),
-      };
+      const fakeStateStore = createFakeStateStore();
       const installer = new InstallProvider({
         clientId,
         clientSecret,
@@ -895,7 +871,7 @@ describe('InstallProvider', async () => {
       // @ts-expect-error req is not an instance of IncomingMessage, TODO: type or stub IncomingMessage for req properly
       await installer.handleCallback(req, res, successExpectedCallbackOptions);
       assert.strictEqual(sent, true);
-      assert.strictEqual(fakeStateStore.verifyStateParam.callCount, 0);
+      assert.strictEqual(fakeStateStore.verifyStateParam.mock.callCount(), 0);
     });
 
     it('should terminate the processing when callbackOptions.beforeInstallation() returns false', async () => {
@@ -1079,10 +1055,7 @@ describe('InstallProvider', async () => {
     });
 
     it('should fail if the state value is not in cookies', async () => {
-      const fakeStateStore: StateStore = {
-        generateStateParam: sinon.fake.resolves('fakeState'),
-        verifyStateParam: sinon.fake.resolves({ scopes: [] }),
-      };
+      const fakeStateStore = createFakeStateStore();
       const installer = new InstallProvider({
         clientId,
         clientSecret,
@@ -1107,10 +1080,7 @@ describe('InstallProvider', async () => {
       assert.strictEqual(sent, true);
     });
     it('should fail if there is a different state value in cookies', async () => {
-      const fakeStateStore: StateStore = {
-        generateStateParam: sinon.fake.resolves('fakeState'),
-        verifyStateParam: sinon.fake.resolves({ scopes: [] }),
-      };
+      const fakeStateStore = createFakeStateStore();
       const installer = new InstallProvider({
         clientId,
         clientSecret,
@@ -1135,10 +1105,7 @@ describe('InstallProvider', async () => {
       assert.strictEqual(sent, true);
     });
     it('should not fail if no state cookie returned and legacyStateVerification is enabled', async () => {
-      const fakeStateStore = {
-        generateStateParam: sinon.fake.resolves('fakeState'),
-        verifyStateParam: sinon.fake.resolves({}),
-      };
+      const fakeStateStore = createFakeStateStore();
       const installer = new InstallProvider({
         clientId,
         clientSecret,
@@ -1163,10 +1130,7 @@ describe('InstallProvider', async () => {
       assert.strictEqual(sent, true);
     });
     it('should not fail if a different state cookie returned and legacyStateVerification is enabled', async () => {
-      const fakeStateStore: StateStore = {
-        generateStateParam: sinon.fake.resolves('fakeState'),
-        verifyStateParam: sinon.fake.resolves({ scopes: [] }),
-      };
+      const fakeStateStore = createFakeStateStore();
       const installer = new InstallProvider({
         clientId,
         clientSecret,

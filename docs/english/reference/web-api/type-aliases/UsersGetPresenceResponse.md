@@ -13,65 +13,65 @@ Defined in: [packages/web-api/src/types/response/UsersGetPresenceResponse.ts:11]
 ### auto\_away?
 
 ```ts
-optional auto_away: boolean;
+optional auto_away?: boolean;
 ```
 
 ### connection\_count?
 
 ```ts
-optional connection_count: number;
+optional connection_count?: number;
 ```
 
 ### error?
 
 ```ts
-optional error: string;
+optional error?: string;
 ```
 
 ### last\_activity?
 
 ```ts
-optional last_activity: number;
+optional last_activity?: number;
 ```
 
 ### manual\_away?
 
 ```ts
-optional manual_away: boolean;
+optional manual_away?: boolean;
 ```
 
 ### needed?
 
 ```ts
-optional needed: string;
+optional needed?: string;
 ```
 
 ### ok?
 
 ```ts
-optional ok: boolean;
+optional ok?: boolean;
 ```
 
 ### online?
 
 ```ts
-optional online: boolean;
+optional online?: boolean;
 ```
 
 ### presence?
 
 ```ts
-optional presence: string;
+optional presence?: string;
 ```
 
 ### provided?
 
 ```ts
-optional provided: string;
+optional provided?: string;
 ```
 
 ### warning?
 
 ```ts
-optional warning: string;
+optional warning?: string;
 ```

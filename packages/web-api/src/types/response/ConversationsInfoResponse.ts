@@ -14,6 +14,7 @@ export type ConversationsInfoResponse = WebAPICallResult & {
   needed?: string;
   ok?: boolean;
   provided?: string;
+  warning?: string;
 };
 
 export interface Channel {
@@ -36,6 +37,7 @@ export interface Channel {
   is_moved?: number;
   is_mpim?: boolean;
   is_non_threadable?: boolean;
+  is_open?: boolean;
   is_org_default?: boolean;
   is_org_mandatory?: boolean;
   is_org_shared?: boolean;
@@ -52,11 +54,64 @@ export interface Channel {
   pending_connected_team_ids?: string[];
   pending_shared?: string[];
   previous_names?: string[];
+  properties?: Properties;
   purpose?: Purpose;
   shared_team_ids?: string[];
   topic?: Purpose;
   unlinked?: number;
   updated?: number;
+}
+
+export interface Properties {
+  agent_session?: AgentSession;
+  code_channel?: CodeChannel;
+  has_slack_connect_invite_created?: boolean;
+  is_dormant?: boolean;
+  record_channel?: RecordChannel;
+  tabs?: Tab[];
+  tabz?: Tabz[];
+}
+
+export interface AgentSession {
+  agent_bot_user_ids?: string[];
+  encoded_agent_bot_user_ids?: string[];
+  origin_link?: OriginLink;
+  status?: string;
+  title?: string;
+}
+
+export interface OriginLink {
+  channel_id?: string;
+  ts?: string;
+}
+
+export interface CodeChannel {
+  context_bar_items?: ContextBarItem[];
+}
+
+export interface ContextBarItem {
+  bot_user_id?: string;
+  icon?: string;
+  key?: string;
+  label?: string;
+  url?: string;
+}
+
+export interface RecordChannel {
+  record_id?: string;
+  record_label?: string;
+  record_label_plural?: string;
+  record_type?: string;
+}
+
+export interface Tab {
+  id?: string;
+  label?: string;
+  type?: string;
+}
+
+export interface Tabz {
+  type?: string;
 }
 
 export interface Purpose {

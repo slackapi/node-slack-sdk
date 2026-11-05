@@ -8,10 +8,13 @@ Defined in: packages/types/dist/block-kit/blocks.d.ts:3
 
 - [`ActionsBlock`](ActionsBlock.md)
 - [`AlertBlock`](AlertBlock.md)
+- [`AuthProviderBlock`](AuthProviderBlock.md)
 - [`CardBlock`](CardBlock.md)
 - [`CarouselBlock`](CarouselBlock.md)
+- [`ContainerBlock`](ContainerBlock.md)
 - [`ContextBlock`](ContextBlock.md)
 - [`ContextActionsBlock`](ContextActionsBlock.md)
+- [`DataTableBlock`](DataTableBlock.md)
 - [`DividerBlock`](DividerBlock.md)
 - [`FileBlock`](FileBlock.md)
 - [`HeaderBlock`](HeaderBlock.md)
@@ -29,7 +32,7 @@ Defined in: packages/types/dist/block-kit/blocks.d.ts:3
 ### block\_id?
 
 ```ts
-optional block_id: string;
+optional block_id?: string;
 ```
 
 Defined in: packages/types/dist/block-kit/blocks.d.ts:15

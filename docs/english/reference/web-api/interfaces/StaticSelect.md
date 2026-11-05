@@ -2,7 +2,7 @@
 
 # Interface: StaticSelect
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:292
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:306
 
 ## Description
 
@@ -23,7 +23,7 @@ element.
 ### action\_id?
 
 ```ts
-optional action_id: string;
+optional action_id?: string;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:12
@@ -41,7 +41,7 @@ among all other `action_id`s in the containing block. Maximum length for this fi
 ### confirm?
 
 ```ts
-optional confirm: ConfirmationDialog;
+optional confirm?: ConfirmationDialog;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:21
@@ -60,7 +60,7 @@ with.
 ### focus\_on\_load?
 
 ```ts
-optional focus_on_load: boolean;
+optional focus_on_load?: boolean;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:36
@@ -80,10 +80,10 @@ Defaults to `false`.
 ### initial\_option?
 
 ```ts
-optional initial_option: PlainTextOption;
+optional initial_option?: PlainTextOption;
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:301
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:315
 
 #### Description
 
@@ -95,10 +95,10 @@ This option will be selected when the menu initially loads.
 ### option\_groups?
 
 ```ts
-optional option_groups: object[];
+optional option_groups?: object[];
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:311
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:325
 
 #### label
 
@@ -122,10 +122,10 @@ this field should not be.
 ### options?
 
 ```ts
-optional options: PlainTextOption[];
+optional options?: PlainTextOption[];
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:306
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:320
 
 #### Description
 
@@ -137,7 +137,7 @@ specified, this field should not be.
 ### placeholder?
 
 ```ts
-optional placeholder: PlainTextElement;
+optional placeholder?: PlainTextElement;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:49
@@ -159,7 +159,7 @@ length for the `text` field in this object is 150 characters.
 type: "static_select";
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:296
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:310
 
 #### Description
 

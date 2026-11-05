@@ -2,7 +2,7 @@
 
 # Interface: MarkdownBlock
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:269
+Defined in: packages/types/dist/block-kit/blocks.d.ts:408
 
 ## Description
 
@@ -23,7 +23,7 @@ appears as intended. Note that passing a single block may result in multiple blo
 ### block\_id?
 
 ```ts
-optional block_id: string;
+optional block_id?: string;
 ```
 
 Defined in: packages/types/dist/block-kit/blocks.d.ts:15
@@ -48,7 +48,7 @@ a message. If a message is updated, use a new `block_id`.
 text: string;
 ```
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:277
+Defined in: packages/types/dist/block-kit/blocks.d.ts:416
 
 #### Description
 
@@ -62,7 +62,7 @@ The standard markdown-formatted text. Limit 12,000 characters max.
 type: "markdown";
 ```
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:273
+Defined in: packages/types/dist/block-kit/blocks.d.ts:412
 
 #### Description
 

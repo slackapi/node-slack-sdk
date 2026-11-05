@@ -13,41 +13,41 @@ Defined in: [packages/web-api/src/types/response/AdminAppsRestrictedListResponse
 ### error?
 
 ```ts
-optional error: string;
+optional error?: string;
 ```
 
 ### needed?
 
 ```ts
-optional needed: string;
+optional needed?: string;
 ```
 
 ### ok?
 
 ```ts
-optional ok: boolean;
+optional ok?: boolean;
 ```
 
 ### provided?
 
 ```ts
-optional provided: string;
+optional provided?: string;
 ```
 
 ### response\_metadata?
 
 ```ts
-optional response_metadata: ResponseMetadata;
+optional response_metadata?: ResponseMetadata;
 ```
 
 ### restricted\_apps?
 
 ```ts
-optional restricted_apps: RestrictedApp[];
+optional restricted_apps?: RestrictedApp[];
 ```
 
 ### warning?
 
 ```ts
-optional warning: string;
+optional warning?: string;
 ```

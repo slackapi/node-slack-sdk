@@ -2,7 +2,7 @@
 
 # Interface: PlanBlock
 
-Defined in: [block-kit/blocks.ts:529](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L529)
+Defined in: [block-kit/blocks.ts:687](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L687)
 
 ## Description
 
@@ -21,10 +21,10 @@ https://docs.slack.dev/reference/block-kit/blocks/plan-block/
 ### block\_id?
 
 ```ts
-optional block_id: string;
+optional block_id?: string;
 ```
 
-Defined in: [block-kit/blocks.ts:49](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L49)
+Defined in: [block-kit/blocks.ts:50](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L50)
 
 #### Description
 
@@ -43,10 +43,10 @@ a message. If a message is updated, use a new `block_id`.
 ### tasks?
 
 ```ts
-optional tasks: (TaskCardBlock | Record<string, unknown>)[];
+optional tasks?: (TaskCardBlock | Record<string, unknown>)[];
 ```
 
-Defined in: [block-kit/blocks.ts:543](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L543)
+Defined in: [block-kit/blocks.ts:701](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L701)
 
 #### Description
 
@@ -60,7 +60,7 @@ A sequence of task card blocks. Each task represents a single action within the 
 title: string;
 ```
 
-Defined in: [block-kit/blocks.ts:538](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L538)
+Defined in: [block-kit/blocks.ts:696](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L696)
 
 #### Description
 
@@ -74,7 +74,7 @@ Title of the plan in plain text.
 type: "plan";
 ```
 
-Defined in: [block-kit/blocks.ts:533](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L533)
+Defined in: [block-kit/blocks.ts:691](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L691)
 
 #### Description
 

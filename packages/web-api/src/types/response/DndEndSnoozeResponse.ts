@@ -17,4 +17,5 @@ export type DndEndSnoozeResponse = WebAPICallResult & {
   ok?: boolean;
   provided?: string;
   snooze_enabled?: boolean;
+  warning?: string;
 };

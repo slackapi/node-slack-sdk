@@ -10,44 +10,56 @@ Defined in: [packages/web-api/src/types/response/RtmConnectResponse.ts:11](https
 
 ## Type Declaration
 
+### context?
+
+```ts
+optional context?: string;
+```
+
 ### error?
 
 ```ts
-optional error: string;
+optional error?: string;
 ```
 
 ### needed?
 
 ```ts
-optional needed: string;
+optional needed?: string;
 ```
 
 ### ok?
 
 ```ts
-optional ok: boolean;
+optional ok?: boolean;
 ```
 
 ### provided?
 
 ```ts
-optional provided: string;
+optional provided?: string;
 ```
 
 ### self?
 
 ```ts
-optional self: Self;
+optional self?: Self;
 ```
 
 ### team?
 
 ```ts
-optional team: Team;
+optional team?: Team;
 ```
 
 ### url?
 
 ```ts
-optional url: string;
+optional url?: string;
+```
+
+### warning?
+
+```ts
+optional warning?: string;
 ```

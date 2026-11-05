@@ -19,7 +19,7 @@ Defined in: [packages/web-api/src/WebClient.ts:80](https://github.com/slackapi/n
 ### response\_metadata?
 
 ```ts
-optional response_metadata: object;
+optional response_metadata?: object;
 ```
 
 Defined in: [packages/web-api/src/WebClient.ts:81](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/WebClient.ts#L81)
@@ -27,35 +27,35 @@ Defined in: [packages/web-api/src/WebClient.ts:81](https://github.com/slackapi/n
 #### acceptedScopes?
 
 ```ts
-optional acceptedScopes: string[];
+optional acceptedScopes?: string[];
 ```
 
 #### messages?
 
 ```ts
-optional messages: string[];
+optional messages?: string[];
 ```
 
 #### next\_cursor?
 
 ```ts
-optional next_cursor: string;
+optional next_cursor?: string;
 ```
 
 #### retryAfter?
 
 ```ts
-optional retryAfter: number;
+optional retryAfter?: number;
 ```
 
 #### scopes?
 
 ```ts
-optional scopes: string[];
+optional scopes?: string[];
 ```
 
 #### warnings?
 
 ```ts
-optional warnings: string[];
+optional warnings?: string[];
 ```

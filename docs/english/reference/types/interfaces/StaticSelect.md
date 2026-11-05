@@ -2,7 +2,7 @@
 
 # Interface: StaticSelect
 
-Defined in: [block-kit/block-elements.ts:335](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L335)
+Defined in: [block-kit/block-elements.ts:349](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L349)
 
 ## Description
 
@@ -23,7 +23,7 @@ element.
 ### action\_id?
 
 ```ts
-optional action_id: string;
+optional action_id?: string;
 ```
 
 Defined in: [block-kit/extensions.ts:15](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/extensions.ts#L15)
@@ -41,7 +41,7 @@ among all other `action_id`s in the containing block. Maximum length for this fi
 ### confirm?
 
 ```ts
-optional confirm: ConfirmationDialog;
+optional confirm?: ConfirmationDialog;
 ```
 
 Defined in: [block-kit/extensions.ts:25](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/extensions.ts#L25)
@@ -60,7 +60,7 @@ with.
 ### focus\_on\_load?
 
 ```ts
-optional focus_on_load: boolean;
+optional focus_on_load?: boolean;
 ```
 
 Defined in: [block-kit/extensions.ts:42](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/extensions.ts#L42)
@@ -80,10 +80,10 @@ Defaults to `false`.
 ### initial\_option?
 
 ```ts
-optional initial_option: PlainTextOption;
+optional initial_option?: PlainTextOption;
 ```
 
-Defined in: [block-kit/block-elements.ts:345](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L345)
+Defined in: [block-kit/block-elements.ts:359](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L359)
 
 #### Description
 
@@ -95,10 +95,10 @@ This option will be selected when the menu initially loads.
 ### option\_groups?
 
 ```ts
-optional option_groups: object[];
+optional option_groups?: object[];
 ```
 
-Defined in: [block-kit/block-elements.ts:360](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L360)
+Defined in: [block-kit/block-elements.ts:374](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L374)
 
 #### label
 
@@ -122,10 +122,10 @@ this field should not be.
 ### options?
 
 ```ts
-optional options: PlainTextOption[];
+optional options?: PlainTextOption[];
 ```
 
-Defined in: [block-kit/block-elements.ts:352](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L352)
+Defined in: [block-kit/block-elements.ts:366](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L366)
 
 #### Description
 
@@ -137,7 +137,7 @@ specified, this field should not be.
 ### placeholder?
 
 ```ts
-optional placeholder: PlainTextElement;
+optional placeholder?: PlainTextElement;
 ```
 
 Defined in: [block-kit/extensions.ts:57](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/extensions.ts#L57)
@@ -159,7 +159,7 @@ length for the `text` field in this object is 150 characters.
 type: "static_select";
 ```
 
-Defined in: [block-kit/block-elements.ts:339](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L339)
+Defined in: [block-kit/block-elements.ts:353](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L353)
 
 #### Description
 

@@ -13,7 +13,7 @@ Defined in: [packages/web-api/src/types/request/calls.ts:57](https://github.com/
 ### desktop\_app\_join\_url?
 
 ```ts
-optional desktop_app_join_url: string;
+optional desktop_app_join_url?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/calls.ts:22](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/calls.ts#L22)
@@ -52,7 +52,7 @@ ID.id
 ### join\_url?
 
 ```ts
-optional join_url: string;
+optional join_url?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/calls.ts:17](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/calls.ts#L17)
@@ -70,7 +70,7 @@ The URL required for a client to join the Call.
 ### title?
 
 ```ts
-optional title: string;
+optional title?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/calls.ts:24](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/calls.ts#L24)
@@ -88,7 +88,7 @@ The name of the Call.
 ### token?
 
 ```ts
-optional token: string;
+optional token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)

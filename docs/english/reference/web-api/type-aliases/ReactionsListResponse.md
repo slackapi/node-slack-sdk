@@ -13,41 +13,47 @@ Defined in: [packages/web-api/src/types/response/ReactionsListResponse.ts:11](ht
 ### error?
 
 ```ts
-optional error: string;
+optional error?: string;
 ```
 
 ### items?
 
 ```ts
-optional items: Item[];
+optional items?: Item[];
 ```
 
 ### needed?
 
 ```ts
-optional needed: string;
+optional needed?: string;
 ```
 
 ### ok?
 
 ```ts
-optional ok: boolean;
+optional ok?: boolean;
 ```
 
 ### paging?
 
 ```ts
-optional paging: Paging;
+optional paging?: Paging;
 ```
 
 ### provided?
 
 ```ts
-optional provided: string;
+optional provided?: string;
 ```
 
 ### response\_metadata?
 
 ```ts
-optional response_metadata: ResponseMetadata;
+optional response_metadata?: ResponseMetadata;
+```
+
+### warning?
+
+```ts
+optional warning?: string;
 ```

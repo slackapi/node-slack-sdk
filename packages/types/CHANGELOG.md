@@ -1,5 +1,33 @@
 # @slack/types
 
+## 3.3.0
+
+### Minor Changes
+
+- 1fabb45: feat(types): add [`AuthProviderBlock`](https://docs.slack.dev/reference/block-kit/blocks/auth-provider-block) block interface
+- 7c310ea: feat(types): add the [`user_connection`](https://docs.slack.dev/reference/events/user_connection) and [`user_connection_status_requested`](https://docs.slack.dev/reference/events/user_connection_status_requested) event interfaces
+
+### Patch Changes
+
+- 6f6fbd1: fix(types): add the `agent_prompt`, `agent_prompt_display`, and `visible_to_user_ids` fields to the [`Button`](https://docs.slack.dev/reference/block-kit/block-elements/button-element) block element
+- e02e7fe: fix: add the `files`, `upload`, `display_as_bot`, and `parent_user_id` fields to `ThreadBroadcastMessageEvent`
+
+## 3.2.0
+
+### Minor Changes
+
+- ca6f416: feat(types): add [`ContainerBlock`](https://docs.slack.dev/reference/block-kit/blocks/container-block/) block interface
+- abf184e: feat: add the [`data_table`](https://docs.slack.dev/reference/block-kit/blocks/data-table-block) Block Kit block type (`DataTableBlock`)
+- d420d00: feat: allow `raw_number` cells in [`TableBlock`](https://docs.slack.dev/reference/block-kit/blocks/table-block) rows (adds `RawNumberElement`)
+- 52eeb05: feat(types): add optional `action_id` property to the [`WorkflowButton`](https://docs.slack.dev/reference/block-kit/block-elements/workflow-button-element) block element
+
+## 3.1.0
+
+### Minor Changes
+
+- 916d8e9: feat(types): add [`agent_session_stopped`](https://docs.slack.dev/reference/events/agent_session_stopped) and [`agent_session_title_changed`](https://docs.slack.dev/reference/events/agent_session_title_changed) events
+- f5e9a01: feat(types): add optional `min_lines` and `max_lines` properties to `RichTextInput` element
+
 ## 3.0.0
 
 ### Major Changes
@@ -38,13 +66,11 @@
 - f1fb7bf: feat: add thinking steps types
 
   Added types for Thinking Steps features:
-
   - **Block types**: `PlanBlock` and `TaskCard` for displaying task progress in messages
   - **Chunk types**: `MarkdownTextChunk`, `PlanUpdateChunk`, `TaskUpdateChunk` for streaming
   - **Source types**: `UrlSourceElements` for displaying sources within task cards
 
   Related PRs:
-
   - [#2471](https://github.com/slackapi/node-slack-sdk/pull/2471) - add task_card and plan blocks
 
   ### Example

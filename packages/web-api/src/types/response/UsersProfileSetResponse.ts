@@ -15,6 +15,7 @@ export type UsersProfileSetResponse = WebAPICallResult & {
   profile?: Profile;
   provided?: string;
   username?: string;
+  warning?: string;
 };
 
 export interface Profile {
@@ -41,6 +42,8 @@ export interface Profile {
   real_name?: string;
   real_name_normalized?: string;
   skype?: string;
+  start_date?: string;
+  status_clear_on_focus_end?: boolean;
   status_emoji?: string;
   status_emoji_display_info?: StatusEmojiDisplayInfo[];
   status_emoji_url?: string;

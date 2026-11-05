@@ -1,6 +1,6 @@
 [@slack/web-api](../index.md) / PaginatePredicate
 
-# Type Alias: PaginatePredicate()
+# Type Alias: PaginatePredicate
 
 ```ts
 type PaginatePredicate = (page) => boolean | undefined | undefined;

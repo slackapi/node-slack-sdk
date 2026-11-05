@@ -33,7 +33,7 @@ CanvasID.canvas_id
 ### channel\_ids?
 
 ```ts
-optional channel_ids: [string, ...string[]];
+optional channel_ids?: [string, ...string[]];
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:81](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L81)
@@ -51,7 +51,7 @@ An array of channel IDs (must include at least one ID).
 ### token?
 
 ```ts
-optional token: string;
+optional token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
@@ -71,7 +71,7 @@ TokenOverridable.token
 ### user\_ids?
 
 ```ts
-optional user_ids: [string, ...string[]];
+optional user_ids?: [string, ...string[]];
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:92](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L92)

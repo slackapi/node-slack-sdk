@@ -14,7 +14,7 @@ Defined in: [block-kit/extensions.ts:60](https://github.com/slackapi/node-slack-
 ### response\_url\_enabled?
 
 ```ts
-optional response_url_enabled: boolean;
+optional response_url_enabled?: boolean;
 ```
 
 Defined in: [block-kit/extensions.ts:67](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/extensions.ts#L67)

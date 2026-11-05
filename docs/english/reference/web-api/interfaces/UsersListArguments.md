@@ -13,7 +13,7 @@ Defined in: [packages/web-api/src/types/request/users.ts:42](https://github.com/
 ### cursor?
 
 ```ts
-optional cursor: string;
+optional cursor?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:16](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L16)
@@ -39,7 +39,7 @@ CursorPaginationEnabled.cursor
 ### include\_locale?
 
 ```ts
-optional include_locale: boolean;
+optional include_locale?: boolean;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:51](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L51)
@@ -59,7 +59,7 @@ LocaleAware.include_locale
 ### limit?
 
 ```ts
-optional limit: number;
+optional limit?: number;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:9](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L9)
@@ -80,7 +80,7 @@ CursorPaginationEnabled.limit
 ### team\_id?
 
 ```ts
-optional team_id: string;
+optional team_id?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:70](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L70)
@@ -100,7 +100,7 @@ OptionalTeamAssignable.team_id
 ### token?
 
 ```ts
-optional token: string;
+optional token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)

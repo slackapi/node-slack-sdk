@@ -2,7 +2,7 @@
 
 # Interface: RichTextChannelMention
 
-Defined in: [block-kit/block-elements.ts:819](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L819)
+Defined in: [block-kit/block-elements.ts:833](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L833)
 
 ## Description
 
@@ -20,7 +20,7 @@ A channel mention element for use in a rich text message.
 channel_id: string;
 ```
 
-Defined in: [block-kit/block-elements.ts:827](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L827)
+Defined in: [block-kit/block-elements.ts:841](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L841)
 
 #### Description
 
@@ -31,7 +31,7 @@ The encoded channel ID, e.g. C1234ABCD.
 ### style?
 
 ```ts
-optional style: object;
+optional style?: object;
 ```
 
 Defined in: [block-kit/extensions.ts:86](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/extensions.ts#L86)
@@ -39,7 +39,7 @@ Defined in: [block-kit/extensions.ts:86](https://github.com/slackapi/node-slack-
 #### bold?
 
 ```ts
-optional bold: boolean;
+optional bold?: boolean;
 ```
 
 ##### Description
@@ -49,7 +49,7 @@ When `true`, boldens the text in this element. Defaults to `false`.
 #### code?
 
 ```ts
-optional code: boolean;
+optional code?: boolean;
 ```
 
 ##### Description
@@ -59,7 +59,7 @@ When `true`, the text is preformatted in an inline code style. Defaults to `fals
 #### italic?
 
 ```ts
-optional italic: boolean;
+optional italic?: boolean;
 ```
 
 ##### Description
@@ -69,7 +69,7 @@ When `true`, italicizes the text in this element. Defaults to `false`.
 #### strike?
 
 ```ts
-optional strike: boolean;
+optional strike?: boolean;
 ```
 
 ##### Description
@@ -79,7 +79,7 @@ When `true`, strikes through the text in this element. Defaults to `false`.
 #### underline?
 
 ```ts
-optional underline: boolean;
+optional underline?: boolean;
 ```
 
 ##### Description
@@ -102,7 +102,7 @@ A limited style object for styling rich text `text` elements.
 type: "channel";
 ```
 
-Defined in: [block-kit/block-elements.ts:823](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L823)
+Defined in: [block-kit/block-elements.ts:837](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L837)
 
 #### Description
 

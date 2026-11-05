@@ -13,7 +13,7 @@ Defined in: [packages/web-api/src/types/request/admin/workflows.ts:22](https://g
 ### max\_workflow\_triggers?
 
 ```ts
-optional max_workflow_triggers: number;
+optional max_workflow_triggers?: number;
 ```
 
 Defined in: [packages/web-api/src/types/request/admin/workflows.ts:27](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/workflows.ts#L27)
@@ -28,7 +28,7 @@ Defaults to `100`. Maximum of `1000`.
 ### token?
 
 ```ts
-optional token: string;
+optional token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)

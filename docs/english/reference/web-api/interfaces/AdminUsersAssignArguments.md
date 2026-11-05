@@ -13,7 +13,7 @@ Defined in: [packages/web-api/src/types/request/admin/users.ts:54](https://githu
 ### channel\_ids?
 
 ```ts
-optional channel_ids: [string, ...string[]];
+optional channel_ids?: [string, ...string[]];
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:81](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L81)
@@ -31,7 +31,7 @@ An array of channel IDs (must include at least one ID).
 ### is\_restricted?
 
 ```ts
-optional is_restricted: boolean;
+optional is_restricted?: boolean;
 ```
 
 Defined in: [packages/web-api/src/types/request/admin/users.ts:15](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/users.ts#L15)
@@ -51,7 +51,7 @@ IsRestricted.is_restricted
 ### is\_ultra\_restricted?
 
 ```ts
-optional is_ultra_restricted: boolean;
+optional is_ultra_restricted?: boolean;
 ```
 
 Defined in: [packages/web-api/src/types/request/admin/users.ts:20](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/users.ts#L20)
@@ -91,7 +91,7 @@ TeamID.team_id
 ### token?
 
 ```ts
-optional token: string;
+optional token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)

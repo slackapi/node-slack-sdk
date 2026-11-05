@@ -6,10 +6,10 @@ Defined in: [packages/oauth/src/callback-options.ts:7](https://github.com/slacka
 
 ## Properties
 
-### afterInstallation()?
+### afterInstallation?
 
 ```ts
-optional afterInstallation: (installation, options, callbackReq, callbackRes) => Promise<boolean>;
+optional afterInstallation?: (installation, options, callbackReq, callbackRes) => Promise<boolean>;
 ```
 
 Defined in: [packages/oauth/src/callback-options.ts:33](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/callback-options.ts#L33)
@@ -27,7 +27,8 @@ to build complete HTTP response for end-users.
 
 ##### installation
 
-[`Installation`](Installation.md)\<`"v1"` \| `"v2"`, `boolean`\> | [`OrgInstallation`](../type-aliases/OrgInstallation.md)
+  \| [`Installation`](Installation.md)\<`"v1"` \| `"v2"`, `boolean`\>
+  \| [`OrgInstallation`](../type-aliases/OrgInstallation.md)
 
 ##### options
 
@@ -47,10 +48,10 @@ to build complete HTTP response for end-users.
 
 ***
 
-### beforeInstallation()?
+### beforeInstallation?
 
 ```ts
-optional beforeInstallation: (options, callbackReq, callbackRes) => Promise<boolean>;
+optional beforeInstallation?: (options, callbackReq, callbackRes) => Promise<boolean>;
 ```
 
 Defined in: [packages/oauth/src/callback-options.ts:17](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/callback-options.ts#L17)
@@ -83,10 +84,10 @@ to build a complete HTTP response for end-users.
 
 ***
 
-### failure()?
+### failure?
 
 ```ts
-optional failure: (error, options, callbackReq, callbackRes) => void;
+optional failure?: (error, options, callbackReq, callbackRes) => void;
 ```
 
 Defined in: [packages/oauth/src/callback-options.ts:63](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/callback-options.ts#L63)
@@ -115,10 +116,10 @@ Defined in: [packages/oauth/src/callback-options.ts:63](https://github.com/slack
 
 ***
 
-### failureAsync()?
+### failureAsync?
 
 ```ts
-optional failureAsync: (error, options, callbackReq, callbackRes) => Promise<void>;
+optional failureAsync?: (error, options, callbackReq, callbackRes) => Promise<void>;
 ```
 
 Defined in: [packages/oauth/src/callback-options.ts:72](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/callback-options.ts#L72)
@@ -147,10 +148,10 @@ Defined in: [packages/oauth/src/callback-options.ts:72](https://github.com/slack
 
 ***
 
-### success()?
+### success?
 
 ```ts
-optional success: (installation, options, callbackReq, callbackRes) => void;
+optional success?: (installation, options, callbackReq, callbackRes) => void;
 ```
 
 Defined in: [packages/oauth/src/callback-options.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/callback-options.ts#L43)
@@ -159,7 +160,8 @@ Defined in: [packages/oauth/src/callback-options.ts:43](https://github.com/slack
 
 ##### installation
 
-[`Installation`](Installation.md)\<`"v1"` \| `"v2"`, `boolean`\> | [`OrgInstallation`](../type-aliases/OrgInstallation.md)
+  \| [`Installation`](Installation.md)\<`"v1"` \| `"v2"`, `boolean`\>
+  \| [`OrgInstallation`](../type-aliases/OrgInstallation.md)
 
 ##### options
 
@@ -179,10 +181,10 @@ Defined in: [packages/oauth/src/callback-options.ts:43](https://github.com/slack
 
 ***
 
-### successAsync()?
+### successAsync?
 
 ```ts
-optional successAsync: (installation, options, callbackReq, callbackRes) => Promise<void>;
+optional successAsync?: (installation, options, callbackReq, callbackRes) => Promise<void>;
 ```
 
 Defined in: [packages/oauth/src/callback-options.ts:52](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/callback-options.ts#L52)
@@ -191,7 +193,8 @@ Defined in: [packages/oauth/src/callback-options.ts:52](https://github.com/slack
 
 ##### installation
 
-[`Installation`](Installation.md)\<`"v1"` \| `"v2"`, `boolean`\> | [`OrgInstallation`](../type-aliases/OrgInstallation.md)
+  \| [`Installation`](Installation.md)\<`"v1"` \| `"v2"`, `boolean`\>
+  \| [`OrgInstallation`](../type-aliases/OrgInstallation.md)
 
 ##### options
 

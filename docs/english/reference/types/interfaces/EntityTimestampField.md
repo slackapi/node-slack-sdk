@@ -9,7 +9,7 @@ Defined in: [message-metadata.ts:254](https://github.com/slackapi/node-slack-sdk
 ### edit?
 
 ```ts
-optional edit: EntityEditSupport;
+optional edit?: EntityEditSupport;
 ```
 
 Defined in: [message-metadata.ts:258](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L258)
@@ -19,7 +19,7 @@ Defined in: [message-metadata.ts:258](https://github.com/slackapi/node-slack-sdk
 ### label?
 
 ```ts
-optional label: string;
+optional label?: string;
 ```
 
 Defined in: [message-metadata.ts:256](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L256)
@@ -29,7 +29,7 @@ Defined in: [message-metadata.ts:256](https://github.com/slackapi/node-slack-sdk
 ### type?
 
 ```ts
-optional type: string;
+optional type?: string;
 ```
 
 Defined in: [message-metadata.ts:257](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L257)

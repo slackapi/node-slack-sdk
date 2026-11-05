@@ -13,35 +13,41 @@ Defined in: [packages/web-api/src/types/response/SearchMessagesResponse.ts:11](h
 ### error?
 
 ```ts
-optional error: string;
+optional error?: string;
 ```
 
 ### messages?
 
 ```ts
-optional messages: Messages;
+optional messages?: Messages;
 ```
 
 ### needed?
 
 ```ts
-optional needed: string;
+optional needed?: string;
 ```
 
 ### ok?
 
 ```ts
-optional ok: boolean;
+optional ok?: boolean;
 ```
 
 ### provided?
 
 ```ts
-optional provided: string;
+optional provided?: string;
 ```
 
 ### query?
 
 ```ts
-optional query: string;
+optional query?: string;
+```
+
+### warning?
+
+```ts
+optional warning?: string;
 ```

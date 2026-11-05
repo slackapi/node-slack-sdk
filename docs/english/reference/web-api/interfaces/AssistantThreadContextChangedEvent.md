@@ -29,19 +29,19 @@ context: object;
 ##### context.channel\_id?
 
 ```ts
-optional channel_id: string;
+optional channel_id?: string;
 ```
 
 ##### context.enterprise\_id?
 
 ```ts
-optional enterprise_id: string | null;
+optional enterprise_id?: string | null;
 ```
 
 ##### context.team\_id?
 
 ```ts
-optional team_id: string;
+optional team_id?: string;
 ```
 
 #### thread\_ts

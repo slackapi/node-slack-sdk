@@ -2,7 +2,7 @@
 
 # Interface: ConversationsCanvasesCreateArguments
 
-Defined in: [packages/web-api/src/types/request/canvas.ts:93](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/canvas.ts#L93)
+Defined in: [packages/web-api/src/types/request/canvas.ts:99](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/canvas.ts#L99)
 
 ## Extends
 
@@ -33,10 +33,10 @@ ChannelID.channel_id
 ### document\_content?
 
 ```ts
-optional document_content: DocumentContent;
+optional document_content?: DocumentContent;
 ```
 
-Defined in: [packages/web-api/src/types/request/canvas.ts:95](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/canvas.ts#L95)
+Defined in: [packages/web-api/src/types/request/canvas.ts:101](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/canvas.ts#L101)
 
 #### Description
 
@@ -47,10 +47,10 @@ Structure describing the type and contents of the Canvas being created.
 ### title?
 
 ```ts
-optional title: string;
+optional title?: string;
 ```
 
-Defined in: [packages/web-api/src/types/request/canvas.ts:97](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/canvas.ts#L97)
+Defined in: [packages/web-api/src/types/request/canvas.ts:103](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/canvas.ts#L103)
 
 #### Description
 
@@ -61,7 +61,7 @@ Title of the newly created canvas.
 ### token?
 
 ```ts
-optional token: string;
+optional token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)

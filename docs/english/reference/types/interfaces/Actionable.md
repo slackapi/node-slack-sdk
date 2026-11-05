@@ -38,6 +38,7 @@ Defined in: [block-kit/extensions.ts:18](https://github.com/slackapi/node-slack-
 - [`RadioButtons`](RadioButtons.md)
 - [`Timepicker`](Timepicker.md)
 - [`URLInput`](URLInput.md)
+- [`WorkflowButton`](WorkflowButton.md)
 - [`RichTextInput`](RichTextInput.md)
 
 ## Properties
@@ -45,7 +46,7 @@ Defined in: [block-kit/extensions.ts:18](https://github.com/slackapi/node-slack-
 ### ~~action\_id?~~
 
 ```ts
-optional action_id: string;
+optional action_id?: string;
 ```
 
 Defined in: [block-kit/extensions.ts:15](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/extensions.ts#L15)

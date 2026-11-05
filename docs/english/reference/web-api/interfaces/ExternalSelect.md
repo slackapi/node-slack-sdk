@@ -2,7 +2,7 @@
 
 # Interface: ExternalSelect
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:444
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:458
 
 ## Description
 
@@ -23,7 +23,7 @@ options.
 ### action\_id?
 
 ```ts
-optional action_id: string;
+optional action_id?: string;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:12
@@ -41,7 +41,7 @@ among all other `action_id`s in the containing block. Maximum length for this fi
 ### confirm?
 
 ```ts
-optional confirm: ConfirmationDialog;
+optional confirm?: ConfirmationDialog;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:21
@@ -60,7 +60,7 @@ with.
 ### focus\_on\_load?
 
 ```ts
-optional focus_on_load: boolean;
+optional focus_on_load?: boolean;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:36
@@ -80,10 +80,10 @@ Defaults to `false`.
 ### initial\_option?
 
 ```ts
-optional initial_option: PlainTextOption;
+optional initial_option?: PlainTextOption;
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:452
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:466
 
 #### Description
 
@@ -94,10 +94,10 @@ A single option to be selected when the menu initially loads.
 ### min\_query\_length?
 
 ```ts
-optional min_query_length: number;
+optional min_query_length?: number;
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:458
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:472
 
 #### Description
 
@@ -110,7 +110,7 @@ of typed characters required before dispatch. The default value is `3`.
 ### placeholder?
 
 ```ts
-optional placeholder: PlainTextElement;
+optional placeholder?: PlainTextElement;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:49
@@ -132,7 +132,7 @@ length for the `text` field in this object is 150 characters.
 type: "external_select";
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:448
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:462
 
 #### Description
 

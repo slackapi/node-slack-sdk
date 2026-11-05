@@ -2,7 +2,7 @@
 
 # Interface: InputBlock
 
-Defined in: [block-kit/blocks.ts:327](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L327)
+Defined in: [block-kit/blocks.ts:485](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L485)
 
 ## Description
 
@@ -23,10 +23,10 @@ Collects information from users via block elements.
 ### block\_id?
 
 ```ts
-optional block_id: string;
+optional block_id?: string;
 ```
 
-Defined in: [block-kit/blocks.ts:49](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L49)
+Defined in: [block-kit/blocks.ts:50](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L50)
 
 #### Description
 
@@ -45,10 +45,10 @@ a message. If a message is updated, use a new `block_id`.
 ### dispatch\_action?
 
 ```ts
-optional dispatch_action: boolean;
+optional dispatch_action?: boolean;
 ```
 
-Defined in: [block-kit/blocks.ts:355](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L355)
+Defined in: [block-kit/blocks.ts:513](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L513)
 
 #### Description
 
@@ -63,7 +63,7 @@ A boolean that indicates whether or not the use of elements in this block should
 element: InputBlockElement;
 ```
 
-Defined in: [block-kit/blocks.ts:350](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L350)
+Defined in: [block-kit/blocks.ts:508](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L508)
 
 #### Description
 
@@ -74,10 +74,10 @@ A block element.
 ### hint?
 
 ```ts
-optional hint: PlainTextElement;
+optional hint?: PlainTextElement;
 ```
 
-Defined in: [block-kit/blocks.ts:341](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L341)
+Defined in: [block-kit/blocks.ts:499](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L499)
 
 #### Description
 
@@ -92,7 +92,7 @@ An optional hint that appears below an input element in a lighter grey. It must 
 label: PlainTextElement;
 ```
 
-Defined in: [block-kit/blocks.ts:336](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L336)
+Defined in: [block-kit/blocks.ts:494](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L494)
 
 #### Description
 
@@ -104,10 +104,10 @@ Maximum length for the text in this field is 2000 characters.
 ### optional?
 
 ```ts
-optional optional: boolean;
+optional optional?: boolean;
 ```
 
-Defined in: [block-kit/blocks.ts:346](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L346)
+Defined in: [block-kit/blocks.ts:504](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L504)
 
 #### Description
 
@@ -122,7 +122,7 @@ Defaults to `false`.
 type: "input";
 ```
 
-Defined in: [block-kit/blocks.ts:331](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L331)
+Defined in: [block-kit/blocks.ts:489](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L489)
 
 #### Description
 

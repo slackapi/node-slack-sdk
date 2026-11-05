@@ -13,29 +13,35 @@ Defined in: [packages/web-api/src/types/response/ConversationsInfoResponse.ts:11
 ### channel?
 
 ```ts
-optional channel: Channel;
+optional channel?: Channel;
 ```
 
 ### error?
 
 ```ts
-optional error: string;
+optional error?: string;
 ```
 
 ### needed?
 
 ```ts
-optional needed: string;
+optional needed?: string;
 ```
 
 ### ok?
 
 ```ts
-optional ok: boolean;
+optional ok?: boolean;
 ```
 
 ### provided?
 
 ```ts
-optional provided: string;
+optional provided?: string;
+```
+
+### warning?
+
+```ts
+optional warning?: string;
 ```

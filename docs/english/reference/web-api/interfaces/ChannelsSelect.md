@@ -2,7 +2,7 @@
 
 # Interface: ChannelsSelect
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:412
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:426
 
 ## Description
 
@@ -23,7 +23,7 @@ in the active workspace.
 ### action\_id?
 
 ```ts
-optional action_id: string;
+optional action_id?: string;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:12
@@ -41,7 +41,7 @@ among all other `action_id`s in the containing block. Maximum length for this fi
 ### confirm?
 
 ```ts
-optional confirm: ConfirmationDialog;
+optional confirm?: ConfirmationDialog;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:21
@@ -60,7 +60,7 @@ with.
 ### focus\_on\_load?
 
 ```ts
-optional focus_on_load: boolean;
+optional focus_on_load?: boolean;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:36
@@ -80,10 +80,10 @@ Defaults to `false`.
 ### initial\_channel?
 
 ```ts
-optional initial_channel: string;
+optional initial_channel?: string;
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:420
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:434
 
 #### Description
 
@@ -94,7 +94,7 @@ The ID of any valid public channel to be pre-selected when the menu loads.
 ### placeholder?
 
 ```ts
-optional placeholder: PlainTextElement;
+optional placeholder?: PlainTextElement;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:49
@@ -113,7 +113,7 @@ length for the `text` field in this object is 150 characters.
 ### response\_url\_enabled?
 
 ```ts
-optional response_url_enabled: boolean;
+optional response_url_enabled?: boolean;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:58
@@ -137,7 +137,7 @@ for the message will be determined by the value of this select menu.
 type: "channels_select";
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:416
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:430
 
 #### Description
 

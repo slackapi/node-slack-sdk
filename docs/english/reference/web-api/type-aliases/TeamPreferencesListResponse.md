@@ -13,53 +13,59 @@ Defined in: [packages/web-api/src/types/response/TeamPreferencesListResponse.ts:
 ### allow\_message\_deletion?
 
 ```ts
-optional allow_message_deletion: boolean;
+optional allow_message_deletion?: boolean;
 ```
 
 ### disable\_file\_uploads?
 
 ```ts
-optional disable_file_uploads: string;
+optional disable_file_uploads?: string;
 ```
 
 ### display\_real\_names?
 
 ```ts
-optional display_real_names: boolean;
+optional display_real_names?: boolean;
 ```
 
 ### error?
 
 ```ts
-optional error: string;
+optional error?: string;
 ```
 
 ### msg\_edit\_window\_mins?
 
 ```ts
-optional msg_edit_window_mins: number;
+optional msg_edit_window_mins?: number;
 ```
 
 ### needed?
 
 ```ts
-optional needed: string;
+optional needed?: string;
 ```
 
 ### ok?
 
 ```ts
-optional ok: boolean;
+optional ok?: boolean;
 ```
 
 ### provided?
 
 ```ts
-optional provided: string;
+optional provided?: string;
+```
+
+### warning?
+
+```ts
+optional warning?: string;
 ```
 
 ### who\_can\_post\_general?
 
 ```ts
-optional who_can_post_general: string;
+optional who_can_post_general?: string;
 ```

@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { IncomingMessage, ServerResponse } from 'node:http';
+import { Socket } from 'node:net';
 import { describe, it } from 'node:test';
-import sinon from 'sinon';
 
 import { type CallbackOptions, escapeHtml } from './callback-options';
 import { MissingStateError } from './errors';
@@ -43,8 +43,8 @@ describe('CallbackOptions', async () => {
     const options = {
       scopes: ['commands', 'chat:write'],
     };
-    const req = sinon.createStubInstance(IncomingMessage) as IncomingMessage;
-    const resp = sinon.createStubInstance(ServerResponse) as ServerResponse;
+    const req = new IncomingMessage(new Socket());
+    const resp = new ServerResponse(req);
     callbackOptions.success?.(installation, options, req, resp);
 
     const error = new MissingStateError();

@@ -2,7 +2,7 @@
 
 # Interface: Overflow
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:519
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:533
 
 ## Description
 
@@ -26,7 +26,7 @@ overflow menu options, instead of actions.
 ### action\_id?
 
 ```ts
-optional action_id: string;
+optional action_id?: string;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:12
@@ -44,7 +44,7 @@ among all other `action_id`s in the containing block. Maximum length for this fi
 ### confirm?
 
 ```ts
-optional confirm: ConfirmationDialog;
+optional confirm?: ConfirmationDialog;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:21
@@ -66,7 +66,7 @@ with.
 options: PlainTextOption[];
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:527
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:541
 
 #### Description
 
@@ -80,7 +80,7 @@ An array of up to 5 [PlainTextOption](PlainTextOption.md) to display in the menu
 type: "overflow";
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:523
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:537
 
 #### Description
 

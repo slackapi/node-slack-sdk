@@ -9,7 +9,7 @@ Defined in: [message-metadata.ts:209](https://github.com/slackapi/node-slack-sdk
 ### edit?
 
 ```ts
-optional edit: EntityEditSupport;
+optional edit?: EntityEditSupport;
 ```
 
 Defined in: [message-metadata.ts:218](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L218)
@@ -19,7 +19,7 @@ Defined in: [message-metadata.ts:218](https://github.com/slackapi/node-slack-sdk
 ### format?
 
 ```ts
-optional format: string;
+optional format?: string;
 ```
 
 Defined in: [message-metadata.ts:212](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L212)
@@ -29,7 +29,7 @@ Defined in: [message-metadata.ts:212](https://github.com/slackapi/node-slack-sdk
 ### icon?
 
 ```ts
-optional icon: EntityIconField;
+optional icon?: EntityIconField;
 ```
 
 Defined in: [message-metadata.ts:214](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L214)
@@ -39,7 +39,7 @@ Defined in: [message-metadata.ts:214](https://github.com/slackapi/node-slack-sdk
 ### label?
 
 ```ts
-optional label: string;
+optional label?: string;
 ```
 
 Defined in: [message-metadata.ts:211](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L211)
@@ -49,7 +49,7 @@ Defined in: [message-metadata.ts:211](https://github.com/slackapi/node-slack-sdk
 ### link?
 
 ```ts
-optional link: string;
+optional link?: string;
 ```
 
 Defined in: [message-metadata.ts:213](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L213)
@@ -59,7 +59,7 @@ Defined in: [message-metadata.ts:213](https://github.com/slackapi/node-slack-sdk
 ### long?
 
 ```ts
-optional long: boolean;
+optional long?: boolean;
 ```
 
 Defined in: [message-metadata.ts:215](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L215)
@@ -69,7 +69,7 @@ Defined in: [message-metadata.ts:215](https://github.com/slackapi/node-slack-sdk
 ### tag\_color?
 
 ```ts
-optional tag_color: string;
+optional tag_color?: string;
 ```
 
 Defined in: [message-metadata.ts:217](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L217)
@@ -79,7 +79,7 @@ Defined in: [message-metadata.ts:217](https://github.com/slackapi/node-slack-sdk
 ### type?
 
 ```ts
-optional type: string;
+optional type?: string;
 ```
 
 Defined in: [message-metadata.ts:216](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L216)

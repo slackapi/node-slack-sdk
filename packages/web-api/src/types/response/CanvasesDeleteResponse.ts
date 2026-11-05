@@ -14,6 +14,7 @@ export type CanvasesDeleteResponse = WebAPICallResult & {
   ok?: boolean;
   provided?: string;
   response_metadata?: ResponseMetadata;
+  warning?: string;
 };
 
 export type ResponseMetadata = {};

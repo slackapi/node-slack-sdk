@@ -15,6 +15,7 @@ export type ChatScheduledMessagesListResponse = WebAPICallResult & {
   provided?: string;
   response_metadata?: ResponseMetadata;
   scheduled_messages?: ScheduledMessage[];
+  warning?: string;
 };
 
 export interface ResponseMetadata {

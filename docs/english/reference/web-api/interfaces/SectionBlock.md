@@ -2,7 +2,7 @@
 
 # Interface: SectionBlock
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:311
+Defined in: packages/types/dist/block-kit/blocks.d.ts:450
 
 ## Description
 
@@ -23,10 +23,10 @@ combination with text fields, or side-by-side with certain
 ### accessory?
 
 ```ts
-optional accessory: SectionBlockAccessory;
+optional accessory?: SectionBlockAccessory;
 ```
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:332
+Defined in: packages/types/dist/block-kit/blocks.d.ts:471
 
 #### Description
 
@@ -37,7 +37,7 @@ One of the compatible element objects.
 ### block\_id?
 
 ```ts
-optional block_id: string;
+optional block_id?: string;
 ```
 
 Defined in: packages/types/dist/block-kit/blocks.d.ts:15
@@ -59,10 +59,10 @@ a message. If a message is updated, use a new `block_id`.
 ### expand?
 
 ```ts
-optional expand: boolean;
+optional expand?: boolean;
 ```
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:336
+Defined in: packages/types/dist/block-kit/blocks.d.ts:475
 
 Whether or not this section block's text should always expand when rendered. If false or not provided, it may be rendered with a 'see more' option to expand and show the full text. For AI Assistant apps, this allows the app to post long messages without users needing to click 'see more' to expand the message.
 
@@ -71,10 +71,10 @@ Whether or not this section block's text should always expand when rendered. If 
 ### fields?
 
 ```ts
-optional fields: TextObject[];
+optional fields?: TextObject[];
 ```
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:328
+Defined in: packages/types/dist/block-kit/blocks.d.ts:467
 
 #### Description
 
@@ -88,10 +88,10 @@ Maximum length for the text in each item is 2000 characters.
 ### text?
 
 ```ts
-optional text: TextObject;
+optional text?: TextObject;
 ```
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:321
+Defined in: packages/types/dist/block-kit/blocks.d.ts:460
 
 #### Description
 
@@ -107,7 +107,7 @@ is provided instead.
 type: "section";
 ```
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:315
+Defined in: packages/types/dist/block-kit/blocks.d.ts:454
 
 #### Description
 

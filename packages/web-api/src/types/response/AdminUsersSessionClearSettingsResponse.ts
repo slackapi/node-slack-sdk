@@ -13,4 +13,5 @@ export type AdminUsersSessionClearSettingsResponse = WebAPICallResult & {
   needed?: string;
   ok?: boolean;
   provided?: string;
+  warning?: string;
 };

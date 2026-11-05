@@ -9,7 +9,7 @@ Defined in: packages/types/dist/events/message.d.ts:163
 ### attachments?
 
 ```ts
-optional attachments: MessageAttachment[];
+optional attachments?: MessageAttachment[];
 ```
 
 Defined in: packages/types/dist/events/message.d.ts:167
@@ -19,7 +19,7 @@ Defined in: packages/types/dist/events/message.d.ts:167
 ### blocks?
 
 ```ts
-optional blocks: (Block | KnownBlock)[];
+optional blocks?: (Block | KnownBlock)[];
 ```
 
 Defined in: packages/types/dist/events/message.d.ts:168
@@ -49,7 +49,7 @@ Defined in: packages/types/dist/events/message.d.ts:178
 ### display\_as\_bot?
 
 ```ts
-optional display_as_bot: boolean;
+optional display_as_bot?: boolean;
 ```
 
 Defined in: packages/types/dist/events/message.d.ts:171
@@ -69,7 +69,7 @@ Defined in: packages/types/dist/events/message.d.ts:179
 ### files?
 
 ```ts
-optional files: File[];
+optional files?: File[];
 ```
 
 Defined in: packages/types/dist/events/message.d.ts:169
@@ -79,7 +79,7 @@ Defined in: packages/types/dist/events/message.d.ts:169
 ### parent\_user\_id?
 
 ```ts
-optional parent_user_id: string;
+optional parent_user_id?: string;
 ```
 
 Defined in: packages/types/dist/events/message.d.ts:174
@@ -109,7 +109,7 @@ Defined in: packages/types/dist/events/message.d.ts:166
 ### thread\_ts?
 
 ```ts
-optional thread_ts: string;
+optional thread_ts?: string;
 ```
 
 Defined in: packages/types/dist/events/message.d.ts:176
@@ -139,7 +139,7 @@ Defined in: packages/types/dist/events/message.d.ts:164
 ### upload?
 
 ```ts
-optional upload: boolean;
+optional upload?: boolean;
 ```
 
 Defined in: packages/types/dist/events/message.d.ts:170
@@ -159,7 +159,7 @@ Defined in: packages/types/dist/events/message.d.ts:173
 ### x\_files?
 
 ```ts
-optional x_files: string[];
+optional x_files?: string[];
 ```
 
 Defined in: packages/types/dist/events/message.d.ts:172

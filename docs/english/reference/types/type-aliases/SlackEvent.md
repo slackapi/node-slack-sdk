@@ -4,6 +4,8 @@
 
 ```ts
 type SlackEvent = 
+  | AgentSessionStoppedEvent
+  | AgentSessionTitleChangedEvent
   | AppContextChangedEvent
   | AppDeletedEvent
   | AppHomeOpenedEvent
@@ -82,6 +84,8 @@ type SlackEvent =
   | TeamRenameEvent
   | TokensRevokedEvent
   | UserChangeEvent
+  | UserConnectionEvent
+  | UserConnectionStatusRequestedEvent
   | UserHuddleChangedEvent
   | UserProfileChangedEvent
   | UserStatusChangedEvent
@@ -92,7 +96,7 @@ type SlackEvent =
   | WorkflowStepExecuteEvent;
 ```
 
-Defined in: [events/index.ts:123](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/index.ts#L123)
+Defined in: [events/index.ts:132](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/index.ts#L132)
 
 All known event types in Slack's Events API
 Please refer to https://docs.slack.dev/reference/events for more details

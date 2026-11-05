@@ -2,7 +2,7 @@
 
 # Interface: MultiConversationsSelect
 
-Defined in: [block-kit/block-elements.ts:443](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L443)
+Defined in: [block-kit/block-elements.ts:457](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L457)
 
 ## Description
 
@@ -23,7 +23,7 @@ MPIMs visible to the current user in the active workspace.
 ### action\_id?
 
 ```ts
-optional action_id: string;
+optional action_id?: string;
 ```
 
 Defined in: [block-kit/extensions.ts:15](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/extensions.ts#L15)
@@ -41,7 +41,7 @@ among all other `action_id`s in the containing block. Maximum length for this fi
 ### confirm?
 
 ```ts
-optional confirm: ConfirmationDialog;
+optional confirm?: ConfirmationDialog;
 ```
 
 Defined in: [block-kit/extensions.ts:25](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/extensions.ts#L25)
@@ -60,10 +60,10 @@ with.
 ### default\_to\_current\_conversation?
 
 ```ts
-optional default_to_current_conversation: boolean;
+optional default_to_current_conversation?: boolean;
 ```
 
-Defined in: [block-kit/block-elements.ts:463](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L463)
+Defined in: [block-kit/block-elements.ts:477](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L477)
 
 #### Description
 
@@ -75,27 +75,27 @@ modal, if available. Default is `false`.
 ### filter?
 
 ```ts
-optional filter: object;
+optional filter?: object;
 ```
 
-Defined in: [block-kit/block-elements.ts:467](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L467)
+Defined in: [block-kit/block-elements.ts:481](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L481)
 
 #### exclude\_bot\_users?
 
 ```ts
-optional exclude_bot_users: boolean;
+optional exclude_bot_users?: boolean;
 ```
 
 #### exclude\_external\_shared\_channels?
 
 ```ts
-optional exclude_external_shared_channels: boolean;
+optional exclude_external_shared_channels?: boolean;
 ```
 
 #### include?
 
 ```ts
-optional include: ("im" | "mpim" | "private" | "public")[];
+optional include?: ("im" | "mpim" | "private" | "public")[];
 ```
 
 #### Description
@@ -107,7 +107,7 @@ A filter object that reduces the list of available conversations using the speci
 ### focus\_on\_load?
 
 ```ts
-optional focus_on_load: boolean;
+optional focus_on_load?: boolean;
 ```
 
 Defined in: [block-kit/extensions.ts:42](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/extensions.ts#L42)
@@ -127,10 +127,10 @@ Defaults to `false`.
 ### initial\_conversations?
 
 ```ts
-optional initial_conversations: string[];
+optional initial_conversations?: string[];
 ```
 
-Defined in: [block-kit/block-elements.ts:458](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L458)
+Defined in: [block-kit/block-elements.ts:472](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L472)
 
 #### Description
 
@@ -142,7 +142,7 @@ An array of one or more IDs of any valid conversations to be pre-selected when t
 ### max\_selected\_items?
 
 ```ts
-optional max_selected_items: number;
+optional max_selected_items?: number;
 ```
 
 Defined in: [block-kit/extensions.ts:49](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/extensions.ts#L49)
@@ -160,7 +160,7 @@ Specifies the maximum number of items that can be selected. Minimum number is 1.
 ### placeholder?
 
 ```ts
-optional placeholder: PlainTextElement;
+optional placeholder?: PlainTextElement;
 ```
 
 Defined in: [block-kit/extensions.ts:57](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/extensions.ts#L57)
@@ -182,7 +182,7 @@ length for the `text` field in this object is 150 characters.
 type: "multi_conversations_select";
 ```
 
-Defined in: [block-kit/block-elements.ts:452](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L452)
+Defined in: [block-kit/block-elements.ts:466](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L466)
 
 #### Description
 
