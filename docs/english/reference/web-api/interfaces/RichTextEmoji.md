@@ -2,7 +2,7 @@
 
 # Interface: RichTextEmoji
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:783
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:797
 
 ## Description
 
@@ -20,7 +20,7 @@ An emoji element for use in a rich text message.
 name: string;
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:791
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:805
 
 #### Description
 
@@ -102,7 +102,7 @@ A limited style object for styling rich text `text` elements.
 type: "emoji";
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:787
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:801
 
 #### Description
 
@@ -116,7 +116,7 @@ The type of element. In this case `type` is always `emoji`.
 optional unicode?: string;
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:795
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:809
 
 #### Description
 
@@ -130,7 +130,7 @@ Lowercase hexadecimal Unicode representation of a standard emoji (not for use wi
 optional url?: string;
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:799
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:813
 
 #### Description
 

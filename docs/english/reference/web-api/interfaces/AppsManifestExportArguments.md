@@ -2,7 +2,7 @@
 
 # Interface: AppsManifestExportArguments
 
-Defined in: [packages/web-api/src/types/request/apps.ts:23](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/apps.ts#L23)
+Defined in: [packages/web-api/src/types/request/apps.ts:25](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/apps.ts#L25)
 
 ## Extends
 

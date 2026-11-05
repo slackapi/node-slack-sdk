@@ -1,6 +1,7 @@
 import { expectAssignable, expectError } from 'tsd';
 import type {
   AlertBlock,
+  AuthProviderBlock,
   CardBlock,
   CarouselBlock,
   ContainerBlock,
@@ -48,6 +49,61 @@ expectAssignable<KnownBlock>({
   type: 'alert',
   text: { type: 'mrkdwn', text: 'Notice' },
   level: 'error',
+});
+
+// AuthProviderBlock
+// -- sad path
+expectError<AuthProviderBlock>({}); // missing type, value, name, and is_connected
+expectError<AuthProviderBlock>({
+  type: 'auth_provider',
+  value: 'lumon',
+  name: { type: 'plain_text', text: 'Lumon' },
+}); // missing required is_connected
+expectError<AuthProviderBlock>({
+  type: 'auth_provider',
+  value: 'lumon',
+  name: { type: 'mrkdwn', text: 'Lumon' },
+  is_connected: false,
+}); // name must be plain_text
+expectError<AuthProviderBlock>({
+  type: 'auth_provider',
+  value: 'lumon',
+  name: { type: 'plain_text', text: 'Lumon' },
+  is_connected: true,
+  accessory: { type: 'button', text: { type: 'plain_text', text: 'Disconnect' }, action_id: 'disconnect' },
+}); // accessory must be an overflow menu
+// -- happy path
+expectAssignable<AuthProviderBlock>({
+  type: 'auth_provider',
+  value: 'lumon',
+  name: { type: 'plain_text', text: 'Lumon' },
+  is_connected: false,
+  auth_url: 'https://lumon.example.com/oauth',
+});
+expectAssignable<AuthProviderBlock>({
+  type: 'auth_provider',
+  block_id: 'lumon_connection',
+  value: 'lumon',
+  name: { type: 'plain_text', text: 'Lumon' },
+  is_connected: true,
+  description: { type: 'plain_text', text: 'Sync your refinement progress' },
+  icon_url: 'https://lumon.example.com/icon.png',
+  auth_url: 'https://lumon.example.com/oauth',
+  disconnect_url: 'https://lumon.example.com/disconnect',
+  connected_identity: { type: 'plain_text', text: 'mark.s@lumon.example.com' },
+  connected_context: { type: 'plain_text', text: 'Macrodata Refinement' },
+  accessory: {
+    type: 'overflow',
+    action_id: 'lumon_menu',
+    options: [{ text: { type: 'plain_text', text: 'Disconnect' }, value: 'disconnect' }],
+  },
+  fallback: [{ type: 'section', text: { type: 'mrkdwn', text: 'Connected to *Lumon*' } }],
+});
+expectAssignable<KnownBlock>({
+  type: 'auth_provider',
+  value: 'lumon',
+  name: { type: 'plain_text', text: 'Lumon' },
+  is_connected: false,
 });
 
 // CarouselBlock

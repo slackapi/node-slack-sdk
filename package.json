@@ -27,16 +27,16 @@
     "lint:fix": "npx @biomejs/biome check --write packages",
     "test": "npm test --workspaces --if-present",
     "test:coverage": "npm run test:coverage --workspaces --if-present",
-    "version": "npm run changeset version && npm install && npm run docs"
+    "version": "npm run changeset version && npm install && npm run docs && npm run lint:fix"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.5.12",
-    "@changesets/cli": "^3.0.2",
+    "@biomejs/biome": "^2.6.3",
+    "@changesets/cli": "^3.0.3",
     "@types/node": "^18.19.130",
     "shx": "^0.4.0",
-    "tsx": "^4.23.13",
+    "tsx": "^4.23.15",
     "typedoc": "^0.28.20",
-    "typedoc-plugin-markdown": "^4.13.0",
+    "typedoc-plugin-markdown": "^4.13.1",
     "typescript": "5.9.3"
   }
 }

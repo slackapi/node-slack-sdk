@@ -10,10 +10,24 @@ Defined in: [packages/web-api/src/types/request/files.ts:92](https://github.com/
 
 ## Properties
 
-### alt\_text?
+### ~~alt\_text?~~
 
 ```ts
 optional alt_text?: string;
+```
+
+Defined in: [packages/web-api/src/types/request/files.ts:100](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/files.ts#L100)
+
+#### Deprecated
+
+Slack does not use this. Use `alt_txt`.
+
+***
+
+### alt\_txt?
+
+```ts
+optional alt_txt?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/files.ts:98](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/files.ts#L98)
@@ -58,7 +72,7 @@ Size in bytes of the file being uploaded.
 optional snippet_type?: string;
 ```
 
-Defined in: [packages/web-api/src/types/request/files.ts:100](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/files.ts#L100)
+Defined in: [packages/web-api/src/types/request/files.ts:102](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/files.ts#L102)
 
 #### Description
 

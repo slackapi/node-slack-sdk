@@ -2,7 +2,7 @@
 
 # Interface: StaticSelect
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:292
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:306
 
 ## Description
 
@@ -83,7 +83,7 @@ Defaults to `false`.
 optional initial_option?: PlainTextOption;
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:301
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:315
 
 #### Description
 
@@ -98,7 +98,7 @@ This option will be selected when the menu initially loads.
 optional option_groups?: object[];
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:311
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:325
 
 #### label
 
@@ -125,7 +125,7 @@ this field should not be.
 optional options?: PlainTextOption[];
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:306
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:320
 
 #### Description
 
@@ -159,7 +159,7 @@ length for the `text` field in this object is 150 characters.
 type: "static_select";
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:296
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:310
 
 #### Description
 

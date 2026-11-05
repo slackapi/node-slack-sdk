@@ -26,7 +26,6 @@
 - fc98c8c: Restructured error classes to use proper `Error` subclasses extending a new `SlackWebhookError` base class.
 
   **Breaking changes to `IncomingWebhookHTTPError`:**
-
   - The `original` property has been removed. HTTP response details are now direct properties:
     - `statusCode: number`
     - `statusMessage: string`
@@ -34,11 +33,9 @@
   - Migrate from `error.original.response.status` to `error.statusCode`, `error.original.response.data` to `error.body`, etc.
 
   **Breaking changes to `IncomingWebhookRequestError`:**
-
   - The `original` property is now a standard `Error` (previously it was an `AxiosError`). The original error is also available via the standard `cause` property.
 
   **Removed factory functions** (use `new` with the corresponding class instead):
-
   - `requestErrorWithOriginal()` → `new IncomingWebhookRequestError(original)`
   - `httpErrorWithOriginal()` → `new IncomingWebhookHTTPError(statusCode, statusMessage, body)`
   - `errorWithCode()` — Use the specific error class directly.
@@ -50,8 +47,8 @@
 - fc98c8c: Replaced `axios` with the standard Fetch API for HTTP transport.
 
   **Removed options from `IncomingWebhookDefaultArguments`:**
-
   - **`agent`** — Use the new `fetch` option to provide a custom fetch implementation with proxy or TLS support. For proxies, prefer the built-in `http.setGlobalProxyFromEnv()` or `NODE_USE_ENV_PROXY=1` (Node.js 24+). For advanced use cases:
+
     ```ts
     import { fetch, Agent } from "undici";
     const webhook = new IncomingWebhook(url, {

@@ -4,7 +4,7 @@
 
 Development has fully stopped for this package and all remaining open issues and pull requests have been closed. The package was removed from the project in [PR #2517](https://github.com/slackapi/node-slack-sdk/pull/2517).
 
-At this time, we recommend migrating to [Bolt for JavaScript](https://github.com/slackapi/bolt-js), a framework that offers all of the functionality available in those packages (and more). To help with that process, we've provided some [migration samples](/tools/node-slack-sdk/migration/migrating-to-v6) for those looking to convert their existing apps.
+At this time, we recommend migrating to [Bolt for JavaScript](https://github.com/slackapi/bolt-js), a framework that offers all of the functionality available in those packages (and more). To help with that process, we've provided some [migration samples](/tools/node-slack-sdk/migration/legacy/migrating-to-v6) for those looking to convert their existing apps.
 
 :::
 
@@ -157,7 +157,7 @@ Actions are interactions in Slack that generate an HTTP request to your app. The
 -  **Attachment actions**: A user clicked a button or selected an item in a menu in a message built with [legacy message attachments](/legacy/legacy-messaging/legacy-secondary-message-attachments).
 
 You app will only handle actions that occur in messages or dialogs your app produced. [Block Kit
-Builder](https://api.slack.com/tools/block-kit-builder) is a playground where you can prototype your interactive
+Builder](https://app.slack.com/block-kit-builder) is a playground where you can prototype your interactive
 components with block elements.
 
 Apps register functions, called handlers, to be triggered when an action is received by the adapter using the
@@ -516,7 +516,7 @@ slackInteractions.shortcut({ callbackId: 'simple-modal', type: 'shortcut' }, (pa
           elements: [
             {
               type: "mrkdwn",
-              text: "Psssst this modal was designed using <https://api.slack.com/tools/block-kit-builder|*Block Kit Builder*>"
+              text: "Psssst this modal was designed using <https://app.slack.com/block-kit-builder|*Block Kit Builder*>"
             }
           ]
         }

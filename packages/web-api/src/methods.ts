@@ -98,6 +98,15 @@ import type {
   AdminWorkflowsPermissionsLookupArguments,
   AdminWorkflowsSearchArguments,
   AdminWorkflowsUnpublishArguments,
+  AgentsConversationsArchiveArguments,
+  AgentsConversationsCreateArguments,
+  AgentsConversationsGetCanvasArguments,
+  AgentsConversationsListViewsArguments,
+  AgentsConversationsRemoveViewArguments,
+  AgentsConversationsSetCanvasContentArguments,
+  AgentsConversationsSetCommandsArguments,
+  AgentsConversationsSetPropertiesArguments,
+  AgentsConversationsSetViewArguments,
   AgentsSessionsRenameArguments,
   AgentsSessionsSetStatusArguments,
   APITestArguments,
@@ -109,6 +118,8 @@ import type {
   AppsManifestUpdateArguments,
   AppsManifestValidateArguments,
   AppsUninstallArguments,
+  AppsUserConnectionBulkUpdateArguments,
+  AppsUserConnectionRequestAuthArguments,
   AppsUserConnectionUpdateArguments,
   AssistantThreadsSetStatusArguments,
   AssistantThreadsSetSuggestedPromptsArguments,
@@ -133,6 +144,7 @@ import type {
   CanvasesCreateArguments,
   CanvasesDeleteArguments,
   CanvasesEditArguments,
+  CanvasesGetContentArguments,
   CanvasesSectionsLookupArguments,
   ChatAppendStreamArguments,
   ChatDeleteArguments,
@@ -371,6 +383,15 @@ import type {
   AdminWorkflowsPermissionsLookupResponse,
   AdminWorkflowsSearchResponse,
   AdminWorkflowsUnpublishResponse,
+  AgentsConversationsArchiveResponse,
+  AgentsConversationsCreateResponse,
+  AgentsConversationsGetCanvasResponse,
+  AgentsConversationsListViewsResponse,
+  AgentsConversationsRemoveViewResponse,
+  AgentsConversationsSetCanvasContentResponse,
+  AgentsConversationsSetCommandsResponse,
+  AgentsConversationsSetPropertiesResponse,
+  AgentsConversationsSetViewResponse,
   AgentsSessionsRenameResponse,
   AgentsSessionsSetStatusResponse,
   ApiTestResponse,
@@ -382,6 +403,8 @@ import type {
   AppsManifestUpdateResponse,
   AppsManifestValidateResponse,
   AppsUninstallResponse,
+  AppsUserConnectionBulkUpdateResponse,
+  AppsUserConnectionRequestAuthResponse,
   AppsUserConnectionUpdateResponse,
   AssistantThreadsSetStatusResponse,
   AssistantThreadsSetSuggestedPromptsResponse,
@@ -406,6 +429,7 @@ import type {
   CanvasesCreateResponse,
   CanvasesDeleteResponse,
   CanvasesEditResponse,
+  CanvasesGetContentResponse,
   CanvasesSectionsLookupResponse,
   ChatAppendStreamResponse,
   ChatDeleteResponse,
@@ -1381,6 +1405,80 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
   };
 
   public readonly agents = {
+    conversations: {
+      /**
+       * @description Archive a code channel.
+       * @see {@link https://docs.slack.dev/reference/methods/agents.conversations.archive `agents.conversations.archive` API reference}.
+       */
+      archive: bindApiCall<AgentsConversationsArchiveArguments, AgentsConversationsArchiveResponse>(
+        this,
+        'agents.conversations.archive',
+      ),
+      /**
+       * @description Create a dedicated code channel for an agent session.
+       * @see {@link https://docs.slack.dev/reference/methods/agents.conversations.create `agents.conversations.create` API reference}.
+       */
+      create: bindApiCall<AgentsConversationsCreateArguments, AgentsConversationsCreateResponse>(
+        this,
+        'agents.conversations.create',
+      ),
+      /**
+       * @description Fetch a canvas attached to a code channel.
+       * @see {@link https://docs.slack.dev/reference/methods/agents.conversations.getCanvas `agents.conversations.getCanvas` API reference}.
+       */
+      getCanvas: bindApiCall<AgentsConversationsGetCanvasArguments, AgentsConversationsGetCanvasResponse>(
+        this,
+        'agents.conversations.getCanvas',
+      ),
+      /**
+       * @description List the views currently attached to a code channel.
+       * @see {@link https://docs.slack.dev/reference/methods/agents.conversations.listViews `agents.conversations.listViews` API reference}.
+       */
+      listViews: bindApiCall<AgentsConversationsListViewsArguments, AgentsConversationsListViewsResponse>(
+        this,
+        'agents.conversations.listViews',
+      ),
+      /**
+       * @description Remove a view from a code channel.
+       * @see {@link https://docs.slack.dev/reference/methods/agents.conversations.removeView `agents.conversations.removeView` API reference}.
+       */
+      removeView: bindApiCall<AgentsConversationsRemoveViewArguments, AgentsConversationsRemoveViewResponse>(
+        this,
+        'agents.conversations.removeView',
+      ),
+      /**
+       * @description Replace the full markdown content of a plan canvas attached to a code channel.
+       * @see {@link https://docs.slack.dev/reference/methods/agents.conversations.setCanvasContent `agents.conversations.setCanvasContent` API reference}.
+       */
+      setCanvasContent: bindApiCall<
+        AgentsConversationsSetCanvasContentArguments,
+        AgentsConversationsSetCanvasContentResponse
+      >(this, 'agents.conversations.setCanvasContent'),
+      /**
+       * @description Register the set of agent-defined slash commands for the calling agent in a code channel.
+       * @see {@link https://docs.slack.dev/reference/methods/agents.conversations.setCommands `agents.conversations.setCommands` API reference}.
+       */
+      setCommands: bindApiCall<AgentsConversationsSetCommandsArguments, AgentsConversationsSetCommandsResponse>(
+        this,
+        'agents.conversations.setCommands',
+      ),
+      /**
+       * @description Set properties on a code channel.
+       * @see {@link https://docs.slack.dev/reference/methods/agents.conversations.setProperties `agents.conversations.setProperties` API reference}.
+       */
+      setProperties: bindApiCall<AgentsConversationsSetPropertiesArguments, AgentsConversationsSetPropertiesResponse>(
+        this,
+        'agents.conversations.setProperties',
+      ),
+      /**
+       * @description Create or update a view in a code channel.
+       * @see {@link https://docs.slack.dev/reference/methods/agents.conversations.setView `agents.conversations.setView` API reference}.
+       */
+      setView: bindApiCall<AgentsConversationsSetViewArguments, AgentsConversationsSetViewResponse>(
+        this,
+        'agents.conversations.setView',
+      ),
+    },
     sessions: {
       /**
        * @description Rename an agent session.
@@ -1497,6 +1595,22 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
     uninstall: bindApiCall<AppsUninstallArguments, AppsUninstallResponse>(this, 'apps.uninstall'),
     user: {
       connection: {
+        /**
+         * @description Updates the connection status between an app and many users in one call, for backfilling an existing user base.
+         * @see {@link https://docs.slack.dev/reference/methods/apps.user.connection.bulkUpdate `apps.user.connection.bulkUpdate` API reference}.
+         */
+        bulkUpdate: bindApiCall<AppsUserConnectionBulkUpdateArguments, AppsUserConnectionBulkUpdateResponse>(
+          this,
+          'apps.user.connection.bulkUpdate',
+        ),
+        /**
+         * @description Opens or updates a standardized authentication modal for the calling app.
+         * @see {@link https://docs.slack.dev/reference/methods/apps.user.connection.requestAuth `apps.user.connection.requestAuth` API reference}.
+         */
+        requestAuth: bindApiCall<AppsUserConnectionRequestAuthArguments, AppsUserConnectionRequestAuthResponse>(
+          this,
+          'apps.user.connection.requestAuth',
+        ),
         /**
          * @description Updates the connection status between a user and an app.
          * @see {@link https://docs.slack.dev/reference/methods/apps.user.connection.update `apps.user.connection.update` API reference}.
@@ -1626,6 +1740,11 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
      * @see {@link https://docs.slack.dev/reference/methods/canvases.edit `canvases.edit` API reference}.
      */
     edit: bindApiCall<CanvasesEditArguments, CanvasesEditResponse>(this, 'canvases.edit'),
+    /**
+     * @description Get the content of a canvas as markdown (default) or HTML.
+     * @see {@link https://docs.slack.dev/reference/methods/canvases.getContent `canvases.getContent` API reference}.
+     */
+    getContent: bindApiCall<CanvasesGetContentArguments, CanvasesGetContentResponse>(this, 'canvases.getContent'),
     sections: {
       /**
        * @description Find sections matching the provided criteria.
@@ -2018,7 +2137,7 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
      * Supports a single file upload
      * Supply:
      * - (required) single file or content
-     * - (optional) channel, alt_text, snippet_type,
+     * - (optional) channel, alt_txt, snippet_type,
      * Supports multiple file uploads
      * Supply:
      * - multiple upload_files

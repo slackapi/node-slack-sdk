@@ -18,11 +18,11 @@ interface PingPongMessage {
   payload: Buffer;
 }
 
-function isPingPongMessage(message: unknown): message is PingPongMessage {
+function isMessageForSocket(message: unknown, websocket: WebSocket): message is PingPongMessage {
   if (typeof message !== 'object' || message === null) {
     return false;
   }
-  if (!('websocket' in message && message.websocket instanceof WebSocket)) {
+  if (!('websocket' in message && message.websocket === websocket)) {
     return false;
   }
   if (!('payload' in message && Buffer.isBuffer(message.payload))) {
@@ -194,29 +194,20 @@ export class SlackWebSocket {
     };
     this.websocket.addEventListener('close', this.closeHandler);
 
-    // Subscribe to undici diagnostics_channel for WebSocket ping/pong frame events.
-    // These channels fire for ALL undici WebSocket instances, so we filter by matching instance.
+    // These channels fire for every undici WebSocket in the process, so filter to this socket's frames.
     this.pingHandler = (message: unknown) => {
-      if (!isPingPongMessage(message)) {
-        this.logger.warn('Received unexpected ping diagnostics message format');
-        return;
-      }
-      if (message.websocket !== this.websocket) return;
+      if (!this.websocket || !isMessageForSocket(message, this.websocket)) return;
       if (this.options.pingPongLoggingEnabled) {
-        this.logger.debug(`WebSocket received ping from Slack server (data: ${message.payload?.toString()})`);
+        this.logger.debug(`WebSocket received ping from Slack server (data: ${message.payload.toString()})`);
       }
       this.monitorPingFromSlack();
     };
     SlackWebSocket.pingChannel.subscribe(this.pingHandler);
 
     this.pongHandler = (message: unknown) => {
-      if (!isPingPongMessage(message)) {
-        this.logger.warn('Received unexpected pong diagnostics message format');
-        return;
-      }
-      if (message.websocket !== this.websocket) return;
+      if (!this.websocket || !isMessageForSocket(message, this.websocket)) return;
       if (this.options.pingPongLoggingEnabled) {
-        this.logger.debug(`WebSocket received pong from Slack server (data: ${message.payload?.toString()})`);
+        this.logger.debug(`WebSocket received pong from Slack server (data: ${message.payload.toString()})`);
       }
       this.lastPongReceivedTimestamp = Date.now();
     };
@@ -229,7 +220,8 @@ export class SlackWebSocket {
    * leaving no other way to close a stalled peer.
    */
   private buildDefaultDispatcher(): Dispatcher {
-    const baseConnect = buildConnector({});
+    // undici v8 defaults allowH2 to true; pin HTTP/1.1 so the WebSocket keeps a dedicated socket.
+    const baseConnect = buildConnector({ allowH2: false });
     return new Agent({
       connect: (opts, callback) => {
         baseConnect(opts, (err, socket) => {
@@ -257,15 +249,18 @@ export class SlackWebSocket {
       } else if (this.websocket.readyState === WebSocket.CLOSING) {
         this.logger.debug('Terminating WebSocket (close frame sent but no response, force-terminating).');
         this.cleanup();
+      } else if (this.websocket.readyState === WebSocket.CLOSED) {
+        this.logger.debug('Terminating WebSocket (connection already closed).');
+        this.cleanup();
       } else {
         // If we haven't received a close frame yet, then we send one to the peer, expecting to receive a close frame
         // in response.
         this.logger.debug('Sending close frame (status=1000).');
-        this.websocket.close(1000); // 1000 = Normal Closure
         this.closeHandshakeTimeout = setTimeout(() => {
           this.logger.warn('Peer did not complete the close handshake in time; forcing cleanup.');
           this.cleanup();
         }, CLOSE_HANDSHAKE_TIMEOUT_MS);
+        this.websocket.close(1000); // 1000 = Normal Closure
       }
     } else {
       this.logger.debug('WebSocket already disconnected, flushing remainder.');
