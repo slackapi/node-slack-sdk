@@ -346,9 +346,6 @@ export class SlackWebSocket {
     }, this.options.serverPingTimeoutMS);
   }
 
-  /**
-   * Stops the ping/pong heartbeat; a connection that is closing has nothing left to monitor.
-   */
   private stopMonitoringPings(): void {
     clearTimeout(this.serverPingTimeout);
     clearInterval(this.clientPingTimeout);
