@@ -76,6 +76,13 @@ expectAssignable<Parameters<typeof web.chat.delete>>([
     ts: '1234.56',
   },
 ]);
+expectAssignable<Parameters<typeof web.chat.delete>>([
+  {
+    channel: 'C1234',
+    ts: '1234.56',
+    broadcast_delete: true,
+  },
+]);
 
 // chat.deleteScheduledMessage
 // -- sad path
