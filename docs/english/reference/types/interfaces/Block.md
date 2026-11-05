@@ -2,16 +2,19 @@
 
 # Interface: Block
 
-Defined in: [block-kit/blocks.ts:37](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L37)
+Defined in: [block-kit/blocks.ts:38](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L38)
 
 ## Extended by
 
 - [`ActionsBlock`](ActionsBlock.md)
 - [`AlertBlock`](AlertBlock.md)
+- [`AuthProviderBlock`](AuthProviderBlock.md)
 - [`CardBlock`](CardBlock.md)
 - [`CarouselBlock`](CarouselBlock.md)
+- [`ContainerBlock`](ContainerBlock.md)
 - [`ContextBlock`](ContextBlock.md)
 - [`ContextActionsBlock`](ContextActionsBlock.md)
+- [`DataTableBlock`](DataTableBlock.md)
 - [`DividerBlock`](DividerBlock.md)
 - [`FileBlock`](FileBlock.md)
 - [`HeaderBlock`](HeaderBlock.md)
@@ -32,7 +35,7 @@ Defined in: [block-kit/blocks.ts:37](https://github.com/slackapi/node-slack-sdk/
 optional block_id?: string;
 ```
 
-Defined in: [block-kit/blocks.ts:49](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L49)
+Defined in: [block-kit/blocks.ts:50](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L50)
 
 #### Description
 
@@ -50,7 +53,7 @@ a message. If a message is updated, use a new `block_id`.
 type: string;
 ```
 
-Defined in: [block-kit/blocks.ts:41](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L41)
+Defined in: [block-kit/blocks.ts:42](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L42)
 
 #### Description
 

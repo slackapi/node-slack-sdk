@@ -27,7 +27,6 @@
   Note: `error.name` now reflects the specific class name (e.g. `'AuthorizationError'`) instead of the generic `'Error'`. If you branch on `error.name`, update those checks accordingly.
 
 - fc98c8c: Updated the internal `@slack/web-api` dependency from `^7` to `^8`. If you pass `clientOptions` to `InstallProvider`, the following options are no longer available:
-
   - **`clientOptions.agent`** — Use `clientOptions.fetch` with a custom fetch implementation instead.
   - **`clientOptions.tls`** — Configure TLS via `clientOptions.fetch` or the `NODE_EXTRA_CA_CERTS` environment variable.
 

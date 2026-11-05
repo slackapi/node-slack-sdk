@@ -2,7 +2,7 @@
 
 # Interface: CardBlock
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:69
+Defined in: packages/types/dist/block-kit/blocks.d.ts:133
 
 ## Description
 
@@ -24,7 +24,7 @@ Displays content in a card. At least one of `hero_image`, `title`, `actions`, or
 optional actions?: Button[];
 ```
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:100
+Defined in: packages/types/dist/block-kit/blocks.d.ts:164
 
 #### Description
 
@@ -60,7 +60,7 @@ a message. If a message is updated, use a new `block_id`.
 optional body?: MrkdwnElement;
 ```
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:96
+Defined in: packages/types/dist/block-kit/blocks.d.ts:160
 
 #### Description
 
@@ -75,7 +75,7 @@ Maximum length for the text in this field is 200 characters.
 optional hero_image?: ImageElement;
 ```
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:77
+Defined in: packages/types/dist/block-kit/blocks.d.ts:141
 
 #### Description
 
@@ -89,7 +89,7 @@ A top banner image for the card in the form of an [ImageElement](../type-aliases
 optional icon?: ImageElement;
 ```
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:81
+Defined in: packages/types/dist/block-kit/blocks.d.ts:145
 
 #### Description
 
@@ -103,7 +103,7 @@ A small icon displayed next to the title and subtitle in the form of an [ImageEl
 optional subtitle?: MrkdwnElement;
 ```
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:91
+Defined in: packages/types/dist/block-kit/blocks.d.ts:155
 
 #### Description
 
@@ -118,7 +118,7 @@ Maximum length for the text in this field is 150 characters.
 optional title?: MrkdwnElement;
 ```
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:86
+Defined in: packages/types/dist/block-kit/blocks.d.ts:150
 
 #### Description
 
@@ -133,7 +133,7 @@ Maximum length for the text in this field is 150 characters.
 type: "card";
 ```
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:73
+Defined in: packages/types/dist/block-kit/blocks.d.ts:137
 
 #### Description
 

@@ -6,10 +6,13 @@
 type KnownBlock = 
   | ActionsBlock
   | AlertBlock
+  | AuthProviderBlock
   | CardBlock
   | CarouselBlock
+  | ContainerBlock
   | ContextBlock
   | ContextActionsBlock
+  | DataTableBlock
   | DividerBlock
   | FileBlock
   | HeaderBlock

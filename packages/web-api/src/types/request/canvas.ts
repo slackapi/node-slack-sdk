@@ -89,6 +89,12 @@ export interface CanvasesEditArguments extends CanvasID, TokenOverridable {
   changes: [Change, ...Change[]];
 }
 
+// https://docs.slack.dev/reference/methods/canvases.getContent
+export interface CanvasesGetContentArguments extends CanvasID, TokenOverridable {
+  /** @description Format in which to return the canvas content. Defaults to markdown. */
+  content_type?: 'html' | 'markdown';
+}
+
 // https://docs.slack.dev/reference/methods/conversations.canvases.create
 export interface ConversationsCanvasesCreateArguments extends ChannelID, TokenOverridable {
   /** @description Structure describing the type and contents of the Canvas being created. */

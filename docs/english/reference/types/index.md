@@ -1,4 +1,4 @@
-# @slack/types v3.1.0
+# @slack/types v3.3.0
 
 ## Enumerations
 
@@ -24,6 +24,7 @@
 - [AppUninstalledTeamEvent](interfaces/AppUninstalledTeamEvent.md)
 - [AssistantThreadContextChangedEvent](interfaces/AssistantThreadContextChangedEvent.md)
 - [AssistantThreadStartedEvent](interfaces/AssistantThreadStartedEvent.md)
+- [AuthProviderBlock](interfaces/AuthProviderBlock.md)
 - [Block](interfaces/Block.md)
 - [BlocksChunk](interfaces/BlocksChunk.md)
 - [BotMessageEvent](interfaces/BotMessageEvent.md)
@@ -58,10 +59,12 @@
 - [Confirmable](interfaces/Confirmable.md)
 - [Confirmation](interfaces/Confirmation.md)
 - [ConfirmationDialog](interfaces/ConfirmationDialog.md)
+- [ContainerBlock](interfaces/ContainerBlock.md)
 - [ContentItemEntityFields](interfaces/ContentItemEntityFields.md)
 - [ContextActionsBlock](interfaces/ContextActionsBlock.md)
 - [ContextBlock](interfaces/ContextBlock.md)
 - [ConversationsSelect](interfaces/ConversationsSelect.md)
+- [DataTableBlock](interfaces/DataTableBlock.md)
 - [Datepicker](interfaces/Datepicker.md)
 - [DateTimepicker](interfaces/DateTimepicker.md)
 - [~~Dialog~~](interfaces/Dialog.md)
@@ -167,6 +170,7 @@
 - [PlanBlock](interfaces/PlanBlock.md)
 - [PlanUpdateChunk](interfaces/PlanUpdateChunk.md)
 - [RadioButtons](interfaces/RadioButtons.md)
+- [RawNumberElement](interfaces/RawNumberElement.md)
 - [RawTextElement](interfaces/RawTextElement.md)
 - [ReactionAddedEvent](interfaces/ReactionAddedEvent.md)
 - [ReactionRemovedEvent](interfaces/ReactionRemovedEvent.md)
@@ -221,6 +225,9 @@
 - [URLRespondable](interfaces/URLRespondable.md)
 - [URLSourceElement](interfaces/URLSourceElement.md)
 - [UserChangeEvent](interfaces/UserChangeEvent.md)
+- [UserConnectionConnectEvent](interfaces/UserConnectionConnectEvent.md)
+- [UserConnectionDisconnectEvent](interfaces/UserConnectionDisconnectEvent.md)
+- [UserConnectionStatusRequestedEvent](interfaces/UserConnectionStatusRequestedEvent.md)
 - [UserHuddleChangedEvent](interfaces/UserHuddleChangedEvent.md)
 - [UserProfileChangedEvent](interfaces/UserProfileChangedEvent.md)
 - [UsersSelect](interfaces/UsersSelect.md)
@@ -267,4 +274,5 @@
 - [~~SubteamCreated~~](type-aliases/SubteamCreated.md)
 - [~~SubteamMembersChanged~~](type-aliases/SubteamMembersChanged.md)
 - [TextObject](type-aliases/TextObject.md)
+- [UserConnectionEvent](type-aliases/UserConnectionEvent.md)
 - [View](type-aliases/View.md)

@@ -2,7 +2,7 @@
 
 # Interface: AgentsSessionsSetStatusArguments
 
-Defined in: [packages/web-api/src/types/request/agents.ts:17](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/agents.ts#L17)
+Defined in: [packages/web-api/src/types/request/agents.ts:222](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/agents.ts#L222)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [packages/web-api/src/types/request/agents.ts:17](https://github.com
 channel_id: string;
 ```
 
-Defined in: [packages/web-api/src/types/request/agents.ts:19](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/agents.ts#L19)
+Defined in: [packages/web-api/src/types/request/agents.ts:224](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/agents.ts#L224)
 
 #### Description
 
@@ -30,7 +30,7 @@ ID of the channel containing the agent session.
 optional icon_emoji?: string;
 ```
 
-Defined in: [packages/web-api/src/types/request/agents.ts:42](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/agents.ts#L42)
+Defined in: [packages/web-api/src/types/request/agents.ts:247](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/agents.ts#L247)
 
 #### Description
 
@@ -51,7 +51,7 @@ Emoji to use as the agent's icon. Takes priority over `icon_url`. Remains in eff
 optional icon_url?: string;
 ```
 
-Defined in: [packages/web-api/src/types/request/agents.ts:48](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/agents.ts#L48)
+Defined in: [packages/web-api/src/types/request/agents.ts:253](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/agents.ts#L253)
 
 #### Description
 
@@ -72,7 +72,7 @@ http://lorempixel.com/48/48
 optional initiator_user_id?: string;
 ```
 
-Defined in: [packages/web-api/src/types/request/agents.ts:36](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/agents.ts#L36)
+Defined in: [packages/web-api/src/types/request/agents.ts:241](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/agents.ts#L241)
 
 #### Description
 
@@ -87,7 +87,7 @@ already exists. Must be a member of the channel.
 status: string;
 ```
 
-Defined in: [packages/web-api/src/types/request/agents.ts:21](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/agents.ts#L21)
+Defined in: [packages/web-api/src/types/request/agents.ts:226](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/agents.ts#L226)
 
 #### Description
 
@@ -101,7 +101,7 @@ The lifecycle status to set. Acceptable values: `active`, `processing`, `suspend
 optional thread_ts?: string;
 ```
 
-Defined in: [packages/web-api/src/types/request/agents.ts:26](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/agents.ts#L26)
+Defined in: [packages/web-api/src/types/request/agents.ts:231](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/agents.ts#L231)
 
 #### Description
 
@@ -116,7 +116,7 @@ regular channels and DMs. Must be omitted for session channels.
 optional title?: string;
 ```
 
-Defined in: [packages/web-api/src/types/request/agents.ts:31](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/agents.ts#L31)
+Defined in: [packages/web-api/src/types/request/agents.ts:236](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/agents.ts#L236)
 
 #### Description
 
@@ -151,7 +151,7 @@ TokenOverridable.token
 optional username?: string;
 ```
 
-Defined in: [packages/web-api/src/types/request/agents.ts:54](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/agents.ts#L54)
+Defined in: [packages/web-api/src/types/request/agents.ts:259](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/agents.ts#L259)
 
 #### Description
 

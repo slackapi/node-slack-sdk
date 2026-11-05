@@ -1,12 +1,14 @@
 import { expectAssignable, expectError } from 'tsd';
 import type {
   AlertBlock,
+  AuthProviderBlock,
   CardBlock,
   CarouselBlock,
   ContainerBlock,
   DataTableBlock,
   DataVisualizationBlock,
   KnownBlock,
+  TableBlock,
 } from '../src/index';
 
 // CardBlock
@@ -48,6 +50,61 @@ expectAssignable<KnownBlock>({
   type: 'alert',
   text: { type: 'mrkdwn', text: 'Notice' },
   level: 'error',
+});
+
+// AuthProviderBlock
+// -- sad path
+expectError<AuthProviderBlock>({}); // missing type, value, name, and is_connected
+expectError<AuthProviderBlock>({
+  type: 'auth_provider',
+  value: 'lumon',
+  name: { type: 'plain_text', text: 'Lumon' },
+}); // missing required is_connected
+expectError<AuthProviderBlock>({
+  type: 'auth_provider',
+  value: 'lumon',
+  name: { type: 'mrkdwn', text: 'Lumon' },
+  is_connected: false,
+}); // name must be plain_text
+expectError<AuthProviderBlock>({
+  type: 'auth_provider',
+  value: 'lumon',
+  name: { type: 'plain_text', text: 'Lumon' },
+  is_connected: true,
+  accessory: { type: 'button', text: { type: 'plain_text', text: 'Disconnect' }, action_id: 'disconnect' },
+}); // accessory must be an overflow menu
+// -- happy path
+expectAssignable<AuthProviderBlock>({
+  type: 'auth_provider',
+  value: 'lumon',
+  name: { type: 'plain_text', text: 'Lumon' },
+  is_connected: false,
+  auth_url: 'https://lumon.example.com/oauth',
+});
+expectAssignable<AuthProviderBlock>({
+  type: 'auth_provider',
+  block_id: 'lumon_connection',
+  value: 'lumon',
+  name: { type: 'plain_text', text: 'Lumon' },
+  is_connected: true,
+  description: { type: 'plain_text', text: 'Sync your refinement progress' },
+  icon_url: 'https://lumon.example.com/icon.png',
+  auth_url: 'https://lumon.example.com/oauth',
+  disconnect_url: 'https://lumon.example.com/disconnect',
+  connected_identity: { type: 'plain_text', text: 'mark.s@lumon.example.com' },
+  connected_context: { type: 'plain_text', text: 'Macrodata Refinement' },
+  accessory: {
+    type: 'overflow',
+    action_id: 'lumon_menu',
+    options: [{ text: { type: 'plain_text', text: 'Disconnect' }, value: 'disconnect' }],
+  },
+  fallback: [{ type: 'section', text: { type: 'mrkdwn', text: 'Connected to *Lumon*' } }],
+});
+expectAssignable<KnownBlock>({
+  type: 'auth_provider',
+  value: 'lumon',
+  name: { type: 'plain_text', text: 'Lumon' },
+  is_connected: false,
 });
 
 // CarouselBlock
@@ -237,4 +294,33 @@ expectAssignable<KnownBlock>({
   type: 'data_table',
   caption: 'A minimal table',
   rows: [[{ type: 'raw_text', text: 'Header' }], [{ type: 'raw_text', text: 'Value' }]],
+});
+
+// TableBlock
+// -- sad path
+expectError<TableBlock>({}); // missing type and rows
+expectError<TableBlock>({ type: 'table' }); // missing required rows
+// -- happy path
+// Table cells can be rich_text, raw_text, or raw_number; column_settings describe column behavior.
+expectAssignable<TableBlock>({
+  type: 'table',
+  column_settings: [{ is_wrapped: true }, { align: 'right' }],
+  rows: [
+    [
+      { type: 'raw_text', text: 'Item' },
+      { type: 'raw_text', text: 'Count' },
+    ],
+    [
+      { type: 'raw_text', text: 'Widgets' },
+      { type: 'raw_number', value: 42, text: '42' },
+    ],
+    [
+      { type: 'rich_text', elements: [{ type: 'rich_text_section', elements: [{ type: 'text', text: 'Gadgets' }] }] },
+      { type: 'raw_number', value: 7, text: '7' },
+    ],
+  ],
+});
+expectAssignable<KnownBlock>({
+  type: 'table',
+  rows: [[{ type: 'raw_number', value: 1, text: '1' }]],
 });

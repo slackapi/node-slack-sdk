@@ -2,7 +2,7 @@
 
 # Interface: RichTextPreformatted
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:927
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:941
 
 ## Description
 
@@ -39,7 +39,7 @@ while `1` renders a border.
 elements: (RichTextLink | RichTextText)[];
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:935
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:949
 
 #### Description
 
@@ -53,7 +53,7 @@ An array of either [RichTextLink](RichTextLink.md) or [RichTextText](RichTextTex
 type: "rich_text_preformatted";
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:931
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:945
 
 #### Description
 

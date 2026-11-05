@@ -4,7 +4,6 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { after, before, describe, it } from 'node:test';
-import sinon from 'sinon';
 
 import checkForSDKUpdates, {
   createUpdateErrorMessage,
@@ -46,20 +45,29 @@ function mockNPM(command) {
   throw new Error('Unknown NPM command mocked');
 }
 
+/**
+ * Stand-in for child_process.exec that answers with mocked npm output.
+ * @param {string} command - Command to mock a result for.
+ * @param {(error: null, output: { stdout: string, stderr: string }) => void} callback - Receives the output.
+ */
+function mockExec(command, callback) {
+  callback(null, { stdout: mockNPM(command), stderr: '' });
+}
+
+const originalExec = childProcess.exec;
+
 describe('check-update implementation', async () => {
   describe('collects recent package versions', async () => {
     const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'check-update-'));
     const packageJSONFilePath = path.join(tempDir, 'package.json');
 
     before(() => {
-      sinon.stub(childProcess, 'exec').callsFake((command, cb) => {
-        cb(null, { stdout: mockNPM(command), stderr: '' });
-      });
+      childProcess.exec = /** @type {any} */ (mockExec);
       fs.writeFileSync(packageJSONFilePath, JSON.stringify(packageJSON, null, 2));
     });
 
     after(() => {
-      sinon.restore();
+      childProcess.exec = originalExec;
       fs.rmSync(tempDir, { recursive: true, force: true });
     });
 
