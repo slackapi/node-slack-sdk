@@ -1,6 +1,5 @@
 import assert from 'node:assert';
-import { afterEach, beforeEach, describe, it } from 'node:test';
-import sinon from 'sinon';
+import { afterEach, beforeEach, describe, it, mock } from 'node:test';
 
 import { DefaultProtocol, getProtocol, MessageBoundaryProtocol } from './protocols.js';
 
@@ -24,15 +23,15 @@ describe('protocol implementations', () => {
   });
 
   describe('message boundary protocol', () => {
-    /** @type {sinon.SinonStub} */
+    /** @type {import('node:test').Mock<typeof console.log>} */
     let consoleLogStub;
 
     beforeEach(() => {
-      consoleLogStub = sinon.stub(console, 'log');
+      consoleLogStub = mock.method(console, 'log', () => {});
     });
 
     afterEach(() => {
-      sinon.restore();
+      mock.restoreAll();
     });
 
     it('errors if no boundary is specified', () => {
@@ -51,7 +50,7 @@ describe('protocol implementations', () => {
     it('surrounds hook responses with the boundary', () => {
       const protocol = MessageBoundaryProtocol(['--boundary=x08o']);
       protocol.respond('greetings');
-      consoleLogStub.calledWith('x08ogreetingsx08o');
+      assert.deepEqual(consoleLogStub.mock.calls[0].arguments, ['x08ogreetingsx08o']);
     });
   });
 
