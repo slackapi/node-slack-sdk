@@ -1,5 +1,46 @@
 import { expectAssignable, expectError } from 'tsd';
-import type { RawNumberElement, RawTextElement } from '../src/index';
+import type { ActionCellElement, RawNumberElement, RawTextElement } from '../src/index';
+
+// ActionCellElement
+// -- sad path
+expectError<ActionCellElement>({}); // missing type and element
+expectError<ActionCellElement>({ type: 'action_cell' }); // missing required element
+expectError<ActionCellElement>({ type: 'action_cell', fallback: { type: 'raw_text', text: 'Open' } }); // missing required element
+expectError<ActionCellElement>({
+  type: 'action_cell',
+  element: { type: 'button', text: { type: 'plain_text', text: 'Mark done' } },
+  fallback: { type: 'rich_text', elements: [] },
+}); // fallback must be raw_text or raw_number
+// -- happy path
+expectAssignable<ActionCellElement>({
+  type: 'action_cell',
+  element: {
+    type: 'button',
+    text: { type: 'plain_text', text: 'Mark done' },
+    action_id: 'mark_done',
+    value: 'task_123',
+  },
+  fallback: { type: 'raw_text', text: 'Open' },
+});
+expectAssignable<ActionCellElement>({
+  type: 'action_cell',
+  element: {
+    type: 'button',
+    text: { type: 'plain_text', text: 'Mark done' },
+    action_id: 'mark_done',
+    value: 'task_123',
+  },
+  fallback: { type: 'raw_number', value: 1, text: '1' },
+});
+expectAssignable<ActionCellElement>({
+  type: 'action_cell',
+  element: {
+    type: 'button',
+    text: { type: 'plain_text', text: 'Mark done' },
+    action_id: 'mark_done',
+    value: 'task_123',
+  },
+});
 
 // RawNumberElement
 // -- sad path
