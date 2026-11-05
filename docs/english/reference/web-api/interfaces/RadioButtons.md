@@ -2,7 +2,7 @@
 
 # Interface: RadioButtons
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:564
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:578
 
 ## Description
 
@@ -22,7 +22,7 @@ Allows users to choose one item from a list of possible options.
 ### action\_id?
 
 ```ts
-optional action_id: string;
+optional action_id?: string;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:12
@@ -40,7 +40,7 @@ among all other `action_id`s in the containing block. Maximum length for this fi
 ### confirm?
 
 ```ts
-optional confirm: ConfirmationDialog;
+optional confirm?: ConfirmationDialog;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:21
@@ -59,7 +59,7 @@ with.
 ### focus\_on\_load?
 
 ```ts
-optional focus_on_load: boolean;
+optional focus_on_load?: boolean;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:36
@@ -79,10 +79,10 @@ Defaults to `false`.
 ### initial\_option?
 
 ```ts
-optional initial_option: Option;
+optional initial_option?: Option;
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:573
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:587
 
 #### Description
 
@@ -97,7 +97,7 @@ be selected when the radio button group initially loads.
 options: Option[];
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:577
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:591
 
 #### Description
 
@@ -111,7 +111,7 @@ An array of [Option](../type-aliases/Option.md) objects. A maximum of 10 options
 type: "radio_buttons";
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:568
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:582
 
 #### Description
 

@@ -33,13 +33,13 @@ Defined in: [dialog.ts:8](https://github.com/slackapi/node-slack-sdk/blob/main/p
 #### ~~data\_source?~~
 
 ```ts
-optional data_source: "users" | "channels" | "conversations" | "external";
+optional data_source?: "users" | "channels" | "conversations" | "external";
 ```
 
 #### ~~hint?~~
 
 ```ts
-optional hint: string;
+optional hint?: string;
 ```
 
 #### ~~label~~
@@ -51,19 +51,19 @@ label: string;
 #### ~~max\_length?~~
 
 ```ts
-optional max_length: number;
+optional max_length?: number;
 ```
 
 #### ~~min\_length?~~
 
 ```ts
-optional min_length: number;
+optional min_length?: number;
 ```
 
 #### ~~min\_query\_length?~~
 
 ```ts
-optional min_query_length: number;
+optional min_query_length?: number;
 ```
 
 #### ~~name~~
@@ -75,37 +75,37 @@ name: string;
 #### ~~option\_groups?~~
 
 ```ts
-optional option_groups: object[];
+optional option_groups?: object[];
 ```
 
 #### ~~optional?~~
 
 ```ts
-optional optional: boolean;
+optional optional?: boolean;
 ```
 
 #### ~~options?~~
 
 ```ts
-optional options: SelectOption[];
+optional options?: SelectOption[];
 ```
 
 #### ~~placeholder?~~
 
 ```ts
-optional placeholder: string;
+optional placeholder?: string;
 ```
 
 #### ~~selected\_options?~~
 
 ```ts
-optional selected_options: SelectOption[];
+optional selected_options?: SelectOption[];
 ```
 
 #### ~~subtype?~~
 
 ```ts
-optional subtype: "number" | "url" | "email" | "tel";
+optional subtype?: "number" | "url" | "email" | "tel";
 ```
 
 #### ~~type~~
@@ -117,7 +117,7 @@ type: "text" | "textarea" | "select";
 #### ~~value?~~
 
 ```ts
-optional value: string;
+optional value?: string;
 ```
 
 ***
@@ -125,7 +125,7 @@ optional value: string;
 ### ~~notify\_on\_cancel?~~
 
 ```ts
-optional notify_on_cancel: boolean;
+optional notify_on_cancel?: boolean;
 ```
 
 Defined in: [dialog.ts:31](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/dialog.ts#L31)
@@ -135,7 +135,7 @@ Defined in: [dialog.ts:31](https://github.com/slackapi/node-slack-sdk/blob/main/
 ### ~~state?~~
 
 ```ts
-optional state: string;
+optional state?: string;
 ```
 
 Defined in: [dialog.ts:32](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/dialog.ts#L32)
@@ -145,7 +145,7 @@ Defined in: [dialog.ts:32](https://github.com/slackapi/node-slack-sdk/blob/main/
 ### ~~submit\_label?~~
 
 ```ts
-optional submit_label: string;
+optional submit_label?: string;
 ```
 
 Defined in: [dialog.ts:30](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/dialog.ts#L30)

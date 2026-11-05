@@ -19,7 +19,7 @@ Defined in: packages/types/dist/events/message-metadata.d.ts:31
 ### bot\_id?
 
 ```ts
-optional bot_id: string;
+optional bot_id?: string;
 ```
 
 Defined in: packages/types/dist/events/message-metadata.d.ts:32

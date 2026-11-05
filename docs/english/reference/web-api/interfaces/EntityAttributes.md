@@ -9,7 +9,7 @@ Defined in: packages/types/dist/message-metadata.d.ts:73
 ### display\_id?
 
 ```ts
-optional display_id: string;
+optional display_id?: string;
 ```
 
 Defined in: packages/types/dist/message-metadata.d.ts:79
@@ -19,7 +19,7 @@ Defined in: packages/types/dist/message-metadata.d.ts:79
 ### display\_type?
 
 ```ts
-optional display_type: string;
+optional display_type?: string;
 ```
 
 Defined in: packages/types/dist/message-metadata.d.ts:78
@@ -29,7 +29,7 @@ Defined in: packages/types/dist/message-metadata.d.ts:78
 ### full\_size\_preview?
 
 ```ts
-optional full_size_preview: EntityFullSizePreview;
+optional full_size_preview?: EntityFullSizePreview;
 ```
 
 Defined in: packages/types/dist/message-metadata.d.ts:83
@@ -39,7 +39,7 @@ Defined in: packages/types/dist/message-metadata.d.ts:83
 ### locale?
 
 ```ts
-optional locale: string;
+optional locale?: string;
 ```
 
 Defined in: packages/types/dist/message-metadata.d.ts:82
@@ -49,7 +49,7 @@ Defined in: packages/types/dist/message-metadata.d.ts:82
 ### metadata\_last\_modified?
 
 ```ts
-optional metadata_last_modified: number;
+optional metadata_last_modified?: number;
 ```
 
 Defined in: packages/types/dist/message-metadata.d.ts:84
@@ -59,7 +59,7 @@ Defined in: packages/types/dist/message-metadata.d.ts:84
 ### product\_icon?
 
 ```ts
-optional product_icon: EntityIconField;
+optional product_icon?: EntityIconField;
 ```
 
 Defined in: packages/types/dist/message-metadata.d.ts:80
@@ -69,7 +69,7 @@ Defined in: packages/types/dist/message-metadata.d.ts:80
 ### product\_name?
 
 ```ts
-optional product_name: string;
+optional product_name?: string;
 ```
 
 Defined in: packages/types/dist/message-metadata.d.ts:81
@@ -87,7 +87,7 @@ Defined in: packages/types/dist/message-metadata.d.ts:74
 #### edit?
 
 ```ts
-optional edit: EntityEditSupport;
+optional edit?: EntityEditSupport;
 ```
 
 #### text

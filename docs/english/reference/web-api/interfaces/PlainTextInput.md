@@ -2,7 +2,7 @@
 
 # Interface: PlainTextInput
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:534
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:548
 
 ## Description
 
@@ -22,7 +22,7 @@ Allows users to enter freeform text data into a single-line or multi-line field.
 ### action\_id?
 
 ```ts
-optional action_id: string;
+optional action_id?: string;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:12
@@ -40,7 +40,7 @@ among all other `action_id`s in the containing block. Maximum length for this fi
 ### dispatch\_action\_config?
 
 ```ts
-optional dispatch_action_config: DispatchActionConfig;
+optional dispatch_action_config?: DispatchActionConfig;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:28
@@ -59,7 +59,7 @@ A [DispatchActionConfig](DispatchActionConfig.md) object that determines when du
 ### focus\_on\_load?
 
 ```ts
-optional focus_on_load: boolean;
+optional focus_on_load?: boolean;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:36
@@ -79,10 +79,10 @@ Defaults to `false`.
 ### initial\_value?
 
 ```ts
-optional initial_value: string;
+optional initial_value?: string;
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:542
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:556
 
 #### Description
 
@@ -93,10 +93,10 @@ The initial value in the plain-text input when it is loaded.
 ### max\_length?
 
 ```ts
-optional max_length: number;
+optional max_length?: number;
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:557
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:571
 
 #### Description
 
@@ -108,10 +108,10 @@ they will receive an error.
 ### min\_length?
 
 ```ts
-optional min_length: number;
+optional min_length?: number;
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:552
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:566
 
 #### Description
 
@@ -123,10 +123,10 @@ an error. Maximum value is 3000.
 ### multiline?
 
 ```ts
-optional multiline: boolean;
+optional multiline?: boolean;
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:547
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:561
 
 #### Description
 
@@ -138,7 +138,7 @@ Defaults to `false`.
 ### placeholder?
 
 ```ts
-optional placeholder: PlainTextElement;
+optional placeholder?: PlainTextElement;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:49
@@ -160,7 +160,7 @@ length for the `text` field in this object is 150 characters.
 type: "plain_text_input";
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:538
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:552
 
 #### Description
 

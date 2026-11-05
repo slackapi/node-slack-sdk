@@ -46,7 +46,7 @@ The formatting to use for this text object.
 ### verbatim?
 
 ```ts
-optional verbatim: boolean;
+optional verbatim?: boolean;
 ```
 
 Defined in: [block-kit/composition-objects.ts:173](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/composition-objects.ts#L173)

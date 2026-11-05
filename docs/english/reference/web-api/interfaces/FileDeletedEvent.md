@@ -9,7 +9,7 @@ Defined in: packages/types/dist/events/file.d.ts:25
 ### channel\_ids?
 
 ```ts
-optional channel_ids: string[];
+optional channel_ids?: string[];
 ```
 
 Defined in: packages/types/dist/events/file.d.ts:28

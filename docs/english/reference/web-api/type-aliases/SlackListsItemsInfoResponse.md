@@ -6,48 +6,60 @@
 type SlackListsItemsInfoResponse = WebAPICallResult & object;
 ```
 
-Defined in: [packages/web-api/src/types/response/SlackListsItemsInfoResponse.ts:4](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/SlackListsItemsInfoResponse.ts#L4)
+Defined in: [packages/web-api/src/types/response/SlackListsItemsInfoResponse.ts:11](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/SlackListsItemsInfoResponse.ts#L11)
 
 ## Type Declaration
 
 ### error?
 
 ```ts
-optional error: string;
+optional error?: string;
 ```
 
 ### list?
 
 ```ts
-optional list: SlackList;
+optional list?: List;
 ```
 
 ### needed?
 
 ```ts
-optional needed: string;
+optional needed?: string;
 ```
 
 ### ok?
 
 ```ts
-optional ok: boolean;
+optional ok?: boolean;
 ```
 
 ### provided?
 
 ```ts
-optional provided: string;
+optional provided?: string;
 ```
 
 ### record?
 
 ```ts
-optional record: SlackListsItemWithSubscription;
+optional record?: Record;
+```
+
+### response\_metadata?
+
+```ts
+optional response_metadata?: ResponseMetadata;
 ```
 
 ### subtasks?
 
 ```ts
-optional subtasks: SlackListsItem[];
+optional subtasks?: Subtask[];
+```
+
+### warning?
+
+```ts
+optional warning?: string;
 ```

@@ -27,7 +27,7 @@ Defined in: packages/types/dist/events/app.d.ts:206
 #### entities?
 
 ```ts
-optional entities: 
+optional entities?: 
   | {
   type: "slack#/types/channel_id";
   value: string;

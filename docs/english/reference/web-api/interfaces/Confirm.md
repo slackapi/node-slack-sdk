@@ -26,7 +26,7 @@ Defines a dialog that adds a confirmation step to interactive elements.
 ### ~~confirm?~~
 
 ```ts
-optional confirm: PlainTextElement;
+optional confirm?: PlainTextElement;
 ```
 
 Defined in: packages/types/dist/block-kit/composition-objects.d.ts:29
@@ -41,7 +41,7 @@ Maximum length for the `text` in this field is 30 characters.
 ### ~~deny?~~
 
 ```ts
-optional deny: PlainTextElement;
+optional deny?: PlainTextElement;
 ```
 
 Defined in: packages/types/dist/block-kit/composition-objects.d.ts:34
@@ -56,7 +56,7 @@ Maximum length for the `text` in this field is 30 characters.
 ### ~~style?~~
 
 ```ts
-optional style: ColorScheme;
+optional style?: ColorScheme;
 ```
 
 Defined in: packages/types/dist/block-kit/composition-objects.d.ts:40
@@ -89,7 +89,7 @@ dialog. Maximum length for the `text` in this field is 300 characters.
 ### ~~title?~~
 
 ```ts
-optional title: PlainTextElement;
+optional title?: PlainTextElement;
 ```
 
 Defined in: packages/types/dist/block-kit/composition-objects.d.ts:19

@@ -13,7 +13,7 @@ Defined in: [packages/web-api/src/types/request/usergroups.ts:26](https://github
 ### include\_count?
 
 ```ts
-optional include_count: boolean;
+optional include_count?: boolean;
 ```
 
 Defined in: [packages/web-api/src/types/request/usergroups.ts:6](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/usergroups.ts#L6)
@@ -33,7 +33,7 @@ UsergroupsIncludeCount.include_count
 ### team\_id?
 
 ```ts
-optional team_id: string;
+optional team_id?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:70](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L70)
@@ -53,7 +53,7 @@ OptionalTeamAssignable.team_id
 ### token?
 
 ```ts
-optional token: string;
+optional token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)

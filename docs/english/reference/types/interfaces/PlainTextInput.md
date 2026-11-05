@@ -2,7 +2,7 @@
 
 # Interface: PlainTextInput
 
-Defined in: [block-kit/block-elements.ts:617](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L617)
+Defined in: [block-kit/block-elements.ts:631](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L631)
 
 ## Description
 
@@ -22,7 +22,7 @@ Allows users to enter freeform text data into a single-line or multi-line field.
 ### action\_id?
 
 ```ts
-optional action_id: string;
+optional action_id?: string;
 ```
 
 Defined in: [block-kit/extensions.ts:15](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/extensions.ts#L15)
@@ -40,7 +40,7 @@ among all other `action_id`s in the containing block. Maximum length for this fi
 ### dispatch\_action\_config?
 
 ```ts
-optional dispatch_action_config: DispatchActionConfig;
+optional dispatch_action_config?: DispatchActionConfig;
 ```
 
 Defined in: [block-kit/extensions.ts:33](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/extensions.ts#L33)
@@ -59,7 +59,7 @@ A [DispatchActionConfig](DispatchActionConfig.md) object that determines when du
 ### focus\_on\_load?
 
 ```ts
-optional focus_on_load: boolean;
+optional focus_on_load?: boolean;
 ```
 
 Defined in: [block-kit/extensions.ts:42](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/extensions.ts#L42)
@@ -79,10 +79,10 @@ Defaults to `false`.
 ### initial\_value?
 
 ```ts
-optional initial_value: string;
+optional initial_value?: string;
 ```
 
-Defined in: [block-kit/block-elements.ts:625](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L625)
+Defined in: [block-kit/block-elements.ts:639](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L639)
 
 #### Description
 
@@ -93,10 +93,10 @@ The initial value in the plain-text input when it is loaded.
 ### max\_length?
 
 ```ts
-optional max_length: number;
+optional max_length?: number;
 ```
 
-Defined in: [block-kit/block-elements.ts:640](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L640)
+Defined in: [block-kit/block-elements.ts:654](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L654)
 
 #### Description
 
@@ -108,10 +108,10 @@ they will receive an error.
 ### min\_length?
 
 ```ts
-optional min_length: number;
+optional min_length?: number;
 ```
 
-Defined in: [block-kit/block-elements.ts:635](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L635)
+Defined in: [block-kit/block-elements.ts:649](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L649)
 
 #### Description
 
@@ -123,10 +123,10 @@ an error. Maximum value is 3000.
 ### multiline?
 
 ```ts
-optional multiline: boolean;
+optional multiline?: boolean;
 ```
 
-Defined in: [block-kit/block-elements.ts:630](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L630)
+Defined in: [block-kit/block-elements.ts:644](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L644)
 
 #### Description
 
@@ -138,7 +138,7 @@ Defaults to `false`.
 ### placeholder?
 
 ```ts
-optional placeholder: PlainTextElement;
+optional placeholder?: PlainTextElement;
 ```
 
 Defined in: [block-kit/extensions.ts:57](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/extensions.ts#L57)
@@ -160,7 +160,7 @@ length for the `text` field in this object is 150 characters.
 type: "plain_text_input";
 ```
 
-Defined in: [block-kit/block-elements.ts:621](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L621)
+Defined in: [block-kit/block-elements.ts:635](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L635)
 
 #### Description
 

@@ -2,7 +2,7 @@
 
 # Interface: AdminUsersSessionClearSettingsArguments
 
-Defined in: [packages/web-api/src/types/request/admin/users.ts:109](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/users.ts#L109)
+Defined in: [packages/web-api/src/types/request/admin/users.ts:119](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/users.ts#L119)
 
 ## Extends
 
@@ -13,7 +13,7 @@ Defined in: [packages/web-api/src/types/request/admin/users.ts:109](https://gith
 ### token?
 
 ```ts
-optional token: string;
+optional token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)

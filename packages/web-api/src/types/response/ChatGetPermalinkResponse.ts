@@ -15,4 +15,5 @@ export type ChatGetPermalinkResponse = WebAPICallResult & {
   ok?: boolean;
   permalink?: string;
   provided?: string;
+  warning?: string;
 };

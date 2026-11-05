@@ -13,35 +13,41 @@ Defined in: [packages/web-api/src/types/response/ChatGetPermalinkResponse.ts:11]
 ### channel?
 
 ```ts
-optional channel: string;
+optional channel?: string;
 ```
 
 ### error?
 
 ```ts
-optional error: string;
+optional error?: string;
 ```
 
 ### needed?
 
 ```ts
-optional needed: string;
+optional needed?: string;
 ```
 
 ### ok?
 
 ```ts
-optional ok: boolean;
+optional ok?: boolean;
 ```
 
 ### permalink?
 
 ```ts
-optional permalink: string;
+optional permalink?: string;
 ```
 
 ### provided?
 
 ```ts
-optional provided: string;
+optional provided?: string;
+```
+
+### warning?
+
+```ts
+optional warning?: string;
 ```

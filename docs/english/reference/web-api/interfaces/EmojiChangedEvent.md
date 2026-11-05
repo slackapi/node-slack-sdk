@@ -19,7 +19,7 @@ Defined in: packages/types/dist/events/emoji.d.ts:9
 ### name?
 
 ```ts
-optional name: string;
+optional name?: string;
 ```
 
 Defined in: packages/types/dist/events/emoji.d.ts:5
@@ -29,7 +29,7 @@ Defined in: packages/types/dist/events/emoji.d.ts:5
 ### names?
 
 ```ts
-optional names: string[];
+optional names?: string[];
 ```
 
 Defined in: packages/types/dist/events/emoji.d.ts:4
@@ -39,7 +39,7 @@ Defined in: packages/types/dist/events/emoji.d.ts:4
 ### new\_name?
 
 ```ts
-optional new_name: string;
+optional new_name?: string;
 ```
 
 Defined in: packages/types/dist/events/emoji.d.ts:8
@@ -49,7 +49,7 @@ Defined in: packages/types/dist/events/emoji.d.ts:8
 ### old\_name?
 
 ```ts
-optional old_name: string;
+optional old_name?: string;
 ```
 
 Defined in: packages/types/dist/events/emoji.d.ts:7
@@ -79,7 +79,7 @@ Defined in: packages/types/dist/events/emoji.d.ts:2
 ### value?
 
 ```ts
-optional value: string;
+optional value?: string;
 ```
 
 Defined in: packages/types/dist/events/emoji.d.ts:6

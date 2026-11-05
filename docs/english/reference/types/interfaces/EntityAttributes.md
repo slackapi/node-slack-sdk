@@ -9,7 +9,7 @@ Defined in: [message-metadata.ts:89](https://github.com/slackapi/node-slack-sdk/
 ### display\_id?
 
 ```ts
-optional display_id: string;
+optional display_id?: string;
 ```
 
 Defined in: [message-metadata.ts:95](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L95)
@@ -19,7 +19,7 @@ Defined in: [message-metadata.ts:95](https://github.com/slackapi/node-slack-sdk/
 ### display\_type?
 
 ```ts
-optional display_type: string;
+optional display_type?: string;
 ```
 
 Defined in: [message-metadata.ts:94](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L94)
@@ -29,7 +29,7 @@ Defined in: [message-metadata.ts:94](https://github.com/slackapi/node-slack-sdk/
 ### full\_size\_preview?
 
 ```ts
-optional full_size_preview: EntityFullSizePreview;
+optional full_size_preview?: EntityFullSizePreview;
 ```
 
 Defined in: [message-metadata.ts:99](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L99)
@@ -39,7 +39,7 @@ Defined in: [message-metadata.ts:99](https://github.com/slackapi/node-slack-sdk/
 ### locale?
 
 ```ts
-optional locale: string;
+optional locale?: string;
 ```
 
 Defined in: [message-metadata.ts:98](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L98)
@@ -49,7 +49,7 @@ Defined in: [message-metadata.ts:98](https://github.com/slackapi/node-slack-sdk/
 ### metadata\_last\_modified?
 
 ```ts
-optional metadata_last_modified: number;
+optional metadata_last_modified?: number;
 ```
 
 Defined in: [message-metadata.ts:100](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L100)
@@ -59,7 +59,7 @@ Defined in: [message-metadata.ts:100](https://github.com/slackapi/node-slack-sdk
 ### product\_icon?
 
 ```ts
-optional product_icon: EntityIconField;
+optional product_icon?: EntityIconField;
 ```
 
 Defined in: [message-metadata.ts:96](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L96)
@@ -69,7 +69,7 @@ Defined in: [message-metadata.ts:96](https://github.com/slackapi/node-slack-sdk/
 ### product\_name?
 
 ```ts
-optional product_name: string;
+optional product_name?: string;
 ```
 
 Defined in: [message-metadata.ts:97](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L97)
@@ -87,7 +87,7 @@ Defined in: [message-metadata.ts:90](https://github.com/slackapi/node-slack-sdk/
 #### edit?
 
 ```ts
-optional edit: EntityEditSupport;
+optional edit?: EntityEditSupport;
 ```
 
 #### text

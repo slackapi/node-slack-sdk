@@ -10,26 +10,44 @@ Defined in: [packages/web-api/src/types/response/ChatUnfurlResponse.ts:11](https
 
 ## Type Declaration
 
+### callstack?
+
+```ts
+optional callstack?: string;
+```
+
 ### error?
 
 ```ts
-optional error: string;
+optional error?: string;
 ```
 
 ### needed?
 
 ```ts
-optional needed: string;
+optional needed?: string;
 ```
 
 ### ok?
 
 ```ts
-optional ok: boolean;
+optional ok?: boolean;
 ```
 
 ### provided?
 
 ```ts
-optional provided: string;
+optional provided?: string;
+```
+
+### response\_metadata?
+
+```ts
+optional response_metadata?: ResponseMetadata;
+```
+
+### warning?
+
+```ts
+optional warning?: string;
 ```

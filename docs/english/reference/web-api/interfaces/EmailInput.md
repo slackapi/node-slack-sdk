@@ -2,7 +2,7 @@
 
 # Interface: EmailInput
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:106
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:120
 
 ## Description
 
@@ -22,7 +22,7 @@ Allows user to enter an email into a single-line field.
 ### action\_id?
 
 ```ts
-optional action_id: string;
+optional action_id?: string;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:12
@@ -40,7 +40,7 @@ among all other `action_id`s in the containing block. Maximum length for this fi
 ### dispatch\_action\_config?
 
 ```ts
-optional dispatch_action_config: DispatchActionConfig;
+optional dispatch_action_config?: DispatchActionConfig;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:28
@@ -59,7 +59,7 @@ A [DispatchActionConfig](DispatchActionConfig.md) object that determines when du
 ### focus\_on\_load?
 
 ```ts
-optional focus_on_load: boolean;
+optional focus_on_load?: boolean;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:36
@@ -79,10 +79,10 @@ Defaults to `false`.
 ### initial\_value?
 
 ```ts
-optional initial_value: string;
+optional initial_value?: string;
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:114
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:128
 
 #### Description
 
@@ -93,7 +93,7 @@ The initial value in the email input when it is loaded.
 ### placeholder?
 
 ```ts
-optional placeholder: PlainTextElement;
+optional placeholder?: PlainTextElement;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:49
@@ -115,7 +115,7 @@ length for the `text` field in this object is 150 characters.
 type: "email_text_input";
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:110
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:124
 
 #### Description
 

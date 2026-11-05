@@ -29,7 +29,7 @@ Defined in: [events/member.ts:5](https://github.com/slackapi/node-slack-sdk/blob
 ### enterprise?
 
 ```ts
-optional enterprise: string;
+optional enterprise?: string;
 ```
 
 Defined in: [events/member.ts:8](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/member.ts#L8)
@@ -49,7 +49,7 @@ Defined in: [events/member.ts:9](https://github.com/slackapi/node-slack-sdk/blob
 ### inviter?
 
 ```ts
-optional inviter: string;
+optional inviter?: string;
 ```
 
 Defined in: [events/member.ts:7](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/member.ts#L7)

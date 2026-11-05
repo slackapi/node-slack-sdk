@@ -33,7 +33,7 @@ ChannelID.channel_id
 ### name?
 
 ```ts
-optional name: string;
+optional name?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/admin/conversations.ts:59](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/conversations.ts#L59)
@@ -47,7 +47,7 @@ Name of private channel to create. Only respected when converting an MPIM.
 ### token?
 
 ```ts
-optional token: string;
+optional token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)

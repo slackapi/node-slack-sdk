@@ -17,7 +17,7 @@ Action aliased to [Actionable](Actionable.md) in order to name the mixins in thi
 ### ~~action\_id?~~
 
 ```ts
-optional action_id: string;
+optional action_id?: string;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:12

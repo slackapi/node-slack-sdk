@@ -10,56 +10,56 @@ Defined in: [packages/web-api/src/types/response/UsersListResponse.ts:11](https:
 
 ## Type Declaration
 
-### arg?
-
-```ts
-optional arg: string;
-```
-
 ### cache\_ts?
 
 ```ts
-optional cache_ts: number;
+optional cache_ts?: number;
 ```
 
 ### error?
 
 ```ts
-optional error: string;
+optional error?: string;
 ```
 
 ### members?
 
 ```ts
-optional members: Member[];
+optional members?: Member[];
 ```
 
 ### needed?
 
 ```ts
-optional needed: string;
+optional needed?: string;
 ```
 
 ### offset?
 
 ```ts
-optional offset: string;
+optional offset?: string;
 ```
 
 ### ok?
 
 ```ts
-optional ok: boolean;
+optional ok?: boolean;
 ```
 
 ### provided?
 
 ```ts
-optional provided: string;
+optional provided?: string;
 ```
 
 ### response\_metadata?
 
 ```ts
-optional response_metadata: ResponseMetadata;
+optional response_metadata?: ResponseMetadata;
+```
+
+### warning?
+
+```ts
+optional warning?: string;
 ```

@@ -13,35 +13,41 @@ Defined in: [packages/web-api/src/types/response/DndTeamInfoResponse.ts:11](http
 ### error?
 
 ```ts
-optional error: string;
+optional error?: string;
 ```
 
 ### needed?
 
 ```ts
-optional needed: string;
+optional needed?: string;
 ```
 
 ### ok?
 
 ```ts
-optional ok: boolean;
+optional ok?: boolean;
 ```
 
 ### provided?
 
 ```ts
-optional provided: string;
+optional provided?: string;
 ```
 
 ### users?
 
 ```ts
-optional users: object;
+optional users?: object;
 ```
 
 #### Index Signature
 
 ```ts
 [key: string]: User
+```
+
+### warning?
+
+```ts
+optional warning?: string;
 ```

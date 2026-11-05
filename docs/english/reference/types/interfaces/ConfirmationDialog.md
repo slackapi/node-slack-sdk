@@ -21,7 +21,7 @@ Defines a dialog that adds a confirmation step to interactive elements.
 ### confirm?
 
 ```ts
-optional confirm: PlainTextElement;
+optional confirm?: PlainTextElement;
 ```
 
 Defined in: [block-kit/composition-objects.ts:34](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/composition-objects.ts#L34)
@@ -40,7 +40,7 @@ Maximum length for the `text` in this field is 30 characters.
 ### deny?
 
 ```ts
-optional deny: PlainTextElement;
+optional deny?: PlainTextElement;
 ```
 
 Defined in: [block-kit/composition-objects.ts:39](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/composition-objects.ts#L39)
@@ -59,7 +59,7 @@ Maximum length for the `text` in this field is 30 characters.
 ### style?
 
 ```ts
-optional style: ColorScheme;
+optional style?: ColorScheme;
 ```
 
 Defined in: [block-kit/composition-objects.ts:45](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/composition-objects.ts#L45)
@@ -100,7 +100,7 @@ dialog. Maximum length for the `text` in this field is 300 characters.
 ### title?
 
 ```ts
-optional title: PlainTextElement;
+optional title?: PlainTextElement;
 ```
 
 Defined in: [block-kit/composition-objects.ts:24](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/composition-objects.ts#L24)

@@ -2,7 +2,7 @@
 
 # Interface: ContextBlock
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:125
+Defined in: packages/types/dist/block-kit/blocks.d.ts:238
 
 ## Description
 
@@ -21,7 +21,7 @@ Displays contextual info, which can include both images and text.
 ### block\_id?
 
 ```ts
-optional block_id: string;
+optional block_id?: string;
 ```
 
 Defined in: packages/types/dist/block-kit/blocks.d.ts:15
@@ -46,7 +46,7 @@ a message. If a message is updated, use a new `block_id`.
 elements: ContextBlockElement[];
 ```
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:134
+Defined in: packages/types/dist/block-kit/blocks.d.ts:247
 
 #### Description
 
@@ -61,7 +61,7 @@ Maximum number of items is 10.
 type: "context";
 ```
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:129
+Defined in: packages/types/dist/block-kit/blocks.d.ts:242
 
 #### Description
 

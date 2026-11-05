@@ -2,7 +2,7 @@
 
 # Interface: UserHuddleChangedEvent
 
-Defined in: [events/user.ts:85](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/user.ts#L85)
+Defined in: [events/user.ts:109](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/user.ts#L109)
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: [events/user.ts:85](https://github.com/slackapi/node-slack-sdk/blob/
 cache_ts: number;
 ```
 
-Defined in: [events/user.ts:164](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/user.ts#L164)
+Defined in: [events/user.ts:188](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/user.ts#L188)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [events/user.ts:164](https://github.com/slackapi/node-slack-sdk/blob
 event_ts: string;
 ```
 
-Defined in: [events/user.ts:165](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/user.ts#L165)
+Defined in: [events/user.ts:189](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/user.ts#L189)
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: [events/user.ts:165](https://github.com/slackapi/node-slack-sdk/blob
 type: "user_huddle_changed";
 ```
 
-Defined in: [events/user.ts:86](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/user.ts#L86)
+Defined in: [events/user.ts:110](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/user.ts#L110)
 
 ***
 
@@ -42,7 +42,7 @@ Defined in: [events/user.ts:86](https://github.com/slackapi/node-slack-sdk/blob/
 user: object;
 ```
 
-Defined in: [events/user.ts:87](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/user.ts#L87)
+Defined in: [events/user.ts:111](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/user.ts#L111)
 
 #### color
 
@@ -59,7 +59,7 @@ deleted: boolean;
 #### enterprise\_user?
 
 ```ts
-optional enterprise_user: object;
+optional enterprise_user?: object;
 ```
 
 ##### enterprise\_user.enterprise\_id
@@ -101,13 +101,13 @@ teams: string[];
 #### has\_2fa?
 
 ```ts
-optional has_2fa: boolean;
+optional has_2fa?: boolean;
 ```
 
 #### has\_files?
 
 ```ts
-optional has_files: boolean;
+optional has_files?: boolean;
 ```
 
 #### id
@@ -143,7 +143,7 @@ is_email_confirmed: boolean;
 #### is\_invited\_user?
 
 ```ts
-optional is_invited_user: boolean;
+optional is_invited_user?: boolean;
 ```
 
 #### is\_owner
@@ -167,7 +167,7 @@ is_restricted: boolean;
 #### is\_stranger?
 
 ```ts
-optional is_stranger: boolean;
+optional is_stranger?: boolean;
 ```
 
 #### is\_ultra\_restricted
@@ -179,7 +179,7 @@ is_ultra_restricted: boolean;
 #### is\_workflow\_bot?
 
 ```ts
-optional is_workflow_bot: boolean;
+optional is_workflow_bot?: boolean;
 ```
 
 #### locale
@@ -197,7 +197,7 @@ name: string;
 #### presence?
 
 ```ts
-optional presence: string;
+optional presence?: string;
 ```
 
 #### profile
@@ -227,7 +227,7 @@ display_name_normalized: string;
 ##### profile.email?
 
 ```ts
-optional email: string;
+optional email?: string;
 ```
 
 ##### profile.fields
@@ -256,7 +256,7 @@ huddle_state: string;
 ##### profile.huddle\_state\_call\_id?
 
 ```ts
-optional huddle_state_call_id: string;
+optional huddle_state_call_id?: string;
 ```
 
 ##### profile.huddle\_state\_expiration\_ts
@@ -268,7 +268,7 @@ huddle_state_expiration_ts: number;
 ##### profile.image\_1024?
 
 ```ts
-optional image_1024: string;
+optional image_1024?: string;
 ```
 
 ##### profile.image\_192
@@ -310,13 +310,13 @@ image_72: string;
 ##### profile.image\_original?
 
 ```ts
-optional image_original: string;
+optional image_original?: string;
 ```
 
 ##### profile.is\_custom\_image?
 
 ```ts
-optional is_custom_image: boolean;
+optional is_custom_image?: boolean;
 ```
 
 ##### profile.last\_name
@@ -406,7 +406,7 @@ team_id: string;
 #### two\_factor\_type?
 
 ```ts
-optional two_factor_type: string;
+optional two_factor_type?: string;
 ```
 
 #### tz

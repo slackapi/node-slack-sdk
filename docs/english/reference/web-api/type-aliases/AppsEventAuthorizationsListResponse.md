@@ -13,29 +13,35 @@ Defined in: [packages/web-api/src/types/response/AppsEventAuthorizationsListResp
 ### authorizations?
 
 ```ts
-optional authorizations: Authorization[];
+optional authorizations?: Authorization[];
 ```
 
 ### error?
 
 ```ts
-optional error: string;
+optional error?: string;
 ```
 
 ### needed?
 
 ```ts
-optional needed: string;
+optional needed?: string;
 ```
 
 ### ok?
 
 ```ts
-optional ok: boolean;
+optional ok?: boolean;
 ```
 
 ### provided?
 
 ```ts
-optional provided: string;
+optional provided?: string;
+```
+
+### warning?
+
+```ts
+optional warning?: string;
 ```

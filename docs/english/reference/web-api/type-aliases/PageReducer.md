@@ -1,6 +1,6 @@
 [@slack/web-api](../index.md) / PageReducer
 
-# Type Alias: PageReducer()\<A\>
+# Type Alias: PageReducer\<A\>
 
 ```ts
 type PageReducer<A> = (accumulator, page, index) => A;
@@ -18,7 +18,7 @@ Defined in: [packages/web-api/src/WebClient.ts:98](https://github.com/slackapi/n
 
 ### accumulator
 
-`A` | `undefined`
+`A` \| `undefined`
 
 ### page
 

@@ -13,7 +13,7 @@ Defined in: [packages/webhook/src/IncomingWebhook.ts:164](https://github.com/sla
 ### attachments?
 
 ```ts
-optional attachments: MessageAttachment[];
+optional attachments?: MessageAttachment[];
 ```
 
 Defined in: [packages/webhook/src/IncomingWebhook.ts:165](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/IncomingWebhook.ts#L165)
@@ -23,7 +23,7 @@ Defined in: [packages/webhook/src/IncomingWebhook.ts:165](https://github.com/sla
 ### blocks?
 
 ```ts
-optional blocks: (Block | KnownBlock)[];
+optional blocks?: (Block | KnownBlock)[];
 ```
 
 Defined in: [packages/webhook/src/IncomingWebhook.ts:166](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/IncomingWebhook.ts#L166)
@@ -33,7 +33,7 @@ Defined in: [packages/webhook/src/IncomingWebhook.ts:166](https://github.com/sla
 ### channel?
 
 ```ts
-optional channel: string;
+optional channel?: string;
 ```
 
 Defined in: [packages/webhook/src/IncomingWebhook.ts:156](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/IncomingWebhook.ts#L156)
@@ -47,7 +47,7 @@ Defined in: [packages/webhook/src/IncomingWebhook.ts:156](https://github.com/sla
 ### fetch?
 
 ```ts
-optional fetch: FetchFunction;
+optional fetch?: FetchFunction;
 ```
 
 Defined in: [packages/webhook/src/IncomingWebhook.ts:159](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/IncomingWebhook.ts#L159)
@@ -61,7 +61,7 @@ Defined in: [packages/webhook/src/IncomingWebhook.ts:159](https://github.com/sla
 ### icon\_emoji?
 
 ```ts
-optional icon_emoji: string;
+optional icon_emoji?: string;
 ```
 
 Defined in: [packages/webhook/src/IncomingWebhook.ts:154](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/IncomingWebhook.ts#L154)
@@ -75,7 +75,7 @@ Defined in: [packages/webhook/src/IncomingWebhook.ts:154](https://github.com/sla
 ### icon\_url?
 
 ```ts
-optional icon_url: string;
+optional icon_url?: string;
 ```
 
 Defined in: [packages/webhook/src/IncomingWebhook.ts:155](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/IncomingWebhook.ts#L155)
@@ -89,7 +89,7 @@ Defined in: [packages/webhook/src/IncomingWebhook.ts:155](https://github.com/sla
 ### link\_names?
 
 ```ts
-optional link_names: boolean;
+optional link_names?: boolean;
 ```
 
 Defined in: [packages/webhook/src/IncomingWebhook.ts:158](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/IncomingWebhook.ts#L158)
@@ -103,7 +103,7 @@ Defined in: [packages/webhook/src/IncomingWebhook.ts:158](https://github.com/sla
 ### metadata?
 
 ```ts
-optional metadata: object;
+optional metadata?: object;
 ```
 
 Defined in: [packages/webhook/src/IncomingWebhook.ts:169](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/IncomingWebhook.ts#L169)
@@ -125,7 +125,7 @@ event_type: string;
 ### retryConfig?
 
 ```ts
-optional retryConfig: RetryOptions;
+optional retryConfig?: RetryOptions;
 ```
 
 Defined in: [packages/webhook/src/IncomingWebhook.ts:161](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/IncomingWebhook.ts#L161)
@@ -139,7 +139,7 @@ Defined in: [packages/webhook/src/IncomingWebhook.ts:161](https://github.com/sla
 ### text?
 
 ```ts
-optional text: string;
+optional text?: string;
 ```
 
 Defined in: [packages/webhook/src/IncomingWebhook.ts:157](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/IncomingWebhook.ts#L157)
@@ -153,7 +153,7 @@ Defined in: [packages/webhook/src/IncomingWebhook.ts:157](https://github.com/sla
 ### timeout?
 
 ```ts
-optional timeout: number;
+optional timeout?: number;
 ```
 
 Defined in: [packages/webhook/src/IncomingWebhook.ts:160](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/IncomingWebhook.ts#L160)
@@ -167,7 +167,7 @@ Defined in: [packages/webhook/src/IncomingWebhook.ts:160](https://github.com/sla
 ### unfurl\_links?
 
 ```ts
-optional unfurl_links: boolean;
+optional unfurl_links?: boolean;
 ```
 
 Defined in: [packages/webhook/src/IncomingWebhook.ts:167](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/IncomingWebhook.ts#L167)
@@ -177,7 +177,7 @@ Defined in: [packages/webhook/src/IncomingWebhook.ts:167](https://github.com/sla
 ### unfurl\_media?
 
 ```ts
-optional unfurl_media: boolean;
+optional unfurl_media?: boolean;
 ```
 
 Defined in: [packages/webhook/src/IncomingWebhook.ts:168](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/IncomingWebhook.ts#L168)
@@ -187,7 +187,7 @@ Defined in: [packages/webhook/src/IncomingWebhook.ts:168](https://github.com/sla
 ### username?
 
 ```ts
-optional username: string;
+optional username?: string;
 ```
 
 Defined in: [packages/webhook/src/IncomingWebhook.ts:153](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/IncomingWebhook.ts#L153)

@@ -13,4 +13,5 @@ export type AdminUsersSessionResetResponse = WebAPICallResult & {
   needed?: string;
   ok?: boolean;
   provided?: string;
+  warning?: string;
 };

@@ -1,5 +1,44 @@
 # @slack/socket-mode
 
+## 3.1.1
+
+### Patch Changes
+
+- b0706c6: Fix Events API dispatch for payloads without an inner event, including app_rate_limited. Keep malformed payloads available to generic slack_event listeners for acknowledgement.
+- 8730b5e: Fix an orphaned close-handshake timer ([#2771](https://github.com/slackapi/node-slack-sdk/issues/2771)). When the connection closed while a close frame was in flight, the 30s timer armed by `disconnect()` outlived the connection, then logged a false "Peer did not complete the close handshake" warning and emitted a second `close`, which could start a duplicate reconnect.
+  - `disconnect()` on an already closed socket now cleans up immediately instead of sending a close frame and arming a second timer. This is the path when Slack drops the TCP connection after a `disconnect` message.
+  - `disconnect()` before the connection opens no longer leaves the timer behind: undici fails a connecting socket synchronously inside `close()`, so the timer is now armed before it.
+- Updated dependencies [604135c]
+- Updated dependencies [bf3ca27]
+- Updated dependencies [28bd9f9]
+- Updated dependencies [4483395]
+- Updated dependencies [651c298]
+- Updated dependencies [9c6893e]
+  - @slack/web-api@8.3.0
+
+## 3.1.0
+
+### Minor Changes
+
+- 334e6a6: Support `undici@^8` as a peer dependency in addition to `undici@^7`. `undici@^8` requires Node.js >=22.19; `undici@^7` continues to support Node.js >=20.
+
+  The default dispatcher now pins the WebSocket connection to HTTP/1.1, since `undici@^8` offers HTTP/2 by default. To do the same with a custom `ProxyAgent` dispatcher, pass `requestTls: { allowH2: false }`.
+
+### Patch Changes
+
+- e22facd: fix(socket-mode): stop spurious ping/pong WARN from other undici WebSockets ([#2743](https://github.com/slackapi/node-slack-sdk/issues/2743)). Route diagnostics frames by reference identity instead of `instanceof`, which failed across undici copies (e.g. Node's global `WebSocket`).
+- Updated dependencies [c523063]
+  - @slack/web-api@8.2.0
+
+## 3.0.1
+
+### Patch Changes
+
+- 5c2362c: Fix leaked TCP sockets on disconnect ([#2709](https://github.com/slackapi/node-slack-sdk/issues/2709)). Moving from `ws` to undici's `WebSocket` in 3.0.0 dropped every force-close mechanism, so `ESTABLISHED` sockets were never torn down and accumulated toward Slack's per-app connection cap.
+  - `disconnect()` now arms a 30s close-handshake timeout, so a peer that never replies to the close frame no longer leaves the socket stuck in `CLOSING` indefinitely.
+  - On the default dispatcher path, the underlying TCP socket is now captured and force-destroyed during cleanup. A user-supplied `dispatcher` owns its own socket and instead relies on the close-handshake timeout — this limitation is documented on the `dispatcher` option.
+  - The `close` handler no longer schedules a reconnect on stale or overlapping close events, so at most one reconnect is scheduled per disconnect.
+
 ## 3.0.0
 
 ### Major Changes
@@ -10,7 +49,6 @@
   **Migration:** Replace `if (error.code === ErrorCode.WebsocketError)` with `if (error instanceof SMWebsocketError)`.
 
   **New error classes** (all extend a common `SlackSocketModeError` abstract base class, which extends `Error`):
-
   - `SMPlatformError` — Slack platform returned an error event
   - `SMWebsocketError` — WebSocket connection failure (original error in `cause`)
   - `SMNoReplyReceivedError` — Timed out waiting for a reply to an acknowledgement
@@ -20,7 +58,6 @@
   Catch any socket-mode error with `if (error instanceof SlackSocketModeError)`.
 
   **Removed factory functions** (use `new` with the corresponding class instead):
-
   - `websocketErrorWithOriginal()` → `new SMWebsocketError(original)`
   - `platformErrorFromEvent()` → `new SMPlatformError(event)`
   - `noReplyReceivedError()` → `new SMNoReplyReceivedError()`
@@ -36,7 +73,6 @@
   ```
 
   **Removed options:**
-
   - **`clientOptions.agent`** (the `httpAgent` passed to the underlying web-api client). Use the new top-level `dispatcher` option instead. The dispatcher handles both the WebSocket connection and HTTP API calls (unless `clientOptions.fetch` is also provided, in which case `dispatcher` only applies to WebSocket).
 
   **New `dispatcher` option:**

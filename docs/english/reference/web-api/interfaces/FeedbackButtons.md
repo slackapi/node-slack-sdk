@@ -2,7 +2,7 @@
 
 # Interface: FeedbackButtons
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:119
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:133
 
 ## Description
 
@@ -17,7 +17,7 @@ Buttons to indicate positive or negative feedback.
 ### action\_id?
 
 ```ts
-optional action_id: string;
+optional action_id?: string;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:12
@@ -38,12 +38,12 @@ among all other `action_id`s in the containing block. Maximum length for this fi
 negative_button: object;
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:148
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:162
 
 #### accessibility\_label?
 
 ```ts
-optional accessibility_label: string;
+optional accessibility_label?: string;
 ```
 
 ##### Description
@@ -90,12 +90,12 @@ A button to indicate negative feedback.
 positive_button: object;
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:129
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:143
 
 #### accessibility\_label?
 
 ```ts
-optional accessibility_label: string;
+optional accessibility_label?: string;
 ```
 
 ##### Description
@@ -142,7 +142,7 @@ A button to indicate positive feedback.
 type: "feedback_buttons";
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:124
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:138
 
 #### Description
 

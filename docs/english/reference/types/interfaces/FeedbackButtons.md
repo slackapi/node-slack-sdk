@@ -2,7 +2,7 @@
 
 # Interface: FeedbackButtons
 
-Defined in: [block-kit/block-elements.ts:144](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L144)
+Defined in: [block-kit/block-elements.ts:158](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L158)
 
 ## Description
 
@@ -17,7 +17,7 @@ Buttons to indicate positive or negative feedback.
 ### action\_id?
 
 ```ts
-optional action_id: string;
+optional action_id?: string;
 ```
 
 Defined in: [block-kit/extensions.ts:15](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/extensions.ts#L15)
@@ -38,12 +38,12 @@ among all other `action_id`s in the containing block. Maximum length for this fi
 negative_button: object;
 ```
 
-Defined in: [block-kit/block-elements.ts:173](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L173)
+Defined in: [block-kit/block-elements.ts:187](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L187)
 
 #### accessibility\_label?
 
 ```ts
-optional accessibility_label: string;
+optional accessibility_label?: string;
 ```
 
 ##### Description
@@ -90,12 +90,12 @@ A button to indicate negative feedback.
 positive_button: object;
 ```
 
-Defined in: [block-kit/block-elements.ts:154](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L154)
+Defined in: [block-kit/block-elements.ts:168](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L168)
 
 #### accessibility\_label?
 
 ```ts
-optional accessibility_label: string;
+optional accessibility_label?: string;
 ```
 
 ##### Description
@@ -142,7 +142,7 @@ A button to indicate positive feedback.
 type: "feedback_buttons";
 ```
 
-Defined in: [block-kit/block-elements.ts:149](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L149)
+Defined in: [block-kit/block-elements.ts:163](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L163)
 
 #### Description
 

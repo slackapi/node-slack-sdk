@@ -2,7 +2,7 @@
 
 # Interface: RichTextUserMention
 
-Defined in: [block-kit/block-elements.ts:951](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L951)
+Defined in: [block-kit/block-elements.ts:965](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L965)
 
 ## Description
 
@@ -17,7 +17,7 @@ A user mention element for use in a rich text message.
 ### style?
 
 ```ts
-optional style: object;
+optional style?: object;
 ```
 
 Defined in: [block-kit/extensions.ts:86](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/extensions.ts#L86)
@@ -25,7 +25,7 @@ Defined in: [block-kit/extensions.ts:86](https://github.com/slackapi/node-slack-
 #### bold?
 
 ```ts
-optional bold: boolean;
+optional bold?: boolean;
 ```
 
 ##### Description
@@ -35,7 +35,7 @@ When `true`, boldens the text in this element. Defaults to `false`.
 #### code?
 
 ```ts
-optional code: boolean;
+optional code?: boolean;
 ```
 
 ##### Description
@@ -45,7 +45,7 @@ When `true`, the text is preformatted in an inline code style. Defaults to `fals
 #### italic?
 
 ```ts
-optional italic: boolean;
+optional italic?: boolean;
 ```
 
 ##### Description
@@ -55,7 +55,7 @@ When `true`, italicizes the text in this element. Defaults to `false`.
 #### strike?
 
 ```ts
-optional strike: boolean;
+optional strike?: boolean;
 ```
 
 ##### Description
@@ -65,7 +65,7 @@ When `true`, strikes through the text in this element. Defaults to `false`.
 #### underline?
 
 ```ts
-optional underline: boolean;
+optional underline?: boolean;
 ```
 
 ##### Description
@@ -88,7 +88,7 @@ A limited style object for styling rich text `text` elements.
 type: "user";
 ```
 
-Defined in: [block-kit/block-elements.ts:955](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L955)
+Defined in: [block-kit/block-elements.ts:969](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L969)
 
 #### Description
 
@@ -102,7 +102,7 @@ The type of element. In this case `type` is always `user`.
 user_id: string;
 ```
 
-Defined in: [block-kit/block-elements.ts:959](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L959)
+Defined in: [block-kit/block-elements.ts:973](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L973)
 
 #### Description
 

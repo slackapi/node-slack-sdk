@@ -13,7 +13,7 @@ Defined in: [packages/web-api/src/types/request/entity.ts:5](https://github.com/
 ### error?
 
 ```ts
-optional error: object;
+optional error?: object;
 ```
 
 #### Description
@@ -23,7 +23,7 @@ Error response preventing flexpane data from being returned.
 #### error.actions?
 
 ```ts
-optional actions: EntityActionButton[];
+optional actions?: EntityActionButton[];
 ```
 
 ##### Description
@@ -33,7 +33,7 @@ Set of action buttons to be shown in case of a specific error.
 #### error.custom\_message?
 
 ```ts
-optional custom_message: string;
+optional custom_message?: string;
 ```
 
 ##### Description
@@ -43,7 +43,7 @@ If status is 'custom', you can use this field to provide a message to the client
 #### error.custom\_title?
 
 ```ts
-optional custom_title: string;
+optional custom_title?: string;
 ```
 
 ##### Description
@@ -53,7 +53,7 @@ If status is 'custom', you can use this field to provide a title to the client.
 #### error.message\_format?
 
 ```ts
-optional message_format: string;
+optional message_format?: string;
 ```
 
 ##### Description
@@ -73,7 +73,7 @@ Error status indicating why the entity could not be presented.
 ### metadata?
 
 ```ts
-optional metadata: EntityMetadata;
+optional metadata?: EntityMetadata;
 ```
 
 #### Description
@@ -93,7 +93,7 @@ A reference to the original user action that initated the request.
 ### user\_auth\_required?
 
 ```ts
-optional user_auth_required: boolean;
+optional user_auth_required?: boolean;
 ```
 
 #### Description
@@ -104,7 +104,7 @@ Set user_auth_required to true to indicate that the user must authenticate to vi
 ### user\_auth\_url?
 
 ```ts
-optional user_auth_url: string;
+optional user_auth_url?: string;
 ```
 
 #### Description

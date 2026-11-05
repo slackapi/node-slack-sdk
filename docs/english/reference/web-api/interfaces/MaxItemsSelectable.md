@@ -17,7 +17,7 @@ Defined in: packages/types/dist/block-kit/extensions.d.ts:38
 ### max\_selected\_items?
 
 ```ts
-optional max_selected_items: number;
+optional max_selected_items?: number;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:42

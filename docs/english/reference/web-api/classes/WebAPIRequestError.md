@@ -37,7 +37,7 @@ Defined in: [packages/web-api/src/errors.ts:52](https://github.com/slackapi/node
 ### cause?
 
 ```ts
-optional cause: unknown;
+optional cause?: unknown;
 ```
 
 Defined in: node\_modules/typescript/lib/lib.es2022.error.d.ts:26
@@ -103,7 +103,7 @@ Defined in: [packages/web-api/src/errors.ts:50](https://github.com/slackapi/node
 ### stack?
 
 ```ts
-optional stack: string;
+optional stack?: string;
 ```
 
 Defined in: node\_modules/typescript/lib/lib.es5.d.ts:1078

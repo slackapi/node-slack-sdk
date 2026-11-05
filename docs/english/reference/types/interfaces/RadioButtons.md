@@ -2,7 +2,7 @@
 
 # Interface: RadioButtons
 
-Defined in: [block-kit/block-elements.ts:648](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L648)
+Defined in: [block-kit/block-elements.ts:662](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L662)
 
 ## Description
 
@@ -22,7 +22,7 @@ Allows users to choose one item from a list of possible options.
 ### action\_id?
 
 ```ts
-optional action_id: string;
+optional action_id?: string;
 ```
 
 Defined in: [block-kit/extensions.ts:15](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/extensions.ts#L15)
@@ -40,7 +40,7 @@ among all other `action_id`s in the containing block. Maximum length for this fi
 ### confirm?
 
 ```ts
-optional confirm: ConfirmationDialog;
+optional confirm?: ConfirmationDialog;
 ```
 
 Defined in: [block-kit/extensions.ts:25](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/extensions.ts#L25)
@@ -59,7 +59,7 @@ with.
 ### focus\_on\_load?
 
 ```ts
-optional focus_on_load: boolean;
+optional focus_on_load?: boolean;
 ```
 
 Defined in: [block-kit/extensions.ts:42](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/extensions.ts#L42)
@@ -79,10 +79,10 @@ Defaults to `false`.
 ### initial\_option?
 
 ```ts
-optional initial_option: Option;
+optional initial_option?: Option;
 ```
 
-Defined in: [block-kit/block-elements.ts:657](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L657)
+Defined in: [block-kit/block-elements.ts:671](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L671)
 
 #### Description
 
@@ -97,7 +97,7 @@ be selected when the radio button group initially loads.
 options: Option[];
 ```
 
-Defined in: [block-kit/block-elements.ts:661](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L661)
+Defined in: [block-kit/block-elements.ts:675](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L675)
 
 #### Description
 
@@ -111,7 +111,7 @@ An array of [Option](../type-aliases/Option.md) objects. A maximum of 10 options
 type: "radio_buttons";
 ```
 
-Defined in: [block-kit/block-elements.ts:652](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L652)
+Defined in: [block-kit/block-elements.ts:666](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L666)
 
 #### Description
 

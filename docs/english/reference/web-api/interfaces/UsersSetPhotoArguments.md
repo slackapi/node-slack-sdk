@@ -13,7 +13,7 @@ Defined in: [packages/web-api/src/types/request/users.ts:50](https://github.com/
 ### crop\_w?
 
 ```ts
-optional crop_w: number;
+optional crop_w?: number;
 ```
 
 Defined in: [packages/web-api/src/types/request/users.ts:54](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/users.ts#L54)
@@ -27,7 +27,7 @@ Width/height of crop box (always square).
 ### crop\_x?
 
 ```ts
-optional crop_x: number;
+optional crop_x?: number;
 ```
 
 Defined in: [packages/web-api/src/types/request/users.ts:56](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/users.ts#L56)
@@ -41,7 +41,7 @@ X coordinate of top-left corner of crop box.
 ### crop\_y?
 
 ```ts
-optional crop_y: number;
+optional crop_y?: number;
 ```
 
 Defined in: [packages/web-api/src/types/request/users.ts:58](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/users.ts#L58)
@@ -69,7 +69,7 @@ Image file contents.
 ### token?
 
 ```ts
-optional token: string;
+optional token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)

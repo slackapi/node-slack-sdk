@@ -13,7 +13,7 @@ Defined in: [block-kit/composition-objects.ts:88](https://github.com/slackapi/no
 ### description?
 
 ```ts
-optional description: PlainTextElement;
+optional description?: PlainTextElement;
 ```
 
 Defined in: [block-kit/composition-objects.ts:85](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/composition-objects.ts#L85)
@@ -49,7 +49,7 @@ radio buttons and checkboxes. Maximum length for the `text` in this field is 75 
 ### url?
 
 ```ts
-optional url: string;
+optional url?: string;
 ```
 
 Defined in: [block-kit/composition-objects.ts:80](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/composition-objects.ts#L80)
@@ -70,7 +70,7 @@ OptionDescriptor.url
 ### value?
 
 ```ts
-optional value: string;
+optional value?: string;
 ```
 
 Defined in: [block-kit/composition-objects.ts:75](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/composition-objects.ts#L75)

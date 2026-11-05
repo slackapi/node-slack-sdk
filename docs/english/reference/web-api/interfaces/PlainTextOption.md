@@ -13,7 +13,7 @@ Defined in: packages/types/dist/block-kit/composition-objects.d.ts:87
 ### description?
 
 ```ts
-optional description: PlainTextElement;
+optional description?: PlainTextElement;
 ```
 
 Defined in: packages/types/dist/block-kit/composition-objects.d.ts:78
@@ -49,7 +49,7 @@ overflow, select and multi-select menus. Maximum length for the `text` in this f
 ### url?
 
 ```ts
-optional url: string;
+optional url?: string;
 ```
 
 Defined in: packages/types/dist/block-kit/composition-objects.d.ts:73
@@ -70,7 +70,7 @@ OptionDescriptor.url
 ### value?
 
 ```ts
-optional value: string;
+optional value?: string;
 ```
 
 Defined in: packages/types/dist/block-kit/composition-objects.d.ts:68

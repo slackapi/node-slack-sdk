@@ -13,25 +13,25 @@ Defined in: [packages/web-api/src/types/response/EmojiListResponse.ts:11](https:
 ### cache\_ts?
 
 ```ts
-optional cache_ts: string;
+optional cache_ts?: string;
 ```
 
 ### categories?
 
 ```ts
-optional categories: Category[];
+optional categories?: Category[];
 ```
 
 ### categories\_version?
 
 ```ts
-optional categories_version: string;
+optional categories_version?: string;
 ```
 
 ### emoji?
 
 ```ts
-optional emoji: object;
+optional emoji?: object;
 ```
 
 #### Index Signature
@@ -43,23 +43,29 @@ optional emoji: object;
 ### error?
 
 ```ts
-optional error: string;
+optional error?: string;
 ```
 
 ### needed?
 
 ```ts
-optional needed: string;
+optional needed?: string;
 ```
 
 ### ok?
 
 ```ts
-optional ok: boolean;
+optional ok?: boolean;
 ```
 
 ### provided?
 
 ```ts
-optional provided: string;
+optional provided?: string;
+```
+
+### warning?
+
+```ts
+optional warning?: string;
 ```

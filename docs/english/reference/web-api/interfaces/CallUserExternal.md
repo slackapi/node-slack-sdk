@@ -9,7 +9,7 @@ Defined in: packages/types/dist/calls.d.ts:12
 ### avatar\_url?
 
 ```ts
-optional avatar_url: string;
+optional avatar_url?: string;
 ```
 
 Defined in: packages/types/dist/calls.d.ts:24

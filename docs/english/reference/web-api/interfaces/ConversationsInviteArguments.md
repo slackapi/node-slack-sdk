@@ -33,7 +33,7 @@ Channel.channel
 ### force?
 
 ```ts
-optional force: boolean;
+optional force?: boolean;
 ```
 
 Defined in: [packages/web-api/src/types/request/conversations.ts:114](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/conversations.ts#L114)
@@ -48,7 +48,7 @@ disregarding invalid IDs. Defaults to `false`.
 ### token?
 
 ```ts
-optional token: string;
+optional token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)

@@ -39,7 +39,7 @@ BaseView.blocks
 ### ~~callback\_id?~~
 
 ```ts
-optional callback_id: string;
+optional callback_id?: string;
 ```
 
 Defined in: packages/types/dist/views.d.ts:18
@@ -64,7 +64,7 @@ BaseView.callback_id
 ### ~~external\_id?~~
 
 ```ts
-optional external_id: string;
+optional external_id?: string;
 ```
 
 Defined in: packages/types/dist/views.d.ts:20
@@ -84,7 +84,7 @@ BaseView.external_id
 ### ~~private\_metadata?~~
 
 ```ts
-optional private_metadata: string;
+optional private_metadata?: string;
 ```
 
 Defined in: packages/types/dist/views.d.ts:12
@@ -107,7 +107,7 @@ BaseView.private_metadata
 ### ~~submit\_disabled?~~
 
 ```ts
-optional submit_disabled: boolean;
+optional submit_disabled?: boolean;
 ```
 
 Defined in: packages/types/dist/views.d.ts:67

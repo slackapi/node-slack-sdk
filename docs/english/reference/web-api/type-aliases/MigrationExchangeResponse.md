@@ -13,49 +13,49 @@ Defined in: [packages/web-api/src/types/response/MigrationExchangeResponse.ts:11
 ### enterprise\_id?
 
 ```ts
-optional enterprise_id: string;
+optional enterprise_id?: string;
 ```
 
 ### error?
 
 ```ts
-optional error: string;
+optional error?: string;
 ```
 
 ### invalid\_user\_ids?
 
 ```ts
-optional invalid_user_ids: string[];
+optional invalid_user_ids?: string[];
 ```
 
 ### needed?
 
 ```ts
-optional needed: string;
+optional needed?: string;
 ```
 
 ### ok?
 
 ```ts
-optional ok: boolean;
+optional ok?: boolean;
 ```
 
 ### provided?
 
 ```ts
-optional provided: string;
+optional provided?: string;
 ```
 
 ### team\_id?
 
 ```ts
-optional team_id: string;
+optional team_id?: string;
 ```
 
 ### user\_id\_map?
 
 ```ts
-optional user_id_map: object;
+optional user_id_map?: object;
 ```
 
 #### Index Signature
@@ -67,5 +67,5 @@ optional user_id_map: object;
 ### warning?
 
 ```ts
-optional warning: string;
+optional warning?: string;
 ```

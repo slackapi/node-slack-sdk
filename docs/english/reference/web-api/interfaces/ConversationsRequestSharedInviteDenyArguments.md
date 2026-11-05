@@ -33,7 +33,7 @@ InviteID.invite_id
 ### message?
 
 ```ts
-optional message: string;
+optional message?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/conversations.ts:40](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/conversations.ts#L40)
@@ -53,7 +53,7 @@ Message.message
 ### token?
 
 ```ts
-optional token: string;
+optional token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)

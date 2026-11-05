@@ -2,7 +2,7 @@
 
 # Interface: MultiChannelsSelect
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:428
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:442
 
 ## Description
 
@@ -23,7 +23,7 @@ user in the active workspace.
 ### action\_id?
 
 ```ts
-optional action_id: string;
+optional action_id?: string;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:12
@@ -41,7 +41,7 @@ among all other `action_id`s in the containing block. Maximum length for this fi
 ### confirm?
 
 ```ts
-optional confirm: ConfirmationDialog;
+optional confirm?: ConfirmationDialog;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:21
@@ -60,7 +60,7 @@ with.
 ### focus\_on\_load?
 
 ```ts
-optional focus_on_load: boolean;
+optional focus_on_load?: boolean;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:36
@@ -80,10 +80,10 @@ Defaults to `false`.
 ### initial\_channels?
 
 ```ts
-optional initial_channels: string[];
+optional initial_channels?: string[];
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:436
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:450
 
 #### Description
 
@@ -94,7 +94,7 @@ An array of one or more IDs of any valid public channel to be pre-selected when 
 ### max\_selected\_items?
 
 ```ts
-optional max_selected_items: number;
+optional max_selected_items?: number;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:42
@@ -112,7 +112,7 @@ Specifies the maximum number of items that can be selected. Minimum number is 1.
 ### placeholder?
 
 ```ts
-optional placeholder: PlainTextElement;
+optional placeholder?: PlainTextElement;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:49
@@ -134,7 +134,7 @@ length for the `text` field in this object is 150 characters.
 type: "multi_channels_select";
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:432
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:446
 
 #### Description
 

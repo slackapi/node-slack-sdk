@@ -9,7 +9,7 @@ Defined in: [events/file.ts:30](https://github.com/slackapi/node-slack-sdk/blob/
 ### channel\_ids?
 
 ```ts
-optional channel_ids: string[];
+optional channel_ids?: string[];
 ```
 
 Defined in: [events/file.ts:33](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/file.ts#L33)

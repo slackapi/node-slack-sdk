@@ -13,35 +13,41 @@ Defined in: [packages/web-api/src/types/response/AppsManifestUpdateResponse.ts:1
 ### app\_id?
 
 ```ts
-optional app_id: string;
+optional app_id?: string;
 ```
 
 ### error?
 
 ```ts
-optional error: string;
+optional error?: string;
 ```
 
 ### needed?
 
 ```ts
-optional needed: string;
+optional needed?: string;
 ```
 
 ### ok?
 
 ```ts
-optional ok: boolean;
+optional ok?: boolean;
 ```
 
 ### permissions\_updated?
 
 ```ts
-optional permissions_updated: boolean;
+optional permissions_updated?: boolean;
 ```
 
 ### provided?
 
 ```ts
-optional provided: string;
+optional provided?: string;
+```
+
+### warning?
+
+```ts
+optional warning?: string;
 ```

@@ -21,7 +21,7 @@ Displays alerts, warnings, and informational messages.
 ### block\_id?
 
 ```ts
-optional block_id: string;
+optional block_id?: string;
 ```
 
 Defined in: packages/types/dist/block-kit/blocks.d.ts:15
@@ -43,7 +43,7 @@ a message. If a message is updated, use a new `block_id`.
 ### level?
 
 ```ts
-optional level: "default" | "info" | "warning" | "error" | "success";
+optional level?: "default" | "info" | "warning" | "error" | "success";
 ```
 
 Defined in: packages/types/dist/block-kit/blocks.d.ts:63

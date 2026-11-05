@@ -2,7 +2,7 @@
 
 # Interface: FileInput
 
-Defined in: [block-kit/block-elements.ts:195](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L195)
+Defined in: [block-kit/block-elements.ts:209](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L209)
 
 ## Description
 
@@ -22,7 +22,7 @@ your app must have the `files:read` scope.
 ### action\_id?
 
 ```ts
-optional action_id: string;
+optional action_id?: string;
 ```
 
 Defined in: [block-kit/extensions.ts:15](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/extensions.ts#L15)
@@ -40,10 +40,10 @@ among all other `action_id`s in the containing block. Maximum length for this fi
 ### filetypes?
 
 ```ts
-optional filetypes: string[];
+optional filetypes?: string[];
 ```
 
-Defined in: [block-kit/block-elements.ts:205](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L205)
+Defined in: [block-kit/block-elements.ts:219](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L219)
 
 #### Description
 
@@ -56,10 +56,10 @@ for convenience only, and you should perform your own file type validation based
 ### max\_files?
 
 ```ts
-optional max_files: number;
+optional max_files?: number;
 ```
 
-Defined in: [block-kit/block-elements.ts:210](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L210)
+Defined in: [block-kit/block-elements.ts:224](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L224)
 
 #### Description
 
@@ -74,7 +74,7 @@ Maximum number of files that can be uploaded for this `file_input` element. Mini
 type: "file_input";
 ```
 
-Defined in: [block-kit/block-elements.ts:199](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L199)
+Defined in: [block-kit/block-elements.ts:213](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L213)
 
 #### Description
 

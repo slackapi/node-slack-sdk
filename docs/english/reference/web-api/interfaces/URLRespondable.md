@@ -14,7 +14,7 @@ Defined in: packages/types/dist/block-kit/extensions.d.ts:51
 ### response\_url\_enabled?
 
 ```ts
-optional response_url_enabled: boolean;
+optional response_url_enabled?: boolean;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:58

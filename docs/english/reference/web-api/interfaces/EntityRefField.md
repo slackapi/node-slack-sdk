@@ -9,7 +9,7 @@ Defined in: packages/types/dist/message-metadata.d.ts:203
 ### display\_type?
 
 ```ts
-optional display_type: string;
+optional display_type?: string;
 ```
 
 Defined in: packages/types/dist/message-metadata.d.ts:207
@@ -39,7 +39,7 @@ Defined in: packages/types/dist/message-metadata.d.ts:205
 ### icon?
 
 ```ts
-optional icon: EntityIconField;
+optional icon?: EntityIconField;
 ```
 
 Defined in: packages/types/dist/message-metadata.d.ts:208

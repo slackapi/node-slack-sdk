@@ -33,7 +33,7 @@ ChannelAndTS.channel
 ### chunks?
 
 ```ts
-optional chunks: AnyChunk[];
+optional chunks?: AnyChunk[];
 ```
 
 Defined in: [packages/web-api/src/types/request/chat.ts:177](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L177)
@@ -48,7 +48,7 @@ Either `markdown_text` or `chunks` is required.
 ### markdown\_text?
 
 ```ts
-optional markdown_text: string;
+optional markdown_text?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/chat.ts:63](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L63)
@@ -74,7 +74,7 @@ Partial.markdown_text
 ### token?
 
 ```ts
-optional token: string;
+optional token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)

@@ -2,7 +2,7 @@
 
 # Interface: Datepicker
 
-Defined in: [block-kit/block-elements.ts:92](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L92)
+Defined in: [block-kit/block-elements.ts:106](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L106)
 
 ## Description
 
@@ -22,7 +22,7 @@ Allows users to select a date from a calendar style UI.
 ### action\_id?
 
 ```ts
-optional action_id: string;
+optional action_id?: string;
 ```
 
 Defined in: [block-kit/extensions.ts:15](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/extensions.ts#L15)
@@ -40,7 +40,7 @@ among all other `action_id`s in the containing block. Maximum length for this fi
 ### confirm?
 
 ```ts
-optional confirm: ConfirmationDialog;
+optional confirm?: ConfirmationDialog;
 ```
 
 Defined in: [block-kit/extensions.ts:25](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/extensions.ts#L25)
@@ -59,7 +59,7 @@ with.
 ### focus\_on\_load?
 
 ```ts
-optional focus_on_load: boolean;
+optional focus_on_load?: boolean;
 ```
 
 Defined in: [block-kit/extensions.ts:42](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/extensions.ts#L42)
@@ -79,10 +79,10 @@ Defaults to `false`.
 ### initial\_date?
 
 ```ts
-optional initial_date: string;
+optional initial_date?: string;
 ```
 
-Defined in: [block-kit/block-elements.ts:101](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L101)
+Defined in: [block-kit/block-elements.ts:115](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L115)
 
 #### Description
 
@@ -94,7 +94,7 @@ This should be in the format `YYYY-MM-DD`.
 ### placeholder?
 
 ```ts
-optional placeholder: PlainTextElement;
+optional placeholder?: PlainTextElement;
 ```
 
 Defined in: [block-kit/extensions.ts:57](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/extensions.ts#L57)
@@ -116,7 +116,7 @@ length for the `text` field in this object is 150 characters.
 type: "datepicker";
 ```
 
-Defined in: [block-kit/block-elements.ts:96](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L96)
+Defined in: [block-kit/block-elements.ts:110](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L110)
 
 #### Description
 

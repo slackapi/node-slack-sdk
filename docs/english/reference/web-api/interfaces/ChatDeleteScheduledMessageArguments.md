@@ -13,7 +13,7 @@ Defined in: [packages/web-api/src/types/request/chat.ts:184](https://github.com/
 ### as\_user?
 
 ```ts
-optional as_user: boolean;
+optional as_user?: boolean;
 ```
 
 Defined in: [packages/web-api/src/types/request/chat.ts:38](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L38)
@@ -69,7 +69,7 @@ The `scheduled_message_id` returned from call to [\`chat.scheduleMessage\`](http
 ### token?
 
 ```ts
-optional token: string;
+optional token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)

@@ -2,7 +2,7 @@
 
 # Interface: RichTextBroadcastMention
 
-Defined in: [block-kit/block-elements.ts:791](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L791)
+Defined in: [block-kit/block-elements.ts:805](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L805)
 
 ## Description
 
@@ -20,7 +20,7 @@ A broadcast mention element for use in a rich text message.
 range: "here" | "channel" | "everyone";
 ```
 
-Defined in: [block-kit/block-elements.ts:799](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L799)
+Defined in: [block-kit/block-elements.ts:813](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L813)
 
 #### Description
 
@@ -31,7 +31,7 @@ The range of the broadcast; can be one of `here`, `channel` and `everyone`.
 ### style?
 
 ```ts
-optional style: object;
+optional style?: object;
 ```
 
 Defined in: [block-kit/extensions.ts:86](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/extensions.ts#L86)
@@ -39,7 +39,7 @@ Defined in: [block-kit/extensions.ts:86](https://github.com/slackapi/node-slack-
 #### bold?
 
 ```ts
-optional bold: boolean;
+optional bold?: boolean;
 ```
 
 ##### Description
@@ -49,7 +49,7 @@ When `true`, boldens the text in this element. Defaults to `false`.
 #### code?
 
 ```ts
-optional code: boolean;
+optional code?: boolean;
 ```
 
 ##### Description
@@ -59,7 +59,7 @@ When `true`, the text is preformatted in an inline code style. Defaults to `fals
 #### italic?
 
 ```ts
-optional italic: boolean;
+optional italic?: boolean;
 ```
 
 ##### Description
@@ -69,7 +69,7 @@ When `true`, italicizes the text in this element. Defaults to `false`.
 #### strike?
 
 ```ts
-optional strike: boolean;
+optional strike?: boolean;
 ```
 
 ##### Description
@@ -79,7 +79,7 @@ When `true`, strikes through the text in this element. Defaults to `false`.
 #### underline?
 
 ```ts
-optional underline: boolean;
+optional underline?: boolean;
 ```
 
 ##### Description
@@ -102,7 +102,7 @@ A limited style object for styling rich text `text` elements.
 type: "broadcast";
 ```
 
-Defined in: [block-kit/block-elements.ts:795](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L795)
+Defined in: [block-kit/block-elements.ts:809](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L809)
 
 #### Description
 

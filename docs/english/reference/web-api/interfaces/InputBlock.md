@@ -2,7 +2,7 @@
 
 # Interface: InputBlock
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:233
+Defined in: packages/types/dist/block-kit/blocks.d.ts:372
 
 ## Description
 
@@ -23,7 +23,7 @@ Collects information from users via block elements.
 ### block\_id?
 
 ```ts
-optional block_id: string;
+optional block_id?: string;
 ```
 
 Defined in: packages/types/dist/block-kit/blocks.d.ts:15
@@ -45,10 +45,10 @@ a message. If a message is updated, use a new `block_id`.
 ### dispatch\_action?
 
 ```ts
-optional dispatch_action: boolean;
+optional dispatch_action?: boolean;
 ```
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:261
+Defined in: packages/types/dist/block-kit/blocks.d.ts:400
 
 #### Description
 
@@ -63,7 +63,7 @@ A boolean that indicates whether or not the use of elements in this block should
 element: InputBlockElement;
 ```
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:256
+Defined in: packages/types/dist/block-kit/blocks.d.ts:395
 
 #### Description
 
@@ -74,10 +74,10 @@ A block element.
 ### hint?
 
 ```ts
-optional hint: PlainTextElement;
+optional hint?: PlainTextElement;
 ```
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:247
+Defined in: packages/types/dist/block-kit/blocks.d.ts:386
 
 #### Description
 
@@ -92,7 +92,7 @@ An optional hint that appears below an input element in a lighter grey. It must 
 label: PlainTextElement;
 ```
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:242
+Defined in: packages/types/dist/block-kit/blocks.d.ts:381
 
 #### Description
 
@@ -104,10 +104,10 @@ Maximum length for the text in this field is 2000 characters.
 ### optional?
 
 ```ts
-optional optional: boolean;
+optional optional?: boolean;
 ```
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:252
+Defined in: packages/types/dist/block-kit/blocks.d.ts:391
 
 #### Description
 
@@ -122,7 +122,7 @@ Defaults to `false`.
 type: "input";
 ```
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:237
+Defined in: packages/types/dist/block-kit/blocks.d.ts:376
 
 #### Description
 

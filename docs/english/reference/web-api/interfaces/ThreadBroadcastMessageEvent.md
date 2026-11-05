@@ -9,7 +9,7 @@ Defined in: packages/types/dist/events/message.d.ts:227
 ### attachments?
 
 ```ts
-optional attachments: MessageAttachment[];
+optional attachments?: MessageAttachment[];
 ```
 
 Defined in: packages/types/dist/events/message.d.ts:232
@@ -19,7 +19,7 @@ Defined in: packages/types/dist/events/message.d.ts:232
 ### blocks?
 
 ```ts
-optional blocks: (Block | KnownBlock)[];
+optional blocks?: (Block | KnownBlock)[];
 ```
 
 Defined in: packages/types/dist/events/message.d.ts:233
@@ -32,7 +32,7 @@ Defined in: packages/types/dist/events/message.d.ts:233
 channel: string;
 ```
 
-Defined in: packages/types/dist/events/message.d.ts:245
+Defined in: packages/types/dist/events/message.d.ts:249
 
 ***
 
@@ -42,7 +42,7 @@ Defined in: packages/types/dist/events/message.d.ts:245
 channel_type: ChannelTypes;
 ```
 
-Defined in: packages/types/dist/events/message.d.ts:246
+Defined in: packages/types/dist/events/message.d.ts:250
 
 ***
 
@@ -52,7 +52,17 @@ Defined in: packages/types/dist/events/message.d.ts:246
 client_msg_id: string;
 ```
 
-Defined in: packages/types/dist/events/message.d.ts:244
+Defined in: packages/types/dist/events/message.d.ts:248
+
+***
+
+### display\_as\_bot?
+
+```ts
+optional display_as_bot?: boolean;
+```
+
+Defined in: packages/types/dist/events/message.d.ts:236
 
 ***
 
@@ -66,6 +76,26 @@ Defined in: packages/types/dist/events/message.d.ts:230
 
 ***
 
+### files?
+
+```ts
+optional files?: File[];
+```
+
+Defined in: packages/types/dist/events/message.d.ts:234
+
+***
+
+### parent\_user\_id?
+
+```ts
+optional parent_user_id?: string;
+```
+
+Defined in: packages/types/dist/events/message.d.ts:238
+
+***
+
 ### root
 
 ```ts
@@ -74,7 +104,7 @@ root:
   | BotMessageEvent & object;
 ```
 
-Defined in: packages/types/dist/events/message.d.ts:237
+Defined in: packages/types/dist/events/message.d.ts:241
 
 #### Type Declaration
 
@@ -133,10 +163,10 @@ Defined in: packages/types/dist/events/message.d.ts:231
 ### thread\_ts?
 
 ```ts
-optional thread_ts: string;
+optional thread_ts?: string;
 ```
 
-Defined in: packages/types/dist/events/message.d.ts:236
+Defined in: packages/types/dist/events/message.d.ts:240
 
 ***
 
@@ -146,7 +176,7 @@ Defined in: packages/types/dist/events/message.d.ts:236
 ts: string;
 ```
 
-Defined in: packages/types/dist/events/message.d.ts:235
+Defined in: packages/types/dist/events/message.d.ts:239
 
 ***
 
@@ -160,10 +190,20 @@ Defined in: packages/types/dist/events/message.d.ts:228
 
 ***
 
+### upload?
+
+```ts
+optional upload?: boolean;
+```
+
+Defined in: packages/types/dist/events/message.d.ts:235
+
+***
+
 ### user
 
 ```ts
 user: string;
 ```
 
-Defined in: packages/types/dist/events/message.d.ts:234
+Defined in: packages/types/dist/events/message.d.ts:237

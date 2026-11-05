@@ -17,7 +17,7 @@ For use in setting border style details on certain Rich Text elements.
 ### border?
 
 ```ts
-optional border: 0 | 1;
+optional border?: 0 | 1;
 ```
 
 Defined in: [block-kit/extensions.ts:76](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/extensions.ts#L76)

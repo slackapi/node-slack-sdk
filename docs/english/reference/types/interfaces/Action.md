@@ -17,7 +17,7 @@ Action aliased to [Actionable](Actionable.md) in order to name the mixins in thi
 ### ~~action\_id?~~
 
 ```ts
-optional action_id: string;
+optional action_id?: string;
 ```
 
 Defined in: [block-kit/extensions.ts:15](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/extensions.ts#L15)

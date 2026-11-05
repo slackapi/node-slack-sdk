@@ -2,7 +2,7 @@
 
 # Interface: WorkflowButton
 
-Defined in: [block-kit/block-elements.ts:731](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L731)
+Defined in: [block-kit/block-elements.ts:745](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L745)
 
 ## Description
 
@@ -14,17 +14,17 @@ Allows users to run a [link trigger](https://docs.slack.dev/tools/deno-slack-sdk
 
 ## Extends
 
-- [`Confirmable`](Confirmable.md)
+- [`Actionable`](Actionable.md).[`Confirmable`](Confirmable.md)
 
 ## Properties
 
 ### accessibility\_label?
 
 ```ts
-optional accessibility_label: string;
+optional accessibility_label?: string;
 ```
 
-Defined in: [block-kit/block-elements.ts:785](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L785)
+Defined in: [block-kit/block-elements.ts:799](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L799)
 
 #### Description
 
@@ -33,10 +33,28 @@ readers instead of the button `text` object. Maximum length for this field is 75
 
 ***
 
+### action\_id?
+
+```ts
+optional action_id?: string;
+```
+
+Defined in: [block-kit/extensions.ts:15](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/extensions.ts#L15)
+
+@description: An identifier for this action. You can use this when you receive an interaction payload to
+[identify the source of the action](https://docs.slack.dev/interactivity/handling-user-interaction#payloads). Should be unique
+among all other `action_id`s in the containing block. Maximum length for this field is 255 characters.
+
+#### Inherited from
+
+[`Actionable`](Actionable.md).[`action_id`](Actionable.md#action_id)
+
+***
+
 ### confirm?
 
 ```ts
-optional confirm: ConfirmationDialog;
+optional confirm?: ConfirmationDialog;
 ```
 
 Defined in: [block-kit/extensions.ts:25](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/extensions.ts#L25)
@@ -55,10 +73,10 @@ with.
 ### style?
 
 ```ts
-optional style: ColorScheme;
+optional style?: ColorScheme;
 ```
 
-Defined in: [block-kit/block-elements.ts:780](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L780)
+Defined in: [block-kit/block-elements.ts:794](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L794)
 
 #### Description
 
@@ -77,7 +95,7 @@ If you don't include this field, the default button style will be used.
 text: PlainTextElement;
 ```
 
-Defined in: [block-kit/block-elements.ts:740](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L740)
+Defined in: [block-kit/block-elements.ts:754](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L754)
 
 #### Description
 
@@ -92,11 +110,15 @@ Maximum length for the `text` in this field is 75 characters.
 type: "workflow_button";
 ```
 
-Defined in: [block-kit/block-elements.ts:735](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L735)
+Defined in: [block-kit/block-elements.ts:749](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L749)
 
 #### Description
 
 The type of element. In this case `type` is always `workflow_button`.
+
+#### Overrides
+
+[`Actionable`](Actionable.md).[`type`](Actionable.md#type)
 
 ***
 
@@ -106,7 +128,7 @@ The type of element. In this case `type` is always `workflow_button`.
 workflow: object;
 ```
 
-Defined in: [block-kit/block-elements.ts:744](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L744)
+Defined in: [block-kit/block-elements.ts:758](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L758)
 
 #### trigger
 
@@ -122,7 +144,7 @@ that will be invoked via this button.
 ##### trigger.customizable\_input\_parameters?
 
 ```ts
-optional customizable_input_parameters: object[];
+optional customizable_input_parameters?: object[];
 ```
 
 ###### Description

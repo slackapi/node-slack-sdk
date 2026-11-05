@@ -2,7 +2,7 @@
 
 # Interface: DateTimepicker
 
-Defined in: [block-kit/block-elements.ts:112](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L112)
+Defined in: [block-kit/block-elements.ts:126](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L126)
 
 ## Description
 
@@ -25,7 +25,7 @@ picker will use native UIs.
 ### action\_id?
 
 ```ts
-optional action_id: string;
+optional action_id?: string;
 ```
 
 Defined in: [block-kit/extensions.ts:15](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/extensions.ts#L15)
@@ -43,7 +43,7 @@ among all other `action_id`s in the containing block. Maximum length for this fi
 ### confirm?
 
 ```ts
-optional confirm: ConfirmationDialog;
+optional confirm?: ConfirmationDialog;
 ```
 
 Defined in: [block-kit/extensions.ts:25](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/extensions.ts#L25)
@@ -62,7 +62,7 @@ with.
 ### focus\_on\_load?
 
 ```ts
-optional focus_on_load: boolean;
+optional focus_on_load?: boolean;
 ```
 
 Defined in: [block-kit/extensions.ts:42](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/extensions.ts#L42)
@@ -82,10 +82,10 @@ Defaults to `false`.
 ### initial\_date\_time?
 
 ```ts
-optional initial_date_time: number;
+optional initial_date_time?: number;
 ```
 
-Defined in: [block-kit/block-elements.ts:122](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L122)
+Defined in: [block-kit/block-elements.ts:136](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L136)
 
 #### Description
 
@@ -101,7 +101,7 @@ time August 10th, 2021 at 03:17pm PST.
 type: "datetimepicker";
 ```
 
-Defined in: [block-kit/block-elements.ts:116](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L116)
+Defined in: [block-kit/block-elements.ts:130](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L130)
 
 #### Description
 

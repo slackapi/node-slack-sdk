@@ -15,4 +15,5 @@ export type AppsManifestUpdateResponse = WebAPICallResult & {
   ok?: boolean;
   permissions_updated?: boolean;
   provided?: string;
+  warning?: string;
 };

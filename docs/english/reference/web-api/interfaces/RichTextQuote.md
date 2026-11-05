@@ -2,7 +2,7 @@
 
 # Interface: RichTextQuote
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:914
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:928
 
 ## Description
 
@@ -17,7 +17,7 @@ A quote block within a rich text field.
 ### border?
 
 ```ts
-optional border: 0 | 1;
+optional border?: 0 | 1;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:66
@@ -39,7 +39,7 @@ while `1` renders a border.
 elements: RichTextElement[];
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:922
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:936
 
 #### Description
 
@@ -53,7 +53,7 @@ An array of [RichTextElement](../type-aliases/RichTextElement.md) comprising the
 type: "rich_text_quote";
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:918
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:932
 
 #### Description
 

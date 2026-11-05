@@ -2,7 +2,7 @@
 
 # Interface: AppsUninstallArguments
 
-Defined in: [packages/web-api/src/types/request/apps.ts:44](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/apps.ts#L44)
+Defined in: [packages/web-api/src/types/request/apps.ts:117](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/apps.ts#L117)
 
 ## Extends
 
@@ -49,7 +49,7 @@ Issued when you created your application.
 ### token?
 
 ```ts
-optional token: string;
+optional token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)

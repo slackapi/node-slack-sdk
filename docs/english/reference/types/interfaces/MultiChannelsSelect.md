@@ -2,7 +2,7 @@
 
 # Interface: MultiChannelsSelect
 
-Defined in: [block-kit/block-elements.ts:498](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L498)
+Defined in: [block-kit/block-elements.ts:512](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L512)
 
 ## Description
 
@@ -23,7 +23,7 @@ user in the active workspace.
 ### action\_id?
 
 ```ts
-optional action_id: string;
+optional action_id?: string;
 ```
 
 Defined in: [block-kit/extensions.ts:15](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/extensions.ts#L15)
@@ -41,7 +41,7 @@ among all other `action_id`s in the containing block. Maximum length for this fi
 ### confirm?
 
 ```ts
-optional confirm: ConfirmationDialog;
+optional confirm?: ConfirmationDialog;
 ```
 
 Defined in: [block-kit/extensions.ts:25](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/extensions.ts#L25)
@@ -60,7 +60,7 @@ with.
 ### focus\_on\_load?
 
 ```ts
-optional focus_on_load: boolean;
+optional focus_on_load?: boolean;
 ```
 
 Defined in: [block-kit/extensions.ts:42](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/extensions.ts#L42)
@@ -80,10 +80,10 @@ Defaults to `false`.
 ### initial\_channels?
 
 ```ts
-optional initial_channels: string[];
+optional initial_channels?: string[];
 ```
 
-Defined in: [block-kit/block-elements.ts:507](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L507)
+Defined in: [block-kit/block-elements.ts:521](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L521)
 
 #### Description
 
@@ -94,7 +94,7 @@ An array of one or more IDs of any valid public channel to be pre-selected when 
 ### max\_selected\_items?
 
 ```ts
-optional max_selected_items: number;
+optional max_selected_items?: number;
 ```
 
 Defined in: [block-kit/extensions.ts:49](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/extensions.ts#L49)
@@ -112,7 +112,7 @@ Specifies the maximum number of items that can be selected. Minimum number is 1.
 ### placeholder?
 
 ```ts
-optional placeholder: PlainTextElement;
+optional placeholder?: PlainTextElement;
 ```
 
 Defined in: [block-kit/extensions.ts:57](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/extensions.ts#L57)
@@ -134,7 +134,7 @@ length for the `text` field in this object is 150 characters.
 type: "multi_channels_select";
 ```
 
-Defined in: [block-kit/block-elements.ts:502](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L502)
+Defined in: [block-kit/block-elements.ts:516](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L516)
 
 #### Description
 

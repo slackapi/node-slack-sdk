@@ -2,34 +2,34 @@
 
 # Interface: WebhookTriggerDefaultArguments
 
-Defined in: [packages/webhook/src/WebhookTrigger.ts:101](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/WebhookTrigger.ts#L101)
+Defined in: [packages/webhook/src/WebhookTrigger.ts:113](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/WebhookTrigger.ts#L113)
 
 ## Properties
 
 ### fetch?
 
 ```ts
-optional fetch: FetchFunction;
+optional fetch?: FetchFunction;
 ```
 
-Defined in: [packages/webhook/src/WebhookTrigger.ts:102](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/WebhookTrigger.ts#L102)
+Defined in: [packages/webhook/src/WebhookTrigger.ts:114](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/WebhookTrigger.ts#L114)
 
 ***
 
 ### retryConfig?
 
 ```ts
-optional retryConfig: RetryOptions;
+optional retryConfig?: RetryOptions;
 ```
 
-Defined in: [packages/webhook/src/WebhookTrigger.ts:104](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/WebhookTrigger.ts#L104)
+Defined in: [packages/webhook/src/WebhookTrigger.ts:116](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/WebhookTrigger.ts#L116)
 
 ***
 
 ### timeout?
 
 ```ts
-optional timeout: number;
+optional timeout?: number;
 ```
 
-Defined in: [packages/webhook/src/WebhookTrigger.ts:103](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/WebhookTrigger.ts#L103)
+Defined in: [packages/webhook/src/WebhookTrigger.ts:115](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/WebhookTrigger.ts#L115)

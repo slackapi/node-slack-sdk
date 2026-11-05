@@ -13,71 +13,83 @@ Defined in: [packages/web-api/src/types/response/FilesInfoResponse.ts:11](https:
 ### comments?
 
 ```ts
-optional comments: Comment[];
+optional comments?: Comment[];
 ```
 
 ### content?
 
 ```ts
-optional content: string;
+optional content?: string;
 ```
 
 ### content\_highlight\_css?
 
 ```ts
-optional content_highlight_css: string;
+optional content_highlight_css?: string;
 ```
 
 ### content\_highlight\_html?
 
 ```ts
-optional content_highlight_html: string;
+optional content_highlight_html?: string;
 ```
 
 ### content\_highlight\_html\_truncated?
 
 ```ts
-optional content_highlight_html_truncated: boolean;
+optional content_highlight_html_truncated?: boolean;
 ```
 
 ### error?
 
 ```ts
-optional error: string;
+optional error?: string;
 ```
 
 ### file?
 
 ```ts
-optional file: File;
+optional file?: File;
 ```
 
 ### is\_truncated?
 
 ```ts
-optional is_truncated: boolean;
+optional is_truncated?: boolean;
 ```
 
 ### needed?
 
 ```ts
-optional needed: string;
+optional needed?: string;
 ```
 
 ### ok?
 
 ```ts
-optional ok: boolean;
+optional ok?: boolean;
 ```
 
 ### paging?
 
 ```ts
-optional paging: Paging;
+optional paging?: Paging;
 ```
 
 ### provided?
 
 ```ts
-optional provided: string;
+optional provided?: string;
+```
+
+### response\_metadata?
+
+```ts
+optional response_metadata?: ResponseMetadata;
+```
+
+### warning?
+
+```ts
+optional warning?: string;
 ```

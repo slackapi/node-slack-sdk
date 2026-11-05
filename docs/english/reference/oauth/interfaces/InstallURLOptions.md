@@ -9,7 +9,7 @@ Defined in: [packages/oauth/src/install-url-options.ts:1](https://github.com/sla
 ### metadata?
 
 ```ts
-optional metadata: string;
+optional metadata?: string;
 ```
 
 Defined in: [packages/oauth/src/install-url-options.ts:6](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/install-url-options.ts#L6)
@@ -19,7 +19,7 @@ Defined in: [packages/oauth/src/install-url-options.ts:6](https://github.com/sla
 ### redirectUri?
 
 ```ts
-optional redirectUri: string;
+optional redirectUri?: string;
 ```
 
 Defined in: [packages/oauth/src/install-url-options.ts:4](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/install-url-options.ts#L4)
@@ -39,7 +39,7 @@ Defined in: [packages/oauth/src/install-url-options.ts:2](https://github.com/sla
 ### teamId?
 
 ```ts
-optional teamId: string;
+optional teamId?: string;
 ```
 
 Defined in: [packages/oauth/src/install-url-options.ts:3](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/install-url-options.ts#L3)
@@ -49,7 +49,7 @@ Defined in: [packages/oauth/src/install-url-options.ts:3](https://github.com/sla
 ### userScopes?
 
 ```ts
-optional userScopes: string | string[];
+optional userScopes?: string | string[];
 ```
 
 Defined in: [packages/oauth/src/install-url-options.ts:5](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/install-url-options.ts#L5)

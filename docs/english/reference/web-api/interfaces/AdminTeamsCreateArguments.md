@@ -13,7 +13,7 @@ Defined in: [packages/web-api/src/types/request/admin/teams.ts:11](https://githu
 ### team\_description?
 
 ```ts
-optional team_description: string;
+optional team_description?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/admin/teams.ts:17](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/teams.ts#L17)
@@ -27,7 +27,7 @@ Description for the team.
 ### team\_discoverability?
 
 ```ts
-optional team_discoverability: TeamDiscoverability;
+optional team_discoverability?: TeamDiscoverability;
 ```
 
 Defined in: [packages/web-api/src/types/request/admin/teams.ts:19](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/teams.ts#L19)
@@ -69,7 +69,7 @@ Team name (for example, Slack Softball Team).
 ### token?
 
 ```ts
-optional token: string;
+optional token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)

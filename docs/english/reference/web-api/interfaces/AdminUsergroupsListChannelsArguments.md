@@ -13,7 +13,7 @@ Defined in: [packages/web-api/src/types/request/admin/usergroups.ts:35](https://
 ### include\_num\_members?
 
 ```ts
-optional include_num_members: boolean;
+optional include_num_members?: boolean;
 ```
 
 Defined in: [packages/web-api/src/types/request/admin/usergroups.ts:37](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/usergroups.ts#L37)
@@ -27,7 +27,7 @@ Flag to include or exclude the count of members per channel.
 ### team\_id?
 
 ```ts
-optional team_id: string;
+optional team_id?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:70](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L70)
@@ -47,7 +47,7 @@ OptionalTeamAssignable.team_id
 ### token?
 
 ```ts
-optional token: string;
+optional token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
