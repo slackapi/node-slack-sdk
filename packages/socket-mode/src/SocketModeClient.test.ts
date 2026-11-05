@@ -511,6 +511,71 @@ describe('SocketModeClient', () => {
       sinon.assert.calledOnce(startStub);
     });
   });
+
+  describe('reconnect failures (issue #2656)', () => {
+    let unhandledRejection: sinon.SinonSpy;
+    beforeEach(() => {
+      unhandledRejection = sandbox.spy();
+      process.on('unhandledRejection', unhandledRejection);
+    });
+    afterEach(() => {
+      process.off('unhandledRejection', unhandledRejection);
+    });
+
+    function clientWithLogger() {
+      const logger = new ConsoleLogger();
+      const error = sandbox.stub(logger, 'error');
+      sandbox.stub(logger, 'debug');
+      const client = new SocketModeClient({ appToken: 'xapp-', clientPingTimeout: 1, logger });
+      return { client, error };
+    }
+
+    function holdWSSURL(client: SocketModeClient) {
+      let resolveURL: (url: string) => void = () => {};
+      sandbox
+        .stub(client as unknown as { retrieveWSSURL: () => Promise<string> }, 'retrieveWSSURL')
+        .returns(new Promise((resolve) => (resolveURL = resolve)));
+      return (url: string) => resolveURL(url);
+    }
+
+    it('should log a rejected reconnect instead of leaving an unhandled rejection', async () => {
+      const { client, error } = clientWithLogger();
+      sandbox.stub(client, 'start').rejects(new Error('invalid_auth'));
+
+      client.emit('close');
+      await sleep(10);
+
+      sinon.assert.calledWithMatch(error, 'invalid_auth');
+      sinon.assert.notCalled(unhandledRejection);
+    });
+
+    it('should not open a connection when disconnect() wins the race with a reconnect', async () => {
+      const { client, error } = clientWithLogger();
+      const releaseURL = holdWSSURL(client);
+
+      client.emit('close');
+      await sleep(10);
+      await client.disconnect();
+      releaseURL('ws://127.0.0.1:1/');
+      await sleep(10);
+
+      assert.strictEqual(client.websocket, undefined);
+      sinon.assert.notCalled(error);
+      sinon.assert.notCalled(unhandledRejection);
+    });
+
+    it('should reject start() when disconnect() is called while it is connecting', async () => {
+      const { client } = clientWithLogger();
+      const releaseURL = holdWSSURL(client);
+
+      const starting = client.start();
+      await client.disconnect();
+      releaseURL('ws://127.0.0.1:1/');
+
+      await assert.rejects(starting, { name: 'SMDisconnectedWhileConnectingError' });
+      assert.strictEqual(client.websocket, undefined);
+    });
+  });
 });
 
 async function sleep(ms: number): Promise<void> {

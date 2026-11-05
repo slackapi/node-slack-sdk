@@ -4,6 +4,7 @@ import { describe, it } from 'node:test';
 import {
   ErrorCode,
   SlackSocketModeError,
+  SMDisconnectedWhileConnectingError,
   SMNoReplyReceivedError,
   SMPlatformError,
   SMSendWhileDisconnectedError,
@@ -74,6 +75,18 @@ describe('error classes', () => {
       assert.equal(err.code, ErrorCode.SendWhileNotReadyError);
       assert.equal(err.name, 'SMSendWhileNotReadyError');
       assert.ok(err.message.includes('not ready'));
+    });
+  });
+
+  describe('SMDisconnectedWhileConnectingError', () => {
+    it('should be an instance of Error, SlackSocketModeError, and SMDisconnectedWhileConnectingError', () => {
+      const err = new SMDisconnectedWhileConnectingError();
+      assert.ok(err instanceof Error);
+      assert.ok(err instanceof SlackSocketModeError);
+      assert.ok(err instanceof SMDisconnectedWhileConnectingError);
+      assert.equal(err.code, ErrorCode.DisconnectedWhileConnectingError);
+      assert.equal(err.name, 'SMDisconnectedWhileConnectingError');
+      assert.ok(err.message.includes('disconnect()'));
     });
   });
 });

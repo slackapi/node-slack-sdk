@@ -12,7 +12,12 @@ import { EventEmitter } from 'eventemitter3';
 import { type RequestInit, fetch as undiciFetch } from 'undici';
 
 import packageJson from '../package.json';
-import { SMSendWhileDisconnectedError, SMSendWhileNotReadyError, SMWebsocketError } from './errors';
+import {
+  SMDisconnectedWhileConnectingError,
+  SMSendWhileDisconnectedError,
+  SMSendWhileNotReadyError,
+  SMWebsocketError,
+} from './errors';
 import log, { type Logger, LogLevel } from './logger';
 import { SlackWebSocket, WS_READY_STATES } from './SlackWebSocket';
 import type { SocketModeDispatcher, SocketModeOptions } from './SocketModeOptions';
@@ -160,7 +165,11 @@ export class SocketModeClient extends EventEmitter {
       if (this.websocket?.isActive()) return;
       if (this.reconnectionTimer) return;
       if (!this.shuttingDown && this.autoReconnectEnabled) {
-        this.delayReconnectAttempt(this.start);
+        this.delayReconnectAttempt(this.start).catch((error) => {
+          if (!(error instanceof SMDisconnectedWhileConnectingError)) {
+            this.logger.error(`Failed to reconnect the Socket Mode client (error: ${error})`);
+          }
+        });
       } else {
         // If reconnect is disabled or user explicitly called `disconnect()`, emit a disconnected state.
         this.emit(State.Disconnected);
@@ -181,9 +190,13 @@ export class SocketModeClient extends EventEmitter {
     // python equiv: SocketModeClient.connect
     this.shuttingDown = false;
     this.logger.debug('Starting Socket Mode session ...');
+    const url = await this.retrieveWSSURL();
+    if (this.shuttingDown) {
+      throw new SMDisconnectedWhileConnectingError();
+    }
     // create a socket connection using SlackWebSocket
     this.websocket = new SlackWebSocket({
-      url: await this.retrieveWSSURL(),
+      url,
       // web socket events relevant to this client will be emitted into the instance of this class
       // see bottom of constructor for where we bind to these events
       client: this,
@@ -248,15 +261,16 @@ export class SocketModeClient extends EventEmitter {
     this.numOfConsecutiveReconnectionFailures += 1;
     const msBeforeRetry = this.clientPingTimeoutMS * this.numOfConsecutiveReconnectionFailures;
     this.logger.debug(`Before trying to reconnect, this client will wait for ${msBeforeRetry} milliseconds`);
-    return new Promise((res, _rej) => {
+    return new Promise((res, rej) => {
       this.reconnectionTimer = setTimeout(() => {
         this.reconnectionTimer = undefined;
         if (this.shuttingDown) {
           this.logger.debug('Client shutting down, will not attempt reconnect.');
+          rej(new SMDisconnectedWhileConnectingError());
         } else {
           this.logger.debug('Continuing with reconnect...');
           this.emit(State.Reconnecting);
-          cb.apply(this).then(res);
+          cb.apply(this).then(res, rej);
         }
       }, msBeforeRetry);
     });
