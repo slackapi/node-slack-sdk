@@ -13,35 +13,35 @@ Defined in: [packages/web-api/src/types/response/AdminConversationsLookupRespons
 ### channel\_ids?
 
 ```ts
-optional channel_ids?: string[];
+channel_ids?: string[];
 ```
 
 ### error?
 
 ```ts
-optional error?: string;
+error?: string;
 ```
 
 ### needed?
 
 ```ts
-optional needed?: string;
+needed?: string;
 ```
 
 ### ok?
 
 ```ts
-optional ok?: boolean;
+ok?: boolean;
 ```
 
 ### provided?
 
 ```ts
-optional provided?: string;
+provided?: string;
 ```
 
 ### response\_metadata?
 
 ```ts
-optional response_metadata?: ResponseMetadata;
+response_metadata?: ResponseMetadata;
 ```

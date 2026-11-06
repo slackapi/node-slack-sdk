@@ -13,41 +13,41 @@ Defined in: [packages/web-api/src/types/response/AdminAuthPolicyGetEntitiesRespo
 ### entities?
 
 ```ts
-optional entities?: Entity[];
+entities?: Entity[];
 ```
 
 ### entity\_total\_count?
 
 ```ts
-optional entity_total_count?: number;
+entity_total_count?: number;
 ```
 
 ### error?
 
 ```ts
-optional error?: string;
+error?: string;
 ```
 
 ### needed?
 
 ```ts
-optional needed?: string;
+needed?: string;
 ```
 
 ### ok?
 
 ```ts
-optional ok?: boolean;
+ok?: boolean;
 ```
 
 ### provided?
 
 ```ts
-optional provided?: string;
+provided?: string;
 ```
 
 ### warning?
 
 ```ts
-optional warning?: string;
+warning?: string;
 ```

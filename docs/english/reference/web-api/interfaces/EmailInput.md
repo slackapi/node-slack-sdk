@@ -15,14 +15,17 @@ Allows user to enter an email into a single-line field.
 
 ## Extends
 
-- [`Actionable`](Actionable.md).[`Dispatchable`](Dispatchable.md).[`Focusable`](Focusable.md).[`Placeholdable`](Placeholdable.md)
+- [`Actionable`](Actionable.md)
+- [`Dispatchable`](Dispatchable.md)
+- [`Focusable`](Focusable.md)
+- [`Placeholdable`](Placeholdable.md)
 
 ## Properties
 
 ### action\_id?
 
 ```ts
-optional action_id?: string;
+action_id?: string;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:12
@@ -40,7 +43,7 @@ among all other `action_id`s in the containing block. Maximum length for this fi
 ### dispatch\_action\_config?
 
 ```ts
-optional dispatch_action_config?: DispatchActionConfig;
+dispatch_action_config?: DispatchActionConfig;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:28
@@ -59,7 +62,7 @@ A [DispatchActionConfig](DispatchActionConfig.md) object that determines when du
 ### focus\_on\_load?
 
 ```ts
-optional focus_on_load?: boolean;
+focus_on_load?: boolean;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:36
@@ -79,7 +82,7 @@ Defaults to `false`.
 ### initial\_value?
 
 ```ts
-optional initial_value?: string;
+initial_value?: string;
 ```
 
 Defined in: packages/types/dist/block-kit/block-elements.d.ts:128
@@ -93,7 +96,7 @@ The initial value in the email input when it is loaded.
 ### placeholder?
 
 ```ts
-optional placeholder?: PlainTextElement;
+placeholder?: PlainTextElement;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:49

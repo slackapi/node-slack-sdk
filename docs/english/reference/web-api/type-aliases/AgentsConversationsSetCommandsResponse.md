@@ -13,41 +13,41 @@ Defined in: [packages/web-api/src/types/response/AgentsConversationsSetCommandsR
 ### channel\_id?
 
 ```ts
-optional channel_id?: string;
+channel_id?: string;
 ```
 
 ### command\_count?
 
 ```ts
-optional command_count?: number;
+command_count?: number;
 ```
 
 ### error?
 
 ```ts
-optional error?: string;
+error?: string;
 ```
 
 ### needed?
 
 ```ts
-optional needed?: string;
+needed?: string;
 ```
 
 ### ok?
 
 ```ts
-optional ok?: boolean;
+ok?: boolean;
 ```
 
 ### provided?
 
 ```ts
-optional provided?: string;
+provided?: string;
 ```
 
 ### warning?
 
 ```ts
-optional warning?: string;
+warning?: string;
 ```

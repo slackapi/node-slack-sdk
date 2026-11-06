@@ -13,31 +13,31 @@ Defined in: [packages/web-api/src/types/response/DndTeamInfoResponse.ts:11](http
 ### error?
 
 ```ts
-optional error?: string;
+error?: string;
 ```
 
 ### needed?
 
 ```ts
-optional needed?: string;
+needed?: string;
 ```
 
 ### ok?
 
 ```ts
-optional ok?: boolean;
+ok?: boolean;
 ```
 
 ### provided?
 
 ```ts
-optional provided?: string;
+provided?: string;
 ```
 
 ### users?
 
 ```ts
-optional users?: object;
+users?: object;
 ```
 
 #### Index Signature
@@ -49,5 +49,5 @@ optional users?: object;
 ### warning?
 
 ```ts
-optional warning?: string;
+warning?: string;
 ```

@@ -6,14 +6,16 @@ Defined in: [packages/web-api/src/types/request/usergroups.ts:58](https://github
 
 ## Extends
 
-- `TokenOverridable`.`OptionalTeamAssignable`.`UsergroupsIncludeCount`
+- `TokenOverridable`
+- `OptionalTeamAssignable`
+- `UsergroupsIncludeCount`
 
 ## Properties
 
 ### include\_count?
 
 ```ts
-optional include_count?: boolean;
+include_count?: boolean;
 ```
 
 Defined in: [packages/web-api/src/types/request/usergroups.ts:6](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/usergroups.ts#L6)
@@ -24,16 +26,14 @@ Include the number of users in each User Group.
 
 #### Inherited from
 
-```ts
-UsergroupsIncludeCount.include_count
-```
+`UsergroupsIncludeCount.include_count`
 
 ***
 
 ### team\_id?
 
 ```ts
-optional team_id?: string;
+team_id?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:70](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L70)
@@ -44,16 +44,14 @@ If using an org token, `team_id` is required.
 
 #### Inherited from
 
-```ts
-OptionalTeamAssignable.team_id
-```
+`OptionalTeamAssignable.team_id`
 
 ***
 
 ### token?
 
 ```ts
-optional token?: string;
+token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
@@ -64,9 +62,7 @@ Overridable authentication token bearing required scopes.
 
 #### Inherited from
 
-```ts
-TokenOverridable.token
-```
+`TokenOverridable.token`
 
 ***
 

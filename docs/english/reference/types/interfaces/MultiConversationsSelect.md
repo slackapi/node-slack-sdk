@@ -16,14 +16,18 @@ MPIMs visible to the current user in the active workspace.
 
 ## Extends
 
-- [`Actionable`](Actionable.md).[`Confirmable`](Confirmable.md).[`Focusable`](Focusable.md).[`MaxItemsSelectable`](MaxItemsSelectable.md).[`Placeholdable`](Placeholdable.md)
+- [`Actionable`](Actionable.md)
+- [`Confirmable`](Confirmable.md)
+- [`Focusable`](Focusable.md)
+- [`MaxItemsSelectable`](MaxItemsSelectable.md)
+- [`Placeholdable`](Placeholdable.md)
 
 ## Properties
 
 ### action\_id?
 
 ```ts
-optional action_id?: string;
+action_id?: string;
 ```
 
 Defined in: [block-kit/extensions.ts:15](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/extensions.ts#L15)
@@ -41,7 +45,7 @@ among all other `action_id`s in the containing block. Maximum length for this fi
 ### confirm?
 
 ```ts
-optional confirm?: ConfirmationDialog;
+confirm?: ConfirmationDialog;
 ```
 
 Defined in: [block-kit/extensions.ts:25](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/extensions.ts#L25)
@@ -60,7 +64,7 @@ with.
 ### default\_to\_current\_conversation?
 
 ```ts
-optional default_to_current_conversation?: boolean;
+default_to_current_conversation?: boolean;
 ```
 
 Defined in: [block-kit/block-elements.ts:477](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L477)
@@ -75,7 +79,7 @@ modal, if available. Default is `false`.
 ### filter?
 
 ```ts
-optional filter?: object;
+filter?: object;
 ```
 
 Defined in: [block-kit/block-elements.ts:481](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L481)
@@ -83,19 +87,19 @@ Defined in: [block-kit/block-elements.ts:481](https://github.com/slackapi/node-s
 #### exclude\_bot\_users?
 
 ```ts
-optional exclude_bot_users?: boolean;
+exclude_bot_users?: boolean;
 ```
 
 #### exclude\_external\_shared\_channels?
 
 ```ts
-optional exclude_external_shared_channels?: boolean;
+exclude_external_shared_channels?: boolean;
 ```
 
 #### include?
 
 ```ts
-optional include?: ("im" | "mpim" | "private" | "public")[];
+include?: ("im" | "mpim" | "private" | "public")[];
 ```
 
 #### Description
@@ -107,7 +111,7 @@ A filter object that reduces the list of available conversations using the speci
 ### focus\_on\_load?
 
 ```ts
-optional focus_on_load?: boolean;
+focus_on_load?: boolean;
 ```
 
 Defined in: [block-kit/extensions.ts:42](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/extensions.ts#L42)
@@ -127,7 +131,7 @@ Defaults to `false`.
 ### initial\_conversations?
 
 ```ts
-optional initial_conversations?: string[];
+initial_conversations?: string[];
 ```
 
 Defined in: [block-kit/block-elements.ts:472](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L472)
@@ -142,7 +146,7 @@ An array of one or more IDs of any valid conversations to be pre-selected when t
 ### max\_selected\_items?
 
 ```ts
-optional max_selected_items?: number;
+max_selected_items?: number;
 ```
 
 Defined in: [block-kit/extensions.ts:49](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/extensions.ts#L49)
@@ -160,7 +164,7 @@ Specifies the maximum number of items that can be selected. Minimum number is 1.
 ### placeholder?
 
 ```ts
-optional placeholder?: PlainTextElement;
+placeholder?: PlainTextElement;
 ```
 
 Defined in: [block-kit/extensions.ts:57](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/extensions.ts#L57)

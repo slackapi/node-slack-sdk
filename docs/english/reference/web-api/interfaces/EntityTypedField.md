@@ -9,7 +9,7 @@ Defined in: packages/types/dist/message-metadata.d.ts:167
 ### alt\_text?
 
 ```ts
-optional alt_text?: string;
+alt_text?: string;
 ```
 
 Defined in: packages/types/dist/message-metadata.d.ts:177
@@ -19,7 +19,7 @@ Defined in: packages/types/dist/message-metadata.d.ts:177
 ### edit?
 
 ```ts
-optional edit?: EntityEditSupport;
+edit?: EntityEditSupport;
 ```
 
 Defined in: packages/types/dist/message-metadata.d.ts:178
@@ -29,7 +29,7 @@ Defined in: packages/types/dist/message-metadata.d.ts:178
 ### entity\_ref?
 
 ```ts
-optional entity_ref?: EntityRefField;
+entity_ref?: EntityRefField;
 ```
 
 Defined in: packages/types/dist/message-metadata.d.ts:181
@@ -39,7 +39,7 @@ Defined in: packages/types/dist/message-metadata.d.ts:181
 ### format?
 
 ```ts
-optional format?: string;
+format?: string;
 ```
 
 Defined in: packages/types/dist/message-metadata.d.ts:174
@@ -49,7 +49,7 @@ Defined in: packages/types/dist/message-metadata.d.ts:174
 ### icon?
 
 ```ts
-optional icon?: EntityIconField;
+icon?: EntityIconField;
 ```
 
 Defined in: packages/types/dist/message-metadata.d.ts:172
@@ -59,7 +59,7 @@ Defined in: packages/types/dist/message-metadata.d.ts:172
 ### image\_url?
 
 ```ts
-optional image_url?: string;
+image_url?: string;
 ```
 
 Defined in: packages/types/dist/message-metadata.d.ts:175
@@ -69,7 +69,7 @@ Defined in: packages/types/dist/message-metadata.d.ts:175
 ### label?
 
 ```ts
-optional label?: string;
+label?: string;
 ```
 
 Defined in: packages/types/dist/message-metadata.d.ts:169
@@ -79,7 +79,7 @@ Defined in: packages/types/dist/message-metadata.d.ts:169
 ### link?
 
 ```ts
-optional link?: string;
+link?: string;
 ```
 
 Defined in: packages/types/dist/message-metadata.d.ts:171
@@ -89,7 +89,7 @@ Defined in: packages/types/dist/message-metadata.d.ts:171
 ### long?
 
 ```ts
-optional long?: boolean;
+long?: boolean;
 ```
 
 Defined in: packages/types/dist/message-metadata.d.ts:173
@@ -99,7 +99,7 @@ Defined in: packages/types/dist/message-metadata.d.ts:173
 ### slack\_file?
 
 ```ts
-optional slack_file?: SlackFile;
+slack_file?: SlackFile;
 ```
 
 Defined in: packages/types/dist/message-metadata.d.ts:176
@@ -109,7 +109,7 @@ Defined in: packages/types/dist/message-metadata.d.ts:176
 ### tag\_color?
 
 ```ts
-optional tag_color?: string;
+tag_color?: string;
 ```
 
 Defined in: packages/types/dist/message-metadata.d.ts:179
@@ -129,7 +129,7 @@ Defined in: packages/types/dist/message-metadata.d.ts:168
 ### user?
 
 ```ts
-optional user?: 
+user?: 
   | EntityUserIDField
   | EntityUserField;
 ```
@@ -141,7 +141,7 @@ Defined in: packages/types/dist/message-metadata.d.ts:180
 ### value?
 
 ```ts
-optional value?: string | number;
+value?: string | number;
 ```
 
 Defined in: packages/types/dist/message-metadata.d.ts:170

@@ -13,161 +13,161 @@ Defined in: [packages/web-api/src/types/response/RtmStartResponse.ts:11](https:/
 ### accept\_tos\_url?
 
 ```ts
-optional accept_tos_url?: string;
+accept_tos_url?: string;
 ```
 
 ### bots?
 
 ```ts
-optional bots?: Bot[];
+bots?: Bot[];
 ```
 
 ### cache\_ts?
 
 ```ts
-optional cache_ts?: number;
+cache_ts?: number;
 ```
 
 ### cache\_ts\_version?
 
 ```ts
-optional cache_ts_version?: string;
+cache_ts_version?: string;
 ```
 
 ### cache\_version?
 
 ```ts
-optional cache_version?: string;
+cache_version?: string;
 ```
 
 ### can\_manage\_shared\_channels?
 
 ```ts
-optional can_manage_shared_channels?: boolean;
+can_manage_shared_channels?: boolean;
 ```
 
 ### channels?
 
 ```ts
-optional channels?: Channel[];
+channels?: Channel[];
 ```
 
 ### dnd?
 
 ```ts
-optional dnd?: Dnd;
+dnd?: Dnd;
 ```
 
 ### error?
 
 ```ts
-optional error?: string;
+error?: string;
 ```
 
 ### groups?
 
 ```ts
-optional groups?: Group[];
+groups?: Group[];
 ```
 
 ### ims?
 
 ```ts
-optional ims?: Im[];
+ims?: Im[];
 ```
 
 ### is\_europe?
 
 ```ts
-optional is_europe?: boolean;
+is_europe?: boolean;
 ```
 
 ### latest\_event\_ts?
 
 ```ts
-optional latest_event_ts?: string;
+latest_event_ts?: string;
 ```
 
 ### links?
 
 ```ts
-optional links?: Links;
+links?: Links;
 ```
 
 ### mobile\_app\_requires\_upgrade?
 
 ```ts
-optional mobile_app_requires_upgrade?: boolean;
+mobile_app_requires_upgrade?: boolean;
 ```
 
 ### needed?
 
 ```ts
-optional needed?: string;
+needed?: string;
 ```
 
 ### non\_threadable\_channels?
 
 ```ts
-optional non_threadable_channels?: string[];
+non_threadable_channels?: string[];
 ```
 
 ### ok?
 
 ```ts
-optional ok?: boolean;
+ok?: boolean;
 ```
 
 ### provided?
 
 ```ts
-optional provided?: string;
+provided?: string;
 ```
 
 ### read\_only\_channels?
 
 ```ts
-optional read_only_channels?: string[];
+read_only_channels?: string[];
 ```
 
 ### response\_metadata?
 
 ```ts
-optional response_metadata?: ResponseMetadata;
+response_metadata?: ResponseMetadata;
 ```
 
 ### self?
 
 ```ts
-optional self?: Self;
+self?: Self;
 ```
 
 ### subteams?
 
 ```ts
-optional subteams?: Subteams;
+subteams?: Subteams;
 ```
 
 ### team?
 
 ```ts
-optional team?: Team;
+team?: Team;
 ```
 
 ### thread\_only\_channels?
 
 ```ts
-optional thread_only_channels?: string[];
+thread_only_channels?: string[];
 ```
 
 ### url?
 
 ```ts
-optional url?: string;
+url?: string;
 ```
 
 ### users?
 
 ```ts
-optional users?: User[];
+users?: User[];
 ```

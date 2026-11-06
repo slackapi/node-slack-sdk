@@ -6,7 +6,8 @@ Defined in: [packages/web-api/src/types/request/chat.ts:193](https://github.com/
 
 ## Extends
 
-- `ChannelAndText`.`TokenOverridable`
+- `ChannelAndText`
+- `TokenOverridable`
 
 ## Properties
 
@@ -24,9 +25,7 @@ Channel ID for the message.
 
 #### Inherited from
 
-```ts
-ChannelAndText.channel
-```
+`ChannelAndText.channel`
 
 ***
 
@@ -45,16 +44,14 @@ as fallback text for notifications only.
 
 #### Inherited from
 
-```ts
-ChannelAndText.text
-```
+`ChannelAndText.text`
 
 ***
 
 ### token?
 
 ```ts
-optional token?: string;
+token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
@@ -65,6 +62,4 @@ Overridable authentication token bearing required scopes.
 
 #### Inherited from
 
-```ts
-TokenOverridable.token
-```
+`TokenOverridable.token`

@@ -9,7 +9,7 @@ Defined in: [packages/webhook/src/WebhookTrigger.ts:123](https://github.com/slac
 ### error?
 
 ```ts
-optional error?: string;
+error?: string;
 ```
 
 Defined in: [packages/webhook/src/WebhookTrigger.ts:125](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/WebhookTrigger.ts#L125)

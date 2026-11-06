@@ -13,47 +13,47 @@ Defined in: [packages/web-api/src/types/response/ConversationsInviteSharedRespon
 ### conf\_code?
 
 ```ts
-optional conf_code?: string;
+conf_code?: string;
 ```
 
 ### error?
 
 ```ts
-optional error?: string;
+error?: string;
 ```
 
 ### invite\_id?
 
 ```ts
-optional invite_id?: string;
+invite_id?: string;
 ```
 
 ### is\_legacy\_shared\_channel?
 
 ```ts
-optional is_legacy_shared_channel?: boolean;
+is_legacy_shared_channel?: boolean;
 ```
 
 ### needed?
 
 ```ts
-optional needed?: string;
+needed?: string;
 ```
 
 ### ok?
 
 ```ts
-optional ok?: boolean;
+ok?: boolean;
 ```
 
 ### provided?
 
 ```ts
-optional provided?: string;
+provided?: string;
 ```
 
 ### url?
 
 ```ts
-optional url?: string;
+url?: string;
 ```

@@ -13,35 +13,35 @@ Defined in: [packages/web-api/src/types/response/StarsListResponse.ts:11](https:
 ### error?
 
 ```ts
-optional error?: string;
+error?: string;
 ```
 
 ### items?
 
 ```ts
-optional items?: Item[];
+items?: Item[];
 ```
 
 ### needed?
 
 ```ts
-optional needed?: string;
+needed?: string;
 ```
 
 ### ok?
 
 ```ts
-optional ok?: boolean;
+ok?: boolean;
 ```
 
 ### paging?
 
 ```ts
-optional paging?: Paging;
+paging?: Paging;
 ```
 
 ### provided?
 
 ```ts
-optional provided?: string;
+provided?: string;
 ```

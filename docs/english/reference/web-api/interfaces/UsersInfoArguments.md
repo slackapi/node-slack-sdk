@@ -6,14 +6,15 @@ Defined in: [packages/web-api/src/types/request/users.ts:37](https://github.com/
 
 ## Extends
 
-- `TokenOverridable`.`LocaleAware`
+- `TokenOverridable`
+- `LocaleAware`
 
 ## Properties
 
 ### include\_locale?
 
 ```ts
-optional include_locale?: boolean;
+include_locale?: boolean;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:51](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L51)
@@ -24,16 +25,14 @@ Set this to `true` to receive the locale with the response.
 
 #### Inherited from
 
-```ts
-LocaleAware.include_locale
-```
+`LocaleAware.include_locale`
 
 ***
 
 ### token?
 
 ```ts
-optional token?: string;
+token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
@@ -44,9 +43,7 @@ Overridable authentication token bearing required scopes.
 
 #### Inherited from
 
-```ts
-TokenOverridable.token
-```
+`TokenOverridable.token`
 
 ***
 

@@ -9,7 +9,7 @@ Defined in: packages/types/dist/events/message.d.ts:227
 ### attachments?
 
 ```ts
-optional attachments?: MessageAttachment[];
+attachments?: MessageAttachment[];
 ```
 
 Defined in: packages/types/dist/events/message.d.ts:232
@@ -19,7 +19,7 @@ Defined in: packages/types/dist/events/message.d.ts:232
 ### blocks?
 
 ```ts
-optional blocks?: (Block | KnownBlock)[];
+blocks?: (Block | KnownBlock)[];
 ```
 
 Defined in: packages/types/dist/events/message.d.ts:233
@@ -59,7 +59,7 @@ Defined in: packages/types/dist/events/message.d.ts:248
 ### display\_as\_bot?
 
 ```ts
-optional display_as_bot?: boolean;
+display_as_bot?: boolean;
 ```
 
 Defined in: packages/types/dist/events/message.d.ts:236
@@ -79,7 +79,7 @@ Defined in: packages/types/dist/events/message.d.ts:230
 ### files?
 
 ```ts
-optional files?: File[];
+files?: File[];
 ```
 
 Defined in: packages/types/dist/events/message.d.ts:234
@@ -89,7 +89,7 @@ Defined in: packages/types/dist/events/message.d.ts:234
 ### parent\_user\_id?
 
 ```ts
-optional parent_user_id?: string;
+parent_user_id?: string;
 ```
 
 Defined in: packages/types/dist/events/message.d.ts:238
@@ -99,9 +99,9 @@ Defined in: packages/types/dist/events/message.d.ts:238
 ### root
 
 ```ts
-root: 
+root: (
   | GenericMessageEvent
-  | BotMessageEvent & object;
+  | BotMessageEvent) & object;
 ```
 
 Defined in: packages/types/dist/events/message.d.ts:241
@@ -163,7 +163,7 @@ Defined in: packages/types/dist/events/message.d.ts:231
 ### thread\_ts?
 
 ```ts
-optional thread_ts?: string;
+thread_ts?: string;
 ```
 
 Defined in: packages/types/dist/events/message.d.ts:240
@@ -193,7 +193,7 @@ Defined in: packages/types/dist/events/message.d.ts:228
 ### upload?
 
 ```ts
-optional upload?: boolean;
+upload?: boolean;
 ```
 
 Defined in: packages/types/dist/events/message.d.ts:235
