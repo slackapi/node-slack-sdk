@@ -147,6 +147,8 @@ export type {
   UserConnectionPrimaryProvider,
 } from './apps';
 export type {
+  AssistantSearchContextArguments,
+  AssistantSearchInfoArguments,
   AssistantThreadsSetStatusArguments,
   AssistantThreadsSetSuggestedPromptsArguments,
   AssistantThreadsSetTitleArguments,
