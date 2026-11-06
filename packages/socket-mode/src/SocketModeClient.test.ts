@@ -874,15 +874,15 @@ describe('SocketModeClient', () => {
       sinon.assert.calledOnce(disconnected);
     });
 
-    it('should open a replacement for any disconnect reason, like the other SDKs', async () => {
+    it('should close the connection instead of opening a replacement when the link is disabled', async () => {
       const { client } = createClient();
       const old = await connect(client);
 
       old.receive({ type: 'disconnect', reason: 'link_disabled' });
       await sleep(0);
 
-      assert.strictEqual(sockets.length, 2);
-      assert.strictEqual(old.disconnectCalls, 0);
+      assert.strictEqual(sockets.length, 1);
+      assert.strictEqual(old.disconnectCalls, 1);
       await client.disconnect();
     });
   });

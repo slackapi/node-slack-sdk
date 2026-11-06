@@ -395,7 +395,7 @@ export class SocketModeClient extends EventEmitter {
 
     // Slack is recycling the pod handling the connection (or otherwise requires the client to reconnect)
     if (event.type === 'disconnect') {
-      if (this.autoReconnectEnabled && !this.shuttingDown) {
+      if (this.autoReconnectEnabled && !this.shuttingDown && event.reason !== 'link_disabled') {
         await this.openReplacement(event.reason);
       } else {
         this.logger.debug(`Received "${event.type}" (${event.reason}) message - disconnecting.`);
