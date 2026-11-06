@@ -358,6 +358,24 @@ describe('SlackWebSocket', () => {
     });
   });
 
+  describe('close notification', () => {
+    it('should emit "close" with the closed SlackWebSocket, so the client can tell connections apart', () => {
+      const client = new EventEmitter();
+      const closed = sandbox.spy();
+      client.on('close', closed);
+      const sws = new SlackWebSocket({
+        url: 'ws://127.0.0.1/',
+        client,
+        clientPingTimeoutMS: 1,
+        serverPingTimeoutMS: 1,
+      });
+
+      sws.disconnect();
+
+      sinon.assert.calledOnceWithExactly(closed, sws);
+    });
+  });
+
   describe('buildDefaultDispatcher() connect hook', () => {
     type ConnectCb = (err: Error | null, socket: unknown) => void;
     type ConnectFn = (opts: unknown, cb: ConnectCb) => void;
