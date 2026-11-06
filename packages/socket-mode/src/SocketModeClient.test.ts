@@ -561,6 +561,19 @@ describe('SocketModeClient', () => {
       sinon.assert.notCalled(unhandledRejection);
     });
 
+    it('should emit disconnected with the cause when a reconnect fails for good', async () => {
+      const { client } = clientWithLogger();
+      const cause = new Error('invalid_auth');
+      sandbox.stub(client, 'start').rejects(cause);
+      const disconnected = sandbox.spy();
+      client.on('disconnected', disconnected);
+
+      client.emit('close');
+      await sleep(10);
+
+      sinon.assert.calledOnceWithExactly(disconnected, cause);
+    });
+
     it('should not open a connection when disconnect() wins the race with a reconnect', async () => {
       const { client, error } = clientWithLogger();
       const releaseURL = holdWSSURL(client);
@@ -602,6 +615,8 @@ describe('SocketModeClient', () => {
     it('should not log an error when disconnect() stops a reconnect during the WebSocket handshake', async () => {
       const { client, error } = clientWithLogger();
       holdHandshake(client);
+      const disconnected = sandbox.spy();
+      client.on('disconnected', disconnected);
 
       client.emit('close');
       await sleep(10);
@@ -610,6 +625,7 @@ describe('SocketModeClient', () => {
 
       sinon.assert.notCalled(error);
       sinon.assert.notCalled(unhandledRejection);
+      sinon.assert.calledOnce(disconnected);
     });
 
     it('should reject start() when disconnect() is called while waiting to retry the WSS URL', async () => {
