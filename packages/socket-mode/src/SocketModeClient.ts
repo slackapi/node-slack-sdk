@@ -389,7 +389,7 @@ export class SocketModeClient extends EventEmitter {
 
     // Slack is recycling the pod handling the connection (or otherwise requires the client to reconnect)
     if (event.type === 'disconnect') {
-      if (this.autoReconnectEnabled && !this.shuttingDown) {
+      if (this.autoReconnectEnabled && !this.shuttingDown && isRefresh(event.reason)) {
         // Open the replacement first; the current connection keeps serving until the replacement says hello.
         this.logger.debug(`Received "${event.type}" (${event.reason}) message - opening a replacement connection.`);
         this.emit(State.Reconnecting);
@@ -399,7 +399,9 @@ export class SocketModeClient extends EventEmitter {
           }
         });
       } else {
-        this.logger.debug(`Received "${event.type}" (${event.reason}) message - disconnecting.`);
+        this.logger.debug(
+          `Received "${event.type}" (${event.reason}) message - disconnecting.${this.autoReconnectEnabled ? ' Will reconnect.' : ''}`,
+        );
         this.websocket?.disconnect();
       }
       return;
@@ -493,6 +495,10 @@ export class SocketModeClient extends EventEmitter {
       }
     });
   }
+}
+
+function isRefresh(reason: string): boolean {
+  return reason === 'warning' || reason === 'refresh_requested';
 }
 
 /* Instrumentation */

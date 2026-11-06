@@ -889,6 +889,18 @@ describe('SocketModeClient', () => {
       assert.strictEqual(sockets.length, 1);
       sinon.assert.calledOnce(disconnected);
     });
+
+    it('should close first and reconnect through the backoff on a disconnect that is not a refresh', async () => {
+      const { client } = createClient();
+      const old = await connect(client);
+
+      old.receive({ type: 'disconnect', reason: 'link_disabled' });
+      await sleep(10);
+
+      assert.strictEqual(old.disconnectCalls, 1);
+      assert.strictEqual(sockets.length, 1, 'the reconnect should wait for the backoff');
+      await client.disconnect();
+    });
   });
 });
 
