@@ -1,4 +1,4 @@
-import { setTimeout as sleep } from 'node:timers/promises';
+import { setTimeout } from 'node:timers/promises';
 import {
   type AppsConnectionsOpenResponse,
   addAppMetadata,
@@ -269,7 +269,7 @@ export class SocketModeClient extends EventEmitter {
     const msBeforeRetry = this.clientPingTimeoutMS * this.numOfConsecutiveReconnectionFailures;
     this.logger.debug(`Before trying to reconnect, this client will wait for ${msBeforeRetry} milliseconds`);
     this.reconnectDelay = new AbortController();
-    await sleep(msBeforeRetry, undefined, { signal: this.reconnectDelay.signal }).catch(() => {});
+    await setTimeout(msBeforeRetry, undefined, { signal: this.reconnectDelay.signal }).catch(() => {});
     this.reconnectDelay = undefined;
     if (this.shuttingDown) {
       this.logger.debug('Client shutting down, will not attempt reconnect.');
