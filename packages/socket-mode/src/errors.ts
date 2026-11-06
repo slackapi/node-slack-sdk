@@ -15,7 +15,7 @@ export enum ErrorCode {
   WebsocketError = 'slack_socket_mode_websocket_error',
   NoReplyReceivedError = 'slack_socket_mode_no_reply_received_error',
   InitializationError = 'slack_socket_mode_initialization_error',
-  DisconnectedWhileConnectingError = 'slack_socket_mode_disconnected_while_connecting_error',
+  ConnectAbortedError = 'slack_socket_mode_connect_aborted_error',
 }
 
 export type SMCallError =
@@ -82,8 +82,8 @@ export class SMSendWhileDisconnectedError extends SlackSocketModeError {
   }
 }
 
-export class SMDisconnectedWhileConnectingError extends SlackSocketModeError {
-  readonly code = ErrorCode.DisconnectedWhileConnectingError;
+export class SMConnectAbortedError extends SlackSocketModeError {
+  readonly code = ErrorCode.ConnectAbortedError;
 
   constructor() {
     super('Stopped connecting because disconnect() was called before the connection was established');

@@ -1,7 +1,8 @@
 import assert from 'node:assert/strict';
+import { type AddressInfo, createServer, type Server, type Socket } from 'node:net';
 import { afterEach, beforeEach, describe, it } from 'node:test';
 import { ConsoleLogger } from '@slack/logger';
-import type { FetchFunction } from '@slack/web-api';
+import type { FetchFunction, WebClient } from '@slack/web-api';
 import proxyquire from 'proxyquire';
 import sinon from 'sinon';
 
@@ -499,14 +500,14 @@ describe('SocketModeClient', () => {
       sinon.assert.notCalled(startStub);
     });
 
-    it('should schedule at most one reconnect when multiple close events fire', () => {
+    it('should schedule at most one reconnect when multiple close events fire', async () => {
       const client = new SocketModeClient({ appToken: 'xapp-', logLevel: LogLevel.ERROR });
       const startStub = sandbox.stub(client, 'start').resolves(undefined as never);
-      const clock = sandbox.useFakeTimers();
+      const clock = sandbox.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] });
 
       client.emit('close');
       client.emit('close');
-      clock.tick(1_000_000);
+      await clock.tickAsync(1_000_000);
 
       sinon.assert.calledOnce(startStub);
     });
@@ -514,20 +515,46 @@ describe('SocketModeClient', () => {
 
   describe('reconnect failures (issue #2656)', () => {
     let unhandledRejection: sinon.SinonSpy;
-    beforeEach(() => {
+    let neverUpgrades: Server;
+    let heldSockets: Socket[];
+    beforeEach(async () => {
       unhandledRejection = sandbox.spy();
       process.on('unhandledRejection', unhandledRejection);
+      heldSockets = [];
+      neverUpgrades = createServer((socket) => heldSockets.push(socket));
+      await new Promise<void>((resolve) => neverUpgrades.listen(0, '127.0.0.1', resolve));
     });
-    afterEach(() => {
+    afterEach(async () => {
       process.off('unhandledRejection', unhandledRejection);
+      for (const socket of heldSockets) socket.destroy();
+      await new Promise((resolve) => neverUpgrades.close(resolve));
     });
 
-    function clientWithLogger() {
+    function clientWithLogger(clientPingTimeout = 1) {
       const logger = new ConsoleLogger();
       const error = sandbox.stub(logger, 'error');
       sandbox.stub(logger, 'debug');
-      const client = new SocketModeClient({ appToken: 'xapp-', clientPingTimeout: 1, logger });
+      const client = new SocketModeClient({ appToken: 'xapp-', clientPingTimeout, logger });
       return { client, error };
+    }
+
+    function holdHandshake(client: SocketModeClient) {
+      const { port } = neverUpgrades.address() as AddressInfo;
+      sandbox
+        .stub(client as unknown as { retrieveWSSURL: () => Promise<string> }, 'retrieveWSSURL')
+        .resolves(`ws://127.0.0.1:${port}/`);
+    }
+
+    function failWSSURL(client: SocketModeClient) {
+      const { webClient } = client as unknown as { webClient: WebClient };
+      sandbox.stub(webClient.apps.connections, 'open').rejects(new Error('internal_error'));
+    }
+
+    function holdThenFailWSSURL(client: SocketModeClient) {
+      const { webClient } = client as unknown as { webClient: WebClient };
+      let rejectURL: (error: Error) => void = () => {};
+      sandbox.stub(webClient.apps.connections, 'open').returns(new Promise((_resolve, reject) => (rejectURL = reject)));
+      return (error: Error) => rejectURL(error);
     }
 
     function holdWSSURL(client: SocketModeClient) {
@@ -549,6 +576,19 @@ describe('SocketModeClient', () => {
       sinon.assert.notCalled(unhandledRejection);
     });
 
+    it('should emit disconnected with the cause when a reconnect fails for good', async () => {
+      const { client } = clientWithLogger();
+      const cause = new Error('invalid_auth');
+      sandbox.stub(client, 'start').rejects(cause);
+      const disconnected = sandbox.spy();
+      client.on('disconnected', disconnected);
+
+      client.emit('close');
+      await sleep(10);
+
+      sinon.assert.calledOnceWithExactly(disconnected, cause);
+    });
+
     it('should not open a connection when disconnect() wins the race with a reconnect', async () => {
       const { client, error } = clientWithLogger();
       const releaseURL = holdWSSURL(client);
@@ -564,6 +604,22 @@ describe('SocketModeClient', () => {
       sinon.assert.notCalled(unhandledRejection);
     });
 
+    it('should resolve disconnect() while a reconnect is waiting', { timeout: 2000 }, async () => {
+      const { client } = clientWithLogger(60_000);
+      const startStub = sandbox.stub(client, 'start');
+      client.websocket = {
+        isActive: () => false,
+        disconnect: () => client.emit('close'),
+      } as unknown as SlackWebSocket;
+
+      client.emit('close');
+      await sleep(10);
+      await client.disconnect();
+
+      sinon.assert.notCalled(startStub);
+      sinon.assert.notCalled(unhandledRejection);
+    });
+
     it('should reject start() when disconnect() is called while it is connecting', async () => {
       const { client } = clientWithLogger();
       const releaseURL = holdWSSURL(client);
@@ -572,8 +628,57 @@ describe('SocketModeClient', () => {
       await client.disconnect();
       releaseURL('ws://127.0.0.1:1/');
 
-      await assert.rejects(starting, { name: 'SMDisconnectedWhileConnectingError' });
+      await assert.rejects(starting, { name: 'SMConnectAbortedError' });
       assert.strictEqual(client.websocket, undefined);
+    });
+
+    it('should reject start() when disconnect() is called during the WebSocket handshake', async () => {
+      const { client } = clientWithLogger();
+      holdHandshake(client);
+
+      const starting = client.start();
+      await sleep(10);
+      await client.disconnect();
+
+      await assert.rejects(starting, { name: 'SMConnectAbortedError' });
+    });
+
+    it('should not log an error when disconnect() stops a reconnect during the WebSocket handshake', async () => {
+      const { client, error } = clientWithLogger();
+      holdHandshake(client);
+      const disconnected = sandbox.spy();
+      client.on('disconnected', disconnected);
+
+      client.emit('close');
+      await sleep(10);
+      await client.disconnect();
+      await sleep(10);
+
+      sinon.assert.neverCalledWithMatch(error, 'Failed to reconnect');
+      sinon.assert.notCalled(unhandledRejection);
+      sinon.assert.calledOnce(disconnected);
+    });
+
+    it('should reject start() when disconnect() is called while waiting to retry the WSS URL', async () => {
+      const { client } = clientWithLogger(60_000);
+      failWSSURL(client);
+
+      const starting = client.start();
+      await sleep(10);
+      await client.disconnect();
+
+      await assert.rejects(starting, { name: 'SMConnectAbortedError' });
+    });
+
+    it('should reject start() without waiting to retry when the WSS URL fails after disconnect()', async () => {
+      const { client } = clientWithLogger(60_000);
+      const failURL = holdThenFailWSSURL(client);
+
+      const starting = client.start();
+      await client.disconnect();
+      failURL(new Error('internal_error'));
+
+      await assert.rejects(starting, { name: 'SMConnectAbortedError' });
     });
   });
 

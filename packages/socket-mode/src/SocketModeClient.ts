@@ -1,3 +1,4 @@
+import { setTimeout } from 'node:timers/promises';
 import {
   type AppsConnectionsOpenResponse,
   addAppMetadata,
@@ -13,7 +14,7 @@ import { type RequestInit, fetch as undiciFetch } from 'undici';
 
 import packageJson from '../package.json';
 import {
-  SMDisconnectedWhileConnectingError,
+  SMConnectAbortedError,
   SMSendWhileDisconnectedError,
   SMSendWhileNotReadyError,
   SMWebsocketError,
@@ -111,9 +112,9 @@ export class SocketModeClient extends EventEmitter {
   private shuttingDown = false;
 
   /**
-   * Timer handle for scheduling automatic reconnection attempts after a disconnect.
+   * Cancels the pending wait before an automatic reconnection attempt.
    */
-  private reconnectionTimer: ReturnType<typeof setTimeout> | undefined;
+  private reconnectDelay: AbortController | undefined;
 
   public constructor(
     {
@@ -166,18 +167,21 @@ export class SocketModeClient extends EventEmitter {
     this.on('error', (err) => {
       this.logger.error(`WebSocket error! ${err}`);
     });
-    this.on('close', (socket?: SlackWebSocket) => {
+    this.on('close', async (socket?: SlackWebSocket) => {
       // Underlying WebSocket connection was closed, possibly reconnect.
       // A connection that was already replaced has no say in reconnecting.
       if (socket && socket !== this.websocket) return;
       if (this.websocket?.isActive()) return;
-      if (this.reconnectionTimer) return;
+      if (this.reconnectDelay) return;
       if (!this.shuttingDown && this.autoReconnectEnabled) {
-        this.delayReconnectAttempt(this.start).catch((error) => {
-          if (!(error instanceof SMDisconnectedWhileConnectingError)) {
+        try {
+          await this.delayReconnectAttempt(this.start);
+        } catch (error) {
+          if (!(error instanceof SMConnectAbortedError)) {
             this.logger.error(`Failed to reconnect the Socket Mode client (error: ${error})`);
+            this.emit(State.Disconnected, error);
           }
-        });
+        }
       } else {
         // If reconnect is disabled or user explicitly called `disconnect()`, emit a disconnected state.
         this.emit(State.Disconnected);
@@ -200,7 +204,7 @@ export class SocketModeClient extends EventEmitter {
     this.logger.debug('Starting Socket Mode session ...');
     const url = await this.retrieveWSSURL();
     if (this.shuttingDown) {
-      throw new SMDisconnectedWhileConnectingError();
+      throw new SMConnectAbortedError();
     }
     const previous = this.websocket;
     // create a socket connection using SlackWebSocket
@@ -230,7 +234,7 @@ export class SocketModeClient extends EventEmitter {
       };
       disconnectedCallback = (err) => {
         this.removeListener(State.Connected, connectedCallback);
-        reject(err);
+        reject(this.shuttingDown ? new SMConnectAbortedError() : err);
       };
       this.once(State.Connected, connectedCallback);
       this.once(State.Disconnected, disconnectedCallback);
@@ -245,8 +249,8 @@ export class SocketModeClient extends EventEmitter {
    */
   public disconnect(): Promise<void> {
     this.shuttingDown = true;
-    clearTimeout(this.reconnectionTimer);
-    this.reconnectionTimer = undefined;
+    this.reconnectDelay?.abort();
+    this.reconnectDelay = undefined;
     this.retiringWebsocket?.disconnect();
     this.retiringWebsocket = undefined;
     this.logger.debug('Manually disconnecting this Socket Mode client');
@@ -282,23 +286,23 @@ export class SocketModeClient extends EventEmitter {
    * Initiates a reconnect, taking into account configurable delays and number of reconnect attempts and failures.
    * Accepts a callback to invoke after any calculated delays.
    */
-  private delayReconnectAttempt<T>(cb: () => Promise<T>): Promise<T> {
+  private async delayReconnectAttempt<T>(cb: () => Promise<T>): Promise<T> {
+    if (this.shuttingDown) {
+      throw new SMConnectAbortedError();
+    }
     this.numOfConsecutiveReconnectionFailures += 1;
     const msBeforeRetry = this.clientPingTimeoutMS * this.numOfConsecutiveReconnectionFailures;
     this.logger.debug(`Before trying to reconnect, this client will wait for ${msBeforeRetry} milliseconds`);
-    return new Promise((res, rej) => {
-      this.reconnectionTimer = setTimeout(() => {
-        this.reconnectionTimer = undefined;
-        if (this.shuttingDown) {
-          this.logger.debug('Client shutting down, will not attempt reconnect.');
-          rej(new SMDisconnectedWhileConnectingError());
-        } else {
-          this.logger.debug('Continuing with reconnect...');
-          this.emit(State.Reconnecting);
-          cb.apply(this).then(res, rej);
-        }
-      }, msBeforeRetry);
-    });
+    this.reconnectDelay = new AbortController();
+    await setTimeout(msBeforeRetry, undefined, { signal: this.reconnectDelay.signal }).catch(() => {});
+    this.reconnectDelay = undefined;
+    if (this.shuttingDown) {
+      this.logger.debug('Client shutting down, will not attempt reconnect.');
+      throw new SMConnectAbortedError();
+    }
+    this.logger.debug('Continuing with reconnect...');
+    this.emit(State.Reconnecting);
+    return cb.apply(this);
   }
 
   /**

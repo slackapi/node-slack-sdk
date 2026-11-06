@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { IncomingMessage, ServerResponse } from 'node:http';
+import { Socket } from 'node:net';
 import { describe, it } from 'node:test';
-import sinon from 'sinon';
 
 import type { InstallPathOptions } from './install-path-options';
 
@@ -16,8 +16,8 @@ describe('InstallPathOptions', async () => {
       },
     };
     assert.ok(installPathOptions);
-    const req = sinon.createStubInstance(IncomingMessage) as IncomingMessage;
-    const resp = sinon.createStubInstance(ServerResponse) as ServerResponse;
+    const req = new IncomingMessage(new Socket());
+    const resp = new ServerResponse(req);
     const options = { scopes: ['commands', 'chat:write'] };
     const result = await installPathOptions.beforeRedirection?.(req, resp, options);
     assert.strictEqual(result, false);
