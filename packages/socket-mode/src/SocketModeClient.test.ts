@@ -890,15 +890,15 @@ describe('SocketModeClient', () => {
       sinon.assert.calledOnce(disconnected);
     });
 
-    it('should close first and reconnect through the backoff on a disconnect that is not a refresh', async () => {
+    it('should open a replacement for any disconnect reason, like the other SDKs', async () => {
       const { client } = createClient();
       const old = await connect(client);
 
       old.receive({ type: 'disconnect', reason: 'link_disabled' });
-      await sleep(10);
+      await sleep(0);
 
-      assert.strictEqual(old.disconnectCalls, 1);
-      assert.strictEqual(sockets.length, 1, 'the reconnect should wait for the backoff');
+      assert.strictEqual(sockets.length, 2);
+      assert.strictEqual(old.disconnectCalls, 0);
       await client.disconnect();
     });
   });
