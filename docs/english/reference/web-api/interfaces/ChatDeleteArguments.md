@@ -6,14 +6,16 @@ Defined in: [packages/web-api/src/types/request/chat.ts:181](https://github.com/
 
 ## Extends
 
-- `ChannelAndTS`.`AsUser`.`TokenOverridable`
+- `ChannelAndTS`
+- `AsUser`
+- `TokenOverridable`
 
 ## Properties
 
 ### as\_user?
 
 ```ts
-optional as_user?: boolean;
+as_user?: boolean;
 ```
 
 Defined in: [packages/web-api/src/types/request/chat.ts:38](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L38)
@@ -26,9 +28,7 @@ Bot users in this context are considered authed users. If unused or `false`, the
 
 #### Inherited from
 
-```ts
-AsUser.as_user
-```
+`AsUser.as_user`
 
 ***
 
@@ -46,16 +46,14 @@ Channel ID for the message.
 
 #### Inherited from
 
-```ts
-ChannelAndTS.channel
-```
+`ChannelAndTS.channel`
 
 ***
 
 ### token?
 
 ```ts
-optional token?: string;
+token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
@@ -66,9 +64,7 @@ Overridable authentication token bearing required scopes.
 
 #### Inherited from
 
-```ts
-TokenOverridable.token
-```
+`TokenOverridable.token`
 
 ***
 
@@ -86,6 +82,4 @@ Timestamp of the message.
 
 #### Inherited from
 
-```ts
-ChannelAndTS.ts
-```
+`ChannelAndTS.ts`

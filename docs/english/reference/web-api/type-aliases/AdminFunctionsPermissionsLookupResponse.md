@@ -13,19 +13,19 @@ Defined in: [packages/web-api/src/types/response/AdminFunctionsPermissionsLookup
 ### error?
 
 ```ts
-optional error?: string;
+error?: string;
 ```
 
 ### errors?
 
 ```ts
-optional errors?: Errors;
+errors?: Errors;
 ```
 
 ### metadata?
 
 ```ts
-optional metadata?: object;
+metadata?: object;
 ```
 
 #### Index Signature
@@ -37,19 +37,19 @@ optional metadata?: object;
 ### needed?
 
 ```ts
-optional needed?: string;
+needed?: string;
 ```
 
 ### ok?
 
 ```ts
-optional ok?: boolean;
+ok?: boolean;
 ```
 
 ### permissions?
 
 ```ts
-optional permissions?: object;
+permissions?: object;
 ```
 
 #### Index Signature
@@ -61,17 +61,17 @@ optional permissions?: object;
 ### provided?
 
 ```ts
-optional provided?: string;
+provided?: string;
 ```
 
 ### response\_metadata?
 
 ```ts
-optional response_metadata?: ResponseMetadata;
+response_metadata?: ResponseMetadata;
 ```
 
 ### warning?
 
 ```ts
-optional warning?: string;
+warning?: string;
 ```

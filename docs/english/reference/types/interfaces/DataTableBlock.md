@@ -21,7 +21,7 @@ Displays rich tables that support pagination, sorting, filtering, and interactiv
 ### block\_id?
 
 ```ts
-optional block_id?: string;
+block_id?: string;
 ```
 
 Defined in: [block-kit/blocks.ts:50](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L50)
@@ -57,7 +57,7 @@ A caption for the table; used as the value for the HTML caption element.
 ### page\_size?
 
 ```ts
-optional page_size?: number;
+page_size?: number;
 ```
 
 Defined in: [block-kit/blocks.ts:380](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L380)
@@ -71,7 +71,7 @@ Number of rows per page. Min `1`, Max `100`. Defaults to `5` if omitted.
 ### row\_header\_column\_index?
 
 ```ts
-optional row_header_column_index?: number;
+row_header_column_index?: number;
 ```
 
 Defined in: [block-kit/blocks.ts:384](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L384)

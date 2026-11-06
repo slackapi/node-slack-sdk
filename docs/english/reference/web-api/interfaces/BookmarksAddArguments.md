@@ -6,7 +6,9 @@ Defined in: [packages/web-api/src/types/request/bookmarks.ts:16](https://github.
 
 ## Extends
 
-- `ChannelID`.`BookmarkFields`.`TokenOverridable`
+- `ChannelID`
+- `BookmarkFields`
+- `TokenOverridable`
 
 ## Properties
 
@@ -24,16 +26,14 @@ Encoded channel ID.
 
 #### Inherited from
 
-```ts
-ChannelID.channel_id
-```
+`ChannelID.channel_id`
 
 ***
 
 ### emoji?
 
 ```ts
-optional emoji?: string;
+emoji?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/bookmarks.ts:12](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/bookmarks.ts#L12)
@@ -44,16 +44,14 @@ Emoji tag to apply to the bookmark.
 
 #### Inherited from
 
-```ts
-BookmarkFields.emoji
-```
+`BookmarkFields.emoji`
 
 ***
 
 ### entity\_id?
 
 ```ts
-optional entity_id?: string;
+entity_id?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/bookmarks.ts:20](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/bookmarks.ts#L20)
@@ -78,16 +76,14 @@ Link to bookmark.
 
 #### Inherited from
 
-```ts
-BookmarkFields.link
-```
+`BookmarkFields.link`
 
 ***
 
 ### parent\_id?
 
 ```ts
-optional parent_id?: string;
+parent_id?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/bookmarks.ts:22](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/bookmarks.ts#L22)
@@ -112,16 +108,14 @@ Title for the bookmark.
 
 #### Inherited from
 
-```ts
-BookmarkFields.title
-```
+`BookmarkFields.title`
 
 ***
 
 ### token?
 
 ```ts
-optional token?: string;
+token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
@@ -132,9 +126,7 @@ Overridable authentication token bearing required scopes.
 
 #### Inherited from
 
-```ts
-TokenOverridable.token
-```
+`TokenOverridable.token`
 
 ***
 

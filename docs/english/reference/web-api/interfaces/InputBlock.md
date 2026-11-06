@@ -23,7 +23,7 @@ Collects information from users via block elements.
 ### block\_id?
 
 ```ts
-optional block_id?: string;
+block_id?: string;
 ```
 
 Defined in: packages/types/dist/block-kit/blocks.d.ts:15
@@ -45,7 +45,7 @@ a message. If a message is updated, use a new `block_id`.
 ### dispatch\_action?
 
 ```ts
-optional dispatch_action?: boolean;
+dispatch_action?: boolean;
 ```
 
 Defined in: packages/types/dist/block-kit/blocks.d.ts:400
@@ -74,7 +74,7 @@ A block element.
 ### hint?
 
 ```ts
-optional hint?: PlainTextElement;
+hint?: PlainTextElement;
 ```
 
 Defined in: packages/types/dist/block-kit/blocks.d.ts:386
@@ -104,7 +104,7 @@ Maximum length for the text in this field is 2000 characters.
 ### optional?
 
 ```ts
-optional optional?: boolean;
+optional?: boolean;
 ```
 
 Defined in: packages/types/dist/block-kit/blocks.d.ts:391

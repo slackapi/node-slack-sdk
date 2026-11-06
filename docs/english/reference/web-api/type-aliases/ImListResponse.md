@@ -13,41 +13,41 @@ Defined in: [packages/web-api/src/types/response/ImListResponse.ts:11](https://g
 ### error?
 
 ```ts
-optional error?: string;
+error?: string;
 ```
 
 ### ims?
 
 ```ts
-optional ims?: Im[];
+ims?: Im[];
 ```
 
 ### needed?
 
 ```ts
-optional needed?: string;
+needed?: string;
 ```
 
 ### ok?
 
 ```ts
-optional ok?: boolean;
+ok?: boolean;
 ```
 
 ### provided?
 
 ```ts
-optional provided?: string;
+provided?: string;
 ```
 
 ### response\_metadata?
 
 ```ts
-optional response_metadata?: ResponseMetadata;
+response_metadata?: ResponseMetadata;
 ```
 
 ### warning?
 
 ```ts
-optional warning?: string;
+warning?: string;
 ```

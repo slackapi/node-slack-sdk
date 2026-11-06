@@ -3,7 +3,7 @@
 # Type Alias: ConversationsAcceptSharedInviteArguments
 
 ```ts
-type ConversationsAcceptSharedInviteArguments = TokenOverridable & OptionalTeamAssignable & ChannelID | InviteID & IsPrivate & object;
+type ConversationsAcceptSharedInviteArguments = TokenOverridable & OptionalTeamAssignable & (ChannelID | InviteID) & IsPrivate & object;
 ```
 
 Defined in: [packages/web-api/src/types/request/conversations.ts:52](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/conversations.ts#L52)
@@ -24,7 +24,7 @@ this name is the one that the channel will take.
 ### free\_trial\_accepted?
 
 ```ts
-optional free_trial_accepted?: boolean;
+free_trial_accepted?: boolean;
 ```
 
 #### Description

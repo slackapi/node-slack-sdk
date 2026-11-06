@@ -24,9 +24,7 @@ Issued when you created your application.
 
 #### Inherited from
 
-```ts
-OAuthCredentials.client_id
-```
+`OAuthCredentials.client_id`
 
 ***
 
@@ -44,16 +42,14 @@ Issued when you created your application.
 
 #### Inherited from
 
-```ts
-OAuthCredentials.client_secret
-```
+`OAuthCredentials.client_secret`
 
 ***
 
 ### code?
 
 ```ts
-optional code?: string;
+code?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:142](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L142)
@@ -64,16 +60,14 @@ The `code` parameter returned via the OAuth callback.
 
 #### Inherited from
 
-```ts
-OAuthCredentials.code
-```
+`OAuthCredentials.code`
 
 ***
 
 ### redirect\_uri?
 
 ```ts
-optional redirect_uri?: string;
+redirect_uri?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:147](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L147)
@@ -85,16 +79,14 @@ first step and must match the originally submitted URI.
 
 #### Inherited from
 
-```ts
-OAuthCredentials.redirect_uri
-```
+`OAuthCredentials.redirect_uri`
 
 ***
 
 ### single\_channel?
 
 ```ts
-optional single_channel?: boolean;
+single_channel?: boolean;
 ```
 
 Defined in: [packages/web-api/src/types/request/oauth.ts:6](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/oauth.ts#L6)

@@ -54,7 +54,7 @@ Defined in: [packages/web-api/src/errors.ts:66](https://github.com/slackapi/node
 ### body?
 
 ```ts
-readonly optional body?: any;
+readonly body?: any;
 ```
 
 Defined in: [packages/web-api/src/errors.ts:64](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/errors.ts#L64)
@@ -64,7 +64,7 @@ Defined in: [packages/web-api/src/errors.ts:64](https://github.com/slackapi/node
 ### cause?
 
 ```ts
-optional cause?: unknown;
+cause?: unknown;
 ```
 
 Defined in: node\_modules/typescript/lib/lib.es2022.error.d.ts:26
@@ -130,7 +130,7 @@ Defined in: node\_modules/typescript/lib/lib.es5.d.ts:1076
 ### stack?
 
 ```ts
-optional stack?: string;
+stack?: string;
 ```
 
 Defined in: node\_modules/typescript/lib/lib.es5.d.ts:1078

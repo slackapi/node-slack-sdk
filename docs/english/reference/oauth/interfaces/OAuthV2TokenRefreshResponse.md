@@ -33,7 +33,7 @@ Defined in: [packages/oauth/src/install-provider.ts:792](https://github.com/slac
 ### bot\_user\_id?
 
 ```ts
-optional bot_user_id?: string;
+bot_user_id?: string;
 ```
 
 Defined in: [packages/oauth/src/install-provider.ts:798](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/install-provider.ts#L798)
@@ -85,9 +85,7 @@ Defined in: packages/web-api/dist/WebClient.d.ts:42
 
 #### Inherited from
 
-```ts
-WebAPICallResult.ok
-```
+`WebAPICallResult.ok`
 
 ***
 
@@ -104,7 +102,7 @@ Defined in: [packages/oauth/src/install-provider.ts:796](https://github.com/slac
 ### response\_metadata?
 
 ```ts
-optional response_metadata?: object;
+response_metadata?: object;
 ```
 
 Defined in: packages/web-api/dist/WebClient.d.ts:43
@@ -112,44 +110,42 @@ Defined in: packages/web-api/dist/WebClient.d.ts:43
 #### acceptedScopes?
 
 ```ts
-optional acceptedScopes?: string[];
+acceptedScopes?: string[];
 ```
 
 #### messages?
 
 ```ts
-optional messages?: string[];
+messages?: string[];
 ```
 
 #### next\_cursor?
 
 ```ts
-optional next_cursor?: string;
+next_cursor?: string;
 ```
 
 #### retryAfter?
 
 ```ts
-optional retryAfter?: number;
+retryAfter?: number;
 ```
 
 #### scopes?
 
 ```ts
-optional scopes?: string[];
+scopes?: string[];
 ```
 
 #### warnings?
 
 ```ts
-optional warnings?: string[];
+warnings?: string[];
 ```
 
 #### Inherited from
 
-```ts
-WebAPICallResult.response_metadata
-```
+`WebAPICallResult.response_metadata`
 
 ***
 

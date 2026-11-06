@@ -6,14 +6,16 @@ Defined in: [packages/web-api/src/types/request/admin/users.ts:136](https://gith
 
 ## Extends
 
-- `UserID`.`SessionExpirationTarget`.`TokenOverridable`
+- `UserID`
+- `SessionExpirationTarget`
+- `TokenOverridable`
 
 ## Properties
 
 ### mobile\_only?
 
 ```ts
-optional mobile_only?: boolean;
+mobile_only?: boolean;
 ```
 
 Defined in: [packages/web-api/src/types/request/admin/users.ts:25](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/users.ts#L25)
@@ -24,16 +26,14 @@ Only expire mobile sessions. Defaults to `false`.
 
 #### Inherited from
 
-```ts
-SessionExpirationTarget.mobile_only
-```
+`SessionExpirationTarget.mobile_only`
 
 ***
 
 ### token?
 
 ```ts
-optional token?: string;
+token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
@@ -44,9 +44,7 @@ Overridable authentication token bearing required scopes.
 
 #### Inherited from
 
-```ts
-TokenOverridable.token
-```
+`TokenOverridable.token`
 
 ***
 
@@ -64,16 +62,14 @@ Encoded user ID.
 
 #### Inherited from
 
-```ts
-UserID.user_id
-```
+`UserID.user_id`
 
 ***
 
 ### web\_only?
 
 ```ts
-optional web_only?: boolean;
+web_only?: boolean;
 ```
 
 Defined in: [packages/web-api/src/types/request/admin/users.ts:27](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/users.ts#L27)
@@ -84,6 +80,4 @@ Only expire web sessions. Defaults to `false`.
 
 #### Inherited from
 
-```ts
-SessionExpirationTarget.web_only
-```
+`SessionExpirationTarget.web_only`

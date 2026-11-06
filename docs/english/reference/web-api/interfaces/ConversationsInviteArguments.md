@@ -6,7 +6,9 @@ Defined in: [packages/web-api/src/types/request/conversations.ts:109](https://gi
 
 ## Extends
 
-- `Channel`.`Users`.`TokenOverridable`
+- `Channel`
+- `Users`
+- `TokenOverridable`
 
 ## Properties
 
@@ -24,16 +26,14 @@ ID of conversation.
 
 #### Inherited from
 
-```ts
-Channel.channel
-```
+`Channel.channel`
 
 ***
 
 ### force?
 
 ```ts
-optional force?: boolean;
+force?: boolean;
 ```
 
 Defined in: [packages/web-api/src/types/request/conversations.ts:114](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/conversations.ts#L114)
@@ -48,7 +48,7 @@ disregarding invalid IDs. Defaults to `false`.
 ### token?
 
 ```ts
-optional token?: string;
+token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
@@ -59,9 +59,7 @@ Overridable authentication token bearing required scopes.
 
 #### Inherited from
 
-```ts
-TokenOverridable.token
-```
+`TokenOverridable.token`
 
 ***
 
@@ -79,6 +77,4 @@ A comma separated list of user IDs. Up to 1000 users may be listed.
 
 #### Inherited from
 
-```ts
-Users.users
-```
+`Users.users`

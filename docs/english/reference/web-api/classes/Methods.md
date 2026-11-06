@@ -4762,9 +4762,7 @@ Defined in: node\_modules/eventemitter3/index.d.ts:9
 
 #### Inherited from
 
-```ts
-EventEmitter.prefixed
-```
+`EventEmitter.prefixed`
 
 ## Methods
 
@@ -4806,9 +4804,7 @@ Defined in: node\_modules/eventemitter3/index.d.ts:45
 
 #### Inherited from
 
-```ts
-EventEmitter.addListener
-```
+`EventEmitter.addListener`
 
 ***
 
@@ -4868,9 +4864,7 @@ Calls each of the listeners registered for a given event.
 
 #### Inherited from
 
-```ts
-EventEmitter.emit
-```
+`EventEmitter.emit`
 
 ***
 
@@ -4891,9 +4885,7 @@ listeners.
 
 #### Inherited from
 
-```ts
-EventEmitter.eventNames
-```
+`EventEmitter.eventNames`
 
 ***
 
@@ -4939,16 +4931,14 @@ Return the number of listeners listening to a given event.
 
 #### Inherited from
 
-```ts
-EventEmitter.listenerCount
-```
+`EventEmitter.listenerCount`
 
 ***
 
 ### listeners()
 
 ```ts
-listeners<T>(event): (...args) => void[];
+listeners<T>(event): ((...args) => void)[];
 ```
 
 Defined in: node\_modules/eventemitter3/index.d.ts:20
@@ -4969,13 +4959,11 @@ Return the listeners registered for a given event.
 
 #### Returns
 
-(...`args`) => `void`[]
+((...`args`) => `void`)[]
 
 #### Inherited from
 
-```ts
-EventEmitter.listeners
-```
+`EventEmitter.listeners`
 
 ***
 
@@ -5022,9 +5010,7 @@ Defined in: node\_modules/eventemitter3/index.d.ts:69
 
 #### Inherited from
 
-```ts
-EventEmitter.off
-```
+`EventEmitter.off`
 
 ***
 
@@ -5068,9 +5054,7 @@ Add a listener for a given event.
 
 #### Inherited from
 
-```ts
-EventEmitter.on
-```
+`EventEmitter.on`
 
 ***
 
@@ -5114,9 +5098,7 @@ Add a one-time listener for a given event.
 
 #### Inherited from
 
-```ts
-EventEmitter.once
-```
+`EventEmitter.once`
 
 ***
 
@@ -5142,9 +5124,7 @@ Remove all listeners, or those of the specified event.
 
 #### Inherited from
 
-```ts
-EventEmitter.removeAllListeners
-```
+`EventEmitter.removeAllListeners`
 
 ***
 
@@ -5193,6 +5173,4 @@ Remove the listeners of a given event.
 
 #### Inherited from
 
-```ts
-EventEmitter.removeListener
-```
+`EventEmitter.removeListener`

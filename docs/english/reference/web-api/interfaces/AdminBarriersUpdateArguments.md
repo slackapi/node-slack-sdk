@@ -6,7 +6,8 @@ Defined in: [packages/web-api/src/types/request/admin/barriers.ts:30](https://gi
 
 ## Extends
 
-- [`AdminBarriersCreateArguments`](AdminBarriersCreateArguments.md).`BarrierID`
+- [`AdminBarriersCreateArguments`](AdminBarriersCreateArguments.md)
+- `BarrierID`
 
 ## Properties
 
@@ -24,9 +25,7 @@ The ID of the barrier.
 
 #### Inherited from
 
-```ts
-BarrierID.barrier_id
-```
+`BarrierID.barrier_id`
 
 ***
 
@@ -88,7 +87,7 @@ Currently you must provide all three: `im`, `mpim`, `call`.
 ### token?
 
 ```ts
-optional token?: string;
+token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)

@@ -41,7 +41,7 @@ ID of the agent session channel the canvas belongs to.
 ### content\_format?
 
 ```ts
-optional content_format?: string;
+content_format?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/agents.ts:54](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/agents.ts#L54)
@@ -55,7 +55,7 @@ Format to render the canvas content in. Defaults to `markdown`.
 ### include\_resolved?
 
 ```ts
-optional include_resolved?: boolean;
+include_resolved?: boolean;
 ```
 
 Defined in: [packages/web-api/src/types/request/agents.ts:56](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/agents.ts#L56)
@@ -69,7 +69,7 @@ Whether to include resolved comment threads in the response. Defaults to `false`
 ### token?
 
 ```ts
-optional token?: string;
+token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
@@ -80,6 +80,4 @@ Overridable authentication token bearing required scopes.
 
 #### Inherited from
 
-```ts
-TokenOverridable.token
-```
+`TokenOverridable.token`

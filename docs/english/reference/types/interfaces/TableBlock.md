@@ -21,7 +21,7 @@ Displays structured information in a table.
 ### block\_id?
 
 ```ts
-optional block_id?: string;
+block_id?: string;
 ```
 
 Defined in: [block-kit/blocks.ts:50](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L50)
@@ -43,7 +43,7 @@ a message. If a message is updated, use a new `block_id`.
 ### column\_settings?
 
 ```ts
-optional column_settings?: TableBlockColumnSettings[];
+column_settings?: TableBlockColumnSettings[];
 ```
 
 Defined in: [block-kit/blocks.ts:624](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L624)

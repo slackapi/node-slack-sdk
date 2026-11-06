@@ -13,7 +13,7 @@ Defined in: [packages/web-api/src/types/request/slackLists.ts:533](https://githu
 ### description\_blocks?
 
 ```ts
-optional description_blocks?: RichTextBlock[];
+description_blocks?: RichTextBlock[];
 ```
 
 Defined in: [packages/web-api/src/types/request/slackLists.ts:547](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/slackLists.ts#L547)
@@ -41,7 +41,7 @@ Encoded ID of the List.
 ### name?
 
 ```ts
-optional name?: string;
+name?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/slackLists.ts:542](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/slackLists.ts#L542)
@@ -55,7 +55,7 @@ Name of the List.
 ### todo\_mode?
 
 ```ts
-optional todo_mode?: boolean;
+todo_mode?: boolean;
 ```
 
 Defined in: [packages/web-api/src/types/request/slackLists.ts:552](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/slackLists.ts#L552)
@@ -69,7 +69,7 @@ Boolean indicating whether the List should be used to track todo tasks.
 ### token?
 
 ```ts
-optional token?: string;
+token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
@@ -80,6 +80,4 @@ Overridable authentication token bearing required scopes.
 
 #### Inherited from
 
-```ts
-TokenOverridable.token
-```
+`TokenOverridable.token`

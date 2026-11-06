@@ -9,7 +9,7 @@ Defined in: packages/types/dist/events/subteam.d.ts:34
 ### added\_users?
 
 ```ts
-optional added_users?: string[];
+added_users?: string[];
 ```
 
 Defined in: packages/types/dist/events/subteam.d.ts:40
@@ -19,7 +19,7 @@ Defined in: packages/types/dist/events/subteam.d.ts:40
 ### added\_users\_count?
 
 ```ts
-optional added_users_count?: number;
+added_users_count?: number;
 ```
 
 Defined in: packages/types/dist/events/subteam.d.ts:41
@@ -59,7 +59,7 @@ Defined in: packages/types/dist/events/subteam.d.ts:44
 ### removed\_users?
 
 ```ts
-optional removed_users?: string[];
+removed_users?: string[];
 ```
 
 Defined in: packages/types/dist/events/subteam.d.ts:42
@@ -69,7 +69,7 @@ Defined in: packages/types/dist/events/subteam.d.ts:42
 ### removed\_users\_count?
 
 ```ts
-optional removed_users_count?: number;
+removed_users_count?: number;
 ```
 
 Defined in: packages/types/dist/events/subteam.d.ts:43
