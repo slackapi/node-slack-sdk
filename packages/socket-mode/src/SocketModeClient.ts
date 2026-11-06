@@ -268,10 +268,6 @@ export class SocketModeClient extends EventEmitter {
 
   // PRIVATE/PROTECTED METHODS
 
-  /**
-   * Handles a connection that was just replaced by a new one. An open connection keeps serving until
-   * the new one receives `hello`; anything else is closed right away.
-   */
   private retire(previous: SlackWebSocket | undefined): void {
     if (previous?.isActive()) {
       this.closeRetiringWebsocket();
