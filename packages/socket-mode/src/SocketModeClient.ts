@@ -251,8 +251,7 @@ export class SocketModeClient extends EventEmitter {
     this.shuttingDown = true;
     this.reconnectDelay?.abort();
     this.reconnectDelay = undefined;
-    this.retiringWebsocket?.disconnect();
-    this.retiringWebsocket = undefined;
+    this.closeRetiringWebsocket();
     this.logger.debug('Manually disconnecting this Socket Mode client');
     this.emit(State.Disconnecting);
     return new Promise((resolve, _reject) => {
@@ -275,11 +274,26 @@ export class SocketModeClient extends EventEmitter {
    */
   private retire(previous: SlackWebSocket | undefined): void {
     if (previous?.isActive()) {
-      this.retiringWebsocket?.disconnect();
+      this.closeRetiringWebsocket();
       this.retiringWebsocket = previous;
     } else if (previous?.readyState !== undefined) {
       previous.disconnect();
     }
+  }
+
+  private closeRetiringWebsocket(): void {
+    this.retiringWebsocket?.disconnect();
+    this.retiringWebsocket = undefined;
+  }
+
+  private openReplacement(reason: string): void {
+    this.logger.debug(`Received "disconnect" (${reason}) message - opening a replacement connection.`);
+    this.emit(State.Reconnecting);
+    this.start().catch((error) => {
+      if (!this.shuttingDown) {
+        this.logger.error(`Failed to open a replacement Socket Mode connection (error: ${error})`);
+      }
+    });
   }
 
   /**
@@ -381,8 +395,7 @@ export class SocketModeClient extends EventEmitter {
 
     // Slack has finalized the handshake with a hello message; we are good to go.
     if (event.type === 'hello') {
-      this.retiringWebsocket?.disconnect();
-      this.retiringWebsocket = undefined;
+      this.closeRetiringWebsocket();
       this.emit(State.Connected, this.connectionResponse);
       return;
     }
@@ -390,14 +403,7 @@ export class SocketModeClient extends EventEmitter {
     // Slack is recycling the pod handling the connection (or otherwise requires the client to reconnect)
     if (event.type === 'disconnect') {
       if (this.autoReconnectEnabled && !this.shuttingDown && isRefresh(event.reason)) {
-        // Open the replacement first; the current connection keeps serving until the replacement says hello.
-        this.logger.debug(`Received "${event.type}" (${event.reason}) message - opening a replacement connection.`);
-        this.emit(State.Reconnecting);
-        this.start().catch((error) => {
-          if (!this.shuttingDown) {
-            this.logger.error(`Failed to open a replacement Socket Mode connection (error: ${error})`);
-          }
-        });
+        this.openReplacement(event.reason);
       } else {
         this.logger.debug(
           `Received "${event.type}" (${event.reason}) message - disconnecting.${this.autoReconnectEnabled ? ' Will reconnect.' : ''}`,
