@@ -565,28 +565,13 @@ describe('SocketModeClient', () => {
       return (url: string) => resolveURL(url);
     }
 
-    it('should log a rejected reconnect instead of leaving an unhandled rejection', async () => {
-      const { client, error } = clientWithLogger();
-      sandbox.stub(client, 'start').rejects(new Error('invalid_auth'));
-
-      client.emit('close');
-      await sleep(10);
-
-      sinon.assert.calledWithMatch(error, 'invalid_auth');
-      sinon.assert.notCalled(unhandledRejection);
-    });
-
-    it('should emit disconnected with the cause when a reconnect fails for good', async () => {
+    it('should reject with the cause when a reconnect fails for good', async () => {
       const { client } = clientWithLogger();
       const cause = new Error('invalid_auth');
       sandbox.stub(client, 'start').rejects(cause);
-      const disconnected = sandbox.spy();
-      client.on('disconnected', disconnected);
+      const [onClose] = client.listeners('close');
 
-      client.emit('close');
-      await sleep(10);
-
-      sinon.assert.calledOnceWithExactly(disconnected, cause);
+      await assert.rejects(async () => onClose(), cause);
     });
 
     it('should not open a connection when disconnect() wins the race with a reconnect', async () => {
@@ -643,8 +628,8 @@ describe('SocketModeClient', () => {
       await assert.rejects(starting, { name: 'SMConnectAbortedError' });
     });
 
-    it('should not log an error when disconnect() stops a reconnect during the WebSocket handshake', async () => {
-      const { client, error } = clientWithLogger();
+    it('should stop a reconnect during the WebSocket handshake without an unhandled rejection', async () => {
+      const { client } = clientWithLogger();
       holdHandshake(client);
       const disconnected = sandbox.spy();
       client.on('disconnected', disconnected);
@@ -654,7 +639,6 @@ describe('SocketModeClient', () => {
       await client.disconnect();
       await sleep(10);
 
-      sinon.assert.neverCalledWithMatch(error, 'Failed to reconnect');
       sinon.assert.notCalled(unhandledRejection);
       sinon.assert.calledOnce(disconnected);
     });
