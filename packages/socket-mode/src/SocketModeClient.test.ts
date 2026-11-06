@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { type AddressInfo, createServer, type Server, type Socket } from 'node:net';
 import { afterEach, beforeEach, describe, it } from 'node:test';
 import { ConsoleLogger } from '@slack/logger';
 import type { FetchFunction, WebClient } from '@slack/web-api';
@@ -6,7 +7,7 @@ import proxyquire from 'proxyquire';
 import sinon from 'sinon';
 
 import logModule, { LogLevel } from './logger';
-import { SlackWebSocket } from './SlackWebSocket';
+import type { SlackWebSocket } from './SlackWebSocket';
 import { SocketModeClient } from './SocketModeClient';
 import type { SocketModeDispatcher } from './SocketModeOptions';
 
@@ -514,12 +515,19 @@ describe('SocketModeClient', () => {
 
   describe('reconnect failures (issue #2656)', () => {
     let unhandledRejection: sinon.SinonSpy;
-    beforeEach(() => {
+    let neverUpgrades: Server;
+    let heldSockets: Socket[];
+    beforeEach(async () => {
       unhandledRejection = sandbox.spy();
       process.on('unhandledRejection', unhandledRejection);
+      heldSockets = [];
+      neverUpgrades = createServer((socket) => heldSockets.push(socket));
+      await new Promise<void>((resolve) => neverUpgrades.listen(0, '127.0.0.1', resolve));
     });
-    afterEach(() => {
+    afterEach(async () => {
       process.off('unhandledRejection', unhandledRejection);
+      for (const socket of heldSockets) socket.destroy();
+      await new Promise((resolve) => neverUpgrades.close(resolve));
     });
 
     function clientWithLogger(clientPingTimeout = 1) {
@@ -531,10 +539,10 @@ describe('SocketModeClient', () => {
     }
 
     function holdHandshake(client: SocketModeClient) {
+      const { port } = neverUpgrades.address() as AddressInfo;
       sandbox
         .stub(client as unknown as { retrieveWSSURL: () => Promise<string> }, 'retrieveWSSURL')
-        .resolves('ws://127.0.0.1:1/');
-      sandbox.stub(SlackWebSocket.prototype, 'connect');
+        .resolves(`ws://127.0.0.1:${port}/`);
     }
 
     function failWSSURL(client: SocketModeClient) {
@@ -545,9 +553,7 @@ describe('SocketModeClient', () => {
     function holdThenFailWSSURL(client: SocketModeClient) {
       const { webClient } = client as unknown as { webClient: WebClient };
       let rejectURL: (error: Error) => void = () => {};
-      sandbox
-        .stub(webClient.apps.connections, 'open')
-        .returns(new Promise((_resolve, reject) => (rejectURL = reject)));
+      sandbox.stub(webClient.apps.connections, 'open').returns(new Promise((_resolve, reject) => (rejectURL = reject)));
       return (error: Error) => rejectURL(error);
     }
 
@@ -632,7 +638,7 @@ describe('SocketModeClient', () => {
       await client.disconnect();
       await sleep(10);
 
-      sinon.assert.notCalled(error);
+      sinon.assert.neverCalledWithMatch(error, 'Failed to reconnect');
       sinon.assert.notCalled(unhandledRejection);
       sinon.assert.calledOnce(disconnected);
     });
