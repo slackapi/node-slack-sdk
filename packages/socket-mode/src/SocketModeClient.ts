@@ -279,14 +279,16 @@ export class SocketModeClient extends EventEmitter {
     this.retiringWebsocket = undefined;
   }
 
-  private openReplacement(reason: string): void {
+  private async openReplacement(reason: string): Promise<void> {
     this.logger.debug(`Received "disconnect" (${reason}) message - opening a replacement connection.`);
     this.emit(State.Reconnecting);
-    this.start().catch((error) => {
+    try {
+      await this.start();
+    } catch (error) {
       if (!this.shuttingDown) {
         this.logger.error(`Failed to open a replacement Socket Mode connection (error: ${error})`);
       }
-    });
+    }
   }
 
   /**
@@ -396,7 +398,7 @@ export class SocketModeClient extends EventEmitter {
     // Slack is recycling the pod handling the connection (or otherwise requires the client to reconnect)
     if (event.type === 'disconnect') {
       if (this.autoReconnectEnabled && !this.shuttingDown && isRefresh(event.reason)) {
-        this.openReplacement(event.reason);
+        await this.openReplacement(event.reason);
       } else {
         this.logger.debug(
           `Received "${event.type}" (${event.reason}) message - disconnecting.${this.autoReconnectEnabled ? ' Will reconnect.' : ''}`,
