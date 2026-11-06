@@ -170,8 +170,7 @@ export class SocketModeClient extends EventEmitter {
           await this.delayReconnectAttempt(this.start);
         } catch (error) {
           if (!(error instanceof SMConnectAbortedError)) {
-            this.logger.error(`Failed to reconnect the Socket Mode client (error: ${error})`);
-            this.emit(State.Disconnected, error);
+            throw error;
           }
         }
       } else {
