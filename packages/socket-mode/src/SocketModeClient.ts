@@ -77,10 +77,7 @@ export class SocketModeClient extends EventEmitter {
 
   public websocket?: SlackWebSocket;
 
-  /**
-   * The previous connection, kept open while its replacement connects so no payload is missed.
-   * It is closed as soon as the replacement receives `hello`.
-   */
+  /** The previous connection, kept serving until its replacement receives `hello`. */
   private retiringWebsocket?: SlackWebSocket;
 
   /**
