@@ -11,7 +11,7 @@ import type { SocketModeDispatcher } from './SocketModeOptions';
 
 export const WS_READY_STATES = ['CONNECTING', 'OPEN', 'CLOSING', 'CLOSED'];
 
-const CLOSE_HANDSHAKE_TIMEOUT_MS = 30_000;
+const CLOSE_HANDSHAKE_TIMEOUT_MS = 1_000;
 
 interface PingPongMessage {
   websocket: WebSocket;
@@ -256,8 +256,9 @@ export class SlackWebSocket {
         // If we haven't received a close frame yet, then we send one to the peer, expecting to receive a close frame
         // in response.
         this.logger.debug('Sending close frame (status=1000).');
+        this.stopMonitoringPings();
         this.closeHandshakeTimeout = setTimeout(() => {
-          this.logger.warn('Peer did not complete the close handshake in time; forcing cleanup.');
+          this.logger.debug('Peer did not complete the close handshake in time; forcing cleanup.');
           this.cleanup();
         }, CLOSE_HANDSHAKE_TIMEOUT_MS);
         this.websocket.close(1000); // 1000 = Normal Closure
@@ -291,8 +292,7 @@ export class SlackWebSocket {
     }
     this.defaultSocket = null;
     this.websocket = null;
-    clearTimeout(this.serverPingTimeout);
-    clearInterval(this.clientPingTimeout);
+    this.stopMonitoringPings();
     clearTimeout(this.closeHandshakeTimeout);
     // Emit event back to client letting it know connection has closed (in case it needs to reconnect if
     // reconnecting is enabled)
@@ -346,6 +346,11 @@ export class SlackWebSocket {
     }, this.options.serverPingTimeoutMS);
   }
 
+  private stopMonitoringPings(): void {
+    clearTimeout(this.serverPingTimeout);
+    clearInterval(this.clientPingTimeout);
+  }
+
   /**
    * Monitors WebSocket connection health; sends a ping to peer, and expects a pong within a certain timeframe.
    * If that expectation is not met, we disconnect the websocket.
@@ -360,6 +365,11 @@ export class SlackWebSocket {
         const pingMessage = `Ping from client (${now})`;
         if (!this.websocket) {
           this.logger.error('WebSocket not available, skipping ping.');
+          return;
+        }
+        if (this.websocket.readyState === WebSocket.CLOSING) {
+          this.logger.debug('Peer started the close handshake; terminating WebSocket.');
+          this.disconnect();
           return;
         }
         ping(this.websocket, Buffer.from(pingMessage));
