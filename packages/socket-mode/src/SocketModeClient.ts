@@ -264,6 +264,9 @@ export class SocketModeClient extends EventEmitter {
    * Accepts a callback to invoke after any calculated delays.
    */
   private async delayReconnectAttempt<T>(cb: () => Promise<T>): Promise<T> {
+    if (this.shuttingDown) {
+      throw new SMConnectAbortedError();
+    }
     this.numOfConsecutiveReconnectionFailures += 1;
     const msBeforeRetry = this.clientPingTimeoutMS * this.numOfConsecutiveReconnectionFailures;
     this.logger.debug(`Before trying to reconnect, this client will wait for ${msBeforeRetry} milliseconds`);

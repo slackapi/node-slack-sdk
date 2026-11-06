@@ -542,6 +542,15 @@ describe('SocketModeClient', () => {
       sandbox.stub(webClient.apps.connections, 'open').rejects(new Error('internal_error'));
     }
 
+    function holdThenFailWSSURL(client: SocketModeClient) {
+      const { webClient } = client as unknown as { webClient: WebClient };
+      let rejectURL: (error: Error) => void = () => {};
+      sandbox
+        .stub(webClient.apps.connections, 'open')
+        .returns(new Promise((_resolve, reject) => (rejectURL = reject)));
+      return (error: Error) => rejectURL(error);
+    }
+
     function holdWSSURL(client: SocketModeClient) {
       let resolveURL: (url: string) => void = () => {};
       sandbox
@@ -635,6 +644,17 @@ describe('SocketModeClient', () => {
       const starting = client.start();
       await sleep(10);
       await client.disconnect();
+
+      await assert.rejects(starting, { name: 'SMConnectAbortedError' });
+    });
+
+    it('should reject start() without waiting to retry when the WSS URL fails after disconnect()', async () => {
+      const { client } = clientWithLogger(60_000);
+      const failURL = holdThenFailWSSURL(client);
+
+      const starting = client.start();
+      await client.disconnect();
+      failURL(new Error('internal_error'));
 
       await assert.rejects(starting, { name: 'SMConnectAbortedError' });
     });
