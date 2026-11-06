@@ -604,6 +604,22 @@ describe('SocketModeClient', () => {
       sinon.assert.notCalled(unhandledRejection);
     });
 
+    it('should resolve disconnect() while a reconnect is waiting', { timeout: 2000 }, async () => {
+      const { client } = clientWithLogger(60_000);
+      const startStub = sandbox.stub(client, 'start');
+      client.websocket = {
+        isActive: () => false,
+        disconnect: () => client.emit('close'),
+      } as unknown as SlackWebSocket;
+
+      client.emit('close');
+      await sleep(10);
+      await client.disconnect();
+
+      sinon.assert.notCalled(startStub);
+      sinon.assert.notCalled(unhandledRejection);
+    });
+
     it('should reject start() when disconnect() is called while it is connecting', async () => {
       const { client } = clientWithLogger();
       const releaseURL = holdWSSURL(client);

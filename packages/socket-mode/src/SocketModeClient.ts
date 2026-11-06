@@ -1,3 +1,4 @@
+import { setTimeout as sleep } from 'node:timers/promises';
 import {
   type AppsConnectionsOpenResponse,
   addAppMetadata,
@@ -105,11 +106,9 @@ export class SocketModeClient extends EventEmitter {
   private shuttingDown = false;
 
   /**
-   * Timer handle for scheduling automatic reconnection attempts after a disconnect.
+   * Cancels the pending wait before an automatic reconnection attempt.
    */
-  private reconnectionTimer: ReturnType<typeof setTimeout> | undefined;
-
-  private endReconnectDelay: () => void = () => {};
+  private reconnectDelay: AbortController | undefined;
 
   public constructor(
     {
@@ -165,7 +164,7 @@ export class SocketModeClient extends EventEmitter {
     this.on('close', async () => {
       // Underlying WebSocket connection was closed, possibly reconnect.
       if (this.websocket?.isActive()) return;
-      if (this.reconnectionTimer) return;
+      if (this.reconnectDelay) return;
       if (!this.shuttingDown && this.autoReconnectEnabled) {
         try {
           await this.delayReconnectAttempt(this.start);
@@ -240,9 +239,8 @@ export class SocketModeClient extends EventEmitter {
    */
   public disconnect(): Promise<void> {
     this.shuttingDown = true;
-    clearTimeout(this.reconnectionTimer);
-    this.reconnectionTimer = undefined;
-    this.endReconnectDelay();
+    this.reconnectDelay?.abort();
+    this.reconnectDelay = undefined;
     this.logger.debug('Manually disconnecting this Socket Mode client');
     this.emit(State.Disconnecting);
     return new Promise((resolve, _reject) => {
@@ -270,11 +268,9 @@ export class SocketModeClient extends EventEmitter {
     this.numOfConsecutiveReconnectionFailures += 1;
     const msBeforeRetry = this.clientPingTimeoutMS * this.numOfConsecutiveReconnectionFailures;
     this.logger.debug(`Before trying to reconnect, this client will wait for ${msBeforeRetry} milliseconds`);
-    await new Promise<void>((resolve) => {
-      this.endReconnectDelay = resolve;
-      this.reconnectionTimer = setTimeout(resolve, msBeforeRetry);
-    });
-    this.reconnectionTimer = undefined;
+    this.reconnectDelay = new AbortController();
+    await sleep(msBeforeRetry, undefined, { signal: this.reconnectDelay.signal }).catch(() => {});
+    this.reconnectDelay = undefined;
     if (this.shuttingDown) {
       this.logger.debug('Client shutting down, will not attempt reconnect.');
       throw new SMConnectAbortedError();
