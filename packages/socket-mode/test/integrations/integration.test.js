@@ -97,6 +97,28 @@ describe('Integration tests with a WebSocket server', { timeout: 30000 }, () => 
       await client.disconnect();
     });
   });
+  describe('restarting during a reconnect (issue #2656)', () => {
+    it('opens one connection when disconnect() and start() run during the reconnect wait', async () => {
+      client = new SocketModeClient({
+        appToken: 'whatever',
+        logLevel: LogLevel.ERROR,
+        clientOptions: {
+          slackApiUrl: `http://localhost:${HTTP_PORT}/`,
+        },
+        clientPingTimeout: 100,
+      });
+      await client.start();
+
+      exposed_ws_connection.terminate();
+      await sleep(20);
+      await client.disconnect();
+      await client.start();
+      await sleep(300);
+
+      assert.strictEqual(wss.clients.size, 1);
+      await client.disconnect();
+    });
+  });
   describe('`apps.connections.open` API failure modes', () => {
     beforeEach(() => {
       client = new SocketModeClient({
@@ -177,15 +199,8 @@ describe('Integration tests with a WebSocket server', { timeout: 30000 }, () => 
       assert.strictEqual(debugLoggerSpy.calledWith(sinon.match('Unable to parse an incoming WebSocket message')), true);
       await client.disconnect();
     });
-    it('should maintain one serial reconnection attempt if WSS server sends unexpected HTTP response during handshake, like a 409', async (t) => {
+    it('should maintain one serial reconnection attempt if WSS server sends unexpected HTTP response during handshake, like a 409', async () => {
       // test for https://github.com/slackapi/node-slack-sdk/issues/2094
-      // SocketModeClient's internal reconnection loop creates promises that reject
-      // with `undefined` after disconnect(). node:test detects these as unhandled
-      // rejections (mocha did not). Mock process.emit to swallow them during cleanup.
-      const originalEmit = process.emit.bind(process);
-      t.after(() => {
-        process.emit = originalEmit;
-      });
       // override socket mode client instance with lower client ping timeout, which controls reconnection rate
       client = new SocketModeClient({
         appToken: 'whatever',
@@ -238,11 +253,6 @@ describe('Integration tests with a WebSocket server', { timeout: 30000 }, () => 
           else res();
         });
       });
-      // Swallow unhandled rejections from internal reconnection cleanup
-      process.emit = (event, ...args) => {
-        if (event === 'unhandledRejection') return true;
-        return originalEmit(event, ...args);
-      };
       // Allow event loop to drain any pending async activity from reconnection attempts
       await sleep(100);
       assert.strictEqual(retries, 2, 'unexpected number of times `close` event was raised during reconnection!');
