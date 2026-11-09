@@ -285,8 +285,8 @@ export class SocketModeClient extends EventEmitter {
     try {
       await this.start();
     } catch (error) {
-      if (!this.shuttingDown) {
-        this.logger.error(`Failed to open a replacement Socket Mode connection (error: ${error})`);
+      if (!(error instanceof SMConnectAbortedError)) {
+        throw error;
       }
     }
   }

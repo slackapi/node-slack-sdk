@@ -935,6 +935,16 @@ describe('SocketModeClient', () => {
       assert.strictEqual(client.websocket, replacement);
     });
 
+    it('should reject with the cause when the replacement fails for good', async () => {
+      const { client, failNextURL } = createClient();
+      const old = await connect(client);
+      const cause = new Error('invalid_auth');
+      failNextURL(cause);
+      const [onMessage] = client.listeners('ws_message');
+
+      await assert.rejects(async () => onMessage(JSON.stringify(refreshRequested), false, old), cause);
+    });
+
     it('should close both connections and emit disconnected once when disconnect() runs mid-refresh', async () => {
       const { client, error } = createClient();
       const old = await connect(client);
