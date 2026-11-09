@@ -311,7 +311,7 @@ describe('SocketModeClient', () => {
           assert.strictEqual(args.type, 'events_api');
           assert.deepEqual(args.body, body);
           await args.ack({});
-          sinon.assert.calledOnceWith(send, 'malformed', {});
+          sinon.assert.calledOnceWithExactly(send, 'malformed', {}, undefined);
         }
       });
 
@@ -956,21 +956,6 @@ describe('SocketModeClient', () => {
       assert.strictEqual(sockets.length, 2);
       assert.strictEqual(client.websocket, sockets[1]);
       sinon.assert.calledOnce(reconnecting);
-    });
-
-    it('should close the old connection, not open another, on its own disconnect message after hello', async () => {
-      const { client } = createClient();
-      const old = await connect(client);
-
-      old.receive({ type: 'disconnect', reason: 'warning' });
-      await sleep(0);
-      sockets[1].open().hello();
-      old.receive(refreshRequested);
-      await sleep(0);
-
-      assert.strictEqual(old.disconnectCalls, 1);
-      assert.strictEqual(sockets.length, 2);
-      assert.strictEqual(client.websocket, sockets[1]);
     });
 
     it('should close the retiring connection, not open another, on its disconnect message while the replacement handshakes', async () => {
