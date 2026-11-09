@@ -99,6 +99,8 @@ export class SocketModeClient extends EventEmitter {
 
   private customLoggerProvided = false;
 
+  private connectsInFlight = 0;
+
   /**
    * Sentinel tracking if user invoked `disconnect()`; for enforcing shutting down of client
    * even if `autoReconnectEnabled` is `true`.
@@ -164,18 +166,18 @@ export class SocketModeClient extends EventEmitter {
     this.on('close', async (socket: SlackWebSocket) => {
       // Underlying WebSocket connection was closed, possibly reconnect.
       if (socket !== this.websocket) return;
-      if (this.reconnectDelay) return;
-      if (!this.shuttingDown && this.autoReconnectEnabled) {
-        try {
-          await this.delayReconnectAttempt(this.start);
-        } catch (error) {
-          if (!(error instanceof SMConnectAbortedError)) {
-            throw error;
-          }
-        }
-      } else {
+      if (this.shuttingDown || !this.autoReconnectEnabled) {
         // If reconnect is disabled or user explicitly called `disconnect()`, emit a disconnected state.
         this.emit(State.Disconnected);
+        return;
+      }
+      if (this.connectsInFlight > 0) return;
+      try {
+        await this.delayReconnectAttempt(this.start);
+      } catch (error) {
+        if (!(error instanceof SMConnectAbortedError)) {
+          throw error;
+        }
       }
     });
     this.on('ws_message', this.onWebSocketMessage.bind(this));
@@ -193,7 +195,7 @@ export class SocketModeClient extends EventEmitter {
     // python equiv: SocketModeClient.connect
     this.shuttingDown = false;
     this.logger.debug('Starting Socket Mode session ...');
-    const url = await this.retrieveWSSURL();
+    const url = await this.inFlight(this.retrieveWSSURL());
     if (this.shuttingDown) {
       throw new SMConnectAbortedError();
     }
@@ -256,6 +258,15 @@ export class SocketModeClient extends EventEmitter {
 
   // PRIVATE/PROTECTED METHODS
 
+  private async inFlight<T>(work: Promise<T>): Promise<T> {
+    this.connectsInFlight += 1;
+    try {
+      return await work;
+    } finally {
+      this.connectsInFlight -= 1;
+    }
+  }
+
   /**
    * Initiates a reconnect, taking into account configurable delays and number of reconnect attempts and failures.
    * Accepts a callback to invoke after any calculated delays.
@@ -268,7 +279,7 @@ export class SocketModeClient extends EventEmitter {
     const msBeforeRetry = this.clientPingTimeoutMS * this.numOfConsecutiveReconnectionFailures;
     this.logger.debug(`Before trying to reconnect, this client will wait for ${msBeforeRetry} milliseconds`);
     this.reconnectDelay = new AbortController();
-    await setTimeout(msBeforeRetry, undefined, { signal: this.reconnectDelay.signal }).catch(() => {});
+    await this.inFlight(setTimeout(msBeforeRetry, undefined, { signal: this.reconnectDelay.signal }).catch(() => {}));
     this.reconnectDelay = undefined;
     if (this.shuttingDown) {
       this.logger.debug('Client shutting down, will not attempt reconnect.');
