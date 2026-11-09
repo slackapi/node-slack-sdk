@@ -130,7 +130,7 @@ describe('Integration tests with a WebSocket server', { timeout: 30000 }, () => 
         clientPingTimeout: 100,
       });
     });
-    it('opens only the replacement when the old connection closes while its URL is fetched', async () => {
+    it('opens only the replacement when the old connection closes while its URL is fetched', async (t) => {
       await client.start();
       const old = exposed_ws_connection;
       server.close();
@@ -142,16 +142,22 @@ describe('Integration tests with a WebSocket server', { timeout: 30000 }, () => 
       });
       server.listen(HTTP_PORT);
       let connections = 0;
-      wss.on('connection', () => {
-        connections += 1;
+      const refreshedAt = Date.now();
+      const replaced = new Promise((resolve) => {
+        wss.on('connection', () => {
+          connections += 1;
+          resolve(`${Date.now() - refreshedAt}ms`);
+        });
       });
 
       old.send(JSON.stringify({ type: 'disconnect', reason: 'refresh_requested' }));
       await sleep(50);
       old.terminate();
-      await sleep(600);
+      const elapsed = await Promise.race([replaced, sleep(5000).then(() => 'never, within 5s')]);
+      t.diagnostic(`replacement connected after ${elapsed}`);
+      await sleep(300);
 
-      assert.strictEqual(connections, 1);
+      assert.strictEqual(connections, 1, `replacement connected after ${elapsed}`);
       assert.strictEqual(wss.clients.size, 1);
       await client.disconnect();
     });
