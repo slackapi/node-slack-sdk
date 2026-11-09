@@ -102,16 +102,17 @@ export class SocketModeClient extends EventEmitter {
 
   private customLoggerProvided = false;
 
+  private connectsInFlight = 0;
+
+  private lifecycle = new AbortController();
+
   /**
    * Sentinel tracking if user invoked `disconnect()`; for enforcing shutting down of client
    * even if `autoReconnectEnabled` is `true`.
    */
-  private shuttingDown = false;
-
-  /**
-   * Cancels the pending wait before an automatic reconnection attempt.
-   */
-  private reconnectDelay: AbortController | undefined;
+  private get shuttingDown(): boolean {
+    return this.lifecycle.signal.aborted;
+  }
 
   public constructor(
     {
@@ -164,22 +165,21 @@ export class SocketModeClient extends EventEmitter {
     this.on('error', (err) => {
       this.logger.error(`WebSocket error! ${err}`);
     });
-    this.on('close', async (socket?: SlackWebSocket) => {
+    this.on('close', async (socket: SlackWebSocket) => {
       // Underlying WebSocket connection was closed, possibly reconnect.
-      // A connection that was already replaced has no say in reconnecting.
-      if (socket && socket !== this.websocket) return;
-      if (this.reconnectDelay) return;
-      if (!this.shuttingDown && this.autoReconnectEnabled) {
-        try {
-          await this.delayReconnectAttempt(this.start);
-        } catch (error) {
-          if (!(error instanceof SMConnectAbortedError)) {
-            throw error;
-          }
-        }
-      } else {
+      if (socket !== this.websocket) return;
+      if (this.shuttingDown || !this.autoReconnectEnabled) {
         // If reconnect is disabled or user explicitly called `disconnect()`, emit a disconnected state.
         this.emit(State.Disconnected);
+        return;
+      }
+      if (this.connectsInFlight > 0) return;
+      try {
+        await this.delayReconnectAttempt(() => this.start(), this.lifecycle.signal);
+      } catch (error) {
+        if (!(error instanceof SMConnectAbortedError)) {
+          throw error;
+        }
       }
     });
     this.on('ws_message', this.onWebSocketMessage.bind(this));
@@ -195,10 +195,13 @@ export class SocketModeClient extends EventEmitter {
    */
   public async start(): Promise<AppsConnectionsOpenResponse> {
     // python equiv: SocketModeClient.connect
-    this.shuttingDown = false;
-    this.logger.debug('Starting Socket Mode session ...');
-    const url = await this.retrieveWSSURL();
     if (this.shuttingDown) {
+      this.lifecycle = new AbortController();
+    }
+    const { signal } = this.lifecycle;
+    this.logger.debug('Starting Socket Mode session ...');
+    const url = await this.inFlight(this.retrieveWSSURL(signal));
+    if (signal.aborted) {
       throw new SMConnectAbortedError();
     }
     const previous = this.websocket;
@@ -229,7 +232,7 @@ export class SocketModeClient extends EventEmitter {
       };
       disconnectedCallback = (err) => {
         this.removeListener(State.Connected, connectedCallback);
-        reject(this.shuttingDown ? new SMConnectAbortedError() : err);
+        reject(signal.aborted ? new SMConnectAbortedError() : err);
       };
       this.once(State.Connected, connectedCallback);
       this.once(State.Disconnected, disconnectedCallback);
@@ -243,9 +246,7 @@ export class SocketModeClient extends EventEmitter {
    * unless you call start() again later.
    */
   public disconnect(): Promise<void> {
-    this.shuttingDown = true;
-    this.reconnectDelay?.abort();
-    this.reconnectDelay = undefined;
+    this.lifecycle.abort();
     this.closeRetiringWebsocket();
     this.logger.debug('Manually disconnecting this Socket Mode client');
     this.emit(State.Disconnecting);
@@ -289,33 +290,40 @@ export class SocketModeClient extends EventEmitter {
     }
   }
 
+  private async inFlight<T>(work: Promise<T>): Promise<T> {
+    this.connectsInFlight += 1;
+    try {
+      return await work;
+    } finally {
+      this.connectsInFlight -= 1;
+    }
+  }
+
   /**
    * Initiates a reconnect, taking into account configurable delays and number of reconnect attempts and failures.
    * Accepts a callback to invoke after any calculated delays.
    */
-  private async delayReconnectAttempt<T>(cb: () => Promise<T>): Promise<T> {
-    if (this.shuttingDown) {
+  private async delayReconnectAttempt<T>(cb: () => Promise<T>, signal: AbortSignal): Promise<T> {
+    if (signal.aborted) {
       throw new SMConnectAbortedError();
     }
     this.numOfConsecutiveReconnectionFailures += 1;
     const msBeforeRetry = this.clientPingTimeoutMS * this.numOfConsecutiveReconnectionFailures;
     this.logger.debug(`Before trying to reconnect, this client will wait for ${msBeforeRetry} milliseconds`);
-    this.reconnectDelay = new AbortController();
-    await setTimeout(msBeforeRetry, undefined, { signal: this.reconnectDelay.signal }).catch(() => {});
-    this.reconnectDelay = undefined;
-    if (this.shuttingDown) {
+    await this.inFlight(setTimeout(msBeforeRetry, undefined, { signal }).catch(() => {}));
+    if (signal.aborted) {
       this.logger.debug('Client shutting down, will not attempt reconnect.');
       throw new SMConnectAbortedError();
     }
     this.logger.debug('Continuing with reconnect...');
     this.emit(State.Reconnecting);
-    return cb.apply(this);
+    return cb();
   }
 
   /**
    * Retrieves a new WebSocket URL to connect to.
    */
-  private async retrieveWSSURL(): Promise<string> {
+  private async retrieveWSSURL(signal: AbortSignal): Promise<string> {
     // python equiv: BaseSocketModeClient.issue_new_wss_url
     try {
       this.logger.debug('Going to retrieve a new WSS URL ...');
@@ -344,7 +352,7 @@ export class SocketModeClient extends EventEmitter {
         isRecoverable = false;
       }
       if (this.autoReconnectEnabled && isRecoverable) {
-        return await this.delayReconnectAttempt(this.retrieveWSSURL);
+        return await this.delayReconnectAttempt(() => this.retrieveWSSURL(signal), signal);
       }
       throw error;
     }
