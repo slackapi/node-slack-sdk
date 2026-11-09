@@ -119,6 +119,89 @@ describe('Integration tests with a WebSocket server', { timeout: 30000 }, () => 
       await client.disconnect();
     });
   });
+  describe('overlapping refreshes (issue #2767)', () => {
+    beforeEach(() => {
+      client = new SocketModeClient({
+        appToken: 'whatever',
+        logLevel: LogLevel.ERROR,
+        clientOptions: {
+          slackApiUrl: `http://localhost:${HTTP_PORT}/`,
+        },
+        clientPingTimeout: 100,
+      });
+    });
+    it('opens only the replacement when the old connection closes while its URL is fetched', async () => {
+      await client.start();
+      const old = exposed_ws_connection;
+      server.close();
+      server = createServer((_req, res) => {
+        setTimeout(() => {
+          res.writeHead(200, { 'content-type': 'application/json' });
+          res.end(JSON.stringify({ ok: true, url: `ws://localhost:${WSS_PORT}/` }));
+        }, 300);
+      });
+      server.listen(HTTP_PORT);
+      let connections = 0;
+      const replaced = new Promise((resolve) => {
+        wss.on('connection', () => {
+          connections += 1;
+          resolve();
+        });
+      });
+
+      old.send(JSON.stringify({ type: 'disconnect', reason: 'refresh_requested' }));
+      await sleep(50);
+      old.terminate();
+      await replaced;
+      await sleep(300);
+
+      assert.strictEqual(connections, 1);
+      assert.strictEqual(wss.clients.size, 1);
+      await client.disconnect();
+    });
+    it('opens one replacement when refresh_requested arrives on the old connection before the new one says hello', async () => {
+      await client.start();
+      const old = exposed_ws_connection;
+      let connections = 0;
+      wss.removeAllListeners('connection');
+      wss.on('connection', (ws) => {
+        connections += 1;
+        exposed_ws_connection = ws;
+        setTimeout(() => ws.send(JSON.stringify({ type: 'hello' })), 300);
+      });
+
+      old.send(JSON.stringify({ type: 'disconnect', reason: 'warning' }));
+      await sleep(100);
+      old.send(JSON.stringify({ type: 'disconnect', reason: 'refresh_requested' }));
+      await sleep(500);
+
+      assert.strictEqual(connections, 1);
+      assert.strictEqual(wss.clients.size, 1);
+      await client.disconnect();
+    });
+    it('receives and acknowledges an envelope sent on the old connection after the new one says hello', async () => {
+      await client.start();
+      const old = exposed_ws_connection;
+      const acks = [];
+      old.on('message', (data) => acks.push(JSON.parse(data).envelope_id));
+      const connected = new Promise((resolve) => client.once('connected', resolve));
+      const received = new Promise((resolve) =>
+        client.once('interactive', async ({ ack, envelope_id }) => {
+          await ack();
+          resolve(envelope_id);
+        }),
+      );
+
+      old.send(JSON.stringify({ type: 'disconnect', reason: 'warning' }));
+      await connected;
+      old.send(JSON.stringify({ type: 'interactive', envelope_id: 'e-old', payload: {} }));
+
+      assert.strictEqual(await Promise.race([received, sleep(500)]), 'e-old');
+      await sleep(50);
+      assert.deepStrictEqual(acks, ['e-old']);
+      await client.disconnect();
+    });
+  });
   describe('`apps.connections.open` API failure modes', () => {
     beforeEach(() => {
       client = new SocketModeClient({

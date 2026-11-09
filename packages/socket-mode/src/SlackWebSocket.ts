@@ -179,7 +179,7 @@ export class SlackWebSocket {
         return;
       }
       const isBinary = typeof event.data !== 'string';
-      this.options.client.emit('ws_message', event.data, isBinary);
+      this.options.client.emit('ws_message', event.data, isBinary, this);
     };
     this.websocket.addEventListener('message', this.messageHandler);
 
