@@ -278,7 +278,13 @@ export class SocketModeClient extends EventEmitter {
     this.numOfConsecutiveReconnectionFailures += 1;
     const msBeforeRetry = this.clientPingTimeoutMS * this.numOfConsecutiveReconnectionFailures;
     this.logger.debug(`Before trying to reconnect, this client will wait for ${msBeforeRetry} milliseconds`);
-    await this.whileConnecting(setTimeout(msBeforeRetry, undefined, { signal }).catch(() => {}));
+    try {
+      await this.whileConnecting(setTimeout(msBeforeRetry, undefined, { signal }));
+    } catch (error) {
+      if (!signal.aborted) {
+        throw error;
+      }
+    }
     if (signal.aborted) {
       this.logger.debug('Client shutting down, will not attempt reconnect.');
       throw new SMConnectAbortedError();
