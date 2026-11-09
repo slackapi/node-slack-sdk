@@ -102,7 +102,7 @@ export class SocketModeClient extends EventEmitter {
 
   private customLoggerProvided = false;
 
-  private pendingConnects = new Set<Promise<unknown>>();
+  private connectOperations = new Set<Promise<unknown>>();
 
   private lifecycle = new AbortController();
 
@@ -173,7 +173,7 @@ export class SocketModeClient extends EventEmitter {
         this.emit(State.Disconnected);
         return;
       }
-      if (this.pendingConnects.size > 0) return;
+      if (this.connectOperations.size > 0) return;
       try {
         await this.delayReconnectAttempt(() => this.start(), this.lifecycle.signal);
       } catch (error) {
@@ -200,7 +200,7 @@ export class SocketModeClient extends EventEmitter {
     }
     const { signal } = this.lifecycle;
     this.logger.debug('Starting Socket Mode session ...');
-    const url = await this.whileConnecting(this.retrieveWSSURL(signal));
+    const url = await this.withConnectOperation(this.retrieveWSSURL(signal));
     if (signal.aborted) {
       throw new SMConnectAbortedError();
     }
@@ -279,7 +279,7 @@ export class SocketModeClient extends EventEmitter {
   }
 
   private async openReplacement(reason: string): Promise<void> {
-    if (this.pendingConnects.size > 0) return;
+    if (this.connectOperations.size > 0) return;
     this.logger.debug(`Received "disconnect" (${reason}) message - opening a replacement connection.`);
     this.emit(State.Reconnecting);
     try {
@@ -291,12 +291,12 @@ export class SocketModeClient extends EventEmitter {
     }
   }
 
-  private async whileConnecting<T>(work: Promise<T>): Promise<T> {
-    this.pendingConnects.add(work);
+  private async withConnectOperation<T>(work: Promise<T>): Promise<T> {
+    this.connectOperations.add(work);
     try {
       return await work;
     } finally {
-      this.pendingConnects.delete(work);
+      this.connectOperations.delete(work);
     }
   }
 
@@ -312,7 +312,7 @@ export class SocketModeClient extends EventEmitter {
     const msBeforeRetry = this.clientPingTimeoutMS * this.numOfConsecutiveReconnectionFailures;
     this.logger.debug(`Before trying to reconnect, this client will wait for ${msBeforeRetry} milliseconds`);
     try {
-      await this.whileConnecting(setTimeout(msBeforeRetry, undefined, { signal }));
+      await this.withConnectOperation(setTimeout(msBeforeRetry, undefined, { signal }));
     } catch (error) {
       if (!signal.aborted) {
         throw error;
