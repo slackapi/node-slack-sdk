@@ -701,6 +701,22 @@ describe('SocketModeClient', () => {
       sinon.assert.calledTwice(fetches);
     });
 
+    it('should reconnect after a drop while an aborted session is still fetching its URL', async () => {
+      const { client, holdNextURL } = createClient({ clientPingTimeout: 1 });
+      holdNextURL();
+      client.start().catch(() => {});
+      await client.disconnect();
+      const restarted = client.start();
+      await sleep(0);
+      sockets[0].open().hello();
+      await restarted;
+
+      sockets[0].drop();
+      await sleep(20);
+
+      assert.strictEqual(sockets.length, 2);
+    });
+
     it('should drop a reconnect URL that arrives after disconnect() and start()', async () => {
       const { client, holdNextURL } = createClient({ clientPingTimeout: 1 });
       const old = await connect(client);
