@@ -1063,6 +1063,33 @@ describe('SocketModeClient', () => {
       assert.strictEqual(old.disconnectCalls, 1);
       await client.disconnect();
     });
+
+    it('should ignore a disconnect message that arrives after disconnect()', async () => {
+      const { client } = createClient();
+      const old = await connect(client);
+
+      await client.disconnect();
+      old.receive(refreshRequested);
+      await sleep(10);
+
+      assert.strictEqual(sockets.length, 1);
+    });
+
+    it('should ignore a late disconnect message from a connection a later refresh closed', async () => {
+      const { client } = createClient();
+      const old = await connect(client);
+
+      old.receive(refreshRequested);
+      await sleep(0);
+      sockets[1].open().hello();
+      sockets[1].receive(refreshRequested);
+      await sleep(0);
+      sockets[2].open().hello();
+      old.receive(refreshRequested);
+      await sleep(10);
+
+      assert.strictEqual(sockets.length, 3);
+    });
   });
 });
 
