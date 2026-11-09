@@ -409,7 +409,6 @@ export class SocketModeClient extends EventEmitter {
 
     // Slack has finalized the handshake with a hello message; we are good to go.
     if (event.type === 'hello') {
-      if (socket && socket !== this.websocket) return;
       this.emit(State.Connected, this.connectionResponse);
       return;
     }
