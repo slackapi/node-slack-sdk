@@ -99,7 +99,7 @@ export class SocketModeClient extends EventEmitter {
 
   private customLoggerProvided = false;
 
-  private connectsInFlight = 0;
+  private pendingConnects = new Set<Promise<unknown>>();
 
   private lifecycle = new AbortController();
 
@@ -170,7 +170,7 @@ export class SocketModeClient extends EventEmitter {
         this.emit(State.Disconnected);
         return;
       }
-      if (this.connectsInFlight > 0) return;
+      if (this.pendingConnects.size > 0) return;
       try {
         await this.delayReconnectAttempt(() => this.start(), this.lifecycle.signal);
       } catch (error) {
@@ -197,7 +197,7 @@ export class SocketModeClient extends EventEmitter {
     }
     const { signal } = this.lifecycle;
     this.logger.debug('Starting Socket Mode session ...');
-    const url = await this.inFlight(this.retrieveWSSURL(signal));
+    const url = await this.whileConnecting(this.retrieveWSSURL(signal));
     if (signal.aborted) {
       throw new SMConnectAbortedError();
     }
@@ -258,12 +258,12 @@ export class SocketModeClient extends EventEmitter {
 
   // PRIVATE/PROTECTED METHODS
 
-  private async inFlight<T>(work: Promise<T>): Promise<T> {
-    this.connectsInFlight += 1;
+  private async whileConnecting<T>(work: Promise<T>): Promise<T> {
+    this.pendingConnects.add(work);
     try {
       return await work;
     } finally {
-      this.connectsInFlight -= 1;
+      this.pendingConnects.delete(work);
     }
   }
 
@@ -278,7 +278,7 @@ export class SocketModeClient extends EventEmitter {
     this.numOfConsecutiveReconnectionFailures += 1;
     const msBeforeRetry = this.clientPingTimeoutMS * this.numOfConsecutiveReconnectionFailures;
     this.logger.debug(`Before trying to reconnect, this client will wait for ${msBeforeRetry} milliseconds`);
-    await this.inFlight(setTimeout(msBeforeRetry, undefined, { signal }).catch(() => {}));
+    await this.whileConnecting(setTimeout(msBeforeRetry, undefined, { signal }).catch(() => {}));
     if (signal.aborted) {
       this.logger.debug('Client shutting down, will not attempt reconnect.');
       throw new SMConnectAbortedError();
