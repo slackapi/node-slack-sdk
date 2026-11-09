@@ -357,7 +357,11 @@ export class SocketModeClient extends EventEmitter {
    * - raising the State.Connected event (when Slack sends a type:hello message)
    * - disconnecting the underlying socket (when Slack sends a type:disconnect message)
    */
-  protected async onWebSocketMessage(data: string | ArrayBuffer, isBinary: boolean): Promise<void> {
+  protected async onWebSocketMessage(
+    data: string | ArrayBuffer,
+    isBinary: boolean,
+    socket?: SlackWebSocket,
+  ): Promise<void> {
     if (isBinary) {
       this.logger.debug('Unexpected binary message received, ignoring.');
       return;
@@ -388,6 +392,7 @@ export class SocketModeClient extends EventEmitter {
 
     // Slack has finalized the handshake with a hello message; we are good to go.
     if (event.type === 'hello') {
+      if (socket && socket !== this.websocket) return;
       this.closeRetiringWebsocket();
       this.emit(State.Connected, this.connectionResponse);
       return;

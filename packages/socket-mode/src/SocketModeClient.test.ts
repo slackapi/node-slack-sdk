@@ -689,7 +689,7 @@ describe('SocketModeClient', () => {
         return this;
       }
       receive(message: Record<string, unknown>) {
-        this.client.emit('ws_message', JSON.stringify(message), false);
+        this.client.emit('ws_message', JSON.stringify(message), false, this);
       }
       hello() {
         this.receive({ type: 'hello' });
@@ -841,6 +841,30 @@ describe('SocketModeClient', () => {
       assert.strictEqual(sockets.filter((socket) => socket.isActive()).length, 1);
       assert.strictEqual(client.websocket?.isActive(), true);
       assert.strictEqual(old.disconnectCalls, 1);
+    });
+
+    it('should keep the first replacement serving when a second disconnect arrives before its hello', async () => {
+      const { client } = createClient();
+      const old = await connect(client);
+
+      old.receive({ type: 'disconnect', reason: 'warning' });
+      await sleep(0);
+      const first = sockets[1].open();
+      old.receive(refreshRequested);
+      await sleep(0);
+      first.hello();
+      first.receive(envelope);
+      await sleep(0);
+
+      assert.strictEqual(first.disconnectCalls, 0, "a replaced connection's hello must not close it");
+      assert.strictEqual(first.sent.length, 1);
+
+      sockets[2].open().hello();
+      await sleep(10);
+
+      assert.strictEqual(first.disconnectCalls, 1);
+      assert.strictEqual(client.websocket, sockets[2]);
+      assert.strictEqual(sockets.filter((socket) => socket.isActive()).length, 1);
     });
 
     it('should close both connections and emit disconnected once when disconnect() runs mid-refresh', async () => {
