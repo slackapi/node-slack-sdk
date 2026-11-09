@@ -564,14 +564,14 @@ describe('SocketModeClient', () => {
   });
 
   describe("reconnection on 'close' (issue #2709)", () => {
-    it('should not reconnect on a stale close event while the current connection is still active', () => {
+    it('should not reconnect on a close event from a connection that is no longer current', async () => {
       const client = new SocketModeClient({ appToken: 'xapp-', logLevel: LogLevel.ERROR });
-      client.websocket = { isActive: () => true } as unknown as SlackWebSocket;
+      client.websocket = {} as SlackWebSocket;
       const startStub = sandbox.stub(client, 'start').resolves(undefined as never);
-      const clock = sandbox.useFakeTimers();
+      const clock = sandbox.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] });
 
       client.emit('close', {} as SlackWebSocket);
-      clock.tick(1_000_000);
+      await clock.tickAsync(1_000_000);
 
       sinon.assert.notCalled(startStub);
     });
@@ -580,9 +580,11 @@ describe('SocketModeClient', () => {
       const client = new SocketModeClient({ appToken: 'xapp-', logLevel: LogLevel.ERROR });
       const startStub = sandbox.stub(client, 'start').resolves(undefined as never);
       const clock = sandbox.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] });
+      const current = {} as SlackWebSocket;
+      client.websocket = current;
 
-      client.emit('close', client.websocket);
-      client.emit('close', client.websocket);
+      client.emit('close', current);
+      client.emit('close', current);
       await clock.tickAsync(1_000_000);
 
       sinon.assert.calledOnce(startStub);
@@ -599,12 +601,11 @@ describe('SocketModeClient', () => {
       process.off('unhandledRejection', unhandledRejection);
     });
 
-    function clientWithLogger(clientPingTimeout = 1) {
+    function clientWithLogger() {
       const logger = new ConsoleLogger();
-      const error = sandbox.stub(logger, 'error');
+      sandbox.stub(logger, 'error');
       sandbox.stub(logger, 'debug');
-      const client = new SocketModeClient({ appToken: 'xapp-', clientPingTimeout, logger });
-      return { client, error };
+      return new SocketModeClient({ appToken: 'xapp-', clientPingTimeout: 60_000, logger });
     }
 
     function failWSSURL(client: SocketModeClient) {
@@ -626,8 +627,6 @@ describe('SocketModeClient', () => {
       failNextURL(cause);
       const [onClose] = client.listeners('close');
 
-      old.readyState = undefined;
-
       await assert.rejects(async () => onClose(old), cause);
     });
 
@@ -647,19 +646,15 @@ describe('SocketModeClient', () => {
       sinon.assert.notCalled(unhandledRejection);
     });
 
-    it('should resolve disconnect() while a reconnect is waiting', { timeout: 2000 }, async () => {
-      const { client } = clientWithLogger(60_000);
-      const startStub = sandbox.stub(client, 'start');
-      client.websocket = {
-        isActive: () => false,
-        disconnect: () => client.emit('close', client.websocket),
-      } as unknown as SlackWebSocket;
+    it('should not reconnect when disconnect() is called while a reconnect is waiting', async () => {
+      const { client, fetches } = createClient();
+      const old = await connect(client);
 
-      client.emit('close', client.websocket);
-      await sleep(10);
+      old.drop();
       await client.disconnect();
+      await sleep(10);
 
-      sinon.assert.notCalled(startStub);
+      sinon.assert.calledOnce(fetches);
       sinon.assert.notCalled(unhandledRejection);
     });
 
@@ -773,7 +768,7 @@ describe('SocketModeClient', () => {
     });
 
     it('should reject start() when disconnect() is called while waiting to retry the WSS URL', async () => {
-      const { client } = clientWithLogger(60_000);
+      const client = clientWithLogger();
       failWSSURL(client);
 
       const starting = client.start();
@@ -784,7 +779,7 @@ describe('SocketModeClient', () => {
     });
 
     it('should reject start() without waiting to retry when the WSS URL fails after disconnect()', async () => {
-      const { client } = clientWithLogger(60_000);
+      const client = clientWithLogger();
       const failURL = holdThenFailWSSURL(client);
 
       const starting = client.start();
