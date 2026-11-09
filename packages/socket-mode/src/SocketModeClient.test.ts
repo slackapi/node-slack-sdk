@@ -69,17 +69,18 @@ describe('SocketModeClient', () => {
     const error = sandbox.stub(logger, 'error');
     sandbox.stub(logger, 'debug');
     const client = new ProxiedSocketModeClient({ appToken: 'xapp-', clientPingTimeout: 60_000, logger, ...options });
-    const urls: Array<Promise<string>> = [];
+    const urls: Array<() => Promise<string>> = [];
     const fetches = sandbox
       .stub(client as unknown as { retrieveWSSURL: () => Promise<string> }, 'retrieveWSSURL')
-      .callsFake(() => urls.shift() ?? Promise.resolve('wss://fake'));
+      .callsFake(() => urls.shift()?.() ?? Promise.resolve('wss://fake'));
     const holdNextURL = () => {
       let release: () => void = () => {};
-      urls.push(new Promise((resolve) => (release = () => resolve('wss://fake'))));
+      const held = new Promise<string>((resolve) => (release = () => resolve('wss://fake')));
+      urls.push(() => held);
       return () => release();
     };
     const failNextURL = (cause: Error) => {
-      urls.push(Promise.reject(cause));
+      urls.push(() => Promise.reject(cause));
     };
     client.on('interactive', ({ ack }) => ack());
     return { client, error, fetches, holdNextURL, failNextURL };
@@ -642,12 +643,15 @@ describe('SocketModeClient', () => {
     }
 
     it('should reject with the cause when a reconnect fails for good', async () => {
-      const { client } = clientWithLogger();
+      const { client, failNextURL } = createClient({ clientPingTimeout: 1 });
+      const old = await connect(client);
       const cause = new Error('invalid_auth');
-      sandbox.stub(client, 'start').rejects(cause);
+      failNextURL(cause);
       const [onClose] = client.listeners('close');
 
-      await assert.rejects(async () => onClose(), cause);
+      old.readyState = undefined;
+
+      await assert.rejects(async () => onClose(old), cause);
     });
 
     it('should not open a connection when disconnect() wins the race with a reconnect', async () => {
