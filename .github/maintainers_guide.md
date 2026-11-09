@@ -92,6 +92,10 @@ npm run docs --workspace packages/web-api
 
 The script places the reference markdown files in `/docs/english/reference/package-name`.
 
+### 🙈 Hidden API Arguments
+
+Method arguments in `@slack/web-api` follow the [Web API reference](https://docs.slack.dev/reference/methods). An argument that the API hides from its reference is not added to the SDK, even when it works. Adding it would make it look supported, and removing it later would break code that uses it. Once the reference documents the argument, a pull request can add it.
+
 ### 🎁 Updating Changesets
 
 This project uses [Changesets](https://github.com/changesets/changesets) to track changes and automate releases.
