@@ -77,7 +77,6 @@ export class SocketModeClient extends EventEmitter {
 
   public websocket?: SlackWebSocket;
 
-  /** The previous connection, left open after its replacement takes over until Slack sends it `disconnect`. */
   private retiringWebsocket?: SlackWebSocket;
 
   /**
@@ -485,7 +484,6 @@ export class SocketModeClient extends EventEmitter {
    * Primarily used to send acknowledgements back to slack for incoming events
    * @param id the envelope id
    * @param body the message body or string text
-   * @param socket the connection the envelope arrived on, used while it is still open
    */
   private send(id: string, body = {}, socket?: SlackWebSocket): Promise<void> {
     const _body = typeof body === 'string' ? { text: body } : body;
