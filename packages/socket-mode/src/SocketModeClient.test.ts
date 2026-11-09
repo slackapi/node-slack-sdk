@@ -634,14 +634,6 @@ describe('SocketModeClient', () => {
       return (error: Error) => rejectURL(error);
     }
 
-    function holdWSSURL(client: SocketModeClient) {
-      let resolveURL: (url: string) => void = () => {};
-      sandbox
-        .stub(client as unknown as { retrieveWSSURL: () => Promise<string> }, 'retrieveWSSURL')
-        .returns(new Promise((resolve) => (resolveURL = resolve)));
-      return (url: string) => resolveURL(url);
-    }
-
     it('should reject with the cause when a reconnect fails for good', async () => {
       const { client, failNextURL } = createClient({ clientPingTimeout: 1 });
       const old = await connect(client);
@@ -655,16 +647,17 @@ describe('SocketModeClient', () => {
     });
 
     it('should not open a connection when disconnect() wins the race with a reconnect', async () => {
-      const { client, error } = clientWithLogger();
-      const releaseURL = holdWSSURL(client);
+      const { client, error, holdNextURL } = createClient({ clientPingTimeout: 1 });
+      const old = await connect(client);
+      const releaseURL = holdNextURL();
 
-      client.emit('close', client.websocket);
+      old.drop();
       await sleep(10);
       await client.disconnect();
-      releaseURL('ws://127.0.0.1:1/');
+      releaseURL();
       await sleep(10);
 
-      assert.strictEqual(client.websocket, undefined);
+      assert.strictEqual(sockets.length, 1);
       sinon.assert.notCalled(error);
       sinon.assert.notCalled(unhandledRejection);
     });
@@ -757,15 +750,15 @@ describe('SocketModeClient', () => {
     });
 
     it('should reject start() when disconnect() is called while it is connecting', async () => {
-      const { client } = clientWithLogger();
-      const releaseURL = holdWSSURL(client);
+      const { client, holdNextURL } = createClient();
+      const releaseURL = holdNextURL();
 
       const starting = client.start();
       await client.disconnect();
-      releaseURL('ws://127.0.0.1:1/');
+      releaseURL();
 
       await assert.rejects(starting, { name: 'SMConnectAbortedError' });
-      assert.strictEqual(client.websocket, undefined);
+      assert.strictEqual(sockets.length, 0);
     });
 
     it('should reject start() when disconnect() is called during the WebSocket handshake', async () => {
