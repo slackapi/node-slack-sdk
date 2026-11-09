@@ -119,6 +119,63 @@ describe('Integration tests with a WebSocket server', { timeout: 30000 }, () => 
       await client.disconnect();
     });
   });
+  describe('overlapping refreshes (issue #2767)', () => {
+    beforeEach(() => {
+      client = new SocketModeClient({
+        appToken: 'whatever',
+        logLevel: LogLevel.ERROR,
+        clientOptions: {
+          slackApiUrl: `http://localhost:${HTTP_PORT}/`,
+        },
+        clientPingTimeout: 100,
+      });
+    });
+    it('opens only the replacement when the old connection closes while its URL is fetched', async () => {
+      await client.start();
+      const old = exposed_ws_connection;
+      server.close();
+      server = createServer((_req, res) => {
+        setTimeout(() => {
+          res.writeHead(200, { 'content-type': 'application/json' });
+          res.end(JSON.stringify({ ok: true, url: `ws://localhost:${WSS_PORT}/` }));
+        }, 300);
+      });
+      server.listen(HTTP_PORT);
+      let connections = 0;
+      wss.on('connection', () => {
+        connections += 1;
+      });
+
+      old.send(JSON.stringify({ type: 'disconnect', reason: 'refresh_requested' }));
+      await sleep(50);
+      old.terminate();
+      await sleep(600);
+
+      assert.strictEqual(connections, 1);
+      assert.strictEqual(wss.clients.size, 1);
+      await client.disconnect();
+    });
+    it('opens one replacement when refresh_requested arrives on the old connection before the new one says hello', async () => {
+      await client.start();
+      const old = exposed_ws_connection;
+      let connections = 0;
+      wss.removeAllListeners('connection');
+      wss.on('connection', (ws) => {
+        connections += 1;
+        exposed_ws_connection = ws;
+        setTimeout(() => ws.send(JSON.stringify({ type: 'hello' })), 300);
+      });
+
+      old.send(JSON.stringify({ type: 'disconnect', reason: 'warning' }));
+      await sleep(100);
+      old.send(JSON.stringify({ type: 'disconnect', reason: 'refresh_requested' }));
+      await sleep(500);
+
+      assert.strictEqual(connections, 1);
+      assert.strictEqual(wss.clients.size, 1);
+      await client.disconnect();
+    });
+  });
   describe('`apps.connections.open` API failure modes', () => {
     beforeEach(() => {
       client = new SocketModeClient({

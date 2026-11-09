@@ -945,6 +945,22 @@ describe('SocketModeClient', () => {
       await assert.rejects(async () => onMessage(JSON.stringify(refreshRequested), false, old), cause);
     });
 
+    it('should close a replacement that never opened when start() replaces it', async () => {
+      const { client } = createClient();
+      const old = await connect(client);
+
+      old.receive(refreshRequested);
+      await sleep(0);
+      const restarted = client.start();
+      await sleep(0);
+      sockets[2].open().hello();
+      await restarted;
+
+      assert.strictEqual(sockets[1].disconnectCalls, 1);
+      assert.strictEqual(old.disconnectCalls, 1);
+      assert.strictEqual(client.websocket, sockets[2]);
+    });
+
     it('should close both connections and emit disconnected once when disconnect() runs mid-refresh', async () => {
       const { client, error } = createClient();
       const old = await connect(client);
