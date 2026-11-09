@@ -198,6 +198,7 @@ export class SocketModeClient extends EventEmitter {
     // python equiv: SocketModeClient.connect
     if (this.shuttingDown) {
       this.lifecycle = new AbortController();
+      this.connectOperations = new Set();
     }
     const { signal } = this.lifecycle;
     this.logger.debug('Starting Socket Mode session ...');
