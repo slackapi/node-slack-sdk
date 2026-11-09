@@ -161,9 +161,9 @@ export class SocketModeClient extends EventEmitter {
     this.on('error', (err) => {
       this.logger.error(`WebSocket error! ${err}`);
     });
-    this.on('close', async () => {
+    this.on('close', async (socket: SlackWebSocket) => {
       // Underlying WebSocket connection was closed, possibly reconnect.
-      if (this.websocket?.isActive()) return;
+      if (socket !== this.websocket) return;
       if (this.reconnectDelay) return;
       if (!this.shuttingDown && this.autoReconnectEnabled) {
         try {

@@ -494,7 +494,7 @@ describe('SocketModeClient', () => {
       const startStub = sandbox.stub(client, 'start').resolves(undefined as never);
       const clock = sandbox.useFakeTimers();
 
-      client.emit('close');
+      client.emit('close', {} as SlackWebSocket);
       clock.tick(1_000_000);
 
       sinon.assert.notCalled(startStub);
@@ -505,8 +505,8 @@ describe('SocketModeClient', () => {
       const startStub = sandbox.stub(client, 'start').resolves(undefined as never);
       const clock = sandbox.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] });
 
-      client.emit('close');
-      client.emit('close');
+      client.emit('close', client.websocket);
+      client.emit('close', client.websocket);
       await clock.tickAsync(1_000_000);
 
       sinon.assert.calledOnce(startStub);
@@ -578,7 +578,7 @@ describe('SocketModeClient', () => {
       const { client, error } = clientWithLogger();
       const releaseURL = holdWSSURL(client);
 
-      client.emit('close');
+      client.emit('close', client.websocket);
       await sleep(10);
       await client.disconnect();
       releaseURL('ws://127.0.0.1:1/');
@@ -594,10 +594,10 @@ describe('SocketModeClient', () => {
       const startStub = sandbox.stub(client, 'start');
       client.websocket = {
         isActive: () => false,
-        disconnect: () => client.emit('close'),
+        disconnect: () => client.emit('close', client.websocket),
       } as unknown as SlackWebSocket;
 
-      client.emit('close');
+      client.emit('close', client.websocket);
       await sleep(10);
       await client.disconnect();
 
@@ -634,7 +634,7 @@ describe('SocketModeClient', () => {
       const disconnected = sandbox.spy();
       client.on('disconnected', disconnected);
 
-      client.emit('close');
+      client.emit('close', client.websocket);
       await sleep(10);
       await client.disconnect();
       await sleep(10);

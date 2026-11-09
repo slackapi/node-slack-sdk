@@ -296,7 +296,7 @@ export class SlackWebSocket {
     clearTimeout(this.closeHandshakeTimeout);
     // Emit event back to client letting it know connection has closed (in case it needs to reconnect if
     // reconnecting is enabled)
-    this.options.client.emit('close');
+    this.options.client.emit('close', this);
   }
 
   /**
