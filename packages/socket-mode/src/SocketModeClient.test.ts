@@ -681,6 +681,44 @@ describe('SocketModeClient', () => {
       sinon.assert.notCalled(unhandledRejection);
     });
 
+    it('should open one connection when disconnect() and start() run during the reconnect wait', async () => {
+      const { client, fetches } = createClient({ clientPingTimeout: 20 });
+      const old = await connect(client);
+
+      old.drop();
+      await client.disconnect();
+      const restarted = client.start();
+      await sleep(0);
+      sockets[1].open().hello();
+      await restarted;
+      await sleep(50);
+
+      assert.strictEqual(sockets.length, 2);
+      sinon.assert.calledTwice(fetches);
+    });
+
+    it('should drop a reconnect URL that arrives after disconnect() and start()', async () => {
+      const { client, holdNextURL } = createClient({ clientPingTimeout: 1 });
+      const old = await connect(client);
+      const releaseURL = holdNextURL();
+      const disconnected = sandbox.spy();
+      client.on('disconnected', disconnected);
+
+      old.drop();
+      await sleep(10);
+      await client.disconnect();
+      const restarted = client.start();
+      await sleep(0);
+      sockets[1].open().hello();
+      await restarted;
+      releaseURL();
+      await sleep(10);
+
+      assert.strictEqual(sockets.length, 2);
+      assert.strictEqual(client.websocket, sockets[1]);
+      sinon.assert.calledOnce(disconnected);
+    });
+
     it('should not schedule a reconnect while start() is fetching its URL', async () => {
       const { client, holdNextURL } = createClient({ clientPingTimeout: 1 });
       const old = await connect(client);
