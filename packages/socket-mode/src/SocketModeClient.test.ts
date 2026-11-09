@@ -1,5 +1,4 @@
 import assert from 'node:assert/strict';
-import { type AddressInfo, createServer, type Server, type Socket } from 'node:net';
 import { afterEach, beforeEach, describe, it } from 'node:test';
 import { ConsoleLogger } from '@slack/logger';
 import type { FetchFunction, WebClient } from '@slack/web-api';
@@ -592,19 +591,12 @@ describe('SocketModeClient', () => {
 
   describe('reconnect failures (issue #2656)', () => {
     let unhandledRejection: sinon.SinonSpy;
-    let neverUpgrades: Server;
-    let heldSockets: Socket[];
-    beforeEach(async () => {
+    beforeEach(() => {
       unhandledRejection = sandbox.spy();
       process.on('unhandledRejection', unhandledRejection);
-      heldSockets = [];
-      neverUpgrades = createServer((socket) => heldSockets.push(socket));
-      await new Promise<void>((resolve) => neverUpgrades.listen(0, '127.0.0.1', resolve));
     });
-    afterEach(async () => {
+    afterEach(() => {
       process.off('unhandledRejection', unhandledRejection);
-      for (const socket of heldSockets) socket.destroy();
-      await new Promise((resolve) => neverUpgrades.close(resolve));
     });
 
     function clientWithLogger(clientPingTimeout = 1) {
@@ -613,13 +605,6 @@ describe('SocketModeClient', () => {
       sandbox.stub(logger, 'debug');
       const client = new SocketModeClient({ appToken: 'xapp-', clientPingTimeout, logger });
       return { client, error };
-    }
-
-    function holdHandshake(client: SocketModeClient) {
-      const { port } = neverUpgrades.address() as AddressInfo;
-      sandbox
-        .stub(client as unknown as { retrieveWSSURL: () => Promise<string> }, 'retrieveWSSURL')
-        .resolves(`ws://127.0.0.1:${port}/`);
     }
 
     function failWSSURL(client: SocketModeClient) {
@@ -762,27 +747,27 @@ describe('SocketModeClient', () => {
     });
 
     it('should reject start() when disconnect() is called during the WebSocket handshake', async () => {
-      const { client } = clientWithLogger();
-      holdHandshake(client);
+      const { client } = createClient();
 
       const starting = client.start();
-      await sleep(10);
+      await sleep(0);
       await client.disconnect();
 
       await assert.rejects(starting, { name: 'SMConnectAbortedError' });
     });
 
     it('should stop a reconnect during the WebSocket handshake without an unhandled rejection', async () => {
-      const { client } = clientWithLogger();
-      holdHandshake(client);
+      const { client } = createClient({ clientPingTimeout: 1 });
+      const old = await connect(client);
       const disconnected = sandbox.spy();
       client.on('disconnected', disconnected);
 
-      client.emit('close', client.websocket);
+      old.drop();
       await sleep(10);
       await client.disconnect();
       await sleep(10);
 
+      assert.strictEqual(sockets.length, 2);
       sinon.assert.notCalled(unhandledRejection);
       sinon.assert.calledOnce(disconnected);
     });
