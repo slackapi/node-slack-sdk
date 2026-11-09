@@ -279,6 +279,7 @@ export class SocketModeClient extends EventEmitter {
   }
 
   private async openReplacement(reason: string): Promise<void> {
+    if (this.connectsInFlight > 0) return;
     this.logger.debug(`Received "disconnect" (${reason}) message - opening a replacement connection.`);
     this.emit(State.Reconnecting);
     try {
@@ -408,6 +409,7 @@ export class SocketModeClient extends EventEmitter {
 
     // Slack is recycling the pod handling the connection (or otherwise requires the client to reconnect)
     if (event.type === 'disconnect') {
+      if (socket && socket !== this.websocket) return;
       if (this.autoReconnectEnabled && !this.shuttingDown && event.reason !== 'link_disabled') {
         await this.openReplacement(event.reason);
       } else {

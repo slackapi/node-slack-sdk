@@ -895,43 +895,44 @@ describe('SocketModeClient', () => {
       sinon.assert.calledOnce(events.reconnecting);
     });
 
-    it('should converge on one connection when disconnect messages arrive back to back', async () => {
+    it('should open one replacement when disconnect messages arrive back to back', async () => {
       const { client } = createClient();
       const old = await connect(client);
+      const reconnecting = sandbox.spy();
+      client.on('reconnecting', reconnecting);
 
       old.receive({ type: 'disconnect', reason: 'warning' });
       old.receive(refreshRequested);
       await sleep(0);
-      sockets[sockets.length - 1].open().hello();
+      sockets[1].open().hello();
       await sleep(10);
 
-      assert.strictEqual(sockets.filter((socket) => socket.isActive()).length, 1);
-      assert.strictEqual(client.websocket?.isActive(), true);
+      assert.strictEqual(sockets.length, 2);
+      assert.strictEqual(client.websocket, sockets[1]);
       assert.strictEqual(old.disconnectCalls, 1);
+      sinon.assert.calledOnce(reconnecting);
     });
 
-    it('should keep the first replacement serving when a second disconnect arrives before its hello', async () => {
+    it('should ignore a disconnect from the retiring connection while the replacement handshakes', async () => {
       const { client } = createClient();
       const old = await connect(client);
 
       old.receive({ type: 'disconnect', reason: 'warning' });
       await sleep(0);
-      const first = sockets[1].open();
+      const replacement = sockets[1].open();
       old.receive(refreshRequested);
       await sleep(0);
-      first.hello();
-      first.receive(envelope);
+
+      assert.strictEqual(sockets.length, 2);
+
+      replacement.hello();
+      replacement.receive(envelope);
       await sleep(0);
 
-      assert.strictEqual(first.disconnectCalls, 0, "a replaced connection's hello must not close it");
-      assert.strictEqual(first.sent.length, 1);
-
-      sockets[2].open().hello();
-      await sleep(10);
-
-      assert.strictEqual(first.disconnectCalls, 1);
-      assert.strictEqual(client.websocket, sockets[2]);
-      assert.strictEqual(sockets.filter((socket) => socket.isActive()).length, 1);
+      assert.strictEqual(old.disconnectCalls, 1);
+      assert.strictEqual(replacement.disconnectCalls, 0);
+      assert.strictEqual(replacement.sent.length, 1);
+      assert.strictEqual(client.websocket, replacement);
     });
 
     it('should close both connections and emit disconnected once when disconnect() runs mid-refresh', async () => {
