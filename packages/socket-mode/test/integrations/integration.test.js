@@ -175,6 +175,28 @@ describe('Integration tests with a WebSocket server', { timeout: 30000 }, () => 
       assert.strictEqual(wss.clients.size, 1);
       await client.disconnect();
     });
+    it('receives and acknowledges an envelope sent on the old connection after the new one says hello', async () => {
+      await client.start();
+      const old = exposed_ws_connection;
+      const acks = [];
+      old.on('message', (data) => acks.push(JSON.parse(data).envelope_id));
+      const connected = new Promise((resolve) => client.once('connected', resolve));
+      const received = new Promise((resolve) =>
+        client.once('interactive', async ({ ack, envelope_id }) => {
+          await ack();
+          resolve(envelope_id);
+        }),
+      );
+
+      old.send(JSON.stringify({ type: 'disconnect', reason: 'warning' }));
+      await connected;
+      old.send(JSON.stringify({ type: 'interactive', envelope_id: 'e-old', payload: {} }));
+
+      assert.strictEqual(await Promise.race([received, sleep(500)]), 'e-old');
+      await sleep(50);
+      assert.deepStrictEqual(acks, ['e-old']);
+      await client.disconnect();
+    });
   });
   describe('`apps.connections.open` API failure modes', () => {
     beforeEach(() => {

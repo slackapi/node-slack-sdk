@@ -77,7 +77,7 @@ export class SocketModeClient extends EventEmitter {
 
   public websocket?: SlackWebSocket;
 
-  /** The previous connection, kept serving until its replacement receives `hello`. */
+  /** The previous connection, left open after its replacement takes over until Slack sends it `disconnect`. */
   private retiringWebsocket?: SlackWebSocket;
 
   /**
@@ -167,6 +167,7 @@ export class SocketModeClient extends EventEmitter {
     });
     this.on('close', async (socket: SlackWebSocket) => {
       // Underlying WebSocket connection was closed, possibly reconnect.
+      if (socket === this.retiringWebsocket) this.retiringWebsocket = undefined;
       if (socket !== this.websocket) return;
       if (this.shuttingDown || !this.autoReconnectEnabled) {
         // If reconnect is disabled or user explicitly called `disconnect()`, emit a disconnected state.
@@ -408,13 +409,16 @@ export class SocketModeClient extends EventEmitter {
     // Slack has finalized the handshake with a hello message; we are good to go.
     if (event.type === 'hello') {
       if (socket && socket !== this.websocket) return;
-      this.closeRetiringWebsocket();
       this.emit(State.Connected, this.connectionResponse);
       return;
     }
 
     // Slack is recycling the pod handling the connection (or otherwise requires the client to reconnect)
     if (event.type === 'disconnect') {
+      if (socket && socket === this.retiringWebsocket) {
+        this.closeRetiringWebsocket();
+        return;
+      }
       if (socket && socket !== this.websocket) return;
       if (this.autoReconnectEnabled && !this.shuttingDown && event.reason !== 'link_disabled') {
         await this.openReplacement(event.reason);
@@ -432,7 +436,7 @@ export class SocketModeClient extends EventEmitter {
           `Calling ack() - type: ${event.type}, envelope_id: ${event.envelope_id}, data: ${JSON.stringify(response)}`,
         );
       }
-      await this.send(event.envelope_id, response);
+      await this.send(event.envelope_id, response, socket);
     };
 
     // For events_api messages, expose the type of the event
@@ -481,13 +485,14 @@ export class SocketModeClient extends EventEmitter {
    * Primarily used to send acknowledgements back to slack for incoming events
    * @param id the envelope id
    * @param body the message body or string text
+   * @param socket the connection the envelope arrived on, used while it is still open
    */
-  private send(id: string, body = {}): Promise<void> {
+  private send(id: string, body = {}, socket?: SlackWebSocket): Promise<void> {
     const _body = typeof body === 'string' ? { text: body } : body;
     const message = { envelope_id: id, payload: { ..._body } };
 
     return new Promise((resolve, reject) => {
-      const websocket = this.retiringWebsocket?.isActive() ? this.retiringWebsocket : this.websocket;
+      const websocket = socket?.isActive() ? socket : this.websocket;
       const wsState = websocket?.readyState;
       this.logger.debug(
         `send() method was called (WebSocket state: ${wsState ? WS_READY_STATES[wsState] : 'uninitialized'})`,
