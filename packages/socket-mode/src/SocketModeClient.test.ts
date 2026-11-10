@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { afterEach, beforeEach, describe, it } from 'node:test';
 import { ConsoleLogger } from '@slack/logger';
-import type { FetchFunction } from '@slack/web-api';
+import type { FetchFunction, WebClient } from '@slack/web-api';
 import proxyquire from 'proxyquire';
 import sinon from 'sinon';
 
@@ -15,6 +15,83 @@ describe('SocketModeClient', () => {
   afterEach(() => {
     sandbox.restore();
   });
+
+  const CONNECTING = 0;
+  const OPEN = 1;
+
+  class FakeSlackWebSocket {
+    static instances: FakeSlackWebSocket[] = [];
+    readyState: number | undefined = CONNECTING;
+    sent: string[] = [];
+    disconnectCalls = 0;
+    private client: { emit: (event: string, ...args: unknown[]) => boolean };
+    constructor({ client }: { client: { emit: (event: string, ...args: unknown[]) => boolean } }) {
+      this.client = client;
+      FakeSlackWebSocket.instances.push(this);
+    }
+    connect() {}
+    isActive() {
+      return this.readyState === OPEN;
+    }
+    open() {
+      this.readyState = OPEN;
+      return this;
+    }
+    receive(message: Record<string, unknown>) {
+      this.client.emit('ws_message', JSON.stringify(message), false, this);
+    }
+    hello() {
+      this.receive({ type: 'hello' });
+    }
+    drop() {
+      this.readyState = undefined;
+      this.client.emit('close', this);
+    }
+    disconnect() {
+      this.disconnectCalls += 1;
+      this.drop();
+    }
+    send(data: string, cb: (err: Error | undefined) => void) {
+      this.sent.push(data);
+      cb(undefined);
+    }
+  }
+
+  const sockets = FakeSlackWebSocket.instances;
+
+  function createClient(options: { clientPingTimeout?: number; autoReconnectEnabled?: boolean } = {}) {
+    sockets.length = 0;
+    const ProxiedSocketModeClient: typeof SocketModeClient = proxyquire('./SocketModeClient', {
+      './SlackWebSocket': { SlackWebSocket: FakeSlackWebSocket },
+    }).SocketModeClient;
+    const logger = new ConsoleLogger();
+    const error = sandbox.stub(logger, 'error');
+    sandbox.stub(logger, 'debug');
+    const client = new ProxiedSocketModeClient({ appToken: 'xapp-', clientPingTimeout: 60_000, logger, ...options });
+    const urls: Array<() => Promise<string>> = [];
+    const fetches = sandbox
+      .stub(client as unknown as { retrieveWSSURL: () => Promise<string> }, 'retrieveWSSURL')
+      .callsFake(() => urls.shift()?.() ?? Promise.resolve('wss://fake'));
+    const holdNextURL = () => {
+      let release: () => void = () => {};
+      const held = new Promise<string>((resolve) => (release = () => resolve('wss://fake')));
+      urls.push(() => held);
+      return () => release();
+    };
+    const failNextURL = (cause: Error) => {
+      urls.push(() => Promise.reject(cause));
+    };
+    client.on('interactive', ({ ack }) => ack());
+    return { client, error, fetches, holdNextURL, failNextURL };
+  }
+
+  async function connect(client: SocketModeClient) {
+    const started = client.start();
+    await sleep(0);
+    sockets[sockets.length - 1].open().hello();
+    await started;
+    return sockets[sockets.length - 1];
+  }
   describe('constructor', () => {
     let logFactory: sinon.SinonStub;
     beforeEach(() => {
@@ -234,7 +311,7 @@ describe('SocketModeClient', () => {
           assert.strictEqual(args.type, 'events_api');
           assert.deepEqual(args.body, body);
           await args.ack({});
-          sinon.assert.calledOnceWithExactly(send, 'malformed', {});
+          sinon.assert.calledOnceWithExactly(send, 'malformed', {}, undefined);
         }
       });
 
@@ -487,28 +564,530 @@ describe('SocketModeClient', () => {
   });
 
   describe("reconnection on 'close' (issue #2709)", () => {
-    it('should not reconnect on a stale close event while the current connection is still active', () => {
+    it('should not reconnect on a close event from a connection that is no longer current', async () => {
       const client = new SocketModeClient({ appToken: 'xapp-', logLevel: LogLevel.ERROR });
-      client.websocket = { isActive: () => true } as unknown as SlackWebSocket;
+      client.websocket = {} as SlackWebSocket;
       const startStub = sandbox.stub(client, 'start').resolves(undefined as never);
-      const clock = sandbox.useFakeTimers();
+      const clock = sandbox.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] });
 
-      client.emit('close');
-      clock.tick(1_000_000);
+      client.emit('close', {} as SlackWebSocket);
+      await clock.tickAsync(1_000_000);
 
       sinon.assert.notCalled(startStub);
     });
 
-    it('should schedule at most one reconnect when multiple close events fire', () => {
+    it('should schedule at most one reconnect when multiple close events fire', async () => {
       const client = new SocketModeClient({ appToken: 'xapp-', logLevel: LogLevel.ERROR });
       const startStub = sandbox.stub(client, 'start').resolves(undefined as never);
-      const clock = sandbox.useFakeTimers();
+      const clock = sandbox.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] });
+      const current = {} as SlackWebSocket;
+      client.websocket = current;
 
-      client.emit('close');
-      client.emit('close');
-      clock.tick(1_000_000);
+      client.emit('close', current);
+      client.emit('close', current);
+      await clock.tickAsync(1_000_000);
 
       sinon.assert.calledOnce(startStub);
+    });
+  });
+
+  describe('reconnect failures (issue #2656)', () => {
+    let unhandledRejection: sinon.SinonSpy;
+    beforeEach(() => {
+      unhandledRejection = sandbox.spy();
+      process.on('unhandledRejection', unhandledRejection);
+    });
+    afterEach(() => {
+      process.off('unhandledRejection', unhandledRejection);
+    });
+
+    function clientWithLogger() {
+      const logger = new ConsoleLogger();
+      sandbox.stub(logger, 'error');
+      sandbox.stub(logger, 'debug');
+      return new SocketModeClient({ appToken: 'xapp-', clientPingTimeout: 60_000, logger });
+    }
+
+    function failWSSURL(client: SocketModeClient) {
+      const { webClient } = client as unknown as { webClient: WebClient };
+      sandbox.stub(webClient.apps.connections, 'open').rejects(new Error('internal_error'));
+    }
+
+    function holdThenFailWSSURL(client: SocketModeClient) {
+      const { webClient } = client as unknown as { webClient: WebClient };
+      let rejectURL: (error: Error) => void = () => {};
+      sandbox.stub(webClient.apps.connections, 'open').returns(new Promise((_resolve, reject) => (rejectURL = reject)));
+      return (error: Error) => rejectURL(error);
+    }
+
+    it('should reject with the cause when a reconnect fails for good', async () => {
+      const { client, failNextURL } = createClient({ clientPingTimeout: 1 });
+      const old = await connect(client);
+      const cause = new Error('invalid_auth');
+      failNextURL(cause);
+      const [onClose] = client.listeners('close');
+
+      await assert.rejects(async () => onClose(old), cause);
+    });
+
+    it('should not open a connection when disconnect() wins the race with a reconnect', async () => {
+      const { client, error, holdNextURL } = createClient({ clientPingTimeout: 1 });
+      const old = await connect(client);
+      const releaseURL = holdNextURL();
+
+      old.drop();
+      await sleep(10);
+      await client.disconnect();
+      releaseURL();
+      await sleep(10);
+
+      assert.strictEqual(sockets.length, 1);
+      sinon.assert.notCalled(error);
+      sinon.assert.notCalled(unhandledRejection);
+    });
+
+    it('should not reconnect when disconnect() is called while a reconnect is waiting', async () => {
+      const { client, fetches } = createClient();
+      const old = await connect(client);
+
+      old.drop();
+      await client.disconnect();
+      await sleep(10);
+
+      sinon.assert.calledOnce(fetches);
+      sinon.assert.notCalled(unhandledRejection);
+    });
+
+    it('should open one connection when disconnect() and start() run during the reconnect wait', async () => {
+      const { client, fetches } = createClient({ clientPingTimeout: 20 });
+      const old = await connect(client);
+
+      old.drop();
+      await client.disconnect();
+      const restarted = client.start();
+      await sleep(0);
+      sockets[1].open().hello();
+      await restarted;
+      await sleep(50);
+
+      assert.strictEqual(sockets.length, 2);
+      sinon.assert.calledTwice(fetches);
+    });
+
+    it('should reconnect after a drop while an aborted session is still fetching its URL', async () => {
+      const { client, holdNextURL } = createClient({ clientPingTimeout: 1 });
+      holdNextURL();
+      client.start().catch(() => {});
+      await client.disconnect();
+      const restarted = client.start();
+      await sleep(0);
+      sockets[0].open().hello();
+      await restarted;
+
+      sockets[0].drop();
+      await sleep(20);
+
+      assert.strictEqual(sockets.length, 2);
+    });
+
+    it('should drop a reconnect URL that arrives after disconnect() and start()', async () => {
+      const { client, holdNextURL } = createClient({ clientPingTimeout: 1 });
+      const old = await connect(client);
+      const releaseURL = holdNextURL();
+      const disconnected = sandbox.spy();
+      client.on('disconnected', disconnected);
+
+      old.drop();
+      await sleep(10);
+      await client.disconnect();
+      const restarted = client.start();
+      await sleep(0);
+      sockets[1].open().hello();
+      await restarted;
+      releaseURL();
+      await sleep(10);
+
+      assert.strictEqual(sockets.length, 2);
+      assert.strictEqual(client.websocket, sockets[1]);
+      sinon.assert.calledOnce(disconnected);
+    });
+
+    it('should not schedule a reconnect while start() is fetching its URL', async () => {
+      const { client, holdNextURL } = createClient({ clientPingTimeout: 1 });
+      const old = await connect(client);
+      const releaseURL = holdNextURL();
+
+      const restarted = client.start();
+      old.drop();
+      await sleep(10);
+      releaseURL();
+      await sleep(0);
+      sockets[1].open().hello();
+      await restarted;
+      await sleep(10);
+
+      assert.strictEqual(sockets.length, 2);
+    });
+
+    it('should reject start() when disconnect() is called while it is connecting', async () => {
+      const { client, holdNextURL } = createClient();
+      const releaseURL = holdNextURL();
+
+      const starting = client.start();
+      await client.disconnect();
+      releaseURL();
+
+      await assert.rejects(starting, { name: 'SMConnectAbortedError' });
+      assert.strictEqual(sockets.length, 0);
+    });
+
+    it('should reject start() when disconnect() is called during the WebSocket handshake', async () => {
+      const { client } = createClient();
+
+      const starting = client.start();
+      await sleep(0);
+      await client.disconnect();
+
+      await assert.rejects(starting, { name: 'SMConnectAbortedError' });
+    });
+
+    it('should stop a reconnect during the WebSocket handshake without an unhandled rejection', async () => {
+      const { client } = createClient({ clientPingTimeout: 1 });
+      const old = await connect(client);
+      const disconnected = sandbox.spy();
+      client.on('disconnected', disconnected);
+
+      old.drop();
+      await sleep(10);
+      await client.disconnect();
+      await sleep(10);
+
+      assert.strictEqual(sockets.length, 2);
+      sinon.assert.notCalled(unhandledRejection);
+      sinon.assert.calledOnce(disconnected);
+    });
+
+    it('should reject start() when disconnect() is called while waiting to retry the WSS URL', async () => {
+      const client = clientWithLogger();
+      failWSSURL(client);
+
+      const starting = client.start();
+      await sleep(10);
+      await client.disconnect();
+
+      await assert.rejects(starting, { name: 'SMConnectAbortedError' });
+    });
+
+    it('should reject start() without waiting to retry when the WSS URL fails after disconnect()', async () => {
+      const client = clientWithLogger();
+      const failURL = holdThenFailWSSURL(client);
+
+      const starting = client.start();
+      await client.disconnect();
+      failURL(new Error('internal_error'));
+
+      await assert.rejects(starting, { name: 'SMConnectAbortedError' });
+    });
+  });
+
+  describe('server-requested disconnect (issue #2767)', () => {
+    const refreshRequested = { type: 'disconnect', reason: 'refresh_requested' };
+    const envelope = { type: 'interactive', envelope_id: 'e-1', payload: {} };
+
+    it('should open the replacement right away and leave the old connection open after it says hello', async () => {
+      const { client, error } = createClient();
+      const old = await connect(client);
+      const disconnected = sandbox.spy();
+      client.on('disconnected', disconnected);
+
+      old.receive(refreshRequested);
+      await sleep(0);
+
+      assert.strictEqual(sockets.length, 2, 'the replacement should open without waiting for a backoff');
+      assert.strictEqual(old.disconnectCalls, 0);
+
+      sockets[1].open().hello();
+      await sleep(10);
+
+      assert.strictEqual(old.disconnectCalls, 0, 'Slack may still deliver on the old connection');
+      assert.strictEqual(client.websocket, sockets[1]);
+      old.drop();
+      await sleep(10);
+      assert.strictEqual(sockets.length, 2, "the old connection's close must not trigger another reconnect");
+      sinon.assert.notCalled(disconnected);
+      sinon.assert.notCalled(error);
+    });
+
+    it('should acknowledge each envelope on the connection it arrived on', async () => {
+      const { client } = createClient();
+      const old = await connect(client);
+
+      old.receive(refreshRequested);
+      await sleep(0);
+      old.receive(envelope);
+      sockets[1].open();
+      old.receive(envelope);
+      await sleep(0);
+
+      assert.strictEqual(old.sent.length, 2);
+      assert.strictEqual(sockets[1].sent.length, 0);
+
+      sockets[1].hello();
+      sockets[1].receive(envelope);
+      old.receive(envelope);
+      await sleep(0);
+
+      assert.strictEqual(sockets[1].sent.length, 1);
+      assert.strictEqual(old.sent.length, 3);
+    });
+
+    it('should acknowledge on the current connection when the arrival connection has closed', async () => {
+      const { client } = createClient();
+      const old = await connect(client);
+      const acks: Array<() => Promise<void>> = [];
+      client.on('slash_commands', ({ ack }) => acks.push(ack));
+
+      old.receive(refreshRequested);
+      await sleep(0);
+      sockets[1].open().hello();
+      old.receive({ type: 'slash_commands', envelope_id: 'e-2', payload: {} });
+      old.drop();
+      await acks[0]();
+
+      assert.strictEqual(old.sent.length, 0);
+      assert.strictEqual(sockets[1].sent.length, 1);
+    });
+
+    it('should close the old connection at the next refresh or on disconnect()', async () => {
+      const { client } = createClient();
+      const old = await connect(client);
+      const disconnected = sandbox.spy();
+      client.on('disconnected', disconnected);
+
+      old.receive(refreshRequested);
+      await sleep(0);
+      sockets[1].open().hello();
+      assert.strictEqual(old.disconnectCalls, 0);
+      sockets[1].receive(refreshRequested);
+      await sleep(0);
+
+      assert.strictEqual(old.disconnectCalls, 1);
+      assert.strictEqual(sockets[1].disconnectCalls, 0);
+
+      await client.disconnect();
+
+      assert.strictEqual(sockets[1].disconnectCalls, 1);
+      assert.strictEqual(sockets[2].disconnectCalls, 1);
+      sinon.assert.calledOnce(disconnected);
+    });
+
+    it('should not close an old connection again after Slack closed it', async () => {
+      const { client } = createClient();
+      const old = await connect(client);
+
+      old.receive(refreshRequested);
+      await sleep(0);
+      sockets[1].open().hello();
+      old.drop();
+      await client.disconnect();
+
+      assert.strictEqual(old.disconnectCalls, 0);
+    });
+
+    it('should back off and keep the old connection serving when the replacement fails before hello', async () => {
+      const { client } = createClient({ clientPingTimeout: 1 });
+      const old = await connect(client);
+
+      old.receive(refreshRequested);
+      await sleep(0);
+      sockets[1].drop();
+      await sleep(10);
+
+      assert.strictEqual(sockets.length, 3, 'the failed replacement should be retried with the usual backoff');
+      assert.strictEqual(old.disconnectCalls, 0);
+      old.receive(envelope);
+      await sleep(0);
+      assert.strictEqual(old.sent.length, 1);
+
+      sockets[2].open().hello();
+      await sleep(0);
+
+      assert.strictEqual(old.disconnectCalls, 0);
+      assert.strictEqual(client.websocket, sockets[2]);
+    });
+
+    it('should open only the replacement when the old connection closes while its URL is fetched', async () => {
+      const { client, holdNextURL } = createClient({ clientPingTimeout: 1 });
+      const old = await connect(client);
+      const releaseURL = holdNextURL();
+      const events = { connected: sandbox.spy(), reconnecting: sandbox.spy() };
+      for (const [name, spy] of Object.entries(events)) client.on(name, spy);
+
+      old.receive(refreshRequested);
+      await sleep(0);
+      old.drop();
+      await sleep(10);
+      releaseURL();
+      await sleep(0);
+      sockets[1].open().hello();
+      await sleep(10);
+
+      assert.deepStrictEqual(
+        sockets.map((socket) => socket.isActive()),
+        [false, true],
+      );
+      assert.strictEqual(client.websocket, sockets[1]);
+      sinon.assert.calledOnce(events.connected);
+      sinon.assert.calledOnce(events.reconnecting);
+    });
+
+    it('should open one replacement when disconnect messages arrive back to back', async () => {
+      const { client } = createClient();
+      const old = await connect(client);
+      const reconnecting = sandbox.spy();
+      client.on('reconnecting', reconnecting);
+
+      old.receive({ type: 'disconnect', reason: 'warning' });
+      old.receive(refreshRequested);
+      await sleep(0);
+      sockets[1].open().hello();
+      await sleep(10);
+
+      assert.strictEqual(sockets.length, 2);
+      assert.strictEqual(client.websocket, sockets[1]);
+      sinon.assert.calledOnce(reconnecting);
+    });
+
+    it('should close the retiring connection, not open another, on its disconnect message while the replacement handshakes', async () => {
+      const { client } = createClient();
+      const old = await connect(client);
+
+      old.receive({ type: 'disconnect', reason: 'warning' });
+      await sleep(0);
+      const replacement = sockets[1].open();
+      old.receive(refreshRequested);
+      await sleep(0);
+
+      assert.strictEqual(sockets.length, 2);
+      assert.strictEqual(old.disconnectCalls, 1);
+
+      replacement.hello();
+      replacement.receive(envelope);
+      await sleep(0);
+
+      assert.strictEqual(replacement.disconnectCalls, 0);
+      assert.strictEqual(replacement.sent.length, 1);
+      assert.strictEqual(client.websocket, replacement);
+    });
+
+    it('should reject with the cause when the replacement fails for good', async () => {
+      const { client, failNextURL } = createClient();
+      const old = await connect(client);
+      const cause = new Error('invalid_auth');
+      failNextURL(cause);
+      const [onMessage] = client.listeners('ws_message');
+
+      await assert.rejects(async () => onMessage(JSON.stringify(refreshRequested), false, old), cause);
+    });
+
+    it('should close a replacement that never opened when start() replaces it', async () => {
+      const { client } = createClient();
+      const old = await connect(client);
+
+      old.receive(refreshRequested);
+      await sleep(0);
+      const restarted = client.start();
+      await sleep(0);
+      sockets[2].open().hello();
+      await restarted;
+
+      assert.strictEqual(sockets[1].disconnectCalls, 1);
+      assert.strictEqual(old.disconnectCalls, 0);
+      assert.strictEqual(client.websocket, sockets[2]);
+    });
+
+    it('should close both connections and emit disconnected once when disconnect() runs mid-refresh', async () => {
+      const { client, error } = createClient();
+      const old = await connect(client);
+      const disconnected = sandbox.spy();
+      client.on('disconnected', disconnected);
+
+      old.receive(refreshRequested);
+      await sleep(0);
+      await client.disconnect();
+      await sleep(10);
+
+      assert.strictEqual(old.disconnectCalls, 1);
+      assert.strictEqual(sockets[1].disconnectCalls, 1);
+      sinon.assert.calledOnce(disconnected);
+      sinon.assert.notCalled(error);
+    });
+
+    it('should close without reconnecting when auto-reconnect is disabled', async () => {
+      const { client } = createClient({ autoReconnectEnabled: false });
+      const old = await connect(client);
+      const disconnected = sandbox.spy();
+      client.on('disconnected', disconnected);
+
+      old.receive(refreshRequested);
+      await sleep(10);
+
+      assert.strictEqual(old.disconnectCalls, 1);
+      assert.strictEqual(sockets.length, 1);
+      sinon.assert.calledOnce(disconnected);
+    });
+
+    it('should close the connection instead of opening a replacement when the link is disabled', async () => {
+      const { client } = createClient();
+      const old = await connect(client);
+
+      old.receive({ type: 'disconnect', reason: 'link_disabled' });
+      await sleep(0);
+
+      assert.strictEqual(sockets.length, 1);
+      assert.strictEqual(old.disconnectCalls, 1);
+      await client.disconnect();
+    });
+
+    it('should close the connection and reconnect after the backoff on an unexpected reason', async () => {
+      const { client } = createClient({ clientPingTimeout: 20 });
+      const old = await connect(client);
+
+      old.receive({ type: 'disconnect', reason: 'too_many_websockets' });
+      await sleep(0);
+
+      assert.strictEqual(sockets.length, 1);
+      assert.strictEqual(old.disconnectCalls, 1);
+      await sleep(40);
+      assert.strictEqual(sockets.length, 2);
+      await client.disconnect();
+    });
+
+    it('should ignore a disconnect message that arrives after disconnect()', async () => {
+      const { client } = createClient();
+      const old = await connect(client);
+
+      await client.disconnect();
+      old.receive(refreshRequested);
+      await sleep(10);
+
+      assert.strictEqual(sockets.length, 1);
+    });
+
+    it('should ignore a late disconnect message from a connection a later refresh closed', async () => {
+      const { client } = createClient();
+      const old = await connect(client);
+
+      old.receive(refreshRequested);
+      await sleep(0);
+      sockets[1].open().hello();
+      sockets[1].receive(refreshRequested);
+      await sleep(0);
+      sockets[2].open().hello();
+      old.receive(refreshRequested);
+      await sleep(10);
+
+      assert.strictEqual(sockets.length, 3);
     });
   });
 });

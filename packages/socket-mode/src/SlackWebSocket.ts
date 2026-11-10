@@ -179,7 +179,7 @@ export class SlackWebSocket {
         return;
       }
       const isBinary = typeof event.data !== 'string';
-      this.options.client.emit('ws_message', event.data, isBinary);
+      this.options.client.emit('ws_message', event.data, isBinary, this);
     };
     this.websocket.addEventListener('message', this.messageHandler);
 
@@ -296,7 +296,7 @@ export class SlackWebSocket {
     clearTimeout(this.closeHandshakeTimeout);
     // Emit event back to client letting it know connection has closed (in case it needs to reconnect if
     // reconnecting is enabled)
-    this.options.client.emit('close');
+    this.options.client.emit('close', this);
   }
 
   /**

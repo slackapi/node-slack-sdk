@@ -93,6 +93,36 @@ describe('SlackWebSocket', () => {
       ws.dispatchEvent(new ErrorEvent('error', { error: new Error('boom'), message: 'boom' }));
       sinon.assert.calledOnce(discStub);
     });
+
+    it('should emit "ws_message" with the receiving SlackWebSocket, so the client can tell connections apart', () => {
+      const ws = new WSMock();
+      SlackWebSocket = proxyquire.load('./SlackWebSocket', {
+        undici: {
+          WebSocket: class Fake {
+            constructor() {
+              // biome-ignore lint/correctness/noConstructorReturn: for test mocking purposes
+              return ws;
+            }
+          },
+          CloseEvent,
+          ErrorEvent,
+          MessageEvent,
+          ping: () => {},
+        },
+      }).SlackWebSocket;
+      const client = new EventEmitter();
+      const received = sandbox.spy();
+      client.on('ws_message', received);
+      const sws = new SlackWebSocket({
+        url: 'whatevs',
+        client,
+        clientPingTimeoutMS: 1,
+        serverPingTimeoutMS: 1,
+      });
+      sws.connect();
+      ws.dispatchEvent(new MessageEvent('message', { data: '{"type":"hello"}' }));
+      sinon.assert.calledOnceWithExactly(received, '{"type":"hello"}', false, sws);
+    });
   });
 
   describe('disconnect() with an unresponsive peer', () => {
@@ -355,6 +385,24 @@ describe('SlackWebSocket', () => {
       sws.disconnect();
 
       sinon.assert.calledOnce(destroy);
+    });
+  });
+
+  describe('close notification', () => {
+    it('should emit "close" with the closed SlackWebSocket, so the client can tell connections apart', () => {
+      const client = new EventEmitter();
+      const closed = sandbox.spy();
+      client.on('close', closed);
+      const sws = new SlackWebSocket({
+        url: 'ws://127.0.0.1/',
+        client,
+        clientPingTimeoutMS: 1,
+        serverPingTimeoutMS: 1,
+      });
+
+      sws.disconnect();
+
+      sinon.assert.calledOnceWithExactly(closed, sws);
     });
   });
 
