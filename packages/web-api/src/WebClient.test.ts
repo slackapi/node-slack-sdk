@@ -1065,6 +1065,33 @@ describe('WebClient', () => {
       assert.strictEqual(resp.ok, true);
       scope.done();
     });
+    it('retries a request whose response body is interrupted', async () => {
+      let attempts = 0;
+      const flakyFetch: FetchFunction = async () => {
+        attempts += 1;
+        return attempts === 1 ? responseInterruptedMidBody() : new Response(JSON.stringify({ ok: true }));
+      };
+      const client = new WebClient(token, { fetch: flakyFetch, retryConfig: rapidRetryPolicy });
+      const resp = await client.apiCall('method');
+      assert.strictEqual(resp.ok, true);
+      assert.strictEqual(attempts, 2);
+    });
+    it('should produce a WebAPIRequestError with original when the response body is interrupted', async () => {
+      const client = new WebClient(token, {
+        fetch: async () => responseInterruptedMidBody(),
+        retryConfig: { retries: 0 },
+      });
+      try {
+        await client.apiCall('method');
+        assert.fail('expected error to be thrown');
+      } catch (error) {
+        assert.ok(error instanceof WebAPIRequestError);
+        assert.strictEqual(error.code, ErrorCode.RequestError);
+        assert.ok(error.original instanceof TypeError);
+        assert.strictEqual(error.original.message, 'terminated');
+        assert.strictEqual(error.cause, error.original);
+      }
+    });
   });
 
   describe('has rate limit handling', () => {
@@ -2050,4 +2077,14 @@ function parseUserAgentIntoMetadata(userAgent: string) {
     },
     {} as Record<string, string | undefined>,
   );
+}
+
+function responseInterruptedMidBody(): Response {
+  const body = new ReadableStream({
+    start(controller) {
+      controller.enqueue(new TextEncoder().encode('{"ok":'));
+      controller.error(new TypeError('terminated'));
+    },
+  });
+  return new Response(body, { status: 200, headers: { 'content-type': 'application/json' } });
 }
