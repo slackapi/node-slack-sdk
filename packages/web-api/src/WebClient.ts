@@ -580,7 +580,6 @@ export class WebClient extends Methods {
 
   /**
    * Low-level function to make a single API request. handles queuing, retries, and http-level errors
-   * @param parseResponse - parses the response body, retried and wrapped like the request itself
    */
   private async makeRequest<T>(
     url: string,
