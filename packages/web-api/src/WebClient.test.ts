@@ -1091,6 +1091,18 @@ describe('WebClient', () => {
       assert.deepStrictEqual(resp.file_data, fileData);
       assert.strictEqual(attempts, 2);
     });
+    it('does not retry a request whose response body is not JSON', async () => {
+      const scope = nock('https://slack.com').post('/api/admin.analytics.getFile').reply(200, 'not json');
+      const client = new WebClient(token, { retryConfig: rapidRetryPolicy });
+      try {
+        await client.apiCall('admin.analytics.getFile', { type: 'member' });
+        assert.fail('expected error to be thrown');
+      } catch (error) {
+        assert.ok(error instanceof WebAPIPlatformError);
+        assert.strictEqual(error.data.error, 'not json');
+      }
+      scope.done();
+    });
     it('should produce a WebAPIRequestError with original when the response body is interrupted', async () => {
       const client = new WebClient(token, {
         fetch: async () => responseInterruptedMidBody(),

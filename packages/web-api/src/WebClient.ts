@@ -1,6 +1,5 @@
 import { basename } from 'node:path';
 import { stringify as qsStringify } from 'node:querystring';
-import { TextDecoder } from 'node:util';
 import zlib from 'node:zlib';
 
 import pQueue from 'p-queue';
@@ -794,11 +793,6 @@ export class WebClient extends Methods {
       } catch (err) {
         data = { ok: false, error: err };
       }
-    } else if (!isGzipResponse && response.url.endsWith('/admin.analytics.getFile')) {
-      // if it isn't a Gzip response but is from the admin.analytics.getFile request,
-      // decode the ArrayBuffer to JSON read the error
-      const buffer = await response.arrayBuffer();
-      data = JSON.parse(new TextDecoder().decode(buffer));
     } else {
       const text = await response.text();
       try {
