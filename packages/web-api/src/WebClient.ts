@@ -581,13 +581,13 @@ export class WebClient extends Methods {
 
   /**
    * Low-level function to make a single API request. handles queuing, retries, and http-level errors
-   * @param readResponse - reads the response body, retried and wrapped like the request itself
+   * @param parseResponse - parses the response body, retried and wrapped like the request itself
    */
   private async makeRequest<T>(
     url: string,
     body: Record<string, unknown>,
     headers: Record<string, string>,
-    readResponse: (response: FetchResponse) => Promise<T>,
+    parseResponse: (response: FetchResponse) => Promise<T>,
   ): Promise<T> {
     const task = () =>
       this.requestQueue.add(async () => {
@@ -658,7 +658,7 @@ export class WebClient extends Methods {
             );
           }
 
-          return await readResponse(response);
+          return await parseResponse(response);
         } catch (error) {
           if (error instanceof AbortError) {
             throw error;
