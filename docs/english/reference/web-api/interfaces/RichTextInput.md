@@ -16,14 +16,17 @@ same experience you have writing messages in Slack.
 
 ## Extends
 
-- [`Actionable`](Actionable.md).[`Dispatchable`](Dispatchable.md).[`Focusable`](Focusable.md).[`Placeholdable`](Placeholdable.md)
+- [`Actionable`](Actionable.md)
+- [`Dispatchable`](Dispatchable.md)
+- [`Focusable`](Focusable.md)
+- [`Placeholdable`](Placeholdable.md)
 
 ## Properties
 
 ### action\_id?
 
 ```ts
-optional action_id?: string;
+action_id?: string;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:12
@@ -41,7 +44,7 @@ among all other `action_id`s in the containing block. Maximum length for this fi
 ### dispatch\_action\_config?
 
 ```ts
-optional dispatch_action_config?: DispatchActionConfig;
+dispatch_action_config?: DispatchActionConfig;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:28
@@ -60,7 +63,7 @@ A [DispatchActionConfig](DispatchActionConfig.md) object that determines when du
 ### focus\_on\_load?
 
 ```ts
-optional focus_on_load?: boolean;
+focus_on_load?: boolean;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:36
@@ -80,7 +83,7 @@ Defaults to `false`.
 ### initial\_value?
 
 ```ts
-optional initial_value?: RichTextBlock;
+initial_value?: RichTextBlock;
 ```
 
 Defined in: packages/types/dist/block-kit/block-elements.d.ts:965
@@ -94,7 +97,7 @@ Initial contents of the input when it is loaded.
 ### max\_lines?
 
 ```ts
-optional max_lines?: number;
+max_lines?: number;
 ```
 
 Defined in: packages/types/dist/block-kit/block-elements.d.ts:974
@@ -109,7 +112,7 @@ Defaults to `8` when not specified.
 ### min\_lines?
 
 ```ts
-optional min_lines?: number;
+min_lines?: number;
 ```
 
 Defined in: packages/types/dist/block-kit/block-elements.d.ts:969
@@ -123,7 +126,7 @@ The minimum number of lines of text shown in the input. Must be between 1 and 10
 ### placeholder?
 
 ```ts
-optional placeholder?: PlainTextElement;
+placeholder?: PlainTextElement;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:49

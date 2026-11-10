@@ -13,29 +13,29 @@ Defined in: [packages/web-api/src/types/response/AdminConversationsInviteRespons
 ### error?
 
 ```ts
-optional error?: string;
+error?: string;
 ```
 
 ### failed\_user\_ids?
 
 ```ts
-optional failed_user_ids?: FailedUserids;
+failed_user_ids?: FailedUserids;
 ```
 
 ### needed?
 
 ```ts
-optional needed?: string;
+needed?: string;
 ```
 
 ### ok?
 
 ```ts
-optional ok?: boolean;
+ok?: boolean;
 ```
 
 ### provided?
 
 ```ts
-optional provided?: string;
+provided?: string;
 ```

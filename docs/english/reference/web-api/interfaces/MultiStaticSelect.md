@@ -16,14 +16,18 @@ element.
 
 ## Extends
 
-- [`Actionable`](Actionable.md).[`Confirmable`](Confirmable.md).[`Focusable`](Focusable.md).[`MaxItemsSelectable`](MaxItemsSelectable.md).[`Placeholdable`](Placeholdable.md)
+- [`Actionable`](Actionable.md)
+- [`Confirmable`](Confirmable.md)
+- [`Focusable`](Focusable.md)
+- [`MaxItemsSelectable`](MaxItemsSelectable.md)
+- [`Placeholdable`](Placeholdable.md)
 
 ## Properties
 
 ### action\_id?
 
 ```ts
-optional action_id?: string;
+action_id?: string;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:12
@@ -41,7 +45,7 @@ among all other `action_id`s in the containing block. Maximum length for this fi
 ### confirm?
 
 ```ts
-optional confirm?: ConfirmationDialog;
+confirm?: ConfirmationDialog;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:21
@@ -60,7 +64,7 @@ with.
 ### focus\_on\_load?
 
 ```ts
-optional focus_on_load?: boolean;
+focus_on_load?: boolean;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:36
@@ -80,7 +84,7 @@ Defaults to `false`.
 ### initial\_options?
 
 ```ts
-optional initial_options?: PlainTextOption[];
+initial_options?: PlainTextOption[];
 ```
 
 Defined in: packages/types/dist/block-kit/block-elements.d.ts:345
@@ -95,7 +99,7 @@ An array of option objects that exactly match one or more of the options within 
 ### max\_selected\_items?
 
 ```ts
-optional max_selected_items?: number;
+max_selected_items?: number;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:42
@@ -113,7 +117,7 @@ Specifies the maximum number of items that can be selected. Minimum number is 1.
 ### option\_groups?
 
 ```ts
-optional option_groups?: object[];
+option_groups?: object[];
 ```
 
 Defined in: packages/types/dist/block-kit/block-elements.d.ts:355
@@ -140,7 +144,7 @@ this field should not be.
 ### options?
 
 ```ts
-optional options?: PlainTextOption[];
+options?: PlainTextOption[];
 ```
 
 Defined in: packages/types/dist/block-kit/block-elements.d.ts:350
@@ -155,7 +159,7 @@ specified, this field should not be.
 ### placeholder?
 
 ```ts
-optional placeholder?: PlainTextElement;
+placeholder?: PlainTextElement;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:49

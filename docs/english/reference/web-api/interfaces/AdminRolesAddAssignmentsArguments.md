@@ -6,7 +6,10 @@ Defined in: [packages/web-api/src/types/request/admin/roles.ts:22](https://githu
 
 ## Extends
 
-- `EntityIDs`.`RoleID`.`UserIDs`.`TokenOverridable`
+- `EntityIDs`
+- `RoleID`
+- `UserIDs`
+- `TokenOverridable`
 
 ## Properties
 
@@ -25,9 +28,7 @@ These can be Org IDs (E12345), Team IDs (T12345) or Channel IDs (C12345).
 
 #### Inherited from
 
-```ts
-EntityIDs.entity_ids
-```
+`EntityIDs.entity_ids`
 
 ***
 
@@ -49,16 +50,14 @@ ID of the role to which users will be assigned/removed.
 
 #### Inherited from
 
-```ts
-RoleID.role_id
-```
+`RoleID.role_id`
 
 ***
 
 ### token?
 
 ```ts
-optional token?: string;
+token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
@@ -69,9 +68,7 @@ Overridable authentication token bearing required scopes.
 
 #### Inherited from
 
-```ts
-TokenOverridable.token
-```
+`TokenOverridable.token`
 
 ***
 
@@ -89,6 +86,4 @@ List of encoded user IDs.
 
 #### Inherited from
 
-```ts
-UserIDs.user_ids
-```
+`UserIDs.user_ids`

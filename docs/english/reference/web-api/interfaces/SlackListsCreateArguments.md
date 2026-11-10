@@ -13,7 +13,7 @@ Defined in: [packages/web-api/src/types/request/slackLists.ts:370](https://githu
 ### copy\_from\_list\_id?
 
 ```ts
-optional copy_from_list_id?: string;
+copy_from_list_id?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/slackLists.ts:390](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/slackLists.ts#L390)
@@ -27,7 +27,7 @@ ID of the List to copy.
 ### description\_blocks?
 
 ```ts
-optional description_blocks?: RichTextBlock[];
+description_blocks?: RichTextBlock[];
 ```
 
 Defined in: [packages/web-api/src/types/request/slackLists.ts:379](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/slackLists.ts#L379)
@@ -41,7 +41,7 @@ A rich text description of the List.
 ### include\_copied\_list\_records?
 
 ```ts
-optional include_copied_list_records?: boolean;
+include_copied_list_records?: boolean;
 ```
 
 Defined in: [packages/web-api/src/types/request/slackLists.ts:395](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/slackLists.ts#L395)
@@ -69,7 +69,7 @@ Name of the List.
 ### schema?
 
 ```ts
-optional schema?: SlackListsSchemaColumn[];
+schema?: SlackListsSchemaColumn[];
 ```
 
 Defined in: [packages/web-api/src/types/request/slackLists.ts:385](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/slackLists.ts#L385)
@@ -87,7 +87,7 @@ Column definition for the List.
 ### todo\_mode?
 
 ```ts
-optional todo_mode?: boolean;
+todo_mode?: boolean;
 ```
 
 Defined in: [packages/web-api/src/types/request/slackLists.ts:400](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/slackLists.ts#L400)
@@ -101,7 +101,7 @@ Boolean indicating whether the List should be used to track todo tasks.
 ### token?
 
 ```ts
-optional token?: string;
+token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
@@ -112,6 +112,4 @@ Overridable authentication token bearing required scopes.
 
 #### Inherited from
 
-```ts
-TokenOverridable.token
-```
+`TokenOverridable.token`

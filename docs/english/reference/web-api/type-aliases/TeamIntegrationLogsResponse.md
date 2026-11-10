@@ -13,41 +13,41 @@ Defined in: [packages/web-api/src/types/response/TeamIntegrationLogsResponse.ts:
 ### error?
 
 ```ts
-optional error?: string;
+error?: string;
 ```
 
 ### logs?
 
 ```ts
-optional logs?: Log[];
+logs?: Log[];
 ```
 
 ### needed?
 
 ```ts
-optional needed?: string;
+needed?: string;
 ```
 
 ### ok?
 
 ```ts
-optional ok?: boolean;
+ok?: boolean;
 ```
 
 ### paging?
 
 ```ts
-optional paging?: Paging;
+paging?: Paging;
 ```
 
 ### provided?
 
 ```ts
-optional provided?: string;
+provided?: string;
 ```
 
 ### warning?
 
 ```ts
-optional warning?: string;
+warning?: string;
 ```

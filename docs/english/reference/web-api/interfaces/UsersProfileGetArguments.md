@@ -13,7 +13,7 @@ Defined in: [packages/web-api/src/types/request/users.ts:66](https://github.com/
 ### include\_labels?
 
 ```ts
-optional include_labels?: boolean;
+include_labels?: boolean;
 ```
 
 Defined in: [packages/web-api/src/types/request/users.ts:71](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/users.ts#L71)
@@ -28,7 +28,7 @@ Using this parameter will heavily rate-limit your requests and is not recommende
 ### token?
 
 ```ts
-optional token?: string;
+token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
@@ -39,16 +39,14 @@ Overridable authentication token bearing required scopes.
 
 #### Inherited from
 
-```ts
-TokenOverridable.token
-```
+`TokenOverridable.token`
 
 ***
 
 ### user?
 
 ```ts
-optional user?: string;
+user?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/users.ts:73](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/users.ts#L73)

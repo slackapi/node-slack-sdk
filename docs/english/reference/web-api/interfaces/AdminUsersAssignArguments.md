@@ -6,14 +6,19 @@ Defined in: [packages/web-api/src/types/request/admin/users.ts:54](https://githu
 
 ## Extends
 
-- `TeamID`.`UserID`.`Partial`\<`ChannelIDs`\>.`IsRestricted`.`IsUltraRestricted`.`TokenOverridable`
+- `TeamID`
+- `UserID`
+- `Partial`\<`ChannelIDs`\>
+- `IsRestricted`
+- `IsUltraRestricted`
+- `TokenOverridable`
 
 ## Properties
 
 ### channel\_ids?
 
 ```ts
-optional channel_ids?: [string, ...string[]];
+channel_ids?: [string, ...string[]];
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:81](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L81)
@@ -31,7 +36,7 @@ An array of channel IDs (must include at least one ID).
 ### is\_restricted?
 
 ```ts
-optional is_restricted?: boolean;
+is_restricted?: boolean;
 ```
 
 Defined in: [packages/web-api/src/types/request/admin/users.ts:15](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/users.ts#L15)
@@ -42,16 +47,14 @@ Set to `true` if user should be added to the workspace as a guest.
 
 #### Inherited from
 
-```ts
-IsRestricted.is_restricted
-```
+`IsRestricted.is_restricted`
 
 ***
 
 ### is\_ultra\_restricted?
 
 ```ts
-optional is_ultra_restricted?: boolean;
+is_ultra_restricted?: boolean;
 ```
 
 Defined in: [packages/web-api/src/types/request/admin/users.ts:20](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/users.ts#L20)
@@ -62,9 +65,7 @@ Set to `true` if user should be added to the workspace as a guest.
 
 #### Inherited from
 
-```ts
-IsUltraRestricted.is_ultra_restricted
-```
+`IsUltraRestricted.is_ultra_restricted`
 
 ***
 
@@ -82,16 +83,14 @@ The encoded team ID.
 
 #### Inherited from
 
-```ts
-TeamID.team_id
-```
+`TeamID.team_id`
 
 ***
 
 ### token?
 
 ```ts
-optional token?: string;
+token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
@@ -102,9 +101,7 @@ Overridable authentication token bearing required scopes.
 
 #### Inherited from
 
-```ts
-TokenOverridable.token
-```
+`TokenOverridable.token`
 
 ***
 
@@ -122,6 +119,4 @@ Encoded user ID.
 
 #### Inherited from
 
-```ts
-UserID.user_id
-```
+`UserID.user_id`

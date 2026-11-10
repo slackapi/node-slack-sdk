@@ -43,9 +43,7 @@ Configuration options.
 
 #### Overrides
 
-```ts
-Methods.constructor
-```
+`Methods.constructor`
 
 ## Properties
 
@@ -4447,7 +4445,7 @@ Retrieve a team's profile.
 ### token?
 
 ```ts
-readonly optional token?: string;
+readonly token?: string;
 ```
 
 Defined in: [packages/web-api/src/WebClient.ts:149](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/WebClient.ts#L149)
@@ -5211,7 +5209,7 @@ Return the number of listeners listening to a given event.
 ### listeners()
 
 ```ts
-listeners<T>(event): (...args) => void[];
+listeners<T>(event): ((...args) => void)[];
 ```
 
 Defined in: node\_modules/eventemitter3/index.d.ts:20
@@ -5232,7 +5230,7 @@ Return the listeners registered for a given event.
 
 #### Returns
 
-(...`args`) => `void`[]
+((...`args`) => `void`)[]
 
 #### Inherited from
 

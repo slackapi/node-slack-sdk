@@ -13,71 +13,71 @@ Defined in: [packages/web-api/src/types/response/AppsManifestCreateResponse.ts:1
 ### app\_id?
 
 ```ts
-optional app_id?: string;
+app_id?: string;
 ```
 
 ### credentials?
 
 ```ts
-optional credentials?: Credentials;
+credentials?: Credentials;
 ```
 
 ### error?
 
 ```ts
-optional error?: string;
+error?: string;
 ```
 
 ### errors?
 
 ```ts
-optional errors?: Error[];
+errors?: Error[];
 ```
 
 ### needed?
 
 ```ts
-optional needed?: string;
+needed?: string;
 ```
 
 ### oauth\_authorize\_url?
 
 ```ts
-optional oauth_authorize_url?: string;
+oauth_authorize_url?: string;
 ```
 
 ### ok?
 
 ```ts
-optional ok?: boolean;
+ok?: boolean;
 ```
 
 ### provided?
 
 ```ts
-optional provided?: string;
+provided?: string;
 ```
 
 ### response\_metadata?
 
 ```ts
-optional response_metadata?: ResponseMetadata;
+response_metadata?: ResponseMetadata;
 ```
 
 ### team\_domain?
 
 ```ts
-optional team_domain?: string;
+team_domain?: string;
 ```
 
 ### team\_id?
 
 ```ts
-optional team_id?: string;
+team_id?: string;
 ```
 
 ### warning?
 
 ```ts
-optional warning?: string;
+warning?: string;
 ```

@@ -13,7 +13,7 @@ Defined in: [packages/web-api/src/types/request/agents.ts:17](https://github.com
 ### is\_private?
 
 ```ts
-optional is_private?: boolean;
+is_private?: boolean;
 ```
 
 Defined in: [packages/web-api/src/types/request/agents.ts:34](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/agents.ts#L34)
@@ -42,7 +42,7 @@ are provided — in that case the channel is named from the origin message and r
 ### origin\_channel\_id?
 
 ```ts
-optional origin_channel_id?: string;
+origin_channel_id?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/agents.ts:39](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/agents.ts#L39)
@@ -57,7 +57,7 @@ The channel ID where the agent session was initiated from. Must be provided toge
 ### origin\_message\_ts?
 
 ```ts
-optional origin_message_ts?: string;
+origin_message_ts?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/agents.ts:44](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/agents.ts#L44)
@@ -72,7 +72,7 @@ with `origin_channel_id`. The author of this message is automatically invited to
 ### session\_id?
 
 ```ts
-optional session_id?: string;
+session_id?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/agents.ts:27](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/agents.ts#L27)
@@ -87,7 +87,7 @@ exists for this `session_id`, it is returned instead of creating a new one.
 ### team\_id?
 
 ```ts
-optional team_id?: string;
+team_id?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/agents.ts:22](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/agents.ts#L22)
@@ -102,7 +102,7 @@ provided. When omitted, the workspace is derived from the origin channel.
 ### token?
 
 ```ts
-optional token?: string;
+token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
@@ -113,6 +113,4 @@ Overridable authentication token bearing required scopes.
 
 #### Inherited from
 
-```ts
-TokenOverridable.token
-```
+`TokenOverridable.token`

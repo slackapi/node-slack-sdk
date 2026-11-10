@@ -13,65 +13,65 @@ Defined in: [packages/web-api/src/types/response/ToolingTokensRotateResponse.ts:
 ### error?
 
 ```ts
-optional error?: string;
+error?: string;
 ```
 
 ### exp?
 
 ```ts
-optional exp?: number;
+exp?: number;
 ```
 
 ### iat?
 
 ```ts
-optional iat?: number;
+iat?: number;
 ```
 
 ### needed?
 
 ```ts
-optional needed?: string;
+needed?: string;
 ```
 
 ### ok?
 
 ```ts
-optional ok?: boolean;
+ok?: boolean;
 ```
 
 ### provided?
 
 ```ts
-optional provided?: string;
+provided?: string;
 ```
 
 ### refresh\_token?
 
 ```ts
-optional refresh_token?: string;
+refresh_token?: string;
 ```
 
 ### response\_metadata?
 
 ```ts
-optional response_metadata?: ResponseMetadata;
+response_metadata?: ResponseMetadata;
 ```
 
 ### team\_id?
 
 ```ts
-optional team_id?: string;
+team_id?: string;
 ```
 
 ### token?
 
 ```ts
-optional token?: string;
+token?: string;
 ```
 
 ### user\_id?
 
 ```ts
-optional user_id?: string;
+user_id?: string;
 ```

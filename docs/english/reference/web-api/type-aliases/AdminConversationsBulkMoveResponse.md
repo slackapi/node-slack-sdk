@@ -13,47 +13,47 @@ Defined in: [packages/web-api/src/types/response/AdminConversationsBulkMoveRespo
 ### bulk\_action\_id?
 
 ```ts
-optional bulk_action_id?: string;
+bulk_action_id?: string;
 ```
 
 ### error?
 
 ```ts
-optional error?: string;
+error?: string;
 ```
 
 ### needed?
 
 ```ts
-optional needed?: string;
+needed?: string;
 ```
 
 ### not\_added?
 
 ```ts
-optional not_added?: NotAdded[];
+not_added?: NotAdded[];
 ```
 
 ### ok?
 
 ```ts
-optional ok?: boolean;
+ok?: boolean;
 ```
 
 ### provided?
 
 ```ts
-optional provided?: string;
+provided?: string;
 ```
 
 ### response\_metadata?
 
 ```ts
-optional response_metadata?: ResponseMetadata;
+response_metadata?: ResponseMetadata;
 ```
 
 ### warning?
 
 ```ts
-optional warning?: string;
+warning?: string;
 ```

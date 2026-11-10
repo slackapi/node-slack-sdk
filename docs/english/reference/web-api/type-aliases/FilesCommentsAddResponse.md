@@ -13,29 +13,29 @@ Defined in: [packages/web-api/src/types/response/FilesCommentsAddResponse.ts:11]
 ### error?
 
 ```ts
-optional error?: string;
+error?: string;
 ```
 
 ### needed?
 
 ```ts
-optional needed?: string;
+needed?: string;
 ```
 
 ### ok?
 
 ```ts
-optional ok?: boolean;
+ok?: boolean;
 ```
 
 ### provided?
 
 ```ts
-optional provided?: string;
+provided?: string;
 ```
 
 ### req\_method?
 
 ```ts
-optional req_method?: string;
+req_method?: string;
 ```

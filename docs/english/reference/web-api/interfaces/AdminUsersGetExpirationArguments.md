@@ -13,7 +13,7 @@ Defined in: [packages/web-api/src/types/request/admin/users.ts:63](https://githu
 ### target\_team?
 
 ```ts
-optional target_team?: string;
+target_team?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/admin/users.ts:69](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/users.ts#L69)
@@ -28,7 +28,7 @@ on the specified team. Otherwise it will operate on the org or team in context.
 ### token?
 
 ```ts
-optional token?: string;
+token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
@@ -39,16 +39,14 @@ Overridable authentication token bearing required scopes.
 
 #### Inherited from
 
-```ts
-TokenOverridable.token
-```
+`TokenOverridable.token`
 
 ***
 
 ### user\_id?
 
 ```ts
-optional user_id?: string;
+user_id?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/admin/users.ts:65](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/users.ts#L65)

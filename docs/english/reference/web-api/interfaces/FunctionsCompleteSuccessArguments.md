@@ -6,7 +6,8 @@ Defined in: [packages/web-api/src/types/request/functions.ts:13](https://github.
 
 ## Extends
 
-- `ExecutionID`.`TokenOverridable`
+- `ExecutionID`
+- `TokenOverridable`
 
 ## Properties
 
@@ -20,9 +21,7 @@ Defined in: [packages/web-api/src/types/request/functions.ts:4](https://github.c
 
 #### Inherited from
 
-```ts
-ExecutionID.function_execution_id
-```
+`ExecutionID.function_execution_id`
 
 ***
 
@@ -39,7 +38,7 @@ Defined in: [packages/web-api/src/types/request/functions.ts:14](https://github.
 ### token?
 
 ```ts
-optional token?: string;
+token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
@@ -50,6 +49,4 @@ Overridable authentication token bearing required scopes.
 
 #### Inherited from
 
-```ts
-TokenOverridable.token
-```
+`TokenOverridable.token`

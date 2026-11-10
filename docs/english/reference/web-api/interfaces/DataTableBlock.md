@@ -21,7 +21,7 @@ Displays rich tables that support pagination, sorting, filtering, and interactiv
 ### block\_id?
 
 ```ts
-optional block_id?: string;
+block_id?: string;
 ```
 
 Defined in: packages/types/dist/block-kit/blocks.d.ts:15
@@ -57,7 +57,7 @@ A caption for the table; used as the value for the HTML caption element.
 ### page\_size?
 
 ```ts
-optional page_size?: number;
+page_size?: number;
 ```
 
 Defined in: packages/types/dist/block-kit/blocks.d.ts:287
@@ -71,7 +71,7 @@ Number of rows per page. Min `1`, Max `100`. Defaults to `5` if omitted.
 ### row\_header\_column\_index?
 
 ```ts
-optional row_header_column_index?: number;
+row_header_column_index?: number;
 ```
 
 Defined in: packages/types/dist/block-kit/blocks.d.ts:291

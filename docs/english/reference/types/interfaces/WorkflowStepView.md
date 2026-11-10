@@ -30,16 +30,14 @@ An array of [AnyBlock](../type-aliases/AnyBlock.md) that defines the content of 
 
 #### Inherited from
 
-```ts
-BaseView.blocks
-```
+`BaseView.blocks`
 
 ***
 
 ### ~~callback\_id?~~
 
 ```ts
-optional callback_id?: string;
+callback_id?: string;
 ```
 
 Defined in: [views.ts:19](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/views.ts#L19)
@@ -55,16 +53,14 @@ store sensitive information (use `private_metadata` instead). Maximum length of 
 
 #### Inherited from
 
-```ts
-BaseView.callback_id
-```
+`BaseView.callback_id`
 
 ***
 
 ### ~~external\_id?~~
 
 ```ts
-optional external_id?: string;
+external_id?: string;
 ```
 
 Defined in: [views.ts:21](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/views.ts#L21)
@@ -75,16 +71,14 @@ A custom identifier that must be unique for all views on a per-team basis.
 
 #### Inherited from
 
-```ts
-BaseView.external_id
-```
+`BaseView.external_id`
 
 ***
 
 ### ~~private\_metadata?~~
 
 ```ts
-optional private_metadata?: string;
+private_metadata?: string;
 ```
 
 Defined in: [views.ts:13](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/views.ts#L13)
@@ -98,16 +92,14 @@ Maximum length of 3000 characters.
 
 #### Inherited from
 
-```ts
-BaseView.private_metadata
-```
+`BaseView.private_metadata`
 
 ***
 
 ### ~~submit\_disabled?~~
 
 ```ts
-optional submit_disabled?: boolean;
+submit_disabled?: boolean;
 ```
 
 Defined in: [views.ts:73](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/views.ts#L73)

@@ -6,7 +6,8 @@ Defined in: [packages/web-api/src/types/request/conversations.ts:163](https://gi
 
 ## Extends
 
-- `MessageSpecifier`.`TokenOverridable`
+- `MessageSpecifier`
+- `TokenOverridable`
 
 ## Properties
 
@@ -24,16 +25,14 @@ ID of conversation.
 
 #### Inherited from
 
-```ts
-MessageSpecifier.channel
-```
+`MessageSpecifier.channel`
 
 ***
 
 ### token?
 
 ```ts
-optional token?: string;
+token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
@@ -44,9 +43,7 @@ Overridable authentication token bearing required scopes.
 
 #### Inherited from
 
-```ts
-TokenOverridable.token
-```
+`TokenOverridable.token`
 
 ***
 
@@ -64,6 +61,4 @@ Unique identifier of message.
 
 #### Inherited from
 
-```ts
-MessageSpecifier.ts
-```
+`MessageSpecifier.ts`

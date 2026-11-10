@@ -9,7 +9,7 @@ Defined in: [message-metadata.ts:156](https://github.com/slackapi/node-slack-sdk
 ### assignee?
 
 ```ts
-optional assignee?: EntityTypedField;
+assignee?: EntityTypedField;
 ```
 
 Defined in: [message-metadata.ts:161](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L161)
@@ -19,7 +19,7 @@ Defined in: [message-metadata.ts:161](https://github.com/slackapi/node-slack-sdk
 ### created\_by?
 
 ```ts
-optional created_by?: EntityTypedField;
+created_by?: EntityTypedField;
 ```
 
 Defined in: [message-metadata.ts:158](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L158)
@@ -29,7 +29,7 @@ Defined in: [message-metadata.ts:158](https://github.com/slackapi/node-slack-sdk
 ### date\_created?
 
 ```ts
-optional date_created?: EntityTimestampField;
+date_created?: EntityTimestampField;
 ```
 
 Defined in: [message-metadata.ts:159](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L159)
@@ -39,7 +39,7 @@ Defined in: [message-metadata.ts:159](https://github.com/slackapi/node-slack-sdk
 ### date\_updated?
 
 ```ts
-optional date_updated?: EntityTimestampField;
+date_updated?: EntityTimestampField;
 ```
 
 Defined in: [message-metadata.ts:160](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L160)
@@ -49,7 +49,7 @@ Defined in: [message-metadata.ts:160](https://github.com/slackapi/node-slack-sdk
 ### description?
 
 ```ts
-optional description?: EntityStringField;
+description?: EntityStringField;
 ```
 
 Defined in: [message-metadata.ts:157](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L157)
@@ -59,7 +59,7 @@ Defined in: [message-metadata.ts:157](https://github.com/slackapi/node-slack-sdk
 ### due\_date?
 
 ```ts
-optional due_date?: EntityTypedField;
+due_date?: EntityTypedField;
 ```
 
 Defined in: [message-metadata.ts:163](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L163)
@@ -69,7 +69,7 @@ Defined in: [message-metadata.ts:163](https://github.com/slackapi/node-slack-sdk
 ### priority?
 
 ```ts
-optional priority?: EntityStringField;
+priority?: EntityStringField;
 ```
 
 Defined in: [message-metadata.ts:164](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L164)
@@ -79,7 +79,7 @@ Defined in: [message-metadata.ts:164](https://github.com/slackapi/node-slack-sdk
 ### status?
 
 ```ts
-optional status?: EntityStringField;
+status?: EntityStringField;
 ```
 
 Defined in: [message-metadata.ts:162](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L162)

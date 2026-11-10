@@ -13,53 +13,53 @@ Defined in: [packages/web-api/src/types/response/SearchAllResponse.ts:11](https:
 ### error?
 
 ```ts
-optional error?: string;
+error?: string;
 ```
 
 ### files?
 
 ```ts
-optional files?: Files;
+files?: Files;
 ```
 
 ### messages?
 
 ```ts
-optional messages?: Messages;
+messages?: Messages;
 ```
 
 ### needed?
 
 ```ts
-optional needed?: string;
+needed?: string;
 ```
 
 ### ok?
 
 ```ts
-optional ok?: boolean;
+ok?: boolean;
 ```
 
 ### posts?
 
 ```ts
-optional posts?: Posts;
+posts?: Posts;
 ```
 
 ### provided?
 
 ```ts
-optional provided?: string;
+provided?: string;
 ```
 
 ### query?
 
 ```ts
-optional query?: string;
+query?: string;
 ```
 
 ### warning?
 
 ```ts
-optional warning?: string;
+warning?: string;
 ```

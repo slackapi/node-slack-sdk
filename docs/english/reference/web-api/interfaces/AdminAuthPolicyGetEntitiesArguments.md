@@ -6,14 +6,17 @@ Defined in: [packages/web-api/src/types/request/admin/auth.ts:20](https://github
 
 ## Extends
 
-- `Partial`\<`EntityType`\>.`PolicyName`.`TokenOverridable`.`CursorPaginationEnabled`
+- `Partial`\<`EntityType`\>
+- `PolicyName`
+- `TokenOverridable`
+- `CursorPaginationEnabled`
 
 ## Properties
 
 ### cursor?
 
 ```ts
-optional cursor?: string;
+cursor?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:16](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L16)
@@ -30,16 +33,14 @@ Default value fetches the first "page" of the collection.
 
 #### Inherited from
 
-```ts
-CursorPaginationEnabled.cursor
-```
+`CursorPaginationEnabled.cursor`
 
 ***
 
 ### entity\_type?
 
 ```ts
-optional entity_type?: "USER";
+entity_type?: "USER";
 ```
 
 Defined in: [packages/web-api/src/types/request/admin/auth.ts:9](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/auth.ts#L9)
@@ -57,7 +58,7 @@ The type of entity interacting with the policy.
 ### limit?
 
 ```ts
-optional limit?: number;
+limit?: number;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:9](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L9)
@@ -69,9 +70,7 @@ even if the end of the list hasn't been reached. Must be an integer with a max v
 
 #### Inherited from
 
-```ts
-CursorPaginationEnabled.limit
-```
+`CursorPaginationEnabled.limit`
 
 ***
 
@@ -89,16 +88,14 @@ The name of the policy.
 
 #### Inherited from
 
-```ts
-PolicyName.policy_name
-```
+`PolicyName.policy_name`
 
 ***
 
 ### token?
 
 ```ts
-optional token?: string;
+token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
@@ -109,6 +106,4 @@ Overridable authentication token bearing required scopes.
 
 #### Inherited from
 
-```ts
-TokenOverridable.token
-```
+`TokenOverridable.token`

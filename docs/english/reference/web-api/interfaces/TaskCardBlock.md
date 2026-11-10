@@ -21,7 +21,7 @@ https://docs.slack.dev/reference/block-kit/blocks/task-card-block/
 ### block\_id?
 
 ```ts
-optional block_id?: string;
+block_id?: string;
 ```
 
 Defined in: packages/types/dist/block-kit/blocks.d.ts:15
@@ -43,7 +43,7 @@ a message. If a message is updated, use a new `block_id`.
 ### details?
 
 ```ts
-optional details?: RichTextBlock;
+details?: RichTextBlock;
 ```
 
 Defined in: packages/types/dist/block-kit/blocks.d.ts:529
@@ -57,7 +57,7 @@ Details of the task in the form of a single "rich_text" entity.
 ### output?
 
 ```ts
-optional output?: RichTextBlock;
+output?: RichTextBlock;
 ```
 
 Defined in: packages/types/dist/block-kit/blocks.d.ts:533
@@ -71,7 +71,7 @@ Output of the task in the form of a single "rich_text" entity.
 ### sources?
 
 ```ts
-optional sources?: URLSourceElement[];
+sources?: URLSourceElement[];
 ```
 
 Defined in: packages/types/dist/block-kit/blocks.d.ts:537

@@ -13,7 +13,7 @@ Defined in: [packages/web-api/src/types/request/agents.ts:152](https://github.co
 ### access\_level?
 
 ```ts
-optional access_level?: string;
+access_level?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/agents.ts:179](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/agents.ts#L179)
@@ -28,7 +28,7 @@ For canvas views: access level granted to the channel for the canvas tab. Defaul
 ### agent\_content\_hash?
 
 ```ts
-optional agent_content_hash?: string;
+agent_content_hash?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/agents.ts:184](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/agents.ts#L184)
@@ -43,7 +43,7 @@ later detect human edits to the canvas. Opaque to the server.
 ### base\_branch?
 
 ```ts
-optional base_branch?: string;
+base_branch?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/agents.ts:188](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/agents.ts#L188)
@@ -57,7 +57,7 @@ For diff views: base branch name for display purposes.
 ### blocks?
 
 ```ts
-optional blocks?: (Block | KnownBlock)[];
+blocks?: (Block | KnownBlock)[];
 ```
 
 Defined in: [packages/web-api/src/types/request/agents.ts:172](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/agents.ts#L172)
@@ -71,7 +71,7 @@ Block Kit blocks to render in the view tab. Required when `type` is `block_kit`;
 ### canvas\_id?
 
 ```ts
-optional canvas_id?: string;
+canvas_id?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/agents.ts:174](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/agents.ts#L174)
@@ -99,7 +99,7 @@ ID of the code channel to render the view in.
 ### content?
 
 ```ts
-optional content?: string;
+content?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/agents.ts:170](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/agents.ts#L170)
@@ -114,7 +114,7 @@ Capped at 1,000,000 bytes — larger content returns content_too_large. The cap 
 ### csp?
 
 ```ts
-optional csp?: object;
+csp?: object;
 ```
 
 Defined in: [packages/web-api/src/types/request/agents.ts:200](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/agents.ts#L200)
@@ -122,7 +122,7 @@ Defined in: [packages/web-api/src/types/request/agents.ts:200](https://github.co
 #### connect\_domains?
 
 ```ts
-optional connect_domains?: string[];
+connect_domains?: string[];
 ```
 
 ##### Description
@@ -132,7 +132,7 @@ Origins the view may fetch()/XHR/WebSocket to. Accepted and stored, but not hono
 #### resource\_domains?
 
 ```ts
-optional resource_domains?: string[];
+resource_domains?: string[];
 ```
 
 ##### Description
@@ -149,7 +149,7 @@ Content-Security-Policy domain declarations for the view. Domains are validated 
 ### head\_branch?
 
 ```ts
-optional head_branch?: string;
+head_branch?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/agents.ts:190](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/agents.ts#L190)
@@ -163,7 +163,7 @@ For diff views: head branch name for display purposes.
 ### name?
 
 ```ts
-optional name?: string;
+name?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/agents.ts:195](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/agents.ts#L195)
@@ -178,7 +178,7 @@ supplied). Defaults to the last path segment of `view_key`, stripped of any .htm
 ### pr\_url?
 
 ```ts
-optional pr_url?: string;
+pr_url?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/agents.ts:186](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/agents.ts#L186)
@@ -192,7 +192,7 @@ For pull_request views: the pull request's URL. Required when `type` is `pull_re
 ### token?
 
 ```ts
-optional token?: string;
+token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
@@ -203,16 +203,14 @@ Overridable authentication token bearing required scopes.
 
 #### Inherited from
 
-```ts
-TokenOverridable.token
-```
+`TokenOverridable.token`
 
 ***
 
 ### type?
 
 ```ts
-optional type?: string;
+type?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/agents.ts:160](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/agents.ts#L160)
@@ -228,7 +226,7 @@ required: `html` and `diff` require `content`, `block_kit` requires `blocks`, `c
 ### view\_key?
 
 ```ts
-optional view_key?: string;
+view_key?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/agents.ts:165](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/agents.ts#L165)
