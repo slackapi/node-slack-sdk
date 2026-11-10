@@ -1076,6 +1076,21 @@ describe('WebClient', () => {
       assert.strictEqual(resp.ok, true);
       assert.strictEqual(attempts, 2);
     });
+    it('retries a request whose gzip response body is interrupted', async () => {
+      const fileData = [{ date: '2024-01-01', user_id: 'U123', messages_posted: 5 }];
+      const gzipped = zlib.gzipSync(Buffer.from(JSON.stringify(fileData[0])));
+      let attempts = 0;
+      const flakyFetch: FetchFunction = async () => {
+        attempts += 1;
+        return attempts === 1
+          ? responseInterruptedMidBody('application/gzip')
+          : new Response(gzipped, { headers: { 'content-type': 'application/gzip' } });
+      };
+      const client = new WebClient(token, { fetch: flakyFetch, retryConfig: rapidRetryPolicy });
+      const resp = await client.apiCall('admin.analytics.getFile', { type: 'member' });
+      assert.deepStrictEqual(resp.file_data, fileData);
+      assert.strictEqual(attempts, 2);
+    });
     it('should produce a WebAPIRequestError with original when the response body is interrupted', async () => {
       const client = new WebClient(token, {
         fetch: async () => responseInterruptedMidBody(),
@@ -2079,12 +2094,12 @@ function parseUserAgentIntoMetadata(userAgent: string) {
   );
 }
 
-function responseInterruptedMidBody(): Response {
+function responseInterruptedMidBody(contentType = 'application/json'): Response {
   const body = new ReadableStream({
     start(controller) {
       controller.enqueue(new TextEncoder().encode('{"ok":'));
       controller.error(new TypeError('terminated'));
     },
   });
-  return new Response(body, { status: 200, headers: { 'content-type': 'application/json' } });
+  return new Response(body, { status: 200, headers: { 'content-type': contentType } });
 }

@@ -770,8 +770,8 @@ export class WebClient extends Methods {
 
     // admin.analytics.getFile returns a gzip binary response that can be unzipped
     if (isGzipResponse) {
+      const buffer = Buffer.from(await response.arrayBuffer());
       try {
-        const buffer = Buffer.from(await response.arrayBuffer());
         const unzippedData = await new Promise((resolve, reject) => {
           zlib.unzip(buffer, (err, buf) => {
             if (err) {
