@@ -1049,6 +1049,20 @@ describe('SocketModeClient', () => {
       await client.disconnect();
     });
 
+    it('should close the connection and reconnect after the backoff on an unexpected reason', async () => {
+      const { client } = createClient({ clientPingTimeout: 20 });
+      const old = await connect(client);
+
+      old.receive({ type: 'disconnect', reason: 'too_many_websockets' });
+      await sleep(0);
+
+      assert.strictEqual(sockets.length, 1);
+      assert.strictEqual(old.disconnectCalls, 1);
+      await sleep(40);
+      assert.strictEqual(sockets.length, 2);
+      await client.disconnect();
+    });
+
     it('should ignore a disconnect message that arrives after disconnect()', async () => {
       const { client } = createClient();
       const old = await connect(client);

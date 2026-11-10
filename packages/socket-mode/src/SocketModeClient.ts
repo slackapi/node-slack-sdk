@@ -419,7 +419,8 @@ export class SocketModeClient extends EventEmitter {
         return;
       }
       if (socket && socket !== this.websocket) return;
-      if (this.autoReconnectEnabled && !this.shuttingDown && event.reason !== 'link_disabled') {
+      const isRefresh = event.reason === 'warning' || event.reason === 'refresh_requested';
+      if (this.autoReconnectEnabled && !this.shuttingDown && isRefresh) {
         await this.openReplacement(event.reason);
       } else {
         this.logger.debug(`Received "${event.type}" (${event.reason}) message - disconnecting.`);
