@@ -6,14 +6,16 @@ Defined in: [packages/web-api/src/types/request/calls.ts:28](https://github.com/
 
 ## Extends
 
-- `Partial`\<`Users`\>.`CallDetails`.`TokenOverridable`
+- `Partial`\<`Users`\>
+- `CallDetails`
+- `TokenOverridable`
 
 ## Properties
 
 ### created\_by?
 
 ```ts
-optional created_by?: string;
+created_by?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/calls.ts:37](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/calls.ts#L37)
@@ -28,7 +30,7 @@ this field is optional and defaults to the authed user of the token. Otherwise, 
 ### date\_start?
 
 ```ts
-optional date_start?: number;
+date_start?: number;
 ```
 
 Defined in: [packages/web-api/src/types/request/calls.ts:39](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/calls.ts#L39)
@@ -42,7 +44,7 @@ Unix timestamp of the call start time.
 ### desktop\_app\_join\_url?
 
 ```ts
-optional desktop_app_join_url?: string;
+desktop_app_join_url?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/calls.ts:22](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/calls.ts#L22)
@@ -54,16 +56,14 @@ with this URL.
 
 #### Inherited from
 
-```ts
-CallDetails.desktop_app_join_url
-```
+`CallDetails.desktop_app_join_url`
 
 ***
 
 ### external\_display\_id?
 
 ```ts
-optional external_display_id?: string;
+external_display_id?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/calls.ts:44](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/calls.ts#L44)
@@ -103,16 +103,14 @@ The URL required for a client to join the Call.
 
 #### Inherited from
 
-```ts
-CallDetails.join_url
-```
+`CallDetails.join_url`
 
 ***
 
 ### title?
 
 ```ts
-optional title?: string;
+title?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/calls.ts:24](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/calls.ts#L24)
@@ -123,16 +121,14 @@ The name of the Call.
 
 #### Inherited from
 
-```ts
-CallDetails.title
-```
+`CallDetails.title`
 
 ***
 
 ### token?
 
 ```ts
-optional token?: string;
+token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
@@ -143,16 +139,14 @@ Overridable authentication token bearing required scopes.
 
 #### Inherited from
 
-```ts
-TokenOverridable.token
-```
+`TokenOverridable.token`
 
 ***
 
 ### users?
 
 ```ts
-optional users?: CallUser[];
+users?: CallUser[];
 ```
 
 Defined in: [packages/web-api/src/types/request/calls.ts:13](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/calls.ts#L13)

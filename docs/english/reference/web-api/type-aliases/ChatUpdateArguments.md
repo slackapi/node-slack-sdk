@@ -20,12 +20,10 @@ ts: string;
 
 Timestamp of the message to be updated.
 
-## Type Declaration
-
 ### file\_ids?
 
 ```ts
-optional file_ids?: string[];
+file_ids?: string[];
 ```
 
 #### Description
@@ -35,7 +33,7 @@ Array of new file ids that will be sent with this message.
 ### reply\_broadcast?
 
 ```ts
-optional reply_broadcast?: boolean;
+reply_broadcast?: boolean;
 ```
 
 #### Description

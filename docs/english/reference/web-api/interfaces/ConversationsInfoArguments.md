@@ -6,7 +6,9 @@ Defined in: [packages/web-api/src/types/request/conversations.ts:101](https://gi
 
 ## Extends
 
-- `Channel`.`TokenOverridable`.`LocaleAware`
+- `Channel`
+- `TokenOverridable`
+- `LocaleAware`
 
 ## Properties
 
@@ -24,16 +26,14 @@ ID of conversation.
 
 #### Inherited from
 
-```ts
-Channel.channel
-```
+`Channel.channel`
 
 ***
 
 ### include\_locale?
 
 ```ts
-optional include_locale?: boolean;
+include_locale?: boolean;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:51](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L51)
@@ -44,16 +44,14 @@ Set this to `true` to receive the locale with the response.
 
 #### Inherited from
 
-```ts
-LocaleAware.include_locale
-```
+`LocaleAware.include_locale`
 
 ***
 
 ### include\_num\_members?
 
 ```ts
-optional include_num_members?: boolean;
+include_num_members?: boolean;
 ```
 
 Defined in: [packages/web-api/src/types/request/conversations.ts:105](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/conversations.ts#L105)
@@ -67,7 +65,7 @@ Set to `true` to include the member count for the specified conversation. Defaul
 ### token?
 
 ```ts
-optional token?: string;
+token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
@@ -78,6 +76,4 @@ Overridable authentication token bearing required scopes.
 
 #### Inherited from
 
-```ts
-TokenOverridable.token
-```
+`TokenOverridable.token`

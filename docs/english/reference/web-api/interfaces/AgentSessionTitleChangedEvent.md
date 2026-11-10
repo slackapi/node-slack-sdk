@@ -29,7 +29,7 @@ Defined in: packages/types/dist/events/agent.d.ts:17
 ### previous\_title?
 
 ```ts
-optional previous_title?: string;
+previous_title?: string;
 ```
 
 Defined in: packages/types/dist/events/agent.d.ts:16

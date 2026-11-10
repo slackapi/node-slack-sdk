@@ -27,7 +27,7 @@ Defined in: [events/app.ts:225](https://github.com/slackapi/node-slack-sdk/blob/
 #### entities?
 
 ```ts
-optional entities?: 
+entities?: ((
   | {
   type: "slack#/types/channel_id";
   value: string;
@@ -46,7 +46,7 @@ optional entities?:
      channel_id: string;
      message_ts: string;
   };
-} & object[];
+}) & object)[];
 ```
 
 ***

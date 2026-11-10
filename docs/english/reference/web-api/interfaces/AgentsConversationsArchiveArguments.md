@@ -27,7 +27,7 @@ ID of the code channel to archive.
 ### summary\_message\_ts?
 
 ```ts
-optional summary_message_ts?: string;
+summary_message_ts?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/agents.ts:13](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/agents.ts#L13)
@@ -42,7 +42,7 @@ Requires the channel to have an `origin_link` set.
 ### token?
 
 ```ts
-optional token?: string;
+token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
@@ -53,6 +53,4 @@ Overridable authentication token bearing required scopes.
 
 #### Inherited from
 
-```ts
-TokenOverridable.token
-```
+`TokenOverridable.token`

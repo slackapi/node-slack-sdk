@@ -6,7 +6,9 @@ Defined in: [packages/web-api/src/types/request/conversations.ts:66](https://git
 
 ## Extends
 
-- `InviteID`.`TargetTeam`.`TokenOverridable`
+- `InviteID`
+- `TargetTeam`
+- `TokenOverridable`
 
 ## Properties
 
@@ -24,16 +26,14 @@ ID of the invite.
 
 #### Inherited from
 
-```ts
-InviteID.invite_id
-```
+`InviteID.invite_id`
 
 ***
 
 ### target\_team?
 
 ```ts
-optional target_team?: string;
+target_team?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:74](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L74)
@@ -44,16 +44,14 @@ The team or enterprise id of the other party.
 
 #### Inherited from
 
-```ts
-TargetTeam.target_team
-```
+`TargetTeam.target_team`
 
 ***
 
 ### token?
 
 ```ts
-optional token?: string;
+token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
@@ -64,6 +62,4 @@ Overridable authentication token bearing required scopes.
 
 #### Inherited from
 
-```ts
-TokenOverridable.token
-```
+`TokenOverridable.token`

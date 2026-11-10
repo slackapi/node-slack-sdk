@@ -23,7 +23,7 @@ combination with text fields, or side-by-side with certain
 ### accessory?
 
 ```ts
-optional accessory?: SectionBlockAccessory;
+accessory?: SectionBlockAccessory;
 ```
 
 Defined in: [block-kit/blocks.ts:601](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L601)
@@ -37,7 +37,7 @@ One of the compatible element objects.
 ### block\_id?
 
 ```ts
-optional block_id?: string;
+block_id?: string;
 ```
 
 Defined in: [block-kit/blocks.ts:50](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L50)
@@ -59,7 +59,7 @@ a message. If a message is updated, use a new `block_id`.
 ### expand?
 
 ```ts
-optional expand?: boolean;
+expand?: boolean;
 ```
 
 Defined in: [block-kit/blocks.ts:605](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L605)
@@ -71,7 +71,7 @@ Whether or not this section block's text should always expand when rendered. If 
 ### fields?
 
 ```ts
-optional fields?: TextObject[];
+fields?: TextObject[];
 ```
 
 Defined in: [block-kit/blocks.ts:597](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L597)
@@ -88,7 +88,7 @@ Maximum length for the text in each item is 2000 characters.
 ### text?
 
 ```ts
-optional text?: TextObject;
+text?: TextObject;
 ```
 
 Defined in: [block-kit/blocks.ts:590](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L590)

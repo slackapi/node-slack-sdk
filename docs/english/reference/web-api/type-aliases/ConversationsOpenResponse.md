@@ -13,47 +13,47 @@ Defined in: [packages/web-api/src/types/response/ConversationsOpenResponse.ts:11
 ### already\_open?
 
 ```ts
-optional already_open?: boolean;
+already_open?: boolean;
 ```
 
 ### channel?
 
 ```ts
-optional channel?: Channel;
+channel?: Channel;
 ```
 
 ### error?
 
 ```ts
-optional error?: string;
+error?: string;
 ```
 
 ### needed?
 
 ```ts
-optional needed?: string;
+needed?: string;
 ```
 
 ### no\_op?
 
 ```ts
-optional no_op?: boolean;
+no_op?: boolean;
 ```
 
 ### ok?
 
 ```ts
-optional ok?: boolean;
+ok?: boolean;
 ```
 
 ### provided?
 
 ```ts
-optional provided?: string;
+provided?: string;
 ```
 
 ### warning?
 
 ```ts
-optional warning?: string;
+warning?: string;
 ```

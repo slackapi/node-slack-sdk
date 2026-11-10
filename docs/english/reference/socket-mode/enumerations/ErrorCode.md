@@ -8,6 +8,16 @@ A dictionary of codes for errors produced by this package
 
 ## Enumeration Members
 
+### ConnectAbortedError
+
+```ts
+ConnectAbortedError: "slack_socket_mode_connect_aborted_error";
+```
+
+Defined in: [packages/socket-mode/src/errors.ts:18](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/errors.ts#L18)
+
+***
+
 ### InitializationError
 
 ```ts

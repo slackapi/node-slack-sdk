@@ -2,7 +2,7 @@
 
 # Class: SMSendWhileNotReadyError
 
-Defined in: [packages/socket-mode/src/errors.ts:84](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/errors.ts#L84)
+Defined in: [packages/socket-mode/src/errors.ts:93](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/errors.ts#L93)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [packages/socket-mode/src/errors.ts:84](https://github.com/slackapi/
 new SMSendWhileNotReadyError(): SMSendWhileNotReadyError;
 ```
 
-Defined in: [packages/socket-mode/src/errors.ts:87](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/errors.ts#L87)
+Defined in: [packages/socket-mode/src/errors.ts:96](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/errors.ts#L96)
 
 #### Returns
 
@@ -31,7 +31,7 @@ Defined in: [packages/socket-mode/src/errors.ts:87](https://github.com/slackapi/
 ### cause?
 
 ```ts
-optional cause?: unknown;
+cause?: unknown;
 ```
 
 Defined in: node\_modules/typescript/lib/lib.es2022.error.d.ts:26
@@ -48,7 +48,7 @@ Defined in: node\_modules/typescript/lib/lib.es2022.error.d.ts:26
 readonly code: SendWhileNotReadyError = ErrorCode.SendWhileNotReadyError;
 ```
 
-Defined in: [packages/socket-mode/src/errors.ts:85](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/errors.ts#L85)
+Defined in: [packages/socket-mode/src/errors.ts:94](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/errors.ts#L94)
 
 #### Overrides
 
@@ -87,7 +87,7 @@ Defined in: node\_modules/typescript/lib/lib.es5.d.ts:1076
 ### stack?
 
 ```ts
-optional stack?: string;
+stack?: string;
 ```
 
 Defined in: node\_modules/typescript/lib/lib.es5.d.ts:1078

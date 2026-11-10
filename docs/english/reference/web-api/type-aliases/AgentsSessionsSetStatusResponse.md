@@ -13,47 +13,47 @@ Defined in: [packages/web-api/src/types/response/AgentsSessionsSetStatusResponse
 ### agent\_status?
 
 ```ts
-optional agent_status?: string;
+agent_status?: string;
 ```
 
 ### error?
 
 ```ts
-optional error?: string;
+error?: string;
 ```
 
 ### needed?
 
 ```ts
-optional needed?: string;
+needed?: string;
 ```
 
 ### ok?
 
 ```ts
-optional ok?: boolean;
+ok?: boolean;
 ```
 
 ### provided?
 
 ```ts
-optional provided?: string;
+provided?: string;
 ```
 
 ### status?
 
 ```ts
-optional status?: string;
+status?: string;
 ```
 
 ### title?
 
 ```ts
-optional title?: string;
+title?: string;
 ```
 
 ### warning?
 
 ```ts
-optional warning?: string;
+warning?: string;
 ```

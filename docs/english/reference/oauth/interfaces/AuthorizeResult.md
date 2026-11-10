@@ -9,7 +9,7 @@ Defined in: [packages/oauth/src/authorize-result.ts:4](https://github.com/slacka
 ### botId?
 
 ```ts
-optional botId?: string;
+botId?: string;
 ```
 
 Defined in: [packages/oauth/src/authorize-result.ts:11](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/authorize-result.ts#L11)
@@ -19,7 +19,7 @@ Defined in: [packages/oauth/src/authorize-result.ts:11](https://github.com/slack
 ### botRefreshToken?
 
 ```ts
-optional botRefreshToken?: string;
+botRefreshToken?: string;
 ```
 
 Defined in: [packages/oauth/src/authorize-result.ts:6](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/authorize-result.ts#L6)
@@ -29,7 +29,7 @@ Defined in: [packages/oauth/src/authorize-result.ts:6](https://github.com/slacka
 ### botToken?
 
 ```ts
-optional botToken?: string;
+botToken?: string;
 ```
 
 Defined in: [packages/oauth/src/authorize-result.ts:5](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/authorize-result.ts#L5)
@@ -39,7 +39,7 @@ Defined in: [packages/oauth/src/authorize-result.ts:5](https://github.com/slacka
 ### botTokenExpiresAt?
 
 ```ts
-optional botTokenExpiresAt?: number;
+botTokenExpiresAt?: number;
 ```
 
 Defined in: [packages/oauth/src/authorize-result.ts:7](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/authorize-result.ts#L7)
@@ -49,7 +49,7 @@ Defined in: [packages/oauth/src/authorize-result.ts:7](https://github.com/slacka
 ### botUserId?
 
 ```ts
-optional botUserId?: string;
+botUserId?: string;
 ```
 
 Defined in: [packages/oauth/src/authorize-result.ts:12](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/authorize-result.ts#L12)
@@ -59,7 +59,7 @@ Defined in: [packages/oauth/src/authorize-result.ts:12](https://github.com/slack
 ### enterpriseId?
 
 ```ts
-optional enterpriseId?: string;
+enterpriseId?: string;
 ```
 
 Defined in: [packages/oauth/src/authorize-result.ts:14](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/authorize-result.ts#L14)
@@ -69,7 +69,7 @@ Defined in: [packages/oauth/src/authorize-result.ts:14](https://github.com/slack
 ### teamId?
 
 ```ts
-optional teamId?: string;
+teamId?: string;
 ```
 
 Defined in: [packages/oauth/src/authorize-result.ts:13](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/authorize-result.ts#L13)
@@ -79,7 +79,7 @@ Defined in: [packages/oauth/src/authorize-result.ts:13](https://github.com/slack
 ### userRefreshToken?
 
 ```ts
-optional userRefreshToken?: string;
+userRefreshToken?: string;
 ```
 
 Defined in: [packages/oauth/src/authorize-result.ts:9](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/authorize-result.ts#L9)
@@ -89,7 +89,7 @@ Defined in: [packages/oauth/src/authorize-result.ts:9](https://github.com/slacka
 ### userToken?
 
 ```ts
-optional userToken?: string;
+userToken?: string;
 ```
 
 Defined in: [packages/oauth/src/authorize-result.ts:8](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/authorize-result.ts#L8)
@@ -99,7 +99,7 @@ Defined in: [packages/oauth/src/authorize-result.ts:8](https://github.com/slacka
 ### userTokenExpiresAt?
 
 ```ts
-optional userTokenExpiresAt?: number;
+userTokenExpiresAt?: number;
 ```
 
 Defined in: [packages/oauth/src/authorize-result.ts:10](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/authorize-result.ts#L10)

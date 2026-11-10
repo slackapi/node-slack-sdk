@@ -6,7 +6,9 @@ Defined in: [packages/web-api/src/types/request/conversations.ts:217](https://gi
 
 ## Extends
 
-- `InviteID`.`Message`.`TokenOverridable`
+- `InviteID`
+- `Message`
+- `TokenOverridable`
 
 ## Properties
 
@@ -24,16 +26,14 @@ ID of the invite.
 
 #### Inherited from
 
-```ts
-InviteID.invite_id
-```
+`InviteID.invite_id`
 
 ***
 
 ### message?
 
 ```ts
-optional message?: string;
+message?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/conversations.ts:40](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/conversations.ts#L40)
@@ -44,16 +44,14 @@ A message to send to the user who requested the invite.
 
 #### Inherited from
 
-```ts
-Message.message
-```
+`Message.message`
 
 ***
 
 ### token?
 
 ```ts
-optional token?: string;
+token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
@@ -64,6 +62,4 @@ Overridable authentication token bearing required scopes.
 
 #### Inherited from
 
-```ts
-TokenOverridable.token
-```
+`TokenOverridable.token`

@@ -13,53 +13,53 @@ Defined in: [packages/web-api/src/types/response/SlackListsItemsInfoResponse.ts:
 ### error?
 
 ```ts
-optional error?: string;
+error?: string;
 ```
 
 ### list?
 
 ```ts
-optional list?: List;
+list?: List;
 ```
 
 ### needed?
 
 ```ts
-optional needed?: string;
+needed?: string;
 ```
 
 ### ok?
 
 ```ts
-optional ok?: boolean;
+ok?: boolean;
 ```
 
 ### provided?
 
 ```ts
-optional provided?: string;
+provided?: string;
 ```
 
 ### record?
 
 ```ts
-optional record?: Record;
+record?: Record;
 ```
 
 ### response\_metadata?
 
 ```ts
-optional response_metadata?: ResponseMetadata;
+response_metadata?: ResponseMetadata;
 ```
 
 ### subtasks?
 
 ```ts
-optional subtasks?: Subtask[];
+subtasks?: Subtask[];
 ```
 
 ### warning?
 
 ```ts
-optional warning?: string;
+warning?: string;
 ```

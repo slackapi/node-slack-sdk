@@ -6,7 +6,8 @@ Defined in: [packages/web-api/src/types/request/admin/conversations.ts:99](https
 
 ## Extends
 
-- `ChannelID`.`TokenOverridable`
+- `ChannelID`
+- `TokenOverridable`
 
 ## Properties
 
@@ -24,16 +25,14 @@ Encoded channel ID.
 
 #### Inherited from
 
-```ts
-ChannelID.channel_id
-```
+`ChannelID.channel_id`
 
 ***
 
 ### leaving\_team\_ids?
 
 ```ts
-optional leaving_team_ids?: string[];
+leaving_team_ids?: string[];
 ```
 
 Defined in: [packages/web-api/src/types/request/admin/conversations.ts:101](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/conversations.ts#L101)
@@ -47,7 +46,7 @@ Team IDs getting removed from the channel, optional if there are only two teams 
 ### token?
 
 ```ts
-optional token?: string;
+token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
@@ -58,6 +57,4 @@ Overridable authentication token bearing required scopes.
 
 #### Inherited from
 
-```ts
-TokenOverridable.token
-```
+`TokenOverridable.token`

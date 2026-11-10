@@ -6,7 +6,8 @@ Defined in: [packages/web-api/src/types/request/files.ts:207](https://github.com
 
 ## Extends
 
-- `FileArgument`.`TokenOverridable`
+- `FileArgument`
+- `TokenOverridable`
 
 ## Properties
 
@@ -24,9 +25,7 @@ Encoded file ID.
 
 #### Inherited from
 
-```ts
-FileArgument.file
-```
+`FileArgument.file`
 
 ***
 
@@ -47,7 +46,7 @@ The ID of the comment to delete.
 ### token?
 
 ```ts
-optional token?: string;
+token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
@@ -58,6 +57,4 @@ Overridable authentication token bearing required scopes.
 
 #### Inherited from
 
-```ts
-TokenOverridable.token
-```
+`TokenOverridable.token`

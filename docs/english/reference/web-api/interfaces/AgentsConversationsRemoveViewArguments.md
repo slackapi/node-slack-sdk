@@ -27,7 +27,7 @@ ID of the code channel to remove the view from.
 ### token?
 
 ```ts
-optional token?: string;
+token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
@@ -38,16 +38,14 @@ Overridable authentication token bearing required scopes.
 
 #### Inherited from
 
-```ts
-TokenOverridable.token
-```
+`TokenOverridable.token`
 
 ***
 
 ### view\_id?
 
 ```ts
-optional view_id?: string;
+view_id?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/agents.ts:72](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/agents.ts#L72)
@@ -61,7 +59,7 @@ Encoded channel tab ID of the view to remove. Provide exactly one of `view_key` 
 ### view\_key?
 
 ```ts
-optional view_key?: string;
+view_key?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/agents.ts:70](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/agents.ts#L70)

@@ -13,41 +13,41 @@ Defined in: [packages/web-api/src/types/response/ConversationsListConnectInvites
 ### arg?
 
 ```ts
-optional arg?: string;
+arg?: string;
 ```
 
 ### error?
 
 ```ts
-optional error?: string;
+error?: string;
 ```
 
 ### invites?
 
 ```ts
-optional invites?: InviteElement[];
+invites?: InviteElement[];
 ```
 
 ### needed?
 
 ```ts
-optional needed?: string;
+needed?: string;
 ```
 
 ### ok?
 
 ```ts
-optional ok?: boolean;
+ok?: boolean;
 ```
 
 ### provided?
 
 ```ts
-optional provided?: string;
+provided?: string;
 ```
 
 ### response\_metadata?
 
 ```ts
-optional response_metadata?: ResponseMetadata;
+response_metadata?: ResponseMetadata;
 ```

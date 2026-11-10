@@ -21,7 +21,7 @@ A general-purpose wrapper for grouping child blocks together, with a configurabl
 ### block\_id?
 
 ```ts
-optional block_id?: string;
+block_id?: string;
 ```
 
 Defined in: packages/types/dist/block-kit/blocks.d.ts:15
@@ -68,7 +68,7 @@ An array of child blocks. Maximum 10 blocks.
 ### default\_collapsed?
 
 ```ts
-optional default_collapsed?: boolean;
+default_collapsed?: boolean;
 ```
 
 Defined in: packages/types/dist/block-kit/blocks.d.ts:222
@@ -82,7 +82,7 @@ Whether the container is collapsed by default. Requires `is_collapsible` to be `
 ### has\_header\_divider?
 
 ```ts
-optional has_header_divider?: boolean;
+has_header_divider?: boolean;
 ```
 
 Defined in: packages/types/dist/block-kit/blocks.d.ts:227
@@ -97,7 +97,7 @@ Only applies when `is_collapsible` is not `true`. Defaults to `false`.
 ### icon?
 
 ```ts
-optional icon?: ImageElement;
+icon?: ImageElement;
 ```
 
 Defined in: packages/types/dist/block-kit/blocks.d.ts:214
@@ -111,7 +111,7 @@ An image element displayed alongside the title and subtitle.
 ### is\_collapsible?
 
 ```ts
-optional is_collapsible?: boolean;
+is_collapsible?: boolean;
 ```
 
 Defined in: packages/types/dist/block-kit/blocks.d.ts:218
@@ -125,7 +125,7 @@ Whether the container can be collapsed. Defaults to `false`.
 ### rich\_text\_title?
 
 ```ts
-optional rich_text_title?: RichTextBlock;
+rich_text_title?: RichTextBlock;
 ```
 
 Defined in: packages/types/dist/block-kit/blocks.d.ts:198
@@ -140,7 +140,7 @@ One of `title` or `rich_text_title` is required.
 ### subtitle?
 
 ```ts
-optional subtitle?: TextObject;
+subtitle?: TextObject;
 ```
 
 Defined in: packages/types/dist/block-kit/blocks.d.ts:202
@@ -154,7 +154,7 @@ Subtitle for the container in plain text or mrkdwn format. Maximum length is 150
 ### title?
 
 ```ts
-optional title?: PlainTextElement;
+title?: PlainTextElement;
 ```
 
 Defined in: packages/types/dist/block-kit/blocks.d.ts:193
@@ -187,7 +187,7 @@ The type of block. For a container block, `type` is always `container`.
 ### width?
 
 ```ts
-optional width?: "narrow" | "standard" | "wide" | "full";
+width?: "narrow" | "standard" | "wide" | "full";
 ```
 
 Defined in: packages/types/dist/block-kit/blocks.d.ts:210

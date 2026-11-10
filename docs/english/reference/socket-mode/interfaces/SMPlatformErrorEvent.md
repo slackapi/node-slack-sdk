@@ -2,7 +2,7 @@
 
 # Interface: SMPlatformErrorEvent
 
-Defined in: [packages/socket-mode/src/errors.ts:30](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/errors.ts#L30)
+Defined in: [packages/socket-mode/src/errors.ts:31](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/errors.ts#L31)
 
 The shape of a Slack platform error event that backs an [SMPlatformError](../classes/SMPlatformError.md).
 
@@ -20,7 +20,7 @@ The shape of a Slack platform error event that backs an [SMPlatformError](../cla
 error: object;
 ```
 
-Defined in: [packages/socket-mode/src/errors.ts:31](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/errors.ts#L31)
+Defined in: [packages/socket-mode/src/errors.ts:32](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/errors.ts#L32)
 
 #### msg
 

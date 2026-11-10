@@ -6,7 +6,9 @@ Defined in: [packages/web-api/src/types/request/admin/users.ts:116](https://gith
 
 ## Extends
 
-- `TeamID`.`UserID`.`TokenOverridable`
+- `TeamID`
+- `UserID`
+- `TokenOverridable`
 
 ## Properties
 
@@ -24,16 +26,14 @@ The encoded team ID.
 
 #### Inherited from
 
-```ts
-TeamID.team_id
-```
+`TeamID.team_id`
 
 ***
 
 ### token?
 
 ```ts
-optional token?: string;
+token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
@@ -44,9 +44,7 @@ Overridable authentication token bearing required scopes.
 
 #### Inherited from
 
-```ts
-TokenOverridable.token
-```
+`TokenOverridable.token`
 
 ***
 
@@ -64,6 +62,4 @@ Encoded user ID.
 
 #### Inherited from
 
-```ts
-UserID.user_id
-```
+`UserID.user_id`
