@@ -298,8 +298,6 @@ export type {
   SearchMessagesArguments,
 } from './search';
 export type {
-  SlackbotSkillCategory,
-  SlackbotSkillMCPServer,
   SlackbotSkillsCreateArguments,
   SlackbotSkillsDeleteArguments,
   SlackbotSkillsInfoArguments,

@@ -50,11 +50,6 @@ expectAssignable<Parameters<typeof web.admin.slackbot.skills.list>>([
 // -- sad path
 expectError(web.admin.slackbot.skills.publish()); // lacking argument
 expectError(web.admin.slackbot.skills.publish({})); // empty argument
-expectError(
-  web.admin.slackbot.skills.publish({
-    skill_ids: [], // need at least 1 item
-  }),
-);
 // -- happy path
 expectAssignable<Parameters<typeof web.admin.slackbot.skills.publish>>([
   {
@@ -82,13 +77,6 @@ expectError(
     skill_id: 'F1234',
   }),
 );
-expectError(
-  web.admin.slackbot.skills.setAutoEnabled({
-    permission_type: 'named_entities',
-    skill_id: 'F1234',
-    usergroup_ids: [], // need at least 1 item
-  }),
-);
 // -- happy path
 expectAssignable<Parameters<typeof web.admin.slackbot.skills.setAutoEnabled>>([
   {
@@ -114,11 +102,6 @@ expectAssignable<Parameters<typeof web.admin.slackbot.skills.setAutoEnabled>>([
 // -- sad path
 expectError(web.admin.slackbot.skills.unpublish()); // lacking argument
 expectError(web.admin.slackbot.skills.unpublish({})); // empty argument
-expectError(
-  web.admin.slackbot.skills.unpublish({
-    skill_ids: [], // need at least 1 item
-  }),
-);
 // -- happy path
 expectAssignable<Parameters<typeof web.admin.slackbot.skills.unpublish>>([
   {

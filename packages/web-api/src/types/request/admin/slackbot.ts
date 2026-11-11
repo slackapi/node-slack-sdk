@@ -1,12 +1,6 @@
 import type { OptionalArgument } from '../../helpers';
 
 import type { TokenOverridable } from '../common';
-import type { SlackbotSkillCategory } from '../slackbot';
-
-interface SkillIDs {
-  /** @description One to 50 skill IDs. Successful items are not rolled back if other items fail. */
-  skill_ids: [string, ...string[]];
-}
 
 // https://docs.slack.dev/reference/methods/admin.slackbot.skills.list
 export type AdminSlackbotSkillsListArguments = OptionalArgument<
@@ -14,7 +8,19 @@ export type AdminSlackbotSkillsListArguments = OptionalArgument<
     /** @description Filter by org deployment, independently of publication. */
     auto_enabled_status?: 'all' | 'disabled' | 'enabled';
     /** @description Only return skills in this category. */
-    category?: SlackbotSkillCategory;
+    category?:
+      | 'communication'
+      | 'customer_support'
+      | 'data_and_analytics'
+      | 'engineering'
+      | 'other'
+      | 'product_management'
+      | 'productivity'
+      | 'professional_development'
+      | 'project_management'
+      | 'sales'
+      | 'system'
+      | 'team_management';
     /** @description Only return skills created by these users. Accepts U or W user IDs. */
     creator_ids?: string[];
     /**
@@ -38,7 +44,10 @@ export type AdminSlackbotSkillsListArguments = OptionalArgument<
 >;
 
 // https://docs.slack.dev/reference/methods/admin.slackbot.skills.publish
-export interface AdminSlackbotSkillsPublishArguments extends SkillIDs, TokenOverridable {}
+export interface AdminSlackbotSkillsPublishArguments extends TokenOverridable {
+  /** @description One to 50 skill IDs. Successful items are not rolled back if other items fail. */
+  skill_ids: string[];
+}
 
 // https://docs.slack.dev/reference/methods/admin.slackbot.skills.setAutoEnabled
 export interface AdminSlackbotSkillsSetAutoEnabledArguments extends TokenOverridable {
@@ -50,8 +59,11 @@ export interface AdminSlackbotSkillsSetAutoEnabledArguments extends TokenOverrid
    * @description One to 100 user groups for named_entities. Duplicates count toward the input limit and are stored
    * once. Omit for other permission types.
    */
-  usergroup_ids?: [string, ...string[]];
+  usergroup_ids?: string[];
 }
 
 // https://docs.slack.dev/reference/methods/admin.slackbot.skills.unpublish
-export interface AdminSlackbotSkillsUnpublishArguments extends SkillIDs, TokenOverridable {}
+export interface AdminSlackbotSkillsUnpublishArguments extends TokenOverridable {
+  /** @description One to 50 skill IDs. Successful items are not rolled back if other items fail. */
+  skill_ids: string[];
+}

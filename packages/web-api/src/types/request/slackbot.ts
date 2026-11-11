@@ -2,56 +2,45 @@ import type { OptionalArgument } from '../helpers';
 
 import type { TokenOverridable } from './common';
 
-export type SlackbotSkillCategory =
-  | 'communication'
-  | 'customer_support'
-  | 'data_and_analytics'
-  | 'engineering'
-  | 'other'
-  | 'product_management'
-  | 'productivity'
-  | 'professional_development'
-  | 'project_management'
-  | 'sales'
-  | 'system'
-  | 'team_management';
-
-export interface SlackbotSkillMCPServer {
-  app_id?: string;
-  server_id?: string;
-  service_type: string;
-}
-
-interface SkillCanvasID {
-  /** @description Canvas the caller owns to turn into a skill. Send exactly one of `instructions` or `canvas_id`. */
-  canvas_id: string;
-}
-interface SkillInstructions {
-  /** @description Markdown body of the skill. Send exactly one of `instructions` or `canvas_id`. */
-  instructions: string;
-}
-// Models either canvas_id or instructions - but not both.
-type SkillCanvasIDOrInstructions =
-  | (SkillCanvasID & { instructions?: never })
-  | (SkillInstructions & { canvas_id?: never });
-
 // https://docs.slack.dev/reference/methods/slackbot.skills.create
-export type SlackbotSkillsCreateArguments = SkillCanvasIDOrInstructions &
-  TokenOverridable & {
-    /** @description One of the skill categories. */
-    category?: SlackbotSkillCategory;
-    /** @description When Slackbot should use the skill. Max 400 characters. */
-    description?: string;
-    /** @description Human-readable label. Max 255 characters; not unique. */
-    display_name: string;
-    /** @description Max 200 characters. May contain `{skill}`, which becomes the skill mention. */
-    example_prompt?: string;
-    /**
-     * @description Apps the skill needs, capped at the caller's MCP server limit. Declaring an app doesn't grant
-     * access to it.
-     */
-    mcp_servers?: SlackbotSkillMCPServer[];
-  };
+export type SlackbotSkillsCreateArguments = TokenOverridable & {
+  /** @description One of the skill categories. */
+  category?:
+    | 'communication'
+    | 'customer_support'
+    | 'data_and_analytics'
+    | 'engineering'
+    | 'other'
+    | 'product_management'
+    | 'productivity'
+    | 'professional_development'
+    | 'project_management'
+    | 'sales'
+    | 'system'
+    | 'team_management';
+  /** @description When Slackbot should use the skill. Max 400 characters. */
+  description?: string;
+  /** @description Human-readable label. Max 255 characters; not unique. */
+  display_name: string;
+  /** @description Max 200 characters. May contain `{skill}`, which becomes the skill mention. */
+  example_prompt?: string;
+  /**
+   * @description Apps the skill needs, capped at the caller's MCP server limit. Declaring an app doesn't grant
+   * access to it.
+   */
+  mcp_servers?: { app_id?: string; server_id?: string; service_type: string }[];
+} & (
+    | {
+        /** @description Canvas the caller owns to turn into a skill. Send exactly one of `instructions` or `canvas_id`. */
+        canvas_id: string;
+        instructions?: never;
+      }
+    | {
+        canvas_id?: never;
+        /** @description Markdown body of the skill. Send exactly one of `instructions` or `canvas_id`. */
+        instructions: string;
+      }
+  );
 
 // https://docs.slack.dev/reference/methods/slackbot.skills.delete
 export interface SlackbotSkillsDeleteArguments extends TokenOverridable {
@@ -81,7 +70,19 @@ export interface SlackbotSkillsLibraryRemoveArguments extends TokenOverridable {
 export type SlackbotSkillsListArguments = OptionalArgument<
   TokenOverridable & {
     /** @description Only return skills in this category. */
-    category?: SlackbotSkillCategory;
+    category?:
+      | 'communication'
+      | 'customer_support'
+      | 'data_and_analytics'
+      | 'engineering'
+      | 'other'
+      | 'product_management'
+      | 'productivity'
+      | 'professional_development'
+      | 'project_management'
+      | 'sales'
+      | 'system'
+      | 'team_management';
     /**
      * @description Paginate through collections of data by setting the `cursor` parameter to a `next_cursor`
      * attribute returned by a previous request's `response_metadata`. Must be used with the same `filter` and
@@ -101,7 +102,20 @@ export type SlackbotSkillsListArguments = OptionalArgument<
 // https://docs.slack.dev/reference/methods/slackbot.skills.update
 export interface SlackbotSkillsUpdateArguments extends TokenOverridable {
   /** @description One of the skill categories. Send an empty string to clear. */
-  category?: SlackbotSkillCategory | '';
+  category?:
+    | 'communication'
+    | 'customer_support'
+    | 'data_and_analytics'
+    | 'engineering'
+    | 'other'
+    | 'product_management'
+    | 'productivity'
+    | 'professional_development'
+    | 'project_management'
+    | 'sales'
+    | 'system'
+    | 'team_management'
+    | '';
   /** @description When Slackbot should use the skill. Max 400 characters. Send an empty string to clear. */
   description?: string;
   /** @description Human-readable label. Max 255 characters. */
@@ -111,7 +125,7 @@ export interface SlackbotSkillsUpdateArguments extends TokenOverridable {
   /** @description Markdown that replaces the whole document. */
   instructions?: string;
   /** @description Apps the skill needs. Replaces the whole list; send `[]` to clear. */
-  mcp_servers?: SlackbotSkillMCPServer[];
+  mcp_servers?: { app_id?: string; server_id?: string; service_type: string }[];
   /** @description Skill to change. */
   skill_id: string;
 }
