@@ -62,6 +62,10 @@ import type {
   AdminRolesAddAssignmentsArguments,
   AdminRolesListAssignmentsArguments,
   AdminRolesRemoveAssignmentsArguments,
+  AdminSlackbotSkillsListArguments,
+  AdminSlackbotSkillsPublishArguments,
+  AdminSlackbotSkillsSetAutoEnabledArguments,
+  AdminSlackbotSkillsUnpublishArguments,
   AdminTeamsAdminsListArguments,
   AdminTeamsCreateArguments,
   AdminTeamsListArguments,
@@ -234,6 +238,13 @@ import type {
   SearchAllArguments,
   SearchFilesArguments,
   SearchMessagesArguments,
+  SlackbotSkillsCreateArguments,
+  SlackbotSkillsDeleteArguments,
+  SlackbotSkillsInfoArguments,
+  SlackbotSkillsLibraryAddArguments,
+  SlackbotSkillsLibraryRemoveArguments,
+  SlackbotSkillsListArguments,
+  SlackbotSkillsUpdateArguments,
   SlackListsAccessDeleteArguments,
   SlackListsAccessSetArguments,
   SlackListsCreateArguments,
@@ -347,6 +358,10 @@ import type {
   AdminRolesAddAssignmentsResponse,
   AdminRolesListAssignmentsResponse,
   AdminRolesRemoveAssignmentsResponse,
+  AdminSlackbotSkillsListResponse,
+  AdminSlackbotSkillsPublishResponse,
+  AdminSlackbotSkillsSetAutoEnabledResponse,
+  AdminSlackbotSkillsUnpublishResponse,
   AdminTeamsAdminsListResponse,
   AdminTeamsCreateResponse,
   AdminTeamsListResponse,
@@ -518,6 +533,13 @@ import type {
   SearchAllResponse,
   SearchFilesResponse,
   SearchMessagesResponse,
+  SlackbotSkillsCreateResponse,
+  SlackbotSkillsDeleteResponse,
+  SlackbotSkillsInfoResponse,
+  SlackbotSkillsLibraryAddResponse,
+  SlackbotSkillsLibraryRemoveResponse,
+  SlackbotSkillsListResponse,
+  SlackbotSkillsUpdateResponse,
   SlackListsAccessDeleteResponse,
   SlackListsAccessSetResponse,
   SlackListsCreateResponse,
@@ -1117,6 +1139,42 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
         this,
         'admin.roles.removeAssignments',
       ),
+    },
+    slackbot: {
+      skills: {
+        /**
+         * @description Lists metadata for Slackbot skills owned by an organization.
+         * @see {@link https://docs.slack.dev/reference/methods/admin.slackbot.skills.list `admin.slackbot.skills.list` API reference}.
+         */
+        list: bindApiCallWithOptionalArgument<AdminSlackbotSkillsListArguments, AdminSlackbotSkillsListResponse>(
+          this,
+          'admin.slackbot.skills.list',
+        ),
+        /**
+         * @description Publishes Slackbot skills to an organization's catalog.
+         * @see {@link https://docs.slack.dev/reference/methods/admin.slackbot.skills.publish `admin.slackbot.skills.publish` API reference}.
+         */
+        publish: bindApiCall<AdminSlackbotSkillsPublishArguments, AdminSlackbotSkillsPublishResponse>(
+          this,
+          'admin.slackbot.skills.publish',
+        ),
+        /**
+         * @description Sets who a Slackbot skill is automatically turned on for.
+         * @see {@link https://docs.slack.dev/reference/methods/admin.slackbot.skills.setAutoEnabled `admin.slackbot.skills.setAutoEnabled` API reference}.
+         */
+        setAutoEnabled: bindApiCall<
+          AdminSlackbotSkillsSetAutoEnabledArguments,
+          AdminSlackbotSkillsSetAutoEnabledResponse
+        >(this, 'admin.slackbot.skills.setAutoEnabled'),
+        /**
+         * @description Removes Slackbot skills from the org catalog, preserving access, libraries, and deployments.
+         * @see {@link https://docs.slack.dev/reference/methods/admin.slackbot.skills.unpublish `admin.slackbot.skills.unpublish` API reference}.
+         */
+        unpublish: bindApiCall<AdminSlackbotSkillsUnpublishArguments, AdminSlackbotSkillsUnpublishResponse>(
+          this,
+          'admin.slackbot.skills.unpublish',
+        ),
+      },
     },
     teams: {
       admins: {
@@ -2348,6 +2406,57 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
      * @see {@link https://docs.slack.dev/reference/methods/search.messages search.messages` API reference}.
      */
     messages: bindApiCall<SearchMessagesArguments, SearchMessagesResponse>(this, 'search.messages'),
+  };
+
+  public readonly slackbot = {
+    skills: {
+      /**
+       * @description Creates a skill from markdown instructions, or turns an existing canvas the caller owns into a skill.
+       * @see {@link https://docs.slack.dev/reference/methods/slackbot.skills.create `slackbot.skills.create` API reference}.
+       */
+      create: bindApiCall<SlackbotSkillsCreateArguments, SlackbotSkillsCreateResponse>(this, 'slackbot.skills.create'),
+      /**
+       * @description Deletes a Slackbot skill and its canvas, and removes it from every library, skill set, and the org catalog.
+       * @see {@link https://docs.slack.dev/reference/methods/slackbot.skills.delete `slackbot.skills.delete` API reference}.
+       */
+      delete: bindApiCall<SlackbotSkillsDeleteArguments, SlackbotSkillsDeleteResponse>(this, 'slackbot.skills.delete'),
+      /**
+       * @description Returns one Slackbot skill, including its instructions.
+       * @see {@link https://docs.slack.dev/reference/methods/slackbot.skills.info `slackbot.skills.info` API reference}.
+       */
+      info: bindApiCall<SlackbotSkillsInfoArguments, SlackbotSkillsInfoResponse>(this, 'slackbot.skills.info'),
+      library: {
+        /**
+         * @description Turns a skill on in the caller's Slackbot library.
+         * @see {@link https://docs.slack.dev/reference/methods/slackbot.skills.library.add `slackbot.skills.library.add` API reference}.
+         */
+        add: bindApiCall<SlackbotSkillsLibraryAddArguments, SlackbotSkillsLibraryAddResponse>(
+          this,
+          'slackbot.skills.library.add',
+        ),
+        /**
+         * @description Turns a skill off in the caller's Slackbot library.
+         * @see {@link https://docs.slack.dev/reference/methods/slackbot.skills.library.remove `slackbot.skills.library.remove` API reference}.
+         */
+        remove: bindApiCall<SlackbotSkillsLibraryRemoveArguments, SlackbotSkillsLibraryRemoveResponse>(
+          this,
+          'slackbot.skills.library.remove',
+        ),
+      },
+      /**
+       * @description Lists Slackbot skills from the caller's point of view. Instructions are not included.
+       * @see {@link https://docs.slack.dev/reference/methods/slackbot.skills.list `slackbot.skills.list` API reference}.
+       */
+      list: bindApiCallWithOptionalArgument<SlackbotSkillsListArguments, SlackbotSkillsListResponse>(
+        this,
+        'slackbot.skills.list',
+      ),
+      /**
+       * @description Changes a Slackbot skill's instructions or metadata.
+       * @see {@link https://docs.slack.dev/reference/methods/slackbot.skills.update `slackbot.skills.update` API reference}.
+       */
+      update: bindApiCall<SlackbotSkillsUpdateArguments, SlackbotSkillsUpdateResponse>(this, 'slackbot.skills.update'),
+    },
   };
 
   public readonly slackLists = {

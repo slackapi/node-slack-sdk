@@ -1,0 +1,5 @@
+---
+"@slack/web-api": minor
+---
+
+feat(web-api): add [`admin.slackbot.skills.list`](https://docs.slack.dev/reference/methods/admin.slackbot.skills.list), [`admin.slackbot.skills.publish`](https://docs.slack.dev/reference/methods/admin.slackbot.skills.publish), [`admin.slackbot.skills.setAutoEnabled`](https://docs.slack.dev/reference/methods/admin.slackbot.skills.setAutoEnabled), [`admin.slackbot.skills.unpublish`](https://docs.slack.dev/reference/methods/admin.slackbot.skills.unpublish), [`slackbot.skills.create`](https://docs.slack.dev/reference/methods/slackbot.skills.create), [`slackbot.skills.delete`](https://docs.slack.dev/reference/methods/slackbot.skills.delete), [`slackbot.skills.info`](https://docs.slack.dev/reference/methods/slackbot.skills.info), [`slackbot.skills.library.add`](https://docs.slack.dev/reference/methods/slackbot.skills.library.add), [`slackbot.skills.library.remove`](https://docs.slack.dev/reference/methods/slackbot.skills.library.remove), [`slackbot.skills.list`](https://docs.slack.dev/reference/methods/slackbot.skills.list), and [`slackbot.skills.update`](https://docs.slack.dev/reference/methods/slackbot.skills.update) methods
