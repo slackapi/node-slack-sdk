@@ -65,6 +65,7 @@ import type {
   AdminSlackbotSkillsListArguments,
   AdminSlackbotSkillsPublishArguments,
   AdminSlackbotSkillsSetAutoEnabledArguments,
+  AdminSlackbotSkillsUnpublishArguments,
   AdminTeamsAdminsListArguments,
   AdminTeamsCreateArguments,
   AdminTeamsListArguments,
@@ -359,6 +360,7 @@ import type {
   AdminSlackbotSkillsListResponse,
   AdminSlackbotSkillsPublishResponse,
   AdminSlackbotSkillsSetAutoEnabledResponse,
+  AdminSlackbotSkillsUnpublishResponse,
   AdminTeamsAdminsListResponse,
   AdminTeamsCreateResponse,
   AdminTeamsListResponse,
@@ -1162,6 +1164,14 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
           AdminSlackbotSkillsSetAutoEnabledArguments,
           AdminSlackbotSkillsSetAutoEnabledResponse
         >(this, 'admin.slackbot.skills.setAutoEnabled'),
+        /**
+         * @description Removes Slackbot skills from the org catalog, preserving access, libraries, and deployments.
+         * @see {@link https://docs.slack.dev/reference/methods/admin.slackbot.skills.unpublish `admin.slackbot.skills.unpublish` API reference}.
+         */
+        unpublish: bindApiCall<AdminSlackbotSkillsUnpublishArguments, AdminSlackbotSkillsUnpublishResponse>(
+          this,
+          'admin.slackbot.skills.unpublish',
+        ),
       },
     },
     teams: {
