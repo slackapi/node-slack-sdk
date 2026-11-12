@@ -19,6 +19,7 @@ export type SlackbotSkillsListResponse = WebAPICallResult & {
 };
 
 export interface ResponseMetadata {
+  messages?: string[];
   next_cursor?: string;
 }
 

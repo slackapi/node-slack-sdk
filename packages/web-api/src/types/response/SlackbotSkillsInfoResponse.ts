@@ -13,9 +13,14 @@ export type SlackbotSkillsInfoResponse = WebAPICallResult & {
   needed?: string;
   ok?: boolean;
   provided?: string;
+  response_metadata?: ResponseMetadata;
   skill?: Skill;
   warning?: string;
 };
+
+export interface ResponseMetadata {
+  messages?: string[];
+}
 
 export interface Skill {
   access?: string;
