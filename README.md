@@ -1,6 +1,6 @@
 # Node Slack SDK
 
-[![build-ci](https://github.com/slackapi/node-slack-sdk/actions/workflows/ci-build.yml/badge.svg)](https://github.com/slackapi/node-slack-sdk/actions/workflows/ci-build.yml)
+[![build-ci](https://github.com/slackapi/node-slack-sdk/actions/workflows/ci-build.yml/badge.svg)](https://github.com/slackapi/node-slack-sdk/actions/workflows/ci-build.yml?query=branch%3Amain)
 <!-- TODO: npm versions with scoped packages: https://github.com/rvagg/nodei.co/issues/24 -->
 ___
 
