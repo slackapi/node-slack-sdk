@@ -659,7 +659,11 @@ export class WebClient extends Methods {
             );
           }
 
-          return response;
+          // Read the body here, while still inside the retried task, so that a connection dropped
+          // partway through the response is retried and error-wrapped like any other request
+          // failure. `fetch` resolves as soon as the response headers arrive, so a body read left
+          // to the caller would land outside both this retry loop and the `catch` below.
+          return await bufferResponseBody(response);
         } catch (error) {
           if (error instanceof AbortError) {
             throw error;
@@ -857,6 +861,25 @@ function paginationOptionsForNextPage(
     };
   }
   return undefined;
+}
+
+/**
+ * Read a response body in full and return a {@link FetchResponse} that replays those bytes, so that
+ * the body can be consumed again by callers without touching the network.
+ */
+async function bufferResponseBody(response: FetchResponse): Promise<FetchResponse> {
+  const body = await response.arrayBuffer();
+  const decode = () => new TextDecoder().decode(body);
+  return {
+    ok: response.ok,
+    status: response.status,
+    statusText: response.statusText,
+    url: response.url,
+    headers: response.headers,
+    arrayBuffer: async () => body,
+    text: async () => decode(),
+    json: async () => JSON.parse(decode()),
+  };
 }
 
 /**
