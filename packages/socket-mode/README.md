@@ -23,7 +23,6 @@ The package exports a `SocketModeClient` class. Your app will create an instance
 
 Note: **Socket Mode** requires the `connections:write` scope. Navigate to your [app configuration](https://api.slack.com/apps) and go to the bottom of the **Basic Information** section to create an App token with the `connections:write` scope.
 
-
 ```javascript
 import { SocketModeClient } from '@slack/socket-mode';
 
