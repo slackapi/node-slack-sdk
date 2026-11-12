@@ -294,6 +294,7 @@ export type {
 export type {
   SlackbotSkillsCreateArguments,
   SlackbotSkillsInfoArguments,
+  SlackbotSkillsUpdateArguments,
 } from './slackbot';
 export type {
   SlackListsAccessDeleteArguments,
