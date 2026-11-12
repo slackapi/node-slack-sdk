@@ -291,6 +291,7 @@ export type {
   SearchFilesArguments,
   SearchMessagesArguments,
 } from './search';
+export type { SlackbotSkillsCreateArguments } from './slackbot';
 export type {
   SlackListsAccessDeleteArguments,
   SlackListsAccessSetArguments,

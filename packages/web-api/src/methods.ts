@@ -234,6 +234,7 @@ import type {
   SearchAllArguments,
   SearchFilesArguments,
   SearchMessagesArguments,
+  SlackbotSkillsCreateArguments,
   SlackListsAccessDeleteArguments,
   SlackListsAccessSetArguments,
   SlackListsCreateArguments,
@@ -518,6 +519,7 @@ import type {
   SearchAllResponse,
   SearchFilesResponse,
   SearchMessagesResponse,
+  SlackbotSkillsCreateResponse,
   SlackListsAccessDeleteResponse,
   SlackListsAccessSetResponse,
   SlackListsCreateResponse,
@@ -2348,6 +2350,16 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
      * @see {@link https://docs.slack.dev/reference/methods/search.messages search.messages` API reference}.
      */
     messages: bindApiCall<SearchMessagesArguments, SearchMessagesResponse>(this, 'search.messages'),
+  };
+
+  public readonly slackbot = {
+    skills: {
+      /**
+       * @description Creates a skill from markdown instructions, or turns an existing canvas the caller owns into a skill.
+       * @see {@link https://docs.slack.dev/reference/methods/slackbot.skills.create `slackbot.skills.create` API reference}.
+       */
+      create: bindApiCall<SlackbotSkillsCreateArguments, SlackbotSkillsCreateResponse>(this, 'slackbot.skills.create'),
+    },
   };
 
   public readonly slackLists = {
