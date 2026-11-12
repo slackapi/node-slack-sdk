@@ -235,6 +235,7 @@ import type {
   SearchFilesArguments,
   SearchMessagesArguments,
   SlackbotSkillsCreateArguments,
+  SlackbotSkillsInfoArguments,
   SlackListsAccessDeleteArguments,
   SlackListsAccessSetArguments,
   SlackListsCreateArguments,
@@ -520,6 +521,7 @@ import type {
   SearchFilesResponse,
   SearchMessagesResponse,
   SlackbotSkillsCreateResponse,
+  SlackbotSkillsInfoResponse,
   SlackListsAccessDeleteResponse,
   SlackListsAccessSetResponse,
   SlackListsCreateResponse,
@@ -2359,6 +2361,11 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
        * @see {@link https://docs.slack.dev/reference/methods/slackbot.skills.create `slackbot.skills.create` API reference}.
        */
       create: bindApiCall<SlackbotSkillsCreateArguments, SlackbotSkillsCreateResponse>(this, 'slackbot.skills.create'),
+      /**
+       * @description Returns one Slackbot skill, including its instructions.
+       * @see {@link https://docs.slack.dev/reference/methods/slackbot.skills.info `slackbot.skills.info` API reference}.
+       */
+      info: bindApiCall<SlackbotSkillsInfoArguments, SlackbotSkillsInfoResponse>(this, 'slackbot.skills.info'),
     },
   };
 

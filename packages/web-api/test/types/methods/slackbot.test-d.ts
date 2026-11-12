@@ -68,3 +68,14 @@ expectAssignable<Parameters<typeof web.slackbot.skills.create>>([
     mcp_servers: [{ service_type: 'app', app_id: 'A1234', server_id: 'Amcp1234' }],
   },
 ]);
+
+// slackbot.skills.info
+// -- sad path
+expectError(web.slackbot.skills.info()); // lacking argument
+expectError(web.slackbot.skills.info({})); // empty argument
+// -- happy path
+expectAssignable<Parameters<typeof web.slackbot.skills.info>>([
+  {
+    skill_id: 'F1234',
+  },
+]);
