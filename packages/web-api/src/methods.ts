@@ -62,6 +62,7 @@ import type {
   AdminRolesAddAssignmentsArguments,
   AdminRolesListAssignmentsArguments,
   AdminRolesRemoveAssignmentsArguments,
+  AdminSlackbotSkillsListArguments,
   AdminTeamsAdminsListArguments,
   AdminTeamsCreateArguments,
   AdminTeamsListArguments,
@@ -353,6 +354,7 @@ import type {
   AdminRolesAddAssignmentsResponse,
   AdminRolesListAssignmentsResponse,
   AdminRolesRemoveAssignmentsResponse,
+  AdminSlackbotSkillsListResponse,
   AdminTeamsAdminsListResponse,
   AdminTeamsCreateResponse,
   AdminTeamsListResponse,
@@ -1129,6 +1131,18 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
         this,
         'admin.roles.removeAssignments',
       ),
+    },
+    slackbot: {
+      skills: {
+        /**
+         * @description Lists metadata for Slackbot skills owned by an organization.
+         * @see {@link https://docs.slack.dev/reference/methods/admin.slackbot.skills.list `admin.slackbot.skills.list` API reference}.
+         */
+        list: bindApiCallWithOptionalArgument<AdminSlackbotSkillsListArguments, AdminSlackbotSkillsListResponse>(
+          this,
+          'admin.slackbot.skills.list',
+        ),
+      },
     },
     teams: {
       admins: {
