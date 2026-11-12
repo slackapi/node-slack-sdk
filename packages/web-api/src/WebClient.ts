@@ -1,6 +1,5 @@
 import { basename } from 'node:path';
 import { stringify as qsStringify } from 'node:querystring';
-import { TextDecoder } from 'node:util';
 import zlib from 'node:zlib';
 
 import pQueue from 'p-queue';
@@ -272,15 +271,15 @@ export class WebClient extends Methods {
     if (options.token) headers.Authorization = `Bearer ${options.token}`;
 
     const url = this.deriveRequestUrl(method);
-    const response = await this.makeRequest(
+    const { response, result } = await this.makeRequest(
       url,
       {
         team_id: this.teamId,
         ...options,
       },
       headers,
+      async (response) => ({ response, result: await this.buildResult(response) }),
     );
-    const result = await this.buildResult(response);
     this.logger.debug(`http request result: ${JSON.stringify(redact(result))}`);
 
     // log warnings in response metadata
@@ -544,17 +543,14 @@ export class WebClient extends Methods {
           const headers: Record<string, string> = {};
           if (options.token) headers.Authorization = `Bearer ${options.token}`;
 
-          const uploadRes = await this.makeRequest(
+          const responseBody = await this.makeRequest(
             upload_url,
             {
               body,
             },
             headers,
+            (response) => response.text(),
           );
-          if (uploadRes.status !== 200) {
-            return Promise.reject(Error(`Failed to upload file (id:${file_id}, filename: ${filename})`));
-          }
-          const responseBody = await uploadRes.text();
           const returnData = { ok: true, body: responseBody } as WebAPICallResult;
           return Promise.resolve(returnData);
         }
@@ -585,11 +581,12 @@ export class WebClient extends Methods {
   /**
    * Low-level function to make a single API request. handles queuing, retries, and http-level errors
    */
-  private async makeRequest(
+  private async makeRequest<T>(
     url: string,
     body: Record<string, unknown>,
-    headers: Record<string, string> = {},
-  ): Promise<FetchResponse> {
+    headers: Record<string, string>,
+    parseResponse: (response: FetchResponse) => Promise<T>,
+  ): Promise<T> {
     const task = () =>
       this.requestQueue.add(async () => {
         // apps.event.authorizations.list will reject HTTP requests that send token in the body
@@ -659,7 +656,7 @@ export class WebClient extends Methods {
             );
           }
 
-          return response;
+          return await parseResponse(response);
         } catch (error) {
           if (error instanceof AbortError) {
             throw error;
@@ -672,7 +669,7 @@ export class WebClient extends Methods {
           throw new WebAPIRequestError(error instanceof Error ? error : new Error(String(error)));
         }
       });
-    return pRetry(task, this.retryConfig) as Promise<FetchResponse>;
+    return pRetry(task, this.retryConfig) as Promise<T>;
   }
 
   /**
@@ -771,8 +768,8 @@ export class WebClient extends Methods {
 
     // admin.analytics.getFile returns a gzip binary response that can be unzipped
     if (isGzipResponse) {
+      const buffer = Buffer.from(await response.arrayBuffer());
       try {
-        const buffer = Buffer.from(await response.arrayBuffer());
         const unzippedData = await new Promise((resolve, reject) => {
           zlib.unzip(buffer, (err, buf) => {
             if (err) {
@@ -795,11 +792,6 @@ export class WebClient extends Methods {
       } catch (err) {
         data = { ok: false, error: err };
       }
-    } else if (!isGzipResponse && response.url.endsWith('/admin.analytics.getFile')) {
-      // if it isn't a Gzip response but is from the admin.analytics.getFile request,
-      // decode the ArrayBuffer to JSON read the error
-      const buffer = await response.arrayBuffer();
-      data = JSON.parse(new TextDecoder().decode(buffer));
     } else {
       const text = await response.text();
       try {
