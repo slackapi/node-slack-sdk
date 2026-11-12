@@ -237,6 +237,7 @@ import type {
   SlackbotSkillsCreateArguments,
   SlackbotSkillsInfoArguments,
   SlackbotSkillsLibraryAddArguments,
+  SlackbotSkillsLibraryRemoveArguments,
   SlackbotSkillsListArguments,
   SlackbotSkillsUpdateArguments,
   SlackListsAccessDeleteArguments,
@@ -526,6 +527,7 @@ import type {
   SlackbotSkillsCreateResponse,
   SlackbotSkillsInfoResponse,
   SlackbotSkillsLibraryAddResponse,
+  SlackbotSkillsLibraryRemoveResponse,
   SlackbotSkillsListResponse,
   SlackbotSkillsUpdateResponse,
   SlackListsAccessDeleteResponse,
@@ -2380,6 +2382,14 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
         add: bindApiCall<SlackbotSkillsLibraryAddArguments, SlackbotSkillsLibraryAddResponse>(
           this,
           'slackbot.skills.library.add',
+        ),
+        /**
+         * @description Turns a skill off in the caller's Slackbot library.
+         * @see {@link https://docs.slack.dev/reference/methods/slackbot.skills.library.remove `slackbot.skills.library.remove` API reference}.
+         */
+        remove: bindApiCall<SlackbotSkillsLibraryRemoveArguments, SlackbotSkillsLibraryRemoveResponse>(
+          this,
+          'slackbot.skills.library.remove',
         ),
       },
       /**

@@ -295,6 +295,7 @@ export type {
   SlackbotSkillsCreateArguments,
   SlackbotSkillsInfoArguments,
   SlackbotSkillsLibraryAddArguments,
+  SlackbotSkillsLibraryRemoveArguments,
   SlackbotSkillsListArguments,
   SlackbotSkillsUpdateArguments,
 } from './slackbot';
