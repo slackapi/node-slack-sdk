@@ -14,6 +14,7 @@ export type SlackbotSkillsCreateResponse = WebAPICallResult & {
   needed?: string;
   ok?: boolean;
   provided?: string;
+  response_metadata?: ResponseMetadata;
   skill?: Skill;
   warning?: string;
 };
@@ -22,6 +23,10 @@ export interface InvalidmcpServer {
   app_id?: string;
   server_id?: string;
   service_type?: string;
+}
+
+export interface ResponseMetadata {
+  messages?: string[];
 }
 
 export interface Skill {
