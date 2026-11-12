@@ -3,6 +3,7 @@ import pRetry, { AbortError } from 'p-retry';
 
 import { IncomingWebhookHTTPError, IncomingWebhookRequestError, SlackWebhookError } from './errors';
 import { getUserAgent } from './instrument';
+import { getLogger, type Logger, LogLevel } from './logger';
 import type { RetryOptions } from './retry-policies';
 
 export interface FetchHeaders {
@@ -65,6 +66,8 @@ export class IncomingWebhook {
    */
   private retryConfig: RetryOptions;
 
+  private logger: Logger;
+
   public constructor(
     url: string,
     defaults: IncomingWebhookDefaultArguments = {
@@ -75,6 +78,8 @@ export class IncomingWebhook {
       throw new Error('Incoming webhook URL is required');
     }
 
+    this.logger = getLogger('IncomingWebhook', defaults.logLevel ?? LogLevel.INFO, defaults.logger);
+
     this.url = url;
     this.fetchFn = defaults.fetch ?? globalThis.fetch;
     this.timeout = defaults.timeout ?? 0;
@@ -83,8 +88,22 @@ export class IncomingWebhook {
       'User-Agent': getUserAgent(),
     };
 
+    if (url.includes('/triggers/')) {
+      this.logger.warn(
+        'This URL looks like a webhook trigger (contains "/triggers/"). ' +
+          'Consider using WebhookTrigger instead of IncomingWebhook.',
+      );
+    }
+
     // Remove transport options so they don't leak into payloads
-    const { fetch: _fetch, timeout: _timeout, retryConfig: _retryConfig, ...messageDefaults } = defaults;
+    const {
+      fetch: _fetch,
+      timeout: _timeout,
+      retryConfig: _retryConfig,
+      logger: _logger,
+      logLevel: _logLevel,
+      ...messageDefaults
+    } = defaults;
     this.defaults = messageDefaults;
   }
 
@@ -150,15 +169,17 @@ export class IncomingWebhook {
  */
 
 export interface IncomingWebhookDefaultArguments {
-  username?: string;
+  channel?: string;
+  fetch?: FetchFunction;
   icon_emoji?: string;
   icon_url?: string;
-  channel?: string;
-  text?: string;
   link_names?: boolean;
-  fetch?: FetchFunction;
-  timeout?: number;
+  logLevel?: LogLevel;
+  logger?: Logger;
   retryConfig?: RetryOptions;
+  text?: string;
+  timeout?: number;
+  username?: string;
 }
 
 export interface IncomingWebhookSendArguments extends IncomingWebhookDefaultArguments {
