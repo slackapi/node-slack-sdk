@@ -15,7 +15,12 @@ export type AdminSlackbotSkillsSetAutoEnabledResponse = WebAPICallResult & {
   ok?: boolean;
   permission_type?: string;
   provided?: string;
+  response_metadata?: ResponseMetadata;
   skill_id?: string;
   usergroup_ids?: string[];
   warning?: string;
 };
+
+export interface ResponseMetadata {
+  messages?: string[];
+}
