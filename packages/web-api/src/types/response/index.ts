@@ -68,6 +68,7 @@ export { AdminRolesListAssignmentsResponse } from './AdminRolesListAssignmentsRe
 export { AdminRolesRemoveAssignmentsResponse } from './AdminRolesRemoveAssignmentsResponse';
 export { AdminSlackbotSkillsListResponse } from './AdminSlackbotSkillsListResponse';
 export { AdminSlackbotSkillsPublishResponse } from './AdminSlackbotSkillsPublishResponse';
+export { AdminSlackbotSkillsSetAutoEnabledResponse } from './AdminSlackbotSkillsSetAutoEnabledResponse';
 export { AdminTeamsAdminsListResponse } from './AdminTeamsAdminsListResponse';
 export { AdminTeamsCreateResponse } from './AdminTeamsCreateResponse';
 export { AdminTeamsListResponse } from './AdminTeamsListResponse';

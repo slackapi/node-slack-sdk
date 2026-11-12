@@ -48,3 +48,16 @@ export interface AdminSlackbotSkillsPublishArguments extends TokenOverridable {
   /** @description One to 50 skill IDs. Successful items are not rolled back if other items fail. */
   skill_ids: string[];
 }
+
+// https://docs.slack.dev/reference/methods/admin.slackbot.skills.setAutoEnabled
+export interface AdminSlackbotSkillsSetAutoEnabledArguments extends TokenOverridable {
+  /** @description Canvas skill to deploy. */
+  skill_id: string;
+  /** @description Deployment audience. */
+  permission_type: 'everyone' | 'named_entities' | 'no_one';
+  /**
+   * @description One to 100 user groups for named_entities. Duplicates count toward the input limit and are stored
+   * once. Omit for other permission types.
+   */
+  usergroup_ids?: string[];
+}

@@ -77,6 +77,7 @@ export type {
 export type {
   AdminSlackbotSkillsListArguments,
   AdminSlackbotSkillsPublishArguments,
+  AdminSlackbotSkillsSetAutoEnabledArguments,
 } from './admin/slackbot';
 export type {
   AdminTeamsAdminsListArguments,
