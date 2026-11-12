@@ -43,6 +43,12 @@ export type SlackbotSkillsCreateArguments = TokenOverridable & {
     mcp_servers?: { service_type: string; app_id?: string; server_id?: string }[];
   };
 
+// https://docs.slack.dev/reference/methods/slackbot.skills.delete
+export interface SlackbotSkillsDeleteArguments extends TokenOverridable {
+  /** @description Skill to delete. */
+  skill_id: string;
+}
+
 // https://docs.slack.dev/reference/methods/slackbot.skills.info
 export interface SlackbotSkillsInfoArguments extends TokenOverridable {
   /** @description Skill to fetch: a canvas file ID or a `builtin:` reference. */

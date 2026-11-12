@@ -239,6 +239,7 @@ import type {
   SearchFilesArguments,
   SearchMessagesArguments,
   SlackbotSkillsCreateArguments,
+  SlackbotSkillsDeleteArguments,
   SlackbotSkillsInfoArguments,
   SlackbotSkillsLibraryAddArguments,
   SlackbotSkillsLibraryRemoveArguments,
@@ -533,6 +534,7 @@ import type {
   SearchFilesResponse,
   SearchMessagesResponse,
   SlackbotSkillsCreateResponse,
+  SlackbotSkillsDeleteResponse,
   SlackbotSkillsInfoResponse,
   SlackbotSkillsLibraryAddResponse,
   SlackbotSkillsLibraryRemoveResponse,
@@ -2413,6 +2415,11 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
        * @see {@link https://docs.slack.dev/reference/methods/slackbot.skills.create `slackbot.skills.create` API reference}.
        */
       create: bindApiCall<SlackbotSkillsCreateArguments, SlackbotSkillsCreateResponse>(this, 'slackbot.skills.create'),
+      /**
+       * @description Deletes a Slackbot skill and its canvas, and removes it from every library, skill set, and the org catalog.
+       * @see {@link https://docs.slack.dev/reference/methods/slackbot.skills.delete `slackbot.skills.delete` API reference}.
+       */
+      delete: bindApiCall<SlackbotSkillsDeleteArguments, SlackbotSkillsDeleteResponse>(this, 'slackbot.skills.delete'),
       /**
        * @description Returns one Slackbot skill, including its instructions.
        * @see {@link https://docs.slack.dev/reference/methods/slackbot.skills.info `slackbot.skills.info` API reference}.

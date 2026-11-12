@@ -69,6 +69,17 @@ expectAssignable<Parameters<typeof web.slackbot.skills.create>>([
   },
 ]);
 
+// slackbot.skills.delete
+// -- sad path
+expectError(web.slackbot.skills.delete()); // lacking argument
+expectError(web.slackbot.skills.delete({})); // empty argument
+// -- happy path
+expectAssignable<Parameters<typeof web.slackbot.skills.delete>>([
+  {
+    skill_id: 'F1234',
+  },
+]);
+
 // slackbot.skills.info
 // -- sad path
 expectError(web.slackbot.skills.info()); // lacking argument

@@ -299,6 +299,7 @@ export type {
 } from './search';
 export type {
   SlackbotSkillsCreateArguments,
+  SlackbotSkillsDeleteArguments,
   SlackbotSkillsInfoArguments,
   SlackbotSkillsLibraryAddArguments,
   SlackbotSkillsLibraryRemoveArguments,
