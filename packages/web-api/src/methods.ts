@@ -236,6 +236,7 @@ import type {
   SearchMessagesArguments,
   SlackbotSkillsCreateArguments,
   SlackbotSkillsInfoArguments,
+  SlackbotSkillsLibraryAddArguments,
   SlackbotSkillsListArguments,
   SlackbotSkillsUpdateArguments,
   SlackListsAccessDeleteArguments,
@@ -524,6 +525,7 @@ import type {
   SearchMessagesResponse,
   SlackbotSkillsCreateResponse,
   SlackbotSkillsInfoResponse,
+  SlackbotSkillsLibraryAddResponse,
   SlackbotSkillsListResponse,
   SlackbotSkillsUpdateResponse,
   SlackListsAccessDeleteResponse,
@@ -2370,6 +2372,16 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
        * @see {@link https://docs.slack.dev/reference/methods/slackbot.skills.info `slackbot.skills.info` API reference}.
        */
       info: bindApiCall<SlackbotSkillsInfoArguments, SlackbotSkillsInfoResponse>(this, 'slackbot.skills.info'),
+      library: {
+        /**
+         * @description Turns a skill on in the caller's Slackbot library.
+         * @see {@link https://docs.slack.dev/reference/methods/slackbot.skills.library.add `slackbot.skills.library.add` API reference}.
+         */
+        add: bindApiCall<SlackbotSkillsLibraryAddArguments, SlackbotSkillsLibraryAddResponse>(
+          this,
+          'slackbot.skills.library.add',
+        ),
+      },
       /**
        * @description Lists Slackbot skills from the caller's point of view. Instructions are not included.
        * @see {@link https://docs.slack.dev/reference/methods/slackbot.skills.list `slackbot.skills.list` API reference}.

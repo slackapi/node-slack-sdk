@@ -294,6 +294,7 @@ export { SearchFilesResponse } from './SearchFilesResponse';
 export { SearchMessagesResponse } from './SearchMessagesResponse';
 export { SlackbotSkillsCreateResponse } from './SlackbotSkillsCreateResponse';
 export { SlackbotSkillsInfoResponse } from './SlackbotSkillsInfoResponse';
+export { SlackbotSkillsLibraryAddResponse } from './SlackbotSkillsLibraryAddResponse';
 export { SlackbotSkillsListResponse } from './SlackbotSkillsListResponse';
 export { SlackbotSkillsUpdateResponse } from './SlackbotSkillsUpdateResponse';
 export { SlackListsAccessDeleteResponse } from './SlackListsAccessDeleteResponse';
