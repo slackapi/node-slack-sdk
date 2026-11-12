@@ -14,10 +14,15 @@ export type AdminSlackbotSkillsUnpublishResponse = WebAPICallResult & {
   needed?: string;
   ok?: boolean;
   provided?: string;
+  response_metadata?: ResponseMetadata;
   warning?: string;
 };
 
 export interface FailedSkill {
   error?: string;
   skill_id?: string;
+}
+
+export interface ResponseMetadata {
+  messages?: string[];
 }
