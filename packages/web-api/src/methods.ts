@@ -63,6 +63,7 @@ import type {
   AdminRolesListAssignmentsArguments,
   AdminRolesRemoveAssignmentsArguments,
   AdminSlackbotSkillsListArguments,
+  AdminSlackbotSkillsPublishArguments,
   AdminTeamsAdminsListArguments,
   AdminTeamsCreateArguments,
   AdminTeamsListArguments,
@@ -355,6 +356,7 @@ import type {
   AdminRolesListAssignmentsResponse,
   AdminRolesRemoveAssignmentsResponse,
   AdminSlackbotSkillsListResponse,
+  AdminSlackbotSkillsPublishResponse,
   AdminTeamsAdminsListResponse,
   AdminTeamsCreateResponse,
   AdminTeamsListResponse,
@@ -1141,6 +1143,14 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
         list: bindApiCallWithOptionalArgument<AdminSlackbotSkillsListArguments, AdminSlackbotSkillsListResponse>(
           this,
           'admin.slackbot.skills.list',
+        ),
+        /**
+         * @description Publishes Slackbot skills to an organization's catalog.
+         * @see {@link https://docs.slack.dev/reference/methods/admin.slackbot.skills.publish `admin.slackbot.skills.publish` API reference}.
+         */
+        publish: bindApiCall<AdminSlackbotSkillsPublishArguments, AdminSlackbotSkillsPublishResponse>(
+          this,
+          'admin.slackbot.skills.publish',
         ),
       },
     },

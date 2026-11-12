@@ -42,3 +42,9 @@ export type AdminSlackbotSkillsListArguments = OptionalArgument<
     sort_dir?: 'asc' | 'desc';
   }
 >;
+
+// https://docs.slack.dev/reference/methods/admin.slackbot.skills.publish
+export interface AdminSlackbotSkillsPublishArguments extends TokenOverridable {
+  /** @description One to 50 skill IDs. Successful items are not rolled back if other items fail. */
+  skill_ids: string[];
+}
