@@ -15,7 +15,6 @@ export type AdminAppsMcpServersPermissionsSetResponse = WebAPICallResult & {
   ok?: boolean;
   permission_type?: string;
   provided?: string;
-  response_metadata?: ResponseMetadata;
   server_id?: string;
   server_name?: string;
   url?: string;
@@ -23,7 +22,3 @@ export type AdminAppsMcpServersPermissionsSetResponse = WebAPICallResult & {
   usergroup_ids?: string[];
   warning?: string;
 };
-
-export interface ResponseMetadata {
-  messages?: string[];
-}
