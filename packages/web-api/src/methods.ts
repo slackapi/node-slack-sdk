@@ -64,6 +64,7 @@ import type {
   AdminRolesRemoveAssignmentsArguments,
   AdminSlackbotSkillsListArguments,
   AdminSlackbotSkillsPublishArguments,
+  AdminSlackbotSkillsSetAutoEnabledArguments,
   AdminTeamsAdminsListArguments,
   AdminTeamsCreateArguments,
   AdminTeamsListArguments,
@@ -357,6 +358,7 @@ import type {
   AdminRolesRemoveAssignmentsResponse,
   AdminSlackbotSkillsListResponse,
   AdminSlackbotSkillsPublishResponse,
+  AdminSlackbotSkillsSetAutoEnabledResponse,
   AdminTeamsAdminsListResponse,
   AdminTeamsCreateResponse,
   AdminTeamsListResponse,
@@ -1152,6 +1154,14 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
           this,
           'admin.slackbot.skills.publish',
         ),
+        /**
+         * @description Sets who a Slackbot skill is automatically turned on for.
+         * @see {@link https://docs.slack.dev/reference/methods/admin.slackbot.skills.setAutoEnabled `admin.slackbot.skills.setAutoEnabled` API reference}.
+         */
+        setAutoEnabled: bindApiCall<
+          AdminSlackbotSkillsSetAutoEnabledArguments,
+          AdminSlackbotSkillsSetAutoEnabledResponse
+        >(this, 'admin.slackbot.skills.setAutoEnabled'),
       },
     },
     teams: {
