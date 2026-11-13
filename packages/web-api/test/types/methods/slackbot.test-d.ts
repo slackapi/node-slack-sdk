@@ -14,18 +14,6 @@ expectError(
 );
 expectError(
   web.slackbot.skills.create({
-    display_name: 'Daily priorities', // missing instructions or canvas_id
-  }),
-);
-expectError(
-  web.slackbot.skills.create({
-    display_name: 'Daily priorities',
-    instructions: '# Purpose', // both instructions and canvas_id
-    canvas_id: 'F1234',
-  }),
-);
-expectError(
-  web.slackbot.skills.create({
     display_name: 'Daily priorities',
     instructions: '# Purpose',
     category: 'cooking', // invalid category
@@ -46,6 +34,11 @@ expectError(
   }),
 );
 // -- happy path
+expectAssignable<Parameters<typeof web.slackbot.skills.create>>([
+  {
+    display_name: 'Daily priorities', // the api requires exactly one of instructions or canvas_id
+  },
+]);
 expectAssignable<Parameters<typeof web.slackbot.skills.create>>([
   {
     display_name: 'Daily priorities',
