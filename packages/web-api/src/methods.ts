@@ -11,6 +11,7 @@ import type {
   AdminAppsConfigSetArguments,
   AdminAppsMcpServersListArguments,
   AdminAppsMcpServersPermissionsListArguments,
+  AdminAppsMcpServersPermissionsSetArguments,
   AdminAppsRequestsCancelArguments,
   AdminAppsRequestsListArguments,
   AdminAppsRestrictArguments,
@@ -309,6 +310,7 @@ import type {
   AdminAppsConfigSetResponse,
   AdminAppsMcpServersListResponse,
   AdminAppsMcpServersPermissionsListResponse,
+  AdminAppsMcpServersPermissionsSetResponse,
   AdminAppsRequestsCancelResponse,
   AdminAppsRequestsListResponse,
   AdminAppsRestrictedListResponse,
@@ -735,6 +737,14 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
             list: bindApiCall<AdminAppsMcpServersPermissionsListArguments, AdminAppsMcpServersPermissionsListResponse>(
               this,
               'admin.apps.mcp.servers.permissions.list',
+            ),
+            /**
+             * @description Set the access control permission for who can use an MCP server.
+             * @see {@link https://docs.slack.dev/reference/methods/admin.apps.mcp.servers.permissions.set `admin.apps.mcp.servers.permissions.set` API reference}.
+             */
+            set: bindApiCall<AdminAppsMcpServersPermissionsSetArguments, AdminAppsMcpServersPermissionsSetResponse>(
+              this,
+              'admin.apps.mcp.servers.permissions.set',
             ),
           },
         },
