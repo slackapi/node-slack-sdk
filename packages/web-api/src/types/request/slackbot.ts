@@ -70,5 +70,9 @@ export interface SlackbotSkillsUpdateArguments extends TokenOverridable {
   /** @description Max 200 characters. May contain `{skill}`. Send an empty string to clear. */
   example_prompt?: string;
   /** @description Apps the skill needs. Replaces the whole list; send `[]` to clear. */
-  mcp_servers?: { service_type: string; app_id?: string; server_id?: string }[];
+  mcp_servers?: {
+    service_type: string;
+    app_id?: string;
+    server_id?: string;
+  }[];
 }
