@@ -10,6 +10,7 @@ export { AdminAppsApproveResponse } from './AdminAppsApproveResponse';
 export { AdminAppsClearResolutionResponse } from './AdminAppsClearResolutionResponse';
 export { AdminAppsConfigLookupResponse } from './AdminAppsConfigLookupResponse';
 export { AdminAppsConfigSetResponse } from './AdminAppsConfigSetResponse';
+export { AdminAppsMcpServersListResponse } from './AdminAppsMcpServersListResponse';
 export { AdminAppsRequestsCancelResponse } from './AdminAppsRequestsCancelResponse';
 export { AdminAppsRequestsListResponse } from './AdminAppsRequestsListResponse';
 export { AdminAppsRestrictedListResponse } from './AdminAppsRestrictedListResponse';

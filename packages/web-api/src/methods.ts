@@ -9,6 +9,7 @@ import type {
   AdminAppsClearResolutionArguments,
   AdminAppsConfigLookupArguments,
   AdminAppsConfigSetArguments,
+  AdminAppsMcpServersListArguments,
   AdminAppsRequestsCancelArguments,
   AdminAppsRequestsListArguments,
   AdminAppsRestrictArguments,
@@ -305,6 +306,7 @@ import type {
   AdminAppsClearResolutionResponse,
   AdminAppsConfigLookupResponse,
   AdminAppsConfigSetResponse,
+  AdminAppsMcpServersListResponse,
   AdminAppsRequestsCancelResponse,
   AdminAppsRequestsListResponse,
   AdminAppsRestrictedListResponse,
@@ -712,6 +714,18 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
          * @see {@link https://docs.slack.dev/reference/methods/admin.apps.config.set `admin.apps.config.set` API reference}.
          */
         set: bindApiCall<AdminAppsConfigSetArguments, AdminAppsConfigSetResponse>(this, 'admin.apps.config.set'),
+      },
+      mcp: {
+        servers: {
+          /**
+           * @description List third-party app MCP servers approved for an organization.
+           * @see {@link https://docs.slack.dev/reference/methods/admin.apps.mcp.servers.list `admin.apps.mcp.servers.list` API reference}.
+           */
+          list: bindApiCallWithOptionalArgument<AdminAppsMcpServersListArguments, AdminAppsMcpServersListResponse>(
+            this,
+            'admin.apps.mcp.servers.list',
+          ),
+        },
       },
       requests: {
         /**

@@ -169,6 +169,18 @@ expectAssignable<Parameters<typeof web.admin.apps.config.set>>([
   },
 ]);
 
+// admin.apps.mcp.servers.list
+// -- sad path
+// -- happy path
+expectAssignable<Parameters<typeof web.admin.apps.mcp.servers.list>>([]); // no arg is fine
+expectAssignable<Parameters<typeof web.admin.apps.mcp.servers.list>>([{}]); // empty arg is fine
+expectAssignable<Parameters<typeof web.admin.apps.mcp.servers.list>>([
+  {
+    limit: 100,
+    cursor: '5c3e53d5',
+  },
+]);
+
 // admin.apps.requests.cancel
 // -- sad path
 expectError(web.admin.apps.requests.cancel()); // lacking argument
