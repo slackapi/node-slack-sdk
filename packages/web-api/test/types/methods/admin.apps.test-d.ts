@@ -192,6 +192,41 @@ expectAssignable<Parameters<typeof web.admin.apps.mcp.servers.permissions.list>>
   },
 ]);
 
+// admin.apps.mcp.servers.permissions.set
+// -- sad path
+expectError(web.admin.apps.mcp.servers.permissions.set()); // lacking argument
+expectError(web.admin.apps.mcp.servers.permissions.set({})); // empty argument
+expectError(
+  web.admin.apps.mcp.servers.permissions.set({
+    app_id: 'A0000000001',
+    server_id: 'Amcp0000000001', // missing permission_type
+  }),
+);
+expectError(
+  web.admin.apps.mcp.servers.permissions.set({
+    app_id: 'A0000000001',
+    server_id: 'Amcp0000000001',
+    permission_type: 'someone', // invalid permission_type
+  }),
+);
+// -- happy path
+expectAssignable<Parameters<typeof web.admin.apps.mcp.servers.permissions.set>>([
+  {
+    app_id: 'A0000000001',
+    server_id: 'Amcp0000000001',
+    permission_type: 'everyone',
+  },
+]);
+expectAssignable<Parameters<typeof web.admin.apps.mcp.servers.permissions.set>>([
+  {
+    app_id: 'A0000000001',
+    server_id: 'Amcp0000000001',
+    permission_type: 'named_entities',
+    user_ids: ['U00000001', 'U00000002'],
+    usergroup_ids: ['S00000001', 'S00000002'],
+  },
+]);
+
 // admin.apps.requests.cancel
 // -- sad path
 expectError(web.admin.apps.requests.cancel()); // lacking argument
