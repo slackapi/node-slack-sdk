@@ -97,3 +97,14 @@ expectAssignable<Parameters<typeof web.admin.slackbot.skills.setAutoEnabled>>([
     permission_type: 'no_one',
   },
 ]);
+
+// admin.slackbot.skills.unpublish
+// -- sad path
+expectError(web.admin.slackbot.skills.unpublish()); // lacking argument
+expectError(web.admin.slackbot.skills.unpublish({})); // empty argument
+// -- happy path
+expectAssignable<Parameters<typeof web.admin.slackbot.skills.unpublish>>([
+  {
+    skill_ids: ['F1234', 'F5678'],
+  },
+]);

@@ -61,3 +61,9 @@ export interface AdminSlackbotSkillsSetAutoEnabledArguments extends TokenOverrid
    */
   usergroup_ids?: string[];
 }
+
+// https://docs.slack.dev/reference/methods/admin.slackbot.skills.unpublish
+export interface AdminSlackbotSkillsUnpublishArguments extends TokenOverridable {
+  /** @description One to 50 skill IDs. Successful items are not rolled back if other items fail. */
+  skill_ids: string[];
+}
