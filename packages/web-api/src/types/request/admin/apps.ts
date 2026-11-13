@@ -82,6 +82,9 @@ export interface AdminAppsConfigSetArguments extends AppID, TokenOverridable {
   workflow_auth_strategy?: 'builder_choice' | 'end_user_only';
 }
 
+// https://docs.slack.dev/reference/methods/admin.apps.mcp.servers.list
+export type AdminAppsMcpServersListArguments = OptionalArgument<TokenOverridable & CursorPaginationEnabled>;
+
 // https://docs.slack.dev/reference/methods/admin.apps.requests.cancel
 export type AdminAppsRequestsCancelArguments = RequestID & TeamOrEnterpriseID & TokenOverridable;
 
