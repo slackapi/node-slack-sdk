@@ -45,3 +45,14 @@ expectAssignable<Parameters<typeof web.admin.slackbot.skills.list>>([
     sort_dir: 'desc',
   },
 ]);
+
+// admin.slackbot.skills.publish
+// -- sad path
+expectError(web.admin.slackbot.skills.publish()); // lacking argument
+expectError(web.admin.slackbot.skills.publish({})); // empty argument
+// -- happy path
+expectAssignable<Parameters<typeof web.admin.slackbot.skills.publish>>([
+  {
+    skill_ids: ['F1234', 'F5678'],
+  },
+]);
