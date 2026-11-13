@@ -20,6 +20,7 @@ export type AdminAppsMcpServersPermissionsSetResponse = WebAPICallResult & {
   server_name?: string;
   url?: string;
   user_ids?: string[];
+  usergroup_ids?: string[];
   warning?: string;
 };
 
