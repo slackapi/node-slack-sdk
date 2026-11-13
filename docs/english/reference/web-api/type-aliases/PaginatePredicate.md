@@ -6,7 +6,7 @@
 type PaginatePredicate = (page) => boolean | undefined | undefined;
 ```
 
-Defined in: [packages/web-api/src/WebClient.ts:95](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/WebClient.ts#L95)
+Defined in: [packages/web-api/src/WebClient.ts:94](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/WebClient.ts#L94)
 
 ## Parameters
 
