@@ -6,6 +6,9 @@ export type {
   AdminAppsClearResolutionArguments,
   AdminAppsConfigLookupArguments,
   AdminAppsConfigSetArguments,
+  AdminAppsMcpServersListArguments,
+  AdminAppsMcpServersPermissionsListArguments,
+  AdminAppsMcpServersPermissionsSetArguments,
   AdminAppsRequestsCancelArguments,
   AdminAppsRequestsListArguments,
   AdminAppsRestrictArguments,
@@ -74,6 +77,12 @@ export type {
   AdminRolesListAssignmentsArguments,
   AdminRolesRemoveAssignmentsArguments,
 } from './admin/roles';
+export type {
+  AdminSlackbotSkillsListArguments,
+  AdminSlackbotSkillsPublishArguments,
+  AdminSlackbotSkillsSetAutoEnabledArguments,
+  AdminSlackbotSkillsUnpublishArguments,
+} from './admin/slackbot';
 export type {
   AdminTeamsAdminsListArguments,
   AdminTeamsCreateArguments,
@@ -291,6 +300,15 @@ export type {
   SearchFilesArguments,
   SearchMessagesArguments,
 } from './search';
+export type {
+  SlackbotSkillsCreateArguments,
+  SlackbotSkillsDeleteArguments,
+  SlackbotSkillsInfoArguments,
+  SlackbotSkillsLibraryAddArguments,
+  SlackbotSkillsLibraryRemoveArguments,
+  SlackbotSkillsListArguments,
+  SlackbotSkillsUpdateArguments,
+} from './slackbot';
 export type {
   SlackListsAccessDeleteArguments,
   SlackListsAccessSetArguments,

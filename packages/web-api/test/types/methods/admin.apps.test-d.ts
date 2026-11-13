@@ -169,6 +169,64 @@ expectAssignable<Parameters<typeof web.admin.apps.config.set>>([
   },
 ]);
 
+// admin.apps.mcp.servers.list
+// -- sad path
+// -- happy path
+expectAssignable<Parameters<typeof web.admin.apps.mcp.servers.list>>([]); // no arg is fine
+expectAssignable<Parameters<typeof web.admin.apps.mcp.servers.list>>([{}]); // empty arg is fine
+expectAssignable<Parameters<typeof web.admin.apps.mcp.servers.list>>([
+  {
+    limit: 100,
+    cursor: '5c3e53d5',
+  },
+]);
+
+// admin.apps.mcp.servers.permissions.list
+// -- sad path
+expectError(web.admin.apps.mcp.servers.permissions.list()); // lacking argument
+expectError(web.admin.apps.mcp.servers.permissions.list({})); // empty argument
+// -- happy path
+expectAssignable<Parameters<typeof web.admin.apps.mcp.servers.permissions.list>>([
+  {
+    app_id: 'A0000000001',
+  },
+]);
+
+// admin.apps.mcp.servers.permissions.set
+// -- sad path
+expectError(web.admin.apps.mcp.servers.permissions.set()); // lacking argument
+expectError(web.admin.apps.mcp.servers.permissions.set({})); // empty argument
+expectError(
+  web.admin.apps.mcp.servers.permissions.set({
+    app_id: 'A0000000001',
+    server_id: 'Amcp0000000001', // missing permission_type
+  }),
+);
+expectError(
+  web.admin.apps.mcp.servers.permissions.set({
+    app_id: 'A0000000001',
+    server_id: 'Amcp0000000001',
+    permission_type: 'someone', // invalid permission_type
+  }),
+);
+// -- happy path
+expectAssignable<Parameters<typeof web.admin.apps.mcp.servers.permissions.set>>([
+  {
+    app_id: 'A0000000001',
+    server_id: 'Amcp0000000001',
+    permission_type: 'everyone',
+  },
+]);
+expectAssignable<Parameters<typeof web.admin.apps.mcp.servers.permissions.set>>([
+  {
+    app_id: 'A0000000001',
+    server_id: 'Amcp0000000001',
+    permission_type: 'named_entities',
+    user_ids: ['U00000001', 'U00000002'],
+    usergroup_ids: ['S00000001', 'S00000002'],
+  },
+]);
+
 // admin.apps.requests.cancel
 // -- sad path
 expectError(web.admin.apps.requests.cancel()); // lacking argument
