@@ -64,7 +64,7 @@ List of encoded user IDs.
 ### visibility
 
 ```ts
-visibility: "everyone" | "app_collaborators" | "named_entities" | "no_one";
+visibility: "everyone" | "named_entities" | "no_one" | "app_collaborators";
 ```
 
 Defined in: [packages/web-api/src/types/request/admin/functions.ts:22](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/functions.ts#L22)
