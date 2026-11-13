@@ -44,6 +44,12 @@ export interface SlackbotSkillsInfoArguments extends TokenOverridable {
   skill_id: string;
 }
 
+// https://docs.slack.dev/reference/methods/slackbot.skills.library.add
+export interface SlackbotSkillsLibraryAddArguments extends TokenOverridable {
+  /** @description Skill to turn on for the caller. */
+  skill_id: string;
+}
+
 // https://docs.slack.dev/reference/methods/slackbot.skills.list
 export type SlackbotSkillsListArguments = OptionalArgument<
   TokenOverridable & {

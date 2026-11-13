@@ -73,6 +73,17 @@ expectAssignable<Parameters<typeof web.slackbot.skills.info>>([
   },
 ]);
 
+// slackbot.skills.library.add
+// -- sad path
+expectError(web.slackbot.skills.library.add()); // lacking argument
+expectError(web.slackbot.skills.library.add({})); // empty argument
+// -- happy path
+expectAssignable<Parameters<typeof web.slackbot.skills.library.add>>([
+  {
+    skill_id: 'F1234',
+  },
+]);
+
 // slackbot.skills.list
 // -- sad path
 expectError(
