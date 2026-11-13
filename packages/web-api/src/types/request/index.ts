@@ -7,6 +7,7 @@ export type {
   AdminAppsConfigLookupArguments,
   AdminAppsConfigSetArguments,
   AdminAppsMcpServersListArguments,
+  AdminAppsMcpServersPermissionsListArguments,
   AdminAppsRequestsCancelArguments,
   AdminAppsRequestsListArguments,
   AdminAppsRestrictArguments,

@@ -181,6 +181,17 @@ expectAssignable<Parameters<typeof web.admin.apps.mcp.servers.list>>([
   },
 ]);
 
+// admin.apps.mcp.servers.permissions.list
+// -- sad path
+expectError(web.admin.apps.mcp.servers.permissions.list()); // lacking argument
+expectError(web.admin.apps.mcp.servers.permissions.list({})); // empty argument
+// -- happy path
+expectAssignable<Parameters<typeof web.admin.apps.mcp.servers.permissions.list>>([
+  {
+    app_id: 'A0000000001',
+  },
+]);
+
 // admin.apps.requests.cancel
 // -- sad path
 expectError(web.admin.apps.requests.cancel()); // lacking argument
