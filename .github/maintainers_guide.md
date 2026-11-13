@@ -127,7 +127,7 @@ New official package versions are published when the release PR created from cha
 4. **Update Milestones**: Close the relevant [Milestones](https://github.com/slackapi/node-slack-sdk/milestones) and rename these to match the released package versions. Open a new Milestone for the next version, e.g. `@slack/web-api@next`.
 
 5. **Communicate the release**:
-   - **Internal**: Post a brief description and link to the GitHub release.
+   - **Internal**: Workflows post each release tag with its changelog to our release channel.
    - **External**: Post in **#lang-javascript** on [Slack Community](https://community.slack.com/). Include a link to the package on `npmjs.com/package/@slack/` as well as the release notes.
 
 ### 🚧 Beta Releases
