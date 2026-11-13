@@ -14,10 +14,20 @@ export type AdminAppsMcpServersListResponse = WebAPICallResult & {
   ok?: boolean;
   provided?: string;
   response_metadata?: ResponseMetadata;
+  servers?: Server[];
   warning?: string;
 };
 
 export interface ResponseMetadata {
   messages?: string[];
   next_cursor?: string;
+}
+
+export interface Server {
+  app_id?: string;
+  app_name?: string;
+  auth_type?: string;
+  server_id?: string;
+  server_name?: string;
+  url?: string;
 }
