@@ -13,14 +13,9 @@ export type AdminAppsMcpServersPermissionsListResponse = WebAPICallResult & {
   needed?: string;
   ok?: boolean;
   provided?: string;
-  response_metadata?: ResponseMetadata;
   servers?: Server[];
   warning?: string;
 };
-
-export interface ResponseMetadata {
-  messages?: string[];
-}
 
 export interface Server {
   is_inherited?: boolean;
