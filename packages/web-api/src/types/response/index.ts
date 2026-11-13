@@ -293,6 +293,7 @@ export { SearchAllResponse } from './SearchAllResponse';
 export { SearchFilesResponse } from './SearchFilesResponse';
 export { SearchMessagesResponse } from './SearchMessagesResponse';
 export { SlackbotSkillsCreateResponse } from './SlackbotSkillsCreateResponse';
+export { SlackbotSkillsInfoResponse } from './SlackbotSkillsInfoResponse';
 export { SlackListsAccessDeleteResponse } from './SlackListsAccessDeleteResponse';
 export { SlackListsAccessSetResponse } from './SlackListsAccessSetResponse';
 export { SlackListsCreateResponse } from './SlackListsCreateResponse';

@@ -36,3 +36,8 @@ export interface SlackbotSkillsCreateArguments extends TokenOverridable {
     server_id?: string;
   }[];
 }
+// https://docs.slack.dev/reference/methods/slackbot.skills.info
+export interface SlackbotSkillsInfoArguments extends TokenOverridable {
+  /** @description Skill to fetch: a canvas file ID or a `builtin:` reference. */
+  skill_id: string;
+}
