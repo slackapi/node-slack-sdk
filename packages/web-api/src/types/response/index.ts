@@ -11,6 +11,7 @@ export { AdminAppsClearResolutionResponse } from './AdminAppsClearResolutionResp
 export { AdminAppsConfigLookupResponse } from './AdminAppsConfigLookupResponse';
 export { AdminAppsConfigSetResponse } from './AdminAppsConfigSetResponse';
 export { AdminAppsMcpServersListResponse } from './AdminAppsMcpServersListResponse';
+export { AdminAppsMcpServersPermissionsListResponse } from './AdminAppsMcpServersPermissionsListResponse';
 export { AdminAppsRequestsCancelResponse } from './AdminAppsRequestsCancelResponse';
 export { AdminAppsRequestsListResponse } from './AdminAppsRequestsListResponse';
 export { AdminAppsRestrictedListResponse } from './AdminAppsRestrictedListResponse';

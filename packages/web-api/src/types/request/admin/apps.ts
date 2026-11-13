@@ -85,6 +85,9 @@ export interface AdminAppsConfigSetArguments extends AppID, TokenOverridable {
 // https://docs.slack.dev/reference/methods/admin.apps.mcp.servers.list
 export type AdminAppsMcpServersListArguments = OptionalArgument<TokenOverridable & CursorPaginationEnabled>;
 
+// https://docs.slack.dev/reference/methods/admin.apps.mcp.servers.permissions.list
+export type AdminAppsMcpServersPermissionsListArguments = AppID & TokenOverridable;
+
 // https://docs.slack.dev/reference/methods/admin.apps.requests.cancel
 export type AdminAppsRequestsCancelArguments = RequestID & TeamOrEnterpriseID & TokenOverridable;
 
