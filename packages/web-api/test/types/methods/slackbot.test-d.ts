@@ -73,6 +73,30 @@ expectAssignable<Parameters<typeof web.slackbot.skills.info>>([
   },
 ]);
 
+// slackbot.skills.list
+// -- sad path
+expectError(
+  web.slackbot.skills.list({
+    filter: 'shared', // invalid filter
+  }),
+);
+expectError(
+  web.slackbot.skills.list({
+    category: 'cooking', // invalid category
+  }),
+);
+// -- happy path
+expectAssignable<Parameters<typeof web.slackbot.skills.list>>([]); // no arg is fine
+expectAssignable<Parameters<typeof web.slackbot.skills.list>>([{}]); // empty arg is fine
+expectAssignable<Parameters<typeof web.slackbot.skills.list>>([
+  {
+    filter: 'owned',
+    category: 'engineering',
+    cursor: 'dGVhbTpDMDYxRkE1UEI=',
+    limit: 100,
+  },
+]);
+
 // slackbot.skills.update
 // -- sad path
 expectError(web.slackbot.skills.update()); // lacking argument
