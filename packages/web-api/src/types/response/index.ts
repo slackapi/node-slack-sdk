@@ -66,6 +66,7 @@ export { AdminInviteRequestsListResponse } from './AdminInviteRequestsListRespon
 export { AdminRolesAddAssignmentsResponse } from './AdminRolesAddAssignmentsResponse';
 export { AdminRolesListAssignmentsResponse } from './AdminRolesListAssignmentsResponse';
 export { AdminRolesRemoveAssignmentsResponse } from './AdminRolesRemoveAssignmentsResponse';
+export { AdminSlackbotSkillsListResponse } from './AdminSlackbotSkillsListResponse';
 export { AdminTeamsAdminsListResponse } from './AdminTeamsAdminsListResponse';
 export { AdminTeamsCreateResponse } from './AdminTeamsCreateResponse';
 export { AdminTeamsListResponse } from './AdminTeamsListResponse';

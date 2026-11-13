@@ -74,6 +74,7 @@ export type {
   AdminRolesListAssignmentsArguments,
   AdminRolesRemoveAssignmentsArguments,
 } from './admin/roles';
+export type { AdminSlackbotSkillsListArguments } from './admin/slackbot';
 export type {
   AdminTeamsAdminsListArguments,
   AdminTeamsCreateArguments,
