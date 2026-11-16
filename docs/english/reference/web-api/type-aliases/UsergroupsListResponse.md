@@ -13,35 +13,35 @@ Defined in: [packages/web-api/src/types/response/UsergroupsListResponse.ts:11](h
 ### error?
 
 ```ts
-optional error?: string;
+error?: string;
 ```
 
 ### needed?
 
 ```ts
-optional needed?: string;
+needed?: string;
 ```
 
 ### ok?
 
 ```ts
-optional ok?: boolean;
+ok?: boolean;
 ```
 
 ### provided?
 
 ```ts
-optional provided?: string;
+provided?: string;
 ```
 
 ### usergroups?
 
 ```ts
-optional usergroups?: Usergroup[];
+usergroups?: Usergroup[];
 ```
 
 ### warning?
 
 ```ts
-optional warning?: string;
+warning?: string;
 ```

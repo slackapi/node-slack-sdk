@@ -46,17 +46,17 @@ const installer = new InstallProvider({
 <strong><i>Using a classic Slack app</i></strong>
 </summary>
 
-  ```javascript
-  import { InstallProvider } from '@slack/oauth';
+```javascript
+import { InstallProvider } from '@slack/oauth';
 
-  // initialize the installProvider
-  const installer = new InstallProvider({
-    clientId: process.env.SLACK_CLIENT_ID,
-    clientSecret: process.env.SLACK_CLIENT_SECRET,
-    stateSecret: process.env.SLACK_STATE_SECRET,
-    authVersion: 'v1' //required for classic Slack apps
-  });
-  ```
+// initialize the installProvider
+const installer = new InstallProvider({
+  clientId: process.env.SLACK_CLIENT_ID,
+  clientSecret: process.env.SLACK_CLIENT_SECRET,
+  stateSecret: process.env.SLACK_STATE_SECRET,
+  authVersion: 'v1', //required for classic Slack apps
+});
+```
 </details>
 
 ---
@@ -70,8 +70,8 @@ The `installProvider.generateInstallUrl()` method will create an installation UR
 ```javascript
 installer.generateInstallUrl({
   // Add the scopes your app needs
-  scopes: ['channels:read']
-})
+  scopes: ['channels:read'],
+});
 ```
 <details>
 <summary markdown="span">
@@ -84,8 +84,8 @@ You might want to present an "Add to Slack" button while the user is in the midd
 installer.generateInstallUrl({
   // Add the scopes your app needs
   scopes: ['channels:read'],
-  metadata: JSON.stringify({some:'sessionState'})
-})
+  metadata: JSON.stringify({ some: 'sessionState' }),
+});
 ```
 
 **Note**: custom metadata is visible to the user, so don't store any secret information in the metadata. The installation provider will ensure that none of the metadata has been tampered with when the user returns. To change how metadata is handled, including hiding it from users, read about [using a custom state store](#using-a-custom-state-store).
@@ -100,13 +100,13 @@ After the user approves the request to install your app (and grants access to th
 ```javascript
 import { createServer } from 'node:http';
 
-const server = createServer((req, res) =>  {
+const server = createServer((req, res) => {
   // our redirect_uri is /slack/oauth_redirect
   if (req.url === '/slack/oauth_redirect') {
     // call installer.handleCallback to wrap up the install flow
     installer.handleCallback(req, res);
   }
-})
+});
 
 server.listen(3000);
 ```
@@ -139,16 +139,16 @@ const callbackOptions = {
     // Tips:
     // - Inspect the metadata with `installOptions.metadata`
     // - Add javascript and css in the htmlResponse using the <script> and <style> tags
-    const htmlResponse = `<html><body>Success!</body></html>`
+    const htmlResponse = `<html><body>Success!</body></html>`;
     res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
     res.end(htmlResponse);
   },
-  failure: (error, installOptions , req, res) => {
+  failure: (error, installOptions, req, res) => {
     // Do custom failure logic here
     res.writeHead(500, { 'Content-Type': 'text/html; charset=utf-8' });
     res.end('<html><body><h1>Oops, Something Went Wrong! Please Try Again or Contact the App Owner</h1></body></html>');
-  }
-}
+  },
+};
 app.get('/slack/oauth_redirect', (req, res) => {
   installer.handleCallback(req, res, callbackOptions);
 });
@@ -216,6 +216,7 @@ const installer = new InstallProvider({
   },
 });
 ```
+
 ---
 
 ### Reading tokens and other installation data
@@ -225,7 +226,7 @@ You can use the the `installationProvider.authorize()` function to fetch data th
 ```javascript
 // installer.authorize takes in an installQuery as an argument
 // installQuery = {teamId: 'string', enterpriseId: 'string', userId: string, conversationId: 'string', isEnterpriseInstall: boolean};
-const result = installer.authorize({teamId: 'my-team-ID'});
+const result = installer.authorize({ teamId: 'my-team-ID' });
 /*
 result = {
   botToken: '',
@@ -249,7 +250,10 @@ The `installer.authorize()` method only returns a subset of the installation dat
 // installer.installationStore.fetchInstallation takes in an installQuery as an argument
 // installQuery = {teamId: 'string', enterpriseId: 'string', userId: 'string', conversationId: 'string', isEnterpriseInstall: boolean};
 // returns an installation object
-const result = await installer.installationStore.fetchInstallation({teamId:'my-team-ID', enterpriseId:'my-enterprise-ID'});
+const result = await installer.installationStore.fetchInstallation({
+  teamId: 'my-team-ID',
+  enterpriseId: 'my-enterprise-ID',
+});
 ```
 </details>
 
@@ -281,14 +285,15 @@ const installer = new InstallProvider({
     },
     // verifyStateParam's first argument is a date object and the second argument is a string representing the state
     // verifyStateParam is expected to return an object representing installUrlOptions
-    verifyStateParam:  (date, state) => {
+    verifyStateParam: (date, state) => {
       // fetch saved installOptions from DB using state reference
       const installUrlOptions = myDB.get(randomState);
       return installUrlOptions;
-    }
+    },
   },
 });
 ```
+
 ---
 
 ### Handle errors
@@ -357,7 +362,7 @@ You can also choose to have logs sent to a custom logger using the `logger` opti
 specific methods (known as the `Logger` interface):
 
 | Method       | Parameters        | Return type |
-|--------------|-------------------|-------------|
+| ------------ | ----------------- | ----------- |
 | `setLevel()` | `level: LogLevel` | `void`      |
 | `setName()`  | `name: string`    | `void`      |
 | `debug()`    | `...msgs: any[]`  | `void`      |
@@ -392,8 +397,8 @@ const installer = new InstallProvider({
 
 ### Examples
 
-*  [OAuth Express app](../../examples/oauth-v2/README.md). This example uses [Keyv](https://github.com/lukechilds/keyv) library as an installation store.
-*  [classic Slack App](../../examples/oauth-v1/README.md). This example uses the built-in installation store
+-  [OAuth Express app](../../examples/oauth-v2/README.md). This example uses [Keyv](https://github.com/lukechilds/keyv) library as an installation store.
+-  [classic Slack App](../../examples/oauth-v1/README.md). This example uses the built-in installation store
 
 ---
 
@@ -407,8 +412,8 @@ from that version.
 
 If you get stuck, we're here to help. The following are the best ways to get assistance working through your issue:
 
-  * [Issue Tracker](http://github.com/slackapi/node-slack-sdk/issues) for questions, feature requests, bug reports and
-    general discussion related to these packages. Try searching before you create a new issue.
-  * [Email us](mailto:developers@slack.com) in Slack developer support: `developers@slack.com`
-  * [Bot Developers Hangout](https://community.botkit.ai/): a Slack community for developers
-    building all types of bots. You can find the maintainers and users of these packages in **#sdk-node-slack-sdk**.
+- [Issue Tracker](http://github.com/slackapi/node-slack-sdk/issues) for questions, feature requests, bug reports and
+  general discussion related to these packages. Try searching before you create a new issue.
+- [Email us](mailto:developers@slack.com) in Slack developer support: `developers@slack.com`
+- [Bot Developers Hangout](https://community.botkit.ai/): a Slack community for developers
+  building all types of bots. You can find the maintainers and users of these packages in **#sdk-node-slack-sdk**.

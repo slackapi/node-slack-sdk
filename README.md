@@ -1,6 +1,6 @@
 # Node Slack SDK
 
-[![build-ci](https://github.com/slackapi/node-slack-sdk/actions/workflows/ci-build.yml/badge.svg)](https://github.com/slackapi/node-slack-sdk/actions/workflows/ci-build.yml)
+[![build-ci](https://github.com/slackapi/node-slack-sdk/actions/workflows/ci-build.yml/badge.svg)](https://github.com/slackapi/node-slack-sdk/actions/workflows/ci-build.yml?query=branch%3Amain)
 <!-- TODO: npm versions with scoped packages: https://github.com/rvagg/nodei.co/issues/24 -->
 ___
 
@@ -77,7 +77,7 @@ const conversationId = 'C1232456';
 **Note**: To use the example above, the token is required to have either the `bot`, `chat:user:write`, or
 `chat:bot:write` scopes.
 
-**Tip**: Use the [Block Kit Builder](https://api.slack.com/tools/block-kit-builder) for a playground
+**Tip**: Use the [Block Kit Builder](https://app.slack.com/block-kit-builder) for a playground
 where you can prototype your message's look and feel.
 
 ### Listening for an event with the Events API

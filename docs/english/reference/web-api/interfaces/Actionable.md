@@ -46,7 +46,7 @@ Defined in: packages/types/dist/block-kit/extensions.d.ts:14
 ### ~~action\_id?~~
 
 ```ts
-optional action_id?: string;
+action_id?: string;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:12

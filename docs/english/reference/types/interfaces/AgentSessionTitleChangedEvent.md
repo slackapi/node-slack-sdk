@@ -29,7 +29,7 @@ Defined in: [events/agent.ts:20](https://github.com/slackapi/node-slack-sdk/blob
 ### previous\_title?
 
 ```ts
-optional previous_title?: string;
+previous_title?: string;
 ```
 
 Defined in: [events/agent.ts:19](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/agent.ts#L19)

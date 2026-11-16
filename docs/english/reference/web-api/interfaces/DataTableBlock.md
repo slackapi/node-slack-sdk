@@ -2,7 +2,7 @@
 
 # Interface: DataTableBlock
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:207
+Defined in: packages/types/dist/block-kit/blocks.d.ts:271
 
 ## Description
 
@@ -21,7 +21,7 @@ Displays rich tables that support pagination, sorting, filtering, and interactiv
 ### block\_id?
 
 ```ts
-optional block_id?: string;
+block_id?: string;
 ```
 
 Defined in: packages/types/dist/block-kit/blocks.d.ts:15
@@ -46,7 +46,7 @@ a message. If a message is updated, use a new `block_id`.
 caption: string;
 ```
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:219
+Defined in: packages/types/dist/block-kit/blocks.d.ts:283
 
 #### Description
 
@@ -57,10 +57,10 @@ A caption for the table; used as the value for the HTML caption element.
 ### page\_size?
 
 ```ts
-optional page_size?: number;
+page_size?: number;
 ```
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:223
+Defined in: packages/types/dist/block-kit/blocks.d.ts:287
 
 #### Description
 
@@ -71,10 +71,10 @@ Number of rows per page. Min `1`, Max `100`. Defaults to `5` if omitted.
 ### row\_header\_column\_index?
 
 ```ts
-optional row_header_column_index?: number;
+row_header_column_index?: number;
 ```
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:227
+Defined in: packages/types/dist/block-kit/blocks.d.ts:291
 
 #### Description
 
@@ -91,7 +91,7 @@ rows: (
   | RawNumberElement)[][];
 ```
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:215
+Defined in: packages/types/dist/block-kit/blocks.d.ts:279
 
 #### Description
 
@@ -105,7 +105,7 @@ An array consisting of table rows.
 type: "data_table";
 ```
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:211
+Defined in: packages/types/dist/block-kit/blocks.d.ts:275
 
 #### Description
 

@@ -6,7 +6,10 @@ Defined in: [packages/web-api/src/types/request/admin/conversations.ts:142](http
 
 ## Extends
 
-- `ChannelID`.`GroupID`.`RestrictAccessTeamID`.`TokenOverridable`
+- `ChannelID`
+- `GroupID`
+- `RestrictAccessTeamID`
+- `TokenOverridable`
 
 ## Properties
 
@@ -24,9 +27,7 @@ Encoded channel ID.
 
 #### Inherited from
 
-```ts
-ChannelID.channel_id
-```
+`ChannelID.channel_id`
 
 ***
 
@@ -44,16 +45,14 @@ The [IDP Group](https://slack.com/help/articles/115001435788-Connect-identity-pr
 
 #### Inherited from
 
-```ts
-GroupID.group_id
-```
+`GroupID.group_id`
 
 ***
 
 ### team\_id?
 
 ```ts
-optional team_id?: string;
+team_id?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/admin/conversations.ts:38](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/conversations.ts#L38)
@@ -65,16 +64,14 @@ one workspace, and optional for channels that are shared across an organization.
 
 #### Inherited from
 
-```ts
-RestrictAccessTeamID.team_id
-```
+`RestrictAccessTeamID.team_id`
 
 ***
 
 ### token?
 
 ```ts
-optional token?: string;
+token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
@@ -85,6 +82,4 @@ Overridable authentication token bearing required scopes.
 
 #### Inherited from
 
-```ts
-TokenOverridable.token
-```
+`TokenOverridable.token`

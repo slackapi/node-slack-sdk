@@ -2,7 +2,7 @@
 
 # Interface: DataTableBlock
 
-Defined in: [block-kit/blocks.ts:298](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L298)
+Defined in: [block-kit/blocks.ts:364](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L364)
 
 ## Description
 
@@ -21,7 +21,7 @@ Displays rich tables that support pagination, sorting, filtering, and interactiv
 ### block\_id?
 
 ```ts
-optional block_id?: string;
+block_id?: string;
 ```
 
 Defined in: [block-kit/blocks.ts:50](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L50)
@@ -46,7 +46,7 @@ a message. If a message is updated, use a new `block_id`.
 caption: string;
 ```
 
-Defined in: [block-kit/blocks.ts:310](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L310)
+Defined in: [block-kit/blocks.ts:376](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L376)
 
 #### Description
 
@@ -57,10 +57,10 @@ A caption for the table; used as the value for the HTML caption element.
 ### page\_size?
 
 ```ts
-optional page_size?: number;
+page_size?: number;
 ```
 
-Defined in: [block-kit/blocks.ts:314](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L314)
+Defined in: [block-kit/blocks.ts:380](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L380)
 
 #### Description
 
@@ -71,10 +71,10 @@ Number of rows per page. Min `1`, Max `100`. Defaults to `5` if omitted.
 ### row\_header\_column\_index?
 
 ```ts
-optional row_header_column_index?: number;
+row_header_column_index?: number;
 ```
 
-Defined in: [block-kit/blocks.ts:318](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L318)
+Defined in: [block-kit/blocks.ts:384](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L384)
 
 #### Description
 
@@ -91,7 +91,7 @@ rows: (
   | RawNumberElement)[][];
 ```
 
-Defined in: [block-kit/blocks.ts:306](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L306)
+Defined in: [block-kit/blocks.ts:372](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L372)
 
 #### Description
 
@@ -105,7 +105,7 @@ An array consisting of table rows.
 type: "data_table";
 ```
 
-Defined in: [block-kit/blocks.ts:302](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L302)
+Defined in: [block-kit/blocks.ts:368](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L368)
 
 #### Description
 

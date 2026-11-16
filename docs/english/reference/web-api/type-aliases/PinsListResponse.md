@@ -13,35 +13,35 @@ Defined in: [packages/web-api/src/types/response/PinsListResponse.ts:11](https:/
 ### error?
 
 ```ts
-optional error?: string;
+error?: string;
 ```
 
 ### items?
 
 ```ts
-optional items?: Item[];
+items?: Item[];
 ```
 
 ### needed?
 
 ```ts
-optional needed?: string;
+needed?: string;
 ```
 
 ### ok?
 
 ```ts
-optional ok?: boolean;
+ok?: boolean;
 ```
 
 ### provided?
 
 ```ts
-optional provided?: string;
+provided?: string;
 ```
 
 ### warning?
 
 ```ts
-optional warning?: string;
+warning?: string;
 ```

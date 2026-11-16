@@ -11,7 +11,7 @@ type Select =
   | ExternalSelect;
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:242
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:256
 
 ## Description
 

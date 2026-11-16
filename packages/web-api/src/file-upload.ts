@@ -26,7 +26,7 @@ export async function getFileUploadJob(
 
   const fileUploadJob: Record<string, unknown> = {
     // supplied by user
-    alt_text: options.alt_text,
+    alt_txt: options.alt_txt ?? options.alt_text,
     blocks: options.blocks,
     channel_id: options.channels ?? options.channel_id,
     filename: options.filename ?? fileName,

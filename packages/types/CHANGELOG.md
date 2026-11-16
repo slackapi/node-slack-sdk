@@ -1,5 +1,17 @@
 # @slack/types
 
+## 3.3.0
+
+### Minor Changes
+
+- 1fabb45: feat(types): add [`AuthProviderBlock`](https://docs.slack.dev/reference/block-kit/blocks/auth-provider-block) block interface
+- 7c310ea: feat(types): add the [`user_connection`](https://docs.slack.dev/reference/events/user_connection) and [`user_connection_status_requested`](https://docs.slack.dev/reference/events/user_connection_status_requested) event interfaces
+
+### Patch Changes
+
+- 6f6fbd1: fix(types): add the `agent_prompt`, `agent_prompt_display`, and `visible_to_user_ids` fields to the [`Button`](https://docs.slack.dev/reference/block-kit/block-elements/button-element) block element
+- e02e7fe: fix: add the `files`, `upload`, `display_as_bot`, and `parent_user_id` fields to `ThreadBroadcastMessageEvent`
+
 ## 3.2.0
 
 ### Minor Changes
@@ -54,13 +66,11 @@
 - f1fb7bf: feat: add thinking steps types
 
   Added types for Thinking Steps features:
-
   - **Block types**: `PlanBlock` and `TaskCard` for displaying task progress in messages
   - **Chunk types**: `MarkdownTextChunk`, `PlanUpdateChunk`, `TaskUpdateChunk` for streaming
   - **Source types**: `UrlSourceElements` for displaying sources within task cards
 
   Related PRs:
-
   - [#2471](https://github.com/slackapi/node-slack-sdk/pull/2471) - add task_card and plan blocks
 
   ### Example

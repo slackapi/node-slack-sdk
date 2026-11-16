@@ -95,6 +95,8 @@ export interface FilesGetUploadURLExternalArguments extends TokenOverridable {
   /** @description Size in bytes of the file being uploaded. */
   length: number;
   /** @description Description of image for screen-reader. */
+  alt_txt?: string;
+  /** @deprecated Slack does not use this. Use `alt_txt`. */
   alt_text?: string;
   /** @description Syntax type of the snippet being uploaded. E.g. `python`. */
   snippet_type?: string;
@@ -158,7 +160,9 @@ type FileUpload = FileUploadContents &
     title?: string;
   };
 export type FileUploadV2 = FileUpload & {
-  /** @description Description of image for screen-reader. */
+  /** @description A description of images for a screen-reader. */
+  alt_txt?: string;
+  /** @deprecated Use `alt_txt`. */
   alt_text?: string;
   /**
    * @description An array of structured rich text blocks. If the `initial_comment` field is provided, the `blocks` field is ignored.

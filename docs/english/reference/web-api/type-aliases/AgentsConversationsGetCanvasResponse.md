@@ -13,59 +13,59 @@ Defined in: [packages/web-api/src/types/response/AgentsConversationsGetCanvasRes
 ### canvas\_id?
 
 ```ts
-optional canvas_id?: string;
+canvas_id?: string;
 ```
 
 ### comments?
 
 ```ts
-optional comments?: Comment[];
+comments?: Comment[];
 ```
 
 ### content?
 
 ```ts
-optional content?: string;
+content?: string;
 ```
 
 ### error?
 
 ```ts
-optional error?: string;
+error?: string;
 ```
 
 ### has\_more\_comments?
 
 ```ts
-optional has_more_comments?: boolean;
+has_more_comments?: boolean;
 ```
 
 ### needed?
 
 ```ts
-optional needed?: string;
+needed?: string;
 ```
 
 ### ok?
 
 ```ts
-optional ok?: boolean;
+ok?: boolean;
 ```
 
 ### provided?
 
 ```ts
-optional provided?: string;
+provided?: string;
 ```
 
 ### title?
 
 ```ts
-optional title?: string;
+title?: string;
 ```
 
 ### warning?
 
 ```ts
-optional warning?: string;
+warning?: string;
 ```

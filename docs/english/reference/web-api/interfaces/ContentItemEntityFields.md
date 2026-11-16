@@ -9,7 +9,7 @@ Defined in: packages/types/dist/message-metadata.d.ts:156
 ### created\_by?
 
 ```ts
-optional created_by?: EntityTypedField;
+created_by?: EntityTypedField;
 ```
 
 Defined in: packages/types/dist/message-metadata.d.ts:159
@@ -19,7 +19,7 @@ Defined in: packages/types/dist/message-metadata.d.ts:159
 ### date\_created?
 
 ```ts
-optional date_created?: EntityTimestampField;
+date_created?: EntityTimestampField;
 ```
 
 Defined in: packages/types/dist/message-metadata.d.ts:160
@@ -29,7 +29,7 @@ Defined in: packages/types/dist/message-metadata.d.ts:160
 ### date\_updated?
 
 ```ts
-optional date_updated?: EntityTimestampField;
+date_updated?: EntityTimestampField;
 ```
 
 Defined in: packages/types/dist/message-metadata.d.ts:161
@@ -39,7 +39,7 @@ Defined in: packages/types/dist/message-metadata.d.ts:161
 ### description?
 
 ```ts
-optional description?: EntityStringField;
+description?: EntityStringField;
 ```
 
 Defined in: packages/types/dist/message-metadata.d.ts:158
@@ -49,7 +49,7 @@ Defined in: packages/types/dist/message-metadata.d.ts:158
 ### last\_modified\_by?
 
 ```ts
-optional last_modified_by?: EntityTypedField;
+last_modified_by?: EntityTypedField;
 ```
 
 Defined in: packages/types/dist/message-metadata.d.ts:162
@@ -59,7 +59,7 @@ Defined in: packages/types/dist/message-metadata.d.ts:162
 ### preview?
 
 ```ts
-optional preview?: EntityImageField;
+preview?: EntityImageField;
 ```
 
 Defined in: packages/types/dist/message-metadata.d.ts:157

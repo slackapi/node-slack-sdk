@@ -2,7 +2,7 @@
 
 # Interface: IconButton
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:190
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:204
 
 ## Description
 
@@ -14,17 +14,18 @@ An icon button to perform actions.
 
 ## Extends
 
-- [`Actionable`](Actionable.md).[`Confirmable`](Confirmable.md)
+- [`Actionable`](Actionable.md)
+- [`Confirmable`](Confirmable.md)
 
 ## Properties
 
 ### accessibility\_label?
 
 ```ts
-optional accessibility_label?: string;
+accessibility_label?: string;
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:208
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:222
 
 #### Description
 
@@ -35,7 +36,7 @@ A label for longer descriptive text about a button element. This label will be r
 ### action\_id?
 
 ```ts
-optional action_id?: string;
+action_id?: string;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:12
@@ -53,7 +54,7 @@ among all other `action_id`s in the containing block. Maximum length for this fi
 ### confirm?
 
 ```ts
-optional confirm?: ConfirmationDialog;
+confirm?: ConfirmationDialog;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:21
@@ -75,7 +76,7 @@ with.
 icon: string;
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:199
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:213
 
 #### Description
 
@@ -95,7 +96,7 @@ trash
 text: PlainTextElement;
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:204
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:218
 
 #### Description
 
@@ -113,7 +114,7 @@ Defines an object containing some text.
 type: "icon_button";
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:194
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:208
 
 #### Description
 
@@ -128,10 +129,10 @@ The type of element. In this case `type` is always `icon_button`.
 ### value?
 
 ```ts
-optional value?: string;
+value?: string;
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:212
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:226
 
 #### Description
 
@@ -142,10 +143,10 @@ The button value.
 ### visible\_to\_user\_ids?
 
 ```ts
-optional visible_to_user_ids?: string[];
+visible_to_user_ids?: string[];
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:216
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:230
 
 #### Description
 

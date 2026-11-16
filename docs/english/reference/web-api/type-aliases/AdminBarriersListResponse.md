@@ -13,35 +13,35 @@ Defined in: [packages/web-api/src/types/response/AdminBarriersListResponse.ts:11
 ### barriers?
 
 ```ts
-optional barriers?: Barrier[];
+barriers?: Barrier[];
 ```
 
 ### error?
 
 ```ts
-optional error?: string;
+error?: string;
 ```
 
 ### needed?
 
 ```ts
-optional needed?: string;
+needed?: string;
 ```
 
 ### ok?
 
 ```ts
-optional ok?: boolean;
+ok?: boolean;
 ```
 
 ### provided?
 
 ```ts
-optional provided?: string;
+provided?: string;
 ```
 
 ### warning?
 
 ```ts
-optional warning?: string;
+warning?: string;
 ```

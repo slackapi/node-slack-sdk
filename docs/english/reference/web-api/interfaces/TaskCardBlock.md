@@ -2,7 +2,7 @@
 
 # Interface: TaskCardBlock
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:449
+Defined in: packages/types/dist/block-kit/blocks.d.ts:513
 
 ## Description
 
@@ -21,7 +21,7 @@ https://docs.slack.dev/reference/block-kit/blocks/task-card-block/
 ### block\_id?
 
 ```ts
-optional block_id?: string;
+block_id?: string;
 ```
 
 Defined in: packages/types/dist/block-kit/blocks.d.ts:15
@@ -43,10 +43,10 @@ a message. If a message is updated, use a new `block_id`.
 ### details?
 
 ```ts
-optional details?: RichTextBlock;
+details?: RichTextBlock;
 ```
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:465
+Defined in: packages/types/dist/block-kit/blocks.d.ts:529
 
 #### Description
 
@@ -57,10 +57,10 @@ Details of the task in the form of a single "rich_text" entity.
 ### output?
 
 ```ts
-optional output?: RichTextBlock;
+output?: RichTextBlock;
 ```
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:469
+Defined in: packages/types/dist/block-kit/blocks.d.ts:533
 
 #### Description
 
@@ -71,10 +71,10 @@ Output of the task in the form of a single "rich_text" entity.
 ### sources?
 
 ```ts
-optional sources?: URLSourceElement[];
+sources?: URLSourceElement[];
 ```
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:473
+Defined in: packages/types/dist/block-kit/blocks.d.ts:537
 
 #### Description
 
@@ -88,7 +88,7 @@ Array of URL source elements used to generate a response.
 status: "error" | "pending" | "in_progress" | "complete";
 ```
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:477
+Defined in: packages/types/dist/block-kit/blocks.d.ts:541
 
 #### Description
 
@@ -102,7 +102,7 @@ The state of a task. Can be "pending", "in_progress", "complete", or "error".
 task_id: string;
 ```
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:457
+Defined in: packages/types/dist/block-kit/blocks.d.ts:521
 
 #### Description
 
@@ -116,7 +116,7 @@ ID for the task.
 title: string;
 ```
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:461
+Defined in: packages/types/dist/block-kit/blocks.d.ts:525
 
 #### Description
 
@@ -130,7 +130,7 @@ Title of the task in plain text.
 type: "task_card";
 ```
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:453
+Defined in: packages/types/dist/block-kit/blocks.d.ts:517
 
 #### Description
 

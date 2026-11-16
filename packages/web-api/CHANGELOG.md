@@ -1,5 +1,47 @@
 # @slack/web-api
 
+## 8.4.0
+
+### Minor Changes
+
+- 899eda5: feat(web-api): add [`admin.apps.mcp.servers.list`](https://docs.slack.dev/reference/methods/admin.apps.mcp.servers.list) method
+- 1952a35: feat(web-api): add [`admin.apps.mcp.servers.permissions.list`](https://docs.slack.dev/reference/methods/admin.apps.mcp.servers.permissions.list) method
+- a37e280: feat(web-api): add [`admin.apps.mcp.servers.permissions.set`](https://docs.slack.dev/reference/methods/admin.apps.mcp.servers.permissions.set) method
+- 0f1d293: feat(web-api): add [`admin.slackbot.skills.list`](https://docs.slack.dev/reference/methods/admin.slackbot.skills.list) method
+- 3d2a7af: feat(web-api): add [`admin.slackbot.skills.publish`](https://docs.slack.dev/reference/methods/admin.slackbot.skills.publish) method
+- d70965c: feat(web-api): add [`admin.slackbot.skills.setAutoEnabled`](https://docs.slack.dev/reference/methods/admin.slackbot.skills.setAutoEnabled) method
+- 8168eb6: feat(web-api): add [`admin.slackbot.skills.unpublish`](https://docs.slack.dev/reference/methods/admin.slackbot.skills.unpublish) method
+- c067369: feat(web-api): add [`slackbot.skills.create`](https://docs.slack.dev/reference/methods/slackbot.skills.create) method
+- 5b7f2a4: feat(web-api): add [`slackbot.skills.delete`](https://docs.slack.dev/reference/methods/slackbot.skills.delete) method
+- f9da63c: feat(web-api): add [`slackbot.skills.info`](https://docs.slack.dev/reference/methods/slackbot.skills.info) method
+- 986cf60: feat(web-api): add [`slackbot.skills.library.add`](https://docs.slack.dev/reference/methods/slackbot.skills.library.add) method
+- 406f478: feat(web-api): add [`slackbot.skills.library.remove`](https://docs.slack.dev/reference/methods/slackbot.skills.library.remove) method
+- d67ffef: feat(web-api): add [`slackbot.skills.list`](https://docs.slack.dev/reference/methods/slackbot.skills.list) method
+- b576822: feat(web-api): add [`slackbot.skills.update`](https://docs.slack.dev/reference/methods/slackbot.skills.update) method
+
+### Patch Changes
+
+- e1b15b2: Retry API calls whose response body is interrupted mid-read, as v7 did ([#2738](https://github.com/slackapi/node-slack-sdk/issues/2738)). A dropped connection or a `timeout` that fires while the body downloads now rejects with a `WebAPIRequestError` (with `code` and `original`) after the configured retries, instead of a raw `TypeError: terminated` with no retry.
+
+## 8.3.0
+
+### Minor Changes
+
+- 604135c: feat: add support for apps.user.connection.requestAuth and apps.user.connection.bulkUpdate
+- bf3ca27: feat(web-api): add [`canvases.getContent`](https://docs.slack.dev/reference/methods/canvases.getContent) method
+- 4483395: feat: add the `code_channels` app manifest feature and the `code_channels:manage` bot scope to manifest types
+- 651c298: feat: add the `user_connections` feature (`is_enabled`, `auth_hosts`) and the `user_connection` and `user_connection_status_requested` events to the app manifest types
+- 9c6893e: Add the optional `include_slackbot_availability` argument and `team.slackbot_availability` response field to `team.info`.
+
+### Patch Changes
+
+- 28bd9f9: fix: image alt text passed to `files.uploadV2` is now saved. Before, it was sent as `alt_text`, which Slack ignores. Add `alt_txt` to `files.uploadV2` and `files.getUploadURLExternal` arguments, and deprecate `alt_text` in both. A deprecated `alt_text` passed to `files.uploadV2` is still sent as `alt_txt` ([#2788](https://github.com/slackapi/node-slack-sdk/issues/2788))
+- Updated dependencies [1fabb45]
+- Updated dependencies [6f6fbd1]
+- Updated dependencies [e02e7fe]
+- Updated dependencies [7c310ea]
+  - @slack/types@3.3.0
+
 ## 8.2.0
 
 ### Minor Changes
@@ -32,7 +74,6 @@
   Regenerate response types with new stable response properties (e.g. `agent_session` on message-bearing responses, `ListView` grouping/sort/filter fields, `bots.info` connector/workflow flags).
 
   Two fields are removed from `UsersListResponse`, neither of which is a real success-response property:
-
   - `Member.is_connector_bot` — not returned by `users.list`; this flag is surfaced on `bots.info` (added here to `BotsInfoResponse`).
   - `arg` — an error-response echo field, not part of a successful `users.list` body.
 
@@ -54,7 +95,6 @@
   **Migration:** Replace `if (error.code === ErrorCode.PlatformError)` with `if (error instanceof WebAPIPlatformError)`. All error classes extend a common `SlackError` base class (which extends `Error`), so you can also catch all SDK errors with `if (error instanceof SlackError)`.
 
   **New error class hierarchy:**
-
   - `SlackError` (abstract base)
     - `WebAPIPlatformError` — Slack API returned `ok: false`
     - `WebAPIRequestError` — Network/transport failure (original error in `cause`)
@@ -64,7 +104,6 @@
     - `WebAPIFileUploadReadFileDataError` — Failed to read file data for upload
 
   **Removed factory functions** (these were internal but exported — use `new` with the corresponding class instead):
-
   - `errorWithCode()`
   - `platformErrorFromResult()` → `new WebAPIPlatformError(...)`
   - `requestErrorWithOriginal()` → `new WebAPIRequestError(...)`
@@ -72,14 +111,13 @@
   - `rateLimitedErrorWithDelay()` → `new WebAPIRateLimitedError(...)`
 
   **Other breaking type changes:**
-
   - `WebAPIHTTPError.headers` type changed from `IncomingHttpHeaders` to `Record<string, string>`.
   - The `CodedError` interface is deprecated — use `instanceof` checks with specific error classes instead.
   - Error `.name` values changed from generic `'Error'` to descriptive class names (e.g., `'WebAPIPlatformError'`).
 
 - fc98c8c: Replaced `axios` with the standard Fetch API for all HTTP transport. The following options and types have been removed from `WebClientOptions`:
-
   - **`agent`** — Use the new `fetch` option to provide a custom fetch implementation with proxy or keep-alive support. For proxies, prefer the built-in `http.setGlobalProxyFromEnv()` or `NODE_USE_ENV_PROXY=1` (Node.js 24+). For advanced use cases:
+
     ```ts
     import { fetch, Agent } from "undici";
     const client = new WebClient(token, {
@@ -101,7 +139,6 @@
   New exported types for custom fetch implementations: `FetchFunction`, `FetchResponse`, `FetchRequestInit`, `FetchHeaders`.
 
 - fc98c8c: Removed previously-deprecated API methods and their associated request/response types:
-
   - **`files.upload`** — Use `filesUploadV2` instead (available since v6.7). The `filesUploadV2` method handles the multi-step upload process automatically.
   - **`rtm.start`** — Use `rtm.connect` instead. The `rtm.start` method was deprecated by Slack in favor of the lighter-weight `rtm.connect`.
   - **`workflows.stepCompleted`**, **`workflows.stepFailed`**, **`workflows.updateStep`** — These methods supported the retired [Steps from Apps](https://api.slack.com/changelog/2023-08-workflow-steps-from-apps-step-back) feature (deprecated August 2023, retired September 2024). The `workflows.featured.*` and `admin.workflows.*` methods for the current Workflow Builder remain available.
@@ -213,7 +250,6 @@
   `chat.appendStream`, `chat.startStream`, and `chat.stopStream` now accept a `chunks` parameter for streaming structured content including markdown text, plan updates, and task updates.
 
   Related PRs:
-
   - [#2467](https://github.com/slackapi/node-slack-sdk/pull/2467) - accept chunks as arguments to chat.{start,append,stop}Stream methods
   - [#2470](https://github.com/slackapi/node-slack-sdk/pull/2470) - accept chunks as arguments to chat stream helper
   - [#2479](https://github.com/slackapi/node-slack-sdk/pull/2479) - add task display mode option to start of chat streams

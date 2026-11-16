@@ -13,35 +13,35 @@ Defined in: [packages/web-api/src/types/response/ChatMeMessageResponse.ts:11](ht
 ### channel?
 
 ```ts
-optional channel?: string;
+channel?: string;
 ```
 
 ### error?
 
 ```ts
-optional error?: string;
+error?: string;
 ```
 
 ### needed?
 
 ```ts
-optional needed?: string;
+needed?: string;
 ```
 
 ### ok?
 
 ```ts
-optional ok?: boolean;
+ok?: boolean;
 ```
 
 ### provided?
 
 ```ts
-optional provided?: string;
+provided?: string;
 ```
 
 ### ts?
 
 ```ts
-optional ts?: string;
+ts?: string;
 ```

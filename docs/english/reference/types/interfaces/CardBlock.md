@@ -2,7 +2,7 @@
 
 # Interface: CardBlock
 
-Defined in: [block-kit/blocks.ts:141](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L141)
+Defined in: [block-kit/blocks.ts:207](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L207)
 
 ## Description
 
@@ -21,10 +21,10 @@ Displays content in a card. At least one of `hero_image`, `title`, `actions`, or
 ### actions?
 
 ```ts
-optional actions?: Button[];
+actions?: Button[];
 ```
 
-Defined in: [block-kit/blocks.ts:172](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L172)
+Defined in: [block-kit/blocks.ts:238](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L238)
 
 #### Description
 
@@ -35,7 +35,7 @@ An array of [Button](Button.md) elements displayed at the bottom of the card.
 ### block\_id?
 
 ```ts
-optional block_id?: string;
+block_id?: string;
 ```
 
 Defined in: [block-kit/blocks.ts:50](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L50)
@@ -57,10 +57,10 @@ a message. If a message is updated, use a new `block_id`.
 ### body?
 
 ```ts
-optional body?: MrkdwnElement;
+body?: MrkdwnElement;
 ```
 
-Defined in: [block-kit/blocks.ts:168](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L168)
+Defined in: [block-kit/blocks.ts:234](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L234)
 
 #### Description
 
@@ -72,10 +72,10 @@ Maximum length for the text in this field is 200 characters.
 ### hero\_image?
 
 ```ts
-optional hero_image?: ImageElement;
+hero_image?: ImageElement;
 ```
 
-Defined in: [block-kit/blocks.ts:149](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L149)
+Defined in: [block-kit/blocks.ts:215](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L215)
 
 #### Description
 
@@ -86,10 +86,10 @@ A top banner image for the card in the form of an [ImageElement](../type-aliases
 ### icon?
 
 ```ts
-optional icon?: ImageElement;
+icon?: ImageElement;
 ```
 
-Defined in: [block-kit/blocks.ts:153](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L153)
+Defined in: [block-kit/blocks.ts:219](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L219)
 
 #### Description
 
@@ -100,10 +100,10 @@ A small icon displayed next to the title and subtitle in the form of an [ImageEl
 ### subtitle?
 
 ```ts
-optional subtitle?: MrkdwnElement;
+subtitle?: MrkdwnElement;
 ```
 
-Defined in: [block-kit/blocks.ts:163](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L163)
+Defined in: [block-kit/blocks.ts:229](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L229)
 
 #### Description
 
@@ -115,10 +115,10 @@ Maximum length for the text in this field is 150 characters.
 ### title?
 
 ```ts
-optional title?: MrkdwnElement;
+title?: MrkdwnElement;
 ```
 
-Defined in: [block-kit/blocks.ts:158](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L158)
+Defined in: [block-kit/blocks.ts:224](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L224)
 
 #### Description
 
@@ -133,7 +133,7 @@ Maximum length for the text in this field is 150 characters.
 type: "card";
 ```
 
-Defined in: [block-kit/blocks.ts:145](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L145)
+Defined in: [block-kit/blocks.ts:211](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L211)
 
 #### Description
 

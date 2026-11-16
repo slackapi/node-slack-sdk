@@ -6,7 +6,11 @@ Defined in: [packages/web-api/src/types/request/admin/users.ts:73](https://githu
 
 ## Extends
 
-- `ChannelIDs`.`TeamID`.`IsRestricted`.`IsUltraRestricted`.`TokenOverridable`
+- `ChannelIDs`
+- `TeamID`
+- `IsRestricted`
+- `IsUltraRestricted`
+- `TokenOverridable`
 
 ## Properties
 
@@ -24,16 +28,14 @@ An array of channel IDs (must include at least one ID).
 
 #### Inherited from
 
-```ts
-ChannelIDs.channel_ids
-```
+`ChannelIDs.channel_ids`
 
 ***
 
 ### custom\_message?
 
 ```ts
-optional custom_message?: string;
+custom_message?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/admin/users.ts:82](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/users.ts#L82)
@@ -61,7 +63,7 @@ The email address of the person to invite.
 ### email\_password\_policy\_enabled?
 
 ```ts
-optional email_password_policy_enabled?: boolean;
+email_password_policy_enabled?: boolean;
 ```
 
 Defined in: [packages/web-api/src/types/request/admin/users.ts:87](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/users.ts#L87)
@@ -76,7 +78,7 @@ admin invite.
 ### guest\_expiration\_ts?
 
 ```ts
-optional guest_expiration_ts?: string;
+guest_expiration_ts?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/admin/users.ts:92](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/users.ts#L92)
@@ -91,7 +93,7 @@ guest user and you want their account to expire on a certain date.
 ### is\_restricted?
 
 ```ts
-optional is_restricted?: boolean;
+is_restricted?: boolean;
 ```
 
 Defined in: [packages/web-api/src/types/request/admin/users.ts:15](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/users.ts#L15)
@@ -102,16 +104,14 @@ Set to `true` if user should be added to the workspace as a guest.
 
 #### Inherited from
 
-```ts
-IsRestricted.is_restricted
-```
+`IsRestricted.is_restricted`
 
 ***
 
 ### is\_ultra\_restricted?
 
 ```ts
-optional is_ultra_restricted?: boolean;
+is_ultra_restricted?: boolean;
 ```
 
 Defined in: [packages/web-api/src/types/request/admin/users.ts:20](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/users.ts#L20)
@@ -122,16 +122,14 @@ Set to `true` if user should be added to the workspace as a guest.
 
 #### Inherited from
 
-```ts
-IsUltraRestricted.is_ultra_restricted
-```
+`IsUltraRestricted.is_ultra_restricted`
 
 ***
 
 ### real\_name?
 
 ```ts
-optional real_name?: string;
+real_name?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/admin/users.ts:94](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/users.ts#L94)
@@ -145,7 +143,7 @@ Full name of the user.
 ### resend?
 
 ```ts
-optional resend?: boolean;
+resend?: boolean;
 ```
 
 Defined in: [packages/web-api/src/types/request/admin/users.ts:99](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/users.ts#L99)
@@ -171,16 +169,14 @@ The encoded team ID.
 
 #### Inherited from
 
-```ts
-TeamID.team_id
-```
+`TeamID.team_id`
 
 ***
 
 ### token?
 
 ```ts
-optional token?: string;
+token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
@@ -191,6 +187,4 @@ Overridable authentication token bearing required scopes.
 
 #### Inherited from
 
-```ts
-TokenOverridable.token
-```
+`TokenOverridable.token`

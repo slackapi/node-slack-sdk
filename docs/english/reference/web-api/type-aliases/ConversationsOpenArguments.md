@@ -3,7 +3,7 @@
 # Type Alias: ConversationsOpenArguments
 
 ```ts
-type ConversationsOpenArguments = Channel | Users & TokenOverridable & object;
+type ConversationsOpenArguments = (Channel | Users) & TokenOverridable & object;
 ```
 
 Defined in: [packages/web-api/src/types/request/conversations.ts:169](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/conversations.ts#L169)
@@ -13,7 +13,7 @@ Defined in: [packages/web-api/src/types/request/conversations.ts:169](https://gi
 ### prevent\_creation?
 
 ```ts
-optional prevent_creation?: boolean;
+prevent_creation?: boolean;
 ```
 
 #### Description
@@ -24,7 +24,7 @@ This is used to see if there is an existing dm or mpdm.
 ### return\_im?
 
 ```ts
-optional return_im?: boolean;
+return_im?: boolean;
 ```
 
 #### Description

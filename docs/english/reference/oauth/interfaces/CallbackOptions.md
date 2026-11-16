@@ -9,7 +9,7 @@ Defined in: [packages/oauth/src/callback-options.ts:7](https://github.com/slacka
 ### afterInstallation?
 
 ```ts
-optional afterInstallation?: (installation, options, callbackReq, callbackRes) => Promise<boolean>;
+afterInstallation?: (installation, options, callbackReq, callbackRes) => Promise<boolean>;
 ```
 
 Defined in: [packages/oauth/src/callback-options.ts:33](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/callback-options.ts#L33)
@@ -51,7 +51,7 @@ to build complete HTTP response for end-users.
 ### beforeInstallation?
 
 ```ts
-optional beforeInstallation?: (options, callbackReq, callbackRes) => Promise<boolean>;
+beforeInstallation?: (options, callbackReq, callbackRes) => Promise<boolean>;
 ```
 
 Defined in: [packages/oauth/src/callback-options.ts:17](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/callback-options.ts#L17)
@@ -87,7 +87,7 @@ to build a complete HTTP response for end-users.
 ### failure?
 
 ```ts
-optional failure?: (error, options, callbackReq, callbackRes) => void;
+failure?: (error, options, callbackReq, callbackRes) => void;
 ```
 
 Defined in: [packages/oauth/src/callback-options.ts:63](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/callback-options.ts#L63)
@@ -119,7 +119,7 @@ Defined in: [packages/oauth/src/callback-options.ts:63](https://github.com/slack
 ### failureAsync?
 
 ```ts
-optional failureAsync?: (error, options, callbackReq, callbackRes) => Promise<void>;
+failureAsync?: (error, options, callbackReq, callbackRes) => Promise<void>;
 ```
 
 Defined in: [packages/oauth/src/callback-options.ts:72](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/callback-options.ts#L72)
@@ -151,7 +151,7 @@ Defined in: [packages/oauth/src/callback-options.ts:72](https://github.com/slack
 ### success?
 
 ```ts
-optional success?: (installation, options, callbackReq, callbackRes) => void;
+success?: (installation, options, callbackReq, callbackRes) => void;
 ```
 
 Defined in: [packages/oauth/src/callback-options.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/callback-options.ts#L43)
@@ -184,7 +184,7 @@ Defined in: [packages/oauth/src/callback-options.ts:43](https://github.com/slack
 ### successAsync?
 
 ```ts
-optional successAsync?: (installation, options, callbackReq, callbackRes) => Promise<void>;
+successAsync?: (installation, options, callbackReq, callbackRes) => Promise<void>;
 ```
 
 Defined in: [packages/oauth/src/callback-options.ts:52](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/callback-options.ts#L52)

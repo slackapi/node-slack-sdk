@@ -13,53 +13,53 @@ Defined in: [packages/web-api/src/types/response/RtmConnectResponse.ts:11](https
 ### context?
 
 ```ts
-optional context?: string;
+context?: string;
 ```
 
 ### error?
 
 ```ts
-optional error?: string;
+error?: string;
 ```
 
 ### needed?
 
 ```ts
-optional needed?: string;
+needed?: string;
 ```
 
 ### ok?
 
 ```ts
-optional ok?: boolean;
+ok?: boolean;
 ```
 
 ### provided?
 
 ```ts
-optional provided?: string;
+provided?: string;
 ```
 
 ### self?
 
 ```ts
-optional self?: Self;
+self?: Self;
 ```
 
 ### team?
 
 ```ts
-optional team?: Team;
+team?: Team;
 ```
 
 ### url?
 
 ```ts
-optional url?: string;
+url?: string;
 ```
 
 ### warning?
 
 ```ts
-optional warning?: string;
+warning?: string;
 ```

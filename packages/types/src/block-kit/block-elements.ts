@@ -61,6 +61,20 @@ export interface Button extends Actionable, Confirmable {
    * readers instead of the button `text` object. Maximum length for this field is 75 characters.
    */
   accessibility_label?: string;
+  /**
+   * @description A prompt sent to Slackbot when the button is clicked, if Slackbot AI is available to the user.
+   * Maximum length for this field is 4000 characters.
+   */
+  agent_prompt?: string;
+  /**
+   * @description Short text shown instead of the full `agent_prompt` in the user's Slackbot message. Requires
+   * `agent_prompt` and defaults to the button's `text`.
+   */
+  agent_prompt_display?: string;
+  /**
+   * @description An array of user IDs for which the button appears. If not provided, the button is visible to all users.
+   */
+  visible_to_user_ids?: string[];
 }
 
 /**

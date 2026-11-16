@@ -6,7 +6,8 @@ Defined in: [packages/web-api/src/types/request/admin/apps.ts:73](https://github
 
 ## Extends
 
-- `AppID`.`TokenOverridable`
+- `AppID`
+- `TokenOverridable`
 
 ## Properties
 
@@ -24,16 +25,14 @@ The ID of the app.
 
 #### Inherited from
 
-```ts
-AppID.app_id
-```
+`AppID.app_id`
 
 ***
 
 ### domain\_restrictions?
 
 ```ts
-optional domain_restrictions?: object;
+domain_restrictions?: object;
 ```
 
 Defined in: [packages/web-api/src/types/request/admin/apps.ts:75](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/apps.ts#L75)
@@ -41,7 +40,7 @@ Defined in: [packages/web-api/src/types/request/admin/apps.ts:75](https://github
 #### emails?
 
 ```ts
-optional emails?: string[];
+emails?: string[];
 ```
 
 ##### Description
@@ -51,7 +50,7 @@ Sets emails for connector authorization.
 #### urls?
 
 ```ts
-optional urls?: string[];
+urls?: string[];
 ```
 
 ##### Description
@@ -67,7 +66,7 @@ Domain restrictions for the app.
 ### token?
 
 ```ts
-optional token?: string;
+token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
@@ -78,16 +77,14 @@ Overridable authentication token bearing required scopes.
 
 #### Inherited from
 
-```ts
-TokenOverridable.token
-```
+`TokenOverridable.token`
 
 ***
 
 ### workflow\_auth\_strategy?
 
 ```ts
-optional workflow_auth_strategy?: "builder_choice" | "end_user_only";
+workflow_auth_strategy?: "builder_choice" | "end_user_only";
 ```
 
 Defined in: [packages/web-api/src/types/request/admin/apps.ts:82](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/apps.ts#L82)

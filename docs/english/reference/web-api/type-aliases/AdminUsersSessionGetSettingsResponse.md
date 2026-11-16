@@ -13,41 +13,41 @@ Defined in: [packages/web-api/src/types/response/AdminUsersSessionGetSettingsRes
 ### error?
 
 ```ts
-optional error?: string;
+error?: string;
 ```
 
 ### needed?
 
 ```ts
-optional needed?: string;
+needed?: string;
 ```
 
 ### no\_settings\_applied?
 
 ```ts
-optional no_settings_applied?: string[];
+no_settings_applied?: string[];
 ```
 
 ### ok?
 
 ```ts
-optional ok?: boolean;
+ok?: boolean;
 ```
 
 ### provided?
 
 ```ts
-optional provided?: string;
+provided?: string;
 ```
 
 ### session\_settings?
 
 ```ts
-optional session_settings?: SessionSetting[];
+session_settings?: SessionSetting[];
 ```
 
 ### warning?
 
 ```ts
-optional warning?: string;
+warning?: string;
 ```

@@ -57,6 +57,7 @@ export interface Block {
 export type KnownBlock =
   | ActionsBlock
   | AlertBlock
+  | AuthProviderBlock
   | CardBlock
   | CarouselBlock
   | ContainerBlock
@@ -132,6 +133,71 @@ export interface AlertBlock extends Block {
    * @description The severity level of the alert. Defaults to `"default"` if omitted.
    */
   level?: 'default' | 'info' | 'warning' | 'error' | 'success';
+}
+
+/**
+ * @description Displays authentication provider information, including its icon, name, and connection state.
+ * @see {@link https://docs.slack.dev/reference/block-kit/blocks/auth-provider-block Auth provider block reference}.
+ */
+export interface AuthProviderBlock extends Block {
+  /**
+   * @description The type of block. For an auth provider block, `type` is always `auth_provider`.
+   */
+  type: 'auth_provider';
+  /**
+   * @description Unique identifier for this provider within the app. Included in interaction payloads and used to
+   * derive the connect button `action_id` (`auth_provider_connect_<value>`). Maximum length for this field is 150
+   * characters.
+   */
+  value: string;
+  /**
+   * @description Human-readable name of the provider in the form of a {@link PlainTextElement}.
+   * Maximum length for the text in this field is 75 characters.
+   */
+  name: PlainTextElement;
+  /**
+   * @description Whether this provider is currently connected. Slack records this state for the user.
+   */
+  is_connected: boolean;
+  /**
+   * @description Brief description of what this connection enables in the form of a {@link PlainTextElement}.
+   * Maximum length for the text in this field is 150 characters.
+   */
+  description?: PlainTextElement;
+  /**
+   * @description URL for the provider icon image. Must be an HTTPS URL. Falls back to the app's avatar when absent.
+   * Maximum length for this field is 3000 characters.
+   */
+  icon_url?: string;
+  /**
+   * @description OAuth redirect URL opened when the user clicks Connect. Must be an HTTPS URL on a host listed in the
+   * app manifest's `features.user_connections.auth_hosts`. Maximum length for this field is 3000 characters.
+   */
+  auth_url?: string;
+  /**
+   * @description URL opened when the user clicks Disconnect. Must be an HTTPS URL on a host listed in the app
+   * manifest's `features.user_connections.auth_hosts`. Maximum length for this field is 3000 characters.
+   */
+  disconnect_url?: string;
+  /**
+   * @description Display name of the connected account in the form of a {@link PlainTextElement}, shown when
+   * `is_connected` is `true`. Maximum length for the text in this field is 75 characters.
+   */
+  connected_identity?: PlainTextElement;
+  /**
+   * @description Additional context about the connection in the form of a {@link PlainTextElement}, e.g. the org or
+   * workspace name. Maximum length for the text in this field is 75 characters.
+   */
+  connected_context?: PlainTextElement;
+  /**
+   * @description An {@link Overflow} menu shown when connected, e.g. Disconnect or Re-authenticate.
+   */
+  accessory?: Overflow;
+  /**
+   * @description An array of stable {@link KnownBlock} objects rendered by clients that don't recognize
+   * `auth_provider`, spliced into the parent blocks array.
+   */
+  fallback?: KnownBlock[];
 }
 
 /**

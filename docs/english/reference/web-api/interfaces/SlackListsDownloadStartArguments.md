@@ -13,7 +13,7 @@ Defined in: [packages/web-api/src/types/request/slackLists.ts:417](https://githu
 ### include\_archived?
 
 ```ts
-optional include_archived?: boolean;
+include_archived?: boolean;
 ```
 
 Defined in: [packages/web-api/src/types/request/slackLists.ts:426](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/slackLists.ts#L426)
@@ -41,7 +41,7 @@ Encoded ID of the List.
 ### token?
 
 ```ts
-optional token?: string;
+token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
@@ -52,6 +52,4 @@ Overridable authentication token bearing required scopes.
 
 #### Inherited from
 
-```ts
-TokenOverridable.token
-```
+`TokenOverridable.token`

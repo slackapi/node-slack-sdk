@@ -9,7 +9,7 @@ Defined in: packages/types/dist/message-metadata.d.ts:116
 ### error?
 
 ```ts
-optional error?: object;
+error?: object;
 ```
 
 Defined in: packages/types/dist/message-metadata.d.ts:120
@@ -23,7 +23,7 @@ code: string;
 #### message?
 
 ```ts
-optional message?: string;
+message?: string;
 ```
 
 ***
@@ -41,7 +41,7 @@ Defined in: packages/types/dist/message-metadata.d.ts:117
 ### mime\_type?
 
 ```ts
-optional mime_type?: string;
+mime_type?: string;
 ```
 
 Defined in: packages/types/dist/message-metadata.d.ts:119
@@ -51,7 +51,7 @@ Defined in: packages/types/dist/message-metadata.d.ts:119
 ### preview\_url?
 
 ```ts
-optional preview_url?: string;
+preview_url?: string;
 ```
 
 Defined in: packages/types/dist/message-metadata.d.ts:118

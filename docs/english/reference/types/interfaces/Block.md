@@ -8,6 +8,7 @@ Defined in: [block-kit/blocks.ts:38](https://github.com/slackapi/node-slack-sdk/
 
 - [`ActionsBlock`](ActionsBlock.md)
 - [`AlertBlock`](AlertBlock.md)
+- [`AuthProviderBlock`](AuthProviderBlock.md)
 - [`CardBlock`](CardBlock.md)
 - [`CarouselBlock`](CarouselBlock.md)
 - [`ContainerBlock`](ContainerBlock.md)
@@ -31,7 +32,7 @@ Defined in: [block-kit/blocks.ts:38](https://github.com/slackapi/node-slack-sdk/
 ### block\_id?
 
 ```ts
-optional block_id?: string;
+block_id?: string;
 ```
 
 Defined in: [block-kit/blocks.ts:50](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L50)

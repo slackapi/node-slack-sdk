@@ -93,6 +93,36 @@ describe('SlackWebSocket', () => {
       ws.dispatchEvent(new ErrorEvent('error', { error: new Error('boom'), message: 'boom' }));
       sinon.assert.calledOnce(discStub);
     });
+
+    it('should emit "ws_message" with the receiving SlackWebSocket, so the client can tell connections apart', () => {
+      const ws = new WSMock();
+      SlackWebSocket = proxyquire.load('./SlackWebSocket', {
+        undici: {
+          WebSocket: class Fake {
+            constructor() {
+              // biome-ignore lint/correctness/noConstructorReturn: for test mocking purposes
+              return ws;
+            }
+          },
+          CloseEvent,
+          ErrorEvent,
+          MessageEvent,
+          ping: () => {},
+        },
+      }).SlackWebSocket;
+      const client = new EventEmitter();
+      const received = sandbox.spy();
+      client.on('ws_message', received);
+      const sws = new SlackWebSocket({
+        url: 'whatevs',
+        client,
+        clientPingTimeoutMS: 1,
+        serverPingTimeoutMS: 1,
+      });
+      sws.connect();
+      ws.dispatchEvent(new MessageEvent('message', { data: '{"type":"hello"}' }));
+      sinon.assert.calledOnceWithExactly(received, '{"type":"hello"}', false, sws);
+    });
   });
 
   describe('disconnect() with an unresponsive peer', () => {
@@ -151,13 +181,190 @@ describe('SlackWebSocket', () => {
       assert.strictEqual(sws.readyState, DeadPeerWS.CLOSING, 'socket should be CLOSING after sending close frame');
       assert.strictEqual(closeEmitted, false, 'close must not fire before the handshake completes or times out');
 
-      clock.tick(60000);
+      clock.tick(999);
+      assert.strictEqual(closeEmitted, false, 'close must not fire before the handshake timeout elapses');
+
+      clock.tick(1);
 
       assert.strictEqual(
         closeEmitted,
         true,
         'expected disconnect() to force cleanup and emit "close" after the peer failed to reply',
       );
+    });
+  });
+
+  describe('heartbeat while closing against a peer that never ends TCP (issue #2752)', () => {
+    class HalfClosedPeerWS extends EventTarget {
+      static CONNECTING = 0;
+      static OPEN = 1;
+      static CLOSING = 2;
+      static CLOSED = 3;
+      readyState = HalfClosedPeerWS.OPEN;
+      close() {
+        this.readyState = HalfClosedPeerWS.CLOSING;
+      }
+      send(_data: string) {}
+    }
+
+    function open(clientPingTimeoutMS: number) {
+      const ws = new HalfClosedPeerWS();
+      const ping = sandbox.spy();
+      const SWS = proxyquire.load('./SlackWebSocket', {
+        undici: {
+          WebSocket: class Fake {
+            static CONNECTING = 0;
+            static OPEN = 1;
+            static CLOSING = 2;
+            static CLOSED = 3;
+            constructor() {
+              // biome-ignore lint/correctness/noConstructorReturn: for test mocking purposes
+              return ws;
+            }
+          },
+          CloseEvent,
+          ErrorEvent,
+          MessageEvent,
+          ping,
+        },
+      }).SlackWebSocket;
+      const client = new EventEmitter();
+      let closeEvents = 0;
+      client.on('close', () => {
+        closeEvents += 1;
+      });
+      const logger = new ConsoleLogger();
+      const warn = sandbox.stub(logger, 'warn');
+      sandbox.stub(logger, 'debug');
+      const sws = new SWS({
+        url: 'ws://127.0.0.1/',
+        client,
+        clientPingTimeoutMS,
+        serverPingTimeoutMS: 60000,
+        logger,
+      });
+      sws.connect();
+      ws.dispatchEvent(new Event('open'));
+      return { ws, sws, ping, warn, closeEvents: () => closeEvents };
+    }
+
+    it('should stop the heartbeat once the close frame is sent, so the close-handshake timeout owns the wait', () => {
+      const clock = sandbox.useFakeTimers();
+      const { ws, sws, ping, warn, closeEvents } = open(900);
+      channel('undici:websocket:pong').publish({ websocket: ws, payload: Buffer.from('x') });
+
+      sws.disconnect();
+      const pingsBeforeClose = ping.callCount;
+      clock.tick(999);
+      assert.strictEqual(closeEvents(), 0, 'the heartbeat must not cut the close handshake short');
+
+      clock.tick(1);
+
+      assert.strictEqual(ping.callCount, pingsBeforeClose, 'no ping should be sent while closing');
+      assert.strictEqual(closeEvents(), 1);
+      sinon.assert.notCalled(warn);
+    });
+
+    it('should terminate within one heartbeat tick when the peer starts the close handshake', () => {
+      const clock = sandbox.useFakeTimers();
+      const { ws, warn, closeEvents } = open(3000);
+
+      ws.readyState = HalfClosedPeerWS.CLOSING;
+      clock.tick(1000);
+
+      assert.strictEqual(closeEvents(), 1);
+      sinon.assert.notCalled(warn);
+    });
+  });
+
+  describe('disconnect() when the connection drops while closing (issue #2771)', () => {
+    class UndiciLikeWS extends EventTarget {
+      static CONNECTING = 0;
+      static OPEN = 1;
+      static CLOSING = 2;
+      static CLOSED = 3;
+      readyState = UndiciLikeWS.CONNECTING;
+      closeCalls = 0;
+      close() {
+        this.closeCalls += 1;
+        if (this.readyState === UndiciLikeWS.CONNECTING) {
+          this.dropConnection();
+          this.readyState = UndiciLikeWS.CLOSING;
+        } else if (this.readyState === UndiciLikeWS.OPEN) {
+          this.readyState = UndiciLikeWS.CLOSING;
+        }
+      }
+      dropConnection() {
+        this.readyState = UndiciLikeWS.CLOSED;
+        this.dispatchEvent(new ErrorEvent('error', { error: new TypeError(''), message: '' }));
+        this.dispatchEvent(new CloseEvent('close', { code: 1006, reason: '' }));
+      }
+      send(_data: string) {}
+    }
+
+    function connect(ws: UndiciLikeWS) {
+      const SWS = proxyquire.load('./SlackWebSocket', {
+        undici: {
+          WebSocket: class Fake {
+            static CONNECTING = 0;
+            static OPEN = 1;
+            static CLOSING = 2;
+            static CLOSED = 3;
+            constructor() {
+              // biome-ignore lint/correctness/noConstructorReturn: for test mocking purposes
+              return ws;
+            }
+          },
+          CloseEvent,
+          ErrorEvent,
+          MessageEvent,
+          ping: () => {},
+        },
+      }).SlackWebSocket;
+      const client = new EventEmitter();
+      let closeEvents = 0;
+      client.on('close', () => {
+        closeEvents += 1;
+      });
+      const logger = new ConsoleLogger();
+      const warn = sandbox.stub(logger, 'warn');
+      sandbox.stub(logger, 'error');
+      const sws = new SWS({
+        url: 'ws://127.0.0.1/',
+        client,
+        clientPingTimeoutMS: 60000,
+        serverPingTimeoutMS: 60000,
+        logger,
+      });
+      sws.connect();
+      return { sws, warn, closeEvents: () => closeEvents };
+    }
+
+    it('should emit "close" once and not warn when the peer drops TCP after our close frame', () => {
+      const clock = sandbox.useFakeTimers();
+      const ws = new UndiciLikeWS();
+      const { sws, warn, closeEvents } = connect(ws);
+      ws.readyState = UndiciLikeWS.OPEN;
+
+      sws.disconnect();
+      ws.dropConnection();
+      clock.tick(60000);
+
+      assert.strictEqual(closeEvents(), 1);
+      assert.strictEqual(ws.closeCalls, 1, 'no close frame should be sent on an already closed socket');
+      sinon.assert.notCalled(warn);
+    });
+
+    it('should emit "close" once and not warn when disconnecting before the connection opens', () => {
+      const clock = sandbox.useFakeTimers();
+      const ws = new UndiciLikeWS();
+      const { sws, warn, closeEvents } = connect(ws);
+
+      sws.disconnect();
+      clock.tick(60000);
+
+      assert.strictEqual(closeEvents(), 1);
+      sinon.assert.notCalled(warn);
     });
   });
 
@@ -178,6 +385,24 @@ describe('SlackWebSocket', () => {
       sws.disconnect();
 
       sinon.assert.calledOnce(destroy);
+    });
+  });
+
+  describe('close notification', () => {
+    it('should emit "close" with the closed SlackWebSocket, so the client can tell connections apart', () => {
+      const client = new EventEmitter();
+      const closed = sandbox.spy();
+      client.on('close', closed);
+      const sws = new SlackWebSocket({
+        url: 'ws://127.0.0.1/',
+        client,
+        clientPingTimeoutMS: 1,
+        serverPingTimeoutMS: 1,
+      });
+
+      sws.disconnect();
+
+      sinon.assert.calledOnceWithExactly(closed, sws);
     });
   });
 

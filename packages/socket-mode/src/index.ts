@@ -4,6 +4,7 @@ export {
   ErrorCode,
   SlackSocketModeError,
   SMCallError,
+  SMConnectAbortedError,
   SMNoReplyReceivedError,
   SMPlatformError,
   SMPlatformErrorEvent,

@@ -19,16 +19,14 @@ base class or a specific error subclass.
 ### cause?
 
 ```ts
-optional cause?: unknown;
+cause?: unknown;
 ```
 
 Defined in: node\_modules/typescript/lib/lib.es2022.error.d.ts:26
 
 #### Inherited from
 
-```ts
-Error.cause
-```
+`Error.cause`
 
 ***
 
@@ -52,9 +50,7 @@ Defined in: node\_modules/typescript/lib/lib.es5.d.ts:1077
 
 #### Inherited from
 
-```ts
-Error.message
-```
+`Error.message`
 
 ***
 
@@ -68,22 +64,18 @@ Defined in: node\_modules/typescript/lib/lib.es5.d.ts:1076
 
 #### Inherited from
 
-```ts
-Error.name
-```
+`Error.name`
 
 ***
 
 ### stack?
 
 ```ts
-optional stack?: string;
+stack?: string;
 ```
 
 Defined in: node\_modules/typescript/lib/lib.es5.d.ts:1078
 
 #### Inherited from
 
-```ts
-Error.stack
-```
+`Error.stack`

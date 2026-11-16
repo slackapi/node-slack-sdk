@@ -13,47 +13,47 @@ Defined in: [packages/web-api/src/types/response/ReactionsGetResponse.ts:11](htt
 ### channel?
 
 ```ts
-optional channel?: string;
+channel?: string;
 ```
 
 ### error?
 
 ```ts
-optional error?: string;
+error?: string;
 ```
 
 ### message?
 
 ```ts
-optional message?: Message;
+message?: Message;
 ```
 
 ### needed?
 
 ```ts
-optional needed?: string;
+needed?: string;
 ```
 
 ### ok?
 
 ```ts
-optional ok?: boolean;
+ok?: boolean;
 ```
 
 ### provided?
 
 ```ts
-optional provided?: string;
+provided?: string;
 ```
 
 ### type?
 
 ```ts
-optional type?: string;
+type?: string;
 ```
 
 ### warning?
 
 ```ts
-optional warning?: string;
+warning?: string;
 ```

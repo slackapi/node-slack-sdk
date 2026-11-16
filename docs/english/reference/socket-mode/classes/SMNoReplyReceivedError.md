@@ -2,7 +2,7 @@
 
 # Class: SMNoReplyReceivedError
 
-Defined in: [packages/socket-mode/src/errors.ts:65](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/errors.ts#L65)
+Defined in: [packages/socket-mode/src/errors.ts:66](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/errors.ts#L66)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [packages/socket-mode/src/errors.ts:65](https://github.com/slackapi/
 new SMNoReplyReceivedError(): SMNoReplyReceivedError;
 ```
 
-Defined in: [packages/socket-mode/src/errors.ts:68](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/errors.ts#L68)
+Defined in: [packages/socket-mode/src/errors.ts:69](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/errors.ts#L69)
 
 #### Returns
 
@@ -31,7 +31,7 @@ Defined in: [packages/socket-mode/src/errors.ts:68](https://github.com/slackapi/
 ### cause?
 
 ```ts
-optional cause?: unknown;
+cause?: unknown;
 ```
 
 Defined in: node\_modules/typescript/lib/lib.es2022.error.d.ts:26
@@ -48,7 +48,7 @@ Defined in: node\_modules/typescript/lib/lib.es2022.error.d.ts:26
 readonly code: NoReplyReceivedError = ErrorCode.NoReplyReceivedError;
 ```
 
-Defined in: [packages/socket-mode/src/errors.ts:66](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/errors.ts#L66)
+Defined in: [packages/socket-mode/src/errors.ts:67](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/errors.ts#L67)
 
 #### Overrides
 
@@ -87,7 +87,7 @@ Defined in: node\_modules/typescript/lib/lib.es5.d.ts:1076
 ### stack?
 
 ```ts
-optional stack?: string;
+stack?: string;
 ```
 
 Defined in: node\_modules/typescript/lib/lib.es5.d.ts:1078

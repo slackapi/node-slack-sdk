@@ -6,7 +6,8 @@ Defined in: [packages/web-api/src/types/request/admin/conversations.ts:48](https
 
 ## Extends
 
-- `ChannelIDs`.`TokenOverridable`
+- `ChannelIDs`
+- `TokenOverridable`
 
 ## Properties
 
@@ -24,16 +25,14 @@ An array of channel IDs (must include at least one ID).
 
 #### Inherited from
 
-```ts
-ChannelIDs.channel_ids
-```
+`ChannelIDs.channel_ids`
 
 ***
 
 ### token?
 
 ```ts
-optional token?: string;
+token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
@@ -44,6 +43,4 @@ Overridable authentication token bearing required scopes.
 
 #### Inherited from
 
-```ts
-TokenOverridable.token
-```
+`TokenOverridable.token`

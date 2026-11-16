@@ -13,47 +13,47 @@ Defined in: [packages/web-api/src/types/response/TeamExternalTeamsListResponse.t
 ### error?
 
 ```ts
-optional error?: string;
+error?: string;
 ```
 
 ### needed?
 
 ```ts
-optional needed?: string;
+needed?: string;
 ```
 
 ### ok?
 
 ```ts
-optional ok?: boolean;
+ok?: boolean;
 ```
 
 ### organizations?
 
 ```ts
-optional organizations?: Organization[];
+organizations?: Organization[];
 ```
 
 ### provided?
 
 ```ts
-optional provided?: string;
+provided?: string;
 ```
 
 ### response\_metadata?
 
 ```ts
-optional response_metadata?: ResponseMetadata;
+response_metadata?: ResponseMetadata;
 ```
 
 ### total\_count?
 
 ```ts
-optional total_count?: number;
+total_count?: number;
 ```
 
 ### warning?
 
 ```ts
-optional warning?: string;
+warning?: string;
 ```

@@ -2,7 +2,7 @@
 
 # Interface: RichTextInput
 
-Defined in: [block-kit/block-elements.ts:1060](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L1060)
+Defined in: [block-kit/block-elements.ts:1074](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L1074)
 
 ## Description
 
@@ -16,14 +16,17 @@ same experience you have writing messages in Slack.
 
 ## Extends
 
-- [`Actionable`](Actionable.md).[`Dispatchable`](Dispatchable.md).[`Focusable`](Focusable.md).[`Placeholdable`](Placeholdable.md)
+- [`Actionable`](Actionable.md)
+- [`Dispatchable`](Dispatchable.md)
+- [`Focusable`](Focusable.md)
+- [`Placeholdable`](Placeholdable.md)
 
 ## Properties
 
 ### action\_id?
 
 ```ts
-optional action_id?: string;
+action_id?: string;
 ```
 
 Defined in: [block-kit/extensions.ts:15](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/extensions.ts#L15)
@@ -41,7 +44,7 @@ among all other `action_id`s in the containing block. Maximum length for this fi
 ### dispatch\_action\_config?
 
 ```ts
-optional dispatch_action_config?: DispatchActionConfig;
+dispatch_action_config?: DispatchActionConfig;
 ```
 
 Defined in: [block-kit/extensions.ts:33](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/extensions.ts#L33)
@@ -60,7 +63,7 @@ A [DispatchActionConfig](DispatchActionConfig.md) object that determines when du
 ### focus\_on\_load?
 
 ```ts
-optional focus_on_load?: boolean;
+focus_on_load?: boolean;
 ```
 
 Defined in: [block-kit/extensions.ts:42](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/extensions.ts#L42)
@@ -80,10 +83,10 @@ Defaults to `false`.
 ### initial\_value?
 
 ```ts
-optional initial_value?: RichTextBlock;
+initial_value?: RichTextBlock;
 ```
 
-Defined in: [block-kit/block-elements.ts:1068](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L1068)
+Defined in: [block-kit/block-elements.ts:1082](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L1082)
 
 #### Description
 
@@ -94,10 +97,10 @@ Initial contents of the input when it is loaded.
 ### max\_lines?
 
 ```ts
-optional max_lines?: number;
+max_lines?: number;
 ```
 
-Defined in: [block-kit/block-elements.ts:1077](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L1077)
+Defined in: [block-kit/block-elements.ts:1091](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L1091)
 
 #### Description
 
@@ -109,10 +112,10 @@ Defaults to `8` when not specified.
 ### min\_lines?
 
 ```ts
-optional min_lines?: number;
+min_lines?: number;
 ```
 
-Defined in: [block-kit/block-elements.ts:1072](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L1072)
+Defined in: [block-kit/block-elements.ts:1086](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L1086)
 
 #### Description
 
@@ -123,7 +126,7 @@ The minimum number of lines of text shown in the input. Must be between 1 and 10
 ### placeholder?
 
 ```ts
-optional placeholder?: PlainTextElement;
+placeholder?: PlainTextElement;
 ```
 
 Defined in: [block-kit/extensions.ts:57](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/extensions.ts#L57)
@@ -145,7 +148,7 @@ length for the `text` field in this object is 150 characters.
 type: "rich_text_input";
 ```
 
-Defined in: [block-kit/block-elements.ts:1064](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L1064)
+Defined in: [block-kit/block-elements.ts:1078](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L1078)
 
 #### Description
 

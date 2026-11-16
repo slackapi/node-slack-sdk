@@ -82,6 +82,24 @@ export interface AdminAppsConfigSetArguments extends AppID, TokenOverridable {
   workflow_auth_strategy?: 'builder_choice' | 'end_user_only';
 }
 
+// https://docs.slack.dev/reference/methods/admin.apps.mcp.servers.list
+export type AdminAppsMcpServersListArguments = OptionalArgument<TokenOverridable & CursorPaginationEnabled>;
+
+// https://docs.slack.dev/reference/methods/admin.apps.mcp.servers.permissions.list
+export type AdminAppsMcpServersPermissionsListArguments = AppID & TokenOverridable;
+
+// https://docs.slack.dev/reference/methods/admin.apps.mcp.servers.permissions.set
+export interface AdminAppsMcpServersPermissionsSetArguments extends AppID, TokenOverridable {
+  /** @description Encoded ID of the MCP server. */
+  server_id: string;
+  /** @description The type of permission that defines who can use this MCP server. */
+  permission_type: 'everyone' | 'named_entities' | 'named_entities_exclude' | 'no_one';
+  /** @description List of user IDs to set for named_entities or named_entities_exclude. */
+  user_ids?: string[];
+  /** @description List of encoded usergroup IDs. */
+  usergroup_ids?: string[];
+}
+
 // https://docs.slack.dev/reference/methods/admin.apps.requests.cancel
 export type AdminAppsRequestsCancelArguments = RequestID & TeamOrEnterpriseID & TokenOverridable;
 
