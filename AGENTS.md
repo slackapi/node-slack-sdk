@@ -109,7 +109,7 @@ Block Kit types are defined in the `@slack/types` package. See `packages/types/A
 
 ## Pull Requests
 
-When opening a pull request, use the repository's PR template at `.github/pull_request_template.md` as the PR body — the `gh` CLI does not populate it automatically, so pass the filled-in template explicitly (e.g. via `gh pr create --body-file`). Fill in every section.
+When opening a pull request, use the repository's PR template at `.github/PULL_REQUEST_TEMPLATE.md` as the PR body — the `gh` CLI does not populate it automatically, so pass the filled-in template explicitly (e.g. via `gh pr create --body-file`). Fill in every section.
 
 ## Common Pitfalls
 
