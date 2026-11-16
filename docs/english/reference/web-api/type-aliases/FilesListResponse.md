@@ -13,41 +13,41 @@ Defined in: [packages/web-api/src/types/response/FilesListResponse.ts:11](https:
 ### error?
 
 ```ts
-optional error?: string;
+error?: string;
 ```
 
 ### files?
 
 ```ts
-optional files?: File[];
+files?: File[];
 ```
 
 ### needed?
 
 ```ts
-optional needed?: string;
+needed?: string;
 ```
 
 ### ok?
 
 ```ts
-optional ok?: boolean;
+ok?: boolean;
 ```
 
 ### paging?
 
 ```ts
-optional paging?: Paging;
+paging?: Paging;
 ```
 
 ### provided?
 
 ```ts
-optional provided?: string;
+provided?: string;
 ```
 
 ### warning?
 
 ```ts
-optional warning?: string;
+warning?: string;
 ```

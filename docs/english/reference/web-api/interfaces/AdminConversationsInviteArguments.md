@@ -6,7 +6,9 @@ Defined in: [packages/web-api/src/types/request/admin/conversations.ts:119](http
 
 ## Extends
 
-- `ChannelID`.`UserIDs`.`TokenOverridable`
+- `ChannelID`
+- `UserIDs`
+- `TokenOverridable`
 
 ## Properties
 
@@ -24,16 +26,14 @@ Encoded channel ID.
 
 #### Inherited from
 
-```ts
-ChannelID.channel_id
-```
+`ChannelID.channel_id`
 
 ***
 
 ### token?
 
 ```ts
-optional token?: string;
+token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
@@ -44,9 +44,7 @@ Overridable authentication token bearing required scopes.
 
 #### Inherited from
 
-```ts
-TokenOverridable.token
-```
+`TokenOverridable.token`
 
 ***
 
@@ -64,6 +62,4 @@ List of encoded user IDs.
 
 #### Inherited from
 
-```ts
-UserIDs.user_ids
-```
+`UserIDs.user_ids`

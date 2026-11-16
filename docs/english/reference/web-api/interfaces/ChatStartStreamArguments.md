@@ -6,7 +6,10 @@ Defined in: [packages/web-api/src/types/request/chat.ts:242](https://github.com/
 
 ## Extends
 
-- `TokenOverridable`.`Channel`.`Partial`\<`MarkdownText`\>.`ThreadTS`
+- `TokenOverridable`
+- `Channel`
+- `Partial`\<`MarkdownText`\>
+- `ThreadTS`
 
 ## Properties
 
@@ -24,16 +27,14 @@ Channel ID for the message.
 
 #### Inherited from
 
-```ts
-Channel.channel
-```
+`Channel.channel`
 
 ***
 
 ### chunks?
 
 ```ts
-optional chunks?: AnyChunk[];
+chunks?: AnyChunk[];
 ```
 
 Defined in: [packages/web-api/src/types/request/chat.ts:247](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L247)
@@ -48,7 +49,7 @@ Either `markdown_text` or `chunks` is required.
 ### icon\_emoji?
 
 ```ts
-optional icon_emoji?: string;
+icon_emoji?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/chat.ts:267](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L267)
@@ -68,7 +69,7 @@ Emoji to use as the icon for this message. Overrides `icon_url`.
 ### icon\_url?
 
 ```ts
-optional icon_url?: string;
+icon_url?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/chat.ts:272](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L272)
@@ -88,7 +89,7 @@ http://lorempixel.com/48/48
 ### markdown\_text?
 
 ```ts
-optional markdown_text?: string;
+markdown_text?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/chat.ts:63](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L63)
@@ -105,16 +106,14 @@ Accepts message text formatted in markdown. This argument should not be used in 
 
 #### Inherited from
 
-```ts
-Partial.markdown_text
-```
+`Partial.markdown_text`
 
 ***
 
 ### recipient\_team\_id?
 
 ```ts
-optional recipient_team_id?: string;
+recipient_team_id?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/chat.ts:252](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L252)
@@ -129,7 +128,7 @@ This is required when starting a streaming conversation outside of a DM.
 ### recipient\_user\_id?
 
 ```ts
-optional recipient_user_id?: string;
+recipient_user_id?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/chat.ts:257](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L257)
@@ -144,7 +143,7 @@ This is required when starting a streaming conversation outside of a DM.
 ### task\_display\_mode?
 
 ```ts
-optional task_display_mode?: string;
+task_display_mode?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/chat.ts:262](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L262)
@@ -171,16 +170,14 @@ value; use its parent's value instead.
 
 #### Inherited from
 
-```ts
-ThreadTS.thread_ts
-```
+`ThreadTS.thread_ts`
 
 ***
 
 ### token?
 
 ```ts
-optional token?: string;
+token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
@@ -191,16 +188,14 @@ Overridable authentication token bearing required scopes.
 
 #### Inherited from
 
-```ts
-TokenOverridable.token
-```
+`TokenOverridable.token`
 
 ***
 
 ### username?
 
 ```ts
-optional username?: string;
+username?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/chat.ts:277](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L277)

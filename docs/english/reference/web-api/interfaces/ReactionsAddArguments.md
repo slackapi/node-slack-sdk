@@ -6,7 +6,9 @@ Defined in: [packages/web-api/src/types/request/reactions.ts:21](https://github.
 
 ## Extends
 
-- `MessageArgument`.`TokenOverridable`.`ReactionName`
+- `MessageArgument`
+- `TokenOverridable`
+- `ReactionName`
 
 ## Properties
 
@@ -24,9 +26,7 @@ Channel where the message was posted.
 
 #### Inherited from
 
-```ts
-MessageArgument.channel
-```
+`MessageArgument.channel`
 
 ***
 
@@ -44,9 +44,7 @@ Reaction (emoji) name.
 
 #### Inherited from
 
-```ts
-ReactionName.name
-```
+`ReactionName.name`
 
 ***
 
@@ -64,16 +62,14 @@ Timestamp of the message.
 
 #### Inherited from
 
-```ts
-MessageArgument.timestamp
-```
+`MessageArgument.timestamp`
 
 ***
 
 ### token?
 
 ```ts
-optional token?: string;
+token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
@@ -84,6 +80,4 @@ Overridable authentication token bearing required scopes.
 
 #### Inherited from
 
-```ts
-TokenOverridable.token
-```
+`TokenOverridable.token`

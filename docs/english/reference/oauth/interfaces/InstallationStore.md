@@ -9,7 +9,7 @@ Defined in: [packages/oauth/src/installation-stores/interface.ts:5](https://gith
 ### deleteInstallation?
 
 ```ts
-optional deleteInstallation?: (query, logger?) => Promise<void>;
+deleteInstallation?: (query, logger?) => Promise<void>;
 ```
 
 Defined in: [packages/oauth/src/installation-stores/interface.ts:16](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/installation-stores/interface.ts#L16)

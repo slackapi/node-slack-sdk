@@ -6,7 +6,8 @@ Defined in: [packages/web-api/src/types/request/reminders.ts:40](https://github.
 
 ## Extends
 
-- `TokenOverridable`.`OptionalTeamAssignable`
+- `TokenOverridable`
+- `OptionalTeamAssignable`
 
 ## Properties
 
@@ -27,7 +28,7 @@ The ID of the reminder to be marked as complete.
 ### team\_id?
 
 ```ts
-optional team_id?: string;
+team_id?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:70](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L70)
@@ -38,16 +39,14 @@ If using an org token, `team_id` is required.
 
 #### Inherited from
 
-```ts
-OptionalTeamAssignable.team_id
-```
+`OptionalTeamAssignable.team_id`
 
 ***
 
 ### token?
 
 ```ts
-optional token?: string;
+token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
@@ -58,6 +57,4 @@ Overridable authentication token bearing required scopes.
 
 #### Inherited from
 
-```ts
-TokenOverridable.token
-```
+`TokenOverridable.token`

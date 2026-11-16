@@ -6,7 +6,8 @@ Defined in: [packages/web-api/src/types/request/admin/conversations.ts:208](http
 
 ## Extends
 
-- `ChannelID`.`TokenOverridable`
+- `ChannelID`
+- `TokenOverridable`
 
 ## Properties
 
@@ -24,16 +25,14 @@ Encoded channel ID.
 
 #### Inherited from
 
-```ts
-ChannelID.channel_id
-```
+`ChannelID.channel_id`
 
 ***
 
 ### org\_channel?
 
 ```ts
-optional org_channel?: boolean;
+org_channel?: boolean;
 ```
 
 Defined in: [packages/web-api/src/types/request/admin/conversations.ts:210](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/conversations.ts#L210)
@@ -47,7 +46,7 @@ Set to `true` if channel has to be converted to an org channel. Defaults to `fal
 ### target\_team\_ids?
 
 ```ts
-optional target_team_ids?: string[];
+target_team_ids?: string[];
 ```
 
 Defined in: [packages/web-api/src/types/request/admin/conversations.ts:215](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/conversations.ts#L215)
@@ -62,7 +61,7 @@ Not required if the channel is being shared org-wide.
 ### team\_id?
 
 ```ts
-optional team_id?: string;
+team_id?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/admin/conversations.ts:220](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/conversations.ts#L220)
@@ -77,7 +76,7 @@ Omit this argument if the channel is a cross-workspace shared channel.
 ### token?
 
 ```ts
-optional token?: string;
+token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
@@ -88,6 +87,4 @@ Overridable authentication token bearing required scopes.
 
 #### Inherited from
 
-```ts
-TokenOverridable.token
-```
+`TokenOverridable.token`

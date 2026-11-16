@@ -13,41 +13,41 @@ Defined in: [packages/web-api/src/types/response/WorkflowsFeaturedListResponse.t
 ### error?
 
 ```ts
-optional error?: string;
+error?: string;
 ```
 
 ### featured\_workflows?
 
 ```ts
-optional featured_workflows?: FeaturedWorkflow[];
+featured_workflows?: FeaturedWorkflow[];
 ```
 
 ### invalid\_channel\_ids?
 
 ```ts
-optional invalid_channel_ids?: string[];
+invalid_channel_ids?: string[];
 ```
 
 ### needed?
 
 ```ts
-optional needed?: string;
+needed?: string;
 ```
 
 ### ok?
 
 ```ts
-optional ok?: boolean;
+ok?: boolean;
 ```
 
 ### provided?
 
 ```ts
-optional provided?: string;
+provided?: string;
 ```
 
 ### warning?
 
 ```ts
-optional warning?: string;
+warning?: string;
 ```

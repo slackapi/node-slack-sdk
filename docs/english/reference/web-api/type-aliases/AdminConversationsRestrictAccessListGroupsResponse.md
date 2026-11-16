@@ -13,35 +13,35 @@ Defined in: [packages/web-api/src/types/response/AdminConversationsRestrictAcces
 ### error?
 
 ```ts
-optional error?: string;
+error?: string;
 ```
 
 ### group\_ids?
 
 ```ts
-optional group_ids?: string[];
+group_ids?: string[];
 ```
 
 ### needed?
 
 ```ts
-optional needed?: string;
+needed?: string;
 ```
 
 ### ok?
 
 ```ts
-optional ok?: boolean;
+ok?: boolean;
 ```
 
 ### provided?
 
 ```ts
-optional provided?: string;
+provided?: string;
 ```
 
 ### response\_metadata?
 
 ```ts
-optional response_metadata?: ResponseMetadata;
+response_metadata?: ResponseMetadata;
 ```

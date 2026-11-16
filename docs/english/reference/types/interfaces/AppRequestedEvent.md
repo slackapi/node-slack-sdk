@@ -53,73 +53,73 @@ help_url: string;
 ##### app.icons?
 
 ```ts
-optional icons?: object;
+icons?: object;
 ```
 
 ##### app.icons.image\_1024?
 
 ```ts
-optional image_1024?: string;
+image_1024?: string;
 ```
 
 ##### app.icons.image\_128?
 
 ```ts
-optional image_128?: string;
+image_128?: string;
 ```
 
 ##### app.icons.image\_192?
 
 ```ts
-optional image_192?: string;
+image_192?: string;
 ```
 
 ##### app.icons.image\_32?
 
 ```ts
-optional image_32?: string;
+image_32?: string;
 ```
 
 ##### app.icons.image\_36?
 
 ```ts
-optional image_36?: string;
+image_36?: string;
 ```
 
 ##### app.icons.image\_48?
 
 ```ts
-optional image_48?: string;
+image_48?: string;
 ```
 
 ##### app.icons.image\_512?
 
 ```ts
-optional image_512?: string;
+image_512?: string;
 ```
 
 ##### app.icons.image\_64?
 
 ```ts
-optional image_64?: string;
+image_64?: string;
 ```
 
 ##### app.icons.image\_72?
 
 ```ts
-optional image_72?: string;
+image_72?: string;
 ```
 
 ##### app.icons.image\_96?
 
 ```ts
-optional image_96?: string;
+image_96?: string;
 ```
 
 ##### app.icons.image\_original?
 
 ```ts
-optional image_original?: string;
+image_original?: string;
 ```
 
 ##### app.id

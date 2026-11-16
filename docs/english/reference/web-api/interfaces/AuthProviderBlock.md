@@ -21,7 +21,7 @@ Displays authentication provider information, including its icon, name, and conn
 ### accessory?
 
 ```ts
-optional accessory?: Overflow;
+accessory?: Overflow;
 ```
 
 Defined in: packages/types/dist/block-kit/blocks.d.ts:122
@@ -35,7 +35,7 @@ An [Overflow](Overflow.md) menu shown when connected, e.g. Disconnect or Re-auth
 ### auth\_url?
 
 ```ts
-optional auth_url?: string;
+auth_url?: string;
 ```
 
 Defined in: packages/types/dist/block-kit/blocks.d.ts:103
@@ -50,7 +50,7 @@ app manifest's `features.user_connections.auth_hosts`. Maximum length for this f
 ### block\_id?
 
 ```ts
-optional block_id?: string;
+block_id?: string;
 ```
 
 Defined in: packages/types/dist/block-kit/blocks.d.ts:15
@@ -72,7 +72,7 @@ a message. If a message is updated, use a new `block_id`.
 ### connected\_context?
 
 ```ts
-optional connected_context?: PlainTextElement;
+connected_context?: PlainTextElement;
 ```
 
 Defined in: packages/types/dist/block-kit/blocks.d.ts:118
@@ -87,7 +87,7 @@ workspace name. Maximum length for the text in this field is 75 characters.
 ### connected\_identity?
 
 ```ts
-optional connected_identity?: PlainTextElement;
+connected_identity?: PlainTextElement;
 ```
 
 Defined in: packages/types/dist/block-kit/blocks.d.ts:113
@@ -102,7 +102,7 @@ Display name of the connected account in the form of a [PlainTextElement](PlainT
 ### description?
 
 ```ts
-optional description?: PlainTextElement;
+description?: PlainTextElement;
 ```
 
 Defined in: packages/types/dist/block-kit/blocks.d.ts:93
@@ -117,7 +117,7 @@ Maximum length for the text in this field is 150 characters.
 ### disconnect\_url?
 
 ```ts
-optional disconnect_url?: string;
+disconnect_url?: string;
 ```
 
 Defined in: packages/types/dist/block-kit/blocks.d.ts:108
@@ -132,7 +132,7 @@ manifest's `features.user_connections.auth_hosts`. Maximum length for this field
 ### fallback?
 
 ```ts
-optional fallback?: KnownBlock[];
+fallback?: KnownBlock[];
 ```
 
 Defined in: packages/types/dist/block-kit/blocks.d.ts:127
@@ -147,7 +147,7 @@ An array of stable [KnownBlock](../type-aliases/KnownBlock.md) objects rendered 
 ### icon\_url?
 
 ```ts
-optional icon_url?: string;
+icon_url?: string;
 ```
 
 Defined in: packages/types/dist/block-kit/blocks.d.ts:98

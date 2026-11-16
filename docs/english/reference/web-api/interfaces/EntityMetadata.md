@@ -13,7 +13,7 @@ Metadata that represents a work object entity.
 ### app\_unfurl\_url?
 
 ```ts
-optional app_unfurl_url?: string;
+app_unfurl_url?: string;
 ```
 
 Defined in: packages/types/dist/message-metadata.d.ts:56
@@ -35,19 +35,19 @@ Defined in: packages/types/dist/message-metadata.d.ts:34
 #### actions?
 
 ```ts
-optional actions?: object;
+actions?: object;
 ```
 
 ##### actions.overflow\_actions?
 
 ```ts
-optional overflow_actions?: EntityActionButton[];
+overflow_actions?: EntityActionButton[];
 ```
 
 ##### actions.primary\_actions?
 
 ```ts
-optional primary_actions?: EntityActionButton[];
+primary_actions?: EntityActionButton[];
 ```
 
 #### attributes
@@ -59,19 +59,19 @@ attributes: EntityAttributes;
 #### custom\_fields?
 
 ```ts
-optional custom_fields?: EntityCustomField[];
+custom_fields?: EntityCustomField[];
 ```
 
 #### display\_order?
 
 ```ts
-optional display_order?: string[];
+display_order?: string[];
 ```
 
 #### fields?
 
 ```ts
-optional fields?: 
+fields?: 
   | ContentItemEntityFields
   | FileEntityFields
   | IncidentEntityFields
@@ -81,7 +81,7 @@ optional fields?:
 #### slack\_file?
 
 ```ts
-optional slack_file?: FileEntitySlackFile;
+slack_file?: FileEntitySlackFile;
 ```
 
 #### Description

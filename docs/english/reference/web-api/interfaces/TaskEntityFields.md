@@ -9,7 +9,7 @@ Defined in: packages/types/dist/message-metadata.d.ts:135
 ### assignee?
 
 ```ts
-optional assignee?: EntityTypedField;
+assignee?: EntityTypedField;
 ```
 
 Defined in: packages/types/dist/message-metadata.d.ts:140
@@ -19,7 +19,7 @@ Defined in: packages/types/dist/message-metadata.d.ts:140
 ### created\_by?
 
 ```ts
-optional created_by?: EntityTypedField;
+created_by?: EntityTypedField;
 ```
 
 Defined in: packages/types/dist/message-metadata.d.ts:137
@@ -29,7 +29,7 @@ Defined in: packages/types/dist/message-metadata.d.ts:137
 ### date\_created?
 
 ```ts
-optional date_created?: EntityTimestampField;
+date_created?: EntityTimestampField;
 ```
 
 Defined in: packages/types/dist/message-metadata.d.ts:138
@@ -39,7 +39,7 @@ Defined in: packages/types/dist/message-metadata.d.ts:138
 ### date\_updated?
 
 ```ts
-optional date_updated?: EntityTimestampField;
+date_updated?: EntityTimestampField;
 ```
 
 Defined in: packages/types/dist/message-metadata.d.ts:139
@@ -49,7 +49,7 @@ Defined in: packages/types/dist/message-metadata.d.ts:139
 ### description?
 
 ```ts
-optional description?: EntityStringField;
+description?: EntityStringField;
 ```
 
 Defined in: packages/types/dist/message-metadata.d.ts:136
@@ -59,7 +59,7 @@ Defined in: packages/types/dist/message-metadata.d.ts:136
 ### due\_date?
 
 ```ts
-optional due_date?: EntityTypedField;
+due_date?: EntityTypedField;
 ```
 
 Defined in: packages/types/dist/message-metadata.d.ts:142
@@ -69,7 +69,7 @@ Defined in: packages/types/dist/message-metadata.d.ts:142
 ### priority?
 
 ```ts
-optional priority?: EntityStringField;
+priority?: EntityStringField;
 ```
 
 Defined in: packages/types/dist/message-metadata.d.ts:143
@@ -79,7 +79,7 @@ Defined in: packages/types/dist/message-metadata.d.ts:143
 ### status?
 
 ```ts
-optional status?: EntityStringField;
+status?: EntityStringField;
 ```
 
 Defined in: packages/types/dist/message-metadata.d.ts:141

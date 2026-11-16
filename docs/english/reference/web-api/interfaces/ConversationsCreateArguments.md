@@ -6,14 +6,16 @@ Defined in: [packages/web-api/src/types/request/conversations.ts:75](https://git
 
 ## Extends
 
-- `IsPrivate`.`TokenOverridable`.`OptionalTeamAssignable`
+- `IsPrivate`
+- `TokenOverridable`
+- `OptionalTeamAssignable`
 
 ## Properties
 
 ### is\_private?
 
 ```ts
-optional is_private?: boolean;
+is_private?: boolean;
 ```
 
 Defined in: [packages/web-api/src/types/request/conversations.ts:32](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/conversations.ts#L32)
@@ -24,9 +26,7 @@ Whether the channel should be private.
 
 #### Inherited from
 
-```ts
-IsPrivate.is_private
-```
+`IsPrivate.is_private`
 
 ***
 
@@ -47,7 +47,7 @@ Name of the public or private channel to create.
 ### team\_id?
 
 ```ts
-optional team_id?: string;
+team_id?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:70](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L70)
@@ -58,16 +58,14 @@ If using an org token, `team_id` is required.
 
 #### Inherited from
 
-```ts
-OptionalTeamAssignable.team_id
-```
+`OptionalTeamAssignable.team_id`
 
 ***
 
 ### token?
 
 ```ts
-optional token?: string;
+token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
@@ -78,6 +76,4 @@ Overridable authentication token bearing required scopes.
 
 #### Inherited from
 
-```ts
-TokenOverridable.token
-```
+`TokenOverridable.token`

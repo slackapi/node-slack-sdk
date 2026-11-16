@@ -6,7 +6,8 @@ Defined in: [packages/web-api/src/types/request/pins.ts:4](https://github.com/sl
 
 ## Extends
 
-- `MessageArgument`.`TokenOverridable`
+- `MessageArgument`
+- `TokenOverridable`
 
 ## Properties
 
@@ -24,9 +25,7 @@ Channel where the message was posted.
 
 #### Inherited from
 
-```ts
-MessageArgument.channel
-```
+`MessageArgument.channel`
 
 ***
 
@@ -44,16 +43,14 @@ Timestamp of the message.
 
 #### Inherited from
 
-```ts
-MessageArgument.timestamp
-```
+`MessageArgument.timestamp`
 
 ***
 
 ### token?
 
 ```ts
-optional token?: string;
+token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
@@ -64,6 +61,4 @@ Overridable authentication token bearing required scopes.
 
 #### Inherited from
 
-```ts
-TokenOverridable.token
-```
+`TokenOverridable.token`

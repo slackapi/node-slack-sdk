@@ -2,7 +2,7 @@
 
 # Class: SMWebsocketError
 
-Defined in: [packages/socket-mode/src/errors.ts:55](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/errors.ts#L55)
+Defined in: [packages/socket-mode/src/errors.ts:56](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/errors.ts#L56)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [packages/socket-mode/src/errors.ts:55](https://github.com/slackapi/
 new SMWebsocketError(original): SMWebsocketError;
 ```
 
-Defined in: [packages/socket-mode/src/errors.ts:59](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/errors.ts#L59)
+Defined in: [packages/socket-mode/src/errors.ts:60](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/errors.ts#L60)
 
 #### Parameters
 
@@ -37,7 +37,7 @@ Defined in: [packages/socket-mode/src/errors.ts:59](https://github.com/slackapi/
 ### cause?
 
 ```ts
-optional cause?: unknown;
+cause?: unknown;
 ```
 
 Defined in: node\_modules/typescript/lib/lib.es2022.error.d.ts:26
@@ -54,7 +54,7 @@ Defined in: node\_modules/typescript/lib/lib.es2022.error.d.ts:26
 readonly code: WebsocketError = ErrorCode.WebsocketError;
 ```
 
-Defined in: [packages/socket-mode/src/errors.ts:56](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/errors.ts#L56)
+Defined in: [packages/socket-mode/src/errors.ts:57](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/errors.ts#L57)
 
 #### Overrides
 
@@ -96,14 +96,14 @@ Defined in: node\_modules/typescript/lib/lib.es5.d.ts:1076
 readonly original: Error;
 ```
 
-Defined in: [packages/socket-mode/src/errors.ts:57](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/errors.ts#L57)
+Defined in: [packages/socket-mode/src/errors.ts:58](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/errors.ts#L58)
 
 ***
 
 ### stack?
 
 ```ts
-optional stack?: string;
+stack?: string;
 ```
 
 Defined in: node\_modules/typescript/lib/lib.es5.d.ts:1078

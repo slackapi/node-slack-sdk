@@ -2,7 +2,7 @@
 
 # Abstract Class: SlackSocketModeError
 
-Defined in: [packages/socket-mode/src/errors.ts:35](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/errors.ts#L35)
+Defined in: [packages/socket-mode/src/errors.ts:36](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/errors.ts#L36)
 
 ## Extends
 
@@ -10,6 +10,7 @@ Defined in: [packages/socket-mode/src/errors.ts:35](https://github.com/slackapi/
 
 ## Extended by
 
+- [`SMConnectAbortedError`](SMConnectAbortedError.md)
 - [`SMNoReplyReceivedError`](SMNoReplyReceivedError.md)
 - [`SMPlatformError`](SMPlatformError.md)
 - [`SMSendWhileDisconnectedError`](SMSendWhileDisconnectedError.md)
@@ -24,7 +25,7 @@ Defined in: [packages/socket-mode/src/errors.ts:35](https://github.com/slackapi/
 new SlackSocketModeError(message, options?): SlackSocketModeError;
 ```
 
-Defined in: [packages/socket-mode/src/errors.ts:38](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/errors.ts#L38)
+Defined in: [packages/socket-mode/src/errors.ts:39](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/errors.ts#L39)
 
 #### Parameters
 
@@ -42,25 +43,21 @@ Defined in: [packages/socket-mode/src/errors.ts:38](https://github.com/slackapi/
 
 #### Overrides
 
-```ts
-Error.constructor
-```
+`Error.constructor`
 
 ## Properties
 
 ### cause?
 
 ```ts
-optional cause?: unknown;
+cause?: unknown;
 ```
 
 Defined in: node\_modules/typescript/lib/lib.es2022.error.d.ts:26
 
 #### Inherited from
 
-```ts
-Error.cause
-```
+`Error.cause`
 
 ***
 
@@ -70,7 +67,7 @@ Error.cause
 abstract readonly code: ErrorCode;
 ```
 
-Defined in: [packages/socket-mode/src/errors.ts:36](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/errors.ts#L36)
+Defined in: [packages/socket-mode/src/errors.ts:37](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/errors.ts#L37)
 
 ***
 
@@ -84,9 +81,7 @@ Defined in: node\_modules/typescript/lib/lib.es5.d.ts:1077
 
 #### Inherited from
 
-```ts
-Error.message
-```
+`Error.message`
 
 ***
 
@@ -100,25 +95,21 @@ Defined in: node\_modules/typescript/lib/lib.es5.d.ts:1076
 
 #### Inherited from
 
-```ts
-Error.name
-```
+`Error.name`
 
 ***
 
 ### stack?
 
 ```ts
-optional stack?: string;
+stack?: string;
 ```
 
 Defined in: node\_modules/typescript/lib/lib.es5.d.ts:1078
 
 #### Inherited from
 
-```ts
-Error.stack
-```
+`Error.stack`
 
 ***
 
@@ -142,9 +133,7 @@ not capture any frames.
 
 #### Inherited from
 
-```ts
-Error.stackTraceLimit
-```
+`Error.stackTraceLimit`
 
 ## Methods
 
@@ -216,9 +205,7 @@ a();
 
 #### Inherited from
 
-```ts
-Error.captureStackTrace
-```
+`Error.captureStackTrace`
 
 ***
 
@@ -250,6 +237,4 @@ https://v8.dev/docs/stack-trace-api#customizing-stack-traces
 
 #### Inherited from
 
-```ts
-Error.prepareStackTrace
-```
+`Error.prepareStackTrace`

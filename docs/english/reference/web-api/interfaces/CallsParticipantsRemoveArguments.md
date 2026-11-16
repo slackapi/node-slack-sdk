@@ -6,7 +6,9 @@ Defined in: [packages/web-api/src/types/request/calls.ts:63](https://github.com/
 
 ## Extends
 
-- `ID`.`Users`.`TokenOverridable`
+- `ID`
+- `Users`
+- `TokenOverridable`
 
 ## Properties
 
@@ -24,16 +26,14 @@ Defined in: [packages/web-api/src/types/request/calls.ts:6](https://github.com/s
 
 #### Inherited from
 
-```ts
-ID.id
-```
+`ID.id`
 
 ***
 
 ### token?
 
 ```ts
-optional token?: string;
+token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
@@ -44,9 +44,7 @@ Overridable authentication token bearing required scopes.
 
 #### Inherited from
 
-```ts
-TokenOverridable.token
-```
+`TokenOverridable.token`
 
 ***
 
@@ -68,6 +66,4 @@ The list of users to add/remove to/from the Call.
 
 #### Inherited from
 
-```ts
-Users.users
-```
+`Users.users`

@@ -19,14 +19,15 @@ overflow menu options, instead of actions.
 
 ## Extends
 
-- [`Actionable`](Actionable.md).[`Confirmable`](Confirmable.md)
+- [`Actionable`](Actionable.md)
+- [`Confirmable`](Confirmable.md)
 
 ## Properties
 
 ### action\_id?
 
 ```ts
-optional action_id?: string;
+action_id?: string;
 ```
 
 Defined in: [block-kit/extensions.ts:15](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/extensions.ts#L15)
@@ -44,7 +45,7 @@ among all other `action_id`s in the containing block. Maximum length for this fi
 ### confirm?
 
 ```ts
-optional confirm?: ConfirmationDialog;
+confirm?: ConfirmationDialog;
 ```
 
 Defined in: [block-kit/extensions.ts:25](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/extensions.ts#L25)

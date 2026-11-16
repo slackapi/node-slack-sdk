@@ -6,7 +6,8 @@ Defined in: [packages/web-api/src/types/request/conversations.ts:237](https://gi
 
 ## Extends
 
-- `Channel`.`TokenOverridable`
+- `Channel`
+- `TokenOverridable`
 
 ## Properties
 
@@ -24,9 +25,7 @@ ID of conversation.
 
 #### Inherited from
 
-```ts
-Channel.channel
-```
+`Channel.channel`
 
 ***
 
@@ -47,7 +46,7 @@ A new, specialer purpose.
 ### token?
 
 ```ts
-optional token?: string;
+token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
@@ -58,6 +57,4 @@ Overridable authentication token bearing required scopes.
 
 #### Inherited from
 
-```ts
-TokenOverridable.token
-```
+`TokenOverridable.token`

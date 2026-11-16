@@ -6,14 +6,15 @@ Defined in: [packages/web-api/src/types/request/reminders.ts:17](https://github.
 
 ## Extends
 
-- `TokenOverridable`.`OptionalTeamAssignable`
+- `TokenOverridable`
+- `OptionalTeamAssignable`
 
 ## Properties
 
 ### recurrence?
 
 ```ts
-optional recurrence?: ReminderRecurrence;
+recurrence?: ReminderRecurrence;
 ```
 
 Defined in: [packages/web-api/src/types/request/reminders.ts:37](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/reminders.ts#L37)
@@ -28,7 +29,7 @@ you must also set the `weekdays` array to specify which days of the week to recu
 ### team\_id?
 
 ```ts
-optional team_id?: string;
+team_id?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:70](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L70)
@@ -39,9 +40,7 @@ If using an org token, `team_id` is required.
 
 #### Inherited from
 
-```ts
-OptionalTeamAssignable.team_id
-```
+`OptionalTeamAssignable.team_id`
 
 ***
 
@@ -79,7 +78,7 @@ When this reminder should happen, one of:
 ### token?
 
 ```ts
-optional token?: string;
+token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
@@ -90,16 +89,14 @@ Overridable authentication token bearing required scopes.
 
 #### Inherited from
 
-```ts
-TokenOverridable.token
-```
+`TokenOverridable.token`
 
 ***
 
 ### ~~user?~~
 
 ```ts
-optional user?: string;
+user?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/reminders.ts:32](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/reminders.ts#L32)

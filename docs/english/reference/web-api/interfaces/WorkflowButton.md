@@ -14,14 +14,15 @@ Allows users to run a [link trigger](https://docs.slack.dev/tools/deno-slack-sdk
 
 ## Extends
 
-- [`Actionable`](Actionable.md).[`Confirmable`](Confirmable.md)
+- [`Actionable`](Actionable.md)
+- [`Confirmable`](Confirmable.md)
 
 ## Properties
 
 ### accessibility\_label?
 
 ```ts
-optional accessibility_label?: string;
+accessibility_label?: string;
 ```
 
 Defined in: packages/types/dist/block-kit/block-elements.d.ts:708
@@ -36,7 +37,7 @@ readers instead of the button `text` object. Maximum length for this field is 75
 ### action\_id?
 
 ```ts
-optional action_id?: string;
+action_id?: string;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:12
@@ -54,7 +55,7 @@ among all other `action_id`s in the containing block. Maximum length for this fi
 ### confirm?
 
 ```ts
-optional confirm?: ConfirmationDialog;
+confirm?: ConfirmationDialog;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:21
@@ -73,7 +74,7 @@ with.
 ### style?
 
 ```ts
-optional style?: ColorScheme;
+style?: ColorScheme;
 ```
 
 Defined in: packages/types/dist/block-kit/block-elements.d.ts:703
@@ -144,7 +145,7 @@ that will be invoked via this button.
 ##### trigger.customizable\_input\_parameters?
 
 ```ts
-optional customizable_input_parameters?: object[];
+customizable_input_parameters?: object[];
 ```
 
 ###### Description

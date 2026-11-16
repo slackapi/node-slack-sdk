@@ -16,14 +16,18 @@ in the active workspace.
 
 ## Extends
 
-- [`Actionable`](Actionable.md).[`Confirmable`](Confirmable.md).[`Focusable`](Focusable.md).[`Placeholdable`](Placeholdable.md).[`URLRespondable`](URLRespondable.md)
+- [`Actionable`](Actionable.md)
+- [`Confirmable`](Confirmable.md)
+- [`Focusable`](Focusable.md)
+- [`Placeholdable`](Placeholdable.md)
+- [`URLRespondable`](URLRespondable.md)
 
 ## Properties
 
 ### action\_id?
 
 ```ts
-optional action_id?: string;
+action_id?: string;
 ```
 
 Defined in: [block-kit/extensions.ts:15](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/extensions.ts#L15)
@@ -41,7 +45,7 @@ among all other `action_id`s in the containing block. Maximum length for this fi
 ### confirm?
 
 ```ts
-optional confirm?: ConfirmationDialog;
+confirm?: ConfirmationDialog;
 ```
 
 Defined in: [block-kit/extensions.ts:25](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/extensions.ts#L25)
@@ -60,7 +64,7 @@ with.
 ### focus\_on\_load?
 
 ```ts
-optional focus_on_load?: boolean;
+focus_on_load?: boolean;
 ```
 
 Defined in: [block-kit/extensions.ts:42](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/extensions.ts#L42)
@@ -80,7 +84,7 @@ Defaults to `false`.
 ### initial\_channel?
 
 ```ts
-optional initial_channel?: string;
+initial_channel?: string;
 ```
 
 Defined in: [block-kit/block-elements.ts:503](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L503)
@@ -94,7 +98,7 @@ The ID of any valid public channel to be pre-selected when the menu loads.
 ### placeholder?
 
 ```ts
-optional placeholder?: PlainTextElement;
+placeholder?: PlainTextElement;
 ```
 
 Defined in: [block-kit/extensions.ts:57](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/extensions.ts#L57)
@@ -113,7 +117,7 @@ length for the `text` field in this object is 150 characters.
 ### response\_url\_enabled?
 
 ```ts
-optional response_url_enabled?: boolean;
+response_url_enabled?: boolean;
 ```
 
 Defined in: [block-kit/extensions.ts:67](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/extensions.ts#L67)

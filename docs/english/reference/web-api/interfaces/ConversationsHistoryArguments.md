@@ -6,7 +6,11 @@ Defined in: [packages/web-api/src/types/request/conversations.ts:93](https://git
 
 ## Extends
 
-- `Channel`.`IncludeAllMetadata`.`TokenOverridable`.`CursorPaginationEnabled`.`TimelinePaginationEnabled`
+- `Channel`
+- `IncludeAllMetadata`
+- `TokenOverridable`
+- `CursorPaginationEnabled`
+- `TimelinePaginationEnabled`
 
 ## Properties
 
@@ -24,16 +28,14 @@ ID of conversation.
 
 #### Inherited from
 
-```ts
-Channel.channel
-```
+`Channel.channel`
 
 ***
 
 ### cursor?
 
 ```ts
-optional cursor?: string;
+cursor?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:16](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L16)
@@ -50,16 +52,14 @@ Default value fetches the first "page" of the collection.
 
 #### Inherited from
 
-```ts
-CursorPaginationEnabled.cursor
-```
+`CursorPaginationEnabled.cursor`
 
 ***
 
 ### include\_all\_metadata?
 
 ```ts
-optional include_all_metadata?: boolean;
+include_all_metadata?: boolean;
 ```
 
 Defined in: [packages/web-api/src/types/request/conversations.ts:24](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/conversations.ts#L24)
@@ -70,16 +70,14 @@ Return all metadata associated with messages. Defaults to `false`.
 
 #### Inherited from
 
-```ts
-IncludeAllMetadata.include_all_metadata
-```
+`IncludeAllMetadata.include_all_metadata`
 
 ***
 
 ### inclusive?
 
 ```ts
-optional inclusive?: boolean;
+inclusive?: boolean;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:28](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L28)
@@ -91,16 +89,14 @@ Ignored unless either timestamp is specified. Defaults to `false`.
 
 #### Inherited from
 
-```ts
-TimelinePaginationEnabled.inclusive
-```
+`TimelinePaginationEnabled.inclusive`
 
 ***
 
 ### latest?
 
 ```ts
-optional latest?: string;
+latest?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:23](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L23)
@@ -111,16 +107,14 @@ Only messages before this Unix timestamp will be included in results.
 
 #### Inherited from
 
-```ts
-TimelinePaginationEnabled.latest
-```
+`TimelinePaginationEnabled.latest`
 
 ***
 
 ### limit?
 
 ```ts
-optional limit?: number;
+limit?: number;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:9](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L9)
@@ -132,16 +126,14 @@ even if the end of the list hasn't been reached. Must be an integer with a max v
 
 #### Inherited from
 
-```ts
-CursorPaginationEnabled.limit
-```
+`CursorPaginationEnabled.limit`
 
 ***
 
 ### oldest?
 
 ```ts
-optional oldest?: string;
+oldest?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:21](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L21)
@@ -152,16 +144,14 @@ Only messages after this Unix timestamp will be included in results.
 
 #### Inherited from
 
-```ts
-TimelinePaginationEnabled.oldest
-```
+`TimelinePaginationEnabled.oldest`
 
 ***
 
 ### token?
 
 ```ts
-optional token?: string;
+token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
@@ -172,6 +162,4 @@ Overridable authentication token bearing required scopes.
 
 #### Inherited from
 
-```ts
-TokenOverridable.token
-```
+`TokenOverridable.token`

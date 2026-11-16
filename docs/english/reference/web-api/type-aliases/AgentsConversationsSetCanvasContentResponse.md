@@ -13,41 +13,41 @@ Defined in: [packages/web-api/src/types/response/AgentsConversationsSetCanvasCon
 ### canvas\_id?
 
 ```ts
-optional canvas_id?: string;
+canvas_id?: string;
 ```
 
 ### error?
 
 ```ts
-optional error?: string;
+error?: string;
 ```
 
 ### needed?
 
 ```ts
-optional needed?: string;
+needed?: string;
 ```
 
 ### ok?
 
 ```ts
-optional ok?: boolean;
+ok?: boolean;
 ```
 
 ### provided?
 
 ```ts
-optional provided?: string;
+provided?: string;
 ```
 
 ### sections\_changed\_count?
 
 ```ts
-optional sections_changed_count?: number;
+sections_changed_count?: number;
 ```
 
 ### warning?
 
 ```ts
-optional warning?: string;
+warning?: string;
 ```

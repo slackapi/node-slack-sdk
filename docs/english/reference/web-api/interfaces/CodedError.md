@@ -17,16 +17,14 @@ Use `instanceof` checks with specific error classes (e.g. `WebAPIPlatformError`)
 ### ~~cause?~~
 
 ```ts
-optional cause?: unknown;
+cause?: unknown;
 ```
 
 Defined in: node\_modules/typescript/lib/lib.es2022.error.d.ts:26
 
 #### Inherited from
 
-```ts
-NodeJS.ErrnoException.cause
-```
+`NodeJS.ErrnoException.cause`
 
 ***
 
@@ -40,25 +38,21 @@ Defined in: [packages/web-api/src/errors.ts:7](https://github.com/slackapi/node-
 
 #### Overrides
 
-```ts
-NodeJS.ErrnoException.code
-```
+`NodeJS.ErrnoException.code`
 
 ***
 
 ### ~~errno?~~
 
 ```ts
-optional errno?: number;
+errno?: number;
 ```
 
 Defined in: packages/web-api/node\_modules/@types/node/globals.d.ts:101
 
 #### Inherited from
 
-```ts
-NodeJS.ErrnoException.errno
-```
+`NodeJS.ErrnoException.errno`
 
 ***
 
@@ -72,9 +66,7 @@ Defined in: node\_modules/typescript/lib/lib.es5.d.ts:1077
 
 #### Inherited from
 
-```ts
-NodeJS.ErrnoException.message
-```
+`NodeJS.ErrnoException.message`
 
 ***
 
@@ -88,54 +80,46 @@ Defined in: node\_modules/typescript/lib/lib.es5.d.ts:1076
 
 #### Inherited from
 
-```ts
-NodeJS.ErrnoException.name
-```
+`NodeJS.ErrnoException.name`
 
 ***
 
 ### ~~path?~~
 
 ```ts
-optional path?: string;
+path?: string;
 ```
 
 Defined in: packages/web-api/node\_modules/@types/node/globals.d.ts:103
 
 #### Inherited from
 
-```ts
-NodeJS.ErrnoException.path
-```
+`NodeJS.ErrnoException.path`
 
 ***
 
 ### ~~stack?~~
 
 ```ts
-optional stack?: string;
+stack?: string;
 ```
 
 Defined in: node\_modules/typescript/lib/lib.es5.d.ts:1078
 
 #### Inherited from
 
-```ts
-NodeJS.ErrnoException.stack
-```
+`NodeJS.ErrnoException.stack`
 
 ***
 
 ### ~~syscall?~~
 
 ```ts
-optional syscall?: string;
+syscall?: string;
 ```
 
 Defined in: packages/web-api/node\_modules/@types/node/globals.d.ts:104
 
 #### Inherited from
 
-```ts
-NodeJS.ErrnoException.syscall
-```
+`NodeJS.ErrnoException.syscall`

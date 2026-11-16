@@ -14,14 +14,15 @@ An icon button to perform actions.
 
 ## Extends
 
-- [`Actionable`](Actionable.md).[`Confirmable`](Confirmable.md)
+- [`Actionable`](Actionable.md)
+- [`Confirmable`](Confirmable.md)
 
 ## Properties
 
 ### accessibility\_label?
 
 ```ts
-optional accessibility_label?: string;
+accessibility_label?: string;
 ```
 
 Defined in: packages/types/dist/block-kit/block-elements.d.ts:222
@@ -35,7 +36,7 @@ A label for longer descriptive text about a button element. This label will be r
 ### action\_id?
 
 ```ts
-optional action_id?: string;
+action_id?: string;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:12
@@ -53,7 +54,7 @@ among all other `action_id`s in the containing block. Maximum length for this fi
 ### confirm?
 
 ```ts
-optional confirm?: ConfirmationDialog;
+confirm?: ConfirmationDialog;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:21
@@ -128,7 +129,7 @@ The type of element. In this case `type` is always `icon_button`.
 ### value?
 
 ```ts
-optional value?: string;
+value?: string;
 ```
 
 Defined in: packages/types/dist/block-kit/block-elements.d.ts:226
@@ -142,7 +143,7 @@ The button value.
 ### visible\_to\_user\_ids?
 
 ```ts
-optional visible_to_user_ids?: string[];
+visible_to_user_ids?: string[];
 ```
 
 Defined in: packages/types/dist/block-kit/block-elements.d.ts:230

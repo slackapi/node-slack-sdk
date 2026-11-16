@@ -13,47 +13,47 @@ Defined in: [packages/web-api/src/types/response/TeamAccessLogsResponse.ts:11](h
 ### error?
 
 ```ts
-optional error?: string;
+error?: string;
 ```
 
 ### logins?
 
 ```ts
-optional logins?: Login[];
+logins?: Login[];
 ```
 
 ### needed?
 
 ```ts
-optional needed?: string;
+needed?: string;
 ```
 
 ### ok?
 
 ```ts
-optional ok?: boolean;
+ok?: boolean;
 ```
 
 ### paging?
 
 ```ts
-optional paging?: Paging;
+paging?: Paging;
 ```
 
 ### provided?
 
 ```ts
-optional provided?: string;
+provided?: string;
 ```
 
 ### response\_metadata?
 
 ```ts
-optional response_metadata?: ResponseMetadata;
+response_metadata?: ResponseMetadata;
 ```
 
 ### warning?
 
 ```ts
-optional warning?: string;
+warning?: string;
 ```

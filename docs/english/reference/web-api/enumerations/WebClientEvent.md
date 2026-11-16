@@ -2,7 +2,7 @@
 
 # Enumeration: WebClientEvent
 
-Defined in: [packages/web-api/src/WebClient.ts:74](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/WebClient.ts#L74)
+Defined in: [packages/web-api/src/WebClient.ts:73](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/WebClient.ts#L73)
 
 ## Enumeration Members
 
@@ -12,4 +12,4 @@ Defined in: [packages/web-api/src/WebClient.ts:74](https://github.com/slackapi/n
 RATE_LIMITED: "rate_limited";
 ```
 
-Defined in: [packages/web-api/src/WebClient.ts:76](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/WebClient.ts#L76)
+Defined in: [packages/web-api/src/WebClient.ts:75](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/WebClient.ts#L75)

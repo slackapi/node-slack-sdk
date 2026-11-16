@@ -6,7 +6,9 @@ Defined in: [packages/web-api/src/types/request/chat.ts:172](https://github.com/
 
 ## Extends
 
-- `TokenOverridable`.`ChannelAndTS`.`Partial`\<`MarkdownText`\>
+- `TokenOverridable`
+- `ChannelAndTS`
+- `Partial`\<`MarkdownText`\>
 
 ## Properties
 
@@ -24,16 +26,14 @@ Channel ID for the message.
 
 #### Inherited from
 
-```ts
-ChannelAndTS.channel
-```
+`ChannelAndTS.channel`
 
 ***
 
 ### chunks?
 
 ```ts
-optional chunks?: AnyChunk[];
+chunks?: AnyChunk[];
 ```
 
 Defined in: [packages/web-api/src/types/request/chat.ts:177](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L177)
@@ -48,7 +48,7 @@ Either `markdown_text` or `chunks` is required.
 ### markdown\_text?
 
 ```ts
-optional markdown_text?: string;
+markdown_text?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/chat.ts:63](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L63)
@@ -65,16 +65,14 @@ Accepts message text formatted in markdown. This argument should not be used in 
 
 #### Inherited from
 
-```ts
-Partial.markdown_text
-```
+`Partial.markdown_text`
 
 ***
 
 ### token?
 
 ```ts
-optional token?: string;
+token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
@@ -85,9 +83,7 @@ Overridable authentication token bearing required scopes.
 
 #### Inherited from
 
-```ts
-TokenOverridable.token
-```
+`TokenOverridable.token`
 
 ***
 
@@ -105,6 +101,4 @@ Timestamp of the message.
 
 #### Inherited from
 
-```ts
-ChannelAndTS.ts
-```
+`ChannelAndTS.ts`

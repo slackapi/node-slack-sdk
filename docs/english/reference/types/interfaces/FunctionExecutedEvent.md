@@ -67,7 +67,7 @@ date_updated: number;
 #### description?
 
 ```ts
-optional description?: string;
+description?: string;
 ```
 
 #### id

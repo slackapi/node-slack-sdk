@@ -3,9 +3,9 @@
 # Type Alias: ImageBlock
 
 ```ts
-type ImageBlock = object & Block & 
+type ImageBlock = object & Block & (
   | UrlImageObject
-  | SlackFileImageObject;
+  | SlackFileImageObject);
 ```
 
 Defined in: [block-kit/blocks.ts:442](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L442)
@@ -26,7 +26,7 @@ Maximum length for this field is 2000 characters.
 ### title?
 
 ```ts
-optional title?: PlainTextElement;
+title?: PlainTextElement;
 ```
 
 #### Description

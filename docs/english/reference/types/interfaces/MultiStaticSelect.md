@@ -16,14 +16,18 @@ element.
 
 ## Extends
 
-- [`Actionable`](Actionable.md).[`Confirmable`](Confirmable.md).[`Focusable`](Focusable.md).[`MaxItemsSelectable`](MaxItemsSelectable.md).[`Placeholdable`](Placeholdable.md)
+- [`Actionable`](Actionable.md)
+- [`Confirmable`](Confirmable.md)
+- [`Focusable`](Focusable.md)
+- [`MaxItemsSelectable`](MaxItemsSelectable.md)
+- [`Placeholdable`](Placeholdable.md)
 
 ## Properties
 
 ### action\_id?
 
 ```ts
-optional action_id?: string;
+action_id?: string;
 ```
 
 Defined in: [block-kit/extensions.ts:15](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/extensions.ts#L15)
@@ -41,7 +45,7 @@ among all other `action_id`s in the containing block. Maximum length for this fi
 ### confirm?
 
 ```ts
-optional confirm?: ConfirmationDialog;
+confirm?: ConfirmationDialog;
 ```
 
 Defined in: [block-kit/extensions.ts:25](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/extensions.ts#L25)
@@ -60,7 +64,7 @@ with.
 ### focus\_on\_load?
 
 ```ts
-optional focus_on_load?: boolean;
+focus_on_load?: boolean;
 ```
 
 Defined in: [block-kit/extensions.ts:42](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/extensions.ts#L42)
@@ -80,7 +84,7 @@ Defaults to `false`.
 ### initial\_options?
 
 ```ts
-optional initial_options?: PlainTextOption[];
+initial_options?: PlainTextOption[];
 ```
 
 Defined in: [block-kit/block-elements.ts:396](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L396)
@@ -95,7 +99,7 @@ An array of option objects that exactly match one or more of the options within 
 ### max\_selected\_items?
 
 ```ts
-optional max_selected_items?: number;
+max_selected_items?: number;
 ```
 
 Defined in: [block-kit/extensions.ts:49](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/extensions.ts#L49)
@@ -113,7 +117,7 @@ Specifies the maximum number of items that can be selected. Minimum number is 1.
 ### option\_groups?
 
 ```ts
-optional option_groups?: object[];
+option_groups?: object[];
 ```
 
 Defined in: [block-kit/block-elements.ts:411](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L411)
@@ -140,7 +144,7 @@ this field should not be.
 ### options?
 
 ```ts
-optional options?: PlainTextOption[];
+options?: PlainTextOption[];
 ```
 
 Defined in: [block-kit/block-elements.ts:403](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L403)
@@ -155,7 +159,7 @@ specified, this field should not be.
 ### placeholder?
 
 ```ts
-optional placeholder?: PlainTextElement;
+placeholder?: PlainTextElement;
 ```
 
 Defined in: [block-kit/extensions.ts:57](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/extensions.ts#L57)

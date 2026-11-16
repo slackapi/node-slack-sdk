@@ -13,41 +13,41 @@ Defined in: [packages/web-api/src/types/response/AdminConversationsGetCustomRete
 ### duration\_days?
 
 ```ts
-optional duration_days?: number;
+duration_days?: number;
 ```
 
 ### error?
 
 ```ts
-optional error?: string;
+error?: string;
 ```
 
 ### is\_policy\_enabled?
 
 ```ts
-optional is_policy_enabled?: boolean;
+is_policy_enabled?: boolean;
 ```
 
 ### needed?
 
 ```ts
-optional needed?: string;
+needed?: string;
 ```
 
 ### ok?
 
 ```ts
-optional ok?: boolean;
+ok?: boolean;
 ```
 
 ### provided?
 
 ```ts
-optional provided?: string;
+provided?: string;
 ```
 
 ### warning?
 
 ```ts
-optional warning?: string;
+warning?: string;
 ```

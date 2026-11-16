@@ -15,7 +15,7 @@ Options to create retry policies. Extends from https://github.com/tim-kos/node-r
 ### factor?
 
 ```ts
-optional factor?: number;
+factor?: number;
 ```
 
 Defined in: packages/webhook/node\_modules/@types/retry/index.d.ts:119
@@ -30,16 +30,14 @@ The exponential factor to use.
 
 #### Inherited from
 
-```ts
-WrapOptions.factor
-```
+`WrapOptions.factor`
 
 ***
 
 ### forever?
 
 ```ts
-optional forever?: boolean;
+forever?: boolean;
 ```
 
 Defined in: packages/webhook/node\_modules/@types/retry/index.d.ts:82
@@ -54,16 +52,14 @@ false
 
 #### Inherited from
 
-```ts
-WrapOptions.forever
-```
+`WrapOptions.forever`
 
 ***
 
 ### maxRetryTime?
 
 ```ts
-optional maxRetryTime?: number;
+maxRetryTime?: number;
 ```
 
 Defined in: packages/webhook/node\_modules/@types/retry/index.d.ts:92
@@ -78,16 +74,14 @@ Infinity
 
 #### Inherited from
 
-```ts
-WrapOptions.maxRetryTime
-```
+`WrapOptions.maxRetryTime`
 
 ***
 
 ### maxTimeout?
 
 ```ts
-optional maxTimeout?: number;
+maxTimeout?: number;
 ```
 
 Defined in: packages/webhook/node\_modules/@types/retry/index.d.ts:129
@@ -102,16 +96,14 @@ Infinity
 
 #### Inherited from
 
-```ts
-WrapOptions.maxTimeout
-```
+`WrapOptions.maxTimeout`
 
 ***
 
 ### minTimeout?
 
 ```ts
-optional minTimeout?: number;
+minTimeout?: number;
 ```
 
 Defined in: packages/webhook/node\_modules/@types/retry/index.d.ts:124
@@ -126,16 +118,14 @@ The number of milliseconds before starting the first retry.
 
 #### Inherited from
 
-```ts
-WrapOptions.minTimeout
-```
+`WrapOptions.minTimeout`
 
 ***
 
 ### randomize?
 
 ```ts
-optional randomize?: boolean;
+randomize?: boolean;
 ```
 
 Defined in: packages/webhook/node\_modules/@types/retry/index.d.ts:134
@@ -150,16 +140,14 @@ false
 
 #### Inherited from
 
-```ts
-WrapOptions.randomize
-```
+`WrapOptions.randomize`
 
 ***
 
 ### retries?
 
 ```ts
-optional retries?: number;
+retries?: number;
 ```
 
 Defined in: packages/webhook/node\_modules/@types/retry/index.d.ts:103
@@ -174,16 +162,14 @@ The maximum amount of times to retry the operation.
 
 #### Inherited from
 
-```ts
-WrapOptions.retries
-```
+`WrapOptions.retries`
 
 ***
 
 ### unref?
 
 ```ts
-optional unref?: boolean;
+unref?: boolean;
 ```
 
 Defined in: packages/webhook/node\_modules/@types/retry/index.d.ts:87
@@ -198,6 +184,4 @@ false
 
 #### Inherited from
 
-```ts
-WrapOptions.unref
-```
+`WrapOptions.unref`

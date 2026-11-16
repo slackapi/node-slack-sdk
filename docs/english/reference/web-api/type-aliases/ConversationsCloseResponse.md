@@ -13,41 +13,41 @@ Defined in: [packages/web-api/src/types/response/ConversationsCloseResponse.ts:1
 ### already\_closed?
 
 ```ts
-optional already_closed?: boolean;
+already_closed?: boolean;
 ```
 
 ### error?
 
 ```ts
-optional error?: string;
+error?: string;
 ```
 
 ### needed?
 
 ```ts
-optional needed?: string;
+needed?: string;
 ```
 
 ### no\_op?
 
 ```ts
-optional no_op?: boolean;
+no_op?: boolean;
 ```
 
 ### ok?
 
 ```ts
-optional ok?: boolean;
+ok?: boolean;
 ```
 
 ### provided?
 
 ```ts
-optional provided?: string;
+provided?: string;
 ```
 
 ### warning?
 
 ```ts
-optional warning?: string;
+warning?: string;
 ```

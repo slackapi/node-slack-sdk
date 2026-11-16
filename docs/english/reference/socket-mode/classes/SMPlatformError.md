@@ -2,7 +2,7 @@
 
 # Class: SMPlatformError
 
-Defined in: [packages/socket-mode/src/errors.ts:45](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/errors.ts#L45)
+Defined in: [packages/socket-mode/src/errors.ts:46](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/errors.ts#L46)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [packages/socket-mode/src/errors.ts:45](https://github.com/slackapi/
 new SMPlatformError(event): SMPlatformError;
 ```
 
-Defined in: [packages/socket-mode/src/errors.ts:49](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/errors.ts#L49)
+Defined in: [packages/socket-mode/src/errors.ts:50](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/errors.ts#L50)
 
 #### Parameters
 
@@ -37,7 +37,7 @@ Defined in: [packages/socket-mode/src/errors.ts:49](https://github.com/slackapi/
 ### cause?
 
 ```ts
-optional cause?: unknown;
+cause?: unknown;
 ```
 
 Defined in: node\_modules/typescript/lib/lib.es2022.error.d.ts:26
@@ -54,7 +54,7 @@ Defined in: node\_modules/typescript/lib/lib.es2022.error.d.ts:26
 readonly code: SendMessagePlatformError = ErrorCode.SendMessagePlatformError;
 ```
 
-Defined in: [packages/socket-mode/src/errors.ts:46](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/errors.ts#L46)
+Defined in: [packages/socket-mode/src/errors.ts:47](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/errors.ts#L47)
 
 #### Overrides
 
@@ -68,7 +68,7 @@ Defined in: [packages/socket-mode/src/errors.ts:46](https://github.com/slackapi/
 readonly data: SMPlatformErrorEvent;
 ```
 
-Defined in: [packages/socket-mode/src/errors.ts:47](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/errors.ts#L47)
+Defined in: [packages/socket-mode/src/errors.ts:48](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/errors.ts#L48)
 
 ***
 
@@ -103,7 +103,7 @@ Defined in: node\_modules/typescript/lib/lib.es5.d.ts:1076
 ### stack?
 
 ```ts
-optional stack?: string;
+stack?: string;
 ```
 
 Defined in: node\_modules/typescript/lib/lib.es5.d.ts:1078

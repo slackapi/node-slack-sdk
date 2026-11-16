@@ -6,14 +6,15 @@ Defined in: [packages/web-api/src/types/request/apps.ts:33](https://github.com/s
 
 ## Extends
 
-- `Partial`\<`AppID`\>.`TokenOverridable`
+- `Partial`\<`AppID`\>
+- `TokenOverridable`
 
 ## Properties
 
 ### app\_id?
 
 ```ts
-optional app_id?: string;
+app_id?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:101](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L101)
@@ -41,7 +42,7 @@ Defined in: [packages/web-api/src/types/request/apps.ts:34](https://github.com/s
 ### token?
 
 ```ts
-optional token?: string;
+token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
@@ -52,6 +53,4 @@ Overridable authentication token bearing required scopes.
 
 #### Inherited from
 
-```ts
-TokenOverridable.token
-```
+`TokenOverridable.token`

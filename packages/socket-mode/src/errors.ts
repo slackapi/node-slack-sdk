@@ -15,6 +15,7 @@ export enum ErrorCode {
   WebsocketError = 'slack_socket_mode_websocket_error',
   NoReplyReceivedError = 'slack_socket_mode_no_reply_received_error',
   InitializationError = 'slack_socket_mode_initialization_error',
+  ConnectAbortedError = 'slack_socket_mode_connect_aborted_error',
 }
 
 export type SMCallError =
@@ -78,6 +79,14 @@ export class SMSendWhileDisconnectedError extends SlackSocketModeError {
 
   constructor() {
     super('Failed to send a WebSocket message as the client is not connected');
+  }
+}
+
+export class SMConnectAbortedError extends SlackSocketModeError {
+  readonly code = ErrorCode.ConnectAbortedError;
+
+  constructor() {
+    super('Stopped connecting because disconnect() was called before the connection was established');
   }
 }
 

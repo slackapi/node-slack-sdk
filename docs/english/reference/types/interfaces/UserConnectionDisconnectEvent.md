@@ -9,7 +9,7 @@ Defined in: [events/user.ts:95](https://github.com/slackapi/node-slack-sdk/blob/
 ### enterprise\_id?
 
 ```ts
-optional enterprise_id?: string;
+enterprise_id?: string;
 ```
 
 Defined in: [events/user.ts:99](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/user.ts#L99)

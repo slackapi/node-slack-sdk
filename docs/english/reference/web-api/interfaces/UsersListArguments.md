@@ -6,14 +6,17 @@ Defined in: [packages/web-api/src/types/request/users.ts:42](https://github.com/
 
 ## Extends
 
-- `TokenOverridable`.`CursorPaginationEnabled`.`LocaleAware`.`OptionalTeamAssignable`
+- `TokenOverridable`
+- `CursorPaginationEnabled`
+- `LocaleAware`
+- `OptionalTeamAssignable`
 
 ## Properties
 
 ### cursor?
 
 ```ts
-optional cursor?: string;
+cursor?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:16](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L16)
@@ -30,16 +33,14 @@ Default value fetches the first "page" of the collection.
 
 #### Inherited from
 
-```ts
-CursorPaginationEnabled.cursor
-```
+`CursorPaginationEnabled.cursor`
 
 ***
 
 ### include\_locale?
 
 ```ts
-optional include_locale?: boolean;
+include_locale?: boolean;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:51](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L51)
@@ -50,16 +51,14 @@ Set this to `true` to receive the locale with the response.
 
 #### Inherited from
 
-```ts
-LocaleAware.include_locale
-```
+`LocaleAware.include_locale`
 
 ***
 
 ### limit?
 
 ```ts
-optional limit?: number;
+limit?: number;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:9](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L9)
@@ -71,16 +70,14 @@ even if the end of the list hasn't been reached. Must be an integer with a max v
 
 #### Inherited from
 
-```ts
-CursorPaginationEnabled.limit
-```
+`CursorPaginationEnabled.limit`
 
 ***
 
 ### team\_id?
 
 ```ts
-optional team_id?: string;
+team_id?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:70](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L70)
@@ -91,16 +88,14 @@ If using an org token, `team_id` is required.
 
 #### Inherited from
 
-```ts
-OptionalTeamAssignable.team_id
-```
+`OptionalTeamAssignable.team_id`
 
 ***
 
 ### token?
 
 ```ts
-optional token?: string;
+token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
@@ -111,6 +106,4 @@ Overridable authentication token bearing required scopes.
 
 #### Inherited from
 
-```ts
-TokenOverridable.token
-```
+`TokenOverridable.token`
