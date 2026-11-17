@@ -284,6 +284,8 @@ export interface ThreadBroadcastMessageEvent {
   upload?: boolean;
   display_as_bot?: boolean;
   user: string;
+  bot_id?: string;
+  bot_profile?: BotProfile;
   parent_user_id?: string;
   ts: string;
   thread_ts?: string;
