@@ -48,7 +48,15 @@ export class WebhookTrigger {
       throw new Error('Webhook trigger URL is required');
     }
 
-    this.logger = getLogger('WebhookTrigger', defaults.logLevel ?? LogLevel.INFO, defaults.logger);
+    // Logging
+    if (typeof defaults.logger !== 'undefined') {
+      this.logger = defaults.logger;
+      if (typeof defaults.logLevel !== 'undefined') {
+        this.logger.debug('The logLevel given to WebhookTrigger was ignored as you also gave logger');
+      }
+    } else {
+      this.logger = getLogger('WebhookTrigger', defaults.logLevel ?? LogLevel.INFO, defaults.logger);
+    }
 
     this.url = url;
     this.fetchFn = defaults.fetch ?? globalThis.fetch;
@@ -124,10 +132,10 @@ export class WebhookTrigger {
 
 export interface WebhookTriggerDefaultArguments {
   fetch?: FetchFunction;
-  logLevel?: LogLevel;
-  logger?: Logger;
-  retryConfig?: RetryOptions;
   timeout?: number;
+  retryConfig?: RetryOptions;
+  logger?: Logger;
+  logLevel?: LogLevel;
 }
 
 export interface WebhookTriggerSendArguments {

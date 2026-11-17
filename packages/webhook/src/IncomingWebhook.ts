@@ -78,7 +78,15 @@ export class IncomingWebhook {
       throw new Error('Incoming webhook URL is required');
     }
 
-    this.logger = getLogger('IncomingWebhook', defaults.logLevel ?? LogLevel.INFO, defaults.logger);
+    // Logging
+    if (typeof defaults.logger !== 'undefined') {
+      this.logger = defaults.logger;
+      if (typeof defaults.logLevel !== 'undefined') {
+        this.logger.debug('The logLevel given to IncomingWebhook was ignored as you also gave logger');
+      }
+    } else {
+      this.logger = getLogger('IncomingWebhook', defaults.logLevel ?? LogLevel.INFO, defaults.logger);
+    }
 
     this.url = url;
     this.fetchFn = defaults.fetch ?? globalThis.fetch;
@@ -169,17 +177,17 @@ export class IncomingWebhook {
  */
 
 export interface IncomingWebhookDefaultArguments {
-  channel?: string;
-  fetch?: FetchFunction;
+  username?: string;
   icon_emoji?: string;
   icon_url?: string;
-  link_names?: boolean;
-  logLevel?: LogLevel;
-  logger?: Logger;
-  retryConfig?: RetryOptions;
+  channel?: string;
   text?: string;
+  link_names?: boolean;
+  fetch?: FetchFunction;
   timeout?: number;
-  username?: string;
+  retryConfig?: RetryOptions;
+  logger?: Logger;
+  logLevel?: LogLevel;
 }
 
 export interface IncomingWebhookSendArguments extends IncomingWebhookDefaultArguments {
