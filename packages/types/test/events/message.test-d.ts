@@ -61,6 +61,17 @@ const threadBroadcastWithFiles: ThreadBroadcastMessageEvent = {
   event_ts: '1234.57',
   user: 'U1234',
   bot_id: 'B1234',
+  bot_profile: {
+    id: 'B1234',
+    name: 'Example App',
+    app_id: 'A1234',
+    team_id: 'T1234',
+    icons: {
+      image_36: 'https://example.com/image_36.png',
+    },
+    updated: 1234,
+    deleted: false,
+  },
   ts: '1234.57',
   thread_ts: '1234.56',
   text: '',
