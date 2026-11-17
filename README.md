@@ -23,7 +23,7 @@ walk you through building your first Slack app using Node.js.
 |--------------|--------------|-------------------|
 | Web API      | Send data to or query data from Slack using any of [over 270 methods](https://docs.slack.dev/reference/methods). | [`@slack/web-api`](https://docs.slack.dev/tools/node-slack-sdk/web-api) |
 | OAuth        | Set up the authentication flow using V2 OAuth for Slack apps as well as V1 OAuth for classic Slack apps. | [`@slack/oauth`](https://docs.slack.dev/tools/node-slack-sdk/oauth) |
-| Incoming Webhooks | Send notifications to a single channel which the user picks on installation. | [`@slack/webhook`](https://docs.slack.dev/tools/node-slack-sdk/webhook) |
+| Webhooks | Send a notification to a channel with Incoming Webhooks or start a workflow with Workflow Builder. | [`@slack/webhook`](https://docs.slack.dev/tools/node-slack-sdk/webhook) |
 | Socket Mode  | Listen for incoming messages and a limited set of events happening in Slack, using WebSocket. | [`@slack/socket-mode`](https://docs.slack.dev/tools/node-slack-sdk/socket-mode) |
 
 **Not sure about which APIs are right for your app?** Read our [blog
