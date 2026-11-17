@@ -2,6 +2,6 @@
 "@slack/webhook": minor
 ---
 
-feat: add logger with URL mismatch warning
+feat: warn when a URL pattern mismatches the webhook class
 
-Both `IncomingWebhook` and `WebhookTrigger` now accept optional `logger` and `logLevel` options. On construction, each class warns if the provided URL appears to be intended for the other class (e.g. a `/triggers/` URL passed to `IncomingWebhook`), helping catch misconfiguration before it causes duplicate deliveries or hangs.
+`IncomingWebhook` and `WebhookTrigger` now accept optional `logger` and `logLevel` options. On construction, `IncomingWebhook` warns when the URL contains `/triggers/` and `WebhookTrigger` warns when the URL contains `/services/`, so a URL used with the wrong class shows up in the logs before anything is sent.
