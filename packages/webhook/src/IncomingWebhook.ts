@@ -78,16 +78,6 @@ export class IncomingWebhook {
       throw new Error('Incoming webhook URL is required');
     }
 
-    // Logging
-    if (typeof defaults.logger !== 'undefined') {
-      this.logger = defaults.logger;
-      if (typeof defaults.logLevel !== 'undefined') {
-        this.logger.debug('The logLevel given to IncomingWebhook was ignored as you also gave logger');
-      }
-    } else {
-      this.logger = getLogger('IncomingWebhook', defaults.logLevel ?? LogLevel.INFO, defaults.logger);
-    }
-
     this.url = url;
     this.fetchFn = defaults.fetch ?? globalThis.fetch;
     this.timeout = defaults.timeout ?? 0;
@@ -95,6 +85,11 @@ export class IncomingWebhook {
     this.headers = {
       'User-Agent': getUserAgent(),
     };
+    this.logger = defaults.logger ?? getLogger('IncomingWebhook', defaults.logLevel ?? LogLevel.INFO);
+
+    if (defaults.logger !== undefined && defaults.logLevel !== undefined) {
+      this.logger.warn('The logLevel given to IncomingWebhook was ignored as you also gave logger');
+    }
 
     if (url.includes('/triggers/')) {
       this.logger.warn(

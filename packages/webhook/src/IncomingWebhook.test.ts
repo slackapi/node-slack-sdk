@@ -93,11 +93,11 @@ describe('IncomingWebhook', () => {
     it('should use a given logger as-is and ignore logLevel', () => {
       const calls: string[] = [];
       const logger = {
-        debug(...msg: string[]) {
+        debug() {},
+        info() {},
+        warn(...msg: string[]) {
           calls.push(msg.join(' '));
         },
-        info() {},
-        warn() {},
         error() {},
         setLevel() {
           calls.push('setLevel');
