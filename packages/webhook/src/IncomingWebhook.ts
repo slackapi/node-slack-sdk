@@ -114,8 +114,15 @@ export class IncomingWebhook {
       payload = Object.assign(payload, message);
     }
 
-    // Remove transport options so they don't leak into payloads
-    const { fetch: _fetch, timeout: _timeout, retryConfig: _retryConfig, ...messagePayload } = payload;
+    // Remove transport and logging options so they don't leak into payloads
+    const {
+      fetch: _fetch,
+      timeout: _timeout,
+      retryConfig: _retryConfig,
+      logger: _logger,
+      logLevel: _logLevel,
+      ...messagePayload
+    } = payload;
 
     return pRetry(async () => {
       const signal = this.timeout > 0 ? AbortSignal.timeout(this.timeout) : undefined;
