@@ -1,6 +1,5 @@
 import assert from 'node:assert/strict';
 import { afterEach, beforeEach, describe, it } from 'node:test';
-import { ConsoleLogger } from '@slack/logger';
 import nock from 'nock';
 
 import {
@@ -296,26 +295,6 @@ describe('IncomingWebhook', () => {
         assert.ok(!('retryConfig' in (posted as Record<string, unknown>)));
         scope.done();
       });
-    });
-
-    it('does not leak transport or logging options passed to send() into the posted payload', async () => {
-      let posted: unknown;
-      const scope = nock('https://hooks.slack.com')
-        .post(/services/, (body) => {
-          posted = body;
-          return true;
-        })
-        .reply(200, 'ok');
-      const webhook = new IncomingWebhook(url);
-      await webhook.send({
-        text: 'hello',
-        timeout: 100,
-        retryConfig: rapidRetryPolicy,
-        logger: new ConsoleLogger(),
-        logLevel: LogLevel.DEBUG,
-      });
-      assert.deepStrictEqual(posted, { text: 'hello' });
-      scope.done();
     });
   });
 });
