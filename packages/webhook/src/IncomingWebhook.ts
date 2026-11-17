@@ -98,16 +98,7 @@ export class IncomingWebhook {
       );
     }
 
-    // Remove transport options so they don't leak into payloads
-    const {
-      fetch: _fetch,
-      timeout: _timeout,
-      retryConfig: _retryConfig,
-      logger: _logger,
-      logLevel: _logLevel,
-      ...messageDefaults
-    } = defaults;
-    this.defaults = messageDefaults;
+    this.defaults = defaults;
   }
 
   /**
@@ -123,6 +114,16 @@ export class IncomingWebhook {
       payload = Object.assign(payload, message);
     }
 
+    // Remove transport and logging options so they don't leak into payloads
+    const {
+      fetch: _fetch,
+      timeout: _timeout,
+      retryConfig: _retryConfig,
+      logger: _logger,
+      logLevel: _logLevel,
+      ...messagePayload
+    } = payload;
+
     return pRetry(async () => {
       const signal = this.timeout > 0 ? AbortSignal.timeout(this.timeout) : undefined;
 
@@ -133,7 +134,7 @@ export class IncomingWebhook {
             ...this.headers,
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify(payload),
+          body: JSON.stringify(messagePayload),
           redirect: 'error',
           signal,
         });
