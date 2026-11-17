@@ -233,5 +233,23 @@ describe('IncomingWebhook', () => {
         scope.done();
       });
     });
+
+    it('does not leak transport options passed to send() into the posted payload', async () => {
+      let posted: unknown;
+      const scope = nock('https://hooks.slack.com')
+        .post(/services/, (body) => {
+          posted = body;
+          return true;
+        })
+        .reply(200, 'ok');
+      const webhook = new IncomingWebhook(url);
+      await webhook.send({
+        text: 'hello',
+        timeout: 100,
+        retryConfig: rapidRetryPolicy,
+      });
+      assert.deepStrictEqual(posted, { text: 'hello' });
+      scope.done();
+    });
   });
 });
