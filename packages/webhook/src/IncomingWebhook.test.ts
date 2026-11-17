@@ -264,6 +264,16 @@ describe('IncomingWebhook', () => {
       scope.done();
     });
 
+    it('should use a custom fetch function given to send()', async () => {
+      let fetchCalled = false;
+      const customFetch: FetchFunction = async () => {
+        fetchCalled = true;
+        return new Response('ok', { status: 200 });
+      };
+      await webhook.send({ text: 'Hello', fetch: customFetch });
+      assert.ok(fetchCalled);
+    });
+
     it('should fail with IncomingWebhookRequestError when the timeout given to send() passes', async () => {
       const scope = nock('https://hooks.slack.com')
         .post(/services/)

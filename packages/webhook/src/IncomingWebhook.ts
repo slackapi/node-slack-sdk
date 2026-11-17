@@ -100,13 +100,18 @@ export class IncomingWebhook {
     }
 
     // Remove transport options so they don't leak into payloads
-    const { fetch: _fetch, timeout = this.timeout, retryConfig = this.retryConfig, ...messagePayload } = payload;
+    const {
+      fetch: fetchFn = this.fetchFn,
+      timeout = this.timeout,
+      retryConfig = this.retryConfig,
+      ...messagePayload
+    } = payload;
 
     return pRetry(async () => {
       const signal = timeout > 0 ? AbortSignal.timeout(timeout) : undefined;
 
       try {
-        const response = await this.fetchFn(this.url, {
+        const response = await fetchFn(this.url, {
           method: 'POST',
           headers: {
             ...this.headers,
