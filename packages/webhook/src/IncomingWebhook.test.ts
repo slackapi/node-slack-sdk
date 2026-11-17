@@ -174,6 +174,18 @@ describe('IncomingWebhook', () => {
         scope.done();
       });
 
+      it('retries a 5xx then succeeds when send() is given a retry policy', async () => {
+        const scope = nock('https://hooks.slack.com')
+          .post(/services/)
+          .reply(503)
+          .post(/services/)
+          .reply(200, 'ok');
+        const webhook = new IncomingWebhook(url);
+        const result = await webhook.send({ text: 'hello', retryConfig: rapidRetryPolicy });
+        assert.strictEqual(result.text, 'ok');
+        scope.done();
+      });
+
       it('does not retry a 4xx even when a retry policy is set', async () => {
         const scope = nock('https://hooks.slack.com')
           .post(/services/)
@@ -249,6 +261,20 @@ describe('IncomingWebhook', () => {
         retryConfig: rapidRetryPolicy,
       });
       assert.deepStrictEqual(posted, { text: 'hello' });
+      scope.done();
+    });
+
+    it('should fail with IncomingWebhookRequestError when the timeout given to send() passes', async () => {
+      const scope = nock('https://hooks.slack.com')
+        .post(/services/)
+        .delay(200)
+        .reply(200, 'ok');
+      try {
+        await webhook.send({ text: 'Hello', timeout: 50 });
+        assert.fail('expected rejection');
+      } catch (error) {
+        assert.ok(error instanceof IncomingWebhookRequestError);
+      }
       scope.done();
     });
   });

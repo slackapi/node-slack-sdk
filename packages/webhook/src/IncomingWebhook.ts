@@ -100,10 +100,10 @@ export class IncomingWebhook {
     }
 
     // Remove transport options so they don't leak into payloads
-    const { fetch: _fetch, timeout: _timeout, retryConfig: _retryConfig, ...messagePayload } = payload;
+    const { fetch: _fetch, timeout = this.timeout, retryConfig = this.retryConfig, ...messagePayload } = payload;
 
     return pRetry(async () => {
-      const signal = this.timeout > 0 ? AbortSignal.timeout(this.timeout) : undefined;
+      const signal = timeout > 0 ? AbortSignal.timeout(timeout) : undefined;
 
       try {
         const response = await this.fetchFn(this.url, {
@@ -133,7 +133,7 @@ export class IncomingWebhook {
         // No response received (network/timeout): retryable.
         throw new IncomingWebhookRequestError(error instanceof Error ? error : new Error(String(error)));
       }
-    }, this.retryConfig);
+    }, retryConfig);
   }
 
   /**
