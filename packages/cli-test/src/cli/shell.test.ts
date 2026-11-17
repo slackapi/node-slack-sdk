@@ -73,7 +73,7 @@ describe('shell module', () => {
       );
     });
     it('should time out after 30 seconds by default', async () => {
-      const clock = sandbox.useFakeTimers();
+      const clock = sandbox.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] });
       const proc: ShellProcess = {
         process: spawnProcess,
         output: '',
