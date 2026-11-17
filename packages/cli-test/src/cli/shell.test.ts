@@ -55,24 +55,7 @@ describe('shell module', () => {
       );
       spawnProcess.emit('error', new Error('boom'));
     });
-    it('should use provided timeout parameter', (_, done) => {
-      const proc: ShellProcess = {
-        process: spawnProcess,
-        output: '',
-        finished: true,
-        command: 'echo "hi"',
-      };
-      shell.checkIfFinished(proc, { timeout: 500 }).then(
-        () => {
-          assert.fail('expected rejection, but got resolution');
-        },
-        (err) => {
-          assert.ok(err.message.includes('timed out after 500 ms'));
-          done();
-        },
-      );
-    });
-    it('should time out after 30 seconds by default', async () => {
+    it('should time out after 60 seconds by default', async () => {
       const clock = sandbox.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] });
       const proc: ShellProcess = {
         process: spawnProcess,
@@ -80,8 +63,8 @@ describe('shell module', () => {
         finished: true,
         command: 'echo "hi"',
       };
-      const rejection = assert.rejects(shell.checkIfFinished(proc), /timed out after 30000 ms/);
-      await clock.tickAsync(30000);
+      const rejection = assert.rejects(shell.checkIfFinished(proc), /timed out after 60000 ms/);
+      await clock.tickAsync(60000);
       await rejection;
     });
   });

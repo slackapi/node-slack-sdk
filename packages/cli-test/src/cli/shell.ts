@@ -100,17 +100,10 @@ export const shell = {
   /**
    * Logic to wait for child process to finish executing
    * - Check if the close event was emitted, else wait for 1 sec
-   * - Error out if > timeout, 30 sec by default
+   * - Error out if > 60 sec
    * @param shell shell object
    */
-  checkIfFinished: async function checkIfFinished(
-    proc: ShellProcess,
-    opts?: {
-      /** @description How long to wait for the process to finish in milliseconds. Defaults to 30 seconds. */
-      timeout?: number;
-    },
-  ): Promise<void> {
-    const waitFor = opts?.timeout || timeouts.waitingGlobal;
+  checkIfFinished: async function checkIfFinished(proc: ShellProcess): Promise<void> {
     return new Promise((resolve, reject) => {
       let timeout: NodeJS.Timeout;
 
@@ -147,8 +140,8 @@ export const shell = {
         // Remove process event listeners
         proc.process.off('close', closeHandler);
         proc.process.off('error', errorHandler);
-        killIt(`shell.checkIfFinished timed out after ${waitFor} ms.`);
-      }, waitFor);
+        killIt(`shell.checkIfFinished timed out after ${timeouts.waitingGlobal} ms.`);
+      }, timeouts.waitingGlobal);
 
       proc.process.on('close', closeHandler);
       proc.process.on('error', errorHandler);

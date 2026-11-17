@@ -68,6 +68,6 @@ export const keyboardPress = {
 };
 
 export const timeouts = {
-  waitingGlobal: 30000,
+  waitingGlobal: 60000,
   waitingAction: 10000,
 };
