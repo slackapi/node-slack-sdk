@@ -85,6 +85,29 @@ describe('WebhookTrigger', () => {
       new WebhookTrigger('https://hooks.slack.com/triggers/T000/abc', { logger });
       assert.strictEqual(warnings.length, 0);
     });
+
+    it('should use a given logger as-is and ignore logLevel', () => {
+      const calls: string[] = [];
+      const logger = {
+        debug(...msg: string[]) {
+          calls.push(msg.join(' '));
+        },
+        info() {},
+        warn() {},
+        error() {},
+        setLevel() {
+          calls.push('setLevel');
+        },
+        getLevel() {
+          return LogLevel.WARN;
+        },
+        setName() {
+          calls.push('setName');
+        },
+      };
+      new WebhookTrigger(url, { logger, logLevel: LogLevel.ERROR });
+      assert.deepStrictEqual(calls, ['The logLevel given to WebhookTrigger was ignored as you also gave logger']);
+    });
   });
 
   describe('send()', () => {
