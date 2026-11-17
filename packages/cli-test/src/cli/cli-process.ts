@@ -82,7 +82,9 @@ export class SlackCLIProcess {
     const cmd = this.assembleShellInvocation();
     // biome-ignore lint/style/noNonNullAssertion: the constructor checks for the truthiness of this environment variable
     const proc = shell.spawnProcess(process.env.SLACK_CLI_PATH!, cmd, shellOpts);
-    await shell.checkIfFinished(proc);
+    await shell.checkIfFinished(proc, {
+      timeout: shellOpts?.timeout,
+    });
     return proc;
   }
 

@@ -11,6 +11,8 @@ export const create = async function projectCreate(
     template?: string;
     /** @description Branch to use from the provided `template`. */
     branch?: string;
+    /** @description Number of milliseconds to wait for the command to finish. Defaults to 30 seconds. */
+    timeout?: number;
   },
 ): Promise<string> {
   const cmdOpts: SlackCLICommandOptions = {};
@@ -21,7 +23,9 @@ export const create = async function projectCreate(
     }
   }
   const cmd = new SlackCLIProcess(['create', args.appPath], args, cmdOpts);
-  const proc = await cmd.execAsync();
+  const proc = await cmd.execAsync({
+    timeout: args.timeout,
+  });
   return proc.output;
 };
 

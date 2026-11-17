@@ -9,6 +9,7 @@ import project from './project';
 describe('project', () => {
   const sandbox = sinon.createSandbox();
   let spawnSpy: sinon.SinonStub;
+  let checkIfFinishedSpy: sinon.SinonStub;
 
   beforeEach(() => {
     const process = mockProcess();
@@ -18,7 +19,7 @@ describe('project', () => {
       output: 'hi',
       process,
     });
-    sandbox.stub(shell, 'checkIfFinished').resolves();
+    checkIfFinishedSpy = sandbox.stub(shell, 'checkIfFinished').resolves();
   });
   afterEach(() => {
     sandbox.restore();
@@ -51,6 +52,10 @@ describe('project', () => {
           'feat-functions',
         ]),
       );
+    });
+    it('should wait for the process to finish within the provided timeout', async () => {
+      await project.create({ appPath: 'myApp', timeout: 60000 });
+      sandbox.assert.calledWith(checkIfFinishedSpy, sinon.match.any, sinon.match({ timeout: 60000 }));
     });
   });
 });
