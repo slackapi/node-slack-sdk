@@ -20,6 +20,29 @@ expectAssignable<Parameters<typeof web.apps.event.authorizations.list>>([
   },
 ]);
 
+// apps.icon.set
+// -- sad path
+expectError(web.apps.icon.set()); // lacking argument
+expectError(web.apps.icon.set({})); // empty argument
+expectError(
+  web.apps.icon.set({
+    file: Buffer.from([1]), // missing app_id
+  }),
+);
+// -- happy path
+expectAssignable<Parameters<typeof web.apps.icon.set>>([
+  {
+    app_id: 'A1234',
+    file: Buffer.from([1]),
+  },
+]);
+expectAssignable<Parameters<typeof web.apps.icon.set>>([
+  {
+    app_id: 'A1234',
+    url: 'https://example.com/icon.png',
+  },
+]);
+
 // apps.manifest.create
 // -- sad path
 expectError(web.apps.manifest.create()); // lacking argument
