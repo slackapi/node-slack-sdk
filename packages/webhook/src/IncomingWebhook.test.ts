@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import { afterEach, beforeEach, describe, it } from 'node:test';
+import { ConsoleLogger } from '@slack/logger';
 import nock from 'nock';
 
 import {
@@ -11,6 +12,7 @@ import {
 } from './errors';
 import { type FetchFunction, IncomingWebhook } from './IncomingWebhook';
 import { getUserAgent } from './instrument';
+import { LogLevel } from './logger';
 import { rapidRetryPolicy } from './retry-policies';
 
 const url = 'https://hooks.slack.com/services/FAKEWEBHOOK';
@@ -48,6 +50,68 @@ describe('IncomingWebhook', () => {
       const webhook = new IncomingWebhook(url, { fetch: customFetch });
       await webhook.send('Hello');
       assert.ok(fetchCalled);
+    });
+
+    it('should warn when URL contains /triggers/', () => {
+      const warnings: string[] = [];
+      const logger = {
+        debug() {},
+        info() {},
+        warn(...msg: string[]) {
+          warnings.push(msg.join(' '));
+        },
+        error() {},
+        setLevel() {},
+        getLevel() {
+          return LogLevel.WARN;
+        },
+        setName() {},
+      };
+      new IncomingWebhook('https://hooks.slack.com/triggers/T000/abc', { logger });
+      assert.strictEqual(warnings.length, 1);
+      assert.ok(warnings[0].includes('WebhookTrigger'));
+    });
+
+    it('should not warn when URL contains /services/', () => {
+      const warnings: string[] = [];
+      const logger = {
+        debug() {},
+        info() {},
+        warn(...msg: string[]) {
+          warnings.push(msg.join(' '));
+        },
+        error() {},
+        setLevel() {},
+        getLevel() {
+          return LogLevel.WARN;
+        },
+        setName() {},
+      };
+      new IncomingWebhook('https://hooks.slack.com/services/T000/B000/abc', { logger });
+      assert.strictEqual(warnings.length, 0);
+    });
+
+    it('should use a given logger as-is and ignore logLevel', () => {
+      const calls: string[] = [];
+      const logger = {
+        debug() {},
+        info() {},
+        warn(...msg: string[]) {
+          calls.push(msg.join(' '));
+        },
+        error() {},
+        setLevel() {
+          calls.push('setLevel');
+        },
+        getLevel() {
+          return LogLevel.WARN;
+        },
+        setName() {
+          calls.push('setName');
+        },
+      };
+      new IncomingWebhook(url, { logger, logLevel: LogLevel.ERROR });
+      assert.deepStrictEqual(calls, ['The logLevel given to IncomingWebhook was ignored as you also gave logger']);
     });
   });
 
@@ -234,7 +298,7 @@ describe('IncomingWebhook', () => {
       });
     });
 
-    it('does not leak transport options passed to send() into the posted payload', async () => {
+    it('does not leak transport or logging options passed to send() into the posted payload', async () => {
       let posted: unknown;
       const scope = nock('https://hooks.slack.com')
         .post(/services/, (body) => {
@@ -247,6 +311,8 @@ describe('IncomingWebhook', () => {
         text: 'hello',
         timeout: 100,
         retryConfig: rapidRetryPolicy,
+        logger: new ConsoleLogger(),
+        logLevel: LogLevel.DEBUG,
       });
       assert.deepStrictEqual(posted, { text: 'hello' });
       scope.done();

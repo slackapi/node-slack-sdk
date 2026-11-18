@@ -3,6 +3,7 @@ import pRetry, { AbortError } from 'p-retry';
 import { SlackWebhookError, WebhookTriggerHTTPError, WebhookTriggerRequestError } from './errors';
 import type { FetchFunction, FetchResponse } from './IncomingWebhook';
 import { getUserAgent } from './instrument';
+import { getLogger, type Logger, LogLevel } from './logger';
 import type { RetryOptions } from './retry-policies';
 
 /**
@@ -35,6 +36,8 @@ export class WebhookTrigger {
    */
   private retryConfig: RetryOptions;
 
+  private logger: Logger;
+
   public constructor(
     url: string,
     defaults: WebhookTriggerDefaultArguments = {
@@ -52,6 +55,18 @@ export class WebhookTrigger {
     this.headers = {
       'User-Agent': getUserAgent(),
     };
+    this.logger = defaults.logger ?? getLogger('WebhookTrigger', defaults.logLevel ?? LogLevel.INFO);
+
+    if (defaults.logger !== undefined && defaults.logLevel !== undefined) {
+      this.logger.warn('The logLevel given to WebhookTrigger was ignored as you also gave logger');
+    }
+
+    if (url.includes('/services/')) {
+      this.logger.warn(
+        'This URL looks like an incoming webhook (contains "/services/"). ' +
+          'Consider using IncomingWebhook instead of WebhookTrigger.',
+      );
+    }
   }
 
   /**
@@ -114,6 +129,8 @@ export interface WebhookTriggerDefaultArguments {
   fetch?: FetchFunction;
   timeout?: number;
   retryConfig?: RetryOptions;
+  logger?: Logger;
+  logLevel?: LogLevel;
 }
 
 export interface WebhookTriggerSendArguments {
