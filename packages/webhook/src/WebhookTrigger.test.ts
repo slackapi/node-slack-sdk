@@ -11,6 +11,7 @@ import {
   WebhookTriggerRequestError,
 } from './errors';
 import { addAppMetadata } from './instrument';
+import { LogLevel } from './logger';
 import { rapidRetryPolicy } from './retry-policies';
 import { WebhookTrigger } from './WebhookTrigger';
 
@@ -44,6 +45,68 @@ describe('WebhookTrigger', () => {
       // biome-ignore lint/suspicious/noExplicitAny: exercising the runtime guard with invalid input
       assert.throws(() => new WebhookTrigger(undefined as any), /URL is required/);
       assert.throws(() => new WebhookTrigger(''), /URL is required/);
+    });
+
+    it('should warn when URL contains /services/', () => {
+      const warnings: string[] = [];
+      const logger = {
+        debug() {},
+        info() {},
+        warn(...msg: string[]) {
+          warnings.push(msg.join(' '));
+        },
+        error() {},
+        setLevel() {},
+        getLevel() {
+          return LogLevel.WARN;
+        },
+        setName() {},
+      };
+      new WebhookTrigger('https://hooks.slack.com/services/T000/B000/abc', { logger });
+      assert.strictEqual(warnings.length, 1);
+      assert.ok(warnings[0].includes('IncomingWebhook'));
+    });
+
+    it('should not warn when URL contains /triggers/', () => {
+      const warnings: string[] = [];
+      const logger = {
+        debug() {},
+        info() {},
+        warn(...msg: string[]) {
+          warnings.push(msg.join(' '));
+        },
+        error() {},
+        setLevel() {},
+        getLevel() {
+          return LogLevel.WARN;
+        },
+        setName() {},
+      };
+      new WebhookTrigger('https://hooks.slack.com/triggers/T000/abc', { logger });
+      assert.strictEqual(warnings.length, 0);
+    });
+
+    it('should use a given logger as-is and ignore logLevel', () => {
+      const calls: string[] = [];
+      const logger = {
+        debug() {},
+        info() {},
+        warn(...msg: string[]) {
+          calls.push(msg.join(' '));
+        },
+        error() {},
+        setLevel() {
+          calls.push('setLevel');
+        },
+        getLevel() {
+          return LogLevel.WARN;
+        },
+        setName() {
+          calls.push('setName');
+        },
+      };
+      new WebhookTrigger(url, { logger, logLevel: LogLevel.ERROR });
+      assert.deepStrictEqual(calls, ['The logLevel given to WebhookTrigger was ignored as you also gave logger']);
     });
   });
 

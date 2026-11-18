@@ -3,6 +3,7 @@ import pRetry, { AbortError } from 'p-retry';
 
 import { IncomingWebhookHTTPError, IncomingWebhookRequestError, SlackWebhookError } from './errors';
 import { getUserAgent } from './instrument';
+import { getLogger, type Logger, LogLevel } from './logger';
 import type { RetryOptions } from './retry-policies';
 
 export interface FetchHeaders {
@@ -65,6 +66,8 @@ export class IncomingWebhook {
    */
   private retryConfig: RetryOptions;
 
+  private logger: Logger;
+
   public constructor(
     url: string,
     defaults: IncomingWebhookDefaultArguments = {
@@ -82,6 +85,18 @@ export class IncomingWebhook {
     this.headers = {
       'User-Agent': getUserAgent(),
     };
+    this.logger = defaults.logger ?? getLogger('IncomingWebhook', defaults.logLevel ?? LogLevel.INFO);
+
+    if (defaults.logger !== undefined && defaults.logLevel !== undefined) {
+      this.logger.warn('The logLevel given to IncomingWebhook was ignored as you also gave logger');
+    }
+
+    if (url.includes('/triggers/')) {
+      this.logger.warn(
+        'This URL looks like a webhook trigger (contains "/triggers/"). ' +
+          'Consider using WebhookTrigger instead of IncomingWebhook.',
+      );
+    }
 
     this.defaults = defaults;
   }
@@ -99,11 +114,13 @@ export class IncomingWebhook {
       payload = Object.assign(payload, message);
     }
 
-    // Remove transport options so they don't leak into payloads
+    // Remove transport and logging options so they don't leak into payloads
     const {
       fetch: fetchFn = this.fetchFn,
       timeout = this.timeout,
       retryConfig = this.retryConfig,
+      logger: _logger,
+      logLevel: _logLevel,
       ...messagePayload
     } = payload;
 
@@ -165,6 +182,8 @@ export interface IncomingWebhookDefaultArguments {
   fetch?: FetchFunction;
   timeout?: number;
   retryConfig?: RetryOptions;
+  logger?: Logger;
+  logLevel?: LogLevel;
 }
 
 export interface IncomingWebhookSendArguments extends IncomingWebhookDefaultArguments {
