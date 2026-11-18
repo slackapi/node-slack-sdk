@@ -270,6 +270,7 @@ export type { MigrationExchangeArguments } from './migration';
 export type {
   OAuthAccessArguments,
   OAuthV2AccessArguments,
+  OAuthV2BeginShortTokenRotationArguments,
   OAuthV2ExchangeArguments,
 } from './oauth';
 export type {

@@ -222,6 +222,7 @@ import type {
   MigrationExchangeArguments,
   OAuthAccessArguments,
   OAuthV2AccessArguments,
+  OAuthV2BeginShortTokenRotationArguments,
   OAuthV2ExchangeArguments,
   OpenIDConnectTokenArguments,
   OpenIDConnectUserInfoArguments,
@@ -520,6 +521,7 @@ import type {
   MigrationExchangeResponse,
   OauthAccessResponse,
   OauthV2AccessResponse,
+  OauthV2BeginShortTokenRotationResponse,
   OauthV2ExchangeResponse,
   OpenIDConnectTokenResponse,
   OpenIDConnectUserInfoResponse,
@@ -2321,6 +2323,14 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
        * @see {@link https://docs.slack.dev/reference/methods/oauth.v2.access `oauth.v2.access` API reference}.
        */
       access: bindApiCall<OAuthV2AccessArguments, OauthV2AccessResponse>(this, 'oauth.v2.access'),
+      /**
+       * @description Begins rotating the secret on an API token with a short secret.
+       * @see {@link https://docs.slack.dev/reference/methods/oauth.v2.beginShortTokenRotation `oauth.v2.beginShortTokenRotation` API reference}.
+       */
+      beginShortTokenRotation: bindApiCall<
+        OAuthV2BeginShortTokenRotationArguments,
+        OauthV2BeginShortTokenRotationResponse
+      >(this, 'oauth.v2.beginShortTokenRotation'),
       /**
        * @description Exchanges a legacy access token for a new expiring access token and refresh token.
        * @see {@link https://docs.slack.dev/reference/methods/oauth.v2.exchange `oauth.v2.exchange` API reference}.

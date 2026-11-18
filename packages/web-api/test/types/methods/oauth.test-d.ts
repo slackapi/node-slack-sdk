@@ -48,6 +48,35 @@ expectAssignable<Parameters<typeof web.oauth.v2.access>>([
   },
 ]);
 
+// oauth.v2.beginShortTokenRotation
+// -- sad path
+expectError(web.oauth.v2.beginShortTokenRotation()); // lacking argument
+expectError(web.oauth.v2.beginShortTokenRotation({})); // empty argument
+expectError(
+  web.oauth.v2.beginShortTokenRotation({
+    ...creds, // missing token
+  }),
+);
+expectError(
+  web.oauth.v2.beginShortTokenRotation({
+    client_id: 'C1234',
+    token: 'xoxp-12345-67890-1928471-abcdefg', // missing client_secret
+  }),
+);
+expectError(
+  web.oauth.v2.beginShortTokenRotation({
+    client_secret: '1234.567',
+    token: 'xoxp-12345-67890-1928471-abcdefg', // missing client_id
+  }),
+);
+// -- happy path
+expectAssignable<Parameters<typeof web.oauth.v2.beginShortTokenRotation>>([
+  {
+    token: 'xoxp-12345-67890-1928471-abcdefg',
+    ...creds,
+  },
+]);
+
 // oauth.v2.exchange
 // -- sad path
 expectError(web.oauth.v2.exchange()); // lacking argument

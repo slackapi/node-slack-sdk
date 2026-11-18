@@ -7,6 +7,11 @@ export interface OAuthAccessArguments extends OAuthCredentials {
 }
 // https://docs.slack.dev/reference/methods/oauth.v2.access
 export interface OAuthV2AccessArguments extends OAuthCredentials, OAuthGrantRefresh {}
+// https://docs.slack.dev/reference/methods/oauth.v2.beginShortTokenRotation
+export interface OAuthV2BeginShortTokenRotationArguments extends Pick<OAuthCredentials, 'client_id' | 'client_secret'> {
+  /** @description The xoxp token being rotated. */
+  token: string;
+}
 // https://docs.slack.dev/reference/methods/oauth.v2.exchange
 export interface OAuthV2ExchangeArguments extends Pick<OAuthCredentials, 'client_id' | 'client_secret'> {
   /** @description The legacy xoxb or xoxp token being migrated. */
