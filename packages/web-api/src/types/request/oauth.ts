@@ -12,6 +12,17 @@ export interface OAuthV2BeginShortTokenRotationArguments extends Pick<OAuthCrede
   /** @description The xoxp token being rotated. */
   token: string;
 }
+// https://docs.slack.dev/reference/methods/oauth.v2.completeShortTokenRotation
+export interface OAuthV2CompleteShortTokenRotationArguments
+  extends Pick<OAuthCredentials, 'client_id' | 'client_secret'> {
+  /**
+   * @description The original short xoxp token being rotated (the one passed to oauth.v2.beginShortTokenRotation).
+   * Authenticates the request.
+   */
+  token: string;
+  /** @description The new xoxp token returned by oauth.v2.beginShortTokenRotation. */
+  new_token: string;
+}
 // https://docs.slack.dev/reference/methods/oauth.v2.exchange
 export interface OAuthV2ExchangeArguments extends Pick<OAuthCredentials, 'client_id' | 'client_secret'> {
   /** @description The legacy xoxb or xoxp token being migrated. */

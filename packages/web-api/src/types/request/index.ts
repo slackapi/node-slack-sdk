@@ -271,6 +271,7 @@ export type {
   OAuthAccessArguments,
   OAuthV2AccessArguments,
   OAuthV2BeginShortTokenRotationArguments,
+  OAuthV2CompleteShortTokenRotationArguments,
   OAuthV2ExchangeArguments,
 } from './oauth';
 export type {

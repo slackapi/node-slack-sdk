@@ -280,6 +280,7 @@ export { OauthAccessResponse } from './OauthAccessResponse';
 export { OauthTokenResponse } from './OauthTokenResponse';
 export { OauthV2AccessResponse } from './OauthV2AccessResponse';
 export { OauthV2BeginShortTokenRotationResponse } from './OauthV2BeginShortTokenRotationResponse';
+export { OauthV2CompleteShortTokenRotationResponse } from './OauthV2CompleteShortTokenRotationResponse';
 export { OauthV2ExchangeResponse } from './OauthV2ExchangeResponse';
 export { OpenIDConnectTokenResponse } from './OpenIDConnectTokenResponse';
 export { OpenIDConnectUserInfoResponse } from './OpenIDConnectUserInfoResponse';

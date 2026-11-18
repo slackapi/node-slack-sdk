@@ -77,6 +77,37 @@ expectAssignable<Parameters<typeof web.oauth.v2.beginShortTokenRotation>>([
   },
 ]);
 
+// oauth.v2.completeShortTokenRotation
+// -- sad path
+expectError(web.oauth.v2.completeShortTokenRotation()); // lacking argument
+expectError(web.oauth.v2.completeShortTokenRotation({})); // empty argument
+expectError(
+  web.oauth.v2.completeShortTokenRotation({
+    token: 'xoxp-12345-67890-1928471-abcdefg',
+    ...creds, // missing new_token
+  }),
+);
+expectError(
+  web.oauth.v2.completeShortTokenRotation({
+    new_token: 'xoxp-12345-67890-1928471-qemwiiwglagjacakvqbvbfkmvbsvsuzn',
+    ...creds, // missing token
+  }),
+);
+expectError(
+  web.oauth.v2.completeShortTokenRotation({
+    token: 'xoxp-12345-67890-1928471-abcdefg',
+    new_token: 'xoxp-12345-67890-1928471-qemwiiwglagjacakvqbvbfkmvbsvsuzn', // missing client_id, client_secret
+  }),
+);
+// -- happy path
+expectAssignable<Parameters<typeof web.oauth.v2.completeShortTokenRotation>>([
+  {
+    token: 'xoxp-12345-67890-1928471-abcdefg',
+    new_token: 'xoxp-12345-67890-1928471-qemwiiwglagjacakvqbvbfkmvbsvsuzn',
+    ...creds,
+  },
+]);
+
 // oauth.v2.exchange
 // -- sad path
 expectError(web.oauth.v2.exchange()); // lacking argument
