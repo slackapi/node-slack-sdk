@@ -9,9 +9,17 @@
 
 import type { WebAPICallResult } from '../../WebClient';
 export type AppsManagedPermissionsSetResponse = WebAPICallResult & {
+  channel_restriction_mode?: string;
   error?: string;
   needed?: string;
   ok?: boolean;
+  permission_type?: string;
   provided?: string;
+  response_metadata?: ResponseMetadata;
+  user_ids?: string[];
   warning?: string;
 };
+
+export interface ResponseMetadata {
+  messages?: string[];
+}
