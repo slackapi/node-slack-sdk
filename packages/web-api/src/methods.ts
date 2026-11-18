@@ -223,6 +223,7 @@ import type {
   OAuthAccessArguments,
   OAuthV2AccessArguments,
   OAuthV2ExchangeArguments,
+  OAuthV2UserAccessArguments,
   OpenIDConnectTokenArguments,
   OpenIDConnectUserInfoArguments,
   PinsAddArguments,
@@ -521,6 +522,7 @@ import type {
   OauthAccessResponse,
   OauthV2AccessResponse,
   OauthV2ExchangeResponse,
+  OauthV2UserAccessResponse,
   OpenIDConnectTokenResponse,
   OpenIDConnectUserInfoResponse,
   PinsAddResponse,
@@ -2326,6 +2328,13 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
        * @see {@link https://docs.slack.dev/reference/methods/oauth.v2.exchange `oauth.v2.exchange` API reference}.
        */
       exchange: bindApiCall<OAuthV2ExchangeArguments, OauthV2ExchangeResponse>(this, 'oauth.v2.exchange'),
+      user: {
+        /**
+         * @description Exchanges a temporary OAuth verifier code for a user access token.
+         * @see {@link https://docs.slack.dev/reference/methods/oauth.v2.user.access `oauth.v2.user.access` API reference}.
+         */
+        access: bindApiCall<OAuthV2UserAccessArguments, OauthV2UserAccessResponse>(this, 'oauth.v2.user.access'),
+      },
     },
   };
 
