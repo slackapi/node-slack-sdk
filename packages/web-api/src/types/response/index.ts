@@ -123,6 +123,7 @@ export { AgentsSessionsSetStatusResponse } from './AgentsSessionsSetStatusRespon
 export { ApiTestResponse } from './ApiTestResponse';
 export { AppsConnectionsOpenResponse } from './AppsConnectionsOpenResponse';
 export { AppsEventAuthorizationsListResponse } from './AppsEventAuthorizationsListResponse';
+export { AppsIconSetResponse } from './AppsIconSetResponse';
 export { AppsManagedPermissionsSetResponse } from './AppsManagedPermissionsSetResponse';
 export { AppsManifestCreateResponse } from './AppsManifestCreateResponse';
 export { AppsManifestDeleteResponse } from './AppsManifestDeleteResponse';

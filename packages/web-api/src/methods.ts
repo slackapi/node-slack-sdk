@@ -119,6 +119,7 @@ import type {
   APITestArguments,
   AppsConnectionsOpenArguments,
   AppsEventAuthorizationsListArguments,
+  AppsIconSetArguments,
   AppsManagedPermissionsSetArguments,
   AppsManifestCreateArguments,
   AppsManifestDeleteArguments,
@@ -419,6 +420,7 @@ import type {
   ApiTestResponse,
   AppsConnectionsOpenResponse,
   AppsEventAuthorizationsListResponse,
+  AppsIconSetResponse,
   AppsManagedPermissionsSetResponse,
   AppsManifestCreateResponse,
   AppsManifestDeleteResponse,
@@ -1653,6 +1655,13 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
           'apps.event.authorizations.list',
         ),
       },
+    },
+    icon: {
+      /**
+       * @description Sets the app icon.
+       * @see {@link https://docs.slack.dev/reference/methods/apps.icon.set `apps.icon.set` API reference}.
+       */
+      set: bindApiCall<AppsIconSetArguments, AppsIconSetResponse>(this, 'apps.icon.set'),
     },
     managed: {
       permissions: {
