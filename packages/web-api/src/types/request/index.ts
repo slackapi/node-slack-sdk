@@ -244,7 +244,11 @@ export type {
   DndTeamInfoArguments,
 } from './dnd';
 export type { EmojiListArguments } from './emoji';
-export type { EntityPresentCommentsArguments, EntityPresentDetailsArguments } from './entity';
+export type {
+  EntityAcknowledgeCommentActionArguments,
+  EntityPresentCommentsArguments,
+  EntityPresentDetailsArguments,
+} from './entity';
 export type {
   FilesCommentsDeleteArguments,
   FilesCompleteUploadExternalArguments,

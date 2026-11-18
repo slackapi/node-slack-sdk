@@ -61,6 +61,19 @@ interface EntityComment {
   url?: string;
 }
 
+// https://docs.slack.dev/reference/methods/entity.acknowledgeCommentAction
+export interface EntityAcknowledgeCommentActionArguments extends TokenOverridable {
+  /** @description A reference to the original user action that initiated the comment mutation. */
+  trigger_id: string;
+  /** @description The full comment data. Required for edit and post actions. */
+  comment?: EntityComment;
+  /**
+   * @description Error message if the action failed in the app. When present, signals that the mutation could not be
+   * completed.
+   */
+  error?: string;
+}
+
 // https://docs.slack.dev/reference/methods/entity.presentComments
 export interface EntityPresentCommentsArguments extends TokenOverridable {
   /** @description Array of comments to present to the user. */

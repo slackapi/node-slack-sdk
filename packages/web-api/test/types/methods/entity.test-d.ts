@@ -3,6 +3,77 @@ import { WebClient } from '../../../src/WebClient';
 
 const web = new WebClient('TOKEN');
 
+// entity.acknowledgeCommentAction
+// -- sad path
+expectError(web.entity.acknowledgeCommentAction()); // lacking argument
+expectError(web.entity.acknowledgeCommentAction({})); // empty argument
+expectError(
+  web.entity.acknowledgeCommentAction({
+    error: 'You do not have permission to edit this comment', // missing trigger_id
+  }),
+);
+expectError(
+  web.entity.acknowledgeCommentAction({
+    trigger_id: '1234567890123.1234567890123.abcdef01234567890abcdef012345689',
+    comment: {
+      id: 'comment-unique-identifier-003',
+      sender: {
+        user_id: 'U123456789',
+      },
+      timestamp: 1741164500, // missing comment
+    },
+  }),
+);
+expectError(
+  web.entity.acknowledgeCommentAction({
+    trigger_id: '1234567890123.1234567890123.abcdef01234567890abcdef012345689',
+    comment: {
+      id: 'comment-unique-identifier-003',
+      sender: {
+        user_id: 'U123456789',
+      },
+      comment: {
+        value: 'The saved comment text',
+        blocks: {
+          type: 'rich_text',
+          elements: [],
+        }, // only one of blocks or value
+      },
+      timestamp: 1741164500,
+    },
+  }),
+);
+// -- happy path
+expectAssignable<Parameters<typeof web.entity.acknowledgeCommentAction>>([
+  {
+    trigger_id: '1234567890123.1234567890123.abcdef01234567890abcdef012345689',
+  },
+]);
+expectAssignable<Parameters<typeof web.entity.acknowledgeCommentAction>>([
+  {
+    trigger_id: '1234567890123.1234567890123.abcdef01234567890abcdef012345689',
+    comment: {
+      id: 'comment-unique-identifier-003',
+      sender: {
+        user_id: 'U123456789',
+      },
+      comment: {
+        value: 'The saved comment text',
+        format: 'markdown',
+      },
+      timestamp: 1741164500,
+      url: 'your.app/item/1/comment/3',
+      thread_root_id: 'comment-unique-identifier-001',
+    },
+  },
+]);
+expectAssignable<Parameters<typeof web.entity.acknowledgeCommentAction>>([
+  {
+    trigger_id: '1234567890123.1234567890123.abcdef01234567890abcdef012345689',
+    error: 'You do not have permission to edit this comment',
+  },
+]);
+
 // entity.presentComments
 // -- sad path
 expectError(web.entity.presentComments()); // lacking argument

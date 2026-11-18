@@ -226,6 +226,7 @@ export { DndInfoResponse } from './DndInfoResponse';
 export { DndSetSnoozeResponse } from './DndSetSnoozeResponse';
 export { DndTeamInfoResponse } from './DndTeamInfoResponse';
 export { EmojiListResponse } from './EmojiListResponse';
+export { EntityAcknowledgeCommentActionResponse } from './EntityAcknowledgeCommentActionResponse';
 export { EntityPresentCommentsResponse } from './EntityPresentCommentsResponse';
 export { EntityPresentDetailsResponse } from './EntityPresentDetailsResponse';
 export { FilesCommentsAddResponse } from './FilesCommentsAddResponse';
