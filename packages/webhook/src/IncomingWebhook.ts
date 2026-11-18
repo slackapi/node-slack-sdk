@@ -116,19 +116,19 @@ export class IncomingWebhook {
 
     // Remove transport and logging options so they don't leak into payloads
     const {
-      fetch: _fetch,
-      timeout: _timeout,
-      retryConfig: _retryConfig,
+      fetch: fetchFn = this.fetchFn,
+      timeout = this.timeout,
+      retryConfig = this.retryConfig,
       logger: _logger,
       logLevel: _logLevel,
       ...messagePayload
     } = payload;
 
     return pRetry(async () => {
-      const signal = this.timeout > 0 ? AbortSignal.timeout(this.timeout) : undefined;
+      const signal = timeout > 0 ? AbortSignal.timeout(timeout) : undefined;
 
       try {
-        const response = await this.fetchFn(this.url, {
+        const response = await fetchFn(this.url, {
           method: 'POST',
           headers: {
             ...this.headers,
@@ -155,7 +155,7 @@ export class IncomingWebhook {
         // No response received (network/timeout): retryable.
         throw new IncomingWebhookRequestError(error instanceof Error ? error : new Error(String(error)));
       }
-    }, this.retryConfig);
+    }, retryConfig);
   }
 
   /**
