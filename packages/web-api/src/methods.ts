@@ -201,6 +201,7 @@ import type {
   DndSetSnoozeArguments,
   DndTeamInfoArguments,
   EmojiListArguments,
+  EntityPresentCommentsArguments,
   EntityPresentDetailsArguments,
   FilesCommentsDeleteArguments,
   FilesCompleteUploadExternalArguments,
@@ -500,6 +501,7 @@ import type {
   DndSetSnoozeResponse,
   DndTeamInfoResponse,
   EmojiListResponse,
+  EntityPresentCommentsResponse,
   EntityPresentDetailsResponse,
   FilesCommentsDeleteResponse,
   FilesCompleteUploadExternalResponse,
@@ -2168,6 +2170,14 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
   };
 
   public readonly entity = {
+    /**
+     * @description Provide comments for work objects.
+     * @see {@link https://docs.slack.dev/reference/methods/entity.presentComments `entity.presentComments` API reference}.
+     */
+    presentComments: bindApiCall<EntityPresentCommentsArguments, EntityPresentCommentsResponse>(
+      this,
+      'entity.presentComments',
+    ),
     /**
      * @description Provide information about the entity to be displayed in the flexpane.
      * @see {@link https://docs.slack.dev/reference/methods/entity.presentDetails}
