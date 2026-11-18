@@ -201,6 +201,7 @@ import type {
   DndSetSnoozeArguments,
   DndTeamInfoArguments,
   EmojiListArguments,
+  EntityAcknowledgeCommentActionArguments,
   EntityPresentCommentsArguments,
   EntityPresentDetailsArguments,
   FilesCommentsDeleteArguments,
@@ -501,6 +502,7 @@ import type {
   DndSetSnoozeResponse,
   DndTeamInfoResponse,
   EmojiListResponse,
+  EntityAcknowledgeCommentActionResponse,
   EntityPresentCommentsResponse,
   EntityPresentDetailsResponse,
   FilesCommentsDeleteResponse,
@@ -2170,6 +2172,14 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
   };
 
   public readonly entity = {
+    /**
+     * @description Acknowledge a comment post, edit, or delete on a Work Object.
+     * @see {@link https://docs.slack.dev/reference/methods/entity.acknowledgeCommentAction `entity.acknowledgeCommentAction` API reference}.
+     */
+    acknowledgeCommentAction: bindApiCall<
+      EntityAcknowledgeCommentActionArguments,
+      EntityAcknowledgeCommentActionResponse
+    >(this, 'entity.acknowledgeCommentAction'),
     /**
      * @description Provide comments for work objects.
      * @see {@link https://docs.slack.dev/reference/methods/entity.presentComments `entity.presentComments` API reference}.
