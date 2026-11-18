@@ -24,8 +24,8 @@ export interface AppsIconSetArguments extends AppID, TokenOverridable {
 // https://docs.slack.dev/reference/methods/apps.managed.permissions.set
 export interface AppsManagedPermissionsSetArguments extends AppID, TokenOverridable {
   /**
-   * @description Who can interact with the app. Use everyone to allow all members, or app_owner to restrict access to
-   * the app's owner.
+   * @description Who can interact with the app. Use `everyone` to allow all members, or `app_owner` to restrict access
+   * to the app's owner.
    */
   permissions: 'app_owner' | 'everyone';
 }
