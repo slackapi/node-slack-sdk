@@ -26,19 +26,7 @@ expectError(web.apps.icon.set()); // lacking argument
 expectError(web.apps.icon.set({})); // empty argument
 expectError(
   web.apps.icon.set({
-    app_id: 'A1234', // missing file or url
-  }),
-);
-expectError(
-  web.apps.icon.set({
     file: Buffer.from([1]), // missing app_id
-  }),
-);
-expectError(
-  web.apps.icon.set({
-    app_id: 'A1234',
-    file: Buffer.from([1]),
-    url: 'https://example.com/icon.png', // only one of file or url
   }),
 );
 // -- happy path

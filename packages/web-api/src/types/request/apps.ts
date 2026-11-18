@@ -14,20 +14,12 @@ export interface AppsEventAuthorizationsListArguments extends TokenOverridable, 
 }
 
 // https://docs.slack.dev/reference/methods/apps.icon.set
-export type AppsIconSetArguments = AppID &
-  TokenOverridable &
-  (
-    | {
-        /** @description File contents via `multipart/form-data`. */
-        file: Buffer;
-        url?: never;
-      }
-    | {
-        /** @description URL of a publicly hosted image. */
-        url: string;
-        file?: never;
-      }
-  );
+export interface AppsIconSetArguments extends AppID, TokenOverridable {
+  /** @description File contents via `multipart/form-data`. */
+  file?: Buffer;
+  /** @description URL of a publicly hosted image. */
+  url?: string;
+}
 
 // https://docs.slack.dev/reference/methods/apps.manifest.create
 export interface AppsManifestCreateArguments extends TokenOverridable {
