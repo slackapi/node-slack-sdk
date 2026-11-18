@@ -144,6 +144,7 @@ export type { APITestArguments } from './api';
 export type {
   AppsConnectionsOpenArguments,
   AppsEventAuthorizationsListArguments,
+  AppsIconSetArguments,
   AppsManifestCreateArguments,
   AppsManifestDeleteArguments,
   AppsManifestExportArguments,
