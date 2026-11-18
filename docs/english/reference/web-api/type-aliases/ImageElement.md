@@ -3,9 +3,9 @@
 # Type Alias: ImageElement
 
 ```ts
-type ImageElement = object & 
+type ImageElement = object & (
   | UrlImageObject
-  | SlackFileImageObject;
+  | SlackFileImageObject);
 ```
 
 Defined in: packages/types/dist/block-kit/block-elements.d.ts:237

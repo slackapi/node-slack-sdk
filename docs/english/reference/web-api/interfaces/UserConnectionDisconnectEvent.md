@@ -9,7 +9,7 @@ Defined in: packages/types/dist/events/user.d.ts:88
 ### enterprise\_id?
 
 ```ts
-optional enterprise_id?: string;
+enterprise_id?: string;
 ```
 
 Defined in: packages/types/dist/events/user.d.ts:92

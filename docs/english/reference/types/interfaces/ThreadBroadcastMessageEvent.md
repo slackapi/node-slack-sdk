@@ -9,7 +9,7 @@ Defined in: [events/message.ts:276](https://github.com/slackapi/node-slack-sdk/b
 ### attachments?
 
 ```ts
-optional attachments?: MessageAttachment[];
+attachments?: MessageAttachment[];
 ```
 
 Defined in: [events/message.ts:281](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/message.ts#L281)
@@ -19,7 +19,7 @@ Defined in: [events/message.ts:281](https://github.com/slackapi/node-slack-sdk/b
 ### blocks?
 
 ```ts
-optional blocks?: (Block | KnownBlock)[];
+blocks?: (Block | KnownBlock)[];
 ```
 
 Defined in: [events/message.ts:282](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/message.ts#L282)
@@ -59,7 +59,7 @@ Defined in: [events/message.ts:297](https://github.com/slackapi/node-slack-sdk/b
 ### display\_as\_bot?
 
 ```ts
-optional display_as_bot?: boolean;
+display_as_bot?: boolean;
 ```
 
 Defined in: [events/message.ts:285](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/message.ts#L285)
@@ -79,7 +79,7 @@ Defined in: [events/message.ts:279](https://github.com/slackapi/node-slack-sdk/b
 ### files?
 
 ```ts
-optional files?: File[];
+files?: File[];
 ```
 
 Defined in: [events/message.ts:283](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/message.ts#L283)
@@ -89,7 +89,7 @@ Defined in: [events/message.ts:283](https://github.com/slackapi/node-slack-sdk/b
 ### parent\_user\_id?
 
 ```ts
-optional parent_user_id?: string;
+parent_user_id?: string;
 ```
 
 Defined in: [events/message.ts:287](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/message.ts#L287)
@@ -99,9 +99,9 @@ Defined in: [events/message.ts:287](https://github.com/slackapi/node-slack-sdk/b
 ### root
 
 ```ts
-root: 
+root: (
   | GenericMessageEvent
-  | BotMessageEvent & object;
+  | BotMessageEvent) & object;
 ```
 
 Defined in: [events/message.ts:290](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/message.ts#L290)
@@ -163,7 +163,7 @@ Defined in: [events/message.ts:280](https://github.com/slackapi/node-slack-sdk/b
 ### thread\_ts?
 
 ```ts
-optional thread_ts?: string;
+thread_ts?: string;
 ```
 
 Defined in: [events/message.ts:289](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/message.ts#L289)
@@ -193,7 +193,7 @@ Defined in: [events/message.ts:277](https://github.com/slackapi/node-slack-sdk/b
 ### upload?
 
 ```ts
-optional upload?: boolean;
+upload?: boolean;
 ```
 
 Defined in: [events/message.ts:284](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/message.ts#L284)

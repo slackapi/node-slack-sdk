@@ -6,14 +6,16 @@ Defined in: [packages/web-api/src/types/request/admin/conversations.ts:122](http
 
 ## Extends
 
-- `TeamIDs`.`TokenOverridable`.`CursorPaginationEnabled`
+- `TeamIDs`
+- `TokenOverridable`
+- `CursorPaginationEnabled`
 
 ## Properties
 
 ### cursor?
 
 ```ts
-optional cursor?: string;
+cursor?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:16](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L16)
@@ -30,9 +32,7 @@ Default value fetches the first "page" of the collection.
 
 #### Inherited from
 
-```ts
-CursorPaginationEnabled.cursor
-```
+`CursorPaginationEnabled.cursor`
 
 ***
 
@@ -54,7 +54,7 @@ was sent before this parameter.
 ### limit?
 
 ```ts
-optional limit?: number;
+limit?: number;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:9](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L9)
@@ -66,16 +66,14 @@ even if the end of the list hasn't been reached. Must be an integer with a max v
 
 #### Inherited from
 
-```ts
-CursorPaginationEnabled.limit
-```
+`CursorPaginationEnabled.limit`
 
 ***
 
 ### max\_member\_count?
 
 ```ts
-optional max_member_count?: number;
+max_member_count?: number;
 ```
 
 Defined in: [packages/web-api/src/types/request/admin/conversations.ts:129](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/conversations.ts#L129)
@@ -100,16 +98,14 @@ A list of team IDs (must include at least one ID).
 
 #### Inherited from
 
-```ts
-TeamIDs.team_ids
-```
+`TeamIDs.team_ids`
 
 ***
 
 ### token?
 
 ```ts
-optional token?: string;
+token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
@@ -120,6 +116,4 @@ Overridable authentication token bearing required scopes.
 
 #### Inherited from
 
-```ts
-TokenOverridable.token
-```
+`TokenOverridable.token`

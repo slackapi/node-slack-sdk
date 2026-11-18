@@ -13,41 +13,41 @@ Defined in: [packages/web-api/src/types/response/AgentsConversationsRemoveViewRe
 ### channel\_id?
 
 ```ts
-optional channel_id?: string;
+channel_id?: string;
 ```
 
 ### error?
 
 ```ts
-optional error?: string;
+error?: string;
 ```
 
 ### needed?
 
 ```ts
-optional needed?: string;
+needed?: string;
 ```
 
 ### ok?
 
 ```ts
-optional ok?: boolean;
+ok?: boolean;
 ```
 
 ### provided?
 
 ```ts
-optional provided?: string;
+provided?: string;
 ```
 
 ### view\_id?
 
 ```ts
-optional view_id?: string;
+view_id?: string;
 ```
 
 ### warning?
 
 ```ts
-optional warning?: string;
+warning?: string;
 ```

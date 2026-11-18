@@ -13,101 +13,101 @@ Defined in: [packages/web-api/src/types/response/OauthV2AccessResponse.ts:11](ht
 ### access\_token?
 
 ```ts
-optional access_token?: string;
+access_token?: string;
 ```
 
 ### app\_id?
 
 ```ts
-optional app_id?: string;
+app_id?: string;
 ```
 
 ### authed\_user?
 
 ```ts
-optional authed_user?: AuthedUser;
+authed_user?: AuthedUser;
 ```
 
 ### bot\_user\_id?
 
 ```ts
-optional bot_user_id?: string;
+bot_user_id?: string;
 ```
 
 ### enterprise?
 
 ```ts
-optional enterprise?: Enterprise;
+enterprise?: Enterprise;
 ```
 
 ### error?
 
 ```ts
-optional error?: string;
+error?: string;
 ```
 
 ### expires\_in?
 
 ```ts
-optional expires_in?: number;
+expires_in?: number;
 ```
 
 ### incoming\_webhook?
 
 ```ts
-optional incoming_webhook?: IncomingWebhook;
+incoming_webhook?: IncomingWebhook;
 ```
 
 ### is\_enterprise\_install?
 
 ```ts
-optional is_enterprise_install?: boolean;
+is_enterprise_install?: boolean;
 ```
 
 ### needed?
 
 ```ts
-optional needed?: string;
+needed?: string;
 ```
 
 ### ok?
 
 ```ts
-optional ok?: boolean;
+ok?: boolean;
 ```
 
 ### provided?
 
 ```ts
-optional provided?: string;
+provided?: string;
 ```
 
 ### refresh\_token?
 
 ```ts
-optional refresh_token?: string;
+refresh_token?: string;
 ```
 
 ### scope?
 
 ```ts
-optional scope?: string;
+scope?: string;
 ```
 
 ### team?
 
 ```ts
-optional team?: Enterprise;
+team?: Enterprise;
 ```
 
 ### token\_type?
 
 ```ts
-optional token_type?: string;
+token_type?: string;
 ```
 
 ### warning?
 
 ```ts
-optional warning?: string;
+warning?: string;
 ```

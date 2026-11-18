@@ -14,14 +14,15 @@ Allows users to run a [link trigger](https://docs.slack.dev/tools/deno-slack-sdk
 
 ## Extends
 
-- [`Actionable`](Actionable.md).[`Confirmable`](Confirmable.md)
+- [`Actionable`](Actionable.md)
+- [`Confirmable`](Confirmable.md)
 
 ## Properties
 
 ### accessibility\_label?
 
 ```ts
-optional accessibility_label?: string;
+accessibility_label?: string;
 ```
 
 Defined in: [block-kit/block-elements.ts:799](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L799)
@@ -36,7 +37,7 @@ readers instead of the button `text` object. Maximum length for this field is 75
 ### action\_id?
 
 ```ts
-optional action_id?: string;
+action_id?: string;
 ```
 
 Defined in: [block-kit/extensions.ts:15](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/extensions.ts#L15)
@@ -54,7 +55,7 @@ among all other `action_id`s in the containing block. Maximum length for this fi
 ### confirm?
 
 ```ts
-optional confirm?: ConfirmationDialog;
+confirm?: ConfirmationDialog;
 ```
 
 Defined in: [block-kit/extensions.ts:25](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/extensions.ts#L25)
@@ -73,7 +74,7 @@ with.
 ### style?
 
 ```ts
-optional style?: ColorScheme;
+style?: ColorScheme;
 ```
 
 Defined in: [block-kit/block-elements.ts:794](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L794)
@@ -144,7 +145,7 @@ that will be invoked via this button.
 ##### trigger.customizable\_input\_parameters?
 
 ```ts
-optional customizable_input_parameters?: object[];
+customizable_input_parameters?: object[];
 ```
 
 ###### Description

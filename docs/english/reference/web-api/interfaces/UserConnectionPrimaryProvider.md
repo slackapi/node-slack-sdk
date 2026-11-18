@@ -9,7 +9,7 @@ Defined in: [packages/web-api/src/types/request/apps.ts:59](https://github.com/s
 ### accessory?
 
 ```ts
-optional accessory?: Overflow;
+accessory?: Overflow;
 ```
 
 Defined in: [packages/web-api/src/types/request/apps.ts:85](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/apps.ts#L85)
@@ -23,7 +23,7 @@ Overflow menu shown when connected (e.g., Disconnect, Re-authenticate).
 ### auth\_url?
 
 ```ts
-optional auth_url?: string;
+auth_url?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/apps.ts:77](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/apps.ts#L77)
@@ -37,7 +37,7 @@ OAuth redirect URL opened when the user clicks **Connect**. Must be HTTPs format
 ### connected\_context?
 
 ```ts
-optional connected_context?: PlainTextElement;
+connected_context?: PlainTextElement;
 ```
 
 Defined in: [packages/web-api/src/types/request/apps.ts:83](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/apps.ts#L83)
@@ -51,7 +51,7 @@ Additional context about the connection (e.g., org or workspace name).
 ### connected\_identity?
 
 ```ts
-optional connected_identity?: PlainTextElement;
+connected_identity?: PlainTextElement;
 ```
 
 Defined in: [packages/web-api/src/types/request/apps.ts:81](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/apps.ts#L81)
@@ -65,7 +65,7 @@ Display name of the connected account, shown when `is_connected` is `true`.
 ### description?
 
 ```ts
-optional description?: PlainTextElement;
+description?: PlainTextElement;
 ```
 
 Defined in: [packages/web-api/src/types/request/apps.ts:73](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/apps.ts#L73)
@@ -79,7 +79,7 @@ Brief description of what this connection enables.
 ### disconnect\_url?
 
 ```ts
-optional disconnect_url?: string;
+disconnect_url?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/apps.ts:79](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/apps.ts#L79)
@@ -93,7 +93,7 @@ URL opened when the user clicks **Disconnect**. Must be HTTPs format on a regist
 ### icon\_url?
 
 ```ts
-optional icon_url?: string;
+icon_url?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/apps.ts:75](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/apps.ts#L75)

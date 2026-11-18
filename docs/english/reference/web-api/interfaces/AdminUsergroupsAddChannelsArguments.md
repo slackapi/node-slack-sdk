@@ -6,7 +6,10 @@ Defined in: [packages/web-api/src/types/request/admin/usergroups.ts:14](https://
 
 ## Extends
 
-- `ChannelIDs`.`UsergroupID`.`OptionalTeamAssignable`.`TokenOverridable`
+- `ChannelIDs`
+- `UsergroupID`
+- `OptionalTeamAssignable`
+- `TokenOverridable`
 
 ## Properties
 
@@ -24,16 +27,14 @@ One or more encoded channel IDs.
 
 #### Inherited from
 
-```ts
-ChannelIDs.channel_ids
-```
+`ChannelIDs.channel_ids`
 
 ***
 
 ### team\_id?
 
 ```ts
-optional team_id?: string;
+team_id?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:70](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L70)
@@ -44,16 +45,14 @@ If using an org token, `team_id` is required.
 
 #### Inherited from
 
-```ts
-OptionalTeamAssignable.team_id
-```
+`OptionalTeamAssignable.team_id`
 
 ***
 
 ### token?
 
 ```ts
-optional token?: string;
+token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
@@ -64,9 +63,7 @@ Overridable authentication token bearing required scopes.
 
 #### Inherited from
 
-```ts
-TokenOverridable.token
-```
+`TokenOverridable.token`
 
 ***
 
@@ -84,6 +81,4 @@ ID of the IDP group to list/manage channels for.
 
 #### Inherited from
 
-```ts
-UsergroupID.usergroup_id
-```
+`UsergroupID.usergroup_id`

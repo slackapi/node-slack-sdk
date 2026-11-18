@@ -17,13 +17,13 @@ Defined in: [events/token.ts:3](https://github.com/slackapi/node-slack-sdk/blob/
 #### bot?
 
 ```ts
-optional bot?: string[];
+bot?: string[];
 ```
 
 #### oauth?
 
 ```ts
-optional oauth?: string[];
+oauth?: string[];
 ```
 
 ***

@@ -6,7 +6,9 @@ Defined in: [packages/web-api/src/types/request/conversations.ts:84](https://git
 
 ## Extends
 
-- `Channel`.`Required`\<`TargetTeam`\>.`TokenOverridable`
+- `Channel`
+- `Required`\<`TargetTeam`\>
+- `TokenOverridable`
 
 ## Properties
 
@@ -38,9 +40,7 @@ ID of conversation.
 
 #### Inherited from
 
-```ts
-Channel.channel
-```
+`Channel.channel`
 
 ***
 
@@ -65,7 +65,7 @@ The team or enterprise id of the other party.
 ### token?
 
 ```ts
-optional token?: string;
+token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
@@ -76,6 +76,4 @@ Overridable authentication token bearing required scopes.
 
 #### Inherited from
 
-```ts
-TokenOverridable.token
-```
+`TokenOverridable.token`

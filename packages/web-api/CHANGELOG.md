@@ -1,5 +1,28 @@
 # @slack/web-api
 
+## 8.4.0
+
+### Minor Changes
+
+- 899eda5: feat(web-api): add [`admin.apps.mcp.servers.list`](https://docs.slack.dev/reference/methods/admin.apps.mcp.servers.list) method
+- 1952a35: feat(web-api): add [`admin.apps.mcp.servers.permissions.list`](https://docs.slack.dev/reference/methods/admin.apps.mcp.servers.permissions.list) method
+- a37e280: feat(web-api): add [`admin.apps.mcp.servers.permissions.set`](https://docs.slack.dev/reference/methods/admin.apps.mcp.servers.permissions.set) method
+- 0f1d293: feat(web-api): add [`admin.slackbot.skills.list`](https://docs.slack.dev/reference/methods/admin.slackbot.skills.list) method
+- 3d2a7af: feat(web-api): add [`admin.slackbot.skills.publish`](https://docs.slack.dev/reference/methods/admin.slackbot.skills.publish) method
+- d70965c: feat(web-api): add [`admin.slackbot.skills.setAutoEnabled`](https://docs.slack.dev/reference/methods/admin.slackbot.skills.setAutoEnabled) method
+- 8168eb6: feat(web-api): add [`admin.slackbot.skills.unpublish`](https://docs.slack.dev/reference/methods/admin.slackbot.skills.unpublish) method
+- c067369: feat(web-api): add [`slackbot.skills.create`](https://docs.slack.dev/reference/methods/slackbot.skills.create) method
+- 5b7f2a4: feat(web-api): add [`slackbot.skills.delete`](https://docs.slack.dev/reference/methods/slackbot.skills.delete) method
+- f9da63c: feat(web-api): add [`slackbot.skills.info`](https://docs.slack.dev/reference/methods/slackbot.skills.info) method
+- 986cf60: feat(web-api): add [`slackbot.skills.library.add`](https://docs.slack.dev/reference/methods/slackbot.skills.library.add) method
+- 406f478: feat(web-api): add [`slackbot.skills.library.remove`](https://docs.slack.dev/reference/methods/slackbot.skills.library.remove) method
+- d67ffef: feat(web-api): add [`slackbot.skills.list`](https://docs.slack.dev/reference/methods/slackbot.skills.list) method
+- b576822: feat(web-api): add [`slackbot.skills.update`](https://docs.slack.dev/reference/methods/slackbot.skills.update) method
+
+### Patch Changes
+
+- e1b15b2: Retry API calls whose response body is interrupted mid-read, as v7 did ([#2738](https://github.com/slackapi/node-slack-sdk/issues/2738)). A dropped connection or a `timeout` that fires while the body downloads now rejects with a `WebAPIRequestError` (with `code` and `original`) after the configured retries, instead of a raw `TypeError: terminated` with no retry.
+
 ## 8.3.0
 
 ### Minor Changes

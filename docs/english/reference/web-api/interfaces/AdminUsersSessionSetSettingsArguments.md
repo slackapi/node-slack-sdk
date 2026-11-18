@@ -6,14 +6,15 @@ Defined in: [packages/web-api/src/types/request/admin/users.ts:142](https://gith
 
 ## Extends
 
-- `UserIDs`.`TokenOverridable`
+- `UserIDs`
+- `TokenOverridable`
 
 ## Properties
 
 ### desktop\_app\_browser\_quit?
 
 ```ts
-optional desktop_app_browser_quit?: boolean;
+desktop_app_browser_quit?: boolean;
 ```
 
 Defined in: [packages/web-api/src/types/request/admin/users.ts:144](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/users.ts#L144)
@@ -27,7 +28,7 @@ Terminate the session when the client—either the desktop app or a browser wind
 ### duration?
 
 ```ts
-optional duration?: number;
+duration?: number;
 ```
 
 Defined in: [packages/web-api/src/types/request/admin/users.ts:149](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/users.ts#L149)
@@ -42,7 +43,7 @@ the max value is 315569520 or 10 years (that's a long Slack session).
 ### token?
 
 ```ts
-optional token?: string;
+token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
@@ -53,9 +54,7 @@ Overridable authentication token bearing required scopes.
 
 #### Inherited from
 
-```ts
-TokenOverridable.token
-```
+`TokenOverridable.token`
 
 ***
 
@@ -73,6 +72,4 @@ List of encoded user IDs.
 
 #### Inherited from
 
-```ts
-UserIDs.user_ids
-```
+`UserIDs.user_ids`

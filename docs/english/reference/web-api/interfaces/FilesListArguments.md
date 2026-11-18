@@ -6,14 +6,16 @@ Defined in: [packages/web-api/src/types/request/files.ts:111](https://github.com
 
 ## Extends
 
-- `TokenOverridable`.`TraditionalPagingEnabled`.`OptionalTeamAssignable`
+- `TokenOverridable`
+- `TraditionalPagingEnabled`
+- `OptionalTeamAssignable`
 
 ## Properties
 
 ### channel?
 
 ```ts
-optional channel?: string;
+channel?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/files.ts:113](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/files.ts#L113)
@@ -27,7 +29,7 @@ Filter files appearing in a specific channel, indicated by its ID.
 ### count?
 
 ```ts
-optional count?: number;
+count?: number;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:33](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L33)
@@ -38,16 +40,14 @@ Number of items to return per page. Defaults to `20`
 
 #### Inherited from
 
-```ts
-TraditionalPagingEnabled.count
-```
+`TraditionalPagingEnabled.count`
 
 ***
 
 ### page?
 
 ```ts
-optional page?: number;
+page?: number;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:35](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L35)
@@ -58,16 +58,14 @@ Page number of results to return. Defaults to `1`.
 
 #### Inherited from
 
-```ts
-TraditionalPagingEnabled.page
-```
+`TraditionalPagingEnabled.page`
 
 ***
 
 ### show\_files\_hidden\_by\_limit?
 
 ```ts
-optional show_files_hidden_by_limit?: boolean;
+show_files_hidden_by_limit?: boolean;
 ```
 
 Defined in: [packages/web-api/src/types/request/files.ts:118](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/files.ts#L118)
@@ -82,7 +80,7 @@ being over the file limit.
 ### team\_id?
 
 ```ts
-optional team_id?: string;
+team_id?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:70](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L70)
@@ -93,16 +91,14 @@ If using an org token, `team_id` is required.
 
 #### Inherited from
 
-```ts
-OptionalTeamAssignable.team_id
-```
+`OptionalTeamAssignable.team_id`
 
 ***
 
 ### token?
 
 ```ts
-optional token?: string;
+token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
@@ -113,16 +109,14 @@ Overridable authentication token bearing required scopes.
 
 #### Inherited from
 
-```ts
-TokenOverridable.token
-```
+`TokenOverridable.token`
 
 ***
 
 ### ts\_from?
 
 ```ts
-optional ts_from?: string;
+ts_from?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/files.ts:120](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/files.ts#L120)
@@ -136,7 +130,7 @@ Filter files created after this timestamp (inclusive).
 ### ts\_to?
 
 ```ts
-optional ts_to?: string;
+ts_to?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/files.ts:122](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/files.ts#L122)
@@ -150,7 +144,7 @@ Filter files created before this timestamp (inclusive).
 ### types?
 
 ```ts
-optional types?: string;
+types?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/files.ts:128](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/files.ts#L128)
@@ -166,7 +160,7 @@ Available types are `all`, `spaces`, `snippets`, `images`, `gdocs`, `zips` and `
 ### user?
 
 ```ts
-optional user?: string;
+user?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/files.ts:130](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/files.ts#L130)

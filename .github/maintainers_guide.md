@@ -92,6 +92,10 @@ npm run docs --workspace packages/web-api
 
 The script places the reference markdown files in `/docs/english/reference/package-name`.
 
+### 🙈 Hidden API Arguments
+
+Method arguments in `@slack/web-api` follow the [Web API reference](https://docs.slack.dev/reference/methods). An argument that the API hides from its reference is not added to the SDK, even when it works. Adding it would make it look supported, and removing it later would break code that uses it. Once the reference documents the argument, a pull request can add it.
+
 ### 🎁 Updating Changesets
 
 This project uses [Changesets](https://github.com/changesets/changesets) to track changes and automate releases.
@@ -123,7 +127,7 @@ New official package versions are published when the release PR created from cha
 4. **Update Milestones**: Close the relevant [Milestones](https://github.com/slackapi/node-slack-sdk/milestones) and rename these to match the released package versions. Open a new Milestone for the next version, e.g. `@slack/web-api@next`.
 
 5. **Communicate the release**:
-   - **Internal**: Post a brief description and link to the GitHub release.
+   - **Internal**: Workflows post each release tag with its changelog to our release channel.
    - **External**: Post in **#lang-javascript** on [Slack Community](https://community.slack.com/). Include a link to the package on `npmjs.com/package/@slack/` as well as the release notes.
 
 ### 🚧 Beta Releases

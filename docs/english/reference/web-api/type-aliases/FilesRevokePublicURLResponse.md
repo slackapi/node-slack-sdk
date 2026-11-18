@@ -13,29 +13,29 @@ Defined in: [packages/web-api/src/types/response/FilesRevokePublicURLResponse.ts
 ### error?
 
 ```ts
-optional error?: string;
+error?: string;
 ```
 
 ### file?
 
 ```ts
-optional file?: File;
+file?: File;
 ```
 
 ### needed?
 
 ```ts
-optional needed?: string;
+needed?: string;
 ```
 
 ### ok?
 
 ```ts
-optional ok?: boolean;
+ok?: boolean;
 ```
 
 ### provided?
 
 ```ts
-optional provided?: string;
+provided?: string;
 ```

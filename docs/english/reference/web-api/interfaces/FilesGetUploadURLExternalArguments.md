@@ -13,7 +13,7 @@ Defined in: [packages/web-api/src/types/request/files.ts:92](https://github.com/
 ### ~~alt\_text?~~
 
 ```ts
-optional alt_text?: string;
+alt_text?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/files.ts:100](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/files.ts#L100)
@@ -27,7 +27,7 @@ Slack does not use this. Use `alt_txt`.
 ### alt\_txt?
 
 ```ts
-optional alt_txt?: string;
+alt_txt?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/files.ts:98](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/files.ts#L98)
@@ -69,7 +69,7 @@ Size in bytes of the file being uploaded.
 ### snippet\_type?
 
 ```ts
-optional snippet_type?: string;
+snippet_type?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/files.ts:102](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/files.ts#L102)
@@ -83,7 +83,7 @@ Syntax type of the snippet being uploaded. E.g. `python`.
 ### token?
 
 ```ts
-optional token?: string;
+token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
@@ -94,6 +94,4 @@ Overridable authentication token bearing required scopes.
 
 #### Inherited from
 
-```ts
-TokenOverridable.token
-```
+`TokenOverridable.token`

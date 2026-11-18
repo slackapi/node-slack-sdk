@@ -19,7 +19,7 @@ Defined in: [events/app.ts:70](https://github.com/slackapi/node-slack-sdk/blob/m
 ### context?
 
 ```ts
-optional context?: object;
+context?: object;
 ```
 
 Defined in: [events/app.ts:73](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/app.ts#L73)
@@ -27,7 +27,7 @@ Defined in: [events/app.ts:73](https://github.com/slackapi/node-slack-sdk/blob/m
 #### entities?
 
 ```ts
-optional entities?: 
+entities?: ((
   | {
   type: "slack#/types/channel_id";
   value: string;
@@ -46,7 +46,7 @@ optional entities?:
      channel_id: string;
      message_ts: string;
   };
-} & object[];
+}) & object)[];
 ```
 
 ***
@@ -64,7 +64,7 @@ Defined in: [events/app.ts:74](https://github.com/slackapi/node-slack-sdk/blob/m
 ### tab?
 
 ```ts
-optional tab?: "home" | "messages";
+tab?: "home" | "messages";
 ```
 
 Defined in: [events/app.ts:71](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/app.ts#L71)
@@ -94,7 +94,7 @@ Defined in: [events/app.ts:69](https://github.com/slackapi/node-slack-sdk/blob/m
 ### view?
 
 ```ts
-optional view?: View;
+view?: View;
 ```
 
 Defined in: [events/app.ts:72](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/app.ts#L72)

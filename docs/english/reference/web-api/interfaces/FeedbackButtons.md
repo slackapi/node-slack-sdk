@@ -17,7 +17,7 @@ Buttons to indicate positive or negative feedback.
 ### action\_id?
 
 ```ts
-optional action_id?: string;
+action_id?: string;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:12
@@ -43,7 +43,7 @@ Defined in: packages/types/dist/block-kit/block-elements.d.ts:162
 #### accessibility\_label?
 
 ```ts
-optional accessibility_label?: string;
+accessibility_label?: string;
 ```
 
 ##### Description
@@ -95,7 +95,7 @@ Defined in: packages/types/dist/block-kit/block-elements.d.ts:143
 #### accessibility\_label?
 
 ```ts
-optional accessibility_label?: string;
+accessibility_label?: string;
 ```
 
 ##### Description

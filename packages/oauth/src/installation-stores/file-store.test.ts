@@ -2,8 +2,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import { afterEach, beforeEach, describe, it } from 'node:test';
-import sinon from 'sinon';
+import { afterEach, beforeEach, describe, it, type Mock, mock } from 'node:test';
 
 import type { InstallationQuery } from '../index';
 import { InstallProvider } from '../index';
@@ -71,47 +70,46 @@ const _storedOrgInstallation = {
   isEnterpriseInstall: true,
 };
 
+type MockFunction = Mock<(...args: never[]) => unknown>;
+
+function callsTo(fn: MockFunction): unknown[][] {
+  return fn.mock.calls.map((call) => call.arguments);
+}
+
 describe('FileInstallationStore', async () => {
-  let fsMakeDirSync: sinon.SinonStub;
-  let fsWriteFileSync: sinon.SinonStub;
-  let fsReadFileSync: sinon.SinonStub;
-  let fsUnlinkSync: sinon.SinonStub;
-  let fsReaddirSync: sinon.SinonStub;
+  let fsWriteFileSync: MockFunction;
+  let fsReadFileSync: MockFunction;
+  let fsUnlinkSync: MockFunction;
+  let fsReaddirSync: MockFunction;
 
   beforeEach(() => {
-    // Note that these sinon stubs affect the `os` package behaviors
-    // in the tests in this file
-    fsMakeDirSync = sinon.stub(fs, 'mkdirSync').returns(undefined);
-    fsWriteFileSync = sinon.stub(fs, 'writeFileSync').returns(undefined);
-    fsReadFileSync = sinon.stub(fs, 'readFileSync').returns(Buffer.from(JSON.stringify(storedInstallation)));
-    fsUnlinkSync = sinon.stub(fs, 'unlinkSync').returns(undefined);
-    fsReaddirSync = sinon.stub(fs, 'readdirSync').returns(['app-latest', 'user-userId-latest']);
+    mock.method(fs, 'mkdirSync', () => undefined);
+    fsWriteFileSync = mock.method(fs, 'writeFileSync', () => {});
+    fsReadFileSync = mock.method(fs, 'readFileSync', () => Buffer.from(JSON.stringify(storedInstallation)));
+    fsUnlinkSync = mock.method(fs, 'unlinkSync', () => {});
+    fsReaddirSync = mock.method(fs, 'readdirSync', () => ['app-latest', 'user-userId-latest']);
   });
 
   afterEach(() => {
-    fsMakeDirSync.restore();
-    fsWriteFileSync.restore();
-    fsReadFileSync.restore();
-    fsUnlinkSync.restore();
-    fsReaddirSync.restore();
+    mock.restoreAll();
   });
 
-  it('should store the latest installation', async () => {
-    const installationStore = new FileInstallationStore({ baseDir: os.tmpdir() });
+  it('should store only the latest installation with historicalDataEnabled off', async () => {
+    const installationStore = new FileInstallationStore({ baseDir: os.tmpdir(), historicalDataEnabled: false });
     const { enterprise, team, user } = storedInstallation;
     const fakeInstallDir = path.join(os.tmpdir(), `${enterprise.id}-${team.id}`);
     const installationJSON = JSON.stringify(storedInstallation);
 
     await installationStore.storeInstallation(storedInstallation);
-    assert.strictEqual(fsWriteFileSync.calledWith(path.join(fakeInstallDir, 'app-latest'), installationJSON), true);
-    assert.strictEqual(
-      fsWriteFileSync.calledWith(sinon.match(path.join(fakeInstallDir, `user-${user.id}-latest`)), installationJSON),
-      true,
-    );
+    assert.deepEqual(callsTo(fsWriteFileSync), [
+      [path.join(fakeInstallDir, 'app-latest'), installationJSON],
+      [path.join(fakeInstallDir, `user-${user.id}-latest`), installationJSON],
+    ]);
   });
   it('should throw an exception with sufficient information when failing to store data', async () => {
-    fsWriteFileSync.restore(); // disable sinon stub for this test case
-    fsWriteFileSync = sinon.stub(fs, 'writeFileSync').throws(new Error('The original error message'));
+    fsWriteFileSync.mock.mockImplementation(() => {
+      throw new Error('The original error message');
+    });
     const installationStore = new FileInstallationStore({
       baseDir: os.tmpdir(),
       clientId: '11111.22222',
@@ -136,17 +134,14 @@ describe('FileInstallationStore', async () => {
 
     await installationStore.storeInstallation(storedInstallation);
 
-    assert.strictEqual(
-      fsWriteFileSync.calledWith(sinon.match(`${fakeInstallDir}${path.sep}app-`), installationJSON),
-      true,
-    );
-    assert.strictEqual(
-      fsWriteFileSync.calledWith(sinon.match(`${fakeInstallDir}${path.sep}user-${user.id}-`), installationJSON),
-      true,
-    );
-
-    // 1 store = 4 files = 2 latest + 2 timestamps
-    assert.strictEqual(fsWriteFileSync.callCount, 4);
+    const [appLatest, userLatest, appHistorical, userHistorical] = callsTo(fsWriteFileSync);
+    assert.deepEqual(appLatest, [path.join(fakeInstallDir, 'app-latest'), installationJSON]);
+    assert.deepEqual(userLatest, [path.join(fakeInstallDir, `user-${user.id}-latest`), installationJSON]);
+    assert.ok(String(appHistorical[0]).startsWith(path.join(fakeInstallDir, 'app-')));
+    assert.ok(String(userHistorical[0]).startsWith(path.join(fakeInstallDir, `user-${user.id}-`)));
+    assert.equal(appHistorical[1], installationJSON);
+    assert.equal(userHistorical[1], installationJSON);
+    assert.equal(fsWriteFileSync.mock.callCount(), 4);
   });
 
   it('should fetch a stored installation', async () => {
@@ -158,11 +153,11 @@ describe('FileInstallationStore', async () => {
     await installationStore.storeInstallation(storedInstallation);
     const installation = await installationStore.fetchInstallation(query);
 
-    assert.strictEqual(fsReadFileSync.calledWith(sinon.match(path.join(fakeInstallDir, 'app-latest'))), true);
+    assert.deepEqual(callsTo(fsReadFileSync), [[path.join(fakeInstallDir, 'app-latest')]]);
     assert.deepStrictEqual(installation, storedInstallation);
   });
   it('should throw an exception with sufficient information when failing to fetch data', async () => {
-    fsReadFileSync.restore(); // disable sinon stub for this test case
+    fsReadFileSync.mock.restore();
     const installationStore = new FileInstallationStore({
       baseDir: os.tmpdir(),
       clientId: '111.222',
@@ -190,12 +185,11 @@ describe('FileInstallationStore', async () => {
 
     await installationStore.deleteInstallation(query);
 
-    assert.strictEqual(fsReaddirSync.calledWith(sinon.match(fakeInstallDir)), true);
-    assert.strictEqual(fsUnlinkSync.calledWith(sinon.match('app-latest')), true);
-    assert.strictEqual(fsUnlinkSync.calledWith(sinon.match('user-userId-latest')), true);
-
-    // fsReaddirSync returns ['app-latest', 'user-userId-latest']
-    assert.strictEqual(fsUnlinkSync.callCount, 2);
+    assert.deepEqual(callsTo(fsReaddirSync), [[fakeInstallDir]]);
+    assert.deepEqual(callsTo(fsUnlinkSync), [
+      [path.resolve(fakeInstallDir, 'app-latest')],
+      [path.resolve(fakeInstallDir, 'user-userId-latest')],
+    ]);
   });
 
   it('should delete only user records of installation if userId is passed', async () => {
@@ -206,11 +200,8 @@ describe('FileInstallationStore', async () => {
 
     await installationStore.deleteInstallation(query);
 
-    assert.strictEqual(fsReaddirSync.calledWith(sinon.match(fakeInstallDir)), true);
-    assert.strictEqual(fsUnlinkSync.calledWith(sinon.match(`user-${user.id}-latest`)), true);
-
-    // fsReaddirSync returns ['app-latest', 'user-userId-latest']
-    assert.strictEqual(fsUnlinkSync.callCount, 1);
+    assert.deepEqual(callsTo(fsReaddirSync), [[fakeInstallDir]]);
+    assert.deepEqual(callsTo(fsUnlinkSync), [[path.resolve(fakeInstallDir, `user-${user.id}-latest`)]]);
   });
 
   it("should run authorize with triage-bot's MongoDB data", async () => {

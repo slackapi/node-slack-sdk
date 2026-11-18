@@ -9,7 +9,7 @@ Defined in: [packages/webhook/src/WebhookTrigger.ts:113](https://github.com/slac
 ### fetch?
 
 ```ts
-optional fetch?: FetchFunction;
+fetch?: FetchFunction;
 ```
 
 Defined in: [packages/webhook/src/WebhookTrigger.ts:114](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/WebhookTrigger.ts#L114)
@@ -19,7 +19,7 @@ Defined in: [packages/webhook/src/WebhookTrigger.ts:114](https://github.com/slac
 ### retryConfig?
 
 ```ts
-optional retryConfig?: RetryOptions;
+retryConfig?: RetryOptions;
 ```
 
 Defined in: [packages/webhook/src/WebhookTrigger.ts:116](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/WebhookTrigger.ts#L116)
@@ -29,7 +29,7 @@ Defined in: [packages/webhook/src/WebhookTrigger.ts:116](https://github.com/slac
 ### timeout?
 
 ```ts
-optional timeout?: number;
+timeout?: number;
 ```
 
 Defined in: [packages/webhook/src/WebhookTrigger.ts:115](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/WebhookTrigger.ts#L115)

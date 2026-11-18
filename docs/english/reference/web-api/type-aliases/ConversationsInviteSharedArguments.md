@@ -3,7 +3,7 @@
 # Type Alias: ConversationsInviteSharedArguments
 
 ```ts
-type ConversationsInviteSharedArguments = Channel & TokenOverridable & Emails | UserIDs & object;
+type ConversationsInviteSharedArguments = Channel & TokenOverridable & (Emails | UserIDs) & object;
 ```
 
 Defined in: [packages/web-api/src/types/request/conversations.ts:118](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/conversations.ts#L118)
@@ -13,7 +13,7 @@ Defined in: [packages/web-api/src/types/request/conversations.ts:118](https://gi
 ### external\_limited?
 
 ```ts
-optional external_limited?: boolean;
+external_limited?: boolean;
 ```
 
 #### Description

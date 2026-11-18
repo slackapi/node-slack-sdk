@@ -6,7 +6,10 @@ Defined in: [packages/web-api/src/types/request/admin/auth.ts:17](https://github
 
 ## Extends
 
-- `EntityIDs`.`EntityType`.`PolicyName`.`TokenOverridable`
+- `EntityIDs`
+- `EntityType`
+- `PolicyName`
+- `TokenOverridable`
 
 ## Properties
 
@@ -24,9 +27,7 @@ Encoded IDs of the entities interacting with.
 
 #### Inherited from
 
-```ts
-EntityIDs.entity_ids
-```
+`EntityIDs.entity_ids`
 
 ***
 
@@ -44,9 +45,7 @@ The type of entity interacting with the policy.
 
 #### Inherited from
 
-```ts
-EntityType.entity_type
-```
+`EntityType.entity_type`
 
 ***
 
@@ -64,16 +63,14 @@ The name of the policy.
 
 #### Inherited from
 
-```ts
-PolicyName.policy_name
-```
+`PolicyName.policy_name`
 
 ***
 
 ### token?
 
 ```ts
-optional token?: string;
+token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
@@ -84,6 +81,4 @@ Overridable authentication token bearing required scopes.
 
 #### Inherited from
 
-```ts
-TokenOverridable.token
-```
+`TokenOverridable.token`

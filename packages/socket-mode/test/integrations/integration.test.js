@@ -97,6 +97,111 @@ describe('Integration tests with a WebSocket server', { timeout: 30000 }, () => 
       await client.disconnect();
     });
   });
+  describe('restarting during a reconnect (issue #2656)', () => {
+    it('opens one connection when disconnect() and start() run during the reconnect wait', async () => {
+      client = new SocketModeClient({
+        appToken: 'whatever',
+        logLevel: LogLevel.ERROR,
+        clientOptions: {
+          slackApiUrl: `http://localhost:${HTTP_PORT}/`,
+        },
+        clientPingTimeout: 100,
+      });
+      await client.start();
+
+      exposed_ws_connection.terminate();
+      await sleep(20);
+      await client.disconnect();
+      await client.start();
+      await sleep(300);
+
+      assert.strictEqual(wss.clients.size, 1);
+      await client.disconnect();
+    });
+  });
+  describe('overlapping refreshes (issue #2767)', () => {
+    beforeEach(() => {
+      client = new SocketModeClient({
+        appToken: 'whatever',
+        logLevel: LogLevel.ERROR,
+        clientOptions: {
+          slackApiUrl: `http://localhost:${HTTP_PORT}/`,
+        },
+        clientPingTimeout: 100,
+      });
+    });
+    it('opens only the replacement when the old connection closes while its URL is fetched', async () => {
+      await client.start();
+      const old = exposed_ws_connection;
+      server.close();
+      server = createServer((_req, res) => {
+        setTimeout(() => {
+          res.writeHead(200, { 'content-type': 'application/json' });
+          res.end(JSON.stringify({ ok: true, url: `ws://localhost:${WSS_PORT}/` }));
+        }, 300);
+      });
+      server.listen(HTTP_PORT);
+      let connections = 0;
+      const replaced = new Promise((resolve) => {
+        wss.on('connection', () => {
+          connections += 1;
+          resolve();
+        });
+      });
+
+      old.send(JSON.stringify({ type: 'disconnect', reason: 'refresh_requested' }));
+      await sleep(50);
+      old.terminate();
+      await replaced;
+      await sleep(300);
+
+      assert.strictEqual(connections, 1);
+      assert.strictEqual(wss.clients.size, 1);
+      await client.disconnect();
+    });
+    it('opens one replacement when refresh_requested arrives on the old connection before the new one says hello', async () => {
+      await client.start();
+      const old = exposed_ws_connection;
+      let connections = 0;
+      wss.removeAllListeners('connection');
+      wss.on('connection', (ws) => {
+        connections += 1;
+        exposed_ws_connection = ws;
+        setTimeout(() => ws.send(JSON.stringify({ type: 'hello' })), 300);
+      });
+
+      old.send(JSON.stringify({ type: 'disconnect', reason: 'warning' }));
+      await sleep(100);
+      old.send(JSON.stringify({ type: 'disconnect', reason: 'refresh_requested' }));
+      await sleep(500);
+
+      assert.strictEqual(connections, 1);
+      assert.strictEqual(wss.clients.size, 1);
+      await client.disconnect();
+    });
+    it('receives and acknowledges an envelope sent on the old connection after the new one says hello', async () => {
+      await client.start();
+      const old = exposed_ws_connection;
+      const acks = [];
+      old.on('message', (data) => acks.push(JSON.parse(data).envelope_id));
+      const connected = new Promise((resolve) => client.once('connected', resolve));
+      const received = new Promise((resolve) =>
+        client.once('interactive', async ({ ack, envelope_id }) => {
+          await ack();
+          resolve(envelope_id);
+        }),
+      );
+
+      old.send(JSON.stringify({ type: 'disconnect', reason: 'warning' }));
+      await connected;
+      old.send(JSON.stringify({ type: 'interactive', envelope_id: 'e-old', payload: {} }));
+
+      assert.strictEqual(await Promise.race([received, sleep(500)]), 'e-old');
+      await sleep(50);
+      assert.deepStrictEqual(acks, ['e-old']);
+      await client.disconnect();
+    });
+  });
   describe('`apps.connections.open` API failure modes', () => {
     beforeEach(() => {
       client = new SocketModeClient({
@@ -177,15 +282,8 @@ describe('Integration tests with a WebSocket server', { timeout: 30000 }, () => 
       assert.strictEqual(debugLoggerSpy.calledWith(sinon.match('Unable to parse an incoming WebSocket message')), true);
       await client.disconnect();
     });
-    it('should maintain one serial reconnection attempt if WSS server sends unexpected HTTP response during handshake, like a 409', async (t) => {
+    it('should maintain one serial reconnection attempt if WSS server sends unexpected HTTP response during handshake, like a 409', async () => {
       // test for https://github.com/slackapi/node-slack-sdk/issues/2094
-      // SocketModeClient's internal reconnection loop creates promises that reject
-      // with `undefined` after disconnect(). node:test detects these as unhandled
-      // rejections (mocha did not). Mock process.emit to swallow them during cleanup.
-      const originalEmit = process.emit.bind(process);
-      t.after(() => {
-        process.emit = originalEmit;
-      });
       // override socket mode client instance with lower client ping timeout, which controls reconnection rate
       client = new SocketModeClient({
         appToken: 'whatever',
@@ -238,11 +336,6 @@ describe('Integration tests with a WebSocket server', { timeout: 30000 }, () => 
           else res();
         });
       });
-      // Swallow unhandled rejections from internal reconnection cleanup
-      process.emit = (event, ...args) => {
-        if (event === 'unhandledRejection') return true;
-        return originalEmit(event, ...args);
-      };
       // Allow event loop to drain any pending async activity from reconnection attempts
       await sleep(100);
       assert.strictEqual(retries, 2, 'unexpected number of times `close` event was raised during reconnection!');

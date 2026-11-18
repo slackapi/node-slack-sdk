@@ -35,7 +35,7 @@ Defined in: [packages/web-api/src/types/request/agents.ts:96](https://github.com
 #### argument\_hint?
 
 ```ts
-optional argument_hint?: string;
+argument_hint?: string;
 ```
 
 ##### Description
@@ -45,7 +45,7 @@ Hint describing the command's arguments, shown in the typeahead.
 #### description?
 
 ```ts
-optional description?: string;
+description?: string;
 ```
 
 ##### Description
@@ -65,7 +65,7 @@ Command name, without a leading slash. 1-31 characters, unique within the set.
 #### should\_escape?
 
 ```ts
-optional should_escape?: boolean;
+should_escape?: boolean;
 ```
 
 ##### Description
@@ -83,7 +83,7 @@ previously registered set. Pass an empty array to clear the agent's commands. At
 ### token?
 
 ```ts
-optional token?: string;
+token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
@@ -94,6 +94,4 @@ Overridable authentication token bearing required scopes.
 
 #### Inherited from
 
-```ts
-TokenOverridable.token
-```
+`TokenOverridable.token`

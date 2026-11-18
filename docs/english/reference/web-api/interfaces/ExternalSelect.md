@@ -16,14 +16,17 @@ options.
 
 ## Extends
 
-- [`Actionable`](Actionable.md).[`Confirmable`](Confirmable.md).[`Focusable`](Focusable.md).[`Placeholdable`](Placeholdable.md)
+- [`Actionable`](Actionable.md)
+- [`Confirmable`](Confirmable.md)
+- [`Focusable`](Focusable.md)
+- [`Placeholdable`](Placeholdable.md)
 
 ## Properties
 
 ### action\_id?
 
 ```ts
-optional action_id?: string;
+action_id?: string;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:12
@@ -41,7 +44,7 @@ among all other `action_id`s in the containing block. Maximum length for this fi
 ### confirm?
 
 ```ts
-optional confirm?: ConfirmationDialog;
+confirm?: ConfirmationDialog;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:21
@@ -60,7 +63,7 @@ with.
 ### focus\_on\_load?
 
 ```ts
-optional focus_on_load?: boolean;
+focus_on_load?: boolean;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:36
@@ -80,7 +83,7 @@ Defaults to `false`.
 ### initial\_option?
 
 ```ts
-optional initial_option?: PlainTextOption;
+initial_option?: PlainTextOption;
 ```
 
 Defined in: packages/types/dist/block-kit/block-elements.d.ts:466
@@ -94,7 +97,7 @@ A single option to be selected when the menu initially loads.
 ### min\_query\_length?
 
 ```ts
-optional min_query_length?: number;
+min_query_length?: number;
 ```
 
 Defined in: packages/types/dist/block-kit/block-elements.d.ts:472
@@ -110,7 +113,7 @@ of typed characters required before dispatch. The default value is `3`.
 ### placeholder?
 
 ```ts
-optional placeholder?: PlainTextElement;
+placeholder?: PlainTextElement;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:49

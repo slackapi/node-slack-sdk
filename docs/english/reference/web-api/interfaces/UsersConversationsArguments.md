@@ -6,14 +6,16 @@ Defined in: [packages/web-api/src/types/request/users.ts:11](https://github.com/
 
 ## Extends
 
-- `TokenOverridable`.`CursorPaginationEnabled`.`OptionalTeamAssignable`
+- `TokenOverridable`
+- `CursorPaginationEnabled`
+- `OptionalTeamAssignable`
 
 ## Properties
 
 ### cursor?
 
 ```ts
-optional cursor?: string;
+cursor?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:16](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L16)
@@ -30,16 +32,14 @@ Default value fetches the first "page" of the collection.
 
 #### Inherited from
 
-```ts
-CursorPaginationEnabled.cursor
-```
+`CursorPaginationEnabled.cursor`
 
 ***
 
 ### exclude\_archived?
 
 ```ts
-optional exclude_archived?: boolean;
+exclude_archived?: boolean;
 ```
 
 Defined in: [packages/web-api/src/types/request/users.ts:13](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/users.ts#L13)
@@ -53,7 +53,7 @@ Set to `true` to exclude archived channels from the list. Default is `false`.
 ### limit?
 
 ```ts
-optional limit?: number;
+limit?: number;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:9](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L9)
@@ -65,16 +65,14 @@ even if the end of the list hasn't been reached. Must be an integer with a max v
 
 #### Inherited from
 
-```ts
-CursorPaginationEnabled.limit
-```
+`CursorPaginationEnabled.limit`
 
 ***
 
 ### team\_id?
 
 ```ts
-optional team_id?: string;
+team_id?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:70](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L70)
@@ -85,16 +83,14 @@ If using an org token, `team_id` is required.
 
 #### Inherited from
 
-```ts
-OptionalTeamAssignable.team_id
-```
+`OptionalTeamAssignable.team_id`
 
 ***
 
 ### token?
 
 ```ts
-optional token?: string;
+token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
@@ -105,16 +101,14 @@ Overridable authentication token bearing required scopes.
 
 #### Inherited from
 
-```ts
-TokenOverridable.token
-```
+`TokenOverridable.token`
 
 ***
 
 ### types?
 
 ```ts
-optional types?: string;
+types?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/users.ts:18](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/users.ts#L18)
@@ -129,7 +123,7 @@ Mix and match channel types by providing a comma-separated list of any combinati
 ### user?
 
 ```ts
-optional user?: string;
+user?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/users.ts:23](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/users.ts#L23)

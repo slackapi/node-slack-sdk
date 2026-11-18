@@ -21,7 +21,7 @@ Displays alerts, warnings, and informational messages.
 ### block\_id?
 
 ```ts
-optional block_id?: string;
+block_id?: string;
 ```
 
 Defined in: [block-kit/blocks.ts:50](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L50)
@@ -43,7 +43,7 @@ a message. If a message is updated, use a new `block_id`.
 ### level?
 
 ```ts
-optional level?: "default" | "info" | "warning" | "error" | "success";
+level?: "default" | "info" | "warning" | "error" | "success";
 ```
 
 Defined in: [block-kit/blocks.ts:135](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L135)

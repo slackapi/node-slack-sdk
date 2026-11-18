@@ -13,29 +13,29 @@ Defined in: [packages/web-api/src/types/response/ConversationsRequestSharedInvit
 ### error?
 
 ```ts
-optional error?: string;
+error?: string;
 ```
 
 ### invite\_id?
 
 ```ts
-optional invite_id?: string;
+invite_id?: string;
 ```
 
 ### needed?
 
 ```ts
-optional needed?: string;
+needed?: string;
 ```
 
 ### ok?
 
 ```ts
-optional ok?: boolean;
+ok?: boolean;
 ```
 
 ### provided?
 
 ```ts
-optional provided?: string;
+provided?: string;
 ```

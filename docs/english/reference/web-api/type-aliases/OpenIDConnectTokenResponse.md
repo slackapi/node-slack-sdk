@@ -13,59 +13,59 @@ Defined in: [packages/web-api/src/types/response/OpenIDConnectTokenResponse.ts:1
 ### access\_token?
 
 ```ts
-optional access_token?: string;
+access_token?: string;
 ```
 
 ### error?
 
 ```ts
-optional error?: string;
+error?: string;
 ```
 
 ### expires\_in?
 
 ```ts
-optional expires_in?: number;
+expires_in?: number;
 ```
 
 ### id\_token?
 
 ```ts
-optional id_token?: string;
+id_token?: string;
 ```
 
 ### needed?
 
 ```ts
-optional needed?: string;
+needed?: string;
 ```
 
 ### ok?
 
 ```ts
-optional ok?: boolean;
+ok?: boolean;
 ```
 
 ### provided?
 
 ```ts
-optional provided?: string;
+provided?: string;
 ```
 
 ### refresh\_token?
 
 ```ts
-optional refresh_token?: string;
+refresh_token?: string;
 ```
 
 ### token\_type?
 
 ```ts
-optional token_type?: string;
+token_type?: string;
 ```
 
 ### warning?
 
 ```ts
-optional warning?: string;
+warning?: string;
 ```

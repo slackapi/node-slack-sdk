@@ -1,4 +1,4 @@
-# @slack/socket-mode v3.1.1
+# @slack/socket-mode v3.2.0
 
 ## Enumerations
 
@@ -9,6 +9,7 @@
 ## Classes
 
 - [SlackSocketModeError](classes/SlackSocketModeError.md)
+- [SMConnectAbortedError](classes/SMConnectAbortedError.md)
 - [SMNoReplyReceivedError](classes/SMNoReplyReceivedError.md)
 - [SMPlatformError](classes/SMPlatformError.md)
 - [SMSendWhileDisconnectedError](classes/SMSendWhileDisconnectedError.md)

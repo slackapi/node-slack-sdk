@@ -24,16 +24,14 @@ An array of [AnyBlock](../type-aliases/AnyBlock.md) that defines the content of 
 
 #### Inherited from
 
-```ts
-BaseView.blocks
-```
+`BaseView.blocks`
 
 ***
 
 ### callback\_id?
 
 ```ts
-optional callback_id?: string;
+callback_id?: string;
 ```
 
 Defined in: packages/types/dist/views.d.ts:18
@@ -49,16 +47,14 @@ store sensitive information (use `private_metadata` instead). Maximum length of 
 
 #### Inherited from
 
-```ts
-BaseView.callback_id
-```
+`BaseView.callback_id`
 
 ***
 
 ### clear\_on\_close?
 
 ```ts
-optional clear_on_close?: boolean;
+clear_on_close?: boolean;
 ```
 
 Defined in: packages/types/dist/views.d.ts:49
@@ -73,7 +69,7 @@ Defaults to `false`.
 ### close?
 
 ```ts
-optional close?: PlainTextElement;
+close?: PlainTextElement;
 ```
 
 Defined in: packages/types/dist/views.d.ts:38
@@ -88,7 +84,7 @@ bottom-right of the view. Maximum length of 24 characters.
 ### external\_id?
 
 ```ts
-optional external_id?: string;
+external_id?: string;
 ```
 
 Defined in: packages/types/dist/views.d.ts:20
@@ -99,16 +95,14 @@ A custom identifier that must be unique for all views on a per-team basis.
 
 #### Inherited from
 
-```ts
-BaseView.external_id
-```
+`BaseView.external_id`
 
 ***
 
 ### notify\_on\_close?
 
 ```ts
-optional notify_on_close?: boolean;
+notify_on_close?: boolean;
 ```
 
 Defined in: packages/types/dist/views.d.ts:55
@@ -124,7 +118,7 @@ clicks the close button. Defaults to `false`.
 ### private\_metadata?
 
 ```ts
-optional private_metadata?: string;
+private_metadata?: string;
 ```
 
 Defined in: packages/types/dist/views.d.ts:12
@@ -138,16 +132,14 @@ Maximum length of 3000 characters.
 
 #### Inherited from
 
-```ts
-BaseView.private_metadata
-```
+`BaseView.private_metadata`
 
 ***
 
 ### submit?
 
 ```ts
-optional submit?: PlainTextElement;
+submit?: PlainTextElement;
 ```
 
 Defined in: packages/types/dist/views.d.ts:44

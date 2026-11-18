@@ -6,14 +6,16 @@ Defined in: [packages/web-api/src/types/request/views.ts:40](https://github.com/
 
 ## Extends
 
-- `BaseViewsArguments`.`TokenOverridable`.`ViewHash`
+- `BaseViewsArguments`
+- `TokenOverridable`
+- `ViewHash`
 
 ## Properties
 
 ### hash?
 
 ```ts
-optional hash?: string;
+hash?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/views.ts:36](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/views.ts#L36)
@@ -28,16 +30,14 @@ A string that represents view state to protect against possible race conditions.
 
 #### Inherited from
 
-```ts
-ViewHash.hash
-```
+`ViewHash.hash`
 
 ***
 
 ### token?
 
 ```ts
-optional token?: string;
+token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
@@ -48,9 +48,7 @@ Overridable authentication token bearing required scopes.
 
 #### Inherited from
 
-```ts
-TokenOverridable.token
-```
+`TokenOverridable.token`
 
 ***
 
@@ -82,6 +80,4 @@ A [view payload](https://docs.slack.dev/surfaces/modals).
 
 #### Inherited from
 
-```ts
-BaseViewsArguments.view
-```
+`BaseViewsArguments.view`

@@ -13,65 +13,65 @@ Defined in: [packages/web-api/src/types/response/ChatPostMessageResponse.ts:11](
 ### channel?
 
 ```ts
-optional channel?: string;
+channel?: string;
 ```
 
 ### deprecated\_argument?
 
 ```ts
-optional deprecated_argument?: string;
+deprecated_argument?: string;
 ```
 
 ### error?
 
 ```ts
-optional error?: string;
+error?: string;
 ```
 
 ### errors?
 
 ```ts
-optional errors?: string[];
+errors?: string[];
 ```
 
 ### message?
 
 ```ts
-optional message?: ChatPostMessageResponseMessage;
+message?: ChatPostMessageResponseMessage;
 ```
 
 ### needed?
 
 ```ts
-optional needed?: string;
+needed?: string;
 ```
 
 ### ok?
 
 ```ts
-optional ok?: boolean;
+ok?: boolean;
 ```
 
 ### provided?
 
 ```ts
-optional provided?: string;
+provided?: string;
 ```
 
 ### response\_metadata?
 
 ```ts
-optional response_metadata?: ResponseMetadata;
+response_metadata?: ResponseMetadata;
 ```
 
 ### ts?
 
 ```ts
-optional ts?: string;
+ts?: string;
 ```
 
 ### warning?
 
 ```ts
-optional warning?: string;
+warning?: string;
 ```

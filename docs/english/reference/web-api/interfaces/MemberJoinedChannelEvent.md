@@ -29,7 +29,7 @@ Defined in: packages/types/dist/events/member.d.ts:5
 ### enterprise?
 
 ```ts
-optional enterprise?: string;
+enterprise?: string;
 ```
 
 Defined in: packages/types/dist/events/member.d.ts:8
@@ -49,7 +49,7 @@ Defined in: packages/types/dist/events/member.d.ts:9
 ### inviter?
 
 ```ts
-optional inviter?: string;
+inviter?: string;
 ```
 
 Defined in: packages/types/dist/events/member.d.ts:7

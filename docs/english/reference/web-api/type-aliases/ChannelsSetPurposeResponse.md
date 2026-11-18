@@ -13,29 +13,29 @@ Defined in: [packages/web-api/src/types/response/ChannelsSetPurposeResponse.ts:1
 ### error?
 
 ```ts
-optional error?: string;
+error?: string;
 ```
 
 ### needed?
 
 ```ts
-optional needed?: string;
+needed?: string;
 ```
 
 ### ok?
 
 ```ts
-optional ok?: boolean;
+ok?: boolean;
 ```
 
 ### provided?
 
 ```ts
-optional provided?: string;
+provided?: string;
 ```
 
 ### purpose?
 
 ```ts
-optional purpose?: string;
+purpose?: string;
 ```

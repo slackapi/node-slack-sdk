@@ -13,7 +13,7 @@ Defined in: packages/types/dist/block-kit/composition-objects.d.ts:87
 ### description?
 
 ```ts
-optional description?: PlainTextElement;
+description?: PlainTextElement;
 ```
 
 Defined in: packages/types/dist/block-kit/composition-objects.d.ts:78
@@ -25,9 +25,7 @@ Maximum length for the `text` within this field is 75 characters.
 
 #### Inherited from
 
-```ts
-OptionDescriptor.description
-```
+`OptionDescriptor.description`
 
 ***
 
@@ -49,7 +47,7 @@ overflow, select and multi-select menus. Maximum length for the `text` in this f
 ### url?
 
 ```ts
-optional url?: string;
+url?: string;
 ```
 
 Defined in: packages/types/dist/block-kit/composition-objects.d.ts:73
@@ -61,16 +59,14 @@ Maximum length for this field is 3000 characters.
 
 #### Inherited from
 
-```ts
-OptionDescriptor.url
-```
+`OptionDescriptor.url`
 
 ***
 
 ### value?
 
 ```ts
-optional value?: string;
+value?: string;
 ```
 
 Defined in: packages/types/dist/block-kit/composition-objects.d.ts:68
@@ -82,6 +78,4 @@ Maximum length for this field is 75 characters.
 
 #### Inherited from
 
-```ts
-OptionDescriptor.value
-```
+`OptionDescriptor.value`

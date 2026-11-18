@@ -13,101 +13,101 @@ Defined in: [packages/web-api/src/types/response/OauthAccessResponse.ts:11](http
 ### access\_token?
 
 ```ts
-optional access_token?: string;
+access_token?: string;
 ```
 
 ### authorizing\_user?
 
 ```ts
-optional authorizing_user?: User;
+authorizing_user?: User;
 ```
 
 ### bot?
 
 ```ts
-optional bot?: Bot;
+bot?: Bot;
 ```
 
 ### enterprise\_id?
 
 ```ts
-optional enterprise_id?: string;
+enterprise_id?: string;
 ```
 
 ### error?
 
 ```ts
-optional error?: string;
+error?: string;
 ```
 
 ### incoming\_webhook?
 
 ```ts
-optional incoming_webhook?: IncomingWebhook;
+incoming_webhook?: IncomingWebhook;
 ```
 
 ### installer\_user?
 
 ```ts
-optional installer_user?: User;
+installer_user?: User;
 ```
 
 ### needed?
 
 ```ts
-optional needed?: string;
+needed?: string;
 ```
 
 ### ok?
 
 ```ts
-optional ok?: boolean;
+ok?: boolean;
 ```
 
 ### provided?
 
 ```ts
-optional provided?: string;
+provided?: string;
 ```
 
 ### scope?
 
 ```ts
-optional scope?: string;
+scope?: string;
 ```
 
 ### scopes?
 
 ```ts
-optional scopes?: Scopes;
+scopes?: Scopes;
 ```
 
 ### team\_id?
 
 ```ts
-optional team_id?: string;
+team_id?: string;
 ```
 
 ### team\_name?
 
 ```ts
-optional team_name?: string;
+team_name?: string;
 ```
 
 ### token\_type?
 
 ```ts
-optional token_type?: string;
+token_type?: string;
 ```
 
 ### user\_id?
 
 ```ts
-optional user_id?: string;
+user_id?: string;
 ```
 
 ### warning?
 
 ```ts
-optional warning?: string;
+warning?: string;
 ```

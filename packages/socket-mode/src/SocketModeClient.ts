@@ -1,3 +1,4 @@
+import { setTimeout } from 'node:timers/promises';
 import {
   type AppsConnectionsOpenResponse,
   addAppMetadata,
@@ -12,7 +13,12 @@ import { EventEmitter } from 'eventemitter3';
 import { type RequestInit, fetch as undiciFetch } from 'undici';
 
 import packageJson from '../package.json';
-import { SMSendWhileDisconnectedError, SMSendWhileNotReadyError, SMWebsocketError } from './errors';
+import {
+  SMConnectAbortedError,
+  SMSendWhileDisconnectedError,
+  SMSendWhileNotReadyError,
+  SMWebsocketError,
+} from './errors';
 import log, { type Logger, LogLevel } from './logger';
 import { SlackWebSocket, WS_READY_STATES } from './SlackWebSocket';
 import type { SocketModeDispatcher, SocketModeOptions } from './SocketModeOptions';
@@ -71,6 +77,8 @@ export class SocketModeClient extends EventEmitter {
 
   public websocket?: SlackWebSocket;
 
+  private retiringWebsocket?: SlackWebSocket;
+
   /**
    * Enables ping-pong detailed logging if true
    */
@@ -93,16 +101,17 @@ export class SocketModeClient extends EventEmitter {
 
   private customLoggerProvided = false;
 
+  private connectOperations = new Set<Promise<unknown>>();
+
+  private lifecycle = new AbortController();
+
   /**
    * Sentinel tracking if user invoked `disconnect()`; for enforcing shutting down of client
    * even if `autoReconnectEnabled` is `true`.
    */
-  private shuttingDown = false;
-
-  /**
-   * Timer handle for scheduling automatic reconnection attempts after a disconnect.
-   */
-  private reconnectionTimer: ReturnType<typeof setTimeout> | undefined;
+  private get shuttingDown(): boolean {
+    return this.lifecycle.signal.aborted;
+  }
 
   public constructor(
     {
@@ -155,15 +164,22 @@ export class SocketModeClient extends EventEmitter {
     this.on('error', (err) => {
       this.logger.error(`WebSocket error! ${err}`);
     });
-    this.on('close', () => {
+    this.on('close', async (socket: SlackWebSocket) => {
       // Underlying WebSocket connection was closed, possibly reconnect.
-      if (this.websocket?.isActive()) return;
-      if (this.reconnectionTimer) return;
-      if (!this.shuttingDown && this.autoReconnectEnabled) {
-        this.delayReconnectAttempt(this.start);
-      } else {
+      if (socket === this.retiringWebsocket) this.retiringWebsocket = undefined;
+      if (socket !== this.websocket) return;
+      if (this.shuttingDown || !this.autoReconnectEnabled) {
         // If reconnect is disabled or user explicitly called `disconnect()`, emit a disconnected state.
         this.emit(State.Disconnected);
+        return;
+      }
+      if (this.connectOperations.size > 0) return;
+      try {
+        await this.delayReconnectAttempt(() => this.start(), this.lifecycle.signal);
+      } catch (error) {
+        if (!(error instanceof SMConnectAbortedError)) {
+          throw error;
+        }
       }
     });
     this.on('ws_message', this.onWebSocketMessage.bind(this));
@@ -179,11 +195,20 @@ export class SocketModeClient extends EventEmitter {
    */
   public async start(): Promise<AppsConnectionsOpenResponse> {
     // python equiv: SocketModeClient.connect
-    this.shuttingDown = false;
+    if (this.shuttingDown) {
+      this.lifecycle = new AbortController();
+      this.connectOperations = new Set();
+    }
+    const { signal } = this.lifecycle;
     this.logger.debug('Starting Socket Mode session ...');
+    const url = await this.withConnectOperation(this.retrieveWSSURL(signal));
+    if (signal.aborted) {
+      throw new SMConnectAbortedError();
+    }
+    const previous = this.websocket;
     // create a socket connection using SlackWebSocket
     this.websocket = new SlackWebSocket({
-      url: await this.retrieveWSSURL(),
+      url,
       // web socket events relevant to this client will be emitted into the instance of this class
       // see bottom of constructor for where we bind to these events
       client: this,
@@ -194,6 +219,7 @@ export class SocketModeClient extends EventEmitter {
       serverPingTimeoutMS: this.serverPingTimeoutMS,
       pingPongLoggingEnabled: this.pingPongLoggingEnabled,
     });
+    this.retire(previous);
 
     // Return a promise that resolves with the connection information
     return new Promise((resolve, reject) => {
@@ -207,7 +233,7 @@ export class SocketModeClient extends EventEmitter {
       };
       disconnectedCallback = (err) => {
         this.removeListener(State.Connected, connectedCallback);
-        reject(err);
+        reject(signal.aborted ? new SMConnectAbortedError() : err);
       };
       this.once(State.Connected, connectedCallback);
       this.once(State.Disconnected, disconnectedCallback);
@@ -221,9 +247,8 @@ export class SocketModeClient extends EventEmitter {
    * unless you call start() again later.
    */
   public disconnect(): Promise<void> {
-    this.shuttingDown = true;
-    clearTimeout(this.reconnectionTimer);
-    this.reconnectionTimer = undefined;
+    this.lifecycle.abort();
+    this.closeRetiringWebsocket();
     this.logger.debug('Manually disconnecting this Socket Mode client');
     this.emit(State.Disconnecting);
     return new Promise((resolve, _reject) => {
@@ -240,32 +265,73 @@ export class SocketModeClient extends EventEmitter {
 
   // PRIVATE/PROTECTED METHODS
 
+  private retire(previous: SlackWebSocket | undefined): void {
+    if (previous?.isActive()) {
+      this.closeRetiringWebsocket();
+      this.retiringWebsocket = previous;
+    } else if (previous?.readyState !== undefined) {
+      previous.disconnect();
+    }
+  }
+
+  private closeRetiringWebsocket(): void {
+    this.retiringWebsocket?.disconnect();
+    this.retiringWebsocket = undefined;
+  }
+
+  private async openReplacement(reason: string): Promise<void> {
+    if (this.connectOperations.size > 0) return;
+    this.logger.debug(`Received "disconnect" (${reason}) message - opening a replacement connection.`);
+    this.emit(State.Reconnecting);
+    try {
+      await this.start();
+    } catch (error) {
+      if (!(error instanceof SMConnectAbortedError)) {
+        throw error;
+      }
+    }
+  }
+
+  private async withConnectOperation<T>(work: Promise<T>): Promise<T> {
+    this.connectOperations.add(work);
+    try {
+      return await work;
+    } finally {
+      this.connectOperations.delete(work);
+    }
+  }
+
   /**
    * Initiates a reconnect, taking into account configurable delays and number of reconnect attempts and failures.
    * Accepts a callback to invoke after any calculated delays.
    */
-  private delayReconnectAttempt<T>(cb: () => Promise<T>): Promise<T> {
+  private async delayReconnectAttempt<T>(cb: () => Promise<T>, signal: AbortSignal): Promise<T> {
+    if (signal.aborted) {
+      throw new SMConnectAbortedError();
+    }
     this.numOfConsecutiveReconnectionFailures += 1;
     const msBeforeRetry = this.clientPingTimeoutMS * this.numOfConsecutiveReconnectionFailures;
     this.logger.debug(`Before trying to reconnect, this client will wait for ${msBeforeRetry} milliseconds`);
-    return new Promise((res, _rej) => {
-      this.reconnectionTimer = setTimeout(() => {
-        this.reconnectionTimer = undefined;
-        if (this.shuttingDown) {
-          this.logger.debug('Client shutting down, will not attempt reconnect.');
-        } else {
-          this.logger.debug('Continuing with reconnect...');
-          this.emit(State.Reconnecting);
-          cb.apply(this).then(res);
-        }
-      }, msBeforeRetry);
-    });
+    try {
+      await this.withConnectOperation(setTimeout(msBeforeRetry, undefined, { signal }));
+    } catch (error) {
+      if (!signal.aborted) {
+        throw error;
+      }
+    }
+    if (signal.aborted) {
+      this.logger.debug('Client shutting down, will not attempt reconnect.');
+      throw new SMConnectAbortedError();
+    }
+    this.logger.debug('Continuing with reconnect...');
+    this.emit(State.Reconnecting);
+    return cb();
   }
 
   /**
    * Retrieves a new WebSocket URL to connect to.
    */
-  private async retrieveWSSURL(): Promise<string> {
+  private async retrieveWSSURL(signal: AbortSignal): Promise<string> {
     // python equiv: BaseSocketModeClient.issue_new_wss_url
     try {
       this.logger.debug('Going to retrieve a new WSS URL ...');
@@ -294,7 +360,7 @@ export class SocketModeClient extends EventEmitter {
         isRecoverable = false;
       }
       if (this.autoReconnectEnabled && isRecoverable) {
-        return await this.delayReconnectAttempt(this.retrieveWSSURL);
+        return await this.delayReconnectAttempt(() => this.retrieveWSSURL(signal), signal);
       }
       throw error;
     }
@@ -307,7 +373,11 @@ export class SocketModeClient extends EventEmitter {
    * - raising the State.Connected event (when Slack sends a type:hello message)
    * - disconnecting the underlying socket (when Slack sends a type:disconnect message)
    */
-  protected async onWebSocketMessage(data: string | ArrayBuffer, isBinary: boolean): Promise<void> {
+  protected async onWebSocketMessage(
+    data: string | ArrayBuffer,
+    isBinary: boolean,
+    socket?: SlackWebSocket,
+  ): Promise<void> {
     if (isBinary) {
       this.logger.debug('Unexpected binary message received, ignoring.');
       return;
@@ -344,10 +414,18 @@ export class SocketModeClient extends EventEmitter {
 
     // Slack is recycling the pod handling the connection (or otherwise requires the client to reconnect)
     if (event.type === 'disconnect') {
-      this.logger.debug(
-        `Received "${event.type}" (${event.reason}) message - disconnecting.${this.autoReconnectEnabled ? ' Will reconnect.' : ''}`,
-      );
-      this.websocket?.disconnect();
+      if (socket && socket === this.retiringWebsocket) {
+        this.closeRetiringWebsocket();
+        return;
+      }
+      if (socket && socket !== this.websocket) return;
+      const isRefresh = event.reason === 'warning' || event.reason === 'refresh_requested';
+      if (this.autoReconnectEnabled && !this.shuttingDown && isRefresh) {
+        await this.openReplacement(event.reason);
+      } else {
+        this.logger.debug(`Received "${event.type}" (${event.reason}) message - disconnecting.`);
+        this.websocket?.disconnect();
+      }
       return;
     }
 
@@ -358,7 +436,7 @@ export class SocketModeClient extends EventEmitter {
           `Calling ack() - type: ${event.type}, envelope_id: ${event.envelope_id}, data: ${JSON.stringify(response)}`,
         );
       }
-      await this.send(event.envelope_id, response);
+      await this.send(event.envelope_id, response, socket);
     };
 
     // For events_api messages, expose the type of the event
@@ -408,19 +486,20 @@ export class SocketModeClient extends EventEmitter {
    * @param id the envelope id
    * @param body the message body or string text
    */
-  private send(id: string, body = {}): Promise<void> {
+  private send(id: string, body = {}, socket?: SlackWebSocket): Promise<void> {
     const _body = typeof body === 'string' ? { text: body } : body;
     const message = { envelope_id: id, payload: { ..._body } };
 
     return new Promise((resolve, reject) => {
-      const wsState = this.websocket?.readyState;
+      const websocket = socket?.isActive() ? socket : this.websocket;
+      const wsState = websocket?.readyState;
       this.logger.debug(
         `send() method was called (WebSocket state: ${wsState ? WS_READY_STATES[wsState] : 'uninitialized'})`,
       );
-      if (this.websocket === undefined) {
+      if (websocket === undefined) {
         this.logger.error('Failed to send a message as the client is not connected');
         reject(new SMSendWhileDisconnectedError());
-      } else if (!this.websocket.isActive()) {
+      } else if (!websocket.isActive()) {
         this.logger.error('Failed to send a message as the client has no active connection');
         reject(new SMSendWhileNotReadyError());
       } else {
@@ -428,7 +507,7 @@ export class SocketModeClient extends EventEmitter {
 
         const flatMessage = JSON.stringify(message);
         this.logger.debug(`Sending a WebSocket message: ${flatMessage}`);
-        this.websocket.send(flatMessage, (error) => {
+        websocket.send(flatMessage, (error) => {
           if (error) {
             this.logger.error(`Failed to send a WebSocket message (error: ${error})`);
             return reject(new SMWebsocketError(error));

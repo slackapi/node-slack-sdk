@@ -9,7 +9,7 @@ Defined in: packages/types/dist/events/app.d.ts:103
 ### attachments?
 
 ```ts
-optional attachments?: MessageAttachment[];
+attachments?: MessageAttachment[];
 ```
 
 Defined in: packages/types/dist/events/app.d.ts:125
@@ -19,7 +19,7 @@ Defined in: packages/types/dist/events/app.d.ts:125
 ### blocks?
 
 ```ts
-optional blocks?: (Block | KnownBlock)[];
+blocks?: (Block | KnownBlock)[];
 ```
 
 Defined in: packages/types/dist/events/app.d.ts:126
@@ -29,7 +29,7 @@ Defined in: packages/types/dist/events/app.d.ts:126
 ### bot\_id?
 
 ```ts
-optional bot_id?: string;
+bot_id?: string;
 ```
 
 Defined in: packages/types/dist/events/app.d.ts:106
@@ -39,7 +39,7 @@ Defined in: packages/types/dist/events/app.d.ts:106
 ### bot\_profile?
 
 ```ts
-optional bot_profile?: BotProfile;
+bot_profile?: BotProfile;
 ```
 
 Defined in: packages/types/dist/events/app.d.ts:107
@@ -59,7 +59,7 @@ Defined in: packages/types/dist/events/app.d.ts:190
 ### client\_msg\_id?
 
 ```ts
-optional client_msg_id?: string;
+client_msg_id?: string;
 ```
 
 Defined in: packages/types/dist/events/app.d.ts:193
@@ -69,7 +69,7 @@ Defined in: packages/types/dist/events/app.d.ts:193
 ### display\_as\_bot?
 
 ```ts
-optional display_as_bot?: boolean;
+display_as_bot?: boolean;
 ```
 
 Defined in: packages/types/dist/events/app.d.ts:184
@@ -79,7 +79,7 @@ Defined in: packages/types/dist/events/app.d.ts:184
 ### edited?
 
 ```ts
-optional edited?: object;
+edited?: object;
 ```
 
 Defined in: packages/types/dist/events/app.d.ts:185
@@ -111,7 +111,7 @@ Defined in: packages/types/dist/events/app.d.ts:191
 ### files?
 
 ```ts
-optional files?: object[];
+files?: object[];
 ```
 
 Defined in: packages/types/dist/events/app.d.ts:127
@@ -209,13 +209,13 @@ name: string;
 #### original\_h?
 
 ```ts
-optional original_h?: number;
+original_h?: number;
 ```
 
 #### original\_w?
 
 ```ts
-optional original_w?: number;
+original_w?: number;
 ```
 
 #### permalink
@@ -251,151 +251,151 @@ size: number;
 #### thumb\_1024?
 
 ```ts
-optional thumb_1024?: string;
+thumb_1024?: string;
 ```
 
 #### thumb\_1024\_h?
 
 ```ts
-optional thumb_1024_h?: number;
+thumb_1024_h?: number;
 ```
 
 #### thumb\_1024\_w?
 
 ```ts
-optional thumb_1024_w?: number;
+thumb_1024_w?: number;
 ```
 
 #### thumb\_160?
 
 ```ts
-optional thumb_160?: string;
+thumb_160?: string;
 ```
 
 #### thumb\_360?
 
 ```ts
-optional thumb_360?: string;
+thumb_360?: string;
 ```
 
 #### thumb\_360\_h?
 
 ```ts
-optional thumb_360_h?: number;
+thumb_360_h?: number;
 ```
 
 #### thumb\_360\_w?
 
 ```ts
-optional thumb_360_w?: number;
+thumb_360_w?: number;
 ```
 
 #### thumb\_480?
 
 ```ts
-optional thumb_480?: string;
+thumb_480?: string;
 ```
 
 #### thumb\_480\_h?
 
 ```ts
-optional thumb_480_h?: number;
+thumb_480_h?: number;
 ```
 
 #### thumb\_480\_w?
 
 ```ts
-optional thumb_480_w?: number;
+thumb_480_w?: number;
 ```
 
 #### thumb\_64?
 
 ```ts
-optional thumb_64?: string;
+thumb_64?: string;
 ```
 
 #### thumb\_720?
 
 ```ts
-optional thumb_720?: string;
+thumb_720?: string;
 ```
 
 #### thumb\_720\_h?
 
 ```ts
-optional thumb_720_h?: number;
+thumb_720_h?: number;
 ```
 
 #### thumb\_720\_w?
 
 ```ts
-optional thumb_720_w?: number;
+thumb_720_w?: number;
 ```
 
 #### thumb\_80?
 
 ```ts
-optional thumb_80?: string;
+thumb_80?: string;
 ```
 
 #### thumb\_800?
 
 ```ts
-optional thumb_800?: string;
+thumb_800?: string;
 ```
 
 #### thumb\_800\_h?
 
 ```ts
-optional thumb_800_h?: number;
+thumb_800_h?: number;
 ```
 
 #### thumb\_800\_w?
 
 ```ts
-optional thumb_800_w?: number;
+thumb_800_w?: number;
 ```
 
 #### thumb\_960?
 
 ```ts
-optional thumb_960?: string;
+thumb_960?: string;
 ```
 
 #### thumb\_960\_h?
 
 ```ts
-optional thumb_960_h?: number;
+thumb_960_h?: number;
 ```
 
 #### thumb\_960\_w?
 
 ```ts
-optional thumb_960_w?: number;
+thumb_960_w?: number;
 ```
 
 #### thumb\_pdf?
 
 ```ts
-optional thumb_pdf?: string;
+thumb_pdf?: string;
 ```
 
 #### thumb\_pdf\_h?
 
 ```ts
-optional thumb_pdf_h?: number;
+thumb_pdf_h?: number;
 ```
 
 #### thumb\_pdf\_w?
 
 ```ts
-optional thumb_pdf_w?: number;
+thumb_pdf_w?: number;
 ```
 
 #### thumb\_tiny?
 
 ```ts
-optional thumb_tiny?: string;
+thumb_tiny?: string;
 ```
 
 #### timestamp
@@ -445,7 +445,7 @@ username: string;
 ### source\_team?
 
 ```ts
-optional source_team?: string;
+source_team?: string;
 ```
 
 Defined in: packages/types/dist/events/app.d.ts:111
@@ -455,7 +455,7 @@ Defined in: packages/types/dist/events/app.d.ts:111
 ### subtype?
 
 ```ts
-optional subtype?: string;
+subtype?: string;
 ```
 
 Defined in: packages/types/dist/events/app.d.ts:105
@@ -465,7 +465,7 @@ Defined in: packages/types/dist/events/app.d.ts:105
 ### team?
 
 ```ts
-optional team?: string;
+team?: string;
 ```
 
 Defined in: packages/types/dist/events/app.d.ts:109
@@ -485,7 +485,7 @@ Defined in: packages/types/dist/events/app.d.ts:124
 ### thread\_ts?
 
 ```ts
-optional thread_ts?: string;
+thread_ts?: string;
 ```
 
 Defined in: packages/types/dist/events/app.d.ts:192
@@ -515,7 +515,7 @@ Defined in: packages/types/dist/events/app.d.ts:104
 ### upload?
 
 ```ts
-optional upload?: boolean;
+upload?: boolean;
 ```
 
 Defined in: packages/types/dist/events/app.d.ts:183
@@ -525,7 +525,7 @@ Defined in: packages/types/dist/events/app.d.ts:183
 ### user?
 
 ```ts
-optional user?: string;
+user?: string;
 ```
 
 Defined in: packages/types/dist/events/app.d.ts:123
@@ -535,7 +535,7 @@ Defined in: packages/types/dist/events/app.d.ts:123
 ### user\_profile?
 
 ```ts
-optional user_profile?: object;
+user_profile?: object;
 ```
 
 Defined in: packages/types/dist/events/app.d.ts:112
@@ -543,7 +543,7 @@ Defined in: packages/types/dist/events/app.d.ts:112
 #### avatar\_hash?
 
 ```ts
-optional avatar_hash?: string;
+avatar_hash?: string;
 ```
 
 #### display\_name
@@ -561,19 +561,19 @@ first_name: string;
 #### image\_72?
 
 ```ts
-optional image_72?: string;
+image_72?: string;
 ```
 
 #### is\_restricted?
 
 ```ts
-optional is_restricted?: boolean;
+is_restricted?: boolean;
 ```
 
 #### is\_ultra\_restricted?
 
 ```ts
-optional is_ultra_restricted?: boolean;
+is_ultra_restricted?: boolean;
 ```
 
 #### name
@@ -599,7 +599,7 @@ team: string;
 ### user\_team?
 
 ```ts
-optional user_team?: string;
+user_team?: string;
 ```
 
 Defined in: packages/types/dist/events/app.d.ts:110
@@ -609,7 +609,7 @@ Defined in: packages/types/dist/events/app.d.ts:110
 ### username?
 
 ```ts
-optional username?: string;
+username?: string;
 ```
 
 Defined in: packages/types/dist/events/app.d.ts:108

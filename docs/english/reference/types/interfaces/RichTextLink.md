@@ -17,7 +17,7 @@ A link element for use in a rich text message.
 ### style?
 
 ```ts
-optional style?: object;
+style?: object;
 ```
 
 Defined in: [block-kit/extensions.ts:86](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/extensions.ts#L86)
@@ -25,7 +25,7 @@ Defined in: [block-kit/extensions.ts:86](https://github.com/slackapi/node-slack-
 #### bold?
 
 ```ts
-optional bold?: boolean;
+bold?: boolean;
 ```
 
 ##### Description
@@ -35,7 +35,7 @@ When `true`, boldens the text in this element. Defaults to `false`.
 #### code?
 
 ```ts
-optional code?: boolean;
+code?: boolean;
 ```
 
 ##### Description
@@ -45,7 +45,7 @@ When `true`, the text is preformatted in an inline code style. Defaults to `fals
 #### italic?
 
 ```ts
-optional italic?: boolean;
+italic?: boolean;
 ```
 
 ##### Description
@@ -55,7 +55,7 @@ When `true`, italicizes the text in this element. Defaults to `false`.
 #### strike?
 
 ```ts
-optional strike?: boolean;
+strike?: boolean;
 ```
 
 ##### Description
@@ -65,7 +65,7 @@ When `true`, strikes through the text in this element. Defaults to `false`.
 #### underline?
 
 ```ts
-optional underline?: boolean;
+underline?: boolean;
 ```
 
 ##### Description
@@ -85,7 +85,7 @@ A limited style object for styling rich text `text` elements.
 ### text?
 
 ```ts
-optional text?: string;
+text?: string;
 ```
 
 Defined in: [block-kit/block-elements.ts:923](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L923)
@@ -113,7 +113,7 @@ The type of element. In this case `type` is always `link`.
 ### unsafe?
 
 ```ts
-optional unsafe?: boolean;
+unsafe?: boolean;
 ```
 
 Defined in: [block-kit/block-elements.ts:927](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L927)

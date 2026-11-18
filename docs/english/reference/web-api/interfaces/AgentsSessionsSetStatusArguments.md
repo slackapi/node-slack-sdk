@@ -27,7 +27,7 @@ ID of the channel containing the agent session.
 ### icon\_emoji?
 
 ```ts
-optional icon_emoji?: string;
+icon_emoji?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/agents.ts:247](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/agents.ts#L247)
@@ -48,7 +48,7 @@ Emoji to use as the agent's icon. Takes priority over `icon_url`. Remains in eff
 ### icon\_url?
 
 ```ts
-optional icon_url?: string;
+icon_url?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/agents.ts:253](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/agents.ts#L253)
@@ -69,7 +69,7 @@ http://lorempixel.com/48/48
 ### initiator\_user\_id?
 
 ```ts
-optional initiator_user_id?: string;
+initiator_user_id?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/agents.ts:241](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/agents.ts#L241)
@@ -98,7 +98,7 @@ The lifecycle status to set. Acceptable values: `active`, `processing`, `suspend
 ### thread\_ts?
 
 ```ts
-optional thread_ts?: string;
+thread_ts?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/agents.ts:231](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/agents.ts#L231)
@@ -113,7 +113,7 @@ regular channels and DMs. Must be omitted for session channels.
 ### title?
 
 ```ts
-optional title?: string;
+title?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/agents.ts:236](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/agents.ts#L236)
@@ -128,7 +128,7 @@ the session already exists. To rename an existing session, use `agents.sessions.
 ### token?
 
 ```ts
-optional token?: string;
+token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
@@ -139,16 +139,14 @@ Overridable authentication token bearing required scopes.
 
 #### Inherited from
 
-```ts
-TokenOverridable.token
-```
+`TokenOverridable.token`
 
 ***
 
 ### username?
 
 ```ts
-optional username?: string;
+username?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/agents.ts:259](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/agents.ts#L259)

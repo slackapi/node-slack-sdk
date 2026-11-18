@@ -9,7 +9,7 @@ Defined in: [message-metadata.ts:270](https://github.com/slackapi/node-slack-sdk
 ### alt\_text?
 
 ```ts
-optional alt_text?: string;
+alt_text?: string;
 ```
 
 Defined in: [message-metadata.ts:281](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L281)
@@ -19,7 +19,7 @@ Defined in: [message-metadata.ts:281](https://github.com/slackapi/node-slack-sdk
 ### boolean?
 
 ```ts
-optional boolean?: 
+boolean?: 
   | EntityBooleanCheckboxField
   | EntityBooleanTextField;
 ```
@@ -31,7 +31,7 @@ Defined in: [message-metadata.ts:287](https://github.com/slackapi/node-slack-sdk
 ### edit?
 
 ```ts
-optional edit?: EntityEditSupport;
+edit?: EntityEditSupport;
 ```
 
 Defined in: [message-metadata.ts:283](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L283)
@@ -41,7 +41,7 @@ Defined in: [message-metadata.ts:283](https://github.com/slackapi/node-slack-sdk
 ### entity\_ref?
 
 ```ts
-optional entity_ref?: EntityRefField;
+entity_ref?: EntityRefField;
 ```
 
 Defined in: [message-metadata.ts:286](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L286)
@@ -51,7 +51,7 @@ Defined in: [message-metadata.ts:286](https://github.com/slackapi/node-slack-sdk
 ### format?
 
 ```ts
-optional format?: string;
+format?: string;
 ```
 
 Defined in: [message-metadata.ts:278](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L278)
@@ -61,7 +61,7 @@ Defined in: [message-metadata.ts:278](https://github.com/slackapi/node-slack-sdk
 ### icon?
 
 ```ts
-optional icon?: EntityIconField;
+icon?: EntityIconField;
 ```
 
 Defined in: [message-metadata.ts:276](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L276)
@@ -71,7 +71,7 @@ Defined in: [message-metadata.ts:276](https://github.com/slackapi/node-slack-sdk
 ### image\_url?
 
 ```ts
-optional image_url?: string;
+image_url?: string;
 ```
 
 Defined in: [message-metadata.ts:279](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L279)
@@ -81,7 +81,7 @@ Defined in: [message-metadata.ts:279](https://github.com/slackapi/node-slack-sdk
 ### item\_type?
 
 ```ts
-optional item_type?: string;
+item_type?: string;
 ```
 
 Defined in: [message-metadata.ts:284](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L284)
@@ -111,7 +111,7 @@ Defined in: [message-metadata.ts:271](https://github.com/slackapi/node-slack-sdk
 ### link?
 
 ```ts
-optional link?: string;
+link?: string;
 ```
 
 Defined in: [message-metadata.ts:275](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L275)
@@ -121,7 +121,7 @@ Defined in: [message-metadata.ts:275](https://github.com/slackapi/node-slack-sdk
 ### long?
 
 ```ts
-optional long?: boolean;
+long?: boolean;
 ```
 
 Defined in: [message-metadata.ts:277](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L277)
@@ -131,7 +131,7 @@ Defined in: [message-metadata.ts:277](https://github.com/slackapi/node-slack-sdk
 ### slack\_file?
 
 ```ts
-optional slack_file?: SlackFile;
+slack_file?: SlackFile;
 ```
 
 Defined in: [message-metadata.ts:280](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L280)
@@ -141,7 +141,7 @@ Defined in: [message-metadata.ts:280](https://github.com/slackapi/node-slack-sdk
 ### tag\_color?
 
 ```ts
-optional tag_color?: string;
+tag_color?: string;
 ```
 
 Defined in: [message-metadata.ts:282](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L282)
@@ -161,7 +161,7 @@ Defined in: [message-metadata.ts:273](https://github.com/slackapi/node-slack-sdk
 ### user?
 
 ```ts
-optional user?: 
+user?: 
   | EntityUserIDField
   | EntityUserField;
 ```
@@ -173,7 +173,7 @@ Defined in: [message-metadata.ts:285](https://github.com/slackapi/node-slack-sdk
 ### value?
 
 ```ts
-optional value?: string | number | EntityArrayItemField[];
+value?: string | number | EntityArrayItemField[];
 ```
 
 Defined in: [message-metadata.ts:274](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L274)

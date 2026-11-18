@@ -3,11 +3,11 @@
 # Type Alias: StarsAddRemoveArguments
 
 ```ts
-type StarsAddRemoveArguments = TokenOverridable & 
+type StarsAddRemoveArguments = TokenOverridable & (
   | StarsChannelDestination
   | MessageArgument
   | FileArgument
-  | FileCommentArgument;
+  | FileCommentArgument);
 ```
 
 Defined in: [packages/web-api/src/types/request/stars.ts:17](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/stars.ts#L17)

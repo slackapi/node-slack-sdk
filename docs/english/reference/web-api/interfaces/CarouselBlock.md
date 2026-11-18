@@ -21,7 +21,7 @@ Displays related card blocks in a horizontally-scrolling container.
 ### block\_id?
 
 ```ts
-optional block_id?: string;
+block_id?: string;
 ```
 
 Defined in: packages/types/dist/block-kit/blocks.d.ts:15
