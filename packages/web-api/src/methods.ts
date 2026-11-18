@@ -120,6 +120,7 @@ import type {
   AppsConnectionsOpenArguments,
   AppsEventAuthorizationsListArguments,
   AppsIconSetArguments,
+  AppsManagedPermissionsSetArguments,
   AppsManifestCreateArguments,
   AppsManifestDeleteArguments,
   AppsManifestExportArguments,
@@ -420,6 +421,7 @@ import type {
   AppsConnectionsOpenResponse,
   AppsEventAuthorizationsListResponse,
   AppsIconSetResponse,
+  AppsManagedPermissionsSetResponse,
   AppsManifestCreateResponse,
   AppsManifestDeleteResponse,
   AppsManifestExportResponse,
@@ -1660,6 +1662,18 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
        * @see {@link https://docs.slack.dev/reference/methods/apps.icon.set `apps.icon.set` API reference}.
        */
       set: bindApiCall<AppsIconSetArguments, AppsIconSetResponse>(this, 'apps.icon.set'),
+    },
+    managed: {
+      permissions: {
+        /**
+         * @description Set who can interact with a managed app.
+         * @see {@link https://docs.slack.dev/reference/methods/apps.managed.permissions.set `apps.managed.permissions.set` API reference}.
+         */
+        set: bindApiCall<AppsManagedPermissionsSetArguments, AppsManagedPermissionsSetResponse>(
+          this,
+          'apps.managed.permissions.set',
+        ),
+      },
     },
     manifest: {
       /**

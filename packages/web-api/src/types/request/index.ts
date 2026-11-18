@@ -145,6 +145,7 @@ export type {
   AppsConnectionsOpenArguments,
   AppsEventAuthorizationsListArguments,
   AppsIconSetArguments,
+  AppsManagedPermissionsSetArguments,
   AppsManifestCreateArguments,
   AppsManifestDeleteArguments,
   AppsManifestExportArguments,

@@ -43,6 +43,40 @@ expectAssignable<Parameters<typeof web.apps.icon.set>>([
   },
 ]);
 
+// apps.managed.permissions.set
+// -- sad path
+expectError(web.apps.managed.permissions.set()); // lacking argument
+expectError(web.apps.managed.permissions.set({})); // empty argument
+expectError(
+  web.apps.managed.permissions.set({
+    app_id: 'A1234', // missing permissions
+  }),
+);
+expectError(
+  web.apps.managed.permissions.set({
+    permissions: 'everyone', // missing app_id
+  }),
+);
+expectError(
+  web.apps.managed.permissions.set({
+    app_id: 'A1234',
+    permissions: 'no_one', // invalid permissions
+  }),
+);
+// -- happy path
+expectAssignable<Parameters<typeof web.apps.managed.permissions.set>>([
+  {
+    app_id: 'A1234',
+    permissions: 'everyone',
+  },
+]);
+expectAssignable<Parameters<typeof web.apps.managed.permissions.set>>([
+  {
+    app_id: 'A1234',
+    permissions: 'app_owner',
+  },
+]);
+
 // apps.manifest.create
 // -- sad path
 expectError(web.apps.manifest.create()); // lacking argument
