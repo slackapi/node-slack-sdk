@@ -3,6 +3,7 @@ import { EventEmitter } from 'eventemitter3';
 // Request, followed by response, types
 import type {
   AdminAnalyticsGetFileArguments,
+  AdminAnalyticsMembersActivityArguments,
   AdminAppsActivitiesListArguments,
   AdminAppsApproveArguments,
   AdminAppsApprovedListArguments,
@@ -303,6 +304,7 @@ import type {
 } from './types/request/index';
 import type {
   AdminAnalyticsGetFileResponse,
+  AdminAnalyticsMembersActivityResponse,
   AdminAppsActivitiesListResponse,
   AdminAppsApprovedListResponse,
   AdminAppsApproveResponse,
@@ -671,6 +673,16 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
         this,
         'admin.analytics.getFile',
       ),
+      members: {
+        /**
+         * @description Retrieves activity metrics for each member of an organization or workspace for one day.
+         * @see {@link https://docs.slack.dev/reference/methods/admin.analytics.members.activity `admin.analytics.members.activity` API reference}.
+         */
+        activity: bindApiCallWithOptionalArgument<
+          AdminAnalyticsMembersActivityArguments,
+          AdminAnalyticsMembersActivityResponse
+        >(this, 'admin.analytics.members.activity'),
+      },
     },
     apps: {
       activities: {

@@ -1,4 +1,4 @@
-export type { AdminAnalyticsGetFileArguments } from './admin/analytics';
+export type { AdminAnalyticsGetFileArguments, AdminAnalyticsMembersActivityArguments } from './admin/analytics';
 export type {
   AdminAppsActivitiesListArguments,
   AdminAppsApproveArguments,
