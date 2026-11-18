@@ -119,6 +119,7 @@ import type {
   APITestArguments,
   AppsConnectionsOpenArguments,
   AppsEventAuthorizationsListArguments,
+  AppsManagedPermissionsSetArguments,
   AppsManifestCreateArguments,
   AppsManifestDeleteArguments,
   AppsManifestExportArguments,
@@ -418,6 +419,7 @@ import type {
   ApiTestResponse,
   AppsConnectionsOpenResponse,
   AppsEventAuthorizationsListResponse,
+  AppsManagedPermissionsSetResponse,
   AppsManifestCreateResponse,
   AppsManifestDeleteResponse,
   AppsManifestExportResponse,
@@ -1649,6 +1651,18 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
         list: bindApiCall<AppsEventAuthorizationsListArguments, AppsEventAuthorizationsListResponse>(
           this,
           'apps.event.authorizations.list',
+        ),
+      },
+    },
+    managed: {
+      permissions: {
+        /**
+         * @description Set who can interact with a managed app.
+         * @see {@link https://docs.slack.dev/reference/methods/apps.managed.permissions.set `apps.managed.permissions.set` API reference}.
+         */
+        set: bindApiCall<AppsManagedPermissionsSetArguments, AppsManagedPermissionsSetResponse>(
+          this,
+          'apps.managed.permissions.set',
         ),
       },
     },
