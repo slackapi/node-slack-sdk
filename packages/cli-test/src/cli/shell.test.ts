@@ -63,8 +63,17 @@ describe('shell module', () => {
         finished: true,
         command: 'echo "hi"',
       };
-      const rejection = assert.rejects(shell.checkIfFinished(proc), /timed out after 60000 ms/);
-      await clock.tickAsync(60000);
+      let settled = false;
+      const rejection = assert.rejects(
+        shell.checkIfFinished(proc).finally(() => {
+          settled = true;
+        }),
+        /timed out after 60000 ms/,
+      );
+      await clock.tickAsync(59999);
+      assert.equal(settled, false);
+      await clock.tickAsync(1);
+      assert.equal(settled, true);
       await rejection;
     });
   });
