@@ -16,7 +16,7 @@ Instructions for AI coding agents working on this repository.
 | [`@slack/web-api`](https://www.npmjs.com/package/@slack/web-api) | `packages/web-api` | Core Web API client (most complex package) |
 | [`@slack/types`](https://www.npmjs.com/package/@slack/types) | `packages/types` | Shared Slack platform TypeScript types (Block Kit, events, etc.) |
 | [`@slack/logger`](https://www.npmjs.com/package/@slack/logger) | `packages/logger` | Logging utility used by other packages |
-| [`@slack/webhook`](https://www.npmjs.com/package/@slack/webhook) | `packages/webhook` | Incoming webhook client |
+| [`@slack/webhook`](https://www.npmjs.com/package/@slack/webhook) | `packages/webhook` | Incoming webhook and webhook trigger client |
 | [`@slack/oauth`](https://www.npmjs.com/package/@slack/oauth) | `packages/oauth` | OAuth flow handling and token management |
 | [`@slack/socket-mode`](https://www.npmjs.com/package/@slack/socket-mode) | `packages/socket-mode` | WebSocket-based real-time event client |
 | [`@slack/cli-hooks`](https://www.npmjs.com/package/@slack/cli-hooks) | `packages/cli-hooks` | CLI integration hooks for Slack CLI |
