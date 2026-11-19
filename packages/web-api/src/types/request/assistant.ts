@@ -14,7 +14,7 @@ export interface AssistantSearchContextArguments extends TokenOverridable {
   channel_types?: ('public_channel' | 'private_channel' | 'mpim' | 'im')[];
   /**
    * @description Content types to include, a comma-separated list of any combination of `messages`, `files`,
-   * `channels`, `users`.
+   * `enterprise`, `channels`, `users`.
    */
   content_types?: ('messages' | 'files' | 'enterprise' | 'channels' | 'users')[];
   /** @description Whether the results should include bots. */
