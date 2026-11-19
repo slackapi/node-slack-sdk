@@ -6,7 +6,7 @@ The `@slack/logger` package is intended to be used as a simple logging interface
 
 ## Requirements
 
-This package supports Node v18 and higher. It's highly recommended to use [the latest LTS version of
+This package supports Node v20 and higher. It's highly recommended to use [the latest LTS version of
 node](https://github.com/nodejs/Release#release-schedule), and the documentation is written using syntax and features
 from that version.
 
@@ -31,20 +31,20 @@ mimics the default node `console` API with three additions:
 This short snippet shows various `Logger` levels and customized labels:
 
 ```javascript
-const { ConsoleLogger, LogLevel } = require("@slack/logger");
+const { ConsoleLogger, LogLevel } = require('@slack/logger');
 
 const logger = new ConsoleLogger();
 
-logger.error("a problem happened");
-logger.warn("might need attention");
-logger.info("take note of this");
-logger.debug("or dig into details");
+logger.error('a problem happened');
+logger.warn('might need attention');
+logger.info('take note of this');
+logger.debug('or dig into details');
 
-logger.setName("HAL");
+logger.setName('HAL');
 logger.setLevel(LogLevel.DEBUG);
 
-logger.info("what an observation");
-logger.debug("i am so interested");
+logger.info('what an observation');
+logger.debug('i am so interested');
 ```
 
 When run, messages that match the following values are logged:

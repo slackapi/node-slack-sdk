@@ -3,7 +3,11 @@
 export {
   CodedError,
   ErrorCode,
+  SlackError,
   WebAPICallError,
+  WebAPIFileUploadInvalidArgumentsError,
+  WebAPIFileUploadReadFileDataError,
+  WebAPIFilesUploadError,
   WebAPIHTTPError,
   WebAPIPlatformError,
   WebAPIRateLimitedError,
@@ -22,10 +26,10 @@ export * from './types/response/index';
 export { ChatStreamer, ChatStreamerOptions } from './chat-stream';
 
 export {
+  FetchFunction,
   PageAccumulator,
   PageReducer,
   PaginatePredicate,
-  TLSOptions,
   WebAPICallResult,
   WebClient,
   WebClientEvent,

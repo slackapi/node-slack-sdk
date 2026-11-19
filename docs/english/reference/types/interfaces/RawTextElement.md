@@ -2,7 +2,7 @@
 
 # Interface: RawTextElement
 
-Defined in: [block-kit/composition-objects.ts:180](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/composition-objects.ts#L180)
+Defined in: [block-kit/composition-objects.ts:198](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/composition-objects.ts#L198)
 
 ## Description
 
@@ -20,7 +20,7 @@ Defines an object containing some text.
 text: string;
 ```
 
-Defined in: [block-kit/composition-objects.ts:188](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/composition-objects.ts#L188)
+Defined in: [block-kit/composition-objects.ts:206](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/composition-objects.ts#L206)
 
 #### Description
 
@@ -34,7 +34,7 @@ The text for the block. The minimum length is 1 character.
 type: "raw_text";
 ```
 
-Defined in: [block-kit/composition-objects.ts:184](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/composition-objects.ts#L184)
+Defined in: [block-kit/composition-objects.ts:202](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/composition-objects.ts#L202)
 
 #### Description
 

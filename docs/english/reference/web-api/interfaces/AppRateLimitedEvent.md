@@ -2,7 +2,7 @@
 
 # Interface: AppRateLimitedEvent
 
-Defined in: packages/types/dist/events/app.d.ts:194
+Defined in: packages/types/dist/events/app.d.ts:195
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: packages/types/dist/events/app.d.ts:194
 api_app_id: string;
 ```
 
-Defined in: packages/types/dist/events/app.d.ts:199
+Defined in: packages/types/dist/events/app.d.ts:200
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: packages/types/dist/events/app.d.ts:199
 minute_rate_limited: number;
 ```
 
-Defined in: packages/types/dist/events/app.d.ts:198
+Defined in: packages/types/dist/events/app.d.ts:199
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: packages/types/dist/events/app.d.ts:198
 team_id: string;
 ```
 
-Defined in: packages/types/dist/events/app.d.ts:197
+Defined in: packages/types/dist/events/app.d.ts:198
 
 ***
 
@@ -42,7 +42,7 @@ Defined in: packages/types/dist/events/app.d.ts:197
 token: string;
 ```
 
-Defined in: packages/types/dist/events/app.d.ts:196
+Defined in: packages/types/dist/events/app.d.ts:197
 
 ***
 
@@ -52,4 +52,4 @@ Defined in: packages/types/dist/events/app.d.ts:196
 type: "app_rate_limited";
 ```
 
-Defined in: packages/types/dist/events/app.d.ts:195
+Defined in: packages/types/dist/events/app.d.ts:196

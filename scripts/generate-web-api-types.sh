@@ -21,6 +21,4 @@ npm i
 ruby ./code_generator.rb
 popd
 # run lint fixing after type generation
-pushd packages/web-api
-npm i
 npm run lint:fix

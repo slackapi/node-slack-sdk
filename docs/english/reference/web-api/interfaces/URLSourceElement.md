@@ -2,7 +2,7 @@
 
 # Interface: URLSourceElement
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:622
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:636
 
 ## Description
 
@@ -20,7 +20,7 @@ A URL source element that displays a URL source for referencing within a task ca
 text: string;
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:634
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:648
 
 #### Description
 
@@ -34,7 +34,7 @@ Display text for the URL.
 type: "url";
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:626
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:640
 
 #### Description
 
@@ -48,7 +48,7 @@ The type of element. In this case `type` is always `url`.
 url: string;
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:630
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:644
 
 #### Description
 

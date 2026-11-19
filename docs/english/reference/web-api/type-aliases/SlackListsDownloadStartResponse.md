@@ -6,36 +6,48 @@
 type SlackListsDownloadStartResponse = WebAPICallResult & object;
 ```
 
-Defined in: [packages/web-api/src/types/response/SlackListsDownloadStartResponse.ts:3](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/SlackListsDownloadStartResponse.ts#L3)
+Defined in: [packages/web-api/src/types/response/SlackListsDownloadStartResponse.ts:11](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/SlackListsDownloadStartResponse.ts#L11)
 
 ## Type Declaration
 
 ### error?
 
 ```ts
-optional error: string;
+error?: string;
 ```
 
 ### job\_id?
 
 ```ts
-optional job_id: string;
+job_id?: string;
 ```
 
 ### needed?
 
 ```ts
-optional needed: string;
+needed?: string;
 ```
 
 ### ok?
 
 ```ts
-optional ok: boolean;
+ok?: boolean;
 ```
 
 ### provided?
 
 ```ts
-optional provided: string;
+provided?: string;
+```
+
+### response\_metadata?
+
+```ts
+response_metadata?: ResponseMetadata;
+```
+
+### warning?
+
+```ts
+warning?: string;
 ```

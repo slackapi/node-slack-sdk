@@ -12,6 +12,20 @@ All errors produced by this package adhere to this interface
 
 ## Properties
 
+### cause?
+
+```ts
+cause?: unknown;
+```
+
+Defined in: node\_modules/typescript/lib/lib.es2022.error.d.ts:26
+
+#### Inherited from
+
+[`CodedError`](CodedError.md).[`cause`](CodedError.md#cause)
+
+***
+
 ### code
 
 ```ts
@@ -29,10 +43,10 @@ Defined in: [packages/rtm-api/src/errors.ts:39](https://github.com/slackapi/node
 ### errno?
 
 ```ts
-optional errno: number;
+errno?: number;
 ```
 
-Defined in: node\_modules/@types/node/globals.d.ts:102
+Defined in: packages/rtm-api/node\_modules/@types/node/globals.d.ts:101
 
 #### Inherited from
 
@@ -81,10 +95,10 @@ Defined in: [packages/rtm-api/src/errors.ts:40](https://github.com/slackapi/node
 ### path?
 
 ```ts
-optional path: string;
+path?: string;
 ```
 
-Defined in: node\_modules/@types/node/globals.d.ts:104
+Defined in: packages/rtm-api/node\_modules/@types/node/globals.d.ts:103
 
 #### Inherited from
 
@@ -95,7 +109,7 @@ Defined in: node\_modules/@types/node/globals.d.ts:104
 ### stack?
 
 ```ts
-optional stack: string;
+stack?: string;
 ```
 
 Defined in: node\_modules/typescript/lib/lib.es5.d.ts:1078
@@ -109,10 +123,10 @@ Defined in: node\_modules/typescript/lib/lib.es5.d.ts:1078
 ### syscall?
 
 ```ts
-optional syscall: string;
+syscall?: string;
 ```
 
-Defined in: node\_modules/@types/node/globals.d.ts:105
+Defined in: packages/rtm-api/node\_modules/@types/node/globals.d.ts:104
 
 #### Inherited from
 

@@ -5,7 +5,7 @@ and constructs of all kinds.
 
 ## Requirements
 
-This package supports Node v18 and higher. It's highly recommended to use [the latest LTS version of
+This package supports Node v20 and higher. It's highly recommended to use [the latest LTS version of
 node](https://github.com/nodejs/Release#release-schedule), and the documentation is written using syntax and features
 from that version.
 
@@ -27,6 +27,6 @@ available, but a brief list:
 
 If you get stuck, we're here to help. The following are the best ways to get assistance working through your issue:
 
-  * [Issue Tracker](http://github.com/slackapi/node-slack-sdk/issues) for questions, feature requests, bug reports and
-    general discussion related to this package. Try searching before you create a new issue.
-  * [Email us](mailto:developers@slack.com) in Slack developer support: `developers@slack.com`
+- [Issue Tracker](http://github.com/slackapi/node-slack-sdk/issues) for questions, feature requests, bug reports and
+  general discussion related to this package. Try searching before you create a new issue.
+- [Email us](mailto:developers@slack.com) in Slack developer support: `developers@slack.com`

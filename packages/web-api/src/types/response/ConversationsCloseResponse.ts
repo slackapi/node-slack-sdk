@@ -15,4 +15,5 @@ export type ConversationsCloseResponse = WebAPICallResult & {
   no_op?: boolean;
   ok?: boolean;
   provided?: string;
+  warning?: string;
 };

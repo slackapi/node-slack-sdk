@@ -100,7 +100,7 @@ export const shell = {
   /**
    * Logic to wait for child process to finish executing
    * - Check if the close event was emitted, else wait for 1 sec
-   * - Error out if > 30 sec
+   * - Error out after timeouts.waitingGlobal ms
    * @param shell shell object
    */
   checkIfFinished: async function checkIfFinished(proc: ShellProcess): Promise<void> {

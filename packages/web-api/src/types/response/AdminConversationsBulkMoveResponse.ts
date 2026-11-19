@@ -16,6 +16,7 @@ export type AdminConversationsBulkMoveResponse = WebAPICallResult & {
   ok?: boolean;
   provided?: string;
   response_metadata?: ResponseMetadata;
+  warning?: string;
 };
 
 export interface NotAdded {

@@ -17,5 +17,6 @@ export type TeamPreferencesListResponse = WebAPICallResult & {
   needed?: string;
   ok?: boolean;
   provided?: string;
+  warning?: string;
   who_can_post_general?: string;
 };

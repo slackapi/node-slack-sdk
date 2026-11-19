@@ -55,6 +55,15 @@ export class ChatStreamer {
   }
 
   /**
+   * @description The message timestamp of the stream. Returns `undefined` until the first flush
+   * (when `chat.startStream` is called).
+   * @see {@link https://docs.slack.dev/reference/methods/chat.update}
+   */
+  get ts(): string | undefined {
+    return this.streamTs;
+  }
+
+  /**
    * Append to the stream.
    *
    * @description The "append" method appends to the chat stream being used. This method can be called multiple times. After the stream is stopped this method cannot be called.

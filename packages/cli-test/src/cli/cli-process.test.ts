@@ -1,8 +1,10 @@
 import assert from 'node:assert/strict';
+import child from 'node:child_process';
 import { afterEach, beforeEach, describe, it } from 'node:test';
 
 import sinon from 'sinon';
 
+import { mockProcess } from '../utils/test';
 import { SlackCLIProcess } from './cli-process';
 import { shell } from './shell';
 
@@ -26,6 +28,21 @@ describe('SlackCLIProcess class', () => {
         new SlackCLIProcess(['help']);
       });
       process.env.SLACK_CLI_PATH = orig;
+    });
+  });
+
+  describe('execAsyncUntilOutputPresent method', () => {
+    it('should pass the timeout to waitForOutput and not to the spawned process', async () => {
+      spawnProcessSpy.callThrough();
+      const spawnSpy = sandbox.stub(child, 'spawn').returns(mockProcess());
+      const waitForOutputSpy = sandbox.stub(shell, 'waitForOutput').resolves();
+      const cmd = new SlackCLIProcess(['run']);
+      await cmd.execAsyncUntilOutputPresent('Connected', { cwd: '/tmp', timeout: 60000 });
+      sandbox.assert.calledOnce(spawnSpy);
+      const spawnOpts = spawnSpy.firstCall.args[2];
+      assert.equal(spawnOpts.cwd, '/tmp');
+      assert.equal('timeout' in spawnOpts, false);
+      sandbox.assert.calledWith(waitForOutputSpy, 'Connected', sinon.match.object, { timeout: 60000 });
     });
   });
 
@@ -98,18 +115,22 @@ describe('SlackCLIProcess class', () => {
         await cmd.execAsync();
         sandbox.assert.calledWith(spawnProcessSpy, sinon.match.string, sinon.match.array.contains(['--skip-update']));
       });
-      it('should default to `--app deployed` but allow overriding that via the `app` parameter', async () => {
+      it('should only pass `--app` when explicitly provided via the `app` parameter', async () => {
         let cmd = new SlackCLIProcess(['help']);
+        await cmd.execAsync();
+        sandbox.assert.neverCalledWith(spawnProcessSpy, sinon.match.string, sinon.match.array.contains(['--app']));
+        spawnProcessSpy.resetHistory();
+        cmd = new SlackCLIProcess(['help'], { app: 'local' });
+        await cmd.execAsync();
+        sandbox.assert.calledWith(spawnProcessSpy, sinon.match.string, sinon.match.array.contains(['--app', 'local']));
+        spawnProcessSpy.resetHistory();
+        cmd = new SlackCLIProcess(['help'], { app: 'deployed' });
         await cmd.execAsync();
         sandbox.assert.calledWith(
           spawnProcessSpy,
           sinon.match.string,
           sinon.match.array.contains(['--app', 'deployed']),
         );
-        spawnProcessSpy.resetHistory();
-        cmd = new SlackCLIProcess(['help'], { app: 'local' });
-        await cmd.execAsync();
-        sandbox.assert.calledWith(spawnProcessSpy, sinon.match.string, sinon.match.array.contains(['--app', 'local']));
       });
       it('should default to `--force` but allow overriding that via the `force` parameter', async () => {
         let cmd = new SlackCLIProcess(['help']);

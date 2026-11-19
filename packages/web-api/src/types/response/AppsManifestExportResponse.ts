@@ -14,6 +14,7 @@ export type AppsManifestExportResponse = WebAPICallResult & {
   needed?: string;
   ok?: boolean;
   provided?: string;
+  warning?: string;
 };
 
 export interface Manifest {
@@ -92,6 +93,7 @@ export interface PutParameter {
 }
 
 export interface OauthConfig {
+  pkce_enabled?: boolean;
   redirect_urls?: string[];
   scopes?: Scopes;
   token_management_enabled?: boolean;
@@ -110,6 +112,7 @@ export interface Settings {
   function_runtime?: string;
   hermes_app_type?: string;
   interactivity?: Interactivity;
+  is_mcp_enabled?: boolean;
   long_description?: string;
   org_deploy_enabled?: boolean;
   socket_mode_enabled?: boolean;

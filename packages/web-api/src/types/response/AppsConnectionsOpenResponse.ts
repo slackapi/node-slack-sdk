@@ -13,5 +13,11 @@ export type AppsConnectionsOpenResponse = WebAPICallResult & {
   needed?: string;
   ok?: boolean;
   provided?: string;
+  response_metadata?: ResponseMetadata;
   url?: string;
+  warning?: string;
 };
+
+export interface ResponseMetadata {
+  messages?: string[];
+}

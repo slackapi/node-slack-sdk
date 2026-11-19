@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { createReadStream, statSync, unlinkSync, writeFileSync } from 'node:fs';
 import { afterEach, beforeEach, describe, it } from 'node:test';
 import sinon from 'sinon';
-import { ErrorCode, type WebAPIFileUploadInvalidArgumentsError } from './errors';
+import { ErrorCode, SlackError, WebAPIFileUploadInvalidArgumentsError } from './errors';
 import {
   buildChannelsWarning,
   buildLegacyFileTypeWarning,
@@ -38,18 +38,29 @@ describe('file-upload', () => {
     sandbox.restore();
   });
   describe('getFileUploadJob', () => {
+    it('maps the deprecated alt_text to alt_txt', async () => {
+      const res = await getFileUploadJob(
+        {
+          filename: 'test.txt',
+          file: Buffer.from('test'),
+          alt_text: 'an image of a thing',
+        },
+        logger,
+      );
+      assert.strictEqual(res.alt_txt, 'an image of a thing');
+    });
     it('returns a fileUploadEntry', async () => {
       const valid = {
         filename: 'test.txt',
         file: Buffer.from('test'),
         title: 'My title',
-        alt_text: 'an image of a thing',
+        alt_txt: 'an image of a thing',
         initial_comment: 'lorem ipsum',
       };
       const res = await getFileUploadJob(valid, logger);
       // supplied values
       assert.strictEqual(valid.initial_comment, res.initial_comment);
-      assert.strictEqual(valid.alt_text, res.alt_text);
+      assert.strictEqual(valid.alt_txt, res.alt_txt);
       assert.strictEqual(valid.title, res.title);
       assert.strictEqual(valid.filename, res.filename);
 
@@ -116,7 +127,7 @@ describe('file-upload', () => {
           {
             file: './test/fixtures/test-png.png',
             filename: 'watermelon.png',
-            alt_text: 'cubed fruit for box eats',
+            alt_txt: 'cubed fruit for box eats',
           },
           {
             content: 'howdy world!',
@@ -136,7 +147,7 @@ describe('file-upload', () => {
       assert.strictEqual(valid.token, res[1].token);
       assert.strictEqual(valid.file_uploads[0].file, (res[0] as FileUploadBinaryContents).file);
       assert.strictEqual(valid.file_uploads[0].filename, res[0].filename);
-      assert.strictEqual(valid.file_uploads[0].alt_text, res[0].alt_text);
+      assert.strictEqual(valid.file_uploads[0].alt_txt, res[0].alt_txt);
       assert.strictEqual(valid.file_uploads[1].content, (res[1] as FileUploadStringContents).content);
       assert.strictEqual(valid.file_uploads[1].filename, res[1].filename);
 
@@ -157,12 +168,13 @@ describe('file-upload', () => {
         // if we get here this test is failed
         assert.fail(res.toString());
       } catch (err) {
-        const e = err as WebAPIFileUploadInvalidArgumentsError;
+        assert.ok(err instanceof WebAPIFileUploadInvalidArgumentsError);
+        assert.ok(err instanceof SlackError);
         assert.strictEqual(
-          e.message,
+          err.message,
           'Either a file or content field is required for valid file upload. You cannot supply both',
         );
-        assert.strictEqual(e.code, ErrorCode.FileUploadInvalidArgumentsError);
+        assert.strictEqual(err.code, ErrorCode.FileUploadInvalidArgumentsError);
       }
     });
     it('handles invalid input for file or content or when both supplied', async () => {
@@ -177,12 +189,12 @@ describe('file-upload', () => {
         const res = await getFileData(invalidFileUpload);
         assert.fail(res.toString());
       } catch (err) {
-        const e = err as WebAPIFileUploadInvalidArgumentsError;
+        assert.ok(err instanceof WebAPIFileUploadInvalidArgumentsError);
         assert.strictEqual(
-          e.message,
+          err.message,
           'Either a file or content field is required for valid file upload. You cannot supply both',
         );
-        assert.strictEqual(e.code, ErrorCode.FileUploadInvalidArgumentsError);
+        assert.strictEqual(err.code, ErrorCode.FileUploadInvalidArgumentsError);
       }
 
       // file supplied invalid type of valid
@@ -195,9 +207,9 @@ describe('file-upload', () => {
         const res = await getFileData(invalidFileUpload2);
         assert.fail(res.toString());
       } catch (err) {
-        const e = err as WebAPIFileUploadInvalidArgumentsError;
-        assert.strictEqual(e.message, 'file must be a valid string path, buffer or Readable');
-        assert.strictEqual(e.code, ErrorCode.FileUploadInvalidArgumentsError);
+        assert.ok(err instanceof WebAPIFileUploadInvalidArgumentsError);
+        assert.strictEqual(err.message, 'file must be a valid string path, buffer or Readable');
+        assert.strictEqual(err.code, ErrorCode.FileUploadInvalidArgumentsError);
       }
 
       // content supplied invalid type of field
@@ -210,9 +222,9 @@ describe('file-upload', () => {
         const res = await getFileData(invalidFileUpload3);
         assert.fail(res.toString());
       } catch (err) {
-        const e = err as WebAPIFileUploadInvalidArgumentsError;
-        assert.strictEqual(e.message, 'content must be a string');
-        assert.strictEqual(e.code, ErrorCode.FileUploadInvalidArgumentsError);
+        assert.ok(err instanceof WebAPIFileUploadInvalidArgumentsError);
+        assert.strictEqual(err.message, 'content must be a string');
+        assert.strictEqual(err.code, ErrorCode.FileUploadInvalidArgumentsError);
       }
     });
     it('handles file as buffer', async () => {
@@ -244,12 +256,12 @@ describe('file-upload', () => {
         const res = await getFileData(fileUpload);
         assert.fail(res.toString());
       } catch (err) {
-        const e = err as WebAPIFileUploadInvalidArgumentsError;
+        assert.ok(err instanceof WebAPIFileUploadInvalidArgumentsError);
         assert.strictEqual(
-          e.message,
+          err.message,
           `Unable to resolve file data for ${fileUpload.file}. Please supply a filepath string, or binary data Buffer or String directly.`,
         );
-        assert.strictEqual(e.code, ErrorCode.FileUploadInvalidArgumentsError);
+        assert.strictEqual(err.code, ErrorCode.FileUploadInvalidArgumentsError);
       }
     });
     it('handles file as ReadStream', async () => {

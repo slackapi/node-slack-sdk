@@ -13,8 +13,14 @@ export type UsergroupsUsersUpdateResponse = WebAPICallResult & {
   needed?: string;
   ok?: boolean;
   provided?: string;
+  response_metadata?: ResponseMetadata;
   usergroup?: Usergroup;
+  warning?: string;
 };
+
+export interface ResponseMetadata {
+  messages?: string[];
+}
 
 export interface Usergroup {
   auto_provision?: boolean;
@@ -27,10 +33,15 @@ export interface Usergroup {
   enterprise_subteam_id?: string;
   handle?: string;
   id?: string;
+  is_editing_restricted?: boolean;
   is_external?: boolean;
+  is_idp_group?: boolean;
+  is_membership_locked?: boolean;
+  is_org_level?: boolean;
   is_section?: boolean;
   is_subteam?: boolean;
   is_usergroup?: boolean;
+  is_visible?: boolean;
   name?: string;
   prefs?: Prefs;
   team_id?: string;

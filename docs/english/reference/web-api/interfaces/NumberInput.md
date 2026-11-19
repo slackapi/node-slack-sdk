@@ -2,7 +2,7 @@
 
 # Interface: NumberInput
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:488
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:502
 
 ## Description
 
@@ -17,14 +17,17 @@ decimal numbers. For example, 0.25, 5.5, and -10 are all valid input values. Dec
 
 ## Extends
 
-- [`Actionable`](Actionable.md).[`Dispatchable`](Dispatchable.md).[`Focusable`](Focusable.md).[`Placeholdable`](Placeholdable.md)
+- [`Actionable`](Actionable.md)
+- [`Dispatchable`](Dispatchable.md)
+- [`Focusable`](Focusable.md)
+- [`Placeholdable`](Placeholdable.md)
 
 ## Properties
 
 ### action\_id?
 
 ```ts
-optional action_id: string;
+action_id?: string;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:12
@@ -42,7 +45,7 @@ among all other `action_id`s in the containing block. Maximum length for this fi
 ### dispatch\_action\_config?
 
 ```ts
-optional dispatch_action_config: DispatchActionConfig;
+dispatch_action_config?: DispatchActionConfig;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:28
@@ -61,7 +64,7 @@ A [DispatchActionConfig](DispatchActionConfig.md) object that determines when du
 ### focus\_on\_load?
 
 ```ts
-optional focus_on_load: boolean;
+focus_on_load?: boolean;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:36
@@ -81,10 +84,10 @@ Defaults to `false`.
 ### initial\_value?
 
 ```ts
-optional initial_value: string;
+initial_value?: string;
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:500
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:514
 
 #### Description
 
@@ -98,7 +101,7 @@ The initial value in the input when it is loaded.
 is_decimal_allowed: boolean;
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:496
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:510
 
 #### Description
 
@@ -109,10 +112,10 @@ Decimal numbers are allowed if this property is `true`, set the value to `false`
 ### max\_value?
 
 ```ts
-optional max_value: string;
+max_value?: string;
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:508
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:522
 
 #### Description
 
@@ -123,10 +126,10 @@ The maximum value, cannot be less than `min_value`.
 ### min\_value?
 
 ```ts
-optional min_value: string;
+min_value?: string;
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:504
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:518
 
 #### Description
 
@@ -137,7 +140,7 @@ The minimum value, cannot be greater than `max_value`.
 ### placeholder?
 
 ```ts
-optional placeholder: PlainTextElement;
+placeholder?: PlainTextElement;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:49
@@ -159,7 +162,7 @@ length for the `text` field in this object is 150 characters.
 type: "number_input";
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:492
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:506
 
 #### Description
 

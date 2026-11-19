@@ -2,57 +2,92 @@
 
 # Interface: GenericMessageEvent
 
-Defined in: packages/types/dist/events/message.d.ts:7
+Defined in: packages/types/dist/events/message.d.ts:8
 
 ## Properties
+
+### app\_context?
+
+```ts
+app_context?: object;
+```
+
+Defined in: packages/types/dist/events/message.d.ts:38
+
+#### entities?
+
+```ts
+entities?: ((
+  | {
+  type: "slack#/types/channel_id";
+  value: string;
+}
+  | {
+  type: "slack#/types/canvas_id";
+  value: string;
+}
+  | {
+  type: "slack#/types/list_id";
+  value: string;
+}
+  | {
+  type: "slack#/types/message_context";
+  value: {
+     channel_id: string;
+     message_ts: string;
+  };
+}) & object)[];
+```
+
+***
 
 ### assistant\_thread?
 
 ```ts
-optional assistant_thread: Record<string, unknown>;
+assistant_thread?: Record<string, unknown>;
 ```
 
-Defined in: packages/types/dist/events/message.d.ts:36
+Defined in: packages/types/dist/events/message.d.ts:37
 
 ***
 
 ### attachments?
 
 ```ts
-optional attachments: MessageAttachment[];
-```
-
-Defined in: packages/types/dist/events/message.d.ts:20
-
-***
-
-### blocks?
-
-```ts
-optional blocks: (Block | KnownBlock)[];
+attachments?: MessageAttachment[];
 ```
 
 Defined in: packages/types/dist/events/message.d.ts:21
 
 ***
 
+### blocks?
+
+```ts
+blocks?: (Block | KnownBlock)[];
+```
+
+Defined in: packages/types/dist/events/message.d.ts:22
+
+***
+
 ### bot\_id?
 
 ```ts
-optional bot_id: string;
+bot_id?: string;
 ```
 
-Defined in: packages/types/dist/events/message.d.ts:14
+Defined in: packages/types/dist/events/message.d.ts:15
 
 ***
 
 ### bot\_profile?
 
 ```ts
-optional bot_profile: BotProfile;
+bot_profile?: BotProfile;
 ```
 
-Defined in: packages/types/dist/events/message.d.ts:15
+Defined in: packages/types/dist/events/message.d.ts:16
 
 ***
 
@@ -62,7 +97,7 @@ Defined in: packages/types/dist/events/message.d.ts:15
 channel: string;
 ```
 
-Defined in: packages/types/dist/events/message.d.ts:12
+Defined in: packages/types/dist/events/message.d.ts:13
 
 ***
 
@@ -72,27 +107,27 @@ Defined in: packages/types/dist/events/message.d.ts:12
 channel_type: ChannelTypes;
 ```
 
-Defined in: packages/types/dist/events/message.d.ts:19
+Defined in: packages/types/dist/events/message.d.ts:20
 
 ***
 
 ### client\_msg\_id?
 
 ```ts
-optional client_msg_id: string;
+client_msg_id?: string;
 ```
 
-Defined in: packages/types/dist/events/message.d.ts:27
+Defined in: packages/types/dist/events/message.d.ts:28
 
 ***
 
 ### edited?
 
 ```ts
-optional edited: object;
+edited?: object;
 ```
 
-Defined in: packages/types/dist/events/message.d.ts:23
+Defined in: packages/types/dist/events/message.d.ts:24
 
 #### ts
 
@@ -114,57 +149,57 @@ user: string;
 event_ts: string;
 ```
 
-Defined in: packages/types/dist/events/message.d.ts:10
+Defined in: packages/types/dist/events/message.d.ts:11
 
 ***
 
 ### files?
 
 ```ts
-optional files: File[];
+files?: File[];
 ```
 
-Defined in: packages/types/dist/events/message.d.ts:22
+Defined in: packages/types/dist/events/message.d.ts:23
 
 ***
 
 ### is\_starred?
 
 ```ts
-optional is_starred: boolean;
-```
-
-Defined in: packages/types/dist/events/message.d.ts:29
-
-***
-
-### parent\_user\_id?
-
-```ts
-optional parent_user_id: string;
-```
-
-Defined in: packages/types/dist/events/message.d.ts:28
-
-***
-
-### pinned\_to?
-
-```ts
-optional pinned_to: string[];
+is_starred?: boolean;
 ```
 
 Defined in: packages/types/dist/events/message.d.ts:30
 
 ***
 
-### reactions?
+### parent\_user\_id?
 
 ```ts
-optional reactions: object[];
+parent_user_id?: string;
+```
+
+Defined in: packages/types/dist/events/message.d.ts:29
+
+***
+
+### pinned\_to?
+
+```ts
+pinned_to?: string[];
 ```
 
 Defined in: packages/types/dist/events/message.d.ts:31
+
+***
+
+### reactions?
+
+```ts
+reactions?: object[];
+```
+
+Defined in: packages/types/dist/events/message.d.ts:32
 
 #### count
 
@@ -192,37 +227,37 @@ users: string[];
 subtype: undefined;
 ```
 
-Defined in: packages/types/dist/events/message.d.ts:9
+Defined in: packages/types/dist/events/message.d.ts:10
 
 ***
 
 ### team?
 
 ```ts
-optional team: string;
+team?: string;
 ```
 
-Defined in: packages/types/dist/events/message.d.ts:11
+Defined in: packages/types/dist/events/message.d.ts:12
 
 ***
 
 ### text?
 
 ```ts
-optional text: string;
+text?: string;
 ```
 
-Defined in: packages/types/dist/events/message.d.ts:16
+Defined in: packages/types/dist/events/message.d.ts:17
 
 ***
 
 ### thread\_ts?
 
 ```ts
-optional thread_ts: string;
+thread_ts?: string;
 ```
 
-Defined in: packages/types/dist/events/message.d.ts:18
+Defined in: packages/types/dist/events/message.d.ts:19
 
 ***
 
@@ -232,7 +267,7 @@ Defined in: packages/types/dist/events/message.d.ts:18
 ts: string;
 ```
 
-Defined in: packages/types/dist/events/message.d.ts:17
+Defined in: packages/types/dist/events/message.d.ts:18
 
 ***
 
@@ -242,7 +277,7 @@ Defined in: packages/types/dist/events/message.d.ts:17
 type: "message";
 ```
 
-Defined in: packages/types/dist/events/message.d.ts:8
+Defined in: packages/types/dist/events/message.d.ts:9
 
 ***
 
@@ -252,4 +287,4 @@ Defined in: packages/types/dist/events/message.d.ts:8
 user: string;
 ```
 
-Defined in: packages/types/dist/events/message.d.ts:13
+Defined in: packages/types/dist/events/message.d.ts:14

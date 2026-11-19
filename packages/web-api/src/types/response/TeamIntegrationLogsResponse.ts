@@ -15,6 +15,7 @@ export type TeamIntegrationLogsResponse = WebAPICallResult & {
   ok?: boolean;
   paging?: Paging;
   provided?: string;
+  warning?: string;
 };
 
 export interface Log {

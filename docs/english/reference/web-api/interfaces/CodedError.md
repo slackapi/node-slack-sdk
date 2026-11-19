@@ -1,57 +1,62 @@
 [@slack/web-api](../index.md) / CodedError
 
-# Interface: CodedError
+# ~~Interface: CodedError~~
 
-Defined in: [packages/web-api/src/errors.ts:10](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/errors.ts#L10)
+Defined in: [packages/web-api/src/errors.ts:6](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/errors.ts#L6)
 
-All errors produced by this package adhere to this interface
+## Deprecated
+
+Use `instanceof` checks with specific error classes (e.g. `WebAPIPlatformError`) or the `SlackError` base class instead.
 
 ## Extends
 
 - `ErrnoException`
 
-## Extended by
-
-- [`WebAPIHTTPError`](WebAPIHTTPError.md)
-- [`WebAPIPlatformError`](WebAPIPlatformError.md)
-- [`WebAPIRateLimitedError`](WebAPIRateLimitedError.md)
-- [`WebAPIRequestError`](WebAPIRequestError.md)
-
 ## Properties
 
-### code
+### ~~cause?~~
+
+```ts
+cause?: unknown;
+```
+
+Defined in: node\_modules/typescript/lib/lib.es2022.error.d.ts:26
+
+#### Inherited from
+
+`NodeJS.ErrnoException.cause`
+
+***
+
+### ~~code~~
 
 ```ts
 code: ErrorCode;
 ```
 
-Defined in: [packages/web-api/src/errors.ts:11](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/errors.ts#L11)
+Defined in: [packages/web-api/src/errors.ts:7](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/errors.ts#L7)
 
 #### Overrides
 
-```ts
-NodeJS.ErrnoException.code
-```
+`NodeJS.ErrnoException.code`
 
 ***
 
-### errno?
+### ~~errno?~~
 
 ```ts
-optional errno: number;
+errno?: number;
 ```
 
-Defined in: node\_modules/@types/node/globals.d.ts:102
+Defined in: packages/web-api/node\_modules/@types/node/globals.d.ts:101
 
 #### Inherited from
 
-```ts
-NodeJS.ErrnoException.errno
-```
+`NodeJS.ErrnoException.errno`
 
 ***
 
-### message
+### ~~message~~
 
 ```ts
 message: string;
@@ -61,13 +66,11 @@ Defined in: node\_modules/typescript/lib/lib.es5.d.ts:1077
 
 #### Inherited from
 
-```ts
-NodeJS.ErrnoException.message
-```
+`NodeJS.ErrnoException.message`
 
 ***
 
-### name
+### ~~name~~
 
 ```ts
 name: string;
@@ -77,54 +80,46 @@ Defined in: node\_modules/typescript/lib/lib.es5.d.ts:1076
 
 #### Inherited from
 
-```ts
-NodeJS.ErrnoException.name
-```
+`NodeJS.ErrnoException.name`
 
 ***
 
-### path?
+### ~~path?~~
 
 ```ts
-optional path: string;
+path?: string;
 ```
 
-Defined in: node\_modules/@types/node/globals.d.ts:104
+Defined in: packages/web-api/node\_modules/@types/node/globals.d.ts:103
 
 #### Inherited from
 
-```ts
-NodeJS.ErrnoException.path
-```
+`NodeJS.ErrnoException.path`
 
 ***
 
-### stack?
+### ~~stack?~~
 
 ```ts
-optional stack: string;
+stack?: string;
 ```
 
 Defined in: node\_modules/typescript/lib/lib.es5.d.ts:1078
 
 #### Inherited from
 
-```ts
-NodeJS.ErrnoException.stack
-```
+`NodeJS.ErrnoException.stack`
 
 ***
 
-### syscall?
+### ~~syscall?~~
 
 ```ts
-optional syscall: string;
+syscall?: string;
 ```
 
-Defined in: node\_modules/@types/node/globals.d.ts:105
+Defined in: packages/web-api/node\_modules/@types/node/globals.d.ts:104
 
 #### Inherited from
 
-```ts
-NodeJS.ErrnoException.syscall
-```
+`NodeJS.ErrnoException.syscall`

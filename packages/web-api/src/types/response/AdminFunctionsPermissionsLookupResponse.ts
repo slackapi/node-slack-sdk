@@ -17,6 +17,7 @@ export type AdminFunctionsPermissionsLookupResponse = WebAPICallResult & {
   permissions?: { [key: string]: Permission };
   provided?: string;
   response_metadata?: ResponseMetadata;
+  warning?: string;
 };
 
 export type Errors = {};

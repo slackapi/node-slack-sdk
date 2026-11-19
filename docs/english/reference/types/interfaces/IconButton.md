@@ -2,7 +2,7 @@
 
 # Interface: IconButton
 
-Defined in: [block-kit/block-elements.ts:217](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L217)
+Defined in: [block-kit/block-elements.ts:231](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L231)
 
 ## Description
 
@@ -14,17 +14,18 @@ An icon button to perform actions.
 
 ## Extends
 
-- [`Actionable`](Actionable.md).[`Confirmable`](Confirmable.md)
+- [`Actionable`](Actionable.md)
+- [`Confirmable`](Confirmable.md)
 
 ## Properties
 
 ### accessibility\_label?
 
 ```ts
-optional accessibility_label: string;
+accessibility_label?: string;
 ```
 
-Defined in: [block-kit/block-elements.ts:235](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L235)
+Defined in: [block-kit/block-elements.ts:249](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L249)
 
 #### Description
 
@@ -35,7 +36,7 @@ A label for longer descriptive text about a button element. This label will be r
 ### action\_id?
 
 ```ts
-optional action_id: string;
+action_id?: string;
 ```
 
 Defined in: [block-kit/extensions.ts:15](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/extensions.ts#L15)
@@ -53,7 +54,7 @@ among all other `action_id`s in the containing block. Maximum length for this fi
 ### confirm?
 
 ```ts
-optional confirm: ConfirmationDialog;
+confirm?: ConfirmationDialog;
 ```
 
 Defined in: [block-kit/extensions.ts:25](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/extensions.ts#L25)
@@ -75,7 +76,7 @@ with.
 icon: string;
 ```
 
-Defined in: [block-kit/block-elements.ts:226](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L226)
+Defined in: [block-kit/block-elements.ts:240](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L240)
 
 #### Description
 
@@ -95,7 +96,7 @@ trash
 text: PlainTextElement;
 ```
 
-Defined in: [block-kit/block-elements.ts:231](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L231)
+Defined in: [block-kit/block-elements.ts:245](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L245)
 
 #### Description
 
@@ -113,7 +114,7 @@ Defines an object containing some text.
 type: "icon_button";
 ```
 
-Defined in: [block-kit/block-elements.ts:221](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L221)
+Defined in: [block-kit/block-elements.ts:235](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L235)
 
 #### Description
 
@@ -128,10 +129,10 @@ The type of element. In this case `type` is always `icon_button`.
 ### value?
 
 ```ts
-optional value: string;
+value?: string;
 ```
 
-Defined in: [block-kit/block-elements.ts:239](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L239)
+Defined in: [block-kit/block-elements.ts:253](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L253)
 
 #### Description
 
@@ -142,10 +143,10 @@ The button value.
 ### visible\_to\_user\_ids?
 
 ```ts
-optional visible_to_user_ids: string[];
+visible_to_user_ids?: string[];
 ```
 
-Defined in: [block-kit/block-elements.ts:243](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L243)
+Defined in: [block-kit/block-elements.ts:257](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L257)
 
 #### Description
 

@@ -1,6 +1,6 @@
 {
   "name": "@slack/web-api",
-  "version": "7.16.0",
+  "version": "8.4.0",
   "description": "Official library for using the Slack Platform's Web API",
   "author": "Slack Technologies, LLC",
   "license": "MIT",
@@ -21,8 +21,8 @@
     "dist/**/*"
   ],
   "engines": {
-    "node": ">= 18",
-    "npm": ">= 8.6.0"
+    "node": ">= 20",
+    "npm": ">=9.6.4"
   },
   "repository": {
     "type": "git",
@@ -48,25 +48,21 @@
     "watch": "npx nodemon --watch 'src' --ext 'ts' --exec npm run build"
   },
   "dependencies": {
-    "@slack/logger": "^4.0.1",
-    "@slack/types": "^2.21.0",
-    "@types/node": ">=18",
-    "@types/retry": "0.12.0",
-    "axios": "^1.16.0",
+    "@slack/logger": "^5.0.0",
+    "@slack/types": "^3.3.0",
+    "@types/node": ">=20",
+    "@types/retry": "0.12.5",
     "eventemitter3": "^5.0.1",
-    "form-data": "^4.0.4",
-    "is-electron": "2.2.2",
-    "is-stream": "^2",
-    "p-queue": "^6",
-    "p-retry": "^4",
+    "p-queue": "^6.6.2",
+    "p-retry": "^4.6.2",
     "retry": "^0.13.1"
   },
   "devDependencies": {
-    "@types/busboy": "^1.5.4",
-    "@types/sinon": "^21",
+    "@types/busboy": "^1.5.5",
+    "@types/sinon": "^22.0.2",
     "busboy": "^1",
-    "nock": "^14",
-    "sinon": "^21",
+    "nock": "^14.0.17",
+    "sinon": "^22.1.0",
     "tsd": "^0.33.0"
   },
   "tsd": {

@@ -16,4 +16,5 @@ export type DndInfoResponse = WebAPICallResult & {
   next_dnd_start_ts?: number;
   ok?: boolean;
   provided?: string;
+  warning?: string;
 };

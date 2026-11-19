@@ -2,7 +2,7 @@
 
 # Interface: UsersSelect
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:260
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:274
 
 ## Description
 
@@ -16,14 +16,17 @@ active workspace.
 
 ## Extends
 
-- [`Actionable`](Actionable.md).[`Confirmable`](Confirmable.md).[`Focusable`](Focusable.md).[`Placeholdable`](Placeholdable.md)
+- [`Actionable`](Actionable.md)
+- [`Confirmable`](Confirmable.md)
+- [`Focusable`](Focusable.md)
+- [`Placeholdable`](Placeholdable.md)
 
 ## Properties
 
 ### action\_id?
 
 ```ts
-optional action_id: string;
+action_id?: string;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:12
@@ -41,7 +44,7 @@ among all other `action_id`s in the containing block. Maximum length for this fi
 ### confirm?
 
 ```ts
-optional confirm: ConfirmationDialog;
+confirm?: ConfirmationDialog;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:21
@@ -60,7 +63,7 @@ with.
 ### focus\_on\_load?
 
 ```ts
-optional focus_on_load: boolean;
+focus_on_load?: boolean;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:36
@@ -80,10 +83,10 @@ Defaults to `false`.
 ### initial\_user?
 
 ```ts
-optional initial_user: string;
+initial_user?: string;
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:268
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:282
 
 #### Description
 
@@ -94,7 +97,7 @@ The user ID of any valid user to be pre-selected when the menu loads.
 ### placeholder?
 
 ```ts
-optional placeholder: PlainTextElement;
+placeholder?: PlainTextElement;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:49
@@ -116,7 +119,7 @@ length for the `text` field in this object is 150 characters.
 type: "users_select";
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:264
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:278
 
 #### Description
 

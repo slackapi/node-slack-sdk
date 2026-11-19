@@ -1,10 +1,19 @@
 import assert from 'node:assert/strict';
 import { afterEach, beforeEach, describe, it } from 'node:test';
+import { ConsoleLogger } from '@slack/logger';
 import nock from 'nock';
 
-import type { CodedError } from './errors';
-import { ErrorCode } from './errors';
-import { IncomingWebhook } from './IncomingWebhook';
+import {
+  type CodedError,
+  ErrorCode,
+  IncomingWebhookHTTPError,
+  IncomingWebhookRequestError,
+  SlackWebhookError,
+} from './errors';
+import { type FetchFunction, IncomingWebhook } from './IncomingWebhook';
+import { getUserAgent } from './instrument';
+import { LogLevel } from './logger';
+import { rapidRetryPolicy } from './retry-policies';
 
 const url = 'https://hooks.slack.com/services/FAKEWEBHOOK';
 
@@ -22,14 +31,87 @@ describe('IncomingWebhook', () => {
     it('should create a default webhook with a default timeout', () => {
       const webhook = new IncomingWebhook(url);
       // biome-ignore lint/suspicious/noExplicitAny: accessing private property for test assertion
-      assert.strictEqual((webhook as any).defaults.timeout, 0);
+      assert.strictEqual((webhook as any).timeout, 0);
     });
 
-    it('should create an axios instance that has the timeout passed by the user', () => {
+    it('should store the timeout passed by the user', () => {
       const givenTimeout = 100;
       const webhook = new IncomingWebhook(url, { timeout: givenTimeout });
       // biome-ignore lint/suspicious/noExplicitAny: accessing private property for test assertion
-      assert.strictEqual((webhook as any).axios.defaults.timeout, givenTimeout);
+      assert.strictEqual((webhook as any).timeout, givenTimeout);
+    });
+
+    it('should use a custom fetch function when provided', async () => {
+      let fetchCalled = false;
+      const customFetch: FetchFunction = async () => {
+        fetchCalled = true;
+        return new Response('ok', { status: 200 });
+      };
+      const webhook = new IncomingWebhook(url, { fetch: customFetch });
+      await webhook.send('Hello');
+      assert.ok(fetchCalled);
+    });
+
+    it('should warn when URL contains /triggers/', () => {
+      const warnings: string[] = [];
+      const logger = {
+        debug() {},
+        info() {},
+        warn(...msg: string[]) {
+          warnings.push(msg.join(' '));
+        },
+        error() {},
+        setLevel() {},
+        getLevel() {
+          return LogLevel.WARN;
+        },
+        setName() {},
+      };
+      new IncomingWebhook('https://hooks.slack.com/triggers/T000/abc', { logger });
+      assert.strictEqual(warnings.length, 1);
+      assert.ok(warnings[0].includes('WebhookTrigger'));
+    });
+
+    it('should not warn when URL contains /services/', () => {
+      const warnings: string[] = [];
+      const logger = {
+        debug() {},
+        info() {},
+        warn(...msg: string[]) {
+          warnings.push(msg.join(' '));
+        },
+        error() {},
+        setLevel() {},
+        getLevel() {
+          return LogLevel.WARN;
+        },
+        setName() {},
+      };
+      new IncomingWebhook('https://hooks.slack.com/services/T000/B000/abc', { logger });
+      assert.strictEqual(warnings.length, 0);
+    });
+
+    it('should use a given logger as-is and ignore logLevel', () => {
+      const calls: string[] = [];
+      const logger = {
+        debug() {},
+        info() {},
+        warn(...msg: string[]) {
+          calls.push(msg.join(' '));
+        },
+        error() {},
+        setLevel() {
+          calls.push('setLevel');
+        },
+        getLevel() {
+          return LogLevel.WARN;
+        },
+        setName() {
+          calls.push('setName');
+        },
+      };
+      new IncomingWebhook(url, { logger, logLevel: LogLevel.ERROR });
+      assert.deepStrictEqual(calls, ['The logLevel given to IncomingWebhook was ignored as you also gave logger']);
     });
   });
 
@@ -81,9 +163,11 @@ describe('IncomingWebhook', () => {
           await webhook.send('Hello');
           assert.fail('expected rejection');
         } catch (error) {
-          assert.ok(error);
-          assert.ok(error instanceof Error);
-          assert.match((error as Error).message, new RegExp(String(statusCode)));
+          assert.ok(error instanceof IncomingWebhookHTTPError);
+          assert.ok(error instanceof SlackWebhookError);
+          assert.strictEqual(error.code, ErrorCode.HTTPError);
+          assert.strictEqual(error.statusCode, statusCode);
+          assert.match(error.message, new RegExp(String(statusCode)));
           scope.done();
         }
       });
@@ -96,8 +180,11 @@ describe('IncomingWebhook', () => {
           await webhook.send('Hello');
           assert.fail('expected rejection');
         } catch (error) {
-          assert.ok(error instanceof Error);
-          assert.strictEqual((error as CodedError).code, ErrorCode.RequestError);
+          assert.ok(error instanceof IncomingWebhookRequestError);
+          assert.ok(error instanceof SlackWebhookError);
+          assert.strictEqual(error.code, ErrorCode.RequestError);
+          assert.ok(error.original instanceof Error);
+          assert.strictEqual(error.cause, error.original);
         }
       });
     });
@@ -122,7 +209,8 @@ describe('IncomingWebhook', () => {
         const scope = nock('https://hooks.slack.com', {
           reqheaders: {
             'User-Agent': (value) => {
-              return /@slack:webhook/.test(value);
+              assert.strictEqual(value, getUserAgent());
+              return true;
             },
           },
         })
@@ -135,6 +223,135 @@ describe('IncomingWebhook', () => {
           scope.done();
         }
       });
+    });
+
+    describe('retries', () => {
+      it('retries a 5xx then succeeds when a retry policy is set', async () => {
+        const scope = nock('https://hooks.slack.com')
+          .post(/services/)
+          .reply(503)
+          .post(/services/)
+          .reply(200, 'ok');
+        const webhook = new IncomingWebhook(url, { retryConfig: rapidRetryPolicy });
+        const result = await webhook.send('hello');
+        assert.strictEqual(result.text, 'ok');
+        scope.done();
+      });
+
+      it('retries a 5xx then succeeds when send() is given a retry policy', async () => {
+        const scope = nock('https://hooks.slack.com')
+          .post(/services/)
+          .reply(503)
+          .post(/services/)
+          .reply(200, 'ok');
+        const webhook = new IncomingWebhook(url);
+        const result = await webhook.send({ text: 'hello', retryConfig: rapidRetryPolicy });
+        assert.strictEqual(result.text, 'ok');
+        scope.done();
+      });
+
+      it('does not retry a 4xx even when a retry policy is set', async () => {
+        const scope = nock('https://hooks.slack.com')
+          .post(/services/)
+          .reply(400);
+        const webhook = new IncomingWebhook(url, { retryConfig: rapidRetryPolicy });
+        try {
+          await webhook.send('hello');
+          assert.fail('expected rejection');
+        } catch (error) {
+          assert.strictEqual((error as CodedError).code, ErrorCode.HTTPError);
+        }
+        scope.done();
+      });
+
+      it('does not retry a 429 even when a retry policy is set', async () => {
+        // Only one interceptor is registered; a retry would leave it unmatched
+        // and scope.done() would throw.
+        const scope = nock('https://hooks.slack.com')
+          .post(/services/)
+          .reply(429);
+        const webhook = new IncomingWebhook(url, { retryConfig: rapidRetryPolicy });
+        try {
+          await webhook.send('hello');
+          assert.fail('expected rejection');
+        } catch (error) {
+          assert.strictEqual((error as CodedError).code, ErrorCode.HTTPError);
+        }
+        scope.done();
+      });
+
+      it('does not retry by default (no retryConfig)', async () => {
+        const scope = nock('https://hooks.slack.com')
+          .post(/services/)
+          .reply(503);
+        const webhook = new IncomingWebhook(url);
+        try {
+          await webhook.send('hello');
+          assert.fail('expected rejection');
+        } catch (error) {
+          assert.strictEqual((error as CodedError).code, ErrorCode.HTTPError);
+        }
+        scope.done();
+      });
+
+      it('does not leak retryConfig into the posted payload', async () => {
+        let posted: unknown;
+        const scope = nock('https://hooks.slack.com')
+          .post(/services/, (body) => {
+            posted = body;
+            return true;
+          })
+          .reply(200, 'ok');
+        const webhook = new IncomingWebhook(url, { retryConfig: rapidRetryPolicy });
+        await webhook.send('hello');
+        assert.ok(posted && typeof posted === 'object');
+        assert.ok(!('retryConfig' in (posted as Record<string, unknown>)));
+        scope.done();
+      });
+    });
+
+    it('does not leak transport or logging options passed to send() into the posted payload', async () => {
+      let posted: unknown;
+      const scope = nock('https://hooks.slack.com')
+        .post(/services/, (body) => {
+          posted = body;
+          return true;
+        })
+        .reply(200, 'ok');
+      const webhook = new IncomingWebhook(url);
+      await webhook.send({
+        text: 'hello',
+        timeout: 100,
+        retryConfig: rapidRetryPolicy,
+        logger: new ConsoleLogger(),
+        logLevel: LogLevel.DEBUG,
+      });
+      assert.deepStrictEqual(posted, { text: 'hello' });
+      scope.done();
+    });
+
+    it('should use a custom fetch function given to send()', async () => {
+      let fetchCalled = false;
+      const customFetch: FetchFunction = async () => {
+        fetchCalled = true;
+        return new Response('ok', { status: 200 });
+      };
+      await webhook.send({ text: 'Hello', fetch: customFetch });
+      assert.ok(fetchCalled);
+    });
+
+    it('should fail with IncomingWebhookRequestError when the timeout given to send() passes', async () => {
+      const scope = nock('https://hooks.slack.com')
+        .post(/services/)
+        .delay(200)
+        .reply(200, 'ok');
+      try {
+        await webhook.send({ text: 'Hello', timeout: 50 });
+        assert.fail('expected rejection');
+      } catch (error) {
+        assert.ok(error instanceof IncomingWebhookRequestError);
+      }
+      scope.done();
     });
   });
 });

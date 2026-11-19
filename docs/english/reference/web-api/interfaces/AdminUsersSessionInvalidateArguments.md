@@ -2,11 +2,12 @@
 
 # Interface: AdminUsersSessionInvalidateArguments
 
-Defined in: [packages/web-api/src/types/request/admin/users.ts:115](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/users.ts#L115)
+Defined in: [packages/web-api/src/types/request/admin/users.ts:125](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/users.ts#L125)
 
 ## Extends
 
-- `TeamID`.`TokenOverridable`
+- `TeamID`
+- `TokenOverridable`
 
 ## Properties
 
@@ -16,7 +17,7 @@ Defined in: [packages/web-api/src/types/request/admin/users.ts:115](https://gith
 session_id: string;
 ```
 
-Defined in: [packages/web-api/src/types/request/admin/users.ts:117](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/users.ts#L117)
+Defined in: [packages/web-api/src/types/request/admin/users.ts:127](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/users.ts#L127)
 
 #### Description
 
@@ -38,16 +39,14 @@ The encoded team ID.
 
 #### Inherited from
 
-```ts
-TeamID.team_id
-```
+`TeamID.team_id`
 
 ***
 
 ### token?
 
 ```ts
-optional token: string;
+token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
@@ -58,6 +57,4 @@ Overridable authentication token bearing required scopes.
 
 #### Inherited from
 
-```ts
-TokenOverridable.token
-```
+`TokenOverridable.token`

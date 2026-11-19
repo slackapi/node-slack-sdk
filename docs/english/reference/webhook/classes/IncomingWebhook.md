@@ -2,7 +2,7 @@
 
 # Class: IncomingWebhook
 
-Defined in: [packages/webhook/src/IncomingWebhook.ts:12](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/IncomingWebhook.ts#L12)
+Defined in: [packages/webhook/src/IncomingWebhook.ts:37](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/IncomingWebhook.ts#L37)
 
 A client for Slack's Incoming Webhooks
 
@@ -14,7 +14,7 @@ A client for Slack's Incoming Webhooks
 new IncomingWebhook(url, defaults?): IncomingWebhook;
 ```
 
-Defined in: [packages/webhook/src/IncomingWebhook.ts:28](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/IncomingWebhook.ts#L28)
+Defined in: [packages/webhook/src/IncomingWebhook.ts:68](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/IncomingWebhook.ts#L68)
 
 #### Parameters
 
@@ -38,7 +38,7 @@ Defined in: [packages/webhook/src/IncomingWebhook.ts:28](https://github.com/slac
 send(message): Promise<IncomingWebhookResult>;
 ```
 
-Defined in: [packages/webhook/src/IncomingWebhook.ts:60](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/IncomingWebhook.ts#L60)
+Defined in: [packages/webhook/src/IncomingWebhook.ts:95](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/IncomingWebhook.ts#L95)
 
 Send a notification to a conversation
 
@@ -46,9 +46,10 @@ Send a notification to a conversation
 
 ##### message
 
-the message (a simple string, or an object describing the message)
+  \| `string`
+  \| [`IncomingWebhookSendArguments`](../interfaces/IncomingWebhookSendArguments.md)
 
-`string` | [`IncomingWebhookSendArguments`](../interfaces/IncomingWebhookSendArguments.md)
+the message (a simple string, or an object describing the message)
 
 #### Returns
 

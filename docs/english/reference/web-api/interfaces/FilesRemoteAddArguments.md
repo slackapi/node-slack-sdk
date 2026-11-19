@@ -2,11 +2,14 @@
 
 # Interface: FilesRemoteAddArguments
 
-Defined in: [packages/web-api/src/types/request/files.ts:225](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/files.ts#L225)
+Defined in: [packages/web-api/src/types/request/files.ts:226](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/files.ts#L226)
 
 ## Extends
 
-- `SharedFile`.`FileType`.`ExternalIDArgument`.`TokenOverridable`
+- `SharedFile`
+- `FileType`
+- `ExternalIDArgument`
+- `TokenOverridable`
 
 ## Properties
 
@@ -24,9 +27,7 @@ Creator defined GUID for the file.
 
 #### Inherited from
 
-```ts
-ExternalIDArgument.external_id
-```
+`ExternalIDArgument.external_id`
 
 ***
 
@@ -36,7 +37,7 @@ ExternalIDArgument.external_id
 external_url: string;
 ```
 
-Defined in: [packages/web-api/src/types/request/files.ts:214](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/files.ts#L214)
+Defined in: [packages/web-api/src/types/request/files.ts:215](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/files.ts#L215)
 
 #### Description
 
@@ -44,16 +45,14 @@ URL of the remote file.
 
 #### Inherited from
 
-```ts
-SharedFile.external_url
-```
+`SharedFile.external_url`
 
 ***
 
 ### filetype?
 
 ```ts
-optional filetype: string;
+filetype?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/files.ts:32](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/files.ts#L32)
@@ -68,19 +67,17 @@ A file type identifier.
 
 #### Inherited from
 
-```ts
-FileType.filetype
-```
+`FileType.filetype`
 
 ***
 
 ### indexable\_file\_contents?
 
 ```ts
-optional indexable_file_contents: Buffer<ArrayBufferLike> | Stream;
+indexable_file_contents?: Buffer<ArrayBufferLike> | Stream;
 ```
 
-Defined in: [packages/web-api/src/types/request/files.ts:221](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/files.ts#L221)
+Defined in: [packages/web-api/src/types/request/files.ts:222](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/files.ts#L222)
 
 #### Description
 
@@ -89,19 +86,17 @@ of the remote file.
 
 #### Inherited from
 
-```ts
-SharedFile.indexable_file_contents
-```
+`SharedFile.indexable_file_contents`
 
 ***
 
 ### preview\_image?
 
 ```ts
-optional preview_image: Buffer<ArrayBufferLike> | Stream;
+preview_image?: Buffer<ArrayBufferLike> | Stream;
 ```
 
-Defined in: [packages/web-api/src/types/request/files.ts:216](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/files.ts#L216)
+Defined in: [packages/web-api/src/types/request/files.ts:217](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/files.ts#L217)
 
 #### Description
 
@@ -109,9 +104,7 @@ Preview of the document.
 
 #### Inherited from
 
-```ts
-SharedFile.preview_image
-```
+`SharedFile.preview_image`
 
 ***
 
@@ -121,7 +114,7 @@ SharedFile.preview_image
 title: string;
 ```
 
-Defined in: [packages/web-api/src/types/request/files.ts:212](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/files.ts#L212)
+Defined in: [packages/web-api/src/types/request/files.ts:213](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/files.ts#L213)
 
 #### Description
 
@@ -129,16 +122,14 @@ Title of the file being shared.
 
 #### Inherited from
 
-```ts
-SharedFile.title
-```
+`SharedFile.title`
 
 ***
 
 ### token?
 
 ```ts
-optional token: string;
+token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
@@ -149,6 +140,4 @@ Overridable authentication token bearing required scopes.
 
 #### Inherited from
 
-```ts
-TokenOverridable.token
-```
+`TokenOverridable.token`

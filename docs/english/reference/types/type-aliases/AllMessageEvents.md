@@ -23,4 +23,4 @@ type AllMessageEvents =
   | ThreadBroadcastMessageEvent;
 ```
 
-Defined in: [events/message.ts:7](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/message.ts#L7)
+Defined in: [events/message.ts:8](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/message.ts#L8)

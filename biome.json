@@ -13,7 +13,8 @@
       "prod-server-integration-tests/**",
       "!!packages/client",
       "!!packages/events-api",
-      "!!packages/interactive-messages"
+      "!!packages/interactive-messages",
+      "!packages/**/*.svg"
     ]
   },
   "formatter": {
@@ -34,7 +35,7 @@
   "linter": {
     "enabled": true,
     "rules": {
-      "recommended": true,
+      "preset": "recommended",
       "style": {
         "noParameterAssign": "error",
         "useAsConstAssertion": "error",

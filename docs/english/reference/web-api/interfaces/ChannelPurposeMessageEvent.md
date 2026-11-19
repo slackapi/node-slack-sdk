@@ -2,7 +2,7 @@
 
 # Interface: ChannelPurposeMessageEvent
 
-Defined in: packages/types/dist/events/message.d.ts:118
+Defined in: packages/types/dist/events/message.d.ts:120
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: packages/types/dist/events/message.d.ts:118
 channel: string;
 ```
 
-Defined in: packages/types/dist/events/message.d.ts:122
+Defined in: packages/types/dist/events/message.d.ts:124
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: packages/types/dist/events/message.d.ts:122
 channel_type: ChannelTypes;
 ```
 
-Defined in: packages/types/dist/events/message.d.ts:123
+Defined in: packages/types/dist/events/message.d.ts:125
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: packages/types/dist/events/message.d.ts:123
 event_ts: string;
 ```
 
-Defined in: packages/types/dist/events/message.d.ts:127
+Defined in: packages/types/dist/events/message.d.ts:129
 
 ***
 
@@ -42,7 +42,7 @@ Defined in: packages/types/dist/events/message.d.ts:127
 purpose: string;
 ```
 
-Defined in: packages/types/dist/events/message.d.ts:125
+Defined in: packages/types/dist/events/message.d.ts:127
 
 ***
 
@@ -52,7 +52,7 @@ Defined in: packages/types/dist/events/message.d.ts:125
 subtype: "channel_purpose";
 ```
 
-Defined in: packages/types/dist/events/message.d.ts:120
+Defined in: packages/types/dist/events/message.d.ts:122
 
 ***
 
@@ -62,7 +62,7 @@ Defined in: packages/types/dist/events/message.d.ts:120
 text: string;
 ```
 
-Defined in: packages/types/dist/events/message.d.ts:124
+Defined in: packages/types/dist/events/message.d.ts:126
 
 ***
 
@@ -72,7 +72,7 @@ Defined in: packages/types/dist/events/message.d.ts:124
 ts: string;
 ```
 
-Defined in: packages/types/dist/events/message.d.ts:126
+Defined in: packages/types/dist/events/message.d.ts:128
 
 ***
 
@@ -82,7 +82,7 @@ Defined in: packages/types/dist/events/message.d.ts:126
 type: "message";
 ```
 
-Defined in: packages/types/dist/events/message.d.ts:119
+Defined in: packages/types/dist/events/message.d.ts:121
 
 ***
 
@@ -92,4 +92,4 @@ Defined in: packages/types/dist/events/message.d.ts:119
 user: string;
 ```
 
-Defined in: packages/types/dist/events/message.d.ts:121
+Defined in: packages/types/dist/events/message.d.ts:123

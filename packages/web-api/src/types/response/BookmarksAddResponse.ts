@@ -15,6 +15,7 @@ export type BookmarksAddResponse = WebAPICallResult & {
   ok?: boolean;
   provided?: string;
   response_metadata?: ResponseMetadata;
+  warning?: string;
 };
 
 export interface Bookmark {

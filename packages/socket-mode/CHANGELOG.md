@@ -1,5 +1,127 @@
 # @slack/socket-mode
 
+## 3.2.0
+
+### Minor Changes
+
+- 7bd6b38: Fix an unhandled promise rejection of `undefined` that could crash the process when `disconnect()` raced a pending automatic reconnect ([#2656](https://github.com/slackapi/node-slack-sdk/issues/2656)). A reconnect that fails for good still rejects as before, with its cause.
+
+  Also, `disconnect()` called before `start()` finishes connecting (while fetching the WebSocket URL, waiting to retry it, or during the WebSocket handshake) no longer leaves a connection opening afterwards: `start()` rejects with the new `SMConnectAbortedError` instead of hanging or rejecting with `undefined`.
+
+  Calling `start()` right after `disconnect()`, while a reconnect is waiting or fetching its URL, now opens one connection instead of two.
+
+### Patch Changes
+
+- 1d3a1af: Fix `disconnect()` taking 5 seconds or more ([#2752](https://github.com/slackapi/node-slack-sdk/issues/2752)). Slack does not close the TCP connection after the close handshake, so `disconnect()` waited until the pong watchdog gave up and logged "A pong wasn't received". The close handshake now times out after 1 second, the heartbeat stops once the close frame is sent, and a close handshake started by Slack is cleaned up on the next heartbeat tick.
+- 7bd6b38: Fix a 5 to 12 second gap without a connection each time Slack refreshes a Socket Mode connection ([#2767](https://github.com/slackapi/node-slack-sdk/issues/2767)). On a `disconnect` message with the `warning` or `refresh_requested` reason, the client now opens the replacement connection right away, without a reconnect backoff, and leaves the old connection open until Slack sends it a `disconnect` message too, so payloads Slack still sends on it during the switch are received instead of dropped. Each payload is acknowledged on the connection it arrived on. While the replacement is being opened, the current connection keeps serving, and overlapping `disconnect` messages open one replacement. A replacement that fails for good rejects with its cause, as a failed reconnect does. Any other reason, such as `link_disabled`, still closes the connection first and reconnects after the usual delay.
+
+  **Note:** during each refresh, a client now holds two connections for about 60 seconds, until Slack sends the old one its own `disconnect` (`refresh_requested`, about a minute after the `warning`). Both count toward Slack's limit of 10 open Socket Mode connections per app, so apps that run many instances at once should leave room for one extra connection per instance while they refresh.
+
+## 3.1.1
+
+### Patch Changes
+
+- b0706c6: Fix Events API dispatch for payloads without an inner event, including app_rate_limited. Keep malformed payloads available to generic slack_event listeners for acknowledgement.
+- 8730b5e: Fix an orphaned close-handshake timer ([#2771](https://github.com/slackapi/node-slack-sdk/issues/2771)). When the connection closed while a close frame was in flight, the 30s timer armed by `disconnect()` outlived the connection, then logged a false "Peer did not complete the close handshake" warning and emitted a second `close`, which could start a duplicate reconnect.
+  - `disconnect()` on an already closed socket now cleans up immediately instead of sending a close frame and arming a second timer. This is the path when Slack drops the TCP connection after a `disconnect` message.
+  - `disconnect()` before the connection opens no longer leaves the timer behind: undici fails a connecting socket synchronously inside `close()`, so the timer is now armed before it.
+- Updated dependencies [604135c]
+- Updated dependencies [bf3ca27]
+- Updated dependencies [28bd9f9]
+- Updated dependencies [4483395]
+- Updated dependencies [651c298]
+- Updated dependencies [9c6893e]
+  - @slack/web-api@8.3.0
+
+## 3.1.0
+
+### Minor Changes
+
+- 334e6a6: Support `undici@^8` as a peer dependency in addition to `undici@^7`. `undici@^8` requires Node.js >=22.19; `undici@^7` continues to support Node.js >=20.
+
+  The default dispatcher now pins the WebSocket connection to HTTP/1.1, since `undici@^8` offers HTTP/2 by default. To do the same with a custom `ProxyAgent` dispatcher, pass `requestTls: { allowH2: false }`.
+
+### Patch Changes
+
+- e22facd: fix(socket-mode): stop spurious ping/pong WARN from other undici WebSockets ([#2743](https://github.com/slackapi/node-slack-sdk/issues/2743)). Route diagnostics frames by reference identity instead of `instanceof`, which failed across undici copies (e.g. Node's global `WebSocket`).
+- Updated dependencies [c523063]
+  - @slack/web-api@8.2.0
+
+## 3.0.1
+
+### Patch Changes
+
+- 5c2362c: Fix leaked TCP sockets on disconnect ([#2709](https://github.com/slackapi/node-slack-sdk/issues/2709)). Moving from `ws` to undici's `WebSocket` in 3.0.0 dropped every force-close mechanism, so `ESTABLISHED` sockets were never torn down and accumulated toward Slack's per-app connection cap.
+  - `disconnect()` now arms a 30s close-handshake timeout, so a peer that never replies to the close frame no longer leaves the socket stuck in `CLOSING` indefinitely.
+  - On the default dispatcher path, the underlying TCP socket is now captured and force-destroyed during cleanup. A user-supplied `dispatcher` owns its own socket and instead relies on the close-handshake timeout — this limitation is documented on the `dispatcher` option.
+  - The `close` handler no longer schedules a reconnect on stale or overlapping close events, so at most one reconnect is scheduled per disconnect.
+
+## 3.0.0
+
+### Major Changes
+
+- fc98c8c: Drop Node.js 18 support. The minimum supported Node.js version is now 20.
+- fc98c8c: Redesigned error handling to use proper `Error` subclasses instead of plain objects with a `code` property.
+
+  **Migration:** Replace `if (error.code === ErrorCode.WebsocketError)` with `if (error instanceof SMWebsocketError)`.
+
+  **New error classes** (all extend a common `SlackSocketModeError` abstract base class, which extends `Error`):
+  - `SMPlatformError` — Slack platform returned an error event
+  - `SMWebsocketError` — WebSocket connection failure (original error in `cause`)
+  - `SMNoReplyReceivedError` — Timed out waiting for a reply to an acknowledgement
+  - `SMSendWhileDisconnectedError` — Attempted to send while not connected
+  - `SMSendWhileNotReadyError` — Attempted to send before the connection was ready
+
+  Catch any socket-mode error with `if (error instanceof SlackSocketModeError)`.
+
+  **Removed factory functions** (use `new` with the corresponding class instead):
+  - `websocketErrorWithOriginal()` → `new SMWebsocketError(original)`
+  - `platformErrorFromEvent()` → `new SMPlatformError(event)`
+  - `noReplyReceivedError()` → `new SMNoReplyReceivedError()`
+  - `sendWhileDisconnectedError()` → `new SMSendWhileDisconnectedError()`
+  - `sendWhileNotReadyError()` → `new SMSendWhileNotReadyError()`
+
+  The `CodedError` interface is deprecated — use `instanceof` checks with specific error classes instead. The `error.code` property still exists for backward-compatible checks, but `error.name` values changed from generic `'Error'` to descriptive class names (e.g., `'SMWebsocketError'`).
+
+- fc98c8c: Replaced the `ws` WebSocket library with a spec-compliant WebSocket implementation backed by `undici`. **`undici@^7` is now a peer dependency** that must be installed alongside `@slack/socket-mode`:
+
+  ```bash
+  npm install @slack/socket-mode undici@^7
+  ```
+
+  **Removed options:**
+  - **`clientOptions.agent`** (the `httpAgent` passed to the underlying web-api client). Use the new top-level `dispatcher` option instead. The dispatcher handles both the WebSocket connection and HTTP API calls (unless `clientOptions.fetch` is also provided, in which case `dispatcher` only applies to WebSocket).
+
+  **New `dispatcher` option:**
+
+  ```js
+  import { SocketModeClient } from "@slack/socket-mode";
+  import { ProxyAgent } from "undici";
+
+  const client = new SocketModeClient({
+    appToken: process.env.SLACK_APP_TOKEN,
+    dispatcher: new ProxyAgent("http://proxy:3128"),
+  });
+  ```
+
+  For simple proxy use cases, prefer the Node.js built-in proxy support: call `http.setGlobalProxyFromEnv()` at startup or set `NODE_USE_ENV_PROXY=1` (Node.js 24+) with `HTTP_PROXY`/`HTTPS_PROXY` environment variables.
+
+  The `dispatcher` option accepts any object implementing the `SocketModeDispatcher` interface (structurally compatible with undici's `Agent`, `ProxyAgent`, `Client`, etc.).
+
+  This package now depends on `@slack/web-api@^8` — any `clientOptions` you pass are subject to web-api v8 breaking changes (e.g., the `agent` and `tls` options are no longer available; use `clientOptions.fetch` instead).
+
+### Patch Changes
+
+- Updated dependencies [fc98c8c]
+- Updated dependencies [fc98c8c]
+- Updated dependencies [fc98c8c]
+- Updated dependencies [bb49d99]
+- Updated dependencies [fc98c8c]
+- Updated dependencies [fc98c8c]
+- Updated dependencies [fc98c8c]
+  - @slack/logger@5.0.0
+  - @slack/web-api@8.0.0
+
 ## 2.0.7
 
 ### Patch Changes

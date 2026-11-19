@@ -2,7 +2,7 @@
 
 # Interface: NumberInput
 
-Defined in: [block-kit/block-elements.ts:568](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L568)
+Defined in: [block-kit/block-elements.ts:582](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L582)
 
 ## Description
 
@@ -17,14 +17,17 @@ decimal numbers. For example, 0.25, 5.5, and -10 are all valid input values. Dec
 
 ## Extends
 
-- [`Actionable`](Actionable.md).[`Dispatchable`](Dispatchable.md).[`Focusable`](Focusable.md).[`Placeholdable`](Placeholdable.md)
+- [`Actionable`](Actionable.md)
+- [`Dispatchable`](Dispatchable.md)
+- [`Focusable`](Focusable.md)
+- [`Placeholdable`](Placeholdable.md)
 
 ## Properties
 
 ### action\_id?
 
 ```ts
-optional action_id: string;
+action_id?: string;
 ```
 
 Defined in: [block-kit/extensions.ts:15](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/extensions.ts#L15)
@@ -42,7 +45,7 @@ among all other `action_id`s in the containing block. Maximum length for this fi
 ### dispatch\_action\_config?
 
 ```ts
-optional dispatch_action_config: DispatchActionConfig;
+dispatch_action_config?: DispatchActionConfig;
 ```
 
 Defined in: [block-kit/extensions.ts:33](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/extensions.ts#L33)
@@ -61,7 +64,7 @@ A [DispatchActionConfig](DispatchActionConfig.md) object that determines when du
 ### focus\_on\_load?
 
 ```ts
-optional focus_on_load: boolean;
+focus_on_load?: boolean;
 ```
 
 Defined in: [block-kit/extensions.ts:42](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/extensions.ts#L42)
@@ -81,10 +84,10 @@ Defaults to `false`.
 ### initial\_value?
 
 ```ts
-optional initial_value: string;
+initial_value?: string;
 ```
 
-Defined in: [block-kit/block-elements.ts:580](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L580)
+Defined in: [block-kit/block-elements.ts:594](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L594)
 
 #### Description
 
@@ -98,7 +101,7 @@ The initial value in the input when it is loaded.
 is_decimal_allowed: boolean;
 ```
 
-Defined in: [block-kit/block-elements.ts:576](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L576)
+Defined in: [block-kit/block-elements.ts:590](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L590)
 
 #### Description
 
@@ -109,10 +112,10 @@ Decimal numbers are allowed if this property is `true`, set the value to `false`
 ### max\_value?
 
 ```ts
-optional max_value: string;
+max_value?: string;
 ```
 
-Defined in: [block-kit/block-elements.ts:588](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L588)
+Defined in: [block-kit/block-elements.ts:602](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L602)
 
 #### Description
 
@@ -123,10 +126,10 @@ The maximum value, cannot be less than `min_value`.
 ### min\_value?
 
 ```ts
-optional min_value: string;
+min_value?: string;
 ```
 
-Defined in: [block-kit/block-elements.ts:584](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L584)
+Defined in: [block-kit/block-elements.ts:598](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L598)
 
 #### Description
 
@@ -137,7 +140,7 @@ The minimum value, cannot be greater than `max_value`.
 ### placeholder?
 
 ```ts
-optional placeholder: PlainTextElement;
+placeholder?: PlainTextElement;
 ```
 
 Defined in: [block-kit/extensions.ts:57](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/extensions.ts#L57)
@@ -159,7 +162,7 @@ length for the `text` field in this object is 150 characters.
 type: "number_input";
 ```
 
-Defined in: [block-kit/block-elements.ts:572](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L572)
+Defined in: [block-kit/block-elements.ts:586](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L586)
 
 #### Description
 

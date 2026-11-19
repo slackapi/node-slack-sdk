@@ -11,7 +11,7 @@ it can transfer the given InstallURLOptions value to the Redirect URL handler
 
 ## Properties
 
-### generateStateParam()
+### generateStateParam
 
 ```ts
 generateStateParam: (installOptions, now) => Promise<string>;
@@ -39,7 +39,7 @@ The InstallProvider verifies if this value is set in the installer's browser ses
 
 ***
 
-### verifyStateParam()
+### verifyStateParam
 
 ```ts
 verifyStateParam: (now, state) => Promise<InstallURLOptions>;

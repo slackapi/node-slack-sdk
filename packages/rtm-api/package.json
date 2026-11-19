@@ -45,18 +45,18 @@
     "test:integration": "npm run build && node --import tsx --test test/integration.test.js"
   },
   "dependencies": {
-    "@slack/logger": "^4",
-    "@slack/web-api": "^7.10.0",
+    "@slack/logger": "npm:@slack/logger@^4",
+    "@slack/web-api": "npm:@slack/web-api@^7.10.0",
     "@types/node": ">=18",
     "eventemitter3": "^5",
     "finity": "^0.5.4",
     "p-cancelable": "^2",
     "p-queue": "^6",
-    "ws": "^8"
+    "ws": "^8.22.2"
   },
   "devDependencies": {
-    "@types/sinon": "^17",
-    "@types/ws": "^8",
-    "sinon": "^21"
+    "@types/sinon": "^22.0.2",
+    "@types/ws": "^8.18.2",
+    "sinon": "^22"
   }
 }

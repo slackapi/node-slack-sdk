@@ -15,6 +15,7 @@ export type ConversationsInviteResponse = WebAPICallResult & {
   needed?: string;
   ok?: boolean;
   provided?: string;
+  warning?: string;
 };
 
 export interface Channel {

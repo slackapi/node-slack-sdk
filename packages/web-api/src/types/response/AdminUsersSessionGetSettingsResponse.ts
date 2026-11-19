@@ -15,6 +15,7 @@ export type AdminUsersSessionGetSettingsResponse = WebAPICallResult & {
   ok?: boolean;
   provided?: string;
   session_settings?: SessionSetting[];
+  warning?: string;
 };
 
 export interface SessionSetting {

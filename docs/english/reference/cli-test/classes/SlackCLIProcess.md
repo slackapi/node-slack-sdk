@@ -12,7 +12,8 @@ Defined in: [cli/cli-process.ts:49](https://github.com/slackapi/node-slack-sdk/b
 new SlackCLIProcess(
    command, 
    globalOptions?, 
-   commandOptions?): SlackCLIProcess;
+   commandOptions?
+): SlackCLIProcess;
 ```
 
 Defined in: [cli/cli-process.ts:65](https://github.com/slackapi/node-slack-sdk/blob/main/packages/cli-test/src/cli/cli-process.ts#L65)

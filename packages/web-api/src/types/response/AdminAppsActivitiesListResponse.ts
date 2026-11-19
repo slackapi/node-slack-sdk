@@ -15,6 +15,7 @@ export type AdminAppsActivitiesListResponse = WebAPICallResult & {
   ok?: boolean;
   provided?: string;
   response_metadata?: ResponseMetadata;
+  warning?: string;
 };
 
 export interface Activity {
@@ -35,24 +36,37 @@ export interface Activity {
 export interface Payload {
   action?: string;
   actor?: string;
+  app_id?: string;
   billing_reason?: string[];
   bot_user_id?: string;
   bundle_size_kb?: number;
   channel_id?: string;
+  code?: string;
   current_step?: number;
   datastore_name?: string;
   details?: string;
+  elapsed_ms?: number;
   error?: string;
+  error_stage?: string;
   exec_outcome?: string;
+  extra_message?: string;
   function_execution_id?: string;
   function_id?: string;
   function_name?: string;
   function_type?: string;
+  http_status_code?: number;
   inputs?: Inputs;
   is_billing_excluded?: boolean;
   log?: string;
+  message?: string;
+  outputs?: Outputs;
+  provider_key?: string;
   request_type?: string;
+  server_name?: string;
   team_id?: string;
+  tokens_checked?: number;
+  tool_count?: number;
+  tool_name?: string;
   total_steps?: number;
   trigger?: Trigger;
   type?: string;
@@ -61,6 +75,11 @@ export interface Payload {
 }
 
 export type Inputs = {};
+
+export interface Outputs {
+  channel_id?: string;
+  message_ts?: string;
+}
 
 export interface Trigger {
   config?: Config;

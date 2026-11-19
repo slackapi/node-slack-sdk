@@ -6,6 +6,9 @@ export type {
   AdminAppsClearResolutionArguments,
   AdminAppsConfigLookupArguments,
   AdminAppsConfigSetArguments,
+  AdminAppsMcpServersListArguments,
+  AdminAppsMcpServersPermissionsListArguments,
+  AdminAppsMcpServersPermissionsSetArguments,
   AdminAppsRequestsCancelArguments,
   AdminAppsRequestsListArguments,
   AdminAppsRestrictArguments,
@@ -75,6 +78,12 @@ export type {
   AdminRolesRemoveAssignmentsArguments,
 } from './admin/roles';
 export type {
+  AdminSlackbotSkillsListArguments,
+  AdminSlackbotSkillsPublishArguments,
+  AdminSlackbotSkillsSetAutoEnabledArguments,
+  AdminSlackbotSkillsUnpublishArguments,
+} from './admin/slackbot';
+export type {
   AdminTeamsAdminsListArguments,
   AdminTeamsCreateArguments,
   AdminTeamsListArguments,
@@ -94,6 +103,7 @@ export type {
 } from './admin/usergroups';
 export type {
   AdminUsersAssignArguments,
+  AdminUsersGetExpirationArguments,
   AdminUsersInviteArguments,
   AdminUsersListArguments,
   AdminUsersRemoveArguments,
@@ -117,17 +127,35 @@ export type {
   AdminWorkflowsSearchArguments,
   AdminWorkflowsUnpublishArguments,
 } from './admin/workflows';
+export type {
+  AgentsConversationsArchiveArguments,
+  AgentsConversationsCreateArguments,
+  AgentsConversationsGetCanvasArguments,
+  AgentsConversationsListViewsArguments,
+  AgentsConversationsRemoveViewArguments,
+  AgentsConversationsSetCanvasContentArguments,
+  AgentsConversationsSetCommandsArguments,
+  AgentsConversationsSetPropertiesArguments,
+  AgentsConversationsSetViewArguments,
+  AgentsSessionsRenameArguments,
+  AgentsSessionsSetStatusArguments,
+} from './agents';
 export type { APITestArguments } from './api';
 export type {
   AppsConnectionsOpenArguments,
   AppsEventAuthorizationsListArguments,
+  AppsIconSetArguments,
+  AppsManagedPermissionsSetArguments,
   AppsManifestCreateArguments,
   AppsManifestDeleteArguments,
   AppsManifestExportArguments,
   AppsManifestUpdateArguments,
   AppsManifestValidateArguments,
   AppsUninstallArguments,
+  AppsUserConnectionBulkUpdateArguments,
+  AppsUserConnectionRequestAuthArguments,
   AppsUserConnectionUpdateArguments,
+  UserConnectionPrimaryProvider,
 } from './apps';
 export type {
   AssistantSearchContextArguments,
@@ -141,6 +169,7 @@ export type {
   AuthTeamsListArguments,
   AuthTestArguments,
 } from './auth';
+export type { BlocksValidateArguments } from './blocks';
 export type {
   BookmarksAddArguments,
   BookmarksEditArguments,
@@ -162,6 +191,7 @@ export type {
   CanvasesCreateArguments,
   CanvasesDeleteArguments,
   CanvasesEditArguments,
+  CanvasesGetContentArguments,
   CanvasesSectionsLookupArguments,
   ConversationsCanvasesCreateArguments,
 } from './canvas';
@@ -234,7 +264,6 @@ export type {
   FilesRemoteUpdateArguments,
   FilesRevokePublicURLArguments,
   FilesSharedPublicURLArguments,
-  FilesUploadArguments,
   FilesUploadV2Arguments,
 } from './files';
 export type {
@@ -269,15 +298,21 @@ export type {
   RemindersInfoArguments,
   RemindersListArguments,
 } from './reminders';
-export type {
-  RTMConnectArguments,
-  RTMStartArguments,
-} from './rtm';
+export type { RTMConnectArguments } from './rtm';
 export type {
   SearchAllArguments,
   SearchFilesArguments,
   SearchMessagesArguments,
 } from './search';
+export type {
+  SlackbotSkillsCreateArguments,
+  SlackbotSkillsDeleteArguments,
+  SlackbotSkillsInfoArguments,
+  SlackbotSkillsLibraryAddArguments,
+  SlackbotSkillsLibraryRemoveArguments,
+  SlackbotSkillsListArguments,
+  SlackbotSkillsUpdateArguments,
+} from './slackbot';
 export type {
   SlackListsAccessDeleteArguments,
   SlackListsAccessSetArguments,
@@ -342,7 +377,4 @@ export type {
   WorkflowsFeaturedListArguments,
   WorkflowsFeaturedRemoveArguments,
   WorkflowsFeaturedSetArguments,
-  WorkflowsStepCompletedArguments,
-  WorkflowsStepFailedArguments,
-  WorkflowsUpdateStepArguments,
 } from './workflows';

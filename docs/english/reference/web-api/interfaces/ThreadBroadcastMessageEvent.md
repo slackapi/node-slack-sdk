@@ -2,27 +2,27 @@
 
 # Interface: ThreadBroadcastMessageEvent
 
-Defined in: packages/types/dist/events/message.d.ts:225
+Defined in: packages/types/dist/events/message.d.ts:227
 
 ## Properties
 
 ### attachments?
 
 ```ts
-optional attachments: MessageAttachment[];
+attachments?: MessageAttachment[];
 ```
 
-Defined in: packages/types/dist/events/message.d.ts:230
+Defined in: packages/types/dist/events/message.d.ts:232
 
 ***
 
 ### blocks?
 
 ```ts
-optional blocks: (Block | KnownBlock)[];
+blocks?: (Block | KnownBlock)[];
 ```
 
-Defined in: packages/types/dist/events/message.d.ts:231
+Defined in: packages/types/dist/events/message.d.ts:233
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: packages/types/dist/events/message.d.ts:231
 channel: string;
 ```
 
-Defined in: packages/types/dist/events/message.d.ts:243
+Defined in: packages/types/dist/events/message.d.ts:249
 
 ***
 
@@ -42,7 +42,7 @@ Defined in: packages/types/dist/events/message.d.ts:243
 channel_type: ChannelTypes;
 ```
 
-Defined in: packages/types/dist/events/message.d.ts:244
+Defined in: packages/types/dist/events/message.d.ts:250
 
 ***
 
@@ -52,7 +52,17 @@ Defined in: packages/types/dist/events/message.d.ts:244
 client_msg_id: string;
 ```
 
-Defined in: packages/types/dist/events/message.d.ts:242
+Defined in: packages/types/dist/events/message.d.ts:248
+
+***
+
+### display\_as\_bot?
+
+```ts
+display_as_bot?: boolean;
+```
+
+Defined in: packages/types/dist/events/message.d.ts:236
 
 ***
 
@@ -62,19 +72,39 @@ Defined in: packages/types/dist/events/message.d.ts:242
 event_ts: string;
 ```
 
-Defined in: packages/types/dist/events/message.d.ts:228
+Defined in: packages/types/dist/events/message.d.ts:230
+
+***
+
+### files?
+
+```ts
+files?: File[];
+```
+
+Defined in: packages/types/dist/events/message.d.ts:234
+
+***
+
+### parent\_user\_id?
+
+```ts
+parent_user_id?: string;
+```
+
+Defined in: packages/types/dist/events/message.d.ts:238
 
 ***
 
 ### root
 
 ```ts
-root: 
+root: (
   | GenericMessageEvent
-  | BotMessageEvent & object;
+  | BotMessageEvent) & object;
 ```
 
-Defined in: packages/types/dist/events/message.d.ts:235
+Defined in: packages/types/dist/events/message.d.ts:241
 
 #### Type Declaration
 
@@ -116,7 +146,7 @@ thread_ts: string;
 subtype: "thread_broadcast";
 ```
 
-Defined in: packages/types/dist/events/message.d.ts:227
+Defined in: packages/types/dist/events/message.d.ts:229
 
 ***
 
@@ -126,17 +156,17 @@ Defined in: packages/types/dist/events/message.d.ts:227
 text: string;
 ```
 
-Defined in: packages/types/dist/events/message.d.ts:229
+Defined in: packages/types/dist/events/message.d.ts:231
 
 ***
 
 ### thread\_ts?
 
 ```ts
-optional thread_ts: string;
+thread_ts?: string;
 ```
 
-Defined in: packages/types/dist/events/message.d.ts:234
+Defined in: packages/types/dist/events/message.d.ts:240
 
 ***
 
@@ -146,7 +176,7 @@ Defined in: packages/types/dist/events/message.d.ts:234
 ts: string;
 ```
 
-Defined in: packages/types/dist/events/message.d.ts:233
+Defined in: packages/types/dist/events/message.d.ts:239
 
 ***
 
@@ -156,7 +186,17 @@ Defined in: packages/types/dist/events/message.d.ts:233
 type: "message";
 ```
 
-Defined in: packages/types/dist/events/message.d.ts:226
+Defined in: packages/types/dist/events/message.d.ts:228
+
+***
+
+### upload?
+
+```ts
+upload?: boolean;
+```
+
+Defined in: packages/types/dist/events/message.d.ts:235
 
 ***
 
@@ -166,4 +206,4 @@ Defined in: packages/types/dist/events/message.d.ts:226
 user: string;
 ```
 
-Defined in: packages/types/dist/events/message.d.ts:232
+Defined in: packages/types/dist/events/message.d.ts:237

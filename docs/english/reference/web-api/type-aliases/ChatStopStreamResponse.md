@@ -6,48 +6,54 @@
 type ChatStopStreamResponse = WebAPICallResult & object;
 ```
 
-Defined in: [packages/web-api/src/types/response/ChatStopStreamResponse.ts:3](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/ChatStopStreamResponse.ts#L3)
+Defined in: [packages/web-api/src/types/response/ChatStopStreamResponse.ts:11](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/ChatStopStreamResponse.ts#L11)
 
 ## Type Declaration
 
 ### channel?
 
 ```ts
-optional channel: string;
+channel?: string;
 ```
 
 ### error?
 
 ```ts
-optional error: string;
+error?: string;
 ```
 
 ### message?
 
 ```ts
-optional message: ChatStopStreamResponseMessage;
+message?: Message;
 ```
 
 ### needed?
 
 ```ts
-optional needed: string;
+needed?: string;
 ```
 
 ### ok?
 
 ```ts
-optional ok: boolean;
+ok?: boolean;
 ```
 
 ### provided?
 
 ```ts
-optional provided: string;
+provided?: string;
 ```
 
 ### ts?
 
 ```ts
-optional ts: string;
+ts?: string;
+```
+
+### warning?
+
+```ts
+warning?: string;
 ```

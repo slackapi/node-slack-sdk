@@ -6,54 +6,48 @@
 type SlackListsCreateResponse = WebAPICallResult & object;
 ```
 
-Defined in: [packages/web-api/src/types/response/SlackListsCreateResponse.ts:4](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/SlackListsCreateResponse.ts#L4)
+Defined in: [packages/web-api/src/types/response/SlackListsCreateResponse.ts:11](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/SlackListsCreateResponse.ts#L11)
 
 ## Type Declaration
 
 ### error?
 
 ```ts
-optional error: string;
+error?: string;
 ```
 
 ### list\_id?
 
 ```ts
-optional list_id: string;
+list_id?: string;
 ```
 
 ### list\_metadata?
 
 ```ts
-optional list_metadata: object;
-```
-
-#### list\_metadata.schema?
-
-```ts
-optional schema: SlackListsSchemaColumnResponse[];
-```
-
-#### list\_metadata.subtask\_schema?
-
-```ts
-optional subtask_schema: SlackListsSchemaColumnResponse[];
+list_metadata?: ListMetadata;
 ```
 
 ### needed?
 
 ```ts
-optional needed: string;
+needed?: string;
 ```
 
 ### ok?
 
 ```ts
-optional ok: boolean;
+ok?: boolean;
 ```
 
 ### provided?
 
 ```ts
-optional provided: string;
+provided?: string;
+```
+
+### warning?
+
+```ts
+warning?: string;
 ```

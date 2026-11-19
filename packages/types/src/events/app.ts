@@ -70,6 +70,7 @@ export interface AppHomeOpenedEvent {
   channel: string;
   tab?: 'home' | 'messages';
   view?: View;
+  context?: AppContextChangedEvent['context'];
   event_ts: string;
 }
 
@@ -216,6 +217,39 @@ export interface AppRateLimitedEvent {
 // https://docs.slack.dev/reference/events/app_rate_limited
 // export interface AppRateLimitedEvent {
 // }
+
+export interface AppContextChangedEvent {
+  type: 'app_context_changed';
+  channel: string;
+  user: string;
+  context: {
+    entities?: ((
+      | {
+          type: 'slack#/types/channel_id';
+          value: string;
+        }
+      | {
+          type: 'slack#/types/canvas_id';
+          value: string;
+        }
+      | {
+          type: 'slack#/types/list_id';
+          value: string;
+        }
+      | {
+          type: 'slack#/types/message_context';
+          value: {
+            message_ts: string;
+            channel_id: string;
+          };
+        }
+    ) & {
+      team_id?: string;
+      enterprise_id?: string;
+    })[];
+  };
+  event_ts: string;
+}
 
 export interface AppUninstalledEvent {
   type: 'app_uninstalled';

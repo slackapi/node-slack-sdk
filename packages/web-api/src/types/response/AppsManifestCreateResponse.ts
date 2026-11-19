@@ -20,6 +20,7 @@ export type AppsManifestCreateResponse = WebAPICallResult & {
   response_metadata?: ResponseMetadata;
   team_domain?: string;
   team_id?: string;
+  warning?: string;
 };
 
 export interface Credentials {

@@ -15,14 +15,15 @@ Allows users a direct path to performing basic actions.
 
 ## Extends
 
-- [`Actionable`](Actionable.md).[`Confirmable`](Confirmable.md)
+- [`Actionable`](Actionable.md)
+- [`Confirmable`](Confirmable.md)
 
 ## Properties
 
 ### accessibility\_label?
 
 ```ts
-optional accessibility_label: string;
+accessibility_label?: string;
 ```
 
 Defined in: [block-kit/block-elements.ts:63](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L63)
@@ -37,7 +38,7 @@ readers instead of the button `text` object. Maximum length for this field is 75
 ### action\_id?
 
 ```ts
-optional action_id: string;
+action_id?: string;
 ```
 
 Defined in: [block-kit/extensions.ts:15](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/extensions.ts#L15)
@@ -52,10 +53,40 @@ among all other `action_id`s in the containing block. Maximum length for this fi
 
 ***
 
+### agent\_prompt?
+
+```ts
+agent_prompt?: string;
+```
+
+Defined in: [block-kit/block-elements.ts:68](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L68)
+
+#### Description
+
+A prompt sent to Slackbot when the button is clicked, if Slackbot AI is available to the user.
+Maximum length for this field is 4000 characters.
+
+***
+
+### agent\_prompt\_display?
+
+```ts
+agent_prompt_display?: string;
+```
+
+Defined in: [block-kit/block-elements.ts:73](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L73)
+
+#### Description
+
+Short text shown instead of the full `agent_prompt` in the user's Slackbot message. Requires
+`agent_prompt` and defaults to the button's `text`.
+
+***
+
 ### confirm?
 
 ```ts
-optional confirm: ConfirmationDialog;
+confirm?: ConfirmationDialog;
 ```
 
 Defined in: [block-kit/extensions.ts:25](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/extensions.ts#L25)
@@ -74,7 +105,7 @@ with.
 ### style?
 
 ```ts
-optional style: ColorScheme;
+style?: ColorScheme;
 ```
 
 Defined in: [block-kit/block-elements.ts:58](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L58)
@@ -126,7 +157,7 @@ The type of element. In this case `type` is always `button`.
 ### url?
 
 ```ts
-optional url: string;
+url?: string;
 ```
 
 Defined in: [block-kit/block-elements.ts:49](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L49)
@@ -142,7 +173,7 @@ and will need to send an [acknowledgement response](https://docs.slack.dev/inter
 ### value?
 
 ```ts
-optional value: string;
+value?: string;
 ```
 
 Defined in: [block-kit/block-elements.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L43)
@@ -151,3 +182,17 @@ Defined in: [block-kit/block-elements.ts:43](https://github.com/slackapi/node-sl
 
 The value to send along with the [interaction payload](https://docs.slack.dev/interactivity/handling-user-interaction#payloads).
 Maximum length for this field is 2000 characters.
+
+***
+
+### visible\_to\_user\_ids?
+
+```ts
+visible_to_user_ids?: string[];
+```
+
+Defined in: [block-kit/block-elements.ts:77](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L77)
+
+#### Description
+
+An array of user IDs for which the button appears. If not provided, the button is visible to all users.

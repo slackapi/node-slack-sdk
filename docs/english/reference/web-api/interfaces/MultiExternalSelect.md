@@ -2,7 +2,7 @@
 
 # Interface: MultiExternalSelect
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:465
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:479
 
 ## Description
 
@@ -15,14 +15,18 @@ This menu will load its options from an external data source, allowing for a dyn
 
 ## Extends
 
-- [`Actionable`](Actionable.md).[`Confirmable`](Confirmable.md).[`Focusable`](Focusable.md).[`MaxItemsSelectable`](MaxItemsSelectable.md).[`Placeholdable`](Placeholdable.md)
+- [`Actionable`](Actionable.md)
+- [`Confirmable`](Confirmable.md)
+- [`Focusable`](Focusable.md)
+- [`MaxItemsSelectable`](MaxItemsSelectable.md)
+- [`Placeholdable`](Placeholdable.md)
 
 ## Properties
 
 ### action\_id?
 
 ```ts
-optional action_id: string;
+action_id?: string;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:12
@@ -40,7 +44,7 @@ among all other `action_id`s in the containing block. Maximum length for this fi
 ### confirm?
 
 ```ts
-optional confirm: ConfirmationDialog;
+confirm?: ConfirmationDialog;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:21
@@ -59,7 +63,7 @@ with.
 ### focus\_on\_load?
 
 ```ts
-optional focus_on_load: boolean;
+focus_on_load?: boolean;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:36
@@ -79,10 +83,10 @@ Defaults to `false`.
 ### initial\_options?
 
 ```ts
-optional initial_options: PlainTextOption[];
+initial_options?: PlainTextOption[];
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:473
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:487
 
 #### Description
 
@@ -93,7 +97,7 @@ An array of options to be selected when the menu initially loads.
 ### max\_selected\_items?
 
 ```ts
-optional max_selected_items: number;
+max_selected_items?: number;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:42
@@ -111,10 +115,10 @@ Specifies the maximum number of items that can be selected. Minimum number is 1.
 ### min\_query\_length?
 
 ```ts
-optional min_query_length: number;
+min_query_length?: number;
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:479
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:493
 
 #### Description
 
@@ -127,7 +131,7 @@ of typed characters required before dispatch. The default value is `3`.
 ### placeholder?
 
 ```ts
-optional placeholder: PlainTextElement;
+placeholder?: PlainTextElement;
 ```
 
 Defined in: packages/types/dist/block-kit/extensions.d.ts:49
@@ -149,7 +153,7 @@ length for the `text` field in this object is 150 characters.
 type: "multi_external_select";
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:469
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:483
 
 #### Description
 

@@ -1,7 +1,7 @@
 {
   "name": "@slack/webhook",
-  "version": "7.0.9",
-  "description": "Official library for using the Slack Platform's Incoming Webhooks",
+  "version": "8.0.2",
+  "description": "Official library for using webhooks on the Slack Platform",
   "author": "Slack Technologies, LLC",
   "license": "MIT",
   "keywords": [
@@ -18,8 +18,8 @@
     "dist/**/*"
   ],
   "engines": {
-    "node": ">= 18",
-    "npm": ">= 8.6.0"
+    "node": ">= 20",
+    "npm": ">=9.6.4"
   },
   "repository": {
     "type": "git",
@@ -37,15 +37,18 @@
     "build:clean": "shx rm -rf ./dist",
     "docs": "npx typedoc --plugin typedoc-plugin-markdown",
     "prepack": "npm run build",
-    "test": "npm run build && node --test-reporter=spec --test-reporter-destination=stdout --test-reporter=junit --test-reporter-destination=test-results.xml --import tsx --test src/IncomingWebhook.test.ts",
-    "test:coverage": "npm run build && node --experimental-test-coverage --test-reporter=spec --test-reporter-destination=stdout --test-reporter=lcov --test-reporter-destination=lcov.info --test-reporter=junit --test-reporter-destination=test-results.xml --import tsx --test src/IncomingWebhook.test.ts"
+    "test": "npm run build && node --test-reporter=spec --test-reporter-destination=stdout --test-reporter=junit --test-reporter-destination=test-results.xml --import tsx --test src/IncomingWebhook.test.ts src/WebhookTrigger.test.ts src/instrument.test.ts src/retry-policies.test.ts",
+    "test:coverage": "npm run build && node --experimental-test-coverage --test-reporter=spec --test-reporter-destination=stdout --test-reporter=lcov --test-reporter-destination=lcov.info --test-reporter=junit --test-reporter-destination=test-results.xml --import tsx --test src/IncomingWebhook.test.ts src/WebhookTrigger.test.ts src/instrument.test.ts src/retry-policies.test.ts"
   },
   "dependencies": {
-    "@slack/types": "^2.20.1",
-    "@types/node": ">=18",
-    "axios": "^1.16.0"
+    "@slack/logger": "^5.0.0",
+    "@slack/types": "^3.1.0",
+    "@types/node": ">=20",
+    "@types/retry": "0.12.5",
+    "p-retry": "^4.6.2",
+    "retry": "^0.13.1"
   },
   "devDependencies": {
-    "nock": "^14.0.6"
+    "nock": "^14.0.17"
   }
 }

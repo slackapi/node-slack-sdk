@@ -13,29 +13,35 @@ Defined in: [packages/web-api/src/types/response/ConversationsKickResponse.ts:11
 ### error?
 
 ```ts
-optional error: string;
+error?: string;
 ```
 
 ### errors?
 
 ```ts
-optional errors: Errors;
+errors?: Errors;
 ```
 
 ### needed?
 
 ```ts
-optional needed: string;
+needed?: string;
 ```
 
 ### ok?
 
 ```ts
-optional ok: boolean;
+ok?: boolean;
 ```
 
 ### provided?
 
 ```ts
-optional provided: string;
+provided?: string;
+```
+
+### warning?
+
+```ts
+warning?: string;
 ```

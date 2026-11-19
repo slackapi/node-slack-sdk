@@ -94,10 +94,12 @@ export class SlackCLIProcess {
     shellOpts?: Partial<SpawnOptionsWithoutStdio>,
   ): Promise<ShellProcess> {
     const cmd = this.assembleShellInvocation();
+    // The timeout is how long to wait for output, so it is not passed to the process, which would kill it
+    const { timeout, ...spawnOpts } = shellOpts ?? {};
     // biome-ignore lint/style/noNonNullAssertion: the constructor checks for the truthiness of this environment variable
-    const proc = shell.spawnProcess(process.env.SLACK_CLI_PATH!, cmd, shellOpts);
+    const proc = shell.spawnProcess(process.env.SLACK_CLI_PATH!, cmd, spawnOpts);
     await shell.waitForOutput(output, proc, {
-      timeout: shellOpts?.timeout,
+      timeout,
     });
     return proc;
   }
@@ -131,11 +133,9 @@ export class SlackCLIProcess {
       if (opts.team) {
         cmd = cmd.concat(['--team', opts.team]);
       }
-      // App instance; defaults to `deployed`
+      // App instance
       if (opts.app) {
         cmd = cmd.concat(['--app', opts.app]);
-      } else {
-        cmd = cmd.concat(['--app', 'deployed']);
       }
       // Ignore warnings via --force; defaults to true
       if (opts.force || typeof opts.force === 'undefined') {
@@ -149,9 +149,10 @@ export class SlackCLIProcess {
         cmd = cmd.concat(['--verbose']);
       }
     } else {
-      cmd = cmd.concat(['--skip-update', '--force', '--app', 'deployed']);
+      cmd = cmd.concat(['--skip-update', '--force']);
     }
     cmd = cmd.concat(this.command);
+
     if (this.commandOptions) {
       for (const [key, value] of Object.entries(this.commandOptions)) {
         if (key && value) {

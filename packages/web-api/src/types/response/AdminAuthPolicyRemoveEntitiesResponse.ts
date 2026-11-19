@@ -14,4 +14,5 @@ export type AdminAuthPolicyRemoveEntitiesResponse = WebAPICallResult & {
   needed?: string;
   ok?: boolean;
   provided?: string;
+  warning?: string;
 };

@@ -11,7 +11,7 @@ type MultiSelect =
   | MultiExternalSelect;
 ```
 
-Defined in: packages/types/dist/block-kit/block-elements.d.ts:253
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:267
 
 ## Description
 

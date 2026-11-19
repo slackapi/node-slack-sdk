@@ -1,6 +1,7 @@
 import type { Block, KnownBlock } from '../block-kit/blocks';
 import type { BotProfile } from '../common/bot-profile';
 import type { MessageAttachment } from '../message-attachments';
+import type { AppContextChangedEvent } from './app';
 
 type ChannelTypes = 'channel' | 'group' | 'im' | 'mpim' | 'app_home';
 
@@ -60,6 +61,8 @@ export interface GenericMessageEvent {
 
   // TODO: add properties to this field once it's publicly released
   assistant_thread?: Record<string, unknown>;
+
+  app_context?: AppContextChangedEvent['context'];
 }
 
 export interface BotMessageEvent {
@@ -277,7 +280,13 @@ export interface ThreadBroadcastMessageEvent {
   text: string;
   attachments?: MessageAttachment[];
   blocks?: (KnownBlock | Block)[];
+  files?: File[];
+  upload?: boolean;
+  display_as_bot?: boolean;
   user: string;
+  bot_id?: string;
+  bot_profile?: BotProfile;
+  parent_user_id?: string;
   ts: string;
   thread_ts?: string;
   root: (GenericMessageEvent | BotMessageEvent) & {

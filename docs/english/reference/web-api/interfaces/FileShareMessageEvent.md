@@ -2,27 +2,27 @@
 
 # Interface: FileShareMessageEvent
 
-Defined in: packages/types/dist/events/message.d.ts:161
+Defined in: packages/types/dist/events/message.d.ts:163
 
 ## Properties
 
 ### attachments?
 
 ```ts
-optional attachments: MessageAttachment[];
+attachments?: MessageAttachment[];
 ```
 
-Defined in: packages/types/dist/events/message.d.ts:165
+Defined in: packages/types/dist/events/message.d.ts:167
 
 ***
 
 ### blocks?
 
 ```ts
-optional blocks: (Block | KnownBlock)[];
+blocks?: (Block | KnownBlock)[];
 ```
 
-Defined in: packages/types/dist/events/message.d.ts:166
+Defined in: packages/types/dist/events/message.d.ts:168
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: packages/types/dist/events/message.d.ts:166
 channel: string;
 ```
 
-Defined in: packages/types/dist/events/message.d.ts:175
+Defined in: packages/types/dist/events/message.d.ts:177
 
 ***
 
@@ -42,17 +42,17 @@ Defined in: packages/types/dist/events/message.d.ts:175
 channel_type: ChannelTypes;
 ```
 
-Defined in: packages/types/dist/events/message.d.ts:176
+Defined in: packages/types/dist/events/message.d.ts:178
 
 ***
 
 ### display\_as\_bot?
 
 ```ts
-optional display_as_bot: boolean;
+display_as_bot?: boolean;
 ```
 
-Defined in: packages/types/dist/events/message.d.ts:169
+Defined in: packages/types/dist/events/message.d.ts:171
 
 ***
 
@@ -62,27 +62,27 @@ Defined in: packages/types/dist/events/message.d.ts:169
 event_ts: string;
 ```
 
-Defined in: packages/types/dist/events/message.d.ts:177
+Defined in: packages/types/dist/events/message.d.ts:179
 
 ***
 
 ### files?
 
 ```ts
-optional files: File[];
+files?: File[];
 ```
 
-Defined in: packages/types/dist/events/message.d.ts:167
+Defined in: packages/types/dist/events/message.d.ts:169
 
 ***
 
 ### parent\_user\_id?
 
 ```ts
-optional parent_user_id: string;
+parent_user_id?: string;
 ```
 
-Defined in: packages/types/dist/events/message.d.ts:172
+Defined in: packages/types/dist/events/message.d.ts:174
 
 ***
 
@@ -92,7 +92,7 @@ Defined in: packages/types/dist/events/message.d.ts:172
 subtype: "file_share";
 ```
 
-Defined in: packages/types/dist/events/message.d.ts:163
+Defined in: packages/types/dist/events/message.d.ts:165
 
 ***
 
@@ -102,17 +102,17 @@ Defined in: packages/types/dist/events/message.d.ts:163
 text: string;
 ```
 
-Defined in: packages/types/dist/events/message.d.ts:164
+Defined in: packages/types/dist/events/message.d.ts:166
 
 ***
 
 ### thread\_ts?
 
 ```ts
-optional thread_ts: string;
+thread_ts?: string;
 ```
 
-Defined in: packages/types/dist/events/message.d.ts:174
+Defined in: packages/types/dist/events/message.d.ts:176
 
 ***
 
@@ -122,7 +122,7 @@ Defined in: packages/types/dist/events/message.d.ts:174
 ts: string;
 ```
 
-Defined in: packages/types/dist/events/message.d.ts:173
+Defined in: packages/types/dist/events/message.d.ts:175
 
 ***
 
@@ -132,17 +132,17 @@ Defined in: packages/types/dist/events/message.d.ts:173
 type: "message";
 ```
 
-Defined in: packages/types/dist/events/message.d.ts:162
+Defined in: packages/types/dist/events/message.d.ts:164
 
 ***
 
 ### upload?
 
 ```ts
-optional upload: boolean;
+upload?: boolean;
 ```
 
-Defined in: packages/types/dist/events/message.d.ts:168
+Defined in: packages/types/dist/events/message.d.ts:170
 
 ***
 
@@ -152,14 +152,14 @@ Defined in: packages/types/dist/events/message.d.ts:168
 user: string;
 ```
 
-Defined in: packages/types/dist/events/message.d.ts:171
+Defined in: packages/types/dist/events/message.d.ts:173
 
 ***
 
 ### x\_files?
 
 ```ts
-optional x_files: string[];
+x_files?: string[];
 ```
 
-Defined in: packages/types/dist/events/message.d.ts:170
+Defined in: packages/types/dist/events/message.d.ts:172

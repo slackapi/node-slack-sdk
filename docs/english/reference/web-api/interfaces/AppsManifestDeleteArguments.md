@@ -2,11 +2,12 @@
 
 # Interface: AppsManifestDeleteArguments
 
-Defined in: [packages/web-api/src/types/request/apps.ts:20](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/apps.ts#L20)
+Defined in: [packages/web-api/src/types/request/apps.ts:22](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/apps.ts#L22)
 
 ## Extends
 
-- `AppID`.`TokenOverridable`
+- `AppID`
+- `TokenOverridable`
 
 ## Properties
 
@@ -24,16 +25,14 @@ The ID of the app.
 
 #### Inherited from
 
-```ts
-AppID.app_id
-```
+`AppID.app_id`
 
 ***
 
 ### token?
 
 ```ts
-optional token: string;
+token?: string;
 ```
 
 Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
@@ -44,6 +43,4 @@ Overridable authentication token bearing required scopes.
 
 #### Inherited from
 
-```ts
-TokenOverridable.token
-```
+`TokenOverridable.token`

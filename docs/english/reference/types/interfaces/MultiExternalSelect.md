@@ -2,7 +2,7 @@
 
 # Interface: MultiExternalSelect
 
-Defined in: [block-kit/block-elements.ts:539](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L539)
+Defined in: [block-kit/block-elements.ts:553](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L553)
 
 ## Description
 
@@ -15,14 +15,18 @@ This menu will load its options from an external data source, allowing for a dyn
 
 ## Extends
 
-- [`Actionable`](Actionable.md).[`Confirmable`](Confirmable.md).[`Focusable`](Focusable.md).[`MaxItemsSelectable`](MaxItemsSelectable.md).[`Placeholdable`](Placeholdable.md)
+- [`Actionable`](Actionable.md)
+- [`Confirmable`](Confirmable.md)
+- [`Focusable`](Focusable.md)
+- [`MaxItemsSelectable`](MaxItemsSelectable.md)
+- [`Placeholdable`](Placeholdable.md)
 
 ## Properties
 
 ### action\_id?
 
 ```ts
-optional action_id: string;
+action_id?: string;
 ```
 
 Defined in: [block-kit/extensions.ts:15](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/extensions.ts#L15)
@@ -40,7 +44,7 @@ among all other `action_id`s in the containing block. Maximum length for this fi
 ### confirm?
 
 ```ts
-optional confirm: ConfirmationDialog;
+confirm?: ConfirmationDialog;
 ```
 
 Defined in: [block-kit/extensions.ts:25](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/extensions.ts#L25)
@@ -59,7 +63,7 @@ with.
 ### focus\_on\_load?
 
 ```ts
-optional focus_on_load: boolean;
+focus_on_load?: boolean;
 ```
 
 Defined in: [block-kit/extensions.ts:42](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/extensions.ts#L42)
@@ -79,10 +83,10 @@ Defaults to `false`.
 ### initial\_options?
 
 ```ts
-optional initial_options: PlainTextOption[];
+initial_options?: PlainTextOption[];
 ```
 
-Defined in: [block-kit/block-elements.ts:548](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L548)
+Defined in: [block-kit/block-elements.ts:562](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L562)
 
 #### Description
 
@@ -93,7 +97,7 @@ An array of options to be selected when the menu initially loads.
 ### max\_selected\_items?
 
 ```ts
-optional max_selected_items: number;
+max_selected_items?: number;
 ```
 
 Defined in: [block-kit/extensions.ts:49](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/extensions.ts#L49)
@@ -111,10 +115,10 @@ Specifies the maximum number of items that can be selected. Minimum number is 1.
 ### min\_query\_length?
 
 ```ts
-optional min_query_length: number;
+min_query_length?: number;
 ```
 
-Defined in: [block-kit/block-elements.ts:554](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L554)
+Defined in: [block-kit/block-elements.ts:568](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L568)
 
 #### Description
 
@@ -127,7 +131,7 @@ of typed characters required before dispatch. The default value is `3`.
 ### placeholder?
 
 ```ts
-optional placeholder: PlainTextElement;
+placeholder?: PlainTextElement;
 ```
 
 Defined in: [block-kit/extensions.ts:57](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/extensions.ts#L57)
@@ -149,7 +153,7 @@ length for the `text` field in this object is 150 characters.
 type: "multi_external_select";
 ```
 
-Defined in: [block-kit/block-elements.ts:543](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L543)
+Defined in: [block-kit/block-elements.ts:557](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L557)
 
 #### Description
 

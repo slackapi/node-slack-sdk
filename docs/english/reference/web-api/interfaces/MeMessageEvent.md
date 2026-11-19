@@ -2,7 +2,7 @@
 
 # Interface: MeMessageEvent
 
-Defined in: packages/types/dist/events/message.d.ts:179
+Defined in: packages/types/dist/events/message.d.ts:181
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: packages/types/dist/events/message.d.ts:179
 channel: string;
 ```
 
-Defined in: packages/types/dist/events/message.d.ts:183
+Defined in: packages/types/dist/events/message.d.ts:185
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: packages/types/dist/events/message.d.ts:183
 channel_type: ChannelTypes;
 ```
 
-Defined in: packages/types/dist/events/message.d.ts:184
+Defined in: packages/types/dist/events/message.d.ts:186
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: packages/types/dist/events/message.d.ts:184
 event_ts: string;
 ```
 
-Defined in: packages/types/dist/events/message.d.ts:182
+Defined in: packages/types/dist/events/message.d.ts:184
 
 ***
 
@@ -42,7 +42,7 @@ Defined in: packages/types/dist/events/message.d.ts:182
 subtype: "me_message";
 ```
 
-Defined in: packages/types/dist/events/message.d.ts:181
+Defined in: packages/types/dist/events/message.d.ts:183
 
 ***
 
@@ -52,7 +52,7 @@ Defined in: packages/types/dist/events/message.d.ts:181
 text: string;
 ```
 
-Defined in: packages/types/dist/events/message.d.ts:186
+Defined in: packages/types/dist/events/message.d.ts:188
 
 ***
 
@@ -62,7 +62,7 @@ Defined in: packages/types/dist/events/message.d.ts:186
 ts: string;
 ```
 
-Defined in: packages/types/dist/events/message.d.ts:187
+Defined in: packages/types/dist/events/message.d.ts:189
 
 ***
 
@@ -72,7 +72,7 @@ Defined in: packages/types/dist/events/message.d.ts:187
 type: "message";
 ```
 
-Defined in: packages/types/dist/events/message.d.ts:180
+Defined in: packages/types/dist/events/message.d.ts:182
 
 ***
 
@@ -82,4 +82,4 @@ Defined in: packages/types/dist/events/message.d.ts:180
 user: string;
 ```
 
-Defined in: packages/types/dist/events/message.d.ts:185
+Defined in: packages/types/dist/events/message.d.ts:187

@@ -2,27 +2,27 @@
 
 # Interface: BotMessageEvent
 
-Defined in: packages/types/dist/events/message.d.ts:38
+Defined in: packages/types/dist/events/message.d.ts:40
 
 ## Properties
 
 ### attachments?
 
 ```ts
-optional attachments: MessageAttachment[];
+attachments?: MessageAttachment[];
 ```
 
-Defined in: packages/types/dist/events/message.d.ts:53
+Defined in: packages/types/dist/events/message.d.ts:55
 
 ***
 
 ### blocks?
 
 ```ts
-optional blocks: (Block | KnownBlock)[];
+blocks?: (Block | KnownBlock)[];
 ```
 
-Defined in: packages/types/dist/events/message.d.ts:54
+Defined in: packages/types/dist/events/message.d.ts:56
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: packages/types/dist/events/message.d.ts:54
 bot_id: string;
 ```
 
-Defined in: packages/types/dist/events/message.d.ts:47
+Defined in: packages/types/dist/events/message.d.ts:49
 
 ***
 
@@ -42,7 +42,7 @@ Defined in: packages/types/dist/events/message.d.ts:47
 channel: string;
 ```
 
-Defined in: packages/types/dist/events/message.d.ts:42
+Defined in: packages/types/dist/events/message.d.ts:44
 
 ***
 
@@ -52,17 +52,17 @@ Defined in: packages/types/dist/events/message.d.ts:42
 channel_type: ChannelTypes;
 ```
 
-Defined in: packages/types/dist/events/message.d.ts:43
+Defined in: packages/types/dist/events/message.d.ts:45
 
 ***
 
 ### edited?
 
 ```ts
-optional edited: object;
+edited?: object;
 ```
 
-Defined in: packages/types/dist/events/message.d.ts:55
+Defined in: packages/types/dist/events/message.d.ts:57
 
 #### ts
 
@@ -84,17 +84,17 @@ user: string;
 event_ts: string;
 ```
 
-Defined in: packages/types/dist/events/message.d.ts:41
+Defined in: packages/types/dist/events/message.d.ts:43
 
 ***
 
 ### icons?
 
 ```ts
-optional icons: object;
+icons?: object;
 ```
 
-Defined in: packages/types/dist/events/message.d.ts:49
+Defined in: packages/types/dist/events/message.d.ts:51
 
 #### Index Signature
 
@@ -107,10 +107,10 @@ Defined in: packages/types/dist/events/message.d.ts:49
 ### streaming\_state?
 
 ```ts
-optional streaming_state: "in_progress" | "completed" | "errored";
+streaming_state?: "in_progress" | "completed" | "errored";
 ```
 
-Defined in: packages/types/dist/events/message.d.ts:44
+Defined in: packages/types/dist/events/message.d.ts:46
 
 ***
 
@@ -120,7 +120,7 @@ Defined in: packages/types/dist/events/message.d.ts:44
 subtype: "bot_message";
 ```
 
-Defined in: packages/types/dist/events/message.d.ts:40
+Defined in: packages/types/dist/events/message.d.ts:42
 
 ***
 
@@ -130,17 +130,17 @@ Defined in: packages/types/dist/events/message.d.ts:40
 text: string;
 ```
 
-Defined in: packages/types/dist/events/message.d.ts:46
+Defined in: packages/types/dist/events/message.d.ts:48
 
 ***
 
 ### thread\_ts?
 
 ```ts
-optional thread_ts: string;
+thread_ts?: string;
 ```
 
-Defined in: packages/types/dist/events/message.d.ts:59
+Defined in: packages/types/dist/events/message.d.ts:61
 
 ***
 
@@ -150,7 +150,7 @@ Defined in: packages/types/dist/events/message.d.ts:59
 ts: string;
 ```
 
-Defined in: packages/types/dist/events/message.d.ts:45
+Defined in: packages/types/dist/events/message.d.ts:47
 
 ***
 
@@ -160,24 +160,24 @@ Defined in: packages/types/dist/events/message.d.ts:45
 type: "message";
 ```
 
-Defined in: packages/types/dist/events/message.d.ts:39
+Defined in: packages/types/dist/events/message.d.ts:41
 
 ***
 
 ### user?
 
 ```ts
-optional user: string;
+user?: string;
 ```
 
-Defined in: packages/types/dist/events/message.d.ts:52
+Defined in: packages/types/dist/events/message.d.ts:54
 
 ***
 
 ### username?
 
 ```ts
-optional username: string;
+username?: string;
 ```
 
-Defined in: packages/types/dist/events/message.d.ts:48
+Defined in: packages/types/dist/events/message.d.ts:50

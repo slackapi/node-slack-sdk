@@ -15,6 +15,7 @@ export type AdminTeamsOwnersListResponse = WebAPICallResult & {
   owner_ids?: string[];
   provided?: string;
   response_metadata?: ResponseMetadata;
+  warning?: string;
 };
 
 export interface ResponseMetadata {

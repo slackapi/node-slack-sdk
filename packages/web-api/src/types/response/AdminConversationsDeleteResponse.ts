@@ -13,4 +13,5 @@ export type AdminConversationsDeleteResponse = WebAPICallResult & {
   needed?: string;
   ok?: boolean;
   provided?: string;
+  warning?: string;
 };

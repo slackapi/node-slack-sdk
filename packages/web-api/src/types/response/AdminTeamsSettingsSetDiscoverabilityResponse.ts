@@ -13,4 +13,5 @@ export type AdminTeamsSettingsSetDiscoverabilityResponse = WebAPICallResult & {
   needed?: string;
   ok?: boolean;
   provided?: string;
+  warning?: string;
 };

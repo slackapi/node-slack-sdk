@@ -2,7 +2,7 @@
 
 # Interface: UrlImageObject
 
-Defined in: packages/types/dist/block-kit/composition-objects.d.ts:201
+Defined in: packages/types/dist/block-kit/composition-objects.d.ts:218
 
 ## Description
 
@@ -16,7 +16,7 @@ Object for image which contains a image_url.
 image_url: string;
 ```
 
-Defined in: packages/types/dist/block-kit/composition-objects.d.ts:205
+Defined in: packages/types/dist/block-kit/composition-objects.d.ts:222
 
 #### Description
 

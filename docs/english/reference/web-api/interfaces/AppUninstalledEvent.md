@@ -2,7 +2,7 @@
 
 # Interface: AppUninstalledEvent
 
-Defined in: packages/types/dist/events/app.d.ts:201
+Defined in: packages/types/dist/events/app.d.ts:229
 
 ## Properties
 
@@ -12,4 +12,4 @@ Defined in: packages/types/dist/events/app.d.ts:201
 type: "app_uninstalled";
 ```
 
-Defined in: packages/types/dist/events/app.d.ts:202
+Defined in: packages/types/dist/events/app.d.ts:230

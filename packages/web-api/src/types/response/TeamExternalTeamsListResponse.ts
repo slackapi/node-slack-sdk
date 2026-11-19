@@ -16,6 +16,7 @@ export type TeamExternalTeamsListResponse = WebAPICallResult & {
   provided?: string;
   response_metadata?: ResponseMetadata;
   total_count?: number;
+  warning?: string;
 };
 
 export interface Organization {

@@ -1,12 +1,12 @@
 [@slack/web-api](../index.md) / Method
 
-# Type Alias: Method()\<MethodArguments, MethodResult\>
+# Type Alias: Method\<MethodArguments, MethodResult\>
 
 ```ts
 type Method<MethodArguments, MethodResult> = (options?) => Promise<MethodResult>;
 ```
 
-Defined in: [packages/web-api/src/methods.ts:561](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/methods.ts#L561)
+Defined in: [packages/web-api/src/methods.ts:611](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/methods.ts#L611)
 
 ## Type Parameters
 

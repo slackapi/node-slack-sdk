@@ -2,7 +2,7 @@
 
 # Interface: MessageRepliedEvent
 
-Defined in: packages/types/dist/events/message.d.ts:211
+Defined in: packages/types/dist/events/message.d.ts:213
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: packages/types/dist/events/message.d.ts:211
 channel: string;
 ```
 
-Defined in: packages/types/dist/events/message.d.ts:216
+Defined in: packages/types/dist/events/message.d.ts:218
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: packages/types/dist/events/message.d.ts:216
 channel_type: ChannelTypes;
 ```
 
-Defined in: packages/types/dist/events/message.d.ts:217
+Defined in: packages/types/dist/events/message.d.ts:219
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: packages/types/dist/events/message.d.ts:217
 event_ts: string;
 ```
 
-Defined in: packages/types/dist/events/message.d.ts:214
+Defined in: packages/types/dist/events/message.d.ts:216
 
 ***
 
@@ -42,7 +42,7 @@ Defined in: packages/types/dist/events/message.d.ts:214
 hidden: true;
 ```
 
-Defined in: packages/types/dist/events/message.d.ts:215
+Defined in: packages/types/dist/events/message.d.ts:217
 
 ***
 
@@ -52,7 +52,7 @@ Defined in: packages/types/dist/events/message.d.ts:215
 message: AllMessageEvents & object;
 ```
 
-Defined in: packages/types/dist/events/message.d.ts:219
+Defined in: packages/types/dist/events/message.d.ts:221
 
 #### Type Declaration
 
@@ -82,7 +82,7 @@ thread_ts: string;
 subtype: "message_replied";
 ```
 
-Defined in: packages/types/dist/events/message.d.ts:213
+Defined in: packages/types/dist/events/message.d.ts:215
 
 ***
 
@@ -92,7 +92,7 @@ Defined in: packages/types/dist/events/message.d.ts:213
 ts: string;
 ```
 
-Defined in: packages/types/dist/events/message.d.ts:218
+Defined in: packages/types/dist/events/message.d.ts:220
 
 ***
 
@@ -102,4 +102,4 @@ Defined in: packages/types/dist/events/message.d.ts:218
 type: "message";
 ```
 
-Defined in: packages/types/dist/events/message.d.ts:212
+Defined in: packages/types/dist/events/message.d.ts:214

@@ -14,6 +14,7 @@ export type DndTeamInfoResponse = WebAPICallResult & {
   ok?: boolean;
   provided?: string;
   users?: { [key: string]: User };
+  warning?: string;
 };
 
 export interface User {

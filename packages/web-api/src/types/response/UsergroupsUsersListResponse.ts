@@ -14,4 +14,5 @@ export type UsergroupsUsersListResponse = WebAPICallResult & {
   ok?: boolean;
   provided?: string;
   users?: string[];
+  warning?: string;
 };

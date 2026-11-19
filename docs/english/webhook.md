@@ -1,7 +1,7 @@
-# Incoming webhooks
+# Webhook
 
 The `@slack/webhook` package contains a helper for making requests to Slack's [Incoming
-Webhooks](/messaging/sending-messages-using-incoming-webhooks). Use it in your app to send a notification to a channel.
+Webhooks](/messaging/sending-messages-using-incoming-webhooks) or [Workflow Builder](https://slack.com/features/workflow-automation). Use it in your app to send a notification to a channel or start a workflow.
 
 ## Installation
 
@@ -70,6 +70,44 @@ const webhook = new IncomingWebhook(url);
   });
 })();
 ```
+
+---
+
+## Trigger a Workflow Builder workflow
+
+The package also exports a `WebhookTrigger` class for [Workflow Builder webhook triggers](https://slack.com/help/articles/360041352714-Build-a-workflow--Create-a-workflow-that-starts-outside-of-Slack) which accepts an optional, flattened, stringified JSON payload sent to start a workflow.
+
+```javascript
+const { WebhookTrigger } = require('@slack/webhook');
+const url = process.env.SLACK_WEBHOOK_TRIGGER_URL;
+
+const trigger = new WebhookTrigger(url);
+
+(async () => {
+  // Keys should match the variables your workflow expects
+  await trigger.send({
+    customer_name: 'Ada Lovelace',
+    order_id: '1024',
+  });
+})();
+```
+
+---
+
+## Retry failed requests
+
+Both `IncomingWebhook` and `WebhookTrigger` classes can retry failed requests. Retries are **off by default**; pass a `retryConfig` to opt in. The package re-exports the same named policies as `@slack/web-api` on `retryPolicies`, or you can supply your own [`retry`](https://github.com/tim-kos/node-retry) options.
+
+```javascript
+const { IncomingWebhook, retryPolicies } = require('@slack/webhook');
+const url = process.env.SLACK_WEBHOOK_URL;
+
+const webhook = new IncomingWebhook(url, {
+  retryConfig: retryPolicies.fiveRetriesInFiveMinutes,
+});
+```
+
+Only transient failures are retried: server errors (`5xx`) and network errors with no response. Client errors (`4xx`), including rate limits (`429`), fail immediately without a retry.
 
 ---
 

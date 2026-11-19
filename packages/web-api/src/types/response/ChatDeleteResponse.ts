@@ -15,4 +15,5 @@ export type ChatDeleteResponse = WebAPICallResult & {
   ok?: boolean;
   provided?: string;
   ts?: string;
+  warning?: string;
 };

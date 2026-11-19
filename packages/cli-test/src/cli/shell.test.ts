@@ -55,6 +55,27 @@ describe('shell module', () => {
       );
       spawnProcess.emit('error', new Error('boom'));
     });
+    it('should time out after 60 seconds by default', async () => {
+      const clock = sandbox.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] });
+      const proc: ShellProcess = {
+        process: spawnProcess,
+        output: '',
+        finished: true,
+        command: 'echo "hi"',
+      };
+      let settled = false;
+      const rejection = assert.rejects(
+        shell.checkIfFinished(proc).finally(() => {
+          settled = true;
+        }),
+        /timed out after 60000 ms/,
+      );
+      await clock.tickAsync(59999);
+      assert.equal(settled, false);
+      await clock.tickAsync(1);
+      assert.equal(settled, true);
+      await rejection;
+    });
   });
 
   describe('runCommandSync method', () => {

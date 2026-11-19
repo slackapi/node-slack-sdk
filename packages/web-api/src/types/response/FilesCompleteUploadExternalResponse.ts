@@ -15,6 +15,7 @@ export type FilesCompleteUploadExternalResponse = WebAPICallResult & {
   ok?: boolean;
   provided?: string;
   response_metadata?: ResponseMetadata;
+  warning?: string;
 };
 
 export interface File {
@@ -36,6 +37,7 @@ export interface File {
   id?: string;
   ims?: string[];
   is_external?: boolean;
+  is_modified_by_ai?: boolean;
   is_public?: boolean;
   is_starred?: boolean;
   lines?: number;

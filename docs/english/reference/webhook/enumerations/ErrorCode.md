@@ -2,9 +2,7 @@
 
 # Enumeration: ErrorCode
 
-Defined in: [packages/webhook/src/errors.ts:13](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/errors.ts#L13)
-
-A dictionary of codes for errors produced by this package
+Defined in: [packages/webhook/src/errors.ts:8](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/errors.ts#L8)
 
 ## Enumeration Members
 
@@ -14,7 +12,7 @@ A dictionary of codes for errors produced by this package
 HTTPError: "slack_webhook_http_error";
 ```
 
-Defined in: [packages/webhook/src/errors.ts:15](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/errors.ts#L15)
+Defined in: [packages/webhook/src/errors.ts:10](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/errors.ts#L10)
 
 ***
 
@@ -24,4 +22,4 @@ Defined in: [packages/webhook/src/errors.ts:15](https://github.com/slackapi/node
 RequestError: "slack_webhook_request_error";
 ```
 
-Defined in: [packages/webhook/src/errors.ts:14](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/errors.ts#L14)
+Defined in: [packages/webhook/src/errors.ts:9](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/errors.ts#L9)

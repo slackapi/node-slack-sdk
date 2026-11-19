@@ -6,48 +6,48 @@
 type SlackListsItemsListResponse = WebAPICallResult & object;
 ```
 
-Defined in: [packages/web-api/src/types/response/SlackListsItemsListResponse.ts:4](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/SlackListsItemsListResponse.ts#L4)
+Defined in: [packages/web-api/src/types/response/SlackListsItemsListResponse.ts:11](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/SlackListsItemsListResponse.ts#L11)
 
 ## Type Declaration
 
 ### error?
 
 ```ts
-optional error: string;
+error?: string;
 ```
 
 ### items?
 
 ```ts
-optional items: SlackListsItem[];
+items?: Item[];
 ```
 
 ### needed?
 
 ```ts
-optional needed: string;
+needed?: string;
 ```
 
 ### ok?
 
 ```ts
-optional ok: boolean;
+ok?: boolean;
 ```
 
 ### provided?
 
 ```ts
-optional provided: string;
+provided?: string;
 ```
 
 ### response\_metadata?
 
 ```ts
-optional response_metadata: object;
+response_metadata?: ResponseMetadata;
 ```
 
-#### response\_metadata.next\_cursor?
+### warning?
 
 ```ts
-optional next_cursor: string;
+warning?: string;
 ```

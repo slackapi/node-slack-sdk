@@ -19,8 +19,8 @@ We recommend you read our documentation on [Basic app setup](/quickstart).
 This article contains the steps you must follow to get your access token:
 
 1. [Create a new Slack application](/quickstart)
-2. [Set permissions your app will request](/quickstart#scopes)
-3. [Install the app to a workspace](/quickstart#installing)
+2. [Set permissions your app will request](/app-management/quickstart-app-settings#scopes)
+3. [Install the app to a workspace](/app-management/quickstart-app-settings#installing)
 4. Finally, get your access token
 
 You can also read the [Getting Started guide](/tools/node-slack-sdk/getting-started) which guides
@@ -99,7 +99,7 @@ If you're using an editor that supports TypeScript, even if you're not using Typ
 you'll get hints for all of the arguments each method supports. This saves time by reducing the number of
 times you need to open a webpage to check the reference. More information about [using TypeScript here](/tools/node-slack-sdk/typescript).
 
-Use the [Block Kit Builder](https://api.slack.com/tools/block-kit-builder) for a playground
+Use the [Block Kit Builder](https://app.slack.com/block-kit-builder) for a playground
 where you can prototype your message's look and feel.
 
 <details>
@@ -498,7 +498,7 @@ are marked "public" when shared to a provided `channel_id`.
 Multiple files can also be uploaded at once, without needing to write a loop, using the `files_uploads` parameter. This
 accepts similar attributes as a single file:
 
-* `alt_text`: A description of images for a screen-reader.
+* `alt_txt`: A description of images for a screen-reader.
 * `content`: The file contents as a string. If omitted, `file` must be provided.
 * `file`: The file path or data to upload. If omitted, `content` must be provided.
 * `filename`: The name of the file.

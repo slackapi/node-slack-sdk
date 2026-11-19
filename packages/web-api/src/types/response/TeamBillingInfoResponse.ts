@@ -14,4 +14,5 @@ export type TeamBillingInfoResponse = WebAPICallResult & {
   ok?: boolean;
   plan?: string;
   provided?: string;
+  warning?: string;
 };
