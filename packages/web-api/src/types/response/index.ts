@@ -4,6 +4,7 @@ export {
   AdminAnalyticsPublicChannelDetails,
   AdminAnalyticsPublicChannelMetadataDetails,
 } from './AdminAnalyticsGetFileResponse';
+export { AdminAnalyticsMembersMetadataResponse } from './AdminAnalyticsMembersMetadataResponse';
 export { AdminAppsActivitiesListResponse } from './AdminAppsActivitiesListResponse';
 export { AdminAppsApprovedListResponse } from './AdminAppsApprovedListResponse';
 export { AdminAppsApproveResponse } from './AdminAppsApproveResponse';
