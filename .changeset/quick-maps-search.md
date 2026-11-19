@@ -1,5 +1,5 @@
 ---
-"@slack/web-api": patch
+"@slack/web-api": minor
 ---
 
-Add support for assistant.search.context and assistant.search.info Web API methods.
+feat(web-api): add [`assistant.search.context`](https://docs.slack.dev/reference/methods/assistant.search.context) and [`assistant.search.info`](https://docs.slack.dev/reference/methods/assistant.search.info) methods

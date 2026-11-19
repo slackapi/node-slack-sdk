@@ -1,13 +1,9 @@
 import type { OptionalArgument } from '../helpers';
-import type { CursorPaginationEnabled, SortDir, TokenOverridable } from './common';
-
-type AssistantSearchChannelType = 'public_channel' | 'private_channel' | 'mpim' | 'im';
-type AssistantSearchContentType = 'messages' | 'files' | 'channels' | 'users';
-type AssistantSearchSort = 'score' | 'timestamp';
+import type { SortDir, TokenOverridable } from './common';
 
 // https://docs.slack.dev/reference/methods/assistant.search.context
-export interface AssistantSearchContextArguments extends TokenOverridable, CursorPaginationEnabled, SortDir {
-  /** @description User prompt or search query. */
+export interface AssistantSearchContextArguments extends TokenOverridable, SortDir {
+  /** @description User prompt or search query */
   query: string;
   /** @description Send `action_token` as received in a message event. */
   action_token?: string;
@@ -15,33 +11,56 @@ export interface AssistantSearchContextArguments extends TokenOverridable, Curso
   after?: number;
   /** @description UNIX timestamp filter. If present, filters for results before this date. */
   before?: number;
-  /** @description Mix and match channel types to search. */
-  channel_types?: AssistantSearchChannelType[];
-  /** @description Content types to include in search results. */
-  content_types?: AssistantSearchContentType[];
+  /**
+   * @description Mix and match channel types by providing a comma-separated list of any combination of
+   * `public_channel`, `private_channel`, `mpim`, `im`.
+   */
+  channel_types?: ('public_channel' | 'private_channel' | 'mpim' | 'im')[];
+  /**
+   * @description Content types to include, a comma-separated list of any combination of `messages`, `files`,
+   * `channels`, `users`.
+   */
+  content_types?: ('messages' | 'files' | 'channels' | 'users')[];
   /** @description Context channel ID to support scoping the search when applicable. */
   context_channel_id?: string;
-  /** @description Whether to disable semantic search. When true, only keyword-based search is used. */
+  /**
+   * @description The cursor returned by the API. Leave this blank for the first request and use this to get the
+   * next page of results.
+   */
+  cursor?: string;
+  /**
+   * @description Whether to disable semantic search. When true, only keyword-based search is used. Defaults to
+   * false.
+   */
   disable_semantic_search?: boolean;
-  /** @description Whether to highlight the search query in the results. */
+  /** @description Whether to highlight the search query in the results. Defaults to false if unspecified. */
   highlight?: boolean;
-  /** @description Whether the results should include archived channels. */
+  /** @description Whether to include archived channels in the search results. */
   include_archived_channels?: boolean;
   /** @description Whether the results should include bots. */
   include_bots?: boolean;
-  /** @description Whether to include context messages surrounding the main message result. */
+  /**
+   * @description Whether to include context messages surrounding the main message result. Defaults to false if
+   * unspecified.
+   */
   include_context_messages?: boolean;
-  /** @description Whether to include deleted users in user search results. */
+  /** @description Whether to include deleted users in the user search results. Defaults to false. */
   include_deleted_users?: boolean;
-  /** @description Whether to return message blocks in the response. */
+  /** @description Whether to return the message blocks in the response. */
   include_message_blocks?: boolean;
-  /** @description A list of keyword clauses used to match search results. */
-  keywords_clauses?: string[][];
-  /** @description A string containing only modifiers in the format of `modifier:value`. */
+  /** @description Number of results to return, up to a max of 20. Defaults to 20. */
+  limit?: number;
+  /**
+   * @description A string containing only modifiers in the format of `modifier:value`. Search results returned
+   * will match the modifier value. For now modifiers only affect term clauses.
+   */
   modifiers?: string;
-  /** @description The field to sort the results by. Defaults to `score`. */
-  sort?: AssistantSearchSort;
-  /** @description A list of term clauses. Search results returned will match every term clause specified. */
+  /** @description The field to sort the results by. Defaults to score. Can be one of: score, timestamp. */
+  sort?: 'score' | 'timestamp';
+  /**
+   * @description A list of term clauses. A term clause is a string with search terms. Search results returned will
+   * match every term clause specified (i.e., conjunctive normal form).
+   */
   term_clauses?: string[];
 }
 

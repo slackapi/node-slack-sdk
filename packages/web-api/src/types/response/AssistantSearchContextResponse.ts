@@ -32,10 +32,12 @@ export interface Results {
 }
 
 export interface Channel {
+  channel_type?: string;
   creator_name?: string;
   creator_user_id?: string;
   date_created?: number;
   date_updated?: number;
+  is_archived?: boolean;
   name?: string;
   permalink?: string;
   purpose?: string;
@@ -44,6 +46,7 @@ export interface Channel {
 }
 
 export interface File {
+  author_email?: string;
   author_name?: string;
   author_user_id?: string;
   content?: string;
@@ -52,12 +55,14 @@ export interface File {
   file_id?: string;
   file_type?: string;
   permalink?: string;
+  size?: number;
   team_id?: string;
   title?: string;
   uploader_user_id?: string;
 }
 
 export interface Message {
+  author_email?: string;
   author_name?: string;
   author_user_id?: string;
   blocks?: any[];
@@ -68,6 +73,7 @@ export interface Message {
   is_author_bot?: boolean;
   message_ts?: string;
   permalink?: string;
+  reply_count?: number;
   team_id?: string;
 }
 
@@ -77,6 +83,8 @@ export interface ContextMessages {
 }
 
 export interface After {
+  author_email?: string;
+  author_name?: string;
   blocks?: any[];
   text?: string;
   ts?: string;
@@ -84,10 +92,11 @@ export interface After {
 }
 
 export interface User {
-  content?: string;
-  name?: string;
+  email?: string;
+  full_name?: string;
   permalink?: string;
-  real_name?: string;
-  team_id?: string;
+  profile_pic_permalink?: string;
+  timezone?: string;
+  title?: string;
   user_id?: string;
 }

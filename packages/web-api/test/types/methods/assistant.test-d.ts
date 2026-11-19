@@ -11,29 +11,41 @@ expectError(
   web.assistant.search.context({
     query: 123, // not a string
   }),
+);
+expectError(
   web.assistant.search.context({
     query: 'What is project gizmo?',
     channel_types: ['public_channel', 'channel'], // unsupported channel type
   }),
+);
+expectError(
   web.assistant.search.context({
     query: 'What is project gizmo?',
     content_types: ['messages', 'posts'], // unsupported content type
   }),
+);
+expectError(
   web.assistant.search.context({
     query: 'What is project gizmo?',
     include_bots: 'false', // not a boolean
   }),
-  web.assistant.search.context({
-    query: 'What is project gizmo?',
-    keywords_clauses: ['project'], // not an array of string arrays
-  }),
+);
+expectError(
   web.assistant.search.context({
     query: 'What is project gizmo?',
     sort: 'date', // unsupported sort field
   }),
+);
+expectError(
   web.assistant.search.context({
     query: 'What is project gizmo?',
     sort_dir: 'down', // unsupported sort direction
+  }),
+);
+expectError(
+  web.assistant.search.context({
+    query: 'What is project gizmo?',
+    term_clauses: [['project', 'gizmo']], // not an array of strings
   }),
 );
 // -- happy path
@@ -59,7 +71,6 @@ expectAssignable<Parameters<typeof web.assistant.search.context>>([
     include_context_messages: true,
     include_deleted_users: false,
     include_message_blocks: true,
-    keywords_clauses: [['project', 'gizmo']],
     limit: 20,
     modifiers: 'has:pin before:yesterday',
     sort: 'timestamp',
