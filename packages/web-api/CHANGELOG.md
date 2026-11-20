@@ -1,5 +1,22 @@
 # @slack/web-api
 
+## 8.5.0
+
+### Minor Changes
+
+- ada1acd: feat(web-api): add [`apps.icon.set`](https://docs.slack.dev/reference/methods/apps.icon.set) method
+- 4e4d764: feat(web-api): add [`apps.managed.permissions.set`](https://docs.slack.dev/reference/methods/apps.managed.permissions.set) method
+- 881ca7b: feat(web-api): add [`assistant.search.context`](https://docs.slack.dev/reference/methods/assistant.search.context) and [`assistant.search.info`](https://docs.slack.dev/reference/methods/assistant.search.info) methods
+- 6330ef4: feat(web-api): add webapi response changes as of 2026-11-20
+
+### Patch Changes
+
+- de3e7e5: fix(web-api): accept `enterprise` in [`assistant.search.context`](https://docs.slack.dev/reference/methods/assistant.search.context) `content_types` and list its arguments in the reference order
+- 7946a88: fix(web-api): accept string values for ID fields in response types
+- Updated dependencies [fd8f6dd]
+- Updated dependencies [bce2a92]
+  - @slack/types@3.3.1
+
 ## 8.4.0
 
 ### Minor Changes

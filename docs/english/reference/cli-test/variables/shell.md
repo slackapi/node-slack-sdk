@@ -28,7 +28,7 @@ checkIfFinished: (proc) => Promise<void>;
 
 Logic to wait for child process to finish executing
 - Check if the close event was emitted, else wait for 1 sec
-- Error out if > 30 sec
+- Error out after timeouts.waitingGlobal ms
 
 #### Parameters
 

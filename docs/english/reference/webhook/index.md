@@ -1,8 +1,9 @@
-# @slack/webhook v8.0.2
+# @slack/webhook v8.1.0
 
 ## Enumerations
 
 - [ErrorCode](enumerations/ErrorCode.md)
+- [LogLevel](enumerations/LogLevel.md)
 
 ## Classes
 
@@ -20,6 +21,7 @@
 - [IncomingWebhookDefaultArguments](interfaces/IncomingWebhookDefaultArguments.md)
 - [IncomingWebhookResult](interfaces/IncomingWebhookResult.md)
 - [IncomingWebhookSendArguments](interfaces/IncomingWebhookSendArguments.md)
+- [Logger](interfaces/Logger.md)
 - [RetryOptions](interfaces/RetryOptions.md)
 - [WebhookTriggerDefaultArguments](interfaces/WebhookTriggerDefaultArguments.md)
 - [WebhookTriggerResult](interfaces/WebhookTriggerResult.md)

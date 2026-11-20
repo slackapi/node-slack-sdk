@@ -2,7 +2,7 @@
 
 # Interface: AppsUserConnectionUpdateArguments
 
-Defined in: [packages/web-api/src/types/request/apps.ts:109](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/apps.ts#L109)
+Defined in: [packages/web-api/src/types/request/apps.ts:126](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/apps.ts#L126)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [packages/web-api/src/types/request/apps.ts:109](https://github.com/
 status: string;
 ```
 
-Defined in: [packages/web-api/src/types/request/apps.ts:113](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/apps.ts#L113)
+Defined in: [packages/web-api/src/types/request/apps.ts:130](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/apps.ts#L130)
 
 #### Description
 
@@ -48,7 +48,7 @@ Overridable authentication token bearing required scopes.
 user_id: string;
 ```
 
-Defined in: [packages/web-api/src/types/request/apps.ts:111](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/apps.ts#L111)
+Defined in: [packages/web-api/src/types/request/apps.ts:128](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/apps.ts#L128)
 
 #### Description
 

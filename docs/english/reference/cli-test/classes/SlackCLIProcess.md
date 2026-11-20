@@ -138,7 +138,7 @@ Executes the command asynchronously, returning the process details once the proc
 execSync(shellOpts?): string;
 ```
 
-Defined in: [cli/cli-process.ts:108](https://github.com/slackapi/node-slack-sdk/blob/main/packages/cli-test/src/cli/cli-process.ts#L108)
+Defined in: [cli/cli-process.ts:110](https://github.com/slackapi/node-slack-sdk/blob/main/packages/cli-test/src/cli/cli-process.ts#L110)
 
 #### Parameters
 

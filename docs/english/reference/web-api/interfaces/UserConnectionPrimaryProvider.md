@@ -2,7 +2,7 @@
 
 # Interface: UserConnectionPrimaryProvider
 
-Defined in: [packages/web-api/src/types/request/apps.ts:59](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/apps.ts#L59)
+Defined in: [packages/web-api/src/types/request/apps.ts:76](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/apps.ts#L76)
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: [packages/web-api/src/types/request/apps.ts:59](https://github.com/s
 accessory?: Overflow;
 ```
 
-Defined in: [packages/web-api/src/types/request/apps.ts:85](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/apps.ts#L85)
+Defined in: [packages/web-api/src/types/request/apps.ts:102](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/apps.ts#L102)
 
 #### Description
 
@@ -26,7 +26,7 @@ Overflow menu shown when connected (e.g., Disconnect, Re-authenticate).
 auth_url?: string;
 ```
 
-Defined in: [packages/web-api/src/types/request/apps.ts:77](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/apps.ts#L77)
+Defined in: [packages/web-api/src/types/request/apps.ts:94](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/apps.ts#L94)
 
 #### Description
 
@@ -40,7 +40,7 @@ OAuth redirect URL opened when the user clicks **Connect**. Must be HTTPs format
 connected_context?: PlainTextElement;
 ```
 
-Defined in: [packages/web-api/src/types/request/apps.ts:83](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/apps.ts#L83)
+Defined in: [packages/web-api/src/types/request/apps.ts:100](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/apps.ts#L100)
 
 #### Description
 
@@ -54,7 +54,7 @@ Additional context about the connection (e.g., org or workspace name).
 connected_identity?: PlainTextElement;
 ```
 
-Defined in: [packages/web-api/src/types/request/apps.ts:81](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/apps.ts#L81)
+Defined in: [packages/web-api/src/types/request/apps.ts:98](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/apps.ts#L98)
 
 #### Description
 
@@ -68,7 +68,7 @@ Display name of the connected account, shown when `is_connected` is `true`.
 description?: PlainTextElement;
 ```
 
-Defined in: [packages/web-api/src/types/request/apps.ts:73](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/apps.ts#L73)
+Defined in: [packages/web-api/src/types/request/apps.ts:90](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/apps.ts#L90)
 
 #### Description
 
@@ -82,7 +82,7 @@ Brief description of what this connection enables.
 disconnect_url?: string;
 ```
 
-Defined in: [packages/web-api/src/types/request/apps.ts:79](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/apps.ts#L79)
+Defined in: [packages/web-api/src/types/request/apps.ts:96](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/apps.ts#L96)
 
 #### Description
 
@@ -96,7 +96,7 @@ URL opened when the user clicks **Disconnect**. Must be HTTPs format on a regist
 icon_url?: string;
 ```
 
-Defined in: [packages/web-api/src/types/request/apps.ts:75](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/apps.ts#L75)
+Defined in: [packages/web-api/src/types/request/apps.ts:92](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/apps.ts#L92)
 
 #### Description
 
@@ -110,7 +110,7 @@ URL for the provider icon image. Must be HTTPs format. Falls back to the app's a
 is_connected: boolean;
 ```
 
-Defined in: [packages/web-api/src/types/request/apps.ts:71](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/apps.ts#L71)
+Defined in: [packages/web-api/src/types/request/apps.ts:88](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/apps.ts#L88)
 
 #### Description
 
@@ -125,7 +125,7 @@ so an omitted value would be indistinguishable from an explicit `false` and sile
 name: PlainTextElement;
 ```
 
-Defined in: [packages/web-api/src/types/request/apps.ts:66](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/apps.ts#L66)
+Defined in: [packages/web-api/src/types/request/apps.ts:83](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/apps.ts#L83)
 
 #### Description
 
@@ -139,7 +139,7 @@ Human-readable name of the provider.
 value: string;
 ```
 
-Defined in: [packages/web-api/src/types/request/apps.ts:64](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/apps.ts#L64)
+Defined in: [packages/web-api/src/types/request/apps.ts:81](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/apps.ts#L81)
 
 #### Description
 

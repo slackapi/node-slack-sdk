@@ -40,6 +40,12 @@ content_highlight_html?: string;
 content_highlight_html_truncated?: boolean;
 ```
 
+### content\_html?
+
+```ts
+content_html?: string;
+```
+
 ### error?
 
 ```ts

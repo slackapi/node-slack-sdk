@@ -2,7 +2,7 @@
 
 # Interface: AssistantThreadsSetSuggestedPromptsArguments
 
-Defined in: [packages/web-api/src/types/request/assistant.ts:31](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/assistant.ts#L31)
+Defined in: [packages/web-api/src/types/request/assistant.ts:98](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/assistant.ts#L98)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [packages/web-api/src/types/request/assistant.ts:31](https://github.
 channel_id: string;
 ```
 
-Defined in: [packages/web-api/src/types/request/assistant.ts:33](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/assistant.ts#L33)
+Defined in: [packages/web-api/src/types/request/assistant.ts:100](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/assistant.ts#L100)
 
 #### Description
 
@@ -30,7 +30,7 @@ Channel ID containing the assistant thread.
 prompts: AssistantPrompt[];
 ```
 
-Defined in: [packages/web-api/src/types/request/assistant.ts:35](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/assistant.ts#L35)
+Defined in: [packages/web-api/src/types/request/assistant.ts:102](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/assistant.ts#L102)
 
 #### Description
 
@@ -44,7 +44,7 @@ Prompt suggestions that appear when opening assistant thread.
 thread_ts?: string;
 ```
 
-Defined in: [packages/web-api/src/types/request/assistant.ts:37](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/assistant.ts#L37)
+Defined in: [packages/web-api/src/types/request/assistant.ts:104](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/assistant.ts#L104)
 
 #### Description
 
@@ -58,7 +58,7 @@ Message timestamp of the thread.
 title?: string;
 ```
 
-Defined in: [packages/web-api/src/types/request/assistant.ts:39](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/assistant.ts#L39)
+Defined in: [packages/web-api/src/types/request/assistant.ts:106](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/assistant.ts#L106)
 
 #### Description
 

@@ -6,7 +6,7 @@
 type BlocksValidateResponse = WebAPICallResult & object;
 ```
 
-Defined in: [packages/web-api/src/types/response/BlocksValidateResponse.ts:12](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/BlocksValidateResponse.ts#L12)
+Defined in: [packages/web-api/src/types/response/BlocksValidateResponse.ts:11](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/BlocksValidateResponse.ts#L11)
 
 ## Type Declaration
 

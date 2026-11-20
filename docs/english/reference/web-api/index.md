@@ -1,4 +1,4 @@
-# @slack/web-api v8.4.0
+# @slack/web-api v8.5.0
 
 ## Enumerations
 
@@ -131,6 +131,8 @@
 - [AppRateLimitedEvent](interfaces/AppRateLimitedEvent.md)
 - [AppRequestedEvent](interfaces/AppRequestedEvent.md)
 - [AppsEventAuthorizationsListArguments](interfaces/AppsEventAuthorizationsListArguments.md)
+- [AppsIconSetArguments](interfaces/AppsIconSetArguments.md)
+- [AppsManagedPermissionsSetArguments](interfaces/AppsManagedPermissionsSetArguments.md)
 - [AppsManifestCreateArguments](interfaces/AppsManifestCreateArguments.md)
 - [AppsManifestDeleteArguments](interfaces/AppsManifestDeleteArguments.md)
 - [AppsManifestExportArguments](interfaces/AppsManifestExportArguments.md)
@@ -140,6 +142,7 @@
 - [AppsUserConnectionUpdateArguments](interfaces/AppsUserConnectionUpdateArguments.md)
 - [AppUninstalledEvent](interfaces/AppUninstalledEvent.md)
 - [AppUninstalledTeamEvent](interfaces/AppUninstalledTeamEvent.md)
+- [AssistantSearchContextArguments](interfaces/AssistantSearchContextArguments.md)
 - [AssistantThreadContextChangedEvent](interfaces/AssistantThreadContextChangedEvent.md)
 - [AssistantThreadsSetStatusArguments](interfaces/AssistantThreadsSetStatusArguments.md)
 - [AssistantThreadsSetSuggestedPromptsArguments](interfaces/AssistantThreadsSetSuggestedPromptsArguments.md)
@@ -638,6 +641,8 @@
 - [AppsConnectionsOpenArguments](type-aliases/AppsConnectionsOpenArguments.md)
 - [AppsConnectionsOpenResponse](type-aliases/AppsConnectionsOpenResponse.md)
 - [AppsEventAuthorizationsListResponse](type-aliases/AppsEventAuthorizationsListResponse.md)
+- [AppsIconSetResponse](type-aliases/AppsIconSetResponse.md)
+- [AppsManagedPermissionsSetResponse](type-aliases/AppsManagedPermissionsSetResponse.md)
 - [AppsManifestCreateResponse](type-aliases/AppsManifestCreateResponse.md)
 - [AppsManifestDeleteResponse](type-aliases/AppsManifestDeleteResponse.md)
 - [AppsManifestExportResponse](type-aliases/AppsManifestExportResponse.md)
@@ -655,6 +660,9 @@
 - [AppsUserConnectionRequestAuthArguments](type-aliases/AppsUserConnectionRequestAuthArguments.md)
 - [AppsUserConnectionRequestAuthResponse](type-aliases/AppsUserConnectionRequestAuthResponse.md)
 - [AppsUserConnectionUpdateResponse](type-aliases/AppsUserConnectionUpdateResponse.md)
+- [AssistantSearchContextResponse](type-aliases/AssistantSearchContextResponse.md)
+- [AssistantSearchInfoArguments](type-aliases/AssistantSearchInfoArguments.md)
+- [AssistantSearchInfoResponse](type-aliases/AssistantSearchInfoResponse.md)
 - [AssistantThreadsSetStatusResponse](type-aliases/AssistantThreadsSetStatusResponse.md)
 - [AssistantThreadsSetSuggestedPromptsResponse](type-aliases/AssistantThreadsSetSuggestedPromptsResponse.md)
 - [AssistantThreadsSetTitleResponse](type-aliases/AssistantThreadsSetTitleResponse.md)

@@ -1,5 +1,12 @@
 # @slack/types
 
+## 3.3.1
+
+### Patch Changes
+
+- fd8f6dd: Add the optional `bot_profile` field to `ThreadBroadcastMessageEvent`.
+- bce2a92: Add the optional `bot_id` field to `ThreadBroadcastMessageEvent`.
+
 ## 3.3.0
 
 ### Minor Changes

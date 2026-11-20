@@ -34,6 +34,12 @@ ok?: boolean;
 provided?: string;
 ```
 
+### session\_views?
+
+```ts
+session_views?: SessionView[];
+```
+
 ### views?
 
 ```ts

@@ -40,6 +40,12 @@ ok?: boolean;
 provided?: string;
 ```
 
+### response\_metadata?
+
+```ts
+response_metadata?: ResponseMetadata;
+```
+
 ### warning?
 
 ```ts

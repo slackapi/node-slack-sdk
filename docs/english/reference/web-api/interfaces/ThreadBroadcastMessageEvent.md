@@ -26,13 +26,33 @@ Defined in: packages/types/dist/events/message.d.ts:233
 
 ***
 
+### bot\_id?
+
+```ts
+bot_id?: string;
+```
+
+Defined in: packages/types/dist/events/message.d.ts:238
+
+***
+
+### bot\_profile?
+
+```ts
+bot_profile?: BotProfile;
+```
+
+Defined in: packages/types/dist/events/message.d.ts:239
+
+***
+
 ### channel
 
 ```ts
 channel: string;
 ```
 
-Defined in: packages/types/dist/events/message.d.ts:249
+Defined in: packages/types/dist/events/message.d.ts:251
 
 ***
 
@@ -42,7 +62,7 @@ Defined in: packages/types/dist/events/message.d.ts:249
 channel_type: ChannelTypes;
 ```
 
-Defined in: packages/types/dist/events/message.d.ts:250
+Defined in: packages/types/dist/events/message.d.ts:252
 
 ***
 
@@ -52,7 +72,7 @@ Defined in: packages/types/dist/events/message.d.ts:250
 client_msg_id: string;
 ```
 
-Defined in: packages/types/dist/events/message.d.ts:248
+Defined in: packages/types/dist/events/message.d.ts:250
 
 ***
 
@@ -92,7 +112,7 @@ Defined in: packages/types/dist/events/message.d.ts:234
 parent_user_id?: string;
 ```
 
-Defined in: packages/types/dist/events/message.d.ts:238
+Defined in: packages/types/dist/events/message.d.ts:240
 
 ***
 
@@ -104,7 +124,7 @@ root: (
   | BotMessageEvent) & object;
 ```
 
-Defined in: packages/types/dist/events/message.d.ts:241
+Defined in: packages/types/dist/events/message.d.ts:243
 
 #### Type Declaration
 
@@ -166,7 +186,7 @@ Defined in: packages/types/dist/events/message.d.ts:231
 thread_ts?: string;
 ```
 
-Defined in: packages/types/dist/events/message.d.ts:240
+Defined in: packages/types/dist/events/message.d.ts:242
 
 ***
 
@@ -176,7 +196,7 @@ Defined in: packages/types/dist/events/message.d.ts:240
 ts: string;
 ```
 
-Defined in: packages/types/dist/events/message.d.ts:239
+Defined in: packages/types/dist/events/message.d.ts:241
 
 ***
 
