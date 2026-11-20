@@ -1,8 +1,8 @@
 import type { OptionalArgument } from '../helpers';
-import type { TokenOverridable } from './common';
+import type { SortDir, TokenOverridable } from './common';
 
 // https://docs.slack.dev/reference/methods/assistant.search.context
-export interface AssistantSearchContextArguments extends TokenOverridable {
+export interface AssistantSearchContextArguments extends TokenOverridable, SortDir {
   /** @description User prompt or search query */
   query: string;
   /** @description Send `action_token` as received in a message event. */
@@ -41,8 +41,6 @@ export interface AssistantSearchContextArguments extends TokenOverridable {
   limit?: number;
   /** @description The field to sort the results by. Defaults to score. Can be one of: score, timestamp. */
   sort?: 'score' | 'timestamp';
-  /** @description The direction to sort the results by. Defaults to desc. */
-  sort_dir?: 'asc' | 'desc';
   /** @description Whether to return the message blocks in the response. */
   include_message_blocks?: boolean;
   /** @description Whether to highlight the search query in the results. Defaults to false if unspecified. */
