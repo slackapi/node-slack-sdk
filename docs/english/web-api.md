@@ -633,33 +633,34 @@ Please note
 
 ---
 
-## Proxy requests with a custom agent
+## Proxy requests
 
-The client allows you to customize the HTTP
-[`Agent`](https://nodejs.org/docs/latest/api/http.html#http_class_http_agent) used to create the connection to Slack.
-Using this option is the best way to make all requests from your app through a proxy, which is a common requirement in
-many corporate settings.
+The client sends requests with the [`fetch`](https://nodejs.org/docs/latest/api/globals.html#fetch) built into Node.js, which can route all requests from your app through a proxy. This is a common requirement in many corporate settings.
 
-In order to create an `Agent` from some proxy information (such as a host, port, username, and password), you can use
-one of many npm packages. We recommend [`https-proxy-agent`](https://www.npmjs.com/package/https-proxy-agent). Start
-by installing this package and saving it to your `package.json`.
+Set the [`NODE_USE_ENV_PROXY`](https://nodejs.org/docs/latest/api/cli.html#node_use_env_proxy1) environment variable to route requests through the proxy in your `HTTPS_PROXY`, `HTTP_PROXY`, and `NO_PROXY` environment variables. This requires Node.js v22.21.0, v24.0.0, or later.
 
 ```shell
-$ npm install https-proxy-agent
+$ NODE_USE_ENV_PROXY=1 HTTPS_PROXY=http://corporate.proxy:8080 node app.js
 ```
 
-Import the `HttpsProxyAgent` class, and create an instance that can be used as the `agent` option of the `WebClient`.
+On Node.js v24.14.0 and later, you can instead call [`http.setGlobalProxyFromEnv()`](https://nodejs.org/docs/latest/api/http.html#httpsetglobalproxyfromenvproxyenv) once at startup.
+
+To use a proxy with a single `WebClient` or with an earlier version of Node.js, pass a `fetch` option with an [undici](https://undici.nodejs.org/) `ProxyAgent` as the `dispatcher`. Install the undici major version that matches your version of Node.js from the [long-term support table](https://undici.nodejs.org/#long-term-support), such as `undici@7` for Node.js v24.
+
+```shell
+$ npm install undici@7
+```
 
 ```javascript
-const { WebClient } = require('@slack/web-api');
-const HttpsProxyAgent = require('https-proxy-agent');
+import { WebClient } from '@slack/web-api';
+import { ProxyAgent } from 'undici';
+
 const token = process.env.SLACK_TOKEN;
+const dispatcher = new ProxyAgent('http://corporate.proxy:8080');
 
-// One of the ways you can configure HttpsProxyAgent is using a simple string.
-// See: https://github.com/TooTallNate/node-https-proxy-agent for more options
-const proxy = new HttpsProxyAgent(process.env.http_proxy || 'http://168.63.76.32:3128');
-
-const web = new WebClient(token, { agent: proxy });
+const web = new WebClient(token, {
+  fetch: (input, init) => globalThis.fetch(input, { ...init, dispatcher }),
+});
 
 // All API method calls will now go through the proxy
 ```
