@@ -3,10 +3,41 @@
 # prerequisites
 #   npm install quicktype
 
+require 'json'
 require 'open3'
 
 index_file = __dir__ + '/../packages/web-api/src/types/response/index.ts'
 File.truncate(index_file, 0)
+
+# The java-slack-sdk sample recorder masks each ID as "<letter>00000000" and each
+# timestamp as "0000000000.000000", and writes map keys as "0000000000",
+# "0000000000_" and so on. quicktype reads a placeholder repeated across a sample
+# as an enum or a literal type, and only reads an object as a map when its keys
+# are all digits, so these placeholders are blanked and the map keys renumbered.
+module SampleNormalizer
+  PLACEHOLDER_VALUE = /\A(?:[A-Z]0{8}|0{10}\.0{6})\z/
+  PLACEHOLDER_KEY = /\A0{10}_*\z/
+
+  def self.normalize(node)
+    case node
+    when Hash
+      placeholder_keys = 0
+      node.each_with_object({}) do |(key, value), normalized|
+        if key.match?(PLACEHOLDER_KEY)
+          key = format('%010d', placeholder_keys)
+          placeholder_keys += 1
+        end
+        normalized[key] = normalize(value)
+      end
+    when Array
+      node.map { |value| normalize(value) }
+    when String
+      node.match?(PLACEHOLDER_VALUE) ? '' : node
+    else
+      node
+    end
+  end
+end
 
 class TsWriter
 
@@ -91,7 +122,7 @@ Dir.glob(__dir__ + '/../tmp/java-slack-sdk/json-logs/samples/api/*').sort.each d
 
     root_class_name << 'Response'
     typedef_filepath = __dir__ + "/../packages/web-api/src/types/response/#{root_class_name}.ts"
-    input_json = json_file.read
+    input_json = JSON.generate(SampleNormalizer.normalize(JSON.parse(json_file.read)))
     ts_writer.write(root_class_name, json_path, typedef_filepath, input_json)
     ts_writer.append_to_index(root_class_name, index_file)
   end
