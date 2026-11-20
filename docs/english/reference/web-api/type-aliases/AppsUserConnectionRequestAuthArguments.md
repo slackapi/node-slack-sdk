@@ -6,7 +6,7 @@
 type AppsUserConnectionRequestAuthArguments = TokenOverridable & (UserConnectionTriggerID | UserConnectionUserID) & object;
 ```
 
-Defined in: [packages/web-api/src/types/request/apps.ts:102](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/apps.ts#L102)
+Defined in: [packages/web-api/src/types/request/apps.ts:119](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/apps.ts#L119)
 
 ## Type Declaration
 

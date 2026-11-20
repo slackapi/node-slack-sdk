@@ -1,5 +1,25 @@
 # @slack/webhook
 
+## 8.1.0
+
+### Minor Changes
+
+- c043b50: feat: warn when a URL pattern mismatches the webhook class
+
+  `IncomingWebhook` and `WebhookTrigger` now accept optional `logger` and `logLevel` options. On construction, `IncomingWebhook` warns when the URL contains `/triggers/` and `WebhookTrigger` warns when the URL contains `/services/`, so a URL used with the wrong class shows up in the logs before anything is sent.
+
+### Patch Changes
+
+- 713f176: fix: use the `fetch`, `timeout` and `retryConfig` given to `IncomingWebhook.send()`
+
+  `send()` accepted these options but only used the ones given to the constructor. Options given to `send()` now apply to that call, and fall back to the constructor's when left out.
+- 8011e1d: fix: stop `IncomingWebhook.send()` from posting the `timeout` and `retryConfig` options
+
+  These options were already removed from the constructor defaults, but options given to `send()` were merged in afterward and posted in the payload. They're now removed from every payload before it's sent.
+- Updated dependencies [fd8f6dd]
+- Updated dependencies [bce2a92]
+  - @slack/types@3.3.1
+
 ## 8.0.2
 
 ### Patch Changes

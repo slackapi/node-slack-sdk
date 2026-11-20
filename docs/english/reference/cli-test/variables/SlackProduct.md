@@ -6,7 +6,7 @@
 const SlackProduct: object;
 ```
 
-Defined in: [utils/constants.ts:52](https://github.com/slackapi/node-slack-sdk/blob/main/packages/cli-test/src/utils/constants.ts#L52)
+Defined in: [utils/constants.ts:67](https://github.com/slackapi/node-slack-sdk/blob/main/packages/cli-test/src/utils/constants.ts#L67)
 
 ## Type Declaration
 

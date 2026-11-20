@@ -2,7 +2,7 @@
 
 # Interface: AppsManifestValidateArguments
 
-Defined in: [packages/web-api/src/types/request/apps.ts:33](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/apps.ts#L33)
+Defined in: [packages/web-api/src/types/request/apps.ts:50](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/apps.ts#L50)
 
 ## Extends
 
@@ -35,7 +35,7 @@ The ID of the app.
 manifest: Manifest;
 ```
 
-Defined in: [packages/web-api/src/types/request/apps.ts:34](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/apps.ts#L34)
+Defined in: [packages/web-api/src/types/request/apps.ts:51](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/apps.ts#L51)
 
 ***
 

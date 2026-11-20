@@ -1,6 +1,6 @@
 {
   "name": "@slack/webhook",
-  "version": "8.0.2",
+  "version": "8.1.0",
   "description": "Official library for using webhooks on the Slack Platform",
   "author": "Slack Technologies, LLC",
   "license": "MIT",
@@ -42,7 +42,7 @@
   },
   "dependencies": {
     "@slack/logger": "^5.0.0",
-    "@slack/types": "^3.1.0",
+    "@slack/types": "^3.3.1",
     "@types/node": ">=20",
     "@types/retry": "0.12.5",
     "p-retry": "^4.6.2",

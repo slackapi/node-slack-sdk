@@ -2,7 +2,7 @@
 
 # Class: WebhookTrigger
 
-Defined in: [packages/webhook/src/WebhookTrigger.ts:12](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/WebhookTrigger.ts#L12)
+Defined in: [packages/webhook/src/WebhookTrigger.ts:13](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/WebhookTrigger.ts#L13)
 
 A client for Slack's Workflow Builder webhook triggers
 
@@ -18,7 +18,7 @@ A client for Slack's Workflow Builder webhook triggers
 new WebhookTrigger(url, defaults?): WebhookTrigger;
 ```
 
-Defined in: [packages/webhook/src/WebhookTrigger.ts:38](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/WebhookTrigger.ts#L38)
+Defined in: [packages/webhook/src/WebhookTrigger.ts:41](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/WebhookTrigger.ts#L41)
 
 #### Parameters
 
@@ -42,7 +42,7 @@ Defined in: [packages/webhook/src/WebhookTrigger.ts:38](https://github.com/slack
 send(payload?): Promise<WebhookTriggerResult>;
 ```
 
-Defined in: [packages/webhook/src/WebhookTrigger.ts:61](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/WebhookTrigger.ts#L61)
+Defined in: [packages/webhook/src/WebhookTrigger.ts:76](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/WebhookTrigger.ts#L76)
 
 Send a payload to the webhook trigger
 
