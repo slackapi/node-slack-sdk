@@ -29,7 +29,7 @@ export interface Match {
   access?: string;
   attachments?: Attachment[];
   bot_id?: string;
-  canvas_creator_id?: CanvasCreatorid;
+  canvas_creator_id?: string;
   canvas_printing_enabled?: boolean;
   canvas_readtime?: number;
   cc?: Cc[];
@@ -66,7 +66,7 @@ export interface Match {
   is_public?: boolean;
   is_restricted_sharing_enabled?: boolean;
   is_starred?: boolean;
-  last_editor?: CanvasCreatorid;
+  last_editor?: string;
   lines?: number;
   lines_more?: number;
   linked_channel_id?: string;
@@ -135,8 +135,8 @@ export interface Match {
   url_private?: string;
   url_private_download?: string;
   url_static_preview?: string;
-  user?: CanvasCreatorid;
-  user_team?: UserTeam;
+  user?: string;
+  user_team?: string;
   username?: string;
 }
 
@@ -664,12 +664,7 @@ export interface Cc {
 
 export interface DmMpdmUsersWithFileAccess {
   access?: string;
-  user_id?: CanvasCreatorid;
-}
-
-export enum CanvasCreatorid {
-  Empty = '',
-  U00000000 = 'U00000000',
+  user_id?: string;
 }
 
 export interface Favorite {
@@ -868,21 +863,11 @@ export interface Public {
   reply_count?: number;
   reply_users?: string[];
   reply_users_count?: number;
-  share_user_id?: CanvasCreatorid;
+  share_user_id?: string;
   source?: string;
-  team_id?: UserTeam;
+  team_id?: string;
   thread_ts?: string;
-  ts?: Ts;
-}
-
-export enum UserTeam {
-  Empty = '',
-  T00000000 = 'T00000000',
-}
-
-export enum Ts {
-  Empty = '',
-  The0000000000000000 = '0000000000.000000',
+  ts?: string;
 }
 
 export interface Transcription {
@@ -1448,9 +1433,9 @@ export interface MatchShares {
 
 export interface Private {
   is_silent_share?: boolean;
-  share_user_id?: CanvasCreatorid;
+  share_user_id?: string;
   source?: string;
-  ts?: Ts;
+  ts?: string;
 }
 
 export interface TitleBlock {
