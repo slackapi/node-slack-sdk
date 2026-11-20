@@ -39,30 +39,20 @@ export type RtmStartResponse = WebAPICallResult & {
 };
 
 export interface Bot {
-  app_id?: Appid;
+  app_id?: string;
   deleted?: boolean;
   icons?: BotIcons;
-  id?: Id;
+  id?: string;
   is_workflow_bot?: boolean;
   name?: string;
   team_id?: string;
   updated?: number;
 }
 
-export enum Appid {
-  A00000000 = 'A00000000',
-  Empty = '',
-}
-
 export interface BotIcons {
   image_36?: string;
   image_48?: string;
   image_72?: string;
-}
-
-export enum Id {
-  B00000000 = 'B00000000',
-  Empty = '',
 }
 
 export interface Channel {
@@ -2315,7 +2305,7 @@ export interface Profile {
   always_active?: boolean;
   api_app_id?: string;
   avatar_hash?: string;
-  bot_id?: Id;
+  bot_id?: string;
   display_name?: string;
   display_name_normalized?: string;
   email?: string;

@@ -65,7 +65,7 @@ export interface FilesMatch {
   is_public?: boolean;
   is_restricted_sharing_enabled?: boolean;
   is_starred?: boolean;
-  last_editor?: LastEditor;
+  last_editor?: string;
   lines?: number;
   lines_more?: number;
   linked_channel_id?: string;
@@ -133,7 +133,7 @@ export interface FilesMatch {
   url_private?: string;
   url_private_download?: string;
   url_static_preview?: string;
-  user?: LastEditor;
+  user?: string;
   user_team?: string;
   username?: string;
 }
@@ -659,12 +659,7 @@ export interface Cc {
 
 export interface DmMpdmUsersWithFileAccess {
   access?: string;
-  user_id?: LastEditor;
-}
-
-export enum LastEditor {
-  Empty = '',
-  U00000000 = 'U00000000',
+  user_id?: string;
 }
 
 export interface Favorite {
@@ -1408,7 +1403,7 @@ export interface Public {
   reply_count?: number;
   reply_users?: string[];
   reply_users_count?: number;
-  share_user_id?: LastEditor;
+  share_user_id?: string;
   source?: string;
   team_id?: string;
   ts?: string;
@@ -1553,7 +1548,7 @@ export interface MessagesMatch {
   text?: string;
   ts?: string;
   type?: string;
-  user?: LastEditor;
+  user?: string;
   username?: string;
 }
 
@@ -1573,7 +1568,7 @@ export interface Channel {
   name?: string;
   name_normalized?: string;
   pending_shared?: string[];
-  user?: LastEditor;
+  user?: string;
 }
 
 export interface Previous {
@@ -1584,7 +1579,7 @@ export interface Previous {
   text?: string;
   ts?: string;
   type?: string;
-  user?: LastEditor;
+  user?: string;
   username?: string;
 }
 
