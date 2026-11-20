@@ -284,6 +284,7 @@ export { OauthAccessResponse } from './OauthAccessResponse';
 export { OauthTokenResponse } from './OauthTokenResponse';
 export { OauthV2AccessResponse } from './OauthV2AccessResponse';
 export { OauthV2ExchangeResponse } from './OauthV2ExchangeResponse';
+export { OauthV2UserAccessResponse } from './OauthV2UserAccessResponse';
 export { OpenIDConnectTokenResponse } from './OpenIDConnectTokenResponse';
 export { OpenIDConnectUserInfoResponse } from './OpenIDConnectUserInfoResponse';
 export { PinsAddResponse } from './PinsAddResponse';

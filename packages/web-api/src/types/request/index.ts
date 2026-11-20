@@ -275,6 +275,7 @@ export type {
   OAuthAccessArguments,
   OAuthV2AccessArguments,
   OAuthV2ExchangeArguments,
+  OAuthV2UserAccessArguments,
 } from './oauth';
 export type {
   OpenIDConnectTokenArguments,
