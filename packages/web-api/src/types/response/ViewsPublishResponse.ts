@@ -115,6 +115,8 @@ export enum CloseType {
 export interface PurpleElement {
   accessibility_label?: string;
   action_id?: string;
+  agent_prompt?: string;
+  agent_prompt_display?: string;
   alt_text?: string;
   confirm?: Confirm;
   default_to_current_conversation?: boolean;
@@ -151,6 +153,7 @@ export interface PurpleElement {
   type?: string;
   url?: string;
   value?: string;
+  visible_to_user_ids?: any[];
 }
 
 export interface Confirm {
@@ -254,6 +257,8 @@ export interface OptionGroup {
 export interface StickyElement {
   accessibility_label?: string;
   action_id?: string;
+  agent_prompt?: string;
+  agent_prompt_display?: string;
   alt_text?: string;
   confirm?: Confirm;
   default_to_current_conversation?: boolean;
@@ -288,6 +293,7 @@ export interface StickyElement {
   type?: string;
   url?: string;
   value?: string;
+  visible_to_user_ids?: any[];
   workflow?: Workflow;
 }
 

@@ -13,9 +13,21 @@ export type AgentsConversationsListViewsResponse = WebAPICallResult & {
   needed?: string;
   ok?: boolean;
   provided?: string;
+  session_views?: SessionView[];
   views?: View[];
   warning?: string;
 };
+
+export interface SessionView {
+  content_version?: number;
+  date_added?: number;
+  file_id?: string;
+  name?: string;
+  owner_bot_user_id?: string;
+  type?: string;
+  view_id?: string;
+  view_key?: string;
+}
 
 export interface View {
   content_version?: number;

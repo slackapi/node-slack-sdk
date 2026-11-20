@@ -112,6 +112,8 @@ export interface AssistantAppThreadBlock {
 export interface Accessory {
   accessibility_label?: string;
   action_id?: string;
+  agent_prompt?: string;
+  agent_prompt_display?: string;
   alt_text?: string;
   border?: number;
   confirm?: Confirm;
@@ -150,6 +152,7 @@ export interface Accessory {
   type?: string;
   url?: string;
   value?: string;
+  visible_to_user_ids?: any[];
   workflow?: Workflow;
 }
 
@@ -319,6 +322,12 @@ export interface AppIconUrls {
 
 export interface File {
   access?: string;
+  ai_skill_example_prompts?: any[];
+  ai_skill_library_count?: number;
+  ai_skill_mcp_servers?: any[];
+  ai_skill_share_link_count?: number;
+  ai_skill_usage_count?: number;
+  ai_summary?: AiSummary;
   alt_txt?: string;
   app_id?: string;
   app_name?: string;
@@ -327,7 +336,9 @@ export interface File {
   blocks?: DescriptionBlockElement[];
   bot_id?: string;
   can_toggle_canvas_lock?: boolean;
+  canvas_agent_creator_id?: string;
   canvas_creator_id?: string;
+  canvas_default_agent_id?: string;
   canvas_printing_enabled?: boolean;
   canvas_readtime?: number;
   canvas_template_mode?: string;
@@ -373,6 +384,8 @@ export interface File {
   is_modified_by_ai?: boolean;
   is_public?: boolean;
   is_restricted_sharing_enabled?: boolean;
+  is_skill?: boolean;
+  is_skill_admin_deactivated?: boolean;
   is_starred?: boolean;
   last_editor?: string;
   last_read?: number;
@@ -416,6 +429,7 @@ export interface File {
   show_badge?: boolean;
   simplified_html?: string;
   size?: number;
+  skill_description?: string;
   skipped_shares?: boolean;
   source_team?: string;
   subject?: string;
@@ -485,6 +499,13 @@ export interface File {
   user_team?: string;
   username?: string;
   vtt?: string;
+}
+
+export interface AiSummary {
+  content?: string;
+  id?: string;
+  status?: string;
+  unfurl_enabled?: boolean;
 }
 
 export interface DescriptionBlockElement {

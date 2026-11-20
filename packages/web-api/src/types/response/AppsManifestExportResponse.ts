@@ -44,6 +44,7 @@ export interface Features {
   shortcuts?: Shortcut[];
   slash_commands?: SlashCommand[];
   unfurl_domains?: string[];
+  user_connections?: UserConnections;
 }
 
 export interface AppHome {
@@ -70,6 +71,11 @@ export interface SlashCommand {
   should_escape?: boolean;
   url?: string;
   usage_hint?: string;
+}
+
+export interface UserConnections {
+  auth_hosts?: string[];
+  is_enabled?: boolean;
 }
 
 export interface Function {
@@ -106,6 +112,7 @@ export interface Scopes {
 
 export interface Settings {
   allowed_ip_address_ranges?: string[];
+  app_level_token_rotation_enabled?: boolean;
   background_color?: string;
   description?: string;
   event_subscriptions?: EventSubscriptions;

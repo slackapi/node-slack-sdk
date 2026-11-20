@@ -29,6 +29,7 @@ export interface Channel {
   is_archived?: boolean;
   is_channel?: boolean;
   is_ext_shared?: boolean;
+  is_file?: boolean;
   is_general?: boolean;
   is_global_shared?: boolean;
   is_group?: boolean;
@@ -75,6 +76,7 @@ export interface Properties {
 export interface AgentSession {
   agent_bot_user_ids?: string[];
   encoded_agent_bot_user_ids?: string[];
+  encoded_initiator_user_id?: string;
   origin_link?: OriginLink;
   status?: string;
   title?: string;

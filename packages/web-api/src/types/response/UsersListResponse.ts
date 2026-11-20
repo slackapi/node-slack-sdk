@@ -34,6 +34,7 @@ export interface Member {
   is_owner?: boolean;
   is_primary_owner?: boolean;
   is_restricted?: boolean;
+  is_seamless_enabled_app_bot?: boolean;
   is_ultra_restricted?: boolean;
   is_workflow_bot?: boolean;
   locale?: string;

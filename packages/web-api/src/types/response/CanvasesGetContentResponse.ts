@@ -14,5 +14,8 @@ export type CanvasesGetContentResponse = WebAPICallResult & {
   needed?: string;
   ok?: boolean;
   provided?: string;
+  response_metadata?: ResponseMetadata;
   warning?: string;
 };
+
+export type ResponseMetadata = {};

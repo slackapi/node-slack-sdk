@@ -31,7 +31,9 @@ export interface FilesMatch {
   access?: string;
   attachments?: Attachment[];
   bot_id?: string;
+  canvas_creator_id?: CanvasCreatorid;
   canvas_printing_enabled?: boolean;
+  canvas_readtime?: number;
   cc?: Cc[];
   channels?: string[];
   comments_count?: number;
@@ -59,13 +61,14 @@ export interface FilesMatch {
   id?: string;
   image_exif_rotation?: number;
   ims?: string[];
+  is_ai_suggested?: boolean;
   is_channel_space?: boolean;
   is_external?: boolean;
   is_modified_by_ai?: boolean;
   is_public?: boolean;
   is_restricted_sharing_enabled?: boolean;
   is_starred?: boolean;
-  last_editor?: LastEditor;
+  last_editor?: CanvasCreatorid;
   lines?: number;
   lines_more?: number;
   linked_channel_id?: string;
@@ -92,6 +95,7 @@ export interface FilesMatch {
   quip_thread_id?: string;
   sent_to_self?: boolean;
   shares?: MatchShares;
+  show_badge?: boolean;
   size?: number;
   subject?: string;
   team_pref_version_history_enabled?: boolean;
@@ -133,8 +137,8 @@ export interface FilesMatch {
   url_private?: string;
   url_private_download?: string;
   url_static_preview?: string;
-  user?: LastEditor;
-  user_team?: string;
+  user?: CanvasCreatorid;
+  user_team?: UserTeam;
   username?: string;
 }
 
@@ -183,6 +187,7 @@ export interface Attachment {
   list_schema?: Schema[];
   list_view?: View;
   list_view_id?: string;
+  media_type?: string;
   message_blocks?: MessageBlock[];
   metadata?: AttachmentMetadata;
   mimetype?: string;
@@ -312,6 +317,8 @@ export interface DescriptionBlockElement {
 export interface Accessory {
   accessibility_label?: string;
   action_id?: string;
+  agent_prompt?: string;
+  agent_prompt_display?: string;
   alt_text?: string;
   border?: number;
   confirm?: AccessoryConfirm;
@@ -350,6 +357,7 @@ export interface Accessory {
   type?: ActionType;
   url?: string;
   value?: string;
+  visible_to_user_ids?: any[];
   workflow?: Workflow;
 }
 
@@ -482,6 +490,12 @@ export interface AttachmentField {
 
 export interface FileElement {
   access?: string;
+  ai_skill_example_prompts?: any[];
+  ai_skill_library_count?: number;
+  ai_skill_mcp_servers?: any[];
+  ai_skill_share_link_count?: number;
+  ai_skill_usage_count?: number;
+  ai_summary?: AiSummary;
   alt_txt?: string;
   app_id?: string;
   app_name?: string;
@@ -490,7 +504,9 @@ export interface FileElement {
   blocks?: DescriptionBlockElement[];
   bot_id?: string;
   can_toggle_canvas_lock?: boolean;
+  canvas_agent_creator_id?: string;
   canvas_creator_id?: string;
+  canvas_default_agent_id?: string;
   canvas_printing_enabled?: boolean;
   canvas_readtime?: number;
   canvas_template_mode?: string;
@@ -536,6 +552,8 @@ export interface FileElement {
   is_modified_by_ai?: boolean;
   is_public?: boolean;
   is_restricted_sharing_enabled?: boolean;
+  is_skill?: boolean;
+  is_skill_admin_deactivated?: boolean;
   is_starred?: boolean;
   last_editor?: string;
   last_read?: number;
@@ -579,6 +597,7 @@ export interface FileElement {
   show_badge?: boolean;
   simplified_html?: string;
   size?: number;
+  skill_description?: string;
   skipped_shares?: boolean;
   source_team?: string;
   subject?: string;
@@ -650,6 +669,13 @@ export interface FileElement {
   vtt?: string;
 }
 
+export interface AiSummary {
+  content?: string;
+  id?: string;
+  status?: string;
+  unfurl_enabled?: boolean;
+}
+
 export interface Cc {
   address?: string;
   name?: string;
@@ -659,10 +685,10 @@ export interface Cc {
 
 export interface DmMpdmUsersWithFileAccess {
   access?: string;
-  user_id?: LastEditor;
+  user_id?: CanvasCreatorid;
 }
 
-export enum LastEditor {
+export enum CanvasCreatorid {
   Empty = '',
   U00000000 = 'U00000000',
 }
@@ -850,11 +876,11 @@ export interface Saved {
 }
 
 export interface FileShares {
-  private?: { [key: string]: Private[] };
-  public?: { [key: string]: Private[] };
+  private?: { [key: string]: Public[] };
+  public?: { [key: string]: Public[] };
 }
 
-export interface Private {
+export interface Public {
   access?: string;
   channel_name?: string;
   date_last_shared?: number;
@@ -863,11 +889,21 @@ export interface Private {
   reply_count?: number;
   reply_users?: string[];
   reply_users_count?: number;
-  share_user_id?: string;
+  share_user_id?: CanvasCreatorid;
   source?: string;
-  team_id?: string;
+  team_id?: UserTeam;
   thread_ts?: string;
-  ts?: string;
+  ts?: Ts;
+}
+
+export enum UserTeam {
+  Empty = '',
+  T00000000 = 'T00000000',
+}
+
+export enum Ts {
+  Empty = '',
+  The0000000000000000 = '0000000000.000000',
 }
 
 export interface Transcription {
@@ -1019,6 +1055,7 @@ export interface AgentSession {
   agent_bot_user_ids?: any[];
   agent_statuses?: any[];
   date_status_processing_expire?: number;
+  encoded_initiator_user_id?: string;
   status?: string;
   title?: string;
 }
@@ -1089,6 +1126,12 @@ export interface Edited {
 
 export interface MessageFile {
   access?: string;
+  ai_skill_example_prompts?: any[];
+  ai_skill_library_count?: number;
+  ai_skill_mcp_servers?: any[];
+  ai_skill_share_link_count?: number;
+  ai_skill_usage_count?: number;
+  ai_summary?: AiSummary;
   alt_txt?: string;
   app_id?: string;
   app_name?: string;
@@ -1097,7 +1140,9 @@ export interface MessageFile {
   blocks?: any[];
   bot_id?: string;
   can_toggle_canvas_lock?: boolean;
+  canvas_agent_creator_id?: string;
   canvas_creator_id?: string;
+  canvas_default_agent_id?: string;
   canvas_printing_enabled?: boolean;
   canvas_readtime?: number;
   canvas_template_mode?: string;
@@ -1143,6 +1188,8 @@ export interface MessageFile {
   is_modified_by_ai?: boolean;
   is_public?: boolean;
   is_restricted_sharing_enabled?: boolean;
+  is_skill?: boolean;
+  is_skill_admin_deactivated?: boolean;
   is_starred?: boolean;
   last_editor?: string;
   last_read?: number;
@@ -1186,6 +1233,7 @@ export interface MessageFile {
   show_badge?: boolean;
   simplified_html?: string;
   size?: number;
+  skill_description?: string;
   skipped_shares?: boolean;
   source_team?: string;
   subject?: string;
@@ -1378,11 +1426,27 @@ export interface AttachmentMetadata {
   original_h?: number;
   original_w?: number;
   rotation?: number;
+  thumb_1024?: boolean;
+  thumb_1024_h?: number;
+  thumb_1024_w?: number;
   thumb_160?: boolean;
+  thumb_360?: boolean;
   thumb_360_h?: number;
   thumb_360_w?: number;
+  thumb_480?: boolean;
+  thumb_480_h?: number;
+  thumb_480_w?: number;
   thumb_64?: boolean;
+  thumb_720?: boolean;
+  thumb_720_h?: number;
+  thumb_720_w?: number;
   thumb_80?: boolean;
+  thumb_800?: boolean;
+  thumb_800_h?: number;
+  thumb_800_w?: number;
+  thumb_960?: boolean;
+  thumb_960_h?: number;
+  thumb_960_w?: number;
   thumb_tiny?: string;
 }
 
@@ -1399,19 +1463,15 @@ export interface MatchHeaders {
 }
 
 export interface MatchShares {
+  private?: { [key: string]: Private[] };
   public?: { [key: string]: Public[] };
 }
 
-export interface Public {
-  access?: string;
-  channel_name?: string;
-  reply_count?: number;
-  reply_users?: string[];
-  reply_users_count?: number;
-  share_user_id?: LastEditor;
+export interface Private {
+  is_silent_share?: boolean;
+  share_user_id?: CanvasCreatorid;
   source?: string;
-  team_id?: string;
-  ts?: string;
+  ts?: Ts;
 }
 
 export interface MatchTitleBlock {
@@ -1549,11 +1609,11 @@ export interface MessagesMatch {
   previous?: Previous;
   previous_2?: Previous;
   score?: number;
-  team?: string;
+  team?: UserTeam;
   text?: string;
-  ts?: string;
+  ts?: Ts;
   type?: string;
-  user?: LastEditor;
+  user?: CanvasCreatorid;
   username?: string;
 }
 
@@ -1573,7 +1633,7 @@ export interface Channel {
   name?: string;
   name_normalized?: string;
   pending_shared?: string[];
-  user?: LastEditor;
+  user?: CanvasCreatorid;
 }
 
 export interface Previous {
@@ -1582,9 +1642,9 @@ export interface Previous {
   iid?: string;
   permalink?: string;
   text?: string;
-  ts?: string;
+  ts?: Ts;
   type?: string;
-  user?: LastEditor;
+  user?: CanvasCreatorid;
   username?: string;
 }
 
