@@ -104,19 +104,15 @@ export default class FileInstallationStore implements InstallationStore {
       logger.info(`Deleting installations in ${installationDir} with the following query: ${JSON.stringify(query)}`);
     }
 
-    let filesToDelete: string[] = [];
-
-    if (userId === undefined) {
-      const allFiles = fs.readdirSync(installationDir);
-      filesToDelete = filesToDelete.concat(allFiles);
-    } else {
-      const userFiles = fs.readdirSync(installationDir).filter((file) => file.includes(`user-${userId}-`));
-      filesToDelete = filesToDelete.concat(userFiles);
-    }
+    const files = fs.readdirSync(installationDir);
+    const filesToDelete = userId === undefined ? files : files.filter((file) => file.includes(`user-${userId}-`));
 
     try {
       for (const filePath of filesToDelete) {
         deleteFile(path.join(installationDir, filePath));
+      }
+      if (userId !== undefined && files.includes('app-latest')) {
+        forgetUserCredentials(path.join(installationDir, 'app-latest'), userId);
       }
     } catch (err) {
       throw new Error(`Failed to delete installation from FileInstallationStore (error: ${err})`);
@@ -138,4 +134,11 @@ function writeToFile(filePath: string, data: string): void {
 
 function deleteFile(filePath: string): void {
   fs.unlinkSync(path.resolve(filePath));
+}
+
+function forgetUserCredentials(filePath: string, userId: string): void {
+  const installation: Installation = JSON.parse(fs.readFileSync(filePath).toString());
+  if (installation.user.id === userId) {
+    writeToFile(filePath, JSON.stringify({ ...installation, user: { id: userId } }));
+  }
 }
