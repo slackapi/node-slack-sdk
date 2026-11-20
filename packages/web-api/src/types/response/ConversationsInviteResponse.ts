@@ -44,12 +44,15 @@ export interface Channel {
   pending_connected_team_ids?: string[];
   pending_shared?: string[];
   previous_names?: string[];
+  properties?: Properties;
   purpose?: Purpose;
   shared_team_ids?: string[];
   topic?: Purpose;
   unlinked?: number;
   updated?: number;
 }
+
+export type Properties = {};
 
 export interface Purpose {
   creator?: string;

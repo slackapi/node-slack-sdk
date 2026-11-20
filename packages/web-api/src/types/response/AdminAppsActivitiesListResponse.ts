@@ -91,8 +91,24 @@ export interface Trigger {
 export interface Config {
   description?: string;
   event_type?: string;
+  function_inputs?: { [key: string]: FunctionInput };
   name?: string;
   schema?: Inputs;
+  trigger_type_app_id?: number;
+  trigger_type_id?: number;
+}
+
+export interface FunctionInput {
+  hidden?: boolean;
+  label?: { [key: string]: string };
+  locked?: boolean;
+  value?: ValueClass | string;
+}
+
+export interface ValueClass {
+  credential_source?: string;
+  external_token_id?: string;
+  user_context_source?: string;
 }
 
 export interface TripInformation {

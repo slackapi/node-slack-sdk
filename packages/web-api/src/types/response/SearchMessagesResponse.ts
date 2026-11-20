@@ -91,6 +91,7 @@ export interface Attachment {
   list_schema?: Schema[];
   list_view?: View;
   list_view_id?: string;
+  media_type?: string;
   message_blocks?: MessageBlock[];
   metadata?: AttachmentMetadata;
   mimetype?: string;
@@ -220,6 +221,8 @@ export interface TitleBlockElement {
 export interface Accessory {
   accessibility_label?: string;
   action_id?: string;
+  agent_prompt?: string;
+  agent_prompt_display?: string;
   alt_text?: string;
   border?: number;
   confirm?: AccessoryConfirm;
@@ -258,6 +261,7 @@ export interface Accessory {
   type?: ActionType;
   url?: string;
   value?: string;
+  visible_to_user_ids?: any[];
   workflow?: Workflow;
 }
 
@@ -390,6 +394,12 @@ export interface AttachmentField {
 
 export interface FileElement {
   access?: string;
+  ai_skill_example_prompts?: any[];
+  ai_skill_library_count?: number;
+  ai_skill_mcp_servers?: any[];
+  ai_skill_share_link_count?: number;
+  ai_skill_usage_count?: number;
+  ai_summary?: AiSummary;
   alt_txt?: string;
   app_id?: string;
   app_name?: string;
@@ -398,7 +408,9 @@ export interface FileElement {
   blocks?: TitleBlockElement[];
   bot_id?: string;
   can_toggle_canvas_lock?: boolean;
+  canvas_agent_creator_id?: string;
   canvas_creator_id?: string;
+  canvas_default_agent_id?: string;
   canvas_printing_enabled?: boolean;
   canvas_readtime?: number;
   canvas_template_mode?: string;
@@ -444,6 +456,8 @@ export interface FileElement {
   is_modified_by_ai?: boolean;
   is_public?: boolean;
   is_restricted_sharing_enabled?: boolean;
+  is_skill?: boolean;
+  is_skill_admin_deactivated?: boolean;
   is_starred?: boolean;
   last_editor?: string;
   last_read?: number;
@@ -487,6 +501,7 @@ export interface FileElement {
   show_badge?: boolean;
   simplified_html?: string;
   size?: number;
+  skill_description?: string;
   skipped_shares?: boolean;
   source_team?: string;
   subject?: string;
@@ -556,6 +571,13 @@ export interface FileElement {
   user_team?: string;
   username?: string;
   vtt?: string;
+}
+
+export interface AiSummary {
+  content?: string;
+  id?: string;
+  status?: string;
+  unfurl_enabled?: boolean;
 }
 
 export interface Cc {
@@ -922,6 +944,7 @@ export interface AgentSession {
   agent_bot_user_ids?: any[];
   agent_statuses?: any[];
   date_status_processing_expire?: number;
+  encoded_initiator_user_id?: string;
   status?: string;
   title?: string;
 }
@@ -992,6 +1015,12 @@ export interface Edited {
 
 export interface MessageFile {
   access?: string;
+  ai_skill_example_prompts?: any[];
+  ai_skill_library_count?: number;
+  ai_skill_mcp_servers?: any[];
+  ai_skill_share_link_count?: number;
+  ai_skill_usage_count?: number;
+  ai_summary?: AiSummary;
   alt_txt?: string;
   app_id?: string;
   app_name?: string;
@@ -1000,7 +1029,9 @@ export interface MessageFile {
   blocks?: any[];
   bot_id?: string;
   can_toggle_canvas_lock?: boolean;
+  canvas_agent_creator_id?: string;
   canvas_creator_id?: string;
+  canvas_default_agent_id?: string;
   canvas_printing_enabled?: boolean;
   canvas_readtime?: number;
   canvas_template_mode?: string;
@@ -1046,6 +1077,8 @@ export interface MessageFile {
   is_modified_by_ai?: boolean;
   is_public?: boolean;
   is_restricted_sharing_enabled?: boolean;
+  is_skill?: boolean;
+  is_skill_admin_deactivated?: boolean;
   is_starred?: boolean;
   last_editor?: string;
   last_read?: number;
@@ -1089,6 +1122,7 @@ export interface MessageFile {
   show_badge?: boolean;
   simplified_html?: string;
   size?: number;
+  skill_description?: string;
   skipped_shares?: boolean;
   source_team?: string;
   subject?: string;
@@ -1281,11 +1315,27 @@ export interface AttachmentMetadata {
   original_h?: number;
   original_w?: number;
   rotation?: number;
+  thumb_1024?: boolean;
+  thumb_1024_h?: number;
+  thumb_1024_w?: number;
   thumb_160?: boolean;
+  thumb_360?: boolean;
   thumb_360_h?: number;
   thumb_360_w?: number;
+  thumb_480?: boolean;
+  thumb_480_h?: number;
+  thumb_480_w?: number;
   thumb_64?: boolean;
+  thumb_720?: boolean;
+  thumb_720_h?: number;
+  thumb_720_w?: number;
   thumb_80?: boolean;
+  thumb_800?: boolean;
+  thumb_800_h?: number;
+  thumb_800_w?: number;
+  thumb_960?: boolean;
+  thumb_960_h?: number;
+  thumb_960_w?: number;
   thumb_tiny?: string;
 }
 

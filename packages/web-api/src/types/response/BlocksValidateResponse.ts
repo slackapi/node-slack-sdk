@@ -8,7 +8,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////
 
 import type { WebAPICallResult } from '../../WebClient';
-
 export type BlocksValidateResponse = WebAPICallResult & {
   error?: string;
   errors?: Error[];
