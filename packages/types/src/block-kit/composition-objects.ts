@@ -1,5 +1,7 @@
 // This file contains objects documented here: https://docs.slack.dev/reference/block-kit/composition-objects
 
+import type { Button } from './block-elements';
+
 /**
  * Re-usable labels for common color schemes present in Slack. `danger` displays with a red background (red text on
  * mobile), while `primary` displays with a green background (green text on mobile).
@@ -171,6 +173,25 @@ export interface MrkdwnElement {
    * {@link https://docs.slack.dev/messaging/formatting-message-text manual parsing strings}.
    */
   verbatim?: boolean;
+}
+
+/**
+ * @description Defines a data table cell containing a button element.
+ * @see {@link https://docs.slack.dev/reference/block-kit/blocks/data-table-block#schema-action-cell Action cell reference}.
+ */
+export interface ActionCellElement {
+  /**
+   * @description The type of cell. In this case `type` is always `action_cell`.
+   */
+  type: 'action_cell';
+  /**
+   * @description A button element.
+   */
+  element: Button;
+  /**
+   * @description A raw_text or raw_number cell.
+   */
+  fallback?: RawTextElement | RawNumberElement;
 }
 
 /**

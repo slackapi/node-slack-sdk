@@ -26,6 +26,7 @@ import type {
   WorkflowButton,
 } from './block-elements';
 import type {
+  ActionCellElement,
   MrkdwnElement,
   PlainTextElement,
   RawNumberElement,
@@ -369,7 +370,7 @@ export interface DataTableBlock extends Block {
   /**
    * @description An array consisting of table rows.
    */
-  rows: (RawTextElement | RawNumberElement | RichTextBlock)[][];
+  rows: (ActionCellElement | RawTextElement | RawNumberElement | RichTextBlock)[][];
   /**
    * @description A caption for the table; used as the value for the HTML caption element.
    */

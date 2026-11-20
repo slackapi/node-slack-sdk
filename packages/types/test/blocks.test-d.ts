@@ -179,6 +179,14 @@ expectError<DataTableBlock>({
   type: 'data_table',
   caption: 'A list of fruit and their quantities',
 }); // missing required rows
+expectError<DataTableBlock>({
+  type: 'data_table',
+  caption: 'A list of tasks',
+  rows: [
+    [{ type: 'raw_text', text: 'Action' }],
+    [{ type: 'action_cell', fallback: { type: 'raw_text', text: 'Open' } }],
+  ],
+}); // action_cell missing required element
 // -- happy path
 expectAssignable<DataTableBlock>({
   type: 'data_table',
@@ -211,6 +219,51 @@ expectAssignable<DataTableBlock>({
     ],
   ],
 });
+expectAssignable<DataTableBlock>({
+  type: 'data_table',
+  caption: 'A list of tasks',
+  rows: [
+    [
+      { type: 'raw_text', text: 'Task' },
+      { type: 'raw_text', text: 'Action' },
+    ],
+    [
+      { type: 'raw_text', text: 'Write docs' },
+      {
+        type: 'action_cell',
+        element: {
+          type: 'button',
+          text: { type: 'plain_text', text: 'Mark done' },
+          action_id: 'mark_done',
+          value: 'task_123',
+        },
+        fallback: { type: 'raw_text', text: 'Open' },
+      },
+    ],
+  ],
+});
+expectAssignable<DataTableBlock>({
+  type: 'data_table',
+  caption: 'A list of tasks',
+  rows: [
+    [
+      { type: 'raw_text', text: 'Task' },
+      { type: 'raw_text', text: 'Action' },
+    ],
+    [
+      { type: 'raw_text', text: 'Write docs' },
+      {
+        type: 'action_cell',
+        element: {
+          type: 'button',
+          text: { type: 'plain_text', text: 'Mark done' },
+          action_id: 'mark_done',
+          value: 'task_123',
+        },
+      },
+    ],
+  ],
+});
 expectAssignable<KnownBlock>({
   type: 'data_table',
   caption: 'A minimal table',
@@ -221,6 +274,24 @@ expectAssignable<KnownBlock>({
 // -- sad path
 expectError<TableBlock>({}); // missing type and rows
 expectError<TableBlock>({ type: 'table' }); // missing required rows
+expectError<TableBlock>({
+  type: 'table',
+  rows: [
+    [{ type: 'raw_text', text: 'Action' }],
+    [
+      {
+        type: 'action_cell',
+        element: {
+          type: 'button',
+          text: { type: 'plain_text', text: 'Mark done' },
+          action_id: 'mark_done',
+          value: 'task_123',
+        },
+        fallback: { type: 'raw_text', text: 'Open' },
+      },
+    ],
+  ],
+}); // action_cell is only allowed in data_table
 // -- happy path
 // Table cells can be rich_text, raw_text, or raw_number; column_settings describe column behavior.
 expectAssignable<TableBlock>({
