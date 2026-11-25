@@ -3,6 +3,7 @@ import { EventEmitter } from 'eventemitter3';
 // Request, followed by response, types
 import type {
   AdminAnalyticsGetFileArguments,
+  AdminAnalyticsMembersMetadataArguments,
   AdminAppsActivitiesListArguments,
   AdminAppsApproveArguments,
   AdminAppsApprovedListArguments,
@@ -306,6 +307,7 @@ import type {
 } from './types/request/index';
 import type {
   AdminAnalyticsGetFileResponse,
+  AdminAnalyticsMembersMetadataResponse,
   AdminAppsActivitiesListResponse,
   AdminAppsApprovedListResponse,
   AdminAppsApproveResponse,
@@ -677,6 +679,16 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
         this,
         'admin.analytics.getFile',
       ),
+      members: {
+        /**
+         * @description Retrieves profile metadata for each member of an organization or workspace.
+         * @see {@link https://docs.slack.dev/reference/methods/admin.analytics.members.metadata `admin.analytics.members.metadata` API reference}.
+         */
+        metadata: bindApiCallWithOptionalArgument<
+          AdminAnalyticsMembersMetadataArguments,
+          AdminAnalyticsMembersMetadataResponse
+        >(this, 'admin.analytics.members.metadata'),
+      },
     },
     apps: {
       activities: {

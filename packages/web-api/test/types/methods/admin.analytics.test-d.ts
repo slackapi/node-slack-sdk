@@ -61,3 +61,24 @@ expectAssignable<Parameters<typeof web.admin.analytics.getFile>>([
     metadata_only: true,
   },
 ]);
+
+// admin.analytics.members.metadata
+// -- sad path
+expectError(
+  web.admin.analytics.members.metadata({
+    member_types: ['not_a_member_type'], // unknown member type
+  }),
+);
+// -- happy path
+expectAssignable<Parameters<typeof web.admin.analytics.members.metadata>>([]); // no arg is fine
+expectAssignable<Parameters<typeof web.admin.analytics.members.metadata>>([{}]); // empty arg is fine
+expectAssignable<Parameters<typeof web.admin.analytics.members.metadata>>([
+  {
+    include_deactivated_since: '2026-09-30',
+    team_id: 'T1234',
+    member_types: ['regular_members', 'single_channel_guests'],
+    query: 'alex',
+    limit: 100,
+    cursor: '5c3e53d5',
+  },
+]);
