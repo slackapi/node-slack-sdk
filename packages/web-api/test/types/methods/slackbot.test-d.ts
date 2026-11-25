@@ -3,6 +3,164 @@ import { WebClient } from '../../../src/WebClient';
 
 const web = new WebClient('TOKEN');
 
+// slackbot.skillSets.create
+// -- sad path
+expectError(web.slackbot.skillSets.create()); // lacking argument
+expectError(web.slackbot.skillSets.create({})); // empty argument
+expectError(
+  web.slackbot.skillSets.create({
+    description: 'Skills for preparing customer calls.', // missing display_name
+  }),
+);
+// -- happy path
+expectAssignable<Parameters<typeof web.slackbot.skillSets.create>>([
+  {
+    display_name: 'Sales toolkit',
+  },
+]);
+expectAssignable<Parameters<typeof web.slackbot.skillSets.create>>([
+  {
+    display_name: 'Sales toolkit',
+    description: 'Skills for preparing customer calls and following up on deals.',
+  },
+]);
+
+// slackbot.skillSets.delete
+// -- sad path
+expectError(web.slackbot.skillSets.delete()); // lacking argument
+expectError(web.slackbot.skillSets.delete({})); // empty argument
+// -- happy path
+expectAssignable<Parameters<typeof web.slackbot.skillSets.delete>>([
+  {
+    skill_set_id: 'F1234',
+  },
+]);
+
+// slackbot.skillSets.info
+// -- sad path
+expectError(web.slackbot.skillSets.info()); // lacking argument
+expectError(web.slackbot.skillSets.info({})); // empty argument
+// -- happy path
+expectAssignable<Parameters<typeof web.slackbot.skillSets.info>>([
+  {
+    skill_set_id: 'F1234',
+  },
+]);
+
+// slackbot.skillSets.items.add
+// -- sad path
+expectError(web.slackbot.skillSets.items.add()); // lacking argument
+expectError(web.slackbot.skillSets.items.add({})); // empty argument
+expectError(
+  web.slackbot.skillSets.items.add({
+    skill_set_id: 'F1234', // missing skill_ids
+  }),
+);
+expectError(
+  web.slackbot.skillSets.items.add({
+    skill_ids: ['F5678'], // missing skill_set_id
+  }),
+);
+expectError(
+  web.slackbot.skillSets.items.add({
+    skill_set_id: 'F1234',
+    skill_ids: 'F5678', // skill_ids is an array
+  }),
+);
+// -- happy path
+expectAssignable<Parameters<typeof web.slackbot.skillSets.items.add>>([
+  {
+    skill_set_id: 'F1234',
+    skill_ids: ['F5678', 'F9012'],
+  },
+]);
+
+// slackbot.skillSets.items.remove
+// -- sad path
+expectError(web.slackbot.skillSets.items.remove()); // lacking argument
+expectError(web.slackbot.skillSets.items.remove({})); // empty argument
+expectError(
+  web.slackbot.skillSets.items.remove({
+    skill_set_id: 'F1234', // missing skill_ids
+  }),
+);
+expectError(
+  web.slackbot.skillSets.items.remove({
+    skill_set_id: 'F1234',
+    skill_ids: 'F5678', // skill_ids is an array
+  }),
+);
+// -- happy path
+expectAssignable<Parameters<typeof web.slackbot.skillSets.items.remove>>([
+  {
+    skill_set_id: 'F1234',
+    skill_ids: ['F5678'],
+  },
+]);
+
+// slackbot.skillSets.library.add
+// -- sad path
+expectError(web.slackbot.skillSets.library.add()); // lacking argument
+expectError(web.slackbot.skillSets.library.add({})); // empty argument
+// -- happy path
+expectAssignable<Parameters<typeof web.slackbot.skillSets.library.add>>([
+  {
+    skill_set_id: 'F1234',
+  },
+]);
+
+// slackbot.skillSets.library.remove
+// -- sad path
+expectError(web.slackbot.skillSets.library.remove()); // lacking argument
+expectError(web.slackbot.skillSets.library.remove({})); // empty argument
+// -- happy path
+expectAssignable<Parameters<typeof web.slackbot.skillSets.library.remove>>([
+  {
+    skill_set_id: 'F1234',
+  },
+]);
+
+// slackbot.skillSets.list
+// -- sad path
+expectError(
+  web.slackbot.skillSets.list({
+    filter: 'catalog', // invalid filter
+  }),
+);
+// -- happy path
+expectAssignable<Parameters<typeof web.slackbot.skillSets.list>>([]); // no arg is fine
+expectAssignable<Parameters<typeof web.slackbot.skillSets.list>>([{}]); // empty arg is fine
+expectAssignable<Parameters<typeof web.slackbot.skillSets.list>>([
+  {
+    filter: 'editable',
+    cursor: 'dGVhbTpDMDYxRkE1UEI=',
+    limit: 100,
+  },
+]);
+
+// slackbot.skillSets.update
+// -- sad path
+expectError(web.slackbot.skillSets.update()); // lacking argument
+expectError(web.slackbot.skillSets.update({})); // empty argument
+expectError(
+  web.slackbot.skillSets.update({
+    display_name: 'Sales toolkit', // missing skill_set_id
+  }),
+);
+// -- happy path
+expectAssignable<Parameters<typeof web.slackbot.skillSets.update>>([
+  {
+    skill_set_id: 'F1234',
+    display_name: 'Sales toolkit',
+  },
+]);
+expectAssignable<Parameters<typeof web.slackbot.skillSets.update>>([
+  {
+    skill_set_id: 'F1234',
+    description: '', // an empty string clears the description
+  },
+]);
+
 // slackbot.skills.create
 // -- sad path
 expectError(web.slackbot.skills.create()); // lacking argument
