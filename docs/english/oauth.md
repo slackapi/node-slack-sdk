@@ -255,6 +255,8 @@ For more persistent storage during development, `FileInstallationStore` is a pro
 :::warning[`FileInstallationStore` and `FileStateStore` are for development only and you should supply your own `installationStore` for production deployments.]
 :::
 
+For production, `RedisInstallationStore` saves installations in Redis. Read [using `RedisInstallationStore`](#using-redisinstallationstore) to set it up, or keep reading to write an installation store for your own database.
+
 An installation store is an object that provides three methods: `storeInstallation`, `fetchInstallation`, and `deleteInstallation`. `storeInstallation` takes an `installation` as an argument, which is an object that contains all installation related data (like tokens, teamIds, enterpriseIds, etc). `fetchInstallation` and `deleteInstallation` both take in an `installQuery`, which is used to query the database. The `installQuery` can contain `teamId`, `enterpriseId`, `userId`, `conversationId` and `isEnterpriseInstall`.
 
 In the following example, the `installationStore` option is used and the object is defined in line. The methods are implemented by calling an example database library with simple get and set operations.
@@ -311,6 +313,44 @@ const installer = new InstallProvider({
   },
 });
 ```
+
+### Using `RedisInstallationStore`
+
+`RedisInstallationStore` saves installations in Redis, or in a server that works like it, such as Valkey. It doesn't add a Redis client to your app. Pass it the client you already use, such as one from `ioredis`, `redis` (node-redis v4 or later), `iovalkey`, or `@upstash/redis`:
+
+```javascript
+const { InstallProvider, RedisInstallationStore } = require('@slack/oauth');
+const Redis = require('ioredis');
+
+const installer = new InstallProvider({
+  clientId: process.env.SLACK_CLIENT_ID,
+  clientSecret: process.env.SLACK_CLIENT_SECRET,
+  stateSecret: process.env.SLACK_STATE_SECRET,
+  installationStore: new RedisInstallationStore({
+    client: new Redis(process.env.REDIS_URL),
+    clientId: process.env.SLACK_CLIENT_ID,
+  }),
+});
+```
+
+With node-redis, create the client with `createClient({ url: process.env.REDIS_URL })`, then pass it once `await client.connect()` resolves. With Upstash, pass `Redis.fromEnv()` from `@upstash/redis`. Your app owns the client, so close it when your app shuts down. Bolt apps pass the same store as the `installationStore` option of `App`, after adding `@slack/oauth` to their dependencies.
+
+The store takes these options:
+
+| Option | Description |
+|---|---|
+| `client` | A connected Redis client. Any client with promise-based `get`, `set`, `del` and `append` methods works. |
+| `keyPrefix` | The start of every key the store uses. Defaults to `slack:installation`. |
+| `clientId` | Your app's client ID. It keeps the installations of apps that share one Redis apart. |
+
+Each workspace (or organization, for org-wide installs) has its own installation, and each user who authorized your app has their own token:
+
+* An authorization with only user scopes never replaces the bot token, and a token refresh saves only the token that changed.
+* `fetchInstallation()` with a `userId` returns that user's token, or no user token when that user never authorized your app. Without a `userId`, it returns the token of the user who installed your app, like `FileInstallationStore`.
+* `deleteInstallation()` with a `userId` deletes that user's token. Without one, it deletes the installation and every user's token, for example when your app is uninstalled.
+
+Tokens are saved as plain JSON, so limit who can reach your Redis, and turn on persistence. Use a `maxmemory-policy` of `noeviction` or one of the `volatile-*` policies, since an `allkeys-*` policy can evict installations.
+
 ---
 
 ## Reading tokens and other installation data
