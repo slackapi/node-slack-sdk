@@ -1,4 +1,5 @@
-import type { TokenOverridable } from '../common';
+import type { OptionalArgument } from '../../helpers';
+import type { CursorPaginationEnabled, TokenOverridable } from '../common';
 
 interface Date {
   /**
@@ -42,3 +43,28 @@ type PublicChannelArgs = PublicChannelWithDate | PublicChannelWithMetadata;
 
 // https://docs.slack.dev/reference/methods/admin.analytics.getFile
 export type AdminAnalyticsGetFileArguments = TokenOverridable & (MemberArgs | PublicChannelArgs);
+
+// https://docs.slack.dev/reference/methods/admin.analytics.members.activity
+export type AdminAnalyticsMembersActivityArguments = OptionalArgument<
+  TokenOverridable &
+    CursorPaginationEnabled & {
+      /** @description The day to report on, as `YYYY-MM-DD` in UTC. Defaults to the most recent day with data. */
+      date?: string;
+      /** @description Workspace ID to scope the results to. With an organization-level token, omit it for organization-wide results. */
+      team_id?: string;
+      /** @description Member types to include. Omit to include every member type. */
+      member_types?: (
+        | 'regular_members'
+        | 'single_channel_guests'
+        | 'multi_channel_guests'
+        | 'frontline_members'
+        | 'org_owners'
+        | 'org_admins'
+        | 'workspace_owners'
+        | 'workspace_admins'
+        | 'invited'
+      )[];
+      /** @description User IDs to return. Up to 500 IDs. Omit to return every member. */
+      user_ids?: string[];
+    }
+>;
