@@ -2,6 +2,91 @@ import type { OptionalArgument } from '../helpers';
 
 import type { TokenOverridable } from './common';
 
+// https://docs.slack.dev/reference/methods/slackbot.skillSets.create
+export interface SlackbotSkillSetsCreateArguments extends TokenOverridable {
+  /** @description Human-readable label, 1 to 255 characters. Not unique. */
+  display_name: string;
+  /** @description What the skill set is for. Max 2,000 characters. */
+  description?: string;
+}
+
+// https://docs.slack.dev/reference/methods/slackbot.skillSets.delete
+export interface SlackbotSkillSetsDeleteArguments extends TokenOverridable {
+  /** @description Skill set to delete. */
+  skill_set_id: string;
+}
+
+// https://docs.slack.dev/reference/methods/slackbot.skillSets.info
+export interface SlackbotSkillSetsInfoArguments extends TokenOverridable {
+  /** @description Skill set to fetch. */
+  skill_set_id: string;
+}
+
+// https://docs.slack.dev/reference/methods/slackbot.skillSets.items.add
+export interface SlackbotSkillSetsItemsAddArguments extends TokenOverridable {
+  /** @description Skill set to add the skills to. */
+  skill_set_id: string;
+  /**
+   * @description One to 20 canvas skill IDs. Each distinct ID is processed once, in the order it first appears.
+   * Successful items are not rolled back if other items fail.
+   */
+  skill_ids: string[];
+}
+
+// https://docs.slack.dev/reference/methods/slackbot.skillSets.items.remove
+export interface SlackbotSkillSetsItemsRemoveArguments extends TokenOverridable {
+  /** @description Skill set to remove the skills from. */
+  skill_set_id: string;
+  /**
+   * @description One to 20 skill IDs. Each distinct ID is processed once. Successful items are not rolled back if
+   * other items fail.
+   */
+  skill_ids: string[];
+}
+
+// https://docs.slack.dev/reference/methods/slackbot.skillSets.library.add
+export interface SlackbotSkillSetsLibraryAddArguments extends TokenOverridable {
+  /** @description Skill set to add to the caller's library. */
+  skill_set_id: string;
+}
+
+// https://docs.slack.dev/reference/methods/slackbot.skillSets.library.remove
+export interface SlackbotSkillSetsLibraryRemoveArguments extends TokenOverridable {
+  /** @description Skill set to remove from the caller's library. */
+  skill_set_id: string;
+}
+
+// https://docs.slack.dev/reference/methods/slackbot.skillSets.list
+export type SlackbotSkillSetsListArguments = OptionalArgument<
+  TokenOverridable & {
+    /**
+     * @description `library`: skill sets in the caller's library. `owned`: skill sets the caller created.
+     * `editable`: skill sets the caller can edit. `accessible`: skill sets the caller can view. Defaults to `library`.
+     */
+    filter?: 'accessible' | 'editable' | 'library' | 'owned';
+    /**
+     * @description Paginate through collections of data by setting the `cursor` parameter to a `next_cursor`
+     * attribute returned by a previous request's `response_metadata`. Must be used with the same `filter`.
+     */
+    cursor?: string;
+    /**
+     * @description The maximum number of skill sets to return, between 1 and 200. Defaults to 100. Fewer may be
+     * returned even when more remain.
+     */
+    limit?: number;
+  }
+>;
+
+// https://docs.slack.dev/reference/methods/slackbot.skillSets.update
+export interface SlackbotSkillSetsUpdateArguments extends TokenOverridable {
+  /** @description Skill set to change. */
+  skill_set_id: string;
+  /** @description Human-readable label, 1 to 255 characters. Not unique. */
+  display_name?: string;
+  /** @description What the skill set is for. Max 2,000 characters. Send an empty string to clear. */
+  description?: string;
+}
+
 // https://docs.slack.dev/reference/methods/slackbot.skills.create
 export interface SlackbotSkillsCreateArguments extends TokenOverridable {
   /** @description Human-readable label. Max 255 characters; not unique. */

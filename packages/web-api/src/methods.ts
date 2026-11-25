@@ -245,6 +245,15 @@ import type {
   SearchAllArguments,
   SearchFilesArguments,
   SearchMessagesArguments,
+  SlackbotSkillSetsCreateArguments,
+  SlackbotSkillSetsDeleteArguments,
+  SlackbotSkillSetsInfoArguments,
+  SlackbotSkillSetsItemsAddArguments,
+  SlackbotSkillSetsItemsRemoveArguments,
+  SlackbotSkillSetsLibraryAddArguments,
+  SlackbotSkillSetsLibraryRemoveArguments,
+  SlackbotSkillSetsListArguments,
+  SlackbotSkillSetsUpdateArguments,
   SlackbotSkillsCreateArguments,
   SlackbotSkillsDeleteArguments,
   SlackbotSkillsInfoArguments,
@@ -547,6 +556,15 @@ import type {
   SearchAllResponse,
   SearchFilesResponse,
   SearchMessagesResponse,
+  SlackbotSkillSetsCreateResponse,
+  SlackbotSkillSetsDeleteResponse,
+  SlackbotSkillSetsInfoResponse,
+  SlackbotSkillSetsItemsAddResponse,
+  SlackbotSkillSetsItemsRemoveResponse,
+  SlackbotSkillSetsLibraryAddResponse,
+  SlackbotSkillSetsLibraryRemoveResponse,
+  SlackbotSkillSetsListResponse,
+  SlackbotSkillSetsUpdateResponse,
   SlackbotSkillsCreateResponse,
   SlackbotSkillsDeleteResponse,
   SlackbotSkillsInfoResponse,
@@ -2490,6 +2508,81 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
   };
 
   public readonly slackbot = {
+    skillSets: {
+      /**
+       * @description Creates an empty, private Slackbot skill set and attempts to add it to the caller's library.
+       * @see {@link https://docs.slack.dev/reference/methods/slackbot.skillSets.create `slackbot.skillSets.create` API reference}.
+       */
+      create: bindApiCall<SlackbotSkillSetsCreateArguments, SlackbotSkillSetsCreateResponse>(
+        this,
+        'slackbot.skillSets.create',
+      ),
+      /**
+       * @description Deletes a Slackbot skill set. The skills in it, and their library entries, are kept.
+       * @see {@link https://docs.slack.dev/reference/methods/slackbot.skillSets.delete `slackbot.skillSets.delete` API reference}.
+       */
+      delete: bindApiCall<SlackbotSkillSetsDeleteArguments, SlackbotSkillSetsDeleteResponse>(
+        this,
+        'slackbot.skillSets.delete',
+      ),
+      /**
+       * @description Returns one Slackbot skill set and the skills in it, in display order.
+       * @see {@link https://docs.slack.dev/reference/methods/slackbot.skillSets.info `slackbot.skillSets.info` API reference}.
+       */
+      info: bindApiCall<SlackbotSkillSetsInfoArguments, SlackbotSkillSetsInfoResponse>(this, 'slackbot.skillSets.info'),
+      items: {
+        /**
+         * @description Adds skills to a Slackbot skill set.
+         * @see {@link https://docs.slack.dev/reference/methods/slackbot.skillSets.items.add `slackbot.skillSets.items.add` API reference}.
+         */
+        add: bindApiCall<SlackbotSkillSetsItemsAddArguments, SlackbotSkillSetsItemsAddResponse>(
+          this,
+          'slackbot.skillSets.items.add',
+        ),
+        /**
+         * @description Removes skills from a Slackbot skill set.
+         * @see {@link https://docs.slack.dev/reference/methods/slackbot.skillSets.items.remove `slackbot.skillSets.items.remove` API reference}.
+         */
+        remove: bindApiCall<SlackbotSkillSetsItemsRemoveArguments, SlackbotSkillSetsItemsRemoveResponse>(
+          this,
+          'slackbot.skillSets.items.remove',
+        ),
+      },
+      library: {
+        /**
+         * @description Adds a Slackbot skill set to the caller's library.
+         * @see {@link https://docs.slack.dev/reference/methods/slackbot.skillSets.library.add `slackbot.skillSets.library.add` API reference}.
+         */
+        add: bindApiCall<SlackbotSkillSetsLibraryAddArguments, SlackbotSkillSetsLibraryAddResponse>(
+          this,
+          'slackbot.skillSets.library.add',
+        ),
+        /**
+         * @description Removes a Slackbot skill set from the caller's library.
+         * @see {@link https://docs.slack.dev/reference/methods/slackbot.skillSets.library.remove `slackbot.skillSets.library.remove` API reference}.
+         */
+        remove: bindApiCall<SlackbotSkillSetsLibraryRemoveArguments, SlackbotSkillSetsLibraryRemoveResponse>(
+          this,
+          'slackbot.skillSets.library.remove',
+        ),
+      },
+      /**
+       * @description Lists Slackbot skill sets from the caller's point of view. The skills in each set are not included.
+       * @see {@link https://docs.slack.dev/reference/methods/slackbot.skillSets.list `slackbot.skillSets.list` API reference}.
+       */
+      list: bindApiCallWithOptionalArgument<SlackbotSkillSetsListArguments, SlackbotSkillSetsListResponse>(
+        this,
+        'slackbot.skillSets.list',
+      ),
+      /**
+       * @description Changes a Slackbot skill set's display name or description.
+       * @see {@link https://docs.slack.dev/reference/methods/slackbot.skillSets.update `slackbot.skillSets.update` API reference}.
+       */
+      update: bindApiCall<SlackbotSkillSetsUpdateArguments, SlackbotSkillSetsUpdateResponse>(
+        this,
+        'slackbot.skillSets.update',
+      ),
+    },
     skills: {
       /**
        * @description Creates a skill from markdown instructions, or turns an existing canvas the caller owns into a skill.

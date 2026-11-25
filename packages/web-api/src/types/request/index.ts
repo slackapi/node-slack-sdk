@@ -305,6 +305,15 @@ export type {
   SearchMessagesArguments,
 } from './search';
 export type {
+  SlackbotSkillSetsCreateArguments,
+  SlackbotSkillSetsDeleteArguments,
+  SlackbotSkillSetsInfoArguments,
+  SlackbotSkillSetsItemsAddArguments,
+  SlackbotSkillSetsItemsRemoveArguments,
+  SlackbotSkillSetsLibraryAddArguments,
+  SlackbotSkillSetsLibraryRemoveArguments,
+  SlackbotSkillSetsListArguments,
+  SlackbotSkillSetsUpdateArguments,
   SlackbotSkillsCreateArguments,
   SlackbotSkillsDeleteArguments,
   SlackbotSkillsInfoArguments,
