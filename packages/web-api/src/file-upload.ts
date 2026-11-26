@@ -209,6 +209,14 @@ export async function getFileDataAsStream(readable: Readable): Promise<Buffer> {
         reject(Error('No data in supplied file'));
       }
     });
+    // without this listener a failing stream is an uncaught exception and the promise never settles
+    readable.on('error', (err: Error) => {
+      reject(
+        new WebAPIFileUploadReadFileDataError(`Unable to read file data from the supplied stream: ${err.message}`, {
+          cause: err,
+        }),
+      );
+    });
   });
 }
 

@@ -1,8 +1,14 @@
 import assert from 'node:assert/strict';
 import { createReadStream, statSync, unlinkSync, writeFileSync } from 'node:fs';
+import { Readable } from 'node:stream';
 import { afterEach, beforeEach, describe, it } from 'node:test';
 import sinon from 'sinon';
-import { ErrorCode, SlackError, WebAPIFileUploadInvalidArgumentsError } from './errors';
+import {
+  ErrorCode,
+  SlackError,
+  WebAPIFileUploadInvalidArgumentsError,
+  WebAPIFileUploadReadFileDataError,
+} from './errors';
 import {
   buildChannelsWarning,
   buildLegacyFileTypeWarning,
@@ -274,6 +280,18 @@ describe('file-upload', () => {
       // should return file data from the stream
       assert.strictEqual(Buffer.isBuffer(res), true);
     });
+    it('rejects when the file ReadStream cannot be read', async () => {
+      const fileUpload = {
+        file: createReadStream('./test/fixtures/does-not-exist.txt'),
+        filename: 'Test File',
+      };
+      await assert.rejects(getFileData(fileUpload), (err: unknown) => {
+        assert.ok(err instanceof WebAPIFileUploadReadFileDataError);
+        assert.strictEqual(err.code, ErrorCode.FileUploadReadFileDataError);
+        assert.strictEqual((err.cause as NodeJS.ErrnoException).code, 'ENOENT');
+        return true;
+      });
+    });
     it('handles content as string', async () => {
       const validFileUpload = {
         content: 'Happiness',
@@ -306,6 +324,39 @@ describe('file-upload', () => {
         assert.ok(err instanceof Error);
         assert.strictEqual(err.message, 'No data in supplied file');
       }
+    });
+    it('rejects if the stream errors before any data is read', async () => {
+      await assert.rejects(
+        getFileDataAsStream(createReadStream('./test/fixtures/does-not-exist.txt')),
+        (err: unknown) => {
+          assert.ok(err instanceof WebAPIFileUploadReadFileDataError);
+          assert.ok(err instanceof SlackError);
+          assert.strictEqual(err.code, ErrorCode.FileUploadReadFileDataError);
+          assert.match(err.message, /^Unable to read file data from the supplied stream: ENOENT/);
+          assert.strictEqual((err.cause as NodeJS.ErrnoException).code, 'ENOENT');
+          return true;
+        },
+      );
+    });
+    it('rejects if the stream errors after some data is read', async () => {
+      const failure = new Error('connection reset');
+      let reads = 0;
+      const readable = new Readable({
+        read() {
+          reads += 1;
+          if (reads === 1) {
+            this.push('partial data');
+          } else {
+            this.destroy(failure);
+          }
+        },
+      });
+      await assert.rejects(getFileDataAsStream(readable), (err: unknown) => {
+        assert.ok(err instanceof WebAPIFileUploadReadFileDataError);
+        assert.strictEqual(err.message, 'Unable to read file data from the supplied stream: connection reset');
+        assert.strictEqual(err.cause, failure);
+        return true;
+      });
     });
     it('ensures complete file is uploaded', async () => {
       try {
