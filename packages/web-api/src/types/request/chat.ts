@@ -178,7 +178,13 @@ export interface ChatAppendStreamArguments extends TokenOverridable, ChannelAndT
 }
 
 // https://docs.slack.dev/reference/methods/chat.delete
-export interface ChatDeleteArguments extends ChannelAndTS, AsUser, TokenOverridable {}
+export interface ChatDeleteArguments extends ChannelAndTS, AsUser, TokenOverridable {
+  /**
+   * @description When `true` and `ts` is a thread reply that was also sent to the channel, removes it from the
+   * channel only. The reply stays in its thread with the same `ts`. Defaults to `false`, which deletes the message.
+   */
+  broadcast_delete?: boolean;
+}
 
 // https://docs.slack.dev/reference/methods/chat.deleteScheduledMessage
 export interface ChatDeleteScheduledMessageArguments extends Channel, AsUser, TokenOverridable {
