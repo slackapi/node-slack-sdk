@@ -1,4 +1,5 @@
-import { expectAssignable, expectError } from 'tsd';
+import { expectAssignable, expectError, expectType } from 'tsd';
+import type { FilesUploadV2Response } from '../../../src/types/response/FilesUploadV2Response';
 import { WebClient } from '../../../src/WebClient';
 
 const web = new WebClient('TOKEN');
@@ -106,35 +107,6 @@ expectAssignable<Parameters<typeof web.files.sharedPublicURL>>([
   },
 ]);
 
-// files.upload
-// -- sad path
-expectError(web.files.upload()); // lacking argument
-expectError(web.files.upload({})); // empty argument
-expectError(web.files.upload({ file: 'test.png', thread_ts: '123.456' })); // if providing thread_ts, must provide channels
-// -- happy path
-expectAssignable<Parameters<typeof web.files.upload>>([
-  {
-    file: 'test.png', // must specify either a file...
-  },
-]);
-expectAssignable<Parameters<typeof web.files.upload>>([
-  {
-    content: 'text', // or file contents
-  },
-]);
-expectAssignable<Parameters<typeof web.files.upload>>([
-  {
-    channels: 'C1234', // optionally share to one or more channels
-    content: 'text',
-  },
-]);
-expectAssignable<Parameters<typeof web.files.upload>>([
-  {
-    channels: 'C1234', // or even to a specific thread
-    content: 'text',
-  },
-]);
-
 // files.uploadV2
 // -- sad path
 expectError(web.files.uploadV2()); // lacking argument
@@ -177,6 +149,14 @@ expectAssignable<Parameters<typeof web.files.uploadV2>>([
     content: 'text',
   },
 ]);
+// -- return type
+expectAssignable<Promise<FilesUploadV2Response>>(web.files.uploadV2({ file: 'test.png' }));
+async () => {
+  const result = await web.files.uploadV2({ file: 'test.png' });
+  expectType<FilesUploadV2Response>(result);
+  const fileId = result.files[0]?.files?.[0]?.id;
+  expectType<string | undefined>(fileId);
+};
 
 // files.comments.delete
 // -- sad path
