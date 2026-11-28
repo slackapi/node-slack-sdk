@@ -2070,6 +2070,34 @@ describe('WebClient', () => {
     });
   });
 
+  describe('files.uploadV2', () => {
+    it('returns a FilesUploadV2Response with completed files and ok: true', async () => {
+      const client = new WebClient(token);
+      sinon
+        .stub(client as unknown as Record<string, (...args: unknown[]) => unknown>, 'fetchAllUploadURLExternal')
+        .resolves([{ ok: true, upload_url: 'https://files.slack.com/upload/v1/test', file_id: 'F123' }]);
+      sinon
+        .stub(client as unknown as Record<string, (...args: unknown[]) => unknown>, 'postFileUploadsToExternalURL')
+        .resolves([{ ok: true }]);
+      sinon.stub(client as unknown as Record<string, (...args: unknown[]) => unknown>, 'completeFileUploads').resolves([
+        {
+          ok: true,
+          files: [{ id: 'F123', name: 'test.txt', title: 'test.txt' }],
+        },
+      ]);
+
+      const res = await client.files.uploadV2({
+        filename: 'test.txt',
+        content: 'hello world',
+      });
+
+      assert.strictEqual(res.ok, true);
+      assert.strictEqual(res.files.length, 1);
+      assert.strictEqual(res.files[0]?.ok, true);
+      assert.strictEqual(res.files[0]?.files?.[0]?.id, 'F123');
+    });
+  });
+
   describe('request errors always attach original', () => {
     it("the 'original' property is always attached to request errors", async () => {
       const scope = nock('https://slack.com').post(/api/).replyWithError('Request failed!!');
